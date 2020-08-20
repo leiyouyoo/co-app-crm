@@ -9,12 +9,16 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 // import { QuotesService } from '../../quotes/service/quotes.service';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { finalize } from 'rxjs/operators';
-import { PlatformOrganizationUnitService, PUBContainerService, PUBTransportClauseService, PUBPlaceService, PUBShippingLineService } from '@co/cds';
+import { PlatformOrganizationUnitService, PUBContainerService, PUBTransportClauseService, PUBPlaceService, PUBShippingLineService, PUBCurrencyService, PUBChargingCodeService } from '@co/cds';
 
 import { CRMCustomerService } from '../../../services/crm/customer.service';
 import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
 import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
+import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
+
+
+
 // import { debounce } from '@shared/utils/debounce';
 @Component({
   selector: 'app-inquiry-ocean',
@@ -58,6 +62,7 @@ export class InquiryListOceanComponent implements OnInit {
   isFllow = false;
   // @ViewChild('detial', { static: true })
   // detial: any;
+
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -146,7 +151,10 @@ export class InquiryListOceanComponent implements OnInit {
     private ShippingLine: PUBShippingLineService,
     private OceanBaseItemService: RatesOceanBaseItemServiceService,
     private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
-    private ratesQuoteEnquiryService: RatesQuoteEnquiryService
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
+    private pubCurrency: PUBCurrencyService,
+    private pubChargingCode: PUBChargingCodeService
   ) { }
 
   ngOnInit() {
@@ -607,26 +615,26 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   async getCrmFreightAndQuoteRates(json) {
-    return this.customerService.getCrmFreightAndQuoteRates(json).toPromise();
+    return this.ratesOceanBaseItemExternalServiceService.getCrmFreightAndQuoteRates(json).toPromise();
   }
 
   async getCustomer(text) {
-    this.shareCustomerList = await this.customerService
-      .getCustomer({
-        SkipCount: 0,
-        MaxResultCount: 20,
-        SearchText: text,
-        IncludeContacts: true,
-        IsUserContact: true,
+    this.shareCustomerList = await this.crmCustomer
+      .getAll({
+        skipCount: 0,
+        maxResultCount: 20,
+        searchText: text,
+        includeContacts: true,
+        isUserContact: true,
       })
       .toPromise();
   }
 
   getCurrency() {
-    this.customerService
-      .getCurrency({
-        SkipCount: 0,
-        MaxResultCount: 100,
+    this.pubCurrency
+      .getAll({
+        skipCount: 0,
+        maxResultCount: 100,
       })
       .subscribe((res: any) => {
         this.shareCurrency = res.items;
@@ -636,22 +644,24 @@ export class InquiryListOceanComponent implements OnInit {
   //获取费用代码信息
 
   getCostAll(text: string = '') {
-    this.customerService
-      .getCostAll({
-        Text: text,
+    this.pubChargingCode
+      .getAll({
+        text: text,
       })
       .subscribe((res: any) => {
         this.costItemList = res.items;
       });
   }
 
+  // to do  检查一下
   async getShareCompnay(text) {
-    this.shareCompnayList = await this.customerService
-      .getShareCompnay({
-        SkipCount: 0,
-        MaxResultCount: 20,
-        SearchText: text,
-        CustomerType: 1,
+    this.shareCompnayList = await this.crmCustomer
+      .getCustomerByType({
+        skipCount: 0,
+        maxResultCount: 20,
+        // SearchText: text,
+        name: text,
+        customerType: 1,
       })
       .toPromise();
   }
@@ -941,12 +951,12 @@ export class InquiryListOceanComponent implements OnInit {
     //
     // 设置提交数据
     this.shareLoading = true;
-    this.customerService.saveFreightAndQuoteRates(data).subscribe(
+    this.ratesOceanBaseItemExternalServiceService.saveFreightAndQuoteRates(data).subscribe(
       (res) => {
         this.cacheKey = res;
         // this.cacheKey =
         //   'CO.Rates.Application.OceanBaseItemService.CrmDto.GetCrmFreightRateAndQuoteDto&626d6d41-9638-48a6-926f-b118abeddec1&f81a71d8-737b-4b71-41f8-08d7f2320c50&2304&12706';
-        this.customerService
+        this.ratesOceanBaseItemExternalServiceService
           .getCrmCacheFreightAndQuoteRates({
             cacheKey: this.cacheKey,
           })
@@ -1076,7 +1086,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   onSaveAndSendShare() {
     this.loadingSave = true;
-    this.customerService
+    this.ratesOceanBaseItemExternalServiceService
       .saveSendCustomer({
         cacheKey: this.cacheKey,
       })
@@ -1182,11 +1192,11 @@ export function debounce(delay: number = 300): MethodDecorator {
   };
 }
 
-export declare enum VolumeUnitCode {
+export enum VolumeUnitCode {
   CBM = "TJDWCBM",
   CFT = "TJDWCFT"
 }
-export declare enum WeightUnitCode {
+export enum WeightUnitCode {
   KGS = "ZLDWKGS",
   LBS = "ZLDWLBS",
   MT = "ZLDWMT"
