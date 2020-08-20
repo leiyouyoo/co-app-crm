@@ -1,0 +1,618 @@
+<div
+  *ngIf="tradeType != 1"
+  class="Customsclearanceinvioce-FBA"
+  [ngClass]="{ 'Customsclearance-break': tradeType != 1 }"
+>
+  <div class="CustomsclearanceinvioceInfo">
+    <div>
+      {{ 'Customs clearance invoice (optional)' | translate }}
+    </div>
+    <div class="Customsclearanceinvioce" [ngClass]="{ notClickn: isDisabledPack }">
+      <div class="add-clearanceinvioce">
+        <button nz-button (click)="addRow()" nzType="primary" style="height: 32px;">{{ 'Add' | translate }}</button>
+      </div>
+      <div class="Customsclearanceinvioce1">
+        <nz-upload [nzCustomRequest]="customReq" [nzShowUploadList]="false">
+          <button nz-button>
+            <span class="iconfont icon-download"> </span><span>{{ 'Upload Template' | translate }}</span>
+          </button>
+        </nz-upload>
+      </div>
+      <div class="Customsclearanceinvioce2">
+        <span class="iconfont icon-download"> </span>
+        <a (click)="downTemplate()" class="a-down">{{ 'Download Template' | translate }}</a>
+      </div>
+      <div class="Customsclearanceinvioce2" (click)="downExcel()">
+        <span class="iconfont icon-download"></span><a class="a-down">{{ 'Download Data' | translate }}</a>
+      </div>
+      <div class="CustomsCurcy">
+        <nz-select
+          [nzPlaceHolder]="'Choose currency' | translate"
+          [(ngModel)]="declareCurrencyInfo"
+          (ngModelChange)="declareCurrency.emit($event)"
+        >
+          <nz-option [nzValue]="item.id" *ngFor="let item of currencyList" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="clearance-invioce">
+      <!-- <form [formGroup]="formData"> -->
+      <nz-table
+        #editRowTable
+        [nzData]="listOfData"
+        [nzShowPagination]="false"
+        class="invioce-table booking-packing-list-table"
+        [nzScroll]="{ x: '1600px', y: '330px' }"
+      >
+        <thead>
+          <tr>
+            <th style="min-width: 150px;">{{ 'FBANO' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'Reference ID' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'SKU' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 200px;">
+              {{ 'Commodity description in English' | translate }}<span class="red"> *</span>
+            </th>
+            <th style="min-width: 200px;">
+              {{ 'Commodity description in Chinese' | translate }}<span class="red"> *</span>
+            </th>
+            <th style="min-width: 150px;">{{ 'Brand' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'Material' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'Uses' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'HS code' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'Model' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'ASIN' | translate }}</th>
+            <th style="min-width: 150px;">{{ 'Battery or not' | translate }}</th>
+            <th style="min-width: 150px;">{{ 'Quantity' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'unit' | translate }}<span class="red"> *</span></th>
+            <th style="min-width: 150px;">{{ 'Unit Price' | translate }}</th>
+            <th style="min-width: 150px;">{{ 'Total Price' | translate }}</th>
+            <th style="min-width: 150px;">{{ 'SKU Photo' | translate }}<span class="red"> *</span></th>
+            <th  nzRight="0px">{{ 'Action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody (mouseout)="verificationForm()" [ngClass]="{ notClickn: isDisabledPack }">
+          <tr *ngFor="let data of listOfData; let i = index" class="editable-row">
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.fbaNo" maxlength="20" (ngModelChange)="GroupingFBA()" />
+              </div>
+              <div class="table-red" *ngIf="isNoFBANO == i && isPackSubmitted">
+                {{ 'FBA No. is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.referenceId" maxlength="20" />
+              </div>
+              <div class="table-red" *ngIf="isNoReference == i && isPackSubmitted">
+                {{ 'Reference ID is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <input
+                  nz-input
+                  [(ngModel)]="data.sku"
+                  (input)="onInput($event.target?.value)"
+                  [nzAutocomplete]="auto"
+                  (blur)="validateSku()"
+                />
+                <nz-autocomplete nzBackfill #auto>
+                  <nz-auto-option *ngFor="let option of options" [nzValue]="option.sku">
+                    <div (click)="getSku(option, data, i)">{{ option.sku }}</div>
+                  </nz-auto-option>
+                </nz-autocomplete>
+              </div>
+              <div class="table-red" *ngIf="isNoSku == i">{{ 'sku is required' | translate }}</div>
+
+              <div class="table-red" *ngIf="ispresenceSku || isDuplicateSku === i">
+                Please make sure the SKU used in different FBA No. {{ 'are not the same' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 200px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.commodityEnglishDesc" />
+              </div>
+              <div class="table-red" *ngIf="isNoEnglish == i && isPackSubmitted">
+                {{ 'Commodity description in English is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 200px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.commodityChineseDesc" />
+              </div>
+              <div class="table-red" *ngIf="isNoChinese == i && isPackSubmitted">
+                {{ 'Commodity description in Chinese is required' | translate }}
+              </div>
+            </td>
+
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.brand" maxlength="20" />
+              </div>
+              <div class="table-red" *ngIf="isNoBrand == i && isPackSubmitted">
+                {{ 'Brand is required' | translate }}
+              </div>
+            </td>
+
+            <td style="min-width: 150px;">
+              <div class="table-input"><input type="text" nz-input [(ngModel)]="data.material" maxlength="20" /></div>
+              <div class="table-red" *ngIf="isNoMaterial == i && isPackSubmitted">
+                {{ 'Material is required' | translate }}
+              </div>
+            </td>
+
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <input type="text" nz-input [(ngModel)]="data.uses" maxlength="20" />
+              </div>
+              <div class="table-red" *ngIf="isNoUses == i && isPackSubmitted">{{ 'Uses is required' | translate }}</div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input"><input type="text" nz-input [(ngModel)]="data.hsCode" maxlength="20" /></div>
+              <div class="table-red" *ngIf="isNoHsCode == i && isPackSubmitted">
+                {{ 'HsCode is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input"><input type="text" nz-input [(ngModel)]="data.model" maxlength="20" /></div>
+              <div class="table-red" *ngIf="isNoModel == i && isPackSubmitted">
+                {{ 'Model is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input"><input type="text" nz-input [(ngModel)]="data.asin" maxlength="100" /></div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-radio-group [(ngModel)]="data.isContainsBattery" nzName="radiogroup">
+                  <label nz-radio [nzValue]="true">{{ 'yes' | translate }}</label>
+                  <label nz-radio [nzValue]="false">no</label>
+                </nz-radio-group>
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="data.quantity"
+                  [nzMin]="0"
+                  [nzMax]="999999999999999"
+                  (ngModelChange)="isNoQuantity = -1; CalculationtotalPrice(data, i)"
+                  [nzStep]="1"
+                ></nz-input-number>
+              </div>
+              <div class="table-red" *ngIf="isNoQuantity == i">{{ 'quantity is required' | translate }}</div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-select
+                  nzShowSearch
+                  [(ngModel)]="data.unitId"
+                  nzAllowClear
+                  [nzPlaceHolder]="'Choose' | translate"
+                  style="width: 100px;"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of unitList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red" *ngIf="isNoUnit == i && isPackSubmitted">{{ 'Unit is required' | translate }}</div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="data.unitPriceValue"
+                  [nzMax]="999999999999999"
+                  [nzMin]="0"
+                  (ngModelChange)="CalculationtotalPrice(data, i)"
+                  [nzPrecision]="3"
+                  [nzStep]="0.01"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red" *ngIf="isNoUnitPrice == i && isPackSubmitted">
+                {{ 'UnitPrice is required' | translate }}
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-input-number
+                  disabled
+                  [(ngModel)]="data.totalPriceValue"
+                  [nzPrecision]="3"
+                  [nzMin]="0"
+                  [nzStep]="0.01"
+                >
+                </nz-input-number>
+              </div>
+            </td>
+            <td style="min-width: 150px;">
+              <div class="table-input">
+                <nz-upload
+                  *ngIf="!data.imageId"
+                  nzListType="picture"
+                  (nzChange)="imghandleChange($event, data)"
+                  [nzAction]="uploadUrl"
+                >
+                  <button nz-button>
+                    <i nz-icon nzType="upload"></i><span>{{ 'Upload' | translate }}</span>
+                  </button>
+                </nz-upload>
+              </div>
+              <img
+                *ngIf="data.imageId"
+                [src]="imgUrl + '/Storage/File/GetDownLoadFile?fileId=' + data.imageId + '&Handler=image'"
+              />
+              <span *ngIf="data.imageId" (click)="data.imageId = null">X</span>
+              <input type="text" nz-input hidden [(ngModel)]="data.imageId" />
+              <div class="table-red" *ngIf="isNoimg == i && isPackSubmitted">
+                {{ 'SKU Photo is required' | translate }}
+              </div>
+            </td>
+            <td  nzRight="0px">
+              <div class="editable-row-operations">
+                <button nz-button nzType="default" (click)="deleteRow(data)">{{ 'Delete' | translate }}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <!-- </form> -->
+    </div>
+  </div>
+  <div class="packingList">
+    <div *ngFor="let item of listOfDataGROUP; let i = index" style="margin-bottom: 10px;">
+      <button
+        nz-button
+        nzType="primary"
+        style="margin-bottom: 10px;"
+        (click)="calculatinginvoice(item, i)"
+        [ngClass]="{ notClickn: isDisabledPack }"
+      >
+        {{ 'Edit Packing list' | translate }}
+      </button>
+      <div *ngIf="item.sku[0].isShow || isEdit == 'true'">
+        <div style="width: 100%; min-height: 70px;">
+          <div style=" min-height: 45px;" [ngClass]="{ notClickn: isDisabledPack }">
+            <ul>
+              <li class="package-show">
+                <span>{{ item.fbaNo }}</span>
+              </li>
+              <li class="package-show">
+                {{ 'Choose Package Code Rules' | translate }}
+                <nz-select [(ngModel)]="item.codeRules" nzAllowClear [nzPlaceHolder]="'Choose' | translate">
+                  <nz-option nzValue="U001" nzLabel="U001"></nz-option>
+                  <nz-option nzValue="U0001" nzLabel="U0001"></nz-option>
+                  <nz-option nzValue="U00001" nzLabel="U00001"></nz-option>
+                </nz-select>
+              </li>
+              <li class="package-show">
+                Start No.
+                <input
+                  nz-input
+                  nzTrigger="focus"
+                  nzOverlayClassName="numeric-input"
+                  [(ngModel)]="item.startNo"
+                  maxlength="4"
+                  (blur)="calculatingNo(item)"
+                />
+                <div class="red" *ngIf="!item.startNo && isSelSku">{{ 'Start No. is required' | translate }}</div>
+                <div class="red" *ngIf="item.startNo && item.endNo < item.startNo && isSelSku">
+                  {{ 'End No must More Start No' | translate }}
+                </div>
+              </li>
+              <li class="package-show">
+                End No.
+                <input
+                  nz-input
+                  nzTrigger="focus"
+                  nzOverlayClassName="numeric-input"
+                  maxlength="4"
+                  [(ngModel)]="item.endNo"
+                  (blur)="calculatingNo(item)"
+                />
+                <div class="red" *ngIf="!item.endNo && isSelSku">{{ 'End No. is required' | translate }}</div>
+                <div class="red" *ngIf="item.endNo && item.endNo < item.startNo && isSelSku">
+                  {{ 'End No must More Start No' | translate }}
+                </div>
+              </li>
+              <li class="package-button">
+                <button nz-button nzType="primary" (click)="selectSku(item)">{{ 'Choose SKU' | translate }}</button>
+              </li>
+            </ul>
+          </div>
+          <div class="packlist" style="overflow-y:auto;">
+            <nz-table
+              #editRowTable
+              nzBordered
+              [nzData]="item.pageList"
+              [nzShowPagination]="false"
+              [nzScroll]="{ y: '280px' }"
+            >
+              <thead>
+                <tr>
+                  <th>{{ 'Package NO' | translate }}</th>
+                  <th>{{ 'Gross Weight(kg) /Carton' | translate }}</th>
+                  <th>{{ 'Net Weight(kg) /Carton' | translate }}</th>
+                  <th>Dimensions/Carton(cm)</th>
+                  <th>{{ 'SKU' | translate }}</th>
+                  <th>{{ 'Commodity description in Chinese' | translate }}</th>
+                  <th>{{ 'Quantities in the packge' | translate }}</th>
+                  <th nzRight="0px">{{ 'Action' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody [ngClass]="{ notClickn: isDisabledPack }">
+                <tr *ngFor="let data of item.pageList; let i = index" class="editable-row">
+                  <td>{{ data.packageNo }}</td>
+                  <td>{{ data.grossWeight }}</td>
+                  <td>{{ data.netWeight }}</td>
+                  <td>{{ data.dimensionX }}</td>
+                  <td>
+                    <div *ngFor="let skuobj of data.packingListItems" class="line-doubule">{{ skuobj.sku }}</div>
+                  </td>
+                  <td>
+                    <div *ngFor="let packobj of data.packingListItems" class="line-doubule">
+                      {{ packobj.commodityChineseDesc }}
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngFor="let quantityobj of data.packingListItems" class="line-doubule">
+                      {{ quantityobj.quantities }}
+                    </div>
+                  </td>
+                  <td nzRight="0px" data-no-title>
+                    <div style="display: flex; widows: 100%;">
+                      <div style="width: 50%;">
+                        <div *ngFor="let packingListItems of data.packingListItems; let skuIndex = index">
+                          <a (click)="deleteSku(item.pageList, data, data.packingListItems, skuIndex, i)">
+                            {{ 'Delete' | translate }}</a
+                          >
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center" style="width: 50%;">
+                        <div style="width: 50%;">
+                          <a (click)="editSku(item.pageList, i)"> {{ 'Edit' | translate }}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 装箱单模态框(选择SKU) -->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'Select Sku' | translate"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk(skuObj, cargo)"
+  nzWidth="1000"
+>
+  <div class="packing-NO">
+    <div>Package NO.(Total: {{ skuObj?.pageNum?.length }}):</div>
+    <ng-container *ngIf="skuObj?.pageNum?.length > 5; else elseTemplate">
+      <div class="word" *ngFor="let item of skuObj?.pageNum.slice(0, 5)">{{ item }}</div>
+      <div>
+        <span>+</span><span>{{ skuObj?.pageNum?.length - 5 }}</span>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div class="word" *ngFor="let item of skuObj?.pageNum">{{ item }}</div>
+    </ng-template>
+  </div>
+  <nz-list>
+    <div class="clearance-invioce sku-table-container">
+      <nz-table #editRowTable nzBordered [nzData]="skuObj?.sku" [nzShowPagination]="false" [nzScroll]="{ x: '800px' }">
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th>{{ 'SKU' | translate }}</th>
+            <th>{{ 'Chinese Name' | translate }}</th>
+            <th>{{ 'Total Quantity' | translate }}</th>
+            <th>{{ 'Remainder' | translate }}</th>
+            <th>{{ 'Quantities of each package' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of skuObj?.sku; let i = index" class="editable-row">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.sku }}</td>
+            <td>{{ data.commodityChineseDesc }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>
+              {{ data.remainder }}
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="data.quantityEach"
+                  (ngModelChange)="calculatedQuantity(skuObj?.pageNum.length, data)"
+                  [nzMin]="1"
+                  [nzPrecision]="0"
+                  style="width: 150px;"
+                >
+                </nz-input-number>
+              </div>
+
+              <div
+                class="table-red"
+                *ngIf="(data.quantities == 0 || data.quantities == null) && modalQuantityRequiredIndex === i"
+              >
+                {{ 'Quantities of each package is required' | translate }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div class="list-item-Jisuan">
+      <div class="list-item-weight">
+        <div>
+          <span>{{ 'Gross weight(kg)/carton' | translate }}</span>
+          <nz-input-number
+            [nzMin]="0"
+            [(ngModel)]="cargo.grossWeight"
+            [nzMax]="999999999999999"
+            [nzPrecision]="3"
+            [nzStep]="0.01"
+          >
+          </nz-input-number>
+          <div class="red" *ngIf="isSubmit && !cargo.grossWeight">
+            {{ 'Gross weight(kg) / Carton is required' | translate }}
+          </div>
+        </div>
+        <div>
+          <span>{{ 'Net weight(kg)/carton' | translate }}</span>
+          <nz-input-number
+            [nzMin]="0"
+            [(ngModel)]="cargo.netWeight"
+            [nzMax]="999999999999999"
+            [nzPrecision]="3"
+            [nzStep]="0.01"
+          >
+          </nz-input-number>
+          <div class="red" *ngIf="isSubmit && !cargo.netWeight">
+            {{ 'Net weight(kg) / Carton is required' | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="list-item-volume">
+        <label>{{ 'Dimensions/carton(cm)' | translate }}</label>
+        <nz-input-number
+          [nzMin]="0"
+          [(ngModel)]="cargo.long"
+          [nzMax]="999999999999999"
+          [nzPrecision]="3"
+          [nzStep]="0.01"
+        >
+        </nz-input-number
+        ><span>X</span>
+        <nz-input-number
+          [nzMin]="0"
+          [(ngModel)]="cargo.width"
+          [nzMax]="999999999999999"
+          [nzPrecision]="3"
+          [nzStep]="0.01"
+        >
+        </nz-input-number
+        ><span>X</span>
+        <nz-input-number
+          [nzMin]="0"
+          [(ngModel)]="cargo.height"
+          [nzMax]="999999999999999"
+          [nzPrecision]="3"
+          [nzStep]="0.01"
+        >
+        </nz-input-number>
+        <div class="red" *ngIf="isSubmit && (!cargo.long || !cargo.width || !cargo.height)">
+          {{ 'Dimensions/Carton(cm) is required' | translate }}
+        </div>
+      </div>
+    </div>
+  </nz-list>
+</nz-modal>
+
+<!-- 编辑sku -->
+<nz-modal
+  [(nzVisible)]="isEditVisible"
+  [nzTitle]="'Edit SKU Numbers of Packing list' | translate"
+  (nzOnCancel)="editCancel()"
+  (nzOnOk)="editOk()"
+  nzWidth="1000"
+>
+  <div class="packing-NO">
+    <div>{{ 'Package NO' | translate }} :{{ editpagelist?.packageNo }}</div>
+  </div>
+  <nz-list>
+    <div class="clearance-invioce sku-table-container">
+      <nz-table
+        #editRowTable
+        nzBordered
+        [nzData]="editpageItemlist"
+        [nzShowPagination]="false"
+        [nzScroll]="{ x: '800px' }"
+      >
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th>{{ 'SKU' | translate }}</th>
+            <th>{{ 'Chinese Name' | translate }}</th>
+            <th>{{ 'Total Quantity' | translate }}</th>
+            <th>{{ 'Remainder' | translate }}</th>
+            <th>{{ 'Quantities in the packge' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of editpageItemlist; let i = index" class="editable-row">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.sku }}</td>
+            <td>{{ data.commodityChineseDesc }}</td>
+            <td>{{ data.totalQuantities }}</td>
+            <td>{{ data.remainder }}</td>
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="data.quantities"
+                  (ngModelChange)="calculatedQuantityedit(totalList, data)"
+                  [nzMin]="0"
+                  [nzPrecision]="0"
+                  style="width: 150px;"
+                >
+                </nz-input-number>
+              </div>
+              <div
+                class="table-red"
+                *ngIf="(data.quantities == 0 || data.quantities == null) && modalQuantityRequiredIndex === i"
+              >
+                {{ 'Quantities of each package is required' | translate }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div class="list-item-Jisuan">
+      <div class="list-item-weight">
+        <div>
+          <span>{{ 'Gross weight(kg)/carton' | translate }}</span>
+          <nz-input-number
+            [nzMin]="0"
+            [(ngModel)]="grossWeight"
+            [nzMax]="999999999999999"
+            [nzPrecision]="3"
+            [nzStep]="0.01"
+          >
+          </nz-input-number>
+        </div>
+
+        <div>
+          <span>{{ 'Net weight(kg)/carton' | translate }}</span>
+          <nz-input-number
+            [nzMin]="0"
+            [(ngModel)]="netWeight"
+            [nzMax]="999999999999999"
+            [nzPrecision]="3"
+            [nzStep]="0.01"
+          >
+          </nz-input-number>
+        </div>
+      </div>
+      <div class="list-item-volume">
+        <label>{{ 'Dimensions/carton(cm)' | translate }}</label>
+        <nz-input-number [nzMin]="0" [(ngModel)]="long" [nzMax]="999999999999999" [nzPrecision]="3" [nzStep]="0.01">
+        </nz-input-number
+        ><span>X</span>
+        <nz-input-number [nzMin]="0" [(ngModel)]="width" [nzMax]="999999999999999" [nzPrecision]="3" [nzStep]="0.01">
+        </nz-input-number
+        ><span>X</span>
+        <nz-input-number [nzMin]="0" [(ngModel)]="height" [nzMax]="999999999999999" [nzPrecision]="3" [nzStep]="0.01">
+        </nz-input-number>
+      </div>
+    </div>
+  </nz-list>
+</nz-modal>

@@ -1,0 +1,331 @@
+<div class="inner-content py-20" id="table">
+  <div class="list-content main-container">
+    <div class="index-header-title">
+      <div class="index-header-title-filter">
+        <nz-select nzShowSearch nzAllowClear
+          nzPlaceHolder="{{ 'Please select the customer name, the inquiry person' | translate }}"
+          class="index-header-title-filter-perple" [(ngModel)]="quoteInputParams.Id"
+          (ngModelChange)="(quoteInputParams.SkipCount == 0); search()">
+          <nz-option *ngFor="let item of customerAndUser"
+            [nzValue]="item.customerId == null ? item.userId : item.customerId" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+        <nz-select nzAllowClear nzPlaceHolder="{{ 'QuotesStatus' | translate }}"
+          class="index-header-title-filter-status" [(ngModel)]="quoteInputParams.Status"
+          (ngModelChange)="(quoteInputParams.SkipCount == 0); search()">
+          <nz-option nzValue="" nzLabel="{{ 'All' | translate }}"></nz-option>
+          <nz-option *ngFor="let item of quoteState" [nzValue]="item" [nzLabel]="QuoteState[item] | translate">
+          </nz-option>
+        </nz-select>
+        <div class="icon-all">
+          <nz-select nzAllowClear nzPlaceHolder="{{ 'Trade Type' | translate }}"
+            class="index-header-title-filter-status" [(ngModel)]="quoteInputParams.maoyiType"
+            (ngModelChange)="searchByTradeType($event)">
+            <nz-option nzValue="0" nzLabel="{{ 'All' | translate }}"></nz-option>
+            <nz-option nzValue="1" nzLabel="{{ 'General' | translate }}"></nz-option>
+            <nz-option nzValue="2" nzLabel="{{ 'FBA/FBM' | translate }}"></nz-option>
+          </nz-select>
+          <nz-input-group class="index-header-title-filter-status" [nzSuffix]="suffixIconSearch">
+            <input type="text" nz-input [placeholder]="'Quote No' | translate" appDebounceInput="300"
+              (debounceInput)="search()" [(ngModel)]="quoteInputParams.QuoteNo" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <i *ngIf="quoteInputParams.QuoteNo" nz-icon nzType="close-circle"
+              (click)="quoteInputParams.QuoteNo = ''; search()" style="color: #aaa;cursor: pointer;"></i>
+          </ng-template>
+          <button nz-button nzType="default" (click)="clearSearch()">{{ 'Clear' | translate }}</button>
+          <!-- <div
+            class="icon-air"
+            (click)="quoteInputParams.isGeneral = !quoteInputParams.isGeneral; search()"
+            [ngClass]="{ 'border-left': quoteInputParams.isGeneral }"
+          >
+            {{ 'General' | translate }}
+          </div>
+          <div
+            class="icon-ocean"
+            (click)="quoteInputParams.isFba = !quoteInputParams.isFba; search()"
+            [ngClass]="{ 'border-right': quoteInputParams.isFba }"
+          >
+            {{ 'FBA/FBM' | translate }}
+          </div> -->
+        </div>
+
+        <div class="list-content-action">
+          <button nz-button nzType="primary" (click)="createinitiativequotes()">{{ 'Add Quotes' | translate }}</button>
+        </div>
+      </div>
+    </div>
+    <div class="content-list">
+      <!-- y: height - 270 + 'px' -->
+      <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: auto;">
+        <nz-table #rowSelectionTable [nzShowPagination]="false" [nzData]="quoteList" [nzTotal]="quotetotal"
+          [nzPageSize]="quoteInputParams.nzPageSize"  disableCalcX class="height-100"
+          calcNzTableBodyScroll>
+          <thead>
+            <tr>
+              <th>
+                {{ 'QuoteNo' | translate }}
+              </th>
+              <th>
+                {{ 'Inquiry customer' | translate }}
+              </th>
+              <th>
+                {{ 'Inquirer' | translate }}
+              </th>
+              <th>
+                {{ 'Freight Method' | translate }}
+              </th>
+              <th nzShowSort [(nzSort)]="mapOfSort.cargoReadyDate" (nzSortChange)="sort('cargoReadyDate', $event)">
+                {{ 'Cargo ready date' | translate }}
+              </th>
+              <th>
+                {{ 'Delivery date' | translate }}
+              </th>
+              <th>
+                {{ 'Departure' | translate }}
+              </th>
+              <th>
+                {{ 'Destination' | translate }}
+              </th>
+              <th nzWidth="120px" >
+                {{ 'QuotesStatus' | translate }}
+              </th>
+              <th>
+                {{ 'Action' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-data [ngForOf]="rowSelectionTable.data" let-index="index">
+              <tr (click)="getQuotesDetailInfo(data)" [ngClass]="{ ou: index % 2 == 0, ji: index % 2 != 0 }">
+                <td style="color: #1890ff;">
+                  {{ data.quoteNo }}
+                </td>
+                <td>
+                  {{ data.ownerCustomerName }}
+                </td>
+                <td>
+                  {{ data.ownerUserName }}
+                </td>
+                <td>
+                  <ng-container
+                    *ngIf="data.freightMethodType == freightMethodTypeValue.Ocean; else elsefreightMethodTypeTemplate">
+                    <span class="iconfont icon-Ocean"></span>
+                  </ng-container>
+                  <ng-template #elsefreightMethodTypeTemplate>
+                    <span class="iconfont icon-airplane"></span>
+                  </ng-template>
+                </td>
+                <td>
+                  {{ data.cargoReadyDate | date: 'yyy-MM-dd' }}
+                </td>
+                <td>
+                  <ng-container *ngIf="data.deliveryDate; else elseDeliveryDateTemplate">
+                    {{ data.deliveryDate | date: 'yyy-MM-dd' }}
+                  </ng-container>
+                  <ng-template #elseDeliveryDateTemplate>
+                    ---
+                  </ng-template>
+                </td>
+                <td>
+                  <div *ngIf="data.from.addressModel" style="
+                        width: 120px;
+                        height: 30px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                      ">
+                    <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
+                    <span *ngIf="data.from.addressModel?.streetAddress">{{
+                        data.from.addressModel?.streetAddress
+                      }}</span>
+                    <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
+                    <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
+                    <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
+                  </div>
+                  <div style="
+                    width: 120px;
+                    height: 30px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                  ">
+                    <span> {{ data.from?.portModel?.name }} </span>
+                    <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
+                    <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
+                  </div>
+                  <!-- <ul>
+                      <li>
+                        <span> {{ data.from?.portModel?.name }} </span>
+                        <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
+                        <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
+                      </li>
+                      <li *ngIf="data.from.addressModel" style="width: 120px;">
+                        <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
+                        <span *ngIf="data.from.addressModel?.streetAddress">{{
+                          data.from.addressModel?.streetAddress
+                        }}</span>
+                        <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
+                        <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
+                        <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
+                      </li>
+                    </ul> -->
+                </td>
+                <td>
+                  <div *ngIf="data.to.addressModel" style="
+                        width: 120px;
+                        height: 30px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                      ">
+                    <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
+                    <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
+                    <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
+                    <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
+                    <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
+                  </div>
+                  <div style="
+                  width: 120px;
+                  height: 30px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                ">
+                    <span> {{ data.to?.portModel?.name }} </span>
+                    <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
+                    <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
+                  </div>
+                  <!-- <ul>
+                      <li>
+                        <span> {{ data.to?.portModel?.name }} </span>
+                        <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
+                        <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
+                      </li>
+                      <li *ngIf="data.to.addressModel" style="width: 120px;">
+                        <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
+                        <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
+                        <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
+                        <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
+                        <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
+                      </li>
+                    </ul> -->
+                </td>
+                <td>
+                  <span *ngIf="data.status == 1">
+                    <span class="jy-ocean-StartingPlace" [ngClass]="{ zise: true }"> </span> {{ 'Active' | translate }}
+                  </span>
+                  <span *ngIf="data.status == 2">
+                    <span class="jy-ocean-StartingPlace" [ngClass]="{ accept: true }"> </span>
+                    {{ 'Accept' | translate }}
+                  </span>
+                  <span *ngIf="data.status == 3">
+                    <span class="jy-ocean-StartingPlace" [ngClass]="{ expired: true }"> </span>
+                    {{ 'Expired' | translate }}
+                  </span>
+                  <span *ngIf="data.status == 4">
+                    <span class="jy-ocean-StartingPlace" [ngClass]="{ reject: true }"> </span>
+                    {{ 'Reject' | translate }}
+                  </span>
+                </td>
+                <td data-no-title>
+                  <!-- <button
+                    nz-button
+                    nzType="primary"
+                    class="quotes-botton"
+                    *ngIf="!data.isQuoteReply"
+                    (click)="addQuote(data, $event)"
+                  >
+                    {{ 'Quotes' | translate }}
+                  </button> -->
+                  <!-- <button nz-button nzType="primary" (click)="viewQuote(data)" *ngIf="data.isQuoteReply">
+                    {{ 'View' | translate }}
+                  </button> -->
+                  <!-- <button
+                    nz-button
+                    nzType="primary"
+                    class="quotes-botton"
+                    *ngIf="data.isQuoteReply"
+                    (click)="share(data, $event)"
+                  >
+                    Share
+                  </button> -->
+                  <a *ngIf="!data.isQuoteReply" class="quotes-botton" (click)="addQuote(data, $event)">{{
+                    'Quotes' | translate
+                  }}</a>
+                  <a *ngIf="data.isQuoteReply" class="quotes-botton" (click)="viewQuote(data)">
+                    {{ 'View' | translate }}</a>
+                  <a *ngIf="data.isQuoteReply && data.status != QuoteState.Expired" class="quotes-botton"
+                    (click)="share(data, $event)">{{ 'Share' | translate }}</a>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </nz-table>
+      </nz-spin>
+    </div>
+    <div class="d-flex justify-content-end">
+      <nz-pagination style="text-align: right;" #nzpage [nzPageIndex]="quoteInputParams.pageIndex"
+        [nzShowSizeChanger]="true" [nzTotal]="quotetotal"
+        (nzPageSizeChange)="nzpage.nzPageIndex = 1; currentPageSizeChange($event)"
+        [nzPageSize]="quoteInputParams.nzPageSize" (nzPageIndexChange)="pageIndexChange($event)"
+        [nzShowQuickJumper]="false">
+      </nz-pagination>
+    </div>
+  </div>
+</div>
+<nz-modal nzWidth="70%" nzMaskClosable="false" class="createQuotes" [(nzVisible)]="isShowinitiativecreatequotes"
+  [nzTitle]="'Add Quotes' | translate" (nzOnCancel)="createinitiativequotesCancel()">
+  <initiativequotes-initiativecreatequotes *ngIf="isShowinitiativecreatequotes"
+    (isSuccessfully)="createinitiativequotesSuccessfully($event)" (isClosed)="isClosed = $event"
+    (initiaveQuoteStatus)="isinitiaveQuoteStatus = $event">
+  </initiativequotes-initiativecreatequotes>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="createinitiativequotesCancel()">{{ 'Cancel' | translate }}</button>
+    <button nz-button nzType="primary" type="submit" (click)="createinitiativequotesOk()"
+      [nzLoading]="isinitiaveQuoteStatus">
+      {{ 'Add Quotes' | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal nzMaskClosable="false" [(nzVisible)]="isShowcreatequotes" [nzTitle]="'Add Quotes' | translate"
+  (nzOnCancel)="createquotesCancel()" nzWidth="70%">
+  <quotes-createquotes [quoteinfo]="quoteinfo" *ngIf="isShowcreatequotes" (isSuccessfully)="isSuccessfully($event)"
+    (isClosed)="isClosed = $event" (isQuoteStatus)="isQuoteStatus = $event">
+  </quotes-createquotes>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="createquotesCancel()">{{ 'Cancel' | translate }}</button>
+    <button nz-button nzType="primary" type="submit" (click)="createquotesOk()" [nzLoading]="isQuoteStatus">
+      {{ 'Add Quotes' | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal nzMaskClosable="false" [(nzVisible)]="isShowcreaterecord" (nzOnCancel)="quotesrecordCancel()" nzWidth="70%">
+  <quotes-quotesrecord *ngIf="isShowcreaterecord" [quoteId]="quoteId" [isShowtab]="isShowtab"
+    (isSuccessfully)="isCreaterecordSuccessfully($event)" (isClosed)="isClosed = $event"
+    (selSelectIndex)="selIndexnum($event)" (isQuoteRecordStatus)="isQuoteRecordStatus = $event">
+  </quotes-quotesrecord>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="quotesrecordCancel()">{{ 'Cancel' | translate }}</button>
+    <button nz-button nzType="primary" type="submit" (click)="quotesrecordOk()" *ngIf="selIndex == 1"
+      [nzLoading]="isQuoteRecordStatus">
+      {{ 'Add Quotes' | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<ng-template #shareModalFooter>
+  <button nz-button nzType="default" nz-popover
+    [copyDomToImage]="shareModalRef?.getContentComponent()?.downToImageRef?.nativeElement"
+    [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+    [disabled]="isIE()">
+    {{ 'Copy image' | translate }}
+  </button>
+  <button nz-button nzType="default" nz-popover
+    [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+    [disabled]="isIE()" (click)="downloadImage()">
+    {{ 'Download image' | translate }}
+  </button>
+  <button nz-button nzType="primary" (click)="copyLink()">{{ 'Copy link' | translate }}</button>
+</ng-template>

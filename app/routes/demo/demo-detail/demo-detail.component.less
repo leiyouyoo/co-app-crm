@@ -1,0 +1,81 @@
+@import '~apps/crm/styles/global/variables';
+
+:host {
+  ::ng-deep {
+    .drawer-bar {
+      position        : absolute;
+      top             : 0;
+      left            : 0;
+      width           : 16px;
+      height          : 100%;
+      background-color: #e6e6e6;
+    }
+
+    .box-sj {
+      position     : absolute;
+      top          : 50vh;
+      left         : 0;
+      width        : 0;
+      height       : 0;
+      border-top   : 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left  : 13px solid #acacac;
+    }
+
+    .job-content {
+      display       : flex;
+      flex-direction: column;
+      width         : 100%;
+      height        : 100%;
+      // margin-left: 20px;
+    }
+
+    .job-drawer {
+      flex        : 1;
+      margin-right: 16px;
+      margin-left : 16px;
+
+      div {
+        margin-bottom: 16px;
+      }
+    }
+
+    .job-new-create {
+      display        : flex;
+      justify-content: space-between;
+      width          : 100%;
+      height         : 29px;
+      padding        : 5px 16px;
+      background     : rgba(24, 144, 255, 0.2);
+      border-radius  : 4px;
+    }
+
+    .job-new-line {
+      height    : 1px;
+      margin-top: 16px;
+      background: rgba(232, 232, 232, 1);
+    }
+
+    .job-new-save {
+      top      : 20px;
+      float    : right;
+      min-width: 80px;
+    }
+
+    .job-creater {
+      color      : rgba(0, 0, 0, 0.45);
+      font-weight: 400;
+      font-size  : 12px;
+    }
+
+    .job-createrInfo {
+      color      : rgba(0, 0, 0, 0.65);
+      font-weight: 400;
+      font-size  : 12px;
+    }
+
+    .job-list-error {
+      color: #fe443f;
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<nz-table
+  [nzNoResult]="null"
+  style="margin-top: 24px;"
+  [nzFrontPagination]="false"
+  nzShowPagination="false"
+  nzTableLayout="fixed"
+  [nzScroll]="{x:'1200px'}"
+>
+  <thead>
+    <tr>
+      <th nzWidth="150px">
+        {{ 'Name' | translate }}
+      </th>
+      <th nzWidth="150px">{{ 'Name' | translate }}({{ 'Local' | translate }})</th>
+      <th nzWidth="150px">
+        {{ 'Job Capacity' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Phone' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Email' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Main contact' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Account opening' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Opening time' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Role' | translate }}
+      </th>
+      <th nzWidth="150px">
+        {{ 'Status' | translate }}
+      </th>
+      <th nzWidth="150px" nzRight="0">
+        {{ 'Operating' | translate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of contacts">
+      <td nzEllipsis>{{ data.name }} {{ data.surname }}</td>
+      <td nzEllipsis>{{ data.localizationName }}</td>
+      <td nzEllipsis>{{ data.position }}</td>
+      <td nzEllipsis>{{ data.phone }}</td>
+      <td nzEllipsis>{{ data.email }}</td>
+      <td nzEllipsis>
+        <span *ngIf="data.isMaster">{{ 'Yes' | translate }}</span>
+        <span *ngIf="!data.isMaster">{{ 'No' | translate }}</span>
+      </td>
+      <td nzEllipsis>
+        <ng-container *ngIf="data.userId != null; else userid">
+          <img
+            src="assets/images/check-circle.png"
+            alt=""
+            style="width:19px;
+                    height:19px;"
+          />
+        </ng-container>
+        <ng-template #userid> </ng-template>
+      </td>
+      <td nzEllipsis>{{ data.userInfo?.creationTime | date: 'yyyy-MM-dd' }}</td>
+      <td nzEllipsis>
+        <label *ngFor="let item of data.userInfo?.roles">
+          {{ item.roleName }}
+        </label>
+      </td>
+      <td nzEllipsis>
+        <ng-container *ngIf="data.userInfo; else noInfo">
+          <label style="color: #1890FF;" *ngIf="data.userInfo.isActive">{{ 'Activated' | translate }}</label>
+          <label style="color: #1890FF;" *ngIf="!data.userInfo.isActive">{{ 'Inactivated' | translate }}</label>
+        </ng-container>
+        <ng-template #noInfo>
+          --
+        </ng-template>
+      </td>
+      <td nzEllipsis nzRight="0">
+        <div (click)="onDeleteLocation(data)" class="delete">
+          {{ 'Delete' | translate }}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

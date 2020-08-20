@@ -1,0 +1,272 @@
+<nz-tabset
+  *ngIf="isShowtab"
+  class="quote-record"
+  [nzAnimated]="false"
+  [(nzSelectedIndex)]="selectIndex"
+  (nzSelectChange)="selIndex($event)"
+>
+  <nz-tab [nzTitle]="'Quotation record' | translate">
+    <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+      <div class="card-container">
+        <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+          <nz-tab [nzTitle]="'New Quotes' | translate">
+            <!-- [quoteData]="newrecordlist[0]" -->
+            <quote-quote-simple-info
+              *ngIf="quoteinfo.id"
+              [isShowOpearButton]="true"
+              [isHalfangle]="true"
+              [isShowQuotesNo]="true"
+              [isRecord]="false"
+              [isDash]="true"
+              [Id]="quoteinfo.id"
+            >
+            </quote-quote-simple-info>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Historical quotation' | translate">
+            <div
+              class="content-left-quote-top-right"
+              style="position: relative;"
+              *ngFor="let historyrecord of historyrecordlist"
+            >
+              <button
+                nz-button
+                nzType="primary"
+                (click)="copyQuote(historyrecord)"
+                style="position: absolute; right: 0px;"
+              >
+                {{ 'Copy' | translate }}
+              </button>
+              <quote-quote-simple-info
+                [isShowOpearButton]="false"
+                [isHalfangle]="false"
+                [isDash]="true"
+                [isShowQuotesNo]="false"
+                [Id]="quoteinfo.id"
+                [record]="historyrecord"
+                [isRecord]="true"
+              ></quote-quote-simple-info>
+            </div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </nz-spin>
+  </nz-tab>
+  <nz-tab [nzTitle]="'Add Quotes' | translate">
+    <div class="content">
+      <div class="freightType">
+        <div class="f-type">
+          <span
+            class="iconfont icon-kongyun-1"
+            *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+            style="padding-left: 16px;"
+          ></span>
+          <span
+            class="iconfont icon-hangyun"
+            *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+            style="padding-left: 16px;"
+          ></span>
+          <div class="f-type-freightMethod">{{ 'Freight Method' | translate }}:</div>
+          <div class="f-type-freightMethod" *ngIf="quoteinfo.freightType == 1">
+            {{ 'CY-CY' | translate }}
+          </div>
+          <div class="f-type-freightMethod" *ngIf="quoteinfo.freightType == 2">
+            {{ 'CY-DOOR' | translate }}
+          </div>
+          <div class="f-type-freightMethod" *ngIf="quoteinfo.freightType == 3">
+            {{ 'DOOR-CY' | translate }}
+          </div>
+          <div class="f-type-freightMethod" *ngIf="quoteinfo.freightType == 4">
+            {{ 'DOOR-DOOR' | translate }}
+          </div>
+        </div>
+        <div style="border: 0.05em solid #e4e4e4; margin: 0px 24px;"></div>
+        <div class="f-route">
+          <!-- <div class="content-ocean-route">
+            <div class="content-ocean-routeInfo" *ngIf="quoteinfo.originAddress || quoteinfo?.originAddressName">
+              <div *ngIf="quoteinfo.originAddress">
+                {{
+                  [
+                    quoteinfo?.originAddress?.streetAddress,
+                    quoteinfo?.originAddress?.city,
+                    quoteinfo?.originAddress?.province,
+                    quoteinfo.originAddress?.country
+                  ] | arrayJoin
+                }}
+              </div>
+              <div *ngIf="quoteinfo?.originAddressName">
+                <div *ngIf="!quoteinfo.originAddress">
+                  {{ quoteinfo.originAddressName }}
+                </div>
+              </div>
+            </div>
+            <div class="content-ocean-routeInfo">
+              <div *ngIf="quoteinfo.originPort">
+                <div>{{ quoteinfo.originPort?.name }}</div>
+                <div>{{ quoteinfo.originPort?.regionName }}</div>
+              </div>
+              <div *ngIf="!quoteinfo.originPort">{{ 'originPort' | translate }}</div>
+            </div>
+            <div class="content-ocean-routeInfo">
+              <div *ngIf="quoteinfo.destinationPort">
+                <div>{{ quoteinfo.destinationPort?.name }}</div>
+                <div>{{ quoteinfo.destinationPort?.regionName }}</div>
+              </div>
+              <div *ngIf="!quoteinfo.destinationPort">{{ 'destinationPort' | translate }}</div>
+            </div>
+            <div
+              class="content-ocean-routeInfo"
+              *ngIf="quoteinfo.destinationAddress || quoteinfo.destinationAddressName"
+            >
+              <div *ngIf="quoteinfo.destinationAddress">
+                {{
+                  [
+                    quoteinfo?.destinationAddress?.streetAddress,
+                    quoteinfo?.destinationAddress?.city,
+                    quoteinfo?.destinationAddress?.province,
+                    quoteinfo.destinationAddress?.country
+                  ] | arrayJoin
+                }}
+              </div>
+              <div *ngIf="quoteinfo.destinationAddressName">
+                <div *ngIf="!quoteinfo.destinationAddress">
+                  {{ quoteinfo.destinationAddressName }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content-ocean">
+            <div class="content-ocean-pic" *ngIf="quoteinfo?.originAddress || quoteinfo?.originAddressName">
+              <span class="iconfont icon-gongsi-yuan"></span>
+              <div class="horizontal-line"></div>
+            </div>
+            <div class="content-ocean-pic">
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
+              <div class="horizontal-line"></div>
+            </div>
+            <div class="content-ocean-pic">
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
+              <div
+                class="horizontal-line"
+                *ngIf="quoteinfo?.destinationAddress || quoteinfo?.destinationAddressName"
+              ></div>
+            </div>
+            <div class="content-ocean-pic" *ngIf="quoteinfo?.destinationAddress || quoteinfo?.destinationAddressName">
+              <span class="iconfont icon-gongsi-yuan"></span>
+            </div>
+          </div> -->
+          <ul class="routeInfo">
+            <li *ngIf="quoteinfo.originAddress || quoteinfo?.originAddressName">
+              <div class="routeInfo-info">
+                <div *ngIf="quoteinfo.originAddress" class="word">
+                  {{
+                    [
+                      quoteinfo?.originAddress?.streetAddress,
+                      quoteinfo?.originAddress?.city,
+                      quoteinfo?.originAddress?.province,
+                      quoteinfo.originAddress?.country
+                    ] | arrayJoin
+                  }}
+                </div>
+                <div *ngIf="quoteinfo?.originAddressName">
+                  <div *ngIf="!quoteinfo.originAddress" class="word">
+                    {{ quoteinfo.originAddressName }}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span class="iconfont icon-gongsi-yuan"></span>
+                <div class="horizontal-line"></div>
+              </div>
+            </li>
+            <li>
+              <div class="routeInfo-info">
+                <div *ngIf="quoteinfo.originPort">
+                  <div class="word">{{ quoteinfo.originPort?.name }}</div>
+                  <div class="word">{{ quoteinfo.originPort?.regionName }}</div>
+                </div>
+                <div *ngIf="!quoteinfo.originPort" class="word">{{ 'originPort' | translate }}</div>
+              </div>
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
+              <div class="horizontal-line"></div>
+            </li>
+            <li>
+              <div class="routeInfo-info">
+                <div *ngIf="quoteinfo.destinationPort">
+                  <div class="word">{{ quoteinfo.destinationPort?.name }}</div>
+                  <div class="word">{{ quoteinfo.destinationPort?.regionName }}</div>
+                </div>
+                <div *ngIf="!quoteinfo.destinationPort" class="word">{{ 'destinationPort' | translate }}</div>
+              </div>
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
+              <div
+                class="horizontal-line"
+                *ngIf="quoteinfo?.destinationAddress || quoteinfo?.destinationAddressName"
+              ></div>
+            </li>
+            <li *ngIf="quoteinfo.destinationAddress || quoteinfo.destinationAddressName">
+              <div class="routeInfo-info">
+                <div *ngIf="quoteinfo.destinationAddress" class="word">
+                  {{
+                    [
+                      quoteinfo?.destinationAddress?.streetAddress,
+                      quoteinfo?.destinationAddress?.city,
+                      quoteinfo?.destinationAddress?.province,
+                      quoteinfo.destinationAddress?.country
+                    ] | arrayJoin
+                  }}
+                </div>
+
+                <div *ngIf="quoteinfo.destinationAddressName" class="word">
+                  <div *ngIf="!quoteinfo.destinationAddress">
+                    {{ quoteinfo.destinationAddressName }}
+                  </div>
+                </div>
+              </div>
+              <span class="iconfont icon-gongsi-yuan"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <crm-handlequotes
+        *ngIf="quoteinfo.id"
+        [_quoteinfo]="quoteinfo"
+        [basiccost]="basiccost"
+        [endplace]="endplace"
+        [startingplace]="startingplace"
+        [containHavedataList]="containHavedataList"
+        (endPlaceHand)="endplace = $event"
+        (basicdataHand)="basiccost = $event"
+        (startPlaceHand)="startingplace = $event"
+      ></crm-handlequotes>
+    </div>
+  </nz-tab>
+</nz-tabset>

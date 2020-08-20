@@ -1,0 +1,362 @@
+<div class="list-content">
+  <div class="list-content-header">
+    <!-- <a (click)="back()">{{ 'Quotes' | translate }}</a
+    >><span>{{ quotesObj.quoteNo }}</span> -->
+  </div>
+  <div class="content">
+    <div class="content-left">
+      <div class="content-left-quote">
+        <div class="content-Quote-Created">
+          <div class="create-notes">
+            <span *ngIf="quotesObj">
+              <span class="notes-info" *ngIf="quotesObj.status == 3">
+                <span class="iconfont icon-icon_dangerous"></span>
+                <span>{{ 'All quotes have expired and cannot be booked' | translate }}</span></span
+              >
+            </span>
+          </div>
+          <div class="content-tabel" id="content-tabel">
+            <div class="btn-group">
+              <button nz-button nzType="primary" (click)="createQuote()">
+                {{ 'Quote' | translate }}
+              </button>
+              <!-- <button nz-button nzType="primary" (click)="fenxiang()">分享</button> -->
+            </div>
+            <quote-quote-simple-info *ngIf="quotesObj.id" [Id]="quotesObj.id" [isRecord]="false">
+            </quote-quote-simple-info>
+          </div>
+        </div>
+      </div>
+      <div class="content-left-ActivityDetails">
+        <div class="content-left-Details">
+          <nz-tabset [nzAnimated]="false" class="ant-tabs-padding">
+            <!-- <nz-tab nzTitle="Activity">
+              <im-layout-share
+                [disabledIm]="disabledIm"
+                [businessType]="_BusinessType.Quote"
+                [businessId]="BusinessId"
+                [imTitle]="groupName"
+                #imlayout
+              ></im-layout-share>
+            </nz-tab> -->
+            <nz-tab nzTitle="Documents">
+              <document-layout [BusinessId]="BusinessId" [BusinessType]="_BusinessType.Quote"> </document-layout>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+    </div>
+    <div class="content-right">
+      <div class="detailInfo-wap">
+        <div class="detailInfo-wap-detail">
+          <label class="detailInfo-wap-detail-detail">{{ 'Details' | translate }}</label>
+        </div>
+        <div style="height: 10px; border-bottom: 1px solid #e4e4e4; margin-bottom: 8px;"></div>
+        <div class="detailInfo-wap-info">
+          <div
+            *ngIf="
+              quotesObj.tradeType == 1 && (quotesObj.isDeclaration || quotesObj.isClearance || quotesObj.isInsurance)
+            "
+          >
+            <div
+              *ngIf="quotesObj.tradeType == 1"
+              style="display: flex; justify-content: space-between; padding: 8px 24px;"
+            >
+              <span class="detailInfo-wap-info-left" style="margin-right: 16px;">
+                <label>{{ 'Channel requirements' | translate }}</label></span
+              >
+              <button nz-button nzType="default">
+                <div *ngIf="quotesObj.tradeType == 1">
+                  <label *ngIf="quotesObj.isDeclaration && quotesObj.isInsurance && quotesObj.isClearance"
+                    >{{ 'Double clearance' | translate }}+{{ 'Insurance' | translate }}</label
+                  >
+                  <label *ngIf="quotesObj.isDeclaration && !quotesObj.isInsurance && !quotesObj.isClearance">{{
+                    'Custom declaration' | translate
+                  }}</label>
+                  <label *ngIf="quotesObj.isClearance && !quotesObj.isDeclaration && !quotesObj.isInsurance">{{
+                    'Customs clearance' | translate
+                  }}</label>
+                  <label *ngIf="!quotesObj.isClearance && !quotesObj.isDeclaration && quotesObj.isInsurance">{{
+                    'Insurance' | translate
+                  }}</label>
+                  <label *ngIf="quotesObj.isClearance && quotesObj.isDeclaration && !quotesObj.isInsurance">{{
+                    'Double clearance' | translate
+                  }}</label>
+                  <label *ngIf="quotesObj.isClearance && !quotesObj.isDeclaration && quotesObj.isInsurance"
+                    >{{ 'Customs clearance' | translate }}+{{ 'Insurance' | translate }}</label
+                  >
+                  <label *ngIf="!quotesObj.isClearance && quotesObj.isDeclaration && quotesObj.isInsurance"
+                    >{{ 'Custom declaration' | translate }}+{{ 'Insurance' | translate }}</label
+                  >
+                </div>
+              </button>
+            </div>
+          </div>
+          <div
+            *ngIf="quotesObj.tradeType != 1"
+            style="display: flex; justify-content: space-between; padding: 8px 24px;"
+          >
+            <span class="detailInfo-wap-info-left" style="margin-right: 16px;">
+              <label>{{ 'Channel requirements' | translate }}</label>
+            </span>
+            <button nz-button nzType="default">
+              <div>
+                <label *ngIf="quotesObj.isDeclaration && quotesObj.isClearance && quotesObj.isTaxIncluded">{{
+                  'Double clearance -Tax Handling' | translate
+                }}</label>
+                <label *ngIf="quotesObj.isDeclaration && quotesObj.isClearance && !quotesObj.isTaxIncluded">{{
+                  'Double clearance-Excluding Tax Handling' | translate
+                }}</label>
+              </div>
+            </button>
+          </div>
+          <div class="Booking-detail-line">
+            <nz-list>
+              <nz-list-item class="list-item-header">
+                <span>
+                  <label for="" style="font-size: 14px; font-weight: bold;">{{ 'Route' | translate }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item style="height: initial; margin-top: 14px; padding-bottom: 0;" class="timeline">
+                <route-time-line
+                  class="timeline-icon-bg-1"
+                  [originAddress]="quotesObj.originAddress ? quotesObj.originAddress : quotesObj.originAddressName"
+                  [originPort]="quotesObj.originPort"
+                  [destinationPort]="quotesObj.destinationPort"
+                  [destinationAddress]="
+                    quotesObj.destinationAddress ? quotesObj.destinationAddress : quotesObj.destinationAddressName
+                  "
+                  [freightMethodType]="quotesObj.freightMethodType"
+                ></route-time-line>
+              </nz-list-item>
+            </nz-list>
+          </div>
+
+          <div class="detailInfo-wap-info-bottom">
+            <nz-list>
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Basic' | translate }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Cargo ready date' | translate }}</label></span
+                >
+                <span
+                  ><label for="">{{ quotesObj.cargoReadyDate | date: 'yyy-MM-dd' }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item *ngIf="quotesObj.deliveryDate">
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Delivery date' | translate }}</label></span
+                >
+                <span
+                  ><label for="">
+                    {{ quotesObj.deliveryDate | date: 'yyy-MM-dd' }}
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Shipment Method' | translate }}</label></span
+                >
+                <span
+                  ><label for="">
+                    <ng-container
+                      *ngIf="
+                        quotesObj.freightMethodType == freightMethodTypeValue.Ocean;
+                        else elsefreightMethodTemplate
+                      "
+                    >
+                      {{ 'ocean' | translate }}
+                    </ng-container>
+                    <ng-template #elsefreightMethodTemplate>
+                      {{ 'air' | translate }}
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Freight Type' | translate }}</label></span
+                >
+                <span
+                  ><label for="">
+                    <span *ngIf="quotesObj.freightType == 1">
+                      {{ 'CY-CY' | translate }}
+                    </span>
+                    <span *ngIf="quotesObj.freightType == 2">
+                      {{ 'CY-DOOR' | translate }}
+                    </span>
+                    <span *ngIf="quotesObj.freightType == 3">
+                      {{ 'DOOR-CY' | translate }}
+                    </span>
+                    <span *ngIf="quotesObj.freightType == 4">
+                      {{ 'DOOR-DOOR' | translate }}
+                    </span>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Trade Type' | translate }}</label></span
+                >
+                <span
+                  ><label for="">
+                    <span *ngIf="quotesObj.tradeType == 1">
+                      {{ 'General' | translate }}
+                    </span>
+                    <span *ngIf="quotesObj.tradeType == 2">
+                      {{ 'FBA' | translate }}
+                    </span>
+                    <span *ngIf="quotesObj.tradeType == 3">
+                      {{ 'FBM' | translate }}
+                    </span>
+                  </label></span
+                >
+              </nz-list-item>
+
+              <nz-list-item *ngIf="containType.length > 0">
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Container Type' | translate }}</label></span
+                >
+                <span class="bookingDetail-word">
+                  <label for="" *ngFor="let item of containType">
+                    <span style="margin-right: 5px;" *ngIf="item.value > 0">{{ item.value }}X{{ item.name }}</span>
+                  </label>
+                </span>
+              </nz-list-item>
+            </nz-list>
+            <nz-list *ngIf="quotesObj.quantity && quotesObj.weight && quotesObj.volume">
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{
+                    'Cargo Detail' | translate
+                  }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Quantity' | translate }}</label></span
+                >
+                <span
+                  ><label for="">{{ quotesObj.quantityDisplay }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Total Weight' | translate }}</label></span
+                >
+                <span
+                  ><label for="">{{ quotesObj.totalWeightDisplay }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Total Volume' | translate }}</label></span
+                >
+                <span
+                  ><label for="">{{ quotesObj.totalVolumeDisplay }}</label></span
+                >
+              </nz-list-item>
+            </nz-list>
+            <nz-list *ngIf="quotesObj.description">
+              <nz-list-item class="list-item-header">
+                <span class="detailInfo-wap-info-left"
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Details' | translate }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left"
+                  ><label for="">{{ 'Description Of Products' | translate }}</label></span
+                >
+                <span
+                  style="
+                    line-height: 30px;
+                    margin-left: 5px;
+                    overflow: hidden;
+                    word-break: break-word;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    text-align: right;
+                    width: 90px;
+                  "
+                  ><label for="">{{ quotesObj.description }}</label></span
+                >
+              </nz-list-item>
+            </nz-list>
+            <div *ngIf="containsSpecialGoodsTypes.length > 0" class="un-List">
+              <span class="detailInfo-wap-info-left">
+                <label for="">{{ 'Special goods' | translate }}</label>
+              </span>
+
+              <div
+                *ngIf="containsSpecialGoodsTypes"
+                [ngClass]="{ notClickn: true }"
+                style="display: block; padding: 8px 0px;"
+              >
+                <div *ngFor="let item of containsSpecialGoodsTypes" class="quoteDetail-check">
+                  <label style="height: 25px;" nz-checkbox [(ngModel)]="item.IsSelected">{{ item.Name }}</label>
+                </div>
+              </div>
+            </div>
+            <nz-list *ngIf="quotesObj.specialInstructions">
+              <nz-list-item>
+                <span class="detailInfo-wap-info-left">
+                  <label for="">{{ 'Remark' | translate }}</label>
+                </span>
+                <span
+                  style="
+                    line-height: 30px;
+                    margin-left: 5px;
+                    overflow: hidden;
+                    word-break: break-word;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    text-align: right;
+                    width: 90px;
+                  "
+                  ><label for="">
+                    {{ quotesObj.specialInstructions }}
+                  </label></span
+                >
+              </nz-list-item>
+            </nz-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nz-back-top [nzTemplate]="tpl" [nzVisibilityHeight]="5">
+  <ng-template #tpl>
+    <div class="ant-back-top-inner">{{ 'UP' | translate }}</div>
+  </ng-template>
+</nz-back-top>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isShowcreatequotes"
+  [nzTitle]="'Add Quotes' | translate"
+  (nzOnCancel)="createquotesCancel()"
+  nzWidth="55%"
+>
+  <quotes-createquotes
+    [quoteinfo]="quotesObj"
+    *ngIf="isShowcreatequotes"
+    (isSuccessfully)="Successfully($event)"
+    (isQuoteStatus)="isQuoteStatus = $event"
+    (isClosed)="isClosed = $event"
+  >
+  </quotes-createquotes>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="createquotesCancel()">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button nz-button nzType="primary" type="submit" (click)="createquotesOk()" [nzLoading]="isQuoteStatus">
+      {{ 'Add Quotes' | translate }}
+    </button>
+  </div>
+</nz-modal>

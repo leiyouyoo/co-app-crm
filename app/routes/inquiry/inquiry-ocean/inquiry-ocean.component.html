@@ -1,0 +1,1363 @@
+<div class="inquiry-ocean-content" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+  <form nz-form [formGroup]="searchForm" style="margin: 20px 20px 0 20px;">
+    <div class="login-form">
+      <div>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              formControlName="pol"
+              nzPlaceHolder="{{ 'POL' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              formControlName="pod"
+              nzPlaceHolder="{{ 'POD' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              formControlName="delivery"
+              nzPlaceHolder="{{ 'Delivery' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <button nz-button [nzType]="'primary'" (click)="onSearch()">
+          {{ 'Search' | translate }}
+        </button>
+        <button nz-button [nzType]="'default'" (click)="onClear()">{{ 'Reset' | translate }}</button>
+        <button nz-button nzType="link" (click)="onShowMoreSearch()">
+          {{ 'Advanced search' | translate }}
+          <i nz-icon nzType="down" *ngIf="!showMoreSearch" nzTheme="outline"></i>
+          <i nz-icon nzType="up" *ngIf="showMoreSearch" nzTheme="outline"></i>
+        </button>
+      </div>
+
+      <div class="from-button">
+        <button nz-button [disabled]="shareDisabled" (click)="onShowShareModal()">
+          {{ 'Share' | translate }}
+        </button>
+
+        <button nz-button nzType="primary" (click)="onShowModal()">
+          {{ 'Inquiry' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="login-form2" *ngIf="showMoreSearch">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            style="width: 200px;"
+            formControlName="carrier"
+            nzPlaceHolder="{{ 'Carrier' | translate }}"
+            nzShowSearch
+            nzServerSearch
+            nzAllowClear
+            (nzOnSearch)="getCRMCarrierList($event)"
+          >
+            <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            style="width: 200px;"
+            formControlName="shipline"
+            nzPlaceHolder="{{ 'Shippingline' | translate }}"
+            nzAllowClear
+          >
+            <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input
+            style="width: 200px;"
+            type="text"
+            nz-input
+            formControlName="commodity"
+            placeholder="{{ 'Commodity' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-range-picker formControlName="fromDate" style="width: 250px;"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input style="width: 200px;" type="text" nz-input formControlName="no" placeholder="{{ 'NO' | translate }}" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+
+  <div class="inquiry-right">
+    <div class="inquiry-right-content">
+      <nz-table
+        #listTable
+        [nzData]="dataOfList?.items"
+        [nzLoading]="loading"
+        [nzFrontPagination]="false"
+        nzShowPagination="false"
+        nzTableLayout="fixed"
+        calcNzTableBodyScroll
+      >
+        <thead>
+          <tr>
+            <th nzWidth="80px">
+              <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAll" (nzCheckedChange)="checkAll($event)"></label>
+            </th>
+            <th nzWidth="100px">
+              {{ 'Attention' | translate }}
+            </th>
+
+            <th nzWidth="160px">
+              {{ 'POL/From' | translate }}
+            </th>
+            <th nzWidth="160px">
+              {{ 'POD' | translate }}
+            </th>
+            <th nzWidth="160px">
+              {{ 'Delivery/To' | translate }}
+            </th>
+            <th
+              nzWidth="80px"
+              nzShowSort
+              (nzSortChange)="websort(detial, $event)"
+              *ngFor="let detial of tablestitle"
+            >
+              {{ detial }}
+            </th>
+            <th nzWidth="100px">
+              {{ 'Carrier' | translate }}
+            </th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              [(nzSort)]="mapOfSort.ValidStart"
+              (nzSortChange)="onSort('ValidStart', $event)"
+            >
+              {{ 'Duration(From)' | translate }}
+            </th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="mapOfSort.ValidEnd" (nzSortChange)="onSort('ValidEnd', $event)">
+              {{ 'Duration(To)' | translate }}
+            </th>
+            <th nzWidth="100px">
+              {{ 'ItemCode' | translate }}
+            </th>
+            <th nzWidth="130px">
+              {{ 'NameAccount' | translate }}
+            </th>
+            <th nzWidth="150px">
+              {{ 'business type' | translate }}
+            </th>
+            <th nzWidth="150px">
+              {{ 'Commodity' | translate }}
+            </th>
+            <th nzWidth="150px">
+              {{ 'Term' | translate }}
+            </th>
+            <th nzWidth="150px">
+              {{ 'SurCharge' | translate }}
+            </th>
+            <th nzWidth="150px">
+              CLS
+            </th>
+            <th nzWidth="150px">
+              {{ 'T/T' | translate }}
+            </th>
+            <th nzWidth="250px">
+              {{ 'Description' | translate }}
+            </th>
+            <th nzWidth="150px">
+              {{ 'Update by' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            (click)="showDetial(data, i)"
+            *ngFor="let data of listTable.data; let i = index"
+            [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0, 'list-selected': data.selected }"
+          >
+            <td>
+              <label
+                *ngIf="data.businessType == 0 || (data.status == 0 && data.businessType == 1)"
+                nz-checkbox
+                nzShowCheckbox
+                [(nzChecked)]="data.choosed"
+                (nzCheckedChange)="refreshStatus()"
+              ></label>
+            </td>
+            <td nzEllipsis>
+              <div class="detial_msg" style="width: 75px;">
+                <!-- <nz-switch
+                  [(ngModel)]="data.isFavorite"
+                  nzSize="small"
+                  (ngModelChange)="onFollowChange(data)"
+                ></nz-switch> -->
+
+                <i
+                  nz-icon
+                  nzType="star"
+                  nzTheme="outline"
+                  (click)="$event.stopPropagation(); onFollowChange(data)"
+                  *ngIf="!data.isFavorite"
+                ></i>
+
+                <i
+                  nz-icon
+                  nzType="star"
+                  nzTheme="fill"
+                  (click)="$event.stopPropagation(); onFollowChange(data)"
+                  *ngIf="data.isFavorite"
+                ></i>
+              </div>
+            </td>
+            <td nzEllipsis>
+              {{ data.pol || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.pod || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.delivery || '--' }}
+            </td>
+            <td nzEllipsis *ngFor="let detial of tablestitle">
+              <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
+                <div *ngIf="mdata.unit === detial">
+                  <ng-container *ngIf="mdata.rate != 0; else elseratePriceTemplate">
+                    {{ mdata.rate.toFixed(2) }}
+                  </ng-container>
+                  <ng-template #elseratePriceTemplate> </ng-template>
+                </div>
+              </div>
+              <!-- <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
+                <div *ngIf="mdata.unit === detial">{{ mdata.rate.toFixed(2) }}</div>
+              </div> -->
+            </td>
+            <td nzEllipsis>
+              {{ data.shipCompany || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.from | date: 'yyyy-MM-dd' || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.to | date: 'yyyy-MM-dd' || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.itemCode || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.account || '--' }}
+            </td>
+            <td nzEllipsis>
+              <span *ngIf="data.businessType == 0">
+                <div class="radius" style="background: #1890ff;"></div>
+                {{ 'Contract price' | translate }}
+              </span>
+              <div *ngIf="data.businessType == 1">
+                <span *ngIf="data.status == null">
+                  <div class="radius" style="background: #f7b500;"></div>
+                  {{ 'Inquiry-to be quoted' | translate }}
+                </span>
+                <span *ngIf="data.status == 0">
+                  <div class="radius" style="background: #52c41a;"></div>
+                  {{ 'Inquiry-Quoted' | translate }}
+                </span>
+                <span *ngIf="data.status == 1">
+                  <div class="radius" style="background: #f5222d;"></div>
+                  {{ 'Inquiry-Invalid quote' | translate }}
+                </span>
+              </div>
+            </td>
+            <td nzEllipsis>
+              {{ data.commodity || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.term || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.surCharge || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.cls || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.tt || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.remarkBusiness || '--' }}
+            </td>
+            <td nzEllipsis>
+              {{ data.updateBy || '--' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+
+  <div style="text-align: right; padding: 0 24px 24px 24px;">
+    <nz-pagination
+      [nzPageIndex]="skipCount"
+      [nzPageSize]="maxResultCount"
+      [nzTotal]="dataOfList?.totalCount"
+      [nzShowTotal]="totalTemplate"
+      (nzPageIndexChange)="onPageIndexChanged($event)"
+    >
+    </nz-pagination>
+    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
+  </div>
+
+  <nz-modal
+    nzMaskClosable="false"
+    [(nzVisible)]="modalVisible"
+    (nzOnCancel)="modalVisible = false"
+    nzWidth="70%"
+    nzTitle="{{ 'Inquiry' | translate }}"
+    [nzFooter]="footer"
+  >
+    <form nz-form [formGroup]="validateForm" nzLayout="vertical" style="margin: 0 0 0 24px;">
+      <strong>{{ 'Route information' | translate }}</strong>
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'POL' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+            <nz-select
+              formControlName="originPortId"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              [nzShowSearch]="true"
+              nzAllowClear
+              nzServerSearch
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'POD' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+            <nz-select
+              formControlName="destinationPortId"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzShowSearch
+              nzAllowClear
+              nzServerSearch
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label>{{ 'Delivery' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              formControlName="deliveryAddressId"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getBasicPortList($event)"
+            >
+              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Shipping terms' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              formControlName="transportClauseId"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzShowSearch
+              nzAllowClear
+            >
+              <nz-option *ngFor="let option of transportList" [nzLabel]="option.description" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <strong>{{ 'Inquiry cabinet type, product' | translate }}</strong>
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Container Type' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              nzMode="multiple"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              [nzMaxTagCount]="4"
+              style="width: 100%;"
+              nzShowSearch
+              nzAllowClear
+              formControlName="containerType"
+            >
+              <nz-option *ngFor="let option of ratesList" [nzLabel]="option.code" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Commodity' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+            <input type="text" nz-input formControlName="commodity" placeholder="{{ 'Please enter' | translate }}" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Choose a bidder' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              style="width: 100%;"
+              nzShowSearch
+              nzAllowClear
+              formControlName="ReplyUserId"
+            >
+              <nz-option *ngFor="let option of unitUsers" [nzLabel]="option.name" [nzValue]="option.userId"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <strong>{{ 'Business information (optional)' | translate }}</strong>
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label>{{ 'Inquiry customer' | translate }}</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              style="width: 100%;"
+              formControlName="ownerCustomerId"
+              nzShowSearch
+              nzAllowClear
+              (ngModelChange)="onCustomerListChange($event)"
+            >
+              <nz-option *ngFor="let option of customerList" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>{{ 'Inquirer' | translate }}</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              style="width: 100%;"
+              formControlName="ownerContactId"
+              nzShowSearch
+              nzAllowClear
+            >
+              <nz-option *ngFor="let option of customerUserList" [nzLabel]="option.name" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label>{{ 'cargo ready date' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-date-picker
+              (ngModelChange)="onStartChange()"
+              [nzDisabledDate]="disabledStartDate"
+              formControlName="cargoReadyDate"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>{{ 'Expected delivery date' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-date-picker [nzDisabledDate]="disabledEndDate" formControlName="deliveryDate"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="flex-form-four">
+        <nz-form-item style="width: 33.33%;">
+          <nz-form-label>{{ 'Pieces' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="quantityErrorTpl">
+            <nz-input-group [nzAddOnAfter]="za">
+              <nz-input-number
+                style="width: 100%; border-radius: 4px 0 0 4px;"
+                formControlName="quantity"
+                [nzMin]="1"
+                [nzStep]="1"
+              ></nz-input-number>
+              <ng-template #quantityErrorTpl>
+                <ng-container *ngIf="validateForm.get('volume').hasError('existSameCode')">
+                  {{ 'Data must be greater than 0' | translate }}
+                </ng-container>
+              </ng-template>
+            </nz-input-group>
+            <ng-template #za>
+              <nz-select formControlName="quantityUnitCode" style="width: 100px;" nzShowSearch nzAllowClear>
+                <nz-option nzLabel="{{ 'bale' | translate }}" nzValue="bale"> </nz-option>
+                <nz-option nzLabel="{{ 'barrel' | translate }}" nzValue="barrel"> </nz-option>
+                <nz-option nzLabel="{{ 'bundle' | translate }}" nzValue="bundle"> </nz-option>
+                <nz-option nzLabel="{{ 'crate' | translate }}" nzValue="crate"> </nz-option>
+                <nz-option nzLabel="{{ 'drum' | translate }}" nzValue="drum"> </nz-option>
+                <nz-option nzLabel="{{ 'package' | translate }}" nzValue="package"> </nz-option>
+                <nz-option nzLabel="{{ 'pallet' | translate }}" nzValue="pallet"> </nz-option>
+                <nz-option nzLabel="{{ 'roll' | translate }}" nzValue="roll"> </nz-option>
+                <nz-option nzLabel="{{ 'ctn' | translate }}" nzValue="ctn"> </nz-option>
+                <nz-option nzLabel="{{ 'box' | translate }}" nzValue="box"> </nz-option>
+                <nz-option nzLabel="{{ 'bag' | translate }}" nzValue="bag"> </nz-option>
+              </nz-select>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item style="width: 33.33%;">
+          <nz-form-label>{{ 'Gross weight' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="weightErrorTpl">
+            <nz-input-group [nzAddOnAfter]="zb" class="group-addon-nopadding">
+              <nz-input-number
+                style="width: 100%; border-radius: 4px 0 0 4px;"
+                formControlName="weight"
+                [nzMin]="1"
+                [nzStep]="1"
+              ></nz-input-number>
+              <ng-template #weightErrorTpl>
+                <ng-container *ngIf="validateForm.get('weight').hasError('existSameCode')">
+                  {{ 'Data must be greater than 0' | translate }}
+                </ng-container>
+              </ng-template>
+            </nz-input-group>
+            <ng-template #zb>
+              <nz-radio-group class="nz-radio-group-normal" style="padding: 0;" formControlName="weightUnitCode">
+                <span nz-radio-button [nzValue]="WeightUnitCode.KGS">{{ 'kg' | translate }}</span>
+                <span nz-radio-button [nzValue]="WeightUnitCode.LBS">{{ 'lb' | translate }}</span>
+              </nz-radio-group>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item style="width: 33.33%;">
+          <nz-form-label>{{ 'Volume' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="volumeErrorTpl">
+            <nz-input-group [nzAddOnAfter]="zc" class="group-addon-nopadding">
+              <nz-input-number
+                style="width: 100%; border-radius: 4px 0 0 4px;"
+                formControlName="volume"
+                [nzMin]="1"
+                [nzStep]="1"
+              ></nz-input-number>
+              <ng-template #volumeErrorTpl>
+                <ng-container *ngIf="validateForm.get('weight').hasError('existSameCode')">
+                  {{ 'Data must be greater than 0' | translate }}
+                </ng-container>
+              </ng-template>
+            </nz-input-group>
+            <ng-template #zc>
+              <nz-radio-group style="padding: 0;" class="nz-radio-group-normal" formControlName="volumeUnitCode">
+                <span nz-radio-button [nzValue]="VolumeUnitCode.CBM">{{ 'cbm' | translate }}</span>
+                <span nz-radio-button [nzValue]="VolumeUnitCode.CFT">{{ 'cft' | translate }}</span>
+              </nz-radio-group>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="flex-form-four">
+        <nz-form-item>
+          <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
+          <nz-form-control>
+            <input type="text" nz-input formControlName="description" placeholder="{{ 'Please enter' | translate }}" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>{{ 'Expected shipowner' | translate }}</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              formControlName="carrierCustomerId"
+              style="width: 100%;"
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzAllowClear
+              nzShowSearch
+            >
+              <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.name" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </form>
+
+    <ng-template #footer>
+      <button nz-button [nzType]="'default'" (click)="onClearCreate()" style="width: 150px;">
+        {{ 'Reset' | translate }}
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="handleOk()" style="width: 150px;" [nzLoading]="loading">
+        {{ 'Submit' | translate }}
+      </button>
+    </ng-template>
+  </nz-modal>
+
+  <!-- <nz-modal
+    nzMaskClosable="false"
+    [(nzVisible)]="detialVisible"
+    (nzOnCancel)="detialVisible = false"
+    nzWidth="70%"
+    nzTitle="{{ 'Detial' | translate }}"
+    [nzFooter]="null"
+  >
+    <app-inquiry-detial #detial></app-inquiry-detial>
+  </nz-modal> -->
+
+  <nz-drawer
+    [nzClosable]="false"
+    [nzBodyStyle]="drawerStyle"
+    [nzWidth]="'1'"
+    [nzVisible]="detialVisible"
+    nzPlacement="right"
+    [nzTitle]="drawerTitle"
+    (nzOnClose)="closeDrawerModal()"
+    [nzMaskStyle]="maskStyle"
+  >
+    <app-inquiry-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()">
+    </app-inquiry-detial>
+  </nz-drawer>
+</div>
+
+<ng-template #drawerTitle>
+  <span style="margin-left: 14px;">{{ 'Detial' | translate }}</span>
+  <span *ngIf="busType?.businessType == 0" class="drawer-tag">{{ 'Contract price' | translate }}</span>
+  <span *ngIf="busType?.businessType == 1">
+    <span *ngIf="busType?.status == null" class="drawer-tag tag-orange">{{ 'Inquiry-to be quoted' | translate }}</span>
+    <span *ngIf="busType?.status == 0" class="drawer-tag tag-green">{{ 'Inquiry-Quoted' | translate }}</span>
+    <span *ngIf="busType?.status == 1" class="drawer-tag tag-red">{{ 'Inquiry-Invalid quote' | translate }}</span>
+  </span>
+  <i class="iconfont icon-guanbi icon-close" (click)="closeDrawerModal()"></i>
+</ng-template>
+
+<!-- 分享 -->
+<nz-modal
+  [(nzVisible)]="shareModal"
+  [nzFooter]="shareFooter"
+  nzWidth="70%"
+  nzTitle="{{ 'Share Rates' | translate }}"
+  (nzOnCancel)="cancelShareModal()"
+  nzMaskClosable="false"
+>
+  <div *ngIf="validateShareForm && !showShareDtail">
+    <form
+      nzLayout="vertical"
+      nz-form
+      [formGroup]="validateShareForm"
+      style="height: 100%; display: flex; flex-direction: column;"
+    >
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'Select customer' | translate }}</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzErrorTip="{{ 'Please select' | translate }}">
+              <nz-select
+                nzShowSearch
+                nzServerSearch
+                (nzOnSearch)="getCustomer($event)"
+                (ngModelChange)="setShareUser($event)"
+                nzAllowClear
+                formControlName="customer"
+                nzPlaceHolder="{{ 'Please select' | translate }}"
+              >
+                <nz-option
+                  [nzLabel]="detial.name"
+                  [nzValue]="detial.id"
+                  *ngFor="let detial of shareCustomerList?.items"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'Inquirer' | translate }}</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzErrorTip="{{ 'Please select' | translate }}">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                formControlName="people"
+                nzPlaceHolder="{{ 'Please select' | translate }}"
+              >
+                <nz-option [nzLabel]="detial.name" [nzValue]="detial.userId" *ngFor="let detial of shareuserList">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'Quotation validity' | translate }}</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzErrorTip="{{ 'Please select' | translate }}">
+              <nz-range-picker [nzDisabledDate]="disabledShareDate" formControlName="time" style="width: 100%;">
+              </nz-range-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-spin
+        [nzSpinning]="shareFormLoading"
+        style="flex: 1; padding: 50px 0;"
+        nzTip="Loading..."
+        *ngIf="shareFormLoading"
+      ></nz-spin>
+
+      <div class="noCustomer" *ngIf="notcertified && !shareFormLoading">
+        <div class="noCustomer-right">
+          <div>
+            <img src="assets/images/customer/noCustomer.png" />
+          </div>
+          <div>
+            <div class="title">{{ 'Customer is not certified' | translate }}</div>
+            <div class="message">{{ 'Sorry, you have not performed client authentication' | translate }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div formArrayName="rates" class="rates" *ngIf="!shareFormLoading && dataItem && !notcertified">
+        <div *ngFor="let form of $any(validateShareForm.controls.rates).controls; let i = index" [formGroupName]="i">
+          <div class="rates-title">
+            No.{{ i + 1 }}
+            <!-- <div class="delete" (click)="deleteRatePort(i, 'originPort')">
+              <i nz-icon nzType="delete" nzTheme="outline" style="color: #00000045;"></i>
+            </div> -->
+          </div>
+          <div class="rates-body">
+            <div style="background: #fff;">
+              <div class="rateDetail" style="overflow-x: auto; border: 20px solid #fff;">
+                <div>
+                  <nz-form-item style="width: 200px;">
+                    <nz-form-label>{{ 'Carrier' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      <nz-select
+                        nzShowSearch
+                        nzAllowClear
+                        formControlName="company"
+                        nzPlaceHolder="{{ 'Please select' | translate }}"
+                        style="max-width: 100%;"
+                      >
+                        <nz-option
+                          [nzLabel]="detial.name"
+                          [nzValue]="detial.id"
+                          *ngFor="let detial of shareCompnayList?.items"
+                        ></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item>
+                    <nz-form-label>{{ 'POL' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      {{ dataItem[i].pol || '--' }}
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item>
+                    <nz-form-label>{{ 'POD' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      {{ dataItem[i].pod || '--' }}
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item>
+                    <nz-form-label>{{ 'Delivery' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      {{ validateShareForm.get('rates').value[i].delivery }}
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div *ngFor="let detial of dataItem[i].units">
+                  <nz-form-item>
+                    <nz-form-label>{{ detial.unit }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      <input nz-input [formControlName]="detial.unit" placeholder="{{ 'Please enter' | translate }}" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item>
+                    <nz-form-label>{{ 'T/T DAYS' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      <input nz-input formControlName="tt" placeholder="{{ 'Please enter' | translate }}" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item>
+                    <nz-form-label>{{ 'Shipping terms' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      {{ validateShareForm.get('rates').value[i].term || '--' }}
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item style="width: 150px;">
+                    <nz-form-label>{{ 'Duration Form' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      <nz-date-picker formControlName="durationFrom" style="max-width: 100%;"></nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div>
+                  <nz-form-item style="width: 150px;">
+                    <nz-form-label>{{ 'Duration To' | translate }}</nz-form-label>
+                    <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                      <nz-date-picker formControlName="durationTo" style="max-width: 100%;"></nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="rateDetail2">
+                <nz-form-item>
+                  <nz-form-label>{{ 'Commodity' | translate }}</nz-form-label>
+                  <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                    <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }" formControlName="Commodity"></textarea>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
+                  <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                    <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }" formControlName="remark"></textarea>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="rateDetail3">
+                <nz-form-item style="border-bottom: 1px dashed #e9e9e9;">
+                  <nz-form-label
+                    ><label
+                      nz-checkbox
+                      formControlName="polshow"
+                      (ngModelChange)="setShareValid($event, i, 'pol')"
+                      style="margin-right: 8px;"
+                    ></label
+                    >{{ 'Origin cost' | translate }}</nz-form-label
+                  >
+                </nz-form-item>
+
+                <div
+                  formArrayName="originPort"
+                  *ngIf="validateShareForm.get('rates').value[i].polshow"
+                  style="overflow-x: auto;"
+                >
+                  <div class="rateDetail-title">
+                    <div>
+                      <nz-form-item style="width: 50px;">
+                        <nz-form-label>{{ 'Action' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'freeCode' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Currency' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Unit' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div *ngFor="let detial of dataItem[i].originLocalRatesTitle" class="ratediv">
+                      <nz-form-item>
+                        <nz-form-label>{{ detial }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Price' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+                  </div>
+
+                  <div
+                    class="rateDetail-data"
+                    *ngFor="
+                      let form1 of $any(validateShareForm.controls.rates).controls[i].controls.originPort.controls;
+                      let z = index
+                    "
+                    [formGroupName]="z"
+                  >
+                    <div>
+                      <nz-form-item style="width: 50px;">
+                        <nz-form-control>
+                          <div class="delete" (click)="deletePort(i, z, 'originPort')">
+                            <i nz-icon nzType="delete" nzTheme="outline" style="color: #00000045;"></i>
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <nz-select
+                            nzShowSearch
+                            nzAllowClear
+                            formControlName="freeCode"
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                            (ngModelChange)="freeCodeChange(i)"
+                          >
+                            <nz-option
+                              [nzLabel]="detial.name"
+                              [nzValue]="detial.id"
+                              [nzDisabled]="detial['checked' + i]"
+                              *ngFor="let detial of costItemList"
+                            ></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <nz-select
+                            nzShowSearch
+                            nzAllowClear
+                            formControlName="Currency"
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                          >
+                            <nz-option
+                              [nzLabel]="detial.name"
+                              [nzValue]="detial.id"
+                              *ngFor="let detial of shareCurrency"
+                            ></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control>
+                          <nz-select
+                            formControlName="Unit"
+                            nzAllowClear
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                            (ngModelChange)="onSetUnitValid($event, i, z, 'originPort')"
+                          >
+                            <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                            <nz-option [nzValue]="1" [nzLabel]="'ContainType' | translate"></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div *ngFor="let data of dataItem[i].originLocalRatesTitle" class="ratediv">
+                      <nz-form-item>
+                        <nz-form-control
+                          [ngClass]="{
+                            'ant-form-item-has-error': $any(validateShareForm.controls.rates).controls[
+                              i
+                            ].controls.originPort.controls[z].controls[data].hasError('required')
+                          }"
+                        >
+                          <input
+                            nz-input
+                            [formControlName]="data"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            *ngIf="validateShareForm.get('rates').value[i].originPort[z].Unit === 1"
+                          />
+
+                          <span *ngIf="validateShareForm.get('rates').value[i].originPort[z].Unit === 2">--</span>
+
+                          <div
+                            class="ant-form-item-explain"
+                            *ngIf="
+                              $any(validateShareForm.controls.rates).controls[i].controls.originPort.controls[
+                                z
+                              ].controls[data].hasError('required') &&
+                              validateShareForm.get('rates').value[i].originPort[z].Unit === 1
+                            "
+                          >
+                            {{ 'please enter' | translate }}
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control
+                          [ngClass]="{
+                            'ant-form-item-has-error': $any(validateShareForm.controls.rates).controls[
+                              i
+                            ].controls.originPort.controls[z].controls.Price.hasError('required')
+                          }"
+                        >
+                          <input
+                            nz-input
+                            formControlName="Price"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            *ngIf="validateShareForm.get('rates').value[i].originPort[z].Unit === 2"
+                          />
+
+                          <span *ngIf="validateShareForm.get('rates').value[i].originPort[z].Unit === 1">--</span>
+
+                          <div
+                            class="ant-form-item-explain"
+                            *ngIf="
+                              $any(validateShareForm.controls.rates).controls[i].controls.originPort.controls[
+                                z
+                              ].controls.Price.hasError('required') &&
+                              validateShareForm.get('rates').value[i].originPort[z].Unit === 2
+                            "
+                          >
+                            {{ 'Please enter' | translate }}
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <input
+                            nz-input
+                            formControlName="Remark"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            maxlength="100"
+                          />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="add"
+                  (click)="addPort(i, 'originPort', dataItem[i].originLocalRatesTitle)"
+                  *ngIf="validateShareForm.get('rates').value[i].polshow"
+                >
+                  <i nz-icon nzType="plus" nzTheme="outline"></i> {{ 'Add' | translate }}
+                </div>
+              </div>
+
+              <div class="rateDetail4">
+                <nz-form-item style="border-bottom: 1px dashed #e9e9e9;">
+                  <nz-form-label
+                    ><label
+                      nz-checkbox
+                      formControlName="podshow"
+                      (ngModelChange)="setShareValid($event, i, 'pod')"
+                      style="margin-right: 8px;"
+                    ></label
+                    >{{ 'Destination cost' | translate }}</nz-form-label
+                  >
+                </nz-form-item>
+
+                <div
+                  formArrayName="destinationPort"
+                  *ngIf="validateShareForm.get('rates').value[i].podshow"
+                  style="overflow-x: auto;"
+                >
+                  <div class="rateDetail-title">
+                    <div>
+                      <nz-form-item style="width: 50px;">
+                        <nz-form-label>{{ 'Action' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'freeCode' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Currency' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Unit' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div *ngFor="let detial of dataItem[i].destinationLocalRatesTitle" class="ratediv">
+                      <nz-form-item>
+                        <nz-form-label>{{ detial }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Price' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
+                      </nz-form-item>
+                    </div>
+                  </div>
+
+                  <div
+                    class="rateDetail-data"
+                    *ngFor="
+                      let form of $any(validateShareForm.controls.rates).controls[i].controls.destinationPort.controls;
+                      let z = index
+                    "
+                    [formGroupName]="z"
+                  >
+                    <div>
+                      <nz-form-item style="width: 50px;">
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <div class="delete" (click)="deletePort(i, z, 'destinationPort')">
+                            <i nz-icon nzType="delete" nzTheme="outline" style="color: #00000045;"></i>
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <nz-select
+                            nzShowSearch
+                            nzAllowClear
+                            formControlName="freeCode"
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                            (ngModelChange)="dfreeCodeChange(i)"
+                          >
+                            <nz-option
+                              [nzLabel]="detial.name"
+                              [nzValue]="detial.id"
+                              [nzDisabled]="detial['dchecked' + i]"
+                              *ngFor="let detial of costItemList"
+                            ></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <nz-select
+                            nzShowSearch
+                            nzAllowClear
+                            formControlName="Currency"
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                          >
+                            <nz-option
+                              [nzLabel]="detial.name"
+                              [nzValue]="detial.id"
+                              *ngFor="let detial of shareCurrency"
+                            ></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <nz-select
+                            formControlName="Unit"
+                            nzAllowClear
+                            nzPlaceHolder="{{ 'Please select' | translate }}"
+                            (ngModelChange)="onSetUnitValid($event, i, z, 'destinationPort')"
+                          >
+                            <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                            <nz-option [nzValue]="1" [nzLabel]="'ContainType' | translate"></nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div *ngFor="let detial of dataItem[i].destinationLocalRatesTitle" class="ratediv">
+                      <nz-form-item>
+                        <nz-form-control
+                          [ngClass]="{
+                            'ant-form-item-has-error': $any(validateShareForm.controls.rates).controls[
+                              i
+                            ].controls.destinationPort.controls[z].controls[detial].hasError('required')
+                          }"
+                        >
+                          <input
+                            nz-input
+                            [formControlName]="detial"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            *ngIf="validateShareForm.get('rates').value[i].destinationPort[z].Unit === 1"
+                          />
+
+                          <span *ngIf="validateShareForm.get('rates').value[i].destinationPort[z].Unit === 2">--</span>
+
+                          <div
+                            class="ant-form-item-explain"
+                            *ngIf="
+                              $any(validateShareForm.controls.rates).controls[i].controls.destinationPort.controls[
+                                z
+                              ].controls[detial].hasError('required') &&
+                              validateShareForm.get('rates').value[i].destinationPort[z].Unit === 1
+                            "
+                          >
+                            {{ 'Please enter' | translate }}
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control
+                          [ngClass]="{
+                            'ant-form-item-has-error': $any(validateShareForm.controls.rates).controls[
+                              i
+                            ].controls.destinationPort.controls[z].controls.Price.hasError('required')
+                          }"
+                        >
+                          <input
+                            nz-input
+                            formControlName="Price"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            *ngIf="validateShareForm.get('rates').value[i].destinationPort[z].Unit === 2"
+                          />
+                          <span *ngIf="validateShareForm.get('rates').value[i].destinationPort[z].Unit === 1">-- </span>
+                          <div
+                            class="ant-form-item-explain"
+                            *ngIf="
+                              $any(validateShareForm.controls.rates).controls[i].controls.destinationPort.controls[
+                                z
+                              ].controls.Price.hasError('required') &&
+                              validateShareForm.get('rates').value[i].destinationPort[z].Unit === 2
+                            "
+                          >
+                            {{ 'Please enter' | translate }}
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+
+                    <div>
+                      <nz-form-item>
+                        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                          <input
+                            nz-input
+                            formControlName="Remark"
+                            placeholder="{{ 'Please enter' | translate }}"
+                            maxlength="100"
+                          />
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="add"
+                  (click)="addPort(i, 'destinationPort', dataItem[i].destinationLocalRatesTitle)"
+                  *ngIf="validateShareForm.get('rates').value[i].podshow"
+                >
+                  <i nz-icon nzType="plus" nzTheme="outline"></i> {{ 'Add' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <app-share-ocean [data]="showShareDtailData" [cacheKey]="cacheKey" *ngIf="showShareDtail"></app-share-ocean>
+  <ng-template #shareFooter>
+    <button
+      nz-button
+      (click)="onSaveShareModal()"
+      *ngIf="!showShareDtail"
+      [nzLoading]="shareLoading"
+      nzType="primary"
+      [disabled]="notcertified"
+    >
+      {{ 'Share preview' | translate }}
+    </button>
+    <button nz-button (click)="showShareDtail = false" *ngIf="showShareDtail">{{ 'Back' | translate }}</button>
+    <button nz-button (click)="onSaveAndSendShare()" [nzLoading]="loadingSave" nzType="primary" *ngIf="showShareDtail">
+      {{ 'Save and send to customer' | translate }}
+    </button>
+    <!-- <button nz-button nzType="primary">保存并发给客户</button> -->
+  </ng-template>
+</nz-modal>

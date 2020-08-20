@@ -1,0 +1,215 @@
+<div class="content">
+  <div class="freightType">
+    <div class="f-type">
+      <span
+        class="iconfont icon-kongyun-1"
+        *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+        style="padding-left: 16px;"
+      ></span>
+      <span
+        class="iconfont icon-hangyun"
+        *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+        style="padding-left: 16px;"
+      ></span>
+
+      <div class="f-type-freightMethod">{{ 'Freight Method' | translate }}:</div>
+      <div class="f-type-freightMethod" *ngIf="_quoteinfo.freightType == 1">
+        {{ 'CY-CY' | translate }}
+      </div>
+      <div class="f-type-freightMethod" *ngIf="_quoteinfo.freightType == 2">
+        {{ 'CY-DOOR' | translate }}
+      </div>
+      <div class="f-type-freightMethod" *ngIf="_quoteinfo.freightType == 3">
+        {{ 'DOOR-CY' | translate }}
+      </div>
+      <div class="f-type-freightMethod" *ngIf="_quoteinfo.freightType == 4">
+        {{ 'DOOR-DOOR' | translate }}
+      </div>
+    </div>
+    <div style="border: 0.05em solid #e4e4e4; margin: 0px 24px;"></div>
+    <div class="f-route">
+      <ul class="routeInfo">
+        <li *ngIf="_quoteinfo.originAddress || _quoteinfo?.originAddressName">
+          <div class="routeInfo-info">
+            <div *ngIf="_quoteinfo.originAddress" class="word">
+              {{
+                [
+                  _quoteinfo?.originAddress?.streetAddress,
+                  _quoteinfo?.originAddress?.city,
+                  _quoteinfo?.originAddress?.province,
+                  _quoteinfo.originAddress?.country
+                ] | arrayJoin
+              }}
+            </div>
+            <div *ngIf="_quoteinfo?.originAddressName" >
+              <div *ngIf="!_quoteinfo.originAddress" class="word">
+                {{ _quoteinfo.originAddressName }}
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="iconfont icon-gongsi-yuan"></span>
+            <div class="horizontal-line"></div>
+          </div>
+        </li>
+        <li>
+          <div class="routeInfo-info">
+            <div *ngIf="_quoteinfo.originPort">
+              <div class="word">{{ _quoteinfo.originPort?.name }}</div>
+              <div class="word">{{ _quoteinfo.originPort?.regionName }}</div>
+            </div>
+            <div *ngIf="!_quoteinfo.originPort" class="word">{{ 'originPort' | translate }}</div>
+          </div>
+          <span
+            class="iconfont icon-chuanyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+          ></span>
+          <span
+            class="iconfont icon-kongyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+          ></span>
+          <div class="horizontal-line"></div>
+        </li>
+        <li >
+          <div class="routeInfo-info">
+            <div *ngIf="_quoteinfo.destinationPort">
+              <div class="word">{{ _quoteinfo.destinationPort?.name }}</div>
+              <div class="word">{{ _quoteinfo.destinationPort?.regionName }}</div>
+            </div>
+            <div *ngIf="!_quoteinfo.destinationPort" class="word">{{ 'destinationPort' | translate }}</div>
+          </div>
+          <span
+            class="iconfont icon-chuanyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+          ></span>
+          <span
+            class="iconfont icon-kongyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+          ></span>
+          <div
+            class="horizontal-line"
+            *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"
+          ></div>
+        </li>
+        <li *ngIf="_quoteinfo.destinationAddress || _quoteinfo.destinationAddressName">
+          <div class="routeInfo-info">
+            <div *ngIf="_quoteinfo.destinationAddress" class="word">
+              {{
+                [
+                  _quoteinfo?.destinationAddress?.streetAddress,
+                  _quoteinfo?.destinationAddress?.city,
+                  _quoteinfo?.destinationAddress?.province,
+                  _quoteinfo.destinationAddress?.country
+                ] | arrayJoin
+              }}
+            </div>
+
+            <div *ngIf="_quoteinfo.destinationAddressName" class="word">
+              <div *ngIf="!_quoteinfo.destinationAddress">
+                {{ _quoteinfo.destinationAddressName }}
+              </div>
+            </div>
+          </div>
+          <span class="iconfont icon-gongsi-yuan"></span>
+        </li>
+      </ul>
+      <!-- <div class="content-ocean-route">
+        <div class="content-ocean-routeInfo" *ngIf="_quoteinfo.originAddress || _quoteinfo?.originAddressName">
+          <div *ngIf="_quoteinfo.originAddress">
+            {{
+              [
+                _quoteinfo?.originAddress?.streetAddress,
+                _quoteinfo?.originAddress?.city,
+                _quoteinfo?.originAddress?.province,
+                _quoteinfo.originAddress?.country
+              ] | arrayJoin
+            }}
+          </div>
+
+          <div *ngIf="_quoteinfo?.originAddressName">
+            <div *ngIf="!_quoteinfo.originAddress">
+              {{ _quoteinfo.originAddressName }}
+            </div>
+          </div>
+        </div>
+        <div class="content-ocean-routeInfo">
+          <div *ngIf="_quoteinfo.originPort">
+            <div>{{ _quoteinfo.originPort?.name }}</div>
+            <div>{{ _quoteinfo.originPort?.regionName }}</div>
+          </div>
+          <div *ngIf="!_quoteinfo.originPort">{{ 'originPort' | translate }}</div>
+        </div>
+        <div class="content-ocean-routeInfo">
+          <div *ngIf="_quoteinfo.destinationPort">
+            <div>{{ _quoteinfo.destinationPort?.name }}</div>
+            <div>{{ _quoteinfo.destinationPort?.regionName }}</div>
+          </div>
+          <div *ngIf="!_quoteinfo.destinationPort">{{ 'destinationPort' | translate }}</div>
+        </div>
+        <div class="content-ocean-routeInfo" *ngIf="_quoteinfo.destinationAddress || _quoteinfo.destinationAddressName">
+          <div *ngIf="_quoteinfo.destinationAddress">
+            {{
+              [
+                _quoteinfo?.destinationAddress?.streetAddress,
+                _quoteinfo?.destinationAddress?.city,
+                _quoteinfo?.destinationAddress?.province,
+                _quoteinfo.destinationAddress?.country
+              ] | arrayJoin
+            }}
+          </div>
+
+          <div *ngIf="_quoteinfo.destinationAddressName">
+            <div *ngIf="!_quoteinfo.destinationAddress">
+              {{ _quoteinfo.destinationAddressName }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-ocean">
+        <div class="content-ocean-pic " *ngIf="_quoteinfo?.originAddress || _quoteinfo?.originAddressName">
+          <span class="iconfont icon-gongsi-yuan"></span>
+          <div class="horizontal-line"></div>
+        </div>
+        <div class="content-ocean-pic leftwidth">
+          <span
+            class="iconfont icon-chuanyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+          ></span>
+          <span
+            class="iconfont icon-kongyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+          ></span>
+          <div class="horizontal-line"></div>
+        </div>
+        <div class="content-ocean-pic leftwidth">
+          <span
+            class="iconfont icon-chuanyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+          ></span>
+          <span
+            class="iconfont icon-kongyun-yuan"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+          ></span>
+          <div
+            class="horizontal-line"
+            *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"
+          ></div>
+        </div>
+        <div class="content-ocean-pic leftwidth" *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName">
+          <span class="iconfont icon-gongsi-yuan"></span>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <crm-handlequotes
+    *ngIf="_quoteinfo.id"
+    [_quoteinfo]="_quoteinfo"
+    [basiccost]="basiccost"
+    [endplace]="endplace"
+    [startingplace]="startingplace"
+    [containHavedataList]="containHavedataList"
+    (endPlaceHand)="endplace = $event"
+    (basicdataHand)="basiccost = $event"
+    (startPlaceHand)="startingplace = $event"
+  ></crm-handlequotes>
+</div>

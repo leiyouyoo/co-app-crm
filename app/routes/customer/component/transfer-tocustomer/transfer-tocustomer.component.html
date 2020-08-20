@@ -1,0 +1,82 @@
+<form nz-form [formGroup]="validateForm" nzLayout="vertical">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label nzFor="region">{{ 'Region' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            nzPlaceHolder="{{ 'Please select' | translate }}"
+            formControlName="region"
+            nzAutoClearSearchValue="false"
+            nzShowSearch
+            nzAllowClear
+            (ngModelChange)="getCompany($event)"
+          >
+            <nz-option *ngFor="let option of region" [nzLabel]="option.displayNameLocalization" [nzValue]="option.id">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label nzFor="company">{{ 'Branch' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            nzPlaceHolder="{{ 'Please select' | translate }}"
+            formControlName="company"
+            nzAutoClearSearchValue="false"
+            nzShowSearch
+            nzAllowClear
+            (ngModelChange)="getDepartment($event)"
+          >
+            <nz-option *ngFor="let option of company" [nzLabel]="option.displayNameLocalization" [nzValue]="option.id">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label nzFor="department">{{ 'Department' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            nzPlaceHolder="{{ 'Please select' | translate }}"
+            formControlName="department"
+            nzAutoClearSearchValue="false"
+            nzShowSearch
+            nzAllowClear
+            (ngModelChange)="onSearchUser(null)"
+          >
+            <nz-option
+              *ngFor="let option of department"
+              [nzLabel]="option.displayNameLocalization"
+              [nzValue]="option.id"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-col [nzSpan]="24">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-form-label nzFor="userId">{{ 'Choose a clerk' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            nzShowSearch
+            nzServerSearch
+            nzAllowClear
+            formControlName="userId"
+            nzPlaceHolder="{{ 'Please select' | translate }}"
+            (nzOnSearch)="onSearchUser($event)"
+          >
+            <nz-option *ngFor="let item of selectUserList" [nzLabel]="item.userName" [nzValue]="item.id"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</form>

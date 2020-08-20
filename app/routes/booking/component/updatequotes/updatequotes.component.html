@@ -1,0 +1,962 @@
+<div class="content">
+  <!-- 1基础费用 -->
+  <!-- 基础运费 整柜-->
+  <form nz-form #basicData="ngForm">
+    <div
+      class="basic-cost"
+      *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 0"
+    >
+      <h4>{{ 'Base cost' | translate }}</h4>
+      <nz-table
+        #editRowTable
+        [nzData]="basiccost"
+        [nzShowPagination]="false"
+        class="originLocation"
+        [nzScroll]="{ x: '1200px' }"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'Carrier' | translate }}</th>
+            <th *ngFor="let item of containHavedataList">
+              {{ item.name }}
+            </th>
+            <th>{{ 'T/T' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of basiccost; let i = index">
+            <td>
+              <div class="table-input">
+                <nz-select
+                  nzShowSearch
+                  [(ngModel)]="item.carrierId"
+                  nzAllowClear
+                  required
+                  [name]="'carrierId' + i"
+                  #carrierId="ngModel"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.code" *ngFor="let item of carrierList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="carrier" [value]="carrierId"> </app-formvalidation>
+              </div>
+            </td>
+            <td *ngFor="let containHavedata of containHavedataList">
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [name]="containHavedata.name + i"
+                  #contain="ngModel"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [(ngModel)]="item[containHavedata.name]"
+                  [nzMin]="1"
+                  [nzStep]="0.01"
+                >
+                </nz-input-number>
+                <!-- <input nz-input placeholder="Basic usage" [(ngModel)]="item[containHavedata.name]"
+                                    required [name]="containHavedata.name+i" #contain="ngModel" /> -->
+              </div>
+              <div class="table-red">
+                <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input [(ngModel)]="item.transitTime" [name]="'transitTime' + i" #transitTime="ngModel" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <!-- 基础运费 海运 散货 -->
+    <div
+      class="basic-cost"
+      *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 1"
+    >
+      <h4>{{ 'Base cost' | translate }}</h4>
+      <nz-table
+        #editRowTable
+        [nzData]="basiccost"
+        [nzShowPagination]="false"
+        class="originLocation"
+        [nzScroll]="{ x: '1200px' }"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'Unit Price' | translate }}</th>
+            <th>{{ 'Toll unit' | translate }}</th>
+            <th>{{ 'computeFormula' | translate }}</th>
+            <th *ngIf="basiccost[0].computeFormula == 4">{{ 'computeMode' | translate }}</th>
+            <th>{{ 'Quantity' | translate }}</th>
+            <th>{{ 'Total' | translate }}</th>
+            <th>{{ 'Currency' | translate }}</th>
+            <th>{{ 'Carrier' | translate }}</th>
+            <th>{{ 'sailSchedule' | translate }}</th>
+            <th>{{ 'Remark' | translate }}</th>
+            <th>{{ 'T/T day' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of basiccost; let i = index">
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [(ngModel)]="item.unitPrice"
+                  [nzMin]="1"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [name]="'unitPrice' + i"
+                  #unitPrice="ngModel"
+                  (ngModelChange)="bulkcargo($event, item)"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="Unit Price" [value]="unitPrice"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.unitType"
+                  nzAllowClear
+                  nzPlaceHolder=" {{ 'Choose' | translate }}"
+                  [name]="'unitType' + i"
+                  #unitType="ngModel"
+                  (ngModelChange)="bulkcargo($event, item)"
+                >
+                  <nz-option [nzValue]="4" [nzLabel]="'CBM' | translate"></nz-option>
+                  <nz-option [nzValue]="3" [nzLabel]="'KG' | translate"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="unitType" [value]="unitType"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.computeFormula"
+                  nzAllowClear
+                  nzPlaceHolder=" {{ 'Choose' | translate }}"
+                  [name]="'computeFormula' + i"
+                  #computeFormula="ngModel"
+                  (ngModelChange)="bulkcargo($event, item); item.computeMode = 1"
+                >
+                  <nz-option [nzValue]="1" nzLabel="实际重量(KG)" *ngIf="item.unitType == 3"></nz-option>
+                  <nz-option [nzValue]="4" nzLabel="计费吨(RT)" *ngIf="item.unitType == 3"></nz-option>
+                  <nz-option [nzValue]="3" nzLabel="实际体积(CBM)" *ngIf="item.unitType == 4"></nz-option>
+                  <nz-option [nzValue]="4" nzLabel="计费吨(RT)" *ngIf="item.unitType == 4"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="computeFormula" [value]="computeFormula"> </app-formvalidation>
+              </div>
+            </td>
+            <td *ngIf="basiccost[0].computeFormula == 4">
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.computeMode"
+                  nzAllowClear
+                  nzPlaceHolder=" {{ 'Choose' | translate }}"
+                  [name]="'computeMode' + i"
+                  #computeMode="ngModel"
+                  (ngModelChange)="bulkcargo($event, item)"
+                >
+                  <nz-option
+                    [nzValue]="1"
+                    nzLabel="1cbm:167kg"
+                    *ngIf="item.unitType == 3 || item.unitType == 4"
+                  ></nz-option>
+
+                  <nz-option [nzValue]="2" nzLabel="1cbm:363kg" *ngIf="item.unitType == 4"> </nz-option>
+                  <nz-option [nzValue]="3" nzLabel="1cbm:500kg" *ngIf="item.unitType == 4"></nz-option>
+                  <nz-option [nzValue]="4" nzLabel="1cbm:750kg" *ngIf="item.unitType == 4"></nz-option>
+                  <nz-option [nzValue]="5" nzLabel="1cbm:1000kg" *ngIf="item.unitType == 4"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <!-- <app-formvalidation requiredName="computeMode" [value]="computeMode">
+                                </app-formvalidation> -->
+              </div>
+            </td>
+            <td [ngClass]="{ notClickn: true }">
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [(ngModel)]="item.quantity"
+                  [nzMin]="1"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [name]="'quantity' + i"
+                  #quantity="ngModel"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="quantity" [value]="quantity"> </app-formvalidation>
+              </div>
+            </td>
+            <td [ngClass]="{ notClickn: true }">
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [(ngModel)]="item.totalPrice"
+                  [nzMin]="1"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [name]="'totalPrice' + i"
+                  #totalPrice="ngModel"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="totalPrice" [value]="totalPrice"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.currencyId"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                >
+                  <nz-option [nzValue]="item.id" *ngFor="let item of currencyList" [nzLabel]="item.name"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="currencyId" [value]="currencyId"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  nzShowSearch
+                  [(ngModel)]="item.carrierId"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  [name]="'carrierId' + i"
+                  #carrierId="ngModel"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.code" *ngFor="let item of carrierList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="carrierId" [value]="carrierId"> </app-formvalidation>
+              </div>
+            </td>
+
+            <td>
+              <div class="table-input">
+                <input
+                  required
+                  nz-input
+                  [(ngModel)]="item.sailSchedule"
+                  [name]="'sailSchedule' + i"
+                  #sailSchedule="ngModel"
+                />
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="sailSchedule" [value]="sailSchedule"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input [(ngModel)]="item.transitTime" [name]="'transitTime' + i" #transitTime="ngModel" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <!-- 基础运费 空运 散货 -->
+    <div class="basic-cost" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air">
+      <h4>{{ 'Base cost' | translate }}</h4>
+      <nz-table
+        #editRowTable
+        [nzData]="basiccost"
+        [nzShowPagination]="false"
+        class="originLocation"
+        [nzScroll]="{ x: '1200px' }"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'Unit Price' | translate }}</th>
+            <th>{{ 'computeFormula' | translate }}</th>
+            <th *ngIf="basiccost[0].computeFormula == 2">{{ 'computeMode' | translate }}</th>
+            <th>{{ 'Quantity' | translate }}</th>
+            <th>{{ 'Total' | translate }}</th>
+            <th>{{ 'Currency' | translate }}</th>
+            <th>{{ 'airline' | translate }}</th>
+            <th>{{ 'Remark' | translate }}</th>
+            <th>{{ 'T/T day' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of basiccost; let i = index">
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [(ngModel)]="item.unitPrice"
+                  [name]="'unitPrice' + i"
+                  [nzMax]="999999999999999"
+                  [nzPrecision]="3"
+                  #unitPrice="ngModel"
+                  [nzMin]="1"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="Unit Price" [value]="unitPrice"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.computeFormula"
+                  nzAllowClear
+                  nzPlaceHolder=" {{ 'Choose' | translate }}"
+                  (ngModelChange)="calculatetotal($event, item); item.computeMode = 1"
+                  [name]="'computeFormula' + i"
+                  #computeFormula="ngModel"
+                >
+                  <nz-option [nzValue]="1" nzLabel="实际重量(KG)"></nz-option>
+                  <nz-option [nzValue]="2" nzLabel="计费重量(KG)"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="computeFormula" [value]="computeFormula"> </app-formvalidation>
+              </div>
+            </td>
+            <td *ngIf="basiccost[0].computeFormula == 2">
+              <div class="table-input">
+                <nz-select
+                  *ngIf="basiccost[0].computeFormula == 2"
+                  [(ngModel)]="item.computeMode"
+                  nzAllowClear
+                  nzPlaceHolder=" {{ 'Choose' | translate }}"
+                  (ngModelChange)="calculatetotal($event, item)"
+                  [name]="'computeMode' + i"
+                  #computeMode="ngModel"
+                >
+                  <nz-option [nzValue]="1" nzLabel="1CBM:167KG"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <!-- <app-formvalidation requiredName="computeMode" [value]="computeMode">
+                                </app-formvalidation> -->
+              </div>
+            </td>
+            <td [ngClass]="{ notClickn: true }">
+              <div class="table-input">
+                <input required nz-input [(ngModel)]="item.quantity" [name]="'quantity' + i" #quantity="ngModel" />
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="quantity" [value]="quantity"> </app-formvalidation>
+              </div>
+            </td>
+            <td [ngClass]="{ notClickn: true }">
+              <div class="table-input">
+                <nz-input-number
+                  required
+                  [(ngModel)]="item.totalPrice"
+                  [nzMin]="1"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [name]="'totalPrice' + i"
+                  #totalPrice="ngModel"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="totalPrice" [value]="totalPrice"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.currencyId"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                >
+                  <nz-option
+                    [nzValue]="currency.id"
+                    *ngFor="let currency of currencyList"
+                    [nzLabel]="currency.name"
+                  ></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="currencyId" [value]="currencyId"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  required
+                  [(ngModel)]="item.carrierId"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  [name]="'carrierId' + i"
+                  #carrierId="ngModel"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.code" *ngFor="let item of airList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <app-formvalidation requiredName="carrierId" [value]="carrierId"> </app-formvalidation>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input [(ngModel)]="item.transitTime" [name]="'transitTime' + i" #transitTime="ngModel" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <!-- 2起始地费用 -->
+  <!-- 起始地费用 整柜 &&(_quoteinfo.freightType==3||_quoteinfo.freightType==4)-->
+  <form nz-form #startingplacData="ngForm">
+    <div
+      class="originlocation"
+      *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 0"
+    >
+      <h4>{{ 'Origin cost' | translate }}</h4>
+      <nz-table #editRowTable [nzData]="startingplace" [nzShowPagination]="false" class="originLocation">
+        <thead>
+          <tr>
+            <th style="min-width: 120px;">{{ 'Feename' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Currency' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Unit' | translate }}</th>
+            <ng-container *ngIf="checkTicket(startingplace)">
+              <th style="min-width: 120px;">{{ 'Price' | translate }}</th>
+            </ng-container>
+            <ng-container *ngIf="checkContaniner(startingplace); else elseTemplate">
+              <th *ngFor="let item of containHavedataList">
+                {{ item.name }}
+              </th>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
+            <th style="min-width: 120px;">{{ 'Remark' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of startingplace; trackBy: trackByIndex; index as i; last as last">
+            <td style="min-width: 120px;">
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.chargingCodeId"
+                  [name]="'chargingCodeId' + i"
+                  #chargingCodeId="ngModel"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  (ngModelChange)="verificationChargestartplace($event, item)"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of costItemList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <div *ngIf="isSameChargeCode && sameIndex == i + 1" class="red">
+                  {{ 'the chargeCode is repeat' | translate }}
+                </div>
+              </div>
+            </td>
+            <td style="min-width: 120px;">
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.currencyId"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of currencyList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td style="min-width: 120px;">
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.unitType"
+                  [name]="'unitType' + i"
+                  #unitType="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                  <nz-option [nzValue]="1" [nzLabel]="'ContainType' | translate"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <ng-container *ngIf="checkTicket(startingplace)">
+              <td style="min-width: 120px;" [ngClass]="{ notClickn: item.unitType == 1 }">
+                <div class="table-input">
+                  <nz-input-number
+                    [required]="item.unitType == 2"
+                    [(ngModel)]="item.unitPrice"
+                    [nzMin]="1"
+                    [nzMax]="999999999999999"
+                    [nzPrecision]="3"
+                    [name]="'unitPrice' + i"
+                    #unitPrice="ngModel"
+                  >
+                  </nz-input-number>
+                </div>
+                <div class="table-red">
+                  <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container *ngIf="checkContaniner(startingplace); else elseTemplate">
+              <td
+                style="min-width: 120px;"
+                *ngFor="let containHavedata of containHavedataList"
+                [ngClass]="{ notClickn: item.unitType == 2 }"
+              >
+                <div class="table-input">
+                  <nz-input-number
+                    [required]="item.unitType == 1"
+                    [name]="containHavedata.name + i"
+                    [nzMax]="999999999999999"
+                    [nzPrecision]="3"
+                    #contain="ngModel"
+                    [(ngModel)]="item[containHavedata.name]"
+                    [nzMin]="1"
+                    [nzStep]="0.01"
+                  >
+                  </nz-input-number>
+                  <!-- <input nz-input placeholder="Basic usage" [required]="item.unitType==1"
+                                    [(ngModel)]="item[containHavedata.name]" [name]="containHavedata.name+i"
+                                    #contain="ngModel" /> -->
+                </div>
+                <div class="table-red">
+                  <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                </div>
+              </td>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
+
+            <td>
+              <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
+            </td>
+            <td style="min-width: 120px;">
+              <span class="iconfont icon-plus" (click)="addOrigin()"></span>
+              <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <!-- 起始地费用  海运散货  空运散货 (_quoteinfo.freightType==3||_quoteinfo.freightType==4)-->
+  <form nz-form #startingplacData="ngForm">
+    <div
+      *ngIf="
+        (_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 1) ||
+        _quoteinfo.freightMethodType == freightMethodTypeValue.Air
+      "
+    >
+      <h4>{{ 'Origin cost' | translate }}</h4>
+      <nz-table #editRowTable [nzData]="startingplace" [nzShowPagination]="false" class="originLocation">
+        <thead>
+          <tr>
+            <th>{{ 'Price' | translate }}</th>
+            <th>{{ 'Toll unit' | translate }}</th>
+            <th>{{ 'Currency' | translate }}</th>
+            <th>{{ 'Feename' | translate }}</th>
+            <th>{{ 'Remark' | translate }}</th>
+            <th>{{ 'Action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of startingplace; trackBy: trackByIndex; index as i; last as last">
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="item.unitPrice"
+                  [nzMin]="1"
+                  [nzPrecision]="3"
+                  [nzMax]="999999999999999"
+                  [name]="'unitPrice' + i"
+                  #unitPrice="ngModel"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.unitType"
+                  [name]="'unitType' + i"
+                  #unitType="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                  <nz-option [nzValue]="4" [nzLabel]="'CBM' | translate"></nz-option>
+                  <nz-option [nzValue]="3" [nzLabel]="'KG' | translate"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.currencyId"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="item.id" *ngFor="let item of currencyList" [nzLabel]="item.name"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.chargingCodeId"
+                  [name]="'chargingCodeId' + i"
+                  #chargingCodeId="ngModel"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  (ngModelChange)="verificationChargestartplace($event, item)"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of costItemList"> </nz-option>
+                </nz-select>
+              </div>
+
+              <div class="table-red">
+                <div *ngIf="isSameChargeCode && sameIndex == i + 1" class="red">
+                  {{ 'the chargeCode is repeat' | translate }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
+            </td>
+            <td>
+              <span class="iconfont icon-plus" (click)="addOrigin()"></span>
+              <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <!-- 3目的地费用 -->
+  <!-- 目的地费用  整柜 (_quoteinfo.freightType==2||_quoteinfo.freightType==4)-->
+  <form nz-form #endplaceplacData="ngForm">
+    <div
+      class="originlocation"
+      *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 0"
+    >
+      <h4>{{ 'Destination cost' | translate }}</h4>
+      <nz-table #editRowTable [nzData]="endplace" [nzShowPagination]="false" class="originLocation">
+        <thead>
+          <tr>
+            <th style="min-width: 120px;">{{ 'Feename' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Currency' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Unit' | translate }}</th>
+            <ng-container *ngIf="checkTicket(endplace)">
+              <th style="min-width: 120px;">{{ 'Price' | translate }}</th>
+            </ng-container>
+            <ng-container *ngIf="checkContaniner(endplace); else elseTemplate">
+              <th *ngFor="let item of containHavedataList">
+                {{ item.name }}
+              </th>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
+            <th style="min-width: 120px;">{{ 'Remark' | translate }}</th>
+            <th style="min-width: 120px;">{{ 'Action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of endplace; trackBy: trackByIndex; index as i; last as last">
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.chargingCodeId"
+                  #chargingCodeId="ngModel"
+                  [name]="'chargingCodeId' + i"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  (ngModelChange)="verificationChargeendplace($event, item)"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of costItemList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <div *ngIf="isSameChargeCodeByEnd && sameEndIndex == i + 1" class="red">
+                  {{ 'the chargeCode is repeat' | translate }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.currencyId"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of currencyList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.unitType"
+                  [name]="'unitType' + i"
+                  #unitType="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                  <nz-option [nzValue]="1" [nzLabel]="'ContainType' | translate"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <ng-container *ngIf="checkTicket(endplace)">
+              <td [ngClass]="{ notClickn: item.unitType == 1 }">
+                <div class="table-input">
+                  <nz-input-number
+                    [(ngModel)]="item.unitPrice"
+                    [name]="'unitPrice' + i"
+                    [nzPrecision]="3"
+                    [nzMax]="999999999999999"
+                    [required]="item.unitType == 2"
+                    #unitPrice="ngModel"
+                    [nzMin]="1"
+                    [nzStep]="1"
+                  >
+                  </nz-input-number>
+                </div>
+                <div class="table-red">
+                  <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container *ngIf="checkContaniner(endplace); else elseTemplate">
+              <td *ngFor="let containHavedata of containHavedataList" [ngClass]="{ notClickn: item.unitType == 2 }">
+                <div class="table-input">
+                  <nz-input-number
+                    [required]="item.unitType == 1"
+                    [name]="containHavedata.name + i"
+                    [nzMax]="999999999999999"
+                    [nzPrecision]="3"
+                    #contain="ngModel"
+                    [(ngModel)]="item[containHavedata.name]"
+                    [nzMin]="1"
+                    [nzStep]="0.01"
+                  >
+                  </nz-input-number>
+                  <!-- <input nz-input placeholder="Basic usage" [name]="containHavedata.name+i"
+                                    [required]="item.unitType==1" #contain="ngModel"
+                                    [(ngModel)]="item[containHavedata.name]" /> -->
+                </div>
+                <div class="table-red">
+                  <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                </div>
+              </td>
+            </ng-container>
+            <ng-template #elseTemplate> </ng-template>
+
+            <td>
+              <input nz-input [name]="'remark' + i" #remark="ngModel" [(ngModel)]="item.remark" />
+            </td>
+            <td>
+              <span class="iconfont icon-plus" (click)="addDestination()"></span>
+              <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <!-- 目的地费用 海运散货 空运 (_quoteinfo.freightType==2||_quoteinfo.freightType==4)-->
+  <form nz-form #endplaceplacData="ngForm">
+    <div
+      *ngIf="
+        (_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 1) ||
+        _quoteinfo.freightMethodType == freightMethodTypeValue.Air
+      "
+    >
+      <h4>{{ 'Destination cost' | translate }}</h4>
+      <nz-table #editRowTable [nzData]="endplace" [nzShowPagination]="false" class="originLocation">
+        <thead>
+          <tr>
+            <th>{{ 'Price' | translate }}</th>
+            <th>{{ 'Toll unit' | translate }}</th>
+            <th>{{ 'Currency' | translate }}</th>
+            <th>{{ 'Feename' | translate }}</th>
+            <th>{{ 'Remark' | translate }}</th>
+            <th>{{ 'Action' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of endplace; trackBy: trackByIndex; index as i; last as last">
+            <td>
+              <div class="table-input">
+                <nz-input-number
+                  [(ngModel)]="item.unitPrice"
+                  #unitPrice="ngModel"
+                  [nzMax]="999999999999999"
+                  [nzPrecision]="3"
+                  [name]="'unitPrice' + i"
+                  [nzMin]="1"
+                >
+                </nz-input-number>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.unitType"
+                  #unitType="ngModel"
+                  [name]="'unitType' + i"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="2" [nzLabel]="'Ticket' | translate"></nz-option>
+                  <nz-option [nzValue]="4" [nzLabel]="'CBM' | translate"></nz-option>
+                  <nz-option [nzValue]="3" [nzLabel]="'KG' | translate"></nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.currencyId"
+                  [name]="'currencyId' + i"
+                  #currencyId="ngModel"
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                >
+                  <nz-option [nzValue]="item.id" *ngFor="let item of currencyList" [nzLabel]="item.name"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red"></div>
+            </td>
+            <td>
+              <div class="table-input">
+                <nz-select
+                  [(ngModel)]="item.chargingCodeId"
+                  [name]="'chargingCodeId' + i"
+                  #chargingCodeId="ngModel"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="{{ 'Choose' | translate }}"
+                  (ngModelChange)="verificationChargeendplace($event, item)"
+                >
+                  <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of costItemList"> </nz-option>
+                </nz-select>
+              </div>
+              <div class="table-red">
+                <div *ngIf="isSameChargeCodeByEnd && sameEndIndex == i + 1" class="red">
+                  {{ 'the chargeCode is repeat' | translate }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="table-input">
+                <input nz-input #remark="ngModel" [name]="'remark' + i" [(ngModel)]="item.remark" />
+              </div>
+            </td>
+            <td>
+              <span class="iconfont icon-plus" (click)="addDestination()"></span>
+              <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <!-- 报价有效日期 -->
+  <form nz-form #vaildDate="ngForm" style="padding-left: 16px;">
+    <div style="display: flex; margin-top: 16px;">
+      <div style="display: flex; align-items: center;">
+        <h5 style="min-width: 200px;">{{ 'Quote Effective Date' | translate }}<span class="red">*</span></h5>
+      </div>
+      <div style="width: 40%; display: flex;">
+        <div>
+          <nz-date-picker
+            [(ngModel)]="basiccost[0].validStartDate"
+            [nzDisabledDate]="disabledDate"
+            required
+            #validStartDate="ngModel"
+            name="validStartDate"
+            style="margin-right: 16px;"
+            (ngModelChange)="compareDate(basiccost[0].validStartDate, basiccost[0].validEndDate)"
+          >
+          </nz-date-picker>
+          <app-formvalidation requiredName="validStartDate" [value]="validStartDate"> </app-formvalidation>
+          <div class="red" *ngIf="!isDateMatch">
+            {{ 'validStartDate cannot be before validEndDate' | translate }}
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; width: 10%; height: 30px; justify-content: center;">- - -</div>
+        <div>
+          <nz-date-picker
+            [(ngModel)]="basiccost[0].validEndDate"
+            [nzDisabledDate]="disabledDate"
+            required
+            #validEndDate="ngModel"
+            name="validEndDate"
+            style="margin-left: 16px;"
+            (ngModelChange)="compareDate(basiccost[0].validStartDate, basiccost[0].validEndDate)"
+          >
+          </nz-date-picker>
+          <app-formvalidation requiredName="validEndDate" [value]="validEndDate"> </app-formvalidation>
+          <div class="red" *ngIf="!isDateMatch">
+            {{ 'validStartDate cannot be before validEndDate' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

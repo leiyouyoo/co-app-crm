@@ -1,0 +1,963 @@
+@errorBorder: #ff4d4f;
+@containerColor: rgba(249, 250, 252, 1);
+@line-color: #e4e4e4;
+@primary-color: #1890ff;
+@text-color: rgba(0, 0, 0, 0.85);
+@secondary-color: #203175;
+
+h4 {
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.red {
+  color: @errorBorder;
+}
+.tip {
+  color: @errorBorder;
+}
+.hiddens {
+  display: none;
+}
+
+nz-divider {
+  margin: 4px 0;
+}
+
+.add-item {
+  padding: 8px;
+  cursor: pointer;
+  color: @primary-color;
+}
+
+span.icon-plus {
+  color: @primary-color;
+}
+
+.ant-select-dropdown-menu-item-group-title {
+  min-height: 32px;
+}
+
+.shipConsiSel {
+  .company {
+    font-size: 13px;
+    color: @text-color;
+    font-weight: 400;
+  }
+
+  .location {
+    font-size: 13px;
+    font-weight: bold;
+    color: @text-color;
+
+    .iconfont:before {
+      font-size: 15px;
+    }
+  }
+}
+
+.OriginLocation-edit {
+  & > div {
+    padding-right: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+
+  .iconfont:before {
+    font-size: 15px;
+  }
+}
+
+.port-info {
+  .port-name {
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    align-content: center;
+
+    .icon-ship {
+      // font-size  : 24px;
+      margin-left: 5px;
+    }
+
+    .icon-airplane {
+      // font-size  : 24px;
+      margin-left: 15px;
+    }
+  }
+
+  .port-code {
+    width: 130px;
+    height: 30px;
+    border: 1px solid @line-color;
+    display: flex;
+    align-items: center;
+    background-color: #ecf0fc;
+    padding-left: 5px;
+    border-radius: 5px;
+
+    .port-code-UN {
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+
+  .port-region {
+    font-size: 14px;
+  }
+}
+
+//编辑框
+span.icon-icon_bianji {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: 30px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid gray;
+}
+.inner-content {
+  background-color: #f5f7fb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > div {
+    width: 100%;
+    max-width: 1432px;
+  }
+
+  .left_right {
+    display: flex;
+    align-items: center;
+    position: relative;
+    .red {
+      position: absolute;
+    }
+    h4 {
+      min-width: 160px;
+    }
+  }
+  .Booking {
+    padding: 8px 0;
+    border-radius: 10px;
+    background: #fff;
+
+    h2 {
+      font-size: 16px;
+      font-weight: bold;
+      min-height: 30px;
+    }
+    .BookingOverview {
+      min-height: 190px;
+      background-color: #ffffff;
+      padding: 16px;
+      padding-bottom: 4px;
+      .shipmentName_ChooseTem {
+        display: flex;
+        align-items: center;
+        .shipmentName {
+          width: 300px;
+          display: flex;
+          align-items: center;
+          min-height: 50px;
+          padding-bottom: 16px;
+          position: relative;
+          h4 {
+            width: 50px;
+          }
+          nz-select {
+            width: 250px;
+          }
+        }
+        .PortName {
+          display: flex;
+          align-items: center;
+          min-height: 50px;
+          padding-bottom: 16px;
+          position: relative;
+          margin-left: 16px;
+          h4 {
+            width: fit-content;
+            white-space: nowrap;
+            margin-right: 5px;
+          }
+          nz-select {
+            width: 250px;
+          }
+        }
+        .ChooseTem {
+          width: 70%;
+          min-height: 50px;
+          padding-bottom: 16px;
+          text-align: right;
+          .ant-btn-primary {
+            min-width: 90px;
+            min-height: 32px;
+            font-size: 12px;
+            margin: 0px !important;
+            padding: 0px 8px 0px 8px;
+            border-radius: 4px;
+            background-color: #f5f7fb;
+            border: 1px solid @line-color;
+            color: @primary-color;
+          }
+        }
+      }
+
+      .BookingOverview-info {
+        .freightMethod {
+          width: 50%;
+          .transportationModeGroup {
+            width: 100%;
+            .ant-radio-button-wrapper-checked {
+              background: rgba(231, 242, 252, 1) !important;
+            }
+            .transparent-Ocean {
+              width: 40px;
+              height: 40px;
+              padding: 0;
+              color: @text-color;
+              text-align: center;
+              border-radius: 5px;
+              // line-height     : 80px;
+              background: rgba(0, 0, 0, 0.04);
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              border: none;
+
+              .icon-Ocean {
+                color: rgba(0, 0, 0, 0.25);
+                flex-shrink: 0;
+                &:before {
+                  font-size: 18px;
+                }
+              }
+            }
+
+            .transparent-Ocean-blue {
+              background-color: #f5f9fe;
+            }
+
+            .transparent-Air {
+              width: 40px;
+              height: 40px;
+              padding: 0;
+              margin-left: 20px;
+              text-align: center;
+              color: @text-color;
+              border-radius: 5px;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              border: none;
+              box-shadow: none;
+              background: rgba(0, 0, 0, 0.04);
+              &:before {
+                display: none;
+              }
+
+              // line-height     : 80px;
+              .icon-Flight {
+                color: rgba(0, 0, 0, 0.25);
+                flex-shrink: 0;
+                &:before {
+                  font-size: 18px;
+                }
+              }
+            }
+
+            .transparent-Air-blue {
+              background-color: #f5f9fe;
+            }
+
+            .beijingIcon:before {
+              color: rgba(24, 144, 255, 1);
+            }
+          }
+
+          .word {
+            font-weight: bold;
+            color: @text-color;
+            font-size: 16px;
+            margin-left: 20px;
+          }
+        }
+        .tradeType_incoterms {
+          display: flex;
+          width: 100%;
+          margin-bottom: 24px;
+
+          .tradeType {
+            width: 50%;
+            margin-right: 66px;
+            .tradeType_info {
+              width: 100%;
+              .tradeTypeGroup {
+                .tradeTypeInfo {
+                  &:extend(.radio-button-width);
+                  text-align: center;
+                  background-color: #ffffff;
+                  font-size: 14px;
+                }
+              }
+            }
+
+            .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+              color: #fff !important;
+            }
+          }
+          .incoterms {
+            width: 50%;
+            .incoterms_info {
+              width: 100%;
+              .incotermsGroup {
+                &:extend(.main-interactive-element-width);
+                .incotermsGroupInfo {
+                  text-align: center;
+                  background-color: #ffffff;
+                  font-size: 14px;
+                }
+
+                nz-select {
+                  width: 33.3%;
+                }
+
+                .ant-radio-button-wrapper-checked {
+                  color: @primary-color;
+                }
+              }
+            }
+          }
+        }
+        .ShipmentType {
+          width: 50%;
+          margin-right: 66px;
+          .shipmentTypeGroup {
+            .shipmentType-Ocean {
+              background-color: #ffffff;
+              color: @text-color;
+              text-align: center;
+              border-radius: 5px;
+              display: inline-flex;
+              align-items: center;
+              height: 80px;
+
+              // line-height     : 80px;
+              .icon-fcl {
+                color: @text-color;
+                line-height: 35px;
+                width: 35px;
+                height: 35px;
+                flex-shrink: 0;
+              }
+            }
+
+            .shipmentType-Ocean-blue {
+              background-color: #f5f9fe;
+            }
+
+            .shipmentType-Air {
+              background-color: #ffffff;
+              width: 46%;
+              margin-left: 10px;
+              color: @text-color;
+              text-align: center;
+              border-radius: 5px;
+              display: inline-flex;
+              align-items: center;
+              height: 80px;
+              // line-height     : 80px;
+              .icon-lcl {
+                color: @text-color;
+                line-height: 35px;
+                width: 35px;
+                height: 35px;
+                flex-shrink: 0;
+              }
+            }
+
+            .shipmentType-Air-blue {
+              background-color: #f5f9fe;
+            }
+
+            .shipmentbeijingIcon {
+              background: rgba(173, 193, 220, 1);
+              box-shadow: 0px 2px 8px 0px rgba(196, 217, 255, 1);
+              border-radius: 4px;
+            }
+          }
+
+          .word {
+            font-weight: bold;
+            color: @text-color;
+            font-size: 16px;
+            margin-left: 16px;
+          }
+        }
+        .shipper_consignee {
+          display: flex;
+          margin-bottom: 24px;
+
+          .BookingOverview-shipper {
+            width: 50%;
+            margin-right: 66px;
+
+            .shipper {
+              .shipper_info {
+                width: 100%;
+              }
+            }
+          }
+          .shipperConsignee {
+            width: 50%;
+            .Consignee {
+              .Consignee_info {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .Transpotation-address {
+      display: flex;
+      flex-direction: column;
+      min-height: 120px;
+      .Transpotation {
+        margin-top: 16px;
+        background-color: #ffffff;
+
+        h2 {
+          padding: 16px 0px 0px 16px;
+        }
+
+        .Transpotation-content {
+          display: flex;
+          padding: 16px;
+
+          .freight-Method {
+            width: 50%;
+
+            .recently-used {
+              min-height: 28px;
+
+              span.word {
+                display: inline-block;
+                background-color: #f5f7fa;
+                width: 350px;
+                height: 20px;
+                line-height: 20px;
+                margin-left: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .address-Transpotation {
+      flex-direction: column-reverse;
+    }
+    .address {
+      display: flex;
+      .Origin {
+        width: 50%;
+        min-height: 240px;
+        padding: 16px 10px 4px 16px;
+        background-color: #ffffff;
+        .OriginGroup {
+          .Origin-No {
+            text-align: center;
+            width: 100px;
+            border-radius: 5px;
+          }
+
+          .Origin-Yes {
+            text-align: center;
+            width: 100px;
+            margin-left: 10px;
+            border-radius: 5px;
+          }
+        }
+
+        .OriginPort {
+          min-height: 200px;
+          height: 100%;
+          padding: 24px;
+          background: #f9fafc;
+          border-radius: 4px;
+          border: 1px solid #f0f3f7;
+          .OriginPortInfo {
+            margin-bottom: 24px;
+            .OriginPort_info {
+              width: 100%;
+            }
+          }
+
+          .cargoDate {
+            margin-bottom: 24px;
+            .ant-calendar-disabled-cell .ant-calendar-date {
+              color: black !important;
+            }
+          }
+          .isDeclaration_isInsurance {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+          }
+
+          .CustomIns {
+            min-height: 30px;
+          }
+
+          .OriginLocation {
+            margin-bottom: 24px;
+            .OriginLocation_info {
+              width: 100%;
+            }
+          }
+
+          .delivery-method {
+            min-height: 30px;
+          }
+
+          .delivery-warehouse,
+          .pick-time,
+          .delivery-time,
+          .Customsdeclaration-document {
+            label {
+              margin-right: 5px;
+            }
+            .isDeclaration-true {
+              background-color: @primary-color;
+              border-color: @primary-color;
+              color: #fff !important;
+            }
+          }
+          .pick-time,
+          .delivery-time {
+            margin-bottom: 24px;
+          }
+        }
+      }
+
+      .Destination {
+        padding: 16px 16px 4px 10px;
+        width: 50%;
+        min-height: 200px;
+        background-color: #ffffff;
+        .DestinationPort {
+          margin-bottom: 24px;
+          .DestinationPort_info {
+            width: 100%;
+          }
+        }
+
+        .deliverydate {
+          margin-bottom: 24px;
+        }
+        .isClearance {
+          margin-bottom: 24px;
+          display: flex;
+          align-items: center;
+        }
+        .destinationTruck {
+          min-height: 30px;
+        }
+        .destinationLocation {
+          margin-bottom: 24px;
+          .destinationLocation_info {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .CargoSpecial {
+      width: 100%;
+      background-color: #ffffff;
+      padding: 16px;
+      .Cargo {
+        width: 100%;
+        margin-bottom: 24px;
+        .ContainerType {
+          margin-bottom: 14px;
+          display: flex;
+          h4 {
+            min-width: 160px;
+            display: inline-flex;
+            align-items: center;
+          }
+          .containerTypeShow {
+            width: 640px;
+            .container {
+              min-width: 140px;
+              border-radius: 5px;
+              height: 35px;
+              margin: 10px 10px 10px 0px;
+              vertical-align: middle;
+              text-align: center;
+              display: inline-block;
+              border: 1px solid #f0f3f7;
+              background-color: #ffffff;
+              .containerNum {
+                color: rgba(0, 0, 0, 0.45);
+              }
+
+              button {
+                width: 35px;
+                height: 30px;
+                line-height: 0px;
+                border: 0px;
+                font-size: 22px;
+              }
+              .ant-btn:active,
+              .ant-btn.active {
+                color: @text-color;
+                background-color: #fff;
+                border-color: #fff;
+              }
+              .ant-btn:hover,
+              .ant-btn:focus {
+                color: @text-color;
+                background-color: #fff;
+                border-color: #fff;
+              }
+            }
+          }
+
+          .othercontainer-all {
+            width: 20%;
+            margin-top: 10px;
+            position: relative;
+            .other_containerShow {
+              display: inline-block;
+              min-width: 100px;
+              border-radius: 5px;
+              height: 35px;
+              line-height: 35px;
+              vertical-align: middle;
+              text-align: center;
+              border: 1px solid #f0f3f7;
+              background-color: #ffffff;
+            }
+            .otherContainer {
+              transition: max-height 0.5s ease-out;
+              overflow: hidden;
+              min-width: 320px;
+              border-radius: 5px;
+              max-height: 0;
+              vertical-align: middle;
+              text-align: center;
+              margin-top: 10px;
+              background-color: #fff;
+              z-index: 999;
+              position: absolute;
+              left: -200px;
+              .otherContainer-child {
+                width: 320px;
+                height: 110px;
+                padding: 0px;
+                ul {
+                  list-style: none;
+                  width: 320px;
+                  height: 30px;
+                  line-height: 30px;
+                  padding: 0px;
+
+                  li {
+                    width: 65px;
+                    height: 30px;
+                    line-height: 30px;
+                    float: left;
+                    border: 1px solid @line-color;
+                    border-radius: 5px;
+                    margin: 10px 5px 10px 10px;
+                    padding: 0px;
+
+                    span {
+                      display: inline-block;
+                      width: 20px;
+                      height: 30px;
+                    }
+                  }
+                }
+              }
+
+              .otherContainer-num {
+                width: 305px;
+                height: 30px;
+                margin-bottom: 5px;
+
+                ul {
+                  width: 305px;
+                  height: 30px;
+                  line-height: 30px;
+                  list-style: none;
+                  padding: 0px 0px 0px 10px;
+
+                  li {
+                    float: left;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                  }
+
+                  .li-active {
+                    background-color: @primary-color;
+                    color: #fff;
+                  }
+
+                  li:hover {
+                    background-color: @primary-color;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .Units {
+          display: flex;
+          align-items: center;
+          .Units-num {
+            width: 260px;
+          }
+          .CargoInfo {
+            display: flex;
+            .CargoInfo-Quantity {
+              margin-right: 40px;
+              display: flex;
+              align-items: center;
+            }
+            .CargoInfo-Weight {
+              margin-right: 40px;
+              display: flex;
+              align-items: center;
+            }
+            .CargoInfo-Volume {
+              display: flex;
+              align-items: center;
+            }
+            nz-input-number {
+              padding: 0;
+              margin-right: 4px;
+            }
+            .selUnit {
+              width: 25%;
+              .ant-radio-group {
+                padding: 0px !important;
+              }
+              .selUnitGroup {
+                width: 100%;
+                .selUnitGroupInfo {
+                  text-align: center;
+                  width: 45%;
+                  color: @text-color;
+                }
+              }
+            }
+            .red {
+              top: 33px;
+            }
+          }
+        }
+      }
+      .More-Svervice {
+        margin-bottom: 16px;
+      }
+      .ComplianceInstructions {
+        margin-bottom: 24px;
+
+        .ComplianceInstructions-content {
+          display: flex;
+          .Compliance {
+            width: 50%;
+            margin-right: 8px;
+          }
+
+          .Instructions {
+            margin-left: 8px;
+            padding-left: 8px;
+            width: 50%;
+          }
+        }
+      }
+    }
+
+    .operation {
+      text-align: center;
+      min-height: 90px;
+      margin-top: 16px;
+      .draft {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.block-container,
+.BookingOverview-info,
+.OriginPort,
+.Destination > div {
+  padding: 24px;
+  background: @containerColor;
+  border-radius: 4px;
+  border: 1px solid rgba(240, 243, 247, 1);
+}
+.block-container {
+  height: 100%;
+}
+
+.radio-button-width {
+  width: 90px;
+}
+
+.main-interactive-element-width {
+  width: 274px;
+}
+
+.template {
+  min-width: 380px;
+  border-radius: 5px;
+  box-shadow: 0 0 1px #000 inset;
+  border: 1px solid #cccccc;
+  height: 400px;
+  overflow-y: auto;
+
+  .templateDiv {
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 0 1px #000 inset;
+    margin: 10px;
+    min-width: 200px;
+    min-height: 80px;
+
+    .templateName {
+      display: flex;
+      padding: 10px 10px 0px 10px;
+      border-radius: 5px;
+
+      .templateNameInfo {
+        h4 {
+          color: #7f9ce8;
+        }
+
+        width: 90%;
+      }
+
+      .templatelogo {
+        width: 10%;
+
+        .icon-airplane {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .tradeType {
+      padding: 10px 10px 0px 10px;
+    }
+  }
+}
+
+.freight-Method-info {
+  width: 50%;
+  display: flex;
+
+  .freight-Method-info-info {
+    width: 33.3%;
+
+    .ant-radio-group {
+      padding: 0px;
+    }
+
+    label {
+      margin-right: 5px;
+      border-radius: 5px;
+    }
+
+    .Taxfarming-true {
+      background-color: @primary-color;
+      border-color: @primary-color;
+      color: #fff !important;
+    }
+  }
+}
+
+.otherContainer {
+  min-width: 320px;
+  border-radius: 5px;
+  vertical-align: middle;
+  text-align: center;
+  background-color: #fff;
+  .otherContainer-child {
+    width: 320px;
+    height: 110px;
+    padding: 0px;
+    ul {
+      list-style: none;
+      width: 320px;
+      height: 30px;
+      line-height: 30px;
+      padding: 0px;
+
+      li {
+        width: 65px;
+        height: 30px;
+        line-height: 30px;
+        float: left;
+        border: 1px solid @line-color;
+        border-radius: 5px;
+        margin: 10px 5px 10px 10px;
+        padding: 0px;
+
+        span {
+          display: inline-block;
+          width: 20px;
+          height: 30px;
+        }
+      }
+    }
+  }
+
+  .otherContainer-num {
+    width: 305px;
+    height: 30px;
+    margin-bottom: 5px;
+
+    ul {
+      width: 305px;
+      height: 30px;
+      line-height: 30px;
+      list-style: none;
+      padding: 0px 0px 0px 10px;
+
+      li {
+        float: left;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      .li-active {
+        background-color: @primary-color;
+        color: #fff;
+      }
+
+      li:hover {
+        background-color: @primary-color;
+        cursor: pointer;
+      }
+    }
+  }
+}

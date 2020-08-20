@@ -1,0 +1,387 @@
+<div class="sub-quoteDetail">
+  <div class="sub-table">
+    <div class="content-left-quote-top">
+      <div class="content-left-quote-top-left">
+        <div class="icon-air">
+          <span class="iconfont icon-airplane" *ngIf="quoteObj.freightMethodType == FreightMethodType.Air"></span>
+          <span class="iconfont icon-Ocean" *ngIf="quoteObj.freightMethodType == FreightMethodType.Ocean"></span>
+        </div>
+        <div class="content-left-quote-no">{{ quoteObj.quoteNo }}</div>
+        <div *ngIf="!isRecord">
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-active': quoteObj.quoteReplys && quoteObj.quoteReplys.length <= 0 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length <= 0"
+          >
+            {{ 'active' | translate }}
+          </div>
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-active': quoteObj.quoteReplys && quoteObj.quoteReplys[0].status == 0 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length > 0 && quoteObj.quoteReplys[0].status == 0"
+          >
+            {{ 'active' | translate }}
+          </div>
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-accept': quoteObj.quoteReplys && quoteObj.quoteReplys[0].status == 1 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length > 0 && quoteObj.quoteReplys[0].status == 1"
+          >
+            {{ 'Accept' | translate }}
+          </div>
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-rejected': quoteObj.quoteReplys && quoteObj.quoteReplys[0].status == 2 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length > 0 && quoteObj.quoteReplys[0].status == 2"
+          >
+            {{ 'Reject' | translate }}
+          </div>
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-accept': quoteObj.quoteReplys && quoteObj.quoteReplys[0].status == 3 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length > 0 && quoteObj.quoteReplys[0].status == 3"
+          >
+            {{ 'Accept' | translate }}
+          </div>
+          <div
+            class="content-left-quote-status"
+            [ngClass]="{ 'quote-expiress': quoteObj.quoteReplys && quoteObj.quoteReplys[0].status == 4 }"
+            *ngIf="quoteObj.quoteReplys && quoteObj.quoteReplys.length > 0 && quoteObj.quoteReplys[0].status == 4"
+          >
+            {{ 'expired' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="carrier-content"
+      [ngClass]="{ dash: isDash }"
+      *ngFor="let item of quoteObj.quoteReplys; let hisIndex = index"
+    >
+      <div class="content-left-quote-bottom" [ngClass]="{ yinying: isShowOpearButton }">
+        <div class="content-left-quote-bottom-top">
+          <div class="content-left-quote-bottom-top-left">
+            <span class="iconfont icon-quotetype"> </span>
+            <div class="content-left-quote-bottom-top-left-right">
+              <nz-list>
+                <nz-list-item>
+                  <span
+                    style="
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
+                      font-weight: 500;
+                      margin-right: 16px;
+                      color: rgba(0, 0, 0, 0.85);
+                    "
+                    >{{ item.creationTime | date: 'mediumDate' }}
+                    <span *ngIf="!isRecord">{{ 'Current' | translate }}</span>
+                  </span>
+                  <span class="word">
+                    <div *ngIf="!isShowQuotesNo && !isRecord">
+                      <div
+                        class="content-left-quote-status"
+                        [ngClass]="{ 'quote-active': item.status == 0 }"
+                        *ngIf="item.status == 0"
+                      >
+                        {{ 'active' | translate }}
+                      </div>
+                      <div
+                        class="content-left-quote-status"
+                        [ngClass]="{ 'quote-accept': item.status == 1 }"
+                        *ngIf="item.status == 1"
+                      >
+                        <span style="color: #00dbe0;">
+                          {{ 'Accept' | translate }}
+                        </span>
+                      </div>
+                      <div
+                        class="content-left-quote-status"
+                        [ngClass]="{ 'quote-rejected': item.status == 2 }"
+                        *ngIf="item.status == 2"
+                      >
+                        {{ 'Reject' | translate }}
+                      </div>
+                      <div
+                        class="content-left-quote-status"
+                        [ngClass]="{ 'quote-accept': item.status == 3 }"
+                        *ngIf="item.status == 3"
+                      >
+                        <span style="color: #00dbe0;">
+                          {{ 'Accept' | translate }}
+                        </span>
+                      </div>
+                      <div
+                        class="content-left-quote-status"
+                        [ngClass]="{ 'quote-expiress': item.status == 4 }"
+                        *ngIf="item.status == 4"
+                      >
+                        {{ 'expired' | translate }}
+                      </div>
+                    </div>
+                  </span>
+                </nz-list-item>
+                <nz-list-item>
+                  <span class="word" style="margin-right: 8px;">{{ 'QuoteNo' | translate }}:</span>
+                  <span class="word">{{ item.replyNo }}</span>
+                </nz-list-item>
+                <nz-list-item>
+                  <span class="list-left">{{ 'Expires' | translate }}:</span>
+                  <span class="list-right">{{ item.validStartDate | date: 'mediumDate' }}-</span>
+                  <span class="list-right">{{ item.validEndDate | date: 'mediumDate' }}</span>
+                </nz-list-item>
+                <nz-list-item
+                  ><span class="list-left">{{ 'Transit' | translate }}:</span
+                  ><span class="list-right">{{ item.transitTime }}Days</span>
+                </nz-list-item>
+                <nz-list-item>
+                  <span class="list-left"> {{ 'Carrier' | translate }}: </span>
+                  <span
+                    class="list-right"
+                    [title]="item.carrierName"
+                    style="
+                      line-height: 30px;
+                      margin-left: 5px;
+                      overflow: hidden;
+                      word-break: break-word;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      width: 90px;
+                      text-align: right;
+                    "
+                    >{{ item.carrierName }}</span
+                  >
+                </nz-list-item>
+                <nz-list-item
+                  ><span class="list-left">{{ 'Freight Type' | translate }}:</span>
+                  <span *ngIf="quoteObj.freightType == 1" class="list-right"> {{ 'CY-CY' | translate }} </span>
+                  <span *ngIf="quoteObj.freightType == 2" class="list-right"> {{ 'CY-DOOR' | translate }}</span>
+                  <span *ngIf="quoteObj.freightType == 3" class="list-right"> {{ 'DOOR-CY' | translate }}</span>
+                  <span *ngIf="quoteObj.freightType == 4" class="list-right"> {{ 'DOOR-DOOR' | translate }}</span>
+                </nz-list-item>
+                <nz-list-item *ngIf="item.sailSchedule">
+                  <span class="list-left">{{ 'sailSchedule' | translate }}:</span>
+                  <span> {{ item.sailSchedule }}</span>
+                </nz-list-item>
+              </nz-list>
+            </div>
+          </div>
+          <div class="content-left-quote-bottom-top-right">
+            <nz-list>
+              <nz-list-item>
+                <span
+                  style="
+                    font-size: 16px;
+                    font-family: PingFangSC-Regular, PingFang SC;
+                    font-weight: 400;
+                    color: rgba(0, 0, 0, 0.85);
+                    width: 250px;
+                  "
+                  >{{ 'Ocean Freight/Total charge' | translate }}</span
+                >
+                <span *ngFor="let totalCharge of item.totalChargelist" style="min-width: 150px; margin-right: 10px;"
+                  ><span
+                    style="
+                      font-size: 14px;
+                      font-family: PingFangSC-Regular, PingFang SC;
+                      font-weight: 400;
+                      color: rgba(0, 0, 0, 0.85);
+                      margin-right: 15px;
+                    "
+                    >{{ totalCharge.Total?.toFixed(2) }}</span
+                  >
+                  <span style="font-weight: 500; font-size: 16px; margin-right: 16px; color: rgba(0, 0, 0, 0.65);">{{
+                    totalCharge.Name
+                  }}</span></span
+                >
+              </nz-list-item>
+              <nz-list-item *ngFor="let freight of item.freightList">
+                <span
+                  style="
+                    font-size: 14px;
+                    font-family: PingFangSC-Regular, PingFang SC;
+                    font-weight: 400;
+                    color: rgba(0, 0, 0, 0.65);
+                  "
+                  >{{ freight.unitPrice?.toFixed(2) }} X {{ freight.quantity }}
+
+                  (
+                  <span *ngIf="freight.unitType == 1">{{ freight.containerCode }}</span>
+                  <span *ngIf="freight.unitType == 2">{{ 'Total' | translate }}</span>
+                  <span *ngIf="freight.unitType == 3 && freight.computeFormula == 1">
+                    <!-- 实际体积 -->
+                    {{ 'KG' | translate }}
+                  </span>
+                  <span *ngIf="freight.unitType == 3 && freight.computeFormula == 4">
+                    <!-- 计费吨 -->
+                    {{ 'RT' | translate }}
+                  </span>
+                  <span *ngIf="freight.unitType == 3 && freight.computeFormula == 2">
+                    <!-- 计费吨 -->
+                    {{ 'KG' | translate }}
+                  </span>
+                  <span *ngIf="freight.unitType == 4 && freight.computeFormula == 3">
+                    <!-- 实际重量 -->
+                    CBM</span
+                  >
+                  <span *ngIf="freight.unitType == 4 && freight.computeFormula == 4">
+                    <!-- 计费吨 -->
+                    RT</span
+                  >)
+                </span>
+                <span style="min-width: 150px;"
+                  ><span style="font-weight: 400; margin-right: 16px; font-size: 14px; color: rgba(0, 0, 0, 0.85);">{{
+                    freight.totalPrice?.toFixed(2)
+                  }}</span>
+                  <span style="font-weight: 500; font-size: 16px; color: rgba(0, 0, 0, 0.65);">{{
+                    freight.currencyName
+                  }}</span></span
+                >
+              </nz-list-item>
+            </nz-list>
+          </div>
+        </div>
+        <div class="content-left-quote-bottom-bottom">
+          <div style="margin-bottom: 16px;" class="table-backcolor" *ngIf="item.OriginList.length > 0">
+            <nz-table
+              class="backcolor"
+              #innerTable
+              [nzData]="item.OriginList"
+              nzSize="middle"
+              [nzShowPagination]="false"
+            >
+              <thead class="headColor">
+                <tr class="headColor">
+                  <th class="headColor" nzWidth="24%">{{ 'Origin' | translate }}</th>
+                  <th class="headColor" nzWidth="20%">{{ 'Rate' | translate }}</th>
+                  <th class="headColor" nzWidth="22%">{{ 'Quantity' | translate }}</th>
+                  <th class="headColor" nzWidth="12%">
+                    {{ 'Total' | translate }}
+                  </th>
+                  <th
+                    class="headColor"
+                    nzWidth="15%"
+                    (click)="hisIndexs = hisIndex; isshowHisOrigin = !isshowHisOrigin"
+                  >
+                    {{ 'Remark' | translate }}
+                    <i nz-icon nzType="caret-down" nzTheme="outline" *ngIf="!isshowHisOrigin"></i
+                    ><i nz-icon nzType="caret-up" nzTheme="outline" *ngIf="isshowHisOrigin"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="isshowHisOrigin && hisIndexs == hisIndex">
+                <tr *ngFor="let Origin of item.OriginList">
+                  <td class="td_color" nzWidth="22%">{{ Origin.chargingCodeName }}</td>
+                  <td class="td_color" nzWidth="22%">
+                    <span style="margin-right: 5px;">{{ Origin.unitPrice?.toFixed(2) }}</span
+                    >{{ Origin.currencyName }}
+                  </td>
+                  <td class="td_color" nzWidth="22%">
+                    X
+                    {{ Origin.quantity }}
+                    <span *ngIf="Origin.unitType == 1">({{ Origin.containerCode }})</span>
+                    <span *ngIf="Origin.unitType == 2">{{ 'Total' | translate }}</span>
+                    <span *ngIf="Origin.unitType == 3">{{ 'KG' | translate }}</span>
+                    <span *ngIf="Origin.unitType == 4">{{ 'CBM' | translate }}</span>
+                  </td>
+                  <td class="td_color" nzWidth="12%">
+                    <span class="totalPrice">{{ Origin.totalPrice?.toFixed(2) }}</span>
+                    <span class="currencyName">{{ Origin.currencyName }}</span>
+                  </td>
+                  <td class="td_color" nzWidth="15%">
+                    <span
+                      *ngIf="Origin.remark"
+                      class="iconfont icon-beizhu"
+                      nz-tooltip
+                      [nzTooltipTitle]="Origin.remark"
+                      nzTooltipPlacement="top"
+                    >
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="table-backcolor" *ngIf="item.DestinationList.length > 0">
+            <nz-table
+              class="backcolor"
+              #innerTable
+              [nzData]="item.DestinationList"
+              nzSize="middle"
+              [nzShowPagination]="false"
+            >
+              <thead class="headColor">
+                <tr class="headColor">
+                  <th class="headColor" nzWidth="24%">{{ 'Destination' | translate }}</th>
+                  <th class="headColor" nzWidth="20%">{{ 'Rate' | translate }}</th>
+                  <th class="headColor" nzWidth="22%">{{ 'Quantity' | translate }}</th>
+                  <th class="headColor" nzWidth="12%">
+                    {{ 'Total' | translate }}
+                  </th>
+                  <th
+                    class="headColor"
+                    nzWidth="15%"
+                    (click)="hisIndexs = hisIndex; isshowHisDestina = !isshowHisDestina"
+                  >
+                    {{ 'Remark' | translate }}
+                    <i nz-icon nzType="caret-down" nzTheme="outline" *ngIf="!isshowHisDestina"></i
+                    ><i nz-icon nzType="caret-up" nzTheme="outline" *ngIf="isshowHisDestina"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="isshowHisDestina && hisIndexs == hisIndex">
+                <tr *ngFor="let Destination of item.DestinationList">
+                  <td class="td_color" nzWidth="24%">{{ Destination.chargingCodeName }}</td>
+                  <td class="td_color" nzWidth="20%">
+                    <span style="margin-right: 5px;">{{ Destination.unitPrice?.toFixed(2) }}</span
+                    >{{ Destination.currencyName }}
+                  </td>
+                  <td class="td_color" nzWidth="22%">
+                    X {{ Destination.quantity }}
+                    <span *ngIf="Destination.unitType == 1">({{ Destination.containerCode }})</span>
+                    <span *ngIf="Destination.unitType == 2">{{ 'Total' | translate }}</span>
+                    <span *ngIf="Destination.unitType == 3">{{ 'KG' | translate }}</span>
+                    <span *ngIf="Destination.unitType == 4">{{ 'CBM' | translate }}</span>
+                  </td>
+                  <td class="td_color" nzWidth="12%">
+                    <span class="totalPrice">{{ Destination.totalPrice?.toFixed(2) }}</span>
+                    <span class="currencyName">{{ Destination.currencyName }}</span>
+                  </td>
+                  <td class="td_color" nzWidth="15%">
+                    <span
+                      *ngIf="Destination.remark"
+                      class="iconfont icon-beizhu"
+                      nz-tooltip
+                      [nzTooltipTitle]="Destination.remark"
+                      nzTooltipPlacement="top"
+                    >
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+        <!-- <img
+          *ngIf="isHalfangle"
+          src="assets/images/11.png"
+          width="56"
+          height="56"
+          style="
+        position: absolute;
+        top: 185px;
+        left: -5px;"
+        />
+        <img
+          *ngIf="isHalfangle"
+          src="assets/images/11.png"
+          width="56"
+          height="56"
+          style="    position: absolute;
+        top: 185px;
+        right: -5px;
+        transform: rotate(180deg);"
+        /> -->
+      </div>
+    </div>
+  </div>
+</div>

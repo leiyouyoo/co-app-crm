@@ -1,0 +1,168 @@
+<div class="tabs" id="tabs">
+  <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="choosedNum" (nzSelectedIndexChange)="selectedIndexChange($event)">
+    <nz-tab nzTitle="{{ 'Cooperating customers' | translate }}">
+      <ng-template nz-tab>
+        <div class="crm-body">
+          <div class="search">
+            <div>
+              <div class="search-header">
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                  <input
+                    type="text"
+                    nz-input
+                    placeholder="{{ 'Please enter key words' | translate }}"
+                    [(ngModel)]="searchData"
+                    (keyup)="onSearch($event)"
+                  />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                  <i nz-icon nzType="search" (click)="nowSearch()"></i>
+                </ng-template>
+              </div>
+            </div>
+
+            <div>
+              <button class="button" nz-button nzType="default" [disabled]="transDisabled" (click)="transModal()">
+                {{ 'Transfer' | translate }}
+              </button>
+              <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
+                {{ 'customer merge' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="body-list">
+            <nz-table
+              *ngIf="listOfData"
+              #rowSelectionTable1
+              [nzData]="listOfData?.items"
+              [nzLoading]="loading"
+              [nzFrontPagination]="false"
+              nzShowPagination="false"
+              nzTableLayout="fixed"
+              calcNzTableBodyScroll
+            >
+              <thead>
+                <tr>
+                  <th nzEllipsis nzWidth="50px">
+                    <label
+                      nz-checkbox
+                      nzShowCheckbox
+                      [(nzChecked)]="isAllDisplayDataChecked"
+                      (nzCheckedChange)="checkAll($event)"
+                    ></label>
+                  </th>
+                  <th nzEllipsis nzWidth="500px">
+                    {{ 'CustomerTableName' | translate }}
+                  </th>
+
+                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="CountryProvince" nzWidth="150px">
+                    {{ 'Country, province' | translate }}
+                  </th>
+                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Contact" nzWidth="150px">
+                    {{ 'Contact' | translate }}
+                  </th>
+                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Tel" nzWidth="150px">
+                    {{ 'Phone' | translate }}
+                  </th>
+                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="150px">
+                    {{ 'Owner' | translate }}
+                  </th>
+                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Owner" nzWidth="250px">
+                    {{ 'First shipment time' | translate }}
+                  </th>
+                  <th nzEllipsis nzRight="0" nzWidth="100px">
+                    {{ 'Operating' | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let data of rowSelectionTable1.data; let i = index"
+                  [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
+                  (dblclick)="showDetial(data)"
+                >
+                  <td nzEllipsis>
+                    <label
+                      nz-checkbox
+                      nzShowCheckbox
+                      [(nzChecked)]="data.choosed"
+                      (nzCheckedChange)="refreshStatus()"
+                    ></label>
+                  </td>
+                  <td nzEllipsis>
+                    <a [routerLink]="['/crm/home/customer/customerdetails', data.id]">
+                      {{ data.name || '--' }}
+
+                      <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
+                    >
+                  </td>
+                  <td nzEllipsis nzBreakWord>
+                    {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
+                  </td>
+
+                  <td nzEllipsis nzBreakWord>
+                    {{ data.contactName || '--' }}
+                  </td>
+                  <td nzEllipsis nzBreakWord>
+                    {{ data.contactTel || '--' }}
+                  </td>
+                  <td nzEllipsis nzBreakWord>
+                    {{ data.owner || '--' }}
+                  </td>
+                  <td nzEllipsis nzBreakWord>
+                    {{ data.firsttimeShipDate || '--' }}
+                  </td>
+                  <td nzEllipsis nzBreakWord nzRight="0">
+                    <a [routerLink]="['/crm/home/customer/customerdetails', data.id]">{{ 'View' | translate }}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+
+          <div class="pagination">
+            <nz-pagination
+              [nzPageIndex]="skipCount"
+              [nzPageSize]="maxResultCount"
+              nzShowQuickJumper
+              nzShowSizeChanger
+              nzHideOnSinglePage
+              [nzTotal]="listOfData?.totalCount"
+              (nzPageSizeChange)="pageSizeChange($event)"
+              (nzPageIndexChange)="pageIndexChange($event)"
+            ></nz-pagination>
+          </div>
+        </div>
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="{{ 'Potential customers' | translate }}">
+      <ng-template nz-tab> <app-no-deal-customer></app-no-deal-customer></ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="{{ 'Share customers' | translate }}">
+      <ng-template nz-tab> <app-shared-customers></app-shared-customers></ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="{{ 'Unowned customers' | translate }}">
+      <ng-template nz-tab> <app-unowned-client></app-unowned-client></ng-template>
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isVisibleTrans"
+  nzTitle="{{ 'Transfer customer' | translate }}"
+  [nzFooter]="tranFooter"
+  (nzOnCancel)="cancelTrans()"
+  nzOkText="{{ 'Transfer' | translate }}"
+  nzCancelText="{{ 'Cancel' | translate }}"
+  nzWidth="50%"
+>
+  <transfer-tocustomer></transfer-tocustomer>
+  <ng-template #tranFooter>
+    <button nz-button nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
+      {{ 'Transfer' | translate }}
+    </button>
+  </ng-template>
+</nz-modal>
+<app-customer-merge (getCustomerByPageList)="getCustomerByPageList()"></app-customer-merge>

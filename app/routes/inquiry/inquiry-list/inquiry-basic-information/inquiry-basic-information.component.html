@@ -1,0 +1,118 @@
+<div class="table-detial" *ngIf="item">
+  <div *ngIf="item.commodity">
+    <div class="table-title">
+      <strong>{{ 'Commodity' | translate }}</strong>
+    </div>
+    <div class="table-detial-msg">
+      <div>
+        {{ item.commodity || '--' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="table-detial-table">
+    <!-- 时间轴 -->
+    <div class="table-detial-table-border table-detail-table-line" style="height: 210px;">
+
+      <nz-timeline>
+        <nz-timeline-item>
+          <span>{{ 'POL' | translate }}</span><br>
+          <span>{{ item.pol || '--' }}</span>
+        </nz-timeline-item>
+        <nz-timeline-item>
+          <span>{{ 'VIA' | translate }}</span><br>
+          <span>{{ item.via || '--' }}</span>
+        </nz-timeline-item>
+        <nz-timeline-item>
+          <span>{{ 'POD' | translate }}</span><br>
+          <span>{{ item.pod || '--' }}</span>
+        </nz-timeline-item>
+        <nz-timeline-item>
+          <span>{{ 'Delivery' | translate }}</span><br>
+          <span>{{ item.delivery || '--' }}</span>
+        </nz-timeline-item>
+      </nz-timeline>
+
+    </div>
+
+    <div class="table-detial-table-border">
+      <div class="table-detial-table-border-flex">
+        <span class="col-l-b">{{ 'T/T' | translate }}</span><span class="col-b">{{ item.tt || '--' }}</span>
+      </div>
+      <div class="table-detial-table-border-flex">
+        <span class="col-l-b">{{ 'Carrier' | translate }}</span><span class="col-b">{{ item.carrier || '--' }}</span>
+      </div>
+      <div class="table-detial-table-border-flex">
+        <span class="col-l-b">{{ 'Shipping terms' | translate }}</span><span
+          class="col-b">{{ item.term || '--' }}</span>
+      </div>
+      <div class="table-detial-table-border-flex">
+        <span class="col-l-b">{{ 'Currency' | translate }}</span><span class="col-b">{{ item.currency || '--' }}</span>
+      </div>
+    </div>
+
+    <div class="table-detial-table-border">
+      <div class="mar-b-9">
+        <span class="blue-round"></span>
+        <span class="col-b">{{ 'Surcharge' | translate }}</span>
+      </div>
+      <div class="col-l-b mar-b-9">{{ item.surcharge || '--' }}</div>
+
+      <div class="mar-b-9">
+        <span class="blue-round"></span>
+        <span class="col-b">{{ 'CLS' | translate }}</span>
+      </div>
+      <div class="col-l-b">{{ item.cls || '--' }}</div>
+
+    </div>
+
+    <div class="table-detial-table-border">
+      <nz-table #unitsTable [nzData]="item?.units" [nzFrontPagination]="false" nzShowPagination="false"
+        class="small-table" nzSize="small">
+        <thead>
+          <tr>
+            <th class="col-b">
+              {{ 'ContainType' | translate }}
+            </th>
+            <th class="col-b">
+              {{ 'Prcie' | translate }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let data of unitsTable.data">
+            <td nzEllipsis>
+              {{ data.item1 }}
+            </td>
+            <td nzEllipsis>
+              {{ data.item2?.toFixed(2) }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+
+  <div *ngIf="item.remark">
+    <div class="table-title">
+      <strong>{{ 'Description' | translate }}</strong>
+    </div>
+    <div class="table-detial-msg">
+      <div>
+        {{ item.remark }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="item.remarkOfService">
+    <div class="table-title">
+      <strong>{{ 'Remark (Customer Service)' | translate }}</strong>
+    </div>
+    <div class="table-detial-msg">
+      <div>
+        {{ item.remarkOfService }}
+      </div>
+    </div>
+  </div>
+</div>

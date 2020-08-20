@@ -1,0 +1,126 @@
+<!-- 主页面 -->
+
+<div class="customer-detial" id="customer-detial">
+  <div class="left">
+    <nz-tabset (nzSelectedIndexChange)="tabSetchange()" nzAnimated="false">
+      <nz-tab nzTitle="{{ 'My client' | translate }}">
+        <ng-template nz-tab>
+          <div class="cust-detail-head">
+            <div class="head-customer-name">
+              <div style="font-weight: 800; display: flex; align-items: center;">
+                <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
+                <div *ngIf="customerInfo?.state == 2" class="certification" (click)="ShowApplyModal()">
+                  {{ 'In the authentication' | translate }}
+                </div>
+                <div *ngIf="customerInfo?.state == 3" class="certification" (click)="ShowApplyModal()">
+                  {{ 'Certification by' | translate }}
+                </div>
+                <div
+                  *ngIf="customerInfo?.state != 2 && customerInfo?.state != 3"
+                  class="certification"
+                  (click)="ShowApplyModal()"
+                >
+                  {{ 'Not certified' | translate }}
+                </div>
+                <div class="edit-customer" (click)="editCustomer()" *ngIf="customerInfo?.isOwner">
+                  <img src="assets/icon/Edit.svg" width="25px" />
+                </div>
+              </div>
+              <div *ngIf="customerInfo" style="margin-top: 8px;">
+                <span *ngIf="customerInfo?.localizationName" style="color: #999; margin-right: 10px;">{{
+                  customerInfo?.localizationName
+                }}</span>
+                <span *ngIf="customerInfo?.code">{{ 'Code' | translate }}：{{ customerInfo?.code }}</span>
+              </div>
+            </div>
+
+            <div class="customer-center">
+              <nz-tabset [nzType]="'card'" class="customer-user" [nzAnimated]="false">
+                <nz-tab nzTitle="{{ 'Contact list' | translate }}">
+                  <ng-template nz-tab>
+                    <contacts-list
+                      [isOwner]="customerInfo?.isOwner"
+                      [customerId]="customerId"
+                      [editionRoleId]="customerInfo?.editionRoleId"
+                      (refushData)="getCustomerById()"
+                    ></contacts-list>
+                  </ng-template>
+                </nz-tab>
+
+                <nz-tab nzTitle="{{ 'Location list' | translate }}">
+                  <ng-template nz-tab>
+                    <location-list
+                      [customerId]="customerId"
+                      [isOwner]="customerInfo?.isOwner"
+                      (refushData)="getCustomerById()"
+                    >
+                    </location-list>
+                  </ng-template>
+                </nz-tab>
+
+                <!-- <nz-tab nzTitle="{{ 'Legal entities' | translate }}">
+                  <ng-template nz-tab>
+                    <crm-legal-entity
+                      [customerInfo]="customerInfo"
+                      (outCustomerById)="getCustomerById()"
+                    ></crm-legal-entity>
+                  </ng-template>
+                </nz-tab> -->
+
+                <nz-tab nzTitle="{{ 'Authentication' | translate }}">
+                  <ng-template nz-tab>
+                    <customer-customer-auth
+                      [customerId]="customerId"
+                      [isBind]="customerInfo?.isRegistered"
+                      [isOwner]="customerInfo?.isOwner"
+                      [customerState]="customerInfo?.state"
+                      [isCanBind]="true"
+                      (refushData)="getCustomerById()"
+                    >
+                    </customer-customer-auth>
+                  </ng-template>
+                </nz-tab>
+
+                <nz-tab nzTitle="{{ 'Follow up record' | translate }}">
+                  <ng-template nz-tab>
+                    <customer-customer-record [isOwner]="customerInfo?.isOwner"></customer-customer-record>
+                  </ng-template>
+                </nz-tab>
+              </nz-tabset>
+            </div>
+          </div>
+        </ng-template>
+      </nz-tab>
+
+      <nz-tab nzTitle="{{ 'Partner' | translate }}">
+        <ng-template nz-tab>
+          <div style="height: 100%;">
+            <ng-container *ngIf="isPartnerDetails; else elseTemplate">
+              <partner-details
+                (outerPartnerDetails)="runParent($event)"
+                [partnerId]="partnerId"
+                [isOwner]="customerInfo?.isOwner"
+              ></partner-details>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <customer-partner
+                [customerId]="customerId"
+                (outerPartnerDetails)="runParent($event)"
+                [isOwner]="customerInfo?.isOwner"
+              ></customer-partner>
+            </ng-template>
+          </div>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+
+  <div class="right">
+    <crm-customer-source [customerInfo]="customerInfo" *ngIf="customerInfo"></crm-customer-source>
+  </div>
+</div>
+
+<crm-legal-entity [customerInfo]="customerInfo" (outCustomerById)="getCustomerById()"></crm-legal-entity>
+
+<!-- 申请用户代码弹窗 -->
+<apply-cus-code [itemData]="cusItemData" (closeModal)="refreshData()"></apply-cus-code>

@@ -1,0 +1,1516 @@
+<div class="inner-content">
+  <div class="list-content main-container bg-double-circle">
+    <div class="content-header">
+      <div class="d-flex align-items-center">
+        <i class="iconfont icon-booking-no"></i>
+        <span style="margin-left: 16px; font-size: 16px;">{{ bookingDetailInfo?.bookingNo }}</span>
+        <span style="font-size: 24px; font-weight: 500; margin-left: 16px;">
+          <span *ngIf="status == 0">
+            {{ 'Draft' | translate }}
+          </span>
+          <span *ngIf="status == 1">
+            {{ 'Waiting for Confirm' | translate }}
+          </span>
+          <span *ngIf="[7, 8].includes(status)">
+            {{ 'Cancelled' | translate }}
+          </span>
+          <span *ngIf="status == 2">
+            {{ 'Submitted' | translate }}
+          </span>
+          <span *ngIf="status == 3">
+            {{ 'Booked' | translate }}
+          </span>
+          <span *ngIf="status == 4">
+            {{ 'Waiting for Pricing' | translate }}
+          </span>
+          <span *ngIf="status == 5">
+            {{ 'Waiting for the customer to confirm the price' | translate }}
+          </span>
+          <span *ngIf="status == 6">
+            {{ 'Waiting for the customer to confirm the price' | translate }}
+          </span>
+        </span>
+        <div style="margin-left: 16px;" *ngIf="bookingDetailInfo.status == 1 || bookingDetailInfo.status == 7">
+          <span class="iconfont icon-icon_dangerous" [title]="bookingCancel[bookingDetailInfo.cancelReason]"> </span>
+          <span
+            class="iconfont icon-beizhu"
+            *ngIf="bookingDetailInfo.cancelRemark"
+            [title]="bookingDetailInfo.cancelRemark"
+          >
+          </span>
+        </div>
+        <div class="content-header-fba" *ngIf="bookingDetailInfo.tradeType != 1">
+          <div class="content-header-pick">
+            <span *ngIf="bookingDetailInfo.deliveryMethodType == 1">{{ 'Home Delivery' | translate }}</span>
+            <span *ngIf="bookingDetailInfo.deliveryMethodType == 0">{{
+              'Customer automatic delivery' | translate
+            }}</span>
+          </div>
+          <div class="content-header-pickTime">
+            <span *ngIf="bookingDetailInfo.deliveryMethodType == 1"> {{ 'Pick up Time' | translate }}</span
+            ><span *ngIf="bookingDetailInfo.deliveryMethodType == 0"> {{ 'Delivery Time' | translate }}</span
+            >:<span class="word" *ngIf="bookingDetailInfo.deliveryMethodType == 1">{{
+              bookingDetailInfo.pickUpTimeRange | hourRange
+            }}</span>
+            <span class="word" *ngIf="bookingDetailInfo.deliveryMethodType == 0">{{
+              bookingDetailInfo.deliveryTimeRange | hourRange
+            }}</span>
+          </div>
+          <div *ngIf="bookingDetailInfo.deliveryMethodType == 1">
+            <span class="iconfont icon-dingwei" nz-popover [nzPopoverContent]="dingweiTemplate"> </span>
+            <ng-template #dingweiTemplate>
+              <div style="width: 80%;" class="content-header-fba-bottom-left-right">
+                <span>
+                  {{
+                    [
+                      bookingDetailInfo?.originAddress?.country,
+                      bookingDetailInfo?.originAddress?.province,
+                      bookingDetailInfo?.originAddress?.city,
+                      bookingDetailInfo.originAddress?.streetAddress
+                    ] | arrayJoin
+                  }}
+                </span>
+              </div>
+            </ng-template>
+          </div>
+          <div>
+            <span class="iconfont icon-user-login" nz-popover [nzPopoverContent]="userTemplate"> </span>
+            <ng-template #userTemplate>
+              <div style="width: 80%;" class="content-header-fba-bottom-left-right">
+                <span
+                  >{{ bookingDetailInfo.contactName }}
+                  <span>{{ bookingDetailInfo.contactPhone }} </span>
+                </span>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="bookingDetailInfo.status == 1">
+          <button nz-button nzType="default" (click)="confirmCancellation(bookingDetailInfo.id)">
+            {{ 'confirm cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-submitting-step">
+      <div *ngIf="bookingDetailInfo.isQuoteConfirmed">
+        <nz-steps [nzCurrent]="statusStep" nzSize="default" [nzStartIndex]="0">
+          <nz-step
+            *ngFor="
+              let item of [
+                'Booking is received by City Ocean Staff',
+                'Shipping order is requested with the carrier',
+                'Notified SO successfully with the customer',
+                'Shipping order is done'
+              ];
+              index as i
+            "
+            [nzTitle]="(statusStep > i ? 'Finished' : statusStep === i ? 'In Progress' : 'Waiting') | translate"
+            [nzDescription]="item | translate"
+          ></nz-step>
+          <!-- <nz-step [nzDescription]="'Booking is received by City Ocean Staff' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order  is requested with the carrier' | translate"></nz-step>
+          <nz-step [nzDescription]="'Notified SO successfully with the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order is done' | translate"></nz-step> -->
+        </nz-steps>
+      </div>
+
+      <div *ngIf="!bookingDetailInfo.isQuoteConfirmed">
+        <nz-steps
+          [nzCurrent]="statusStep"
+          nzSize="default"
+          [nzStartIndex]="0"
+          *ngIf="status != 4 && status != 5 && status != 6"
+        >
+          <nz-step
+            *ngFor="
+              let item of [
+                'Booking is received by City Ocean Staff',
+                'Shipping order is requested with the carrier',
+                'Notified SO successfully with the customer',
+                'Shipping order is done'
+              ];
+              index as i
+            "
+            [nzTitle]="(statusStep > i ? 'Finished' : statusStep === i ? 'In Progress' : 'Waiting') | translate"
+            [nzDescription]="item | translate"
+          ></nz-step>
+          <!-- <nz-step [nzDescription]="'Booking is received by City Ocean Staff' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order  is requested with the carrier' | translate"></nz-step>
+          <nz-step [nzDescription]="'Notified SO successfully with the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order is done' | translate"></nz-step> -->
+        </nz-steps>
+        <nz-steps [nzCurrent]="statusStep" nzSize="default" [nzStartIndex]="0" *ngIf="status == 4">
+          <!-- <nz-step [nzDescription]="'Booking is received by City Ocean Staff' | translate"></nz-step>
+          <nz-step [nzDescription]="'Freight quote  is sended to the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order  is requested with the carrier' | translate"></nz-step>
+          <nz-step [nzDescription]="'Notified SO successfully with the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order is done' | translate"></nz-step> -->
+          <nz-step
+            *ngFor="
+              let item of [
+                'Booking is received by City Ocean Staff',
+                'Freight quote is sent to the customer',
+                'Shipping order is requested with the carrier',
+                'Notified SO successfully with the customer',
+                'Shipping order is done'
+              ];
+              index as i
+            "
+            [nzTitle]="(statusStep > i ? 'Finished' : statusStep === i ? 'In Progress' : 'Waiting') | translate"
+            [nzDescription]="item | translate"
+          ></nz-step>
+        </nz-steps>
+
+        <nz-steps [nzCurrent]="statusStep" nzSize="default" [nzStartIndex]="0" *ngIf="status == 5 || status == 6">
+          <nz-step
+            *ngFor="
+              let item of [
+                'Booking is received by City Ocean Staff',
+                'Freight quote is sent to the customer',
+                'Quote is confirmed by the customer',
+                'Shipping order is requested with the carrier',
+                'Notified SO successfully with the customer',
+                'Shipping order is done'
+              ];
+              index as i
+            "
+            [nzTitle]="(statusStep > i ? 'Finished' : statusStep === i ? 'In Progress' : 'Waiting') | translate"
+            [nzDescription]="item | translate"
+          ></nz-step>
+          <!-- <nz-step [nzDescription]="'Booking is received by City Ocean Staff' | translate"></nz-step>
+          <nz-step [nzDescription]="'Freight quote  is sended to the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Quote  is comfirmed by the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order  is requested with the carrier' | translate"></nz-step>
+          <nz-step [nzDescription]="'Notified SO successfully with the customer' | translate"></nz-step>
+          <nz-step [nzDescription]="'Shipping order is done' | translate"></nz-step> -->
+        </nz-steps>
+      </div>
+    </div>
+    <div class="content-info">
+      <div class="content-left">
+        <!-- <div class="content-left-header"> -->
+        <!-- <div class="content-header-icon">
+            <div class="content-header-icon-PO">
+              <span *ngIf="bookingDetailInfo">
+                <span
+                  class="iconfont icon-ship"
+                  *ngIf="
+                    bookingDetailInfo.tradeType == 1 &&
+                    bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean
+                  "
+                ></span>
+                <span
+                  class="iconfont icon-airplane"
+                  *ngIf="
+                    bookingDetailInfo.tradeType == 1 &&
+                    bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air
+                  "
+                ></span>
+                <span
+                  class="iconfont icon-ship"
+                  *ngIf="bookingDetailInfo.tradeType != 1 && isFbaFreightOcean(bookingDetailInfo.fbaFreightMethodId)"
+                ></span>
+                <span
+                  class="iconfont icon-airplane"
+                  *ngIf="bookingDetailInfo.tradeType != 1 && isFbaFreightAir(bookingDetailInfo.fbaFreightMethodId)"
+                ></span>
+              </span>
+              <span class="content-header-icon-Bno">{{ bookingDetailInfo.bookingNo }}</span>
+            </div>
+            <div class="content-header-icon-name">
+              {{ bookingDetailInfo.name }}
+            </div>
+          </div> -->
+        <!-- <div
+            *ngIf="bookingDetailInfo?.tradeType != 1"
+            style="    padding: 8px;
+                  box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.1);
+                  margin-bottom: 16px;"
+          >
+            <div class="content-header-fba" *ngIf="bookingDetailInfo.deliveryMethodType == 1">
+              <div class="content-header-fba-top">
+                <div class="content-header-fba-top-left"><span class="word">需上门提货</span></div>
+                <div class="content-header-fba-top-right">
+                  <span style="margin-right: 16px; font-size: 15px; ">预约上门提货时间:</span
+                  ><span class="word">{{ bookingDetailInfo.pickUpTimeRange | hourRange }}</span>
+                </div>
+              </div>
+              <div class="content-header-fba-bottom">
+                <div class="content-header-fba-bottom-left">
+                  <div style="width: 20%;" class="content-header-fba-bottom-left-left">
+                    提货地址:
+                  </div>
+                  <div style="width: 80%;" class="content-header-fba-bottom-left-right">
+                    <span class="word">
+                      {{
+                        [
+                          bookingDetailInfo?.pickUpAddress?.country,
+                          bookingDetailInfo?.pickUpAddress?.province,
+                          bookingDetailInfo?.pickUpAddress?.city,
+                          bookingDetailInfo.pickUpAddress?.streetAddress
+                        ] | arrayJoin
+                      }}
+                    </span>
+                  </div>
+                </div>
+                <div class="content-header-fba-bottom-right">
+                  <span>联系人:</span
+                  ><span class="word"
+                    >{{ bookingDetailInfo.contactName }}
+                    <span style="margin-left: 5px;">{{ bookingDetailInfo.contactPhone }} </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="content-header-fba" *ngIf="bookingDetailInfo.deliveryMethodType == 0">
+              <div class="content-header-fba-top">
+                <div class="content-header-fba-top-auto"><span class="word">客户自动送货</span></div>
+                <div>
+                  <span style="margin-right: 16px; font-size: 15px;">预约自动送货时间:</span
+                  ><span class="word">{{ bookingDetailInfo.deliveryTimeRange | hourRange }}</span>
+                </div>
+              </div>
+              <div class="content-header-fba-bottom">
+                <div></div>
+                <div>
+                  <span>联系人:</span
+                  ><span class="word"
+                    >{{ bookingDetailInfo.contactName }}
+                    <span style="margin-left: 5px;">{{ bookingDetailInfo.contactPhone }} </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        <!-- <div class="content-shipmentNo">
+            <div class="content-route">
+              <div class="content-ocean">
+                <div class="content-ocean-pic">
+                  <span
+                    class="jy-ocean-StartingPlace-none"
+                    [ngClass]="{
+                      grayBorder: !bookingDetailInfo?.originIsRequireTruck
+                    }"
+                  >
+                    <span
+                      class="iconfont icon-warehouse"
+                      id="warehouse-first"
+                      [ngClass]="{
+                        gray: !bookingDetailInfo?.originIsRequireTruck
+                      }"
+                    ></span>
+                  </span>
+                  <div class="horizontal-line"></div>
+                </div>
+                <div class="content-ocean-pic">
+                  <span class="jy-ocean-StartingPlace">
+                    <span
+                      class="iconfont icon-port"
+                      *ngIf="
+                        bookingDetailInfo.tradeType == 1 &&
+                        bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-airport"
+                      *ngIf="
+                        bookingDetailInfo.tradeType == 1 &&
+                        bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-port"
+                      *ngIf="
+                        bookingDetailInfo.tradeType != 1 && isFbaFreightOcean(bookingDetailInfo.fbaFreightMethodId)
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-airport"
+                      *ngIf="bookingDetailInfo.tradeType != 1 && isFbaFreightAir(bookingDetailInfo.fbaFreightMethodId)"
+                    ></span>
+                  </span>
+                  <div class="horizontal-line"></div>
+                </div>
+                <div class="content-ocean-pic">
+                  <span class="jy-ocean-StartingPlace">
+                    <span
+                      class="iconfont icon-port"
+                      *ngIf="
+                        bookingDetailInfo.tradeType == 1 &&
+                        bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-airport"
+                      *ngIf="
+                        bookingDetailInfo.tradeType == 1 &&
+                        bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-port"
+                      *ngIf="
+                        bookingDetailInfo.tradeType != 1 && isFbaFreightOcean(bookingDetailInfo.fbaFreightMethodId)
+                      "
+                    ></span>
+                    <span
+                      class="iconfont icon-airport"
+                      *ngIf="bookingDetailInfo.tradeType != 1 && isFbaFreightAir(bookingDetailInfo.fbaFreightMethodId)"
+                    ></span>
+                  </span>
+                  <div class="horizontal-line"></div>
+                </div>
+                <div class="content-ocean-pic">
+                  <span class="jy-ocean-StartingPlace">
+                    <span
+                      class="iconfont icon-warehouse"
+                      [ngClass]="{
+                        gray: !bookingDetailInfo?.destinationIsRequireTruck
+                      }"
+                    ></span>
+                  </span>
+                </div>
+              </div>
+              <div class="content-ocean-route" *ngIf="bookingDetailInfo.tradeType == 1">
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="!bookingDetailInfo?.originAddress">
+                    {{ bookingDetailInfo?.shipperCustomerName }}
+                  </div>
+                  <div *ngIf="bookingDetailInfo?.originAddress">
+                    <div class="content-ocean-routeInfo-shipper">
+                      {{ bookingDetailInfo?.originAddress?.tenantName }}
+                      <span
+                        class="iconfont icon-gengxin"
+                        nz-popover
+                        nzPopoverTitle="Title"
+                        nzPopoverTrigger="hover"
+                        [nzPopoverContent]="tenantNamecontentTemplate"
+                        *ngIf="lastData?.shipperAddress"
+                      ></span>
+                      <ng-template #tenantNamecontentTemplate>
+                        <p>
+                          {{ 'before fixing' | translate }}:{{ lastData.shipperAddress.tenantName }}<span>,</span
+                          >{{ lastData.shipperAddress.city }} <span>,</span>{{ lastData.shipperAddress.province }}
+                          <span>,</span>{{ lastData.shipperAddress.country }}
+                        </p>
+                      </ng-template>
+                    </div>
+                    <div>
+                      {{ bookingDetailInfo?.originAddress?.streetAddress }}<span>,</span>
+                      {{ bookingDetailInfo?.originAddress?.city }}<span>,</span>
+                      {{ bookingDetailInfo?.originAddress?.province }}<span>,</span>
+                      {{ bookingDetailInfo?.originAddress?.country }}
+                    </div>
+                  </div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo.originPort">
+                    <div>
+                      {{ bookingDetailInfo.originPort?.name }}
+                      <span *ngIf="lastData?.originPort">
+                        <span
+                          class="iconfont icon-gengxin"
+                          nz-popover
+                          nzPopoverTitle="Title"
+                          nzPopoverTrigger="hover"
+                          [nzPopoverContent]="originPortcontentTemplate"
+                        >
+                        </span>
+                        <ng-template #originPortcontentTemplate>
+                          <p>
+                            {{ 'before fixing' | translate }}:{{ lastData.originPort.name }}<span>,</span
+                            >{{ lastData.originPort.regionName }}
+                          </p>
+                        </ng-template>
+                      </span>
+                    </div>
+                    <div>{{ bookingDetailInfo.originPort?.regionName }}</div>
+                  </div>
+
+                  <div *ngIf="!bookingDetailInfo.originPort">originPort</div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo.destinationPort">
+                    <div>
+                      {{ bookingDetailInfo.destinationPort?.name }}
+                      <span *ngIf="lastData?.destinationPort">
+                        <span
+                          id="gengxin"
+                          class="iconfont icon-gengxin"
+                          nz-popover
+                          nzPopoverTitle="Title"
+                          nzPopoverTrigger="hover"
+                          [nzPopoverContent]="destinationPortcontentTemplate"
+                        >
+                        </span>
+                        <ng-template #destinationPortcontentTemplate>
+                          <p>
+                            {{ 'before fixing' | translate }}:{{ lastData.destinationPort.name }}<span>,</span
+                            >{{ lastData.destinationPort.regionName }}
+                          </p>
+                        </ng-template>
+                      </span>
+                    </div>
+                    <div>{{ bookingDetailInfo.destinationPort?.regionName }}</div>
+                  </div>
+                  <div *ngIf="!bookingDetailInfo.destinationPort">
+                    destinationPort
+                  </div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="!bookingDetailInfo?.destinationAddress">
+                    {{ bookingDetailInfo?.consigneeCustomerName }}
+                  </div>
+                  <div *ngIf="bookingDetailInfo?.destinationAddress">
+                    <div class="content-ocean-routeInfo-shipper">
+                      {{ bookingDetailInfo?.destinationAddress?.tenantName
+                      }}<span
+                        class="iconfont icon-gengxin"
+                        *ngIf="lastData?.consigneeAddress"
+                        nz-popover
+                        nzPopoverTitle="Title"
+                        nzPopoverTrigger="hover"
+                        [nzPopoverContent]="consigneeAddresscontentTemplate"
+                      ></span>
+                      <ng-template #consigneeAddresscontentTemplate>
+                        <p>
+                          {{ 'before fixing' | translate }}:{{ lastData.consigneeAddress.tenantName }}<span>,</span
+                          >{{ lastData.consigneeAddress.city }} <span>,</span>{{ lastData.consigneeAddress.province }}
+                          <span>,</span>{{ lastData.consigneeAddress.country }}
+                        </p>
+                      </ng-template>
+                    </div>
+                    <div>
+                      {{ bookingDetailInfo?.destinationAddress?.streetAddress }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.city }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.province }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.country }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content-ocean-route" *ngIf="bookingDetailInfo.tradeType != 1">
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo.deliveryWarehouse">
+                    <div class="content-ocean-routeInfo-shipper">
+                      {{ bookingDetailInfo?.deliveryWarehouse?.name }}
+                      <span
+                        class="iconfont icon-gengxin"
+                        nz-popover
+                        nzPopoverTitle="Title"
+                        nzPopoverTrigger="hover"
+                        [nzPopoverContent]="deliveryWarehousecontentTemplate"
+                        *ngIf="lastData?.shipperAddress"
+                      ></span>
+                      <ng-template #deliveryWarehousecontentTemplate>
+                        <p>
+                          {{ 'before fixing' | translate }}:{{ lastData.shipperAddress.tenantName }}<span>,</span
+                          >{{ lastData.shipperAddress.city }} <span>,</span>{{ lastData.shipperAddress.province }}
+                          <span>,</span>{{ lastData.shipperAddress.country }}
+                        </p>
+                      </ng-template>
+                    </div>
+                    <div>
+                      {{ bookingDetailInfo?.deliveryWarehouse?.streetAddress }}<span>,</span>
+                      {{ bookingDetailInfo?.deliveryWarehouse?.city }}<span>,</span>
+                      {{ bookingDetailInfo?.deliveryWarehouse?.province }}<span>,</span>
+                      {{ bookingDetailInfo?.deliveryWarehouse?.country }}
+                    </div>
+                  </div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo.originPort">
+                    <div>
+                      {{ bookingDetailInfo.originPort?.name }}
+                      <span *ngIf="lastData?.originPort">
+                        <span
+                          class="iconfont icon-gengxin"
+                          nz-popover
+                          nzPopoverTitle="Title"
+                          nzPopoverTrigger="hover"
+                          [nzPopoverContent]="originPortcontentTemplate"
+                        >
+                        </span>
+                        <ng-template #originPortcontentTemplate>
+                          <p>
+                            {{ 'before fixing' | translate }}:{{ lastData.originPort.name }}<span>,</span
+                            >{{ lastData.originPort.regionName }}
+                          </p>
+                        </ng-template>
+                      </span>
+                    </div>
+                    <div>{{ bookingDetailInfo.originPort?.regionName }}</div>
+                  </div>
+
+                  <div *ngIf="!bookingDetailInfo.originPort">originPort</div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo.destinationPort">
+                    <div>
+                      {{ bookingDetailInfo.destinationPort?.name }}
+                      <span *ngIf="lastData?.destinationPort">
+                        <span
+                          id="gengxin"
+                          class="iconfont icon-gengxin"
+                          nz-popover
+                          nzPopoverTitle="Title"
+                          nzPopoverTrigger="hover"
+                          [nzPopoverContent]="destinationPortcontentTemplate"
+                        >
+                        </span>
+                        <ng-template #destinationPortcontentTemplate>
+                          <p>
+                            {{ 'before fixing' | translate }}:{{ lastData.destinationPort.name }}<span>,</span
+                            >{{ lastData.destinationPort.regionName }}
+                          </p>
+                        </ng-template>
+                      </span>
+                    </div>
+                    <div>{{ bookingDetailInfo.destinationPort?.regionName }}</div>
+                  </div>
+                  <div *ngIf="!bookingDetailInfo.destinationPort">
+                    destinationPort
+                  </div>
+                </div>
+                <div class="content-ocean-routeInfo">
+                  <div *ngIf="bookingDetailInfo?.destinationAddress">
+                    <div class="content-ocean-routeInfo-shipper">
+                      {{ bookingDetailInfo?.destinationAddress?.name
+                      }}<span
+                        class="iconfont icon-gengxin"
+                        *ngIf="lastData?.consigneeAddress"
+                        nz-popover
+                        nzPopoverTitle="Title"
+                        nzPopoverTrigger="hover"
+                        [nzPopoverContent]="consigneeAddresscontentTemplate"
+                      ></span>
+                      <ng-template #consigneeAddresscontentTemplate>
+                        <p>
+                          {{ 'before fixing' | translate }}:{{ lastData.consigneeAddress.tenantName }}<span>,</span
+                          >{{ lastData.consigneeAddress.city }} <span>,</span>{{ lastData.consigneeAddress.province }}
+                          <span>,</span>{{ lastData.consigneeAddress.country }}
+                        </p>
+                      </ng-template>
+                    </div>
+                    <div>
+                      {{ bookingDetailInfo?.destinationAddress?.streetAddress }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.city }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.province }}<span>,</span>
+                      {{ bookingDetailInfo?.destinationAddress?.country }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="width: 20%;">
+              <button
+                nz-button
+                nzType="primary"
+                (click)="
+                  isShowRoute = true;
+                  bookingObj.deliveryWarehouseId = bookingDetailInfo.deliveryWarehouseId;
+                  bookingObj.destinationAddressId = bookingDetailInfo.destinationAddressId
+                "
+                *ngIf="bookingDetailInfo?.tradeType != 1"
+              >
+                完善路线
+              </button>
+            </div>
+          </div> -->
+        <!-- </div> -->
+        <div class="content-left-Details">
+          <nz-tabset [nzAnimated]="false" class="ant-tabs-padding">
+            <nz-tab [nzTitle]="'Document' | translate">
+              <div class="packlist" *ngIf="[2, 3].includes(bookingDetailInfo.tradeType)">
+                <div style="width: 79%;">{{ 'Customs clearance invoice packing list' | translate }}</div>
+                <div style="width: 21%; text-align: right;">
+                  <button
+                    nz-button
+                    nzType="primary"
+                    (click)="viewPacklist()"
+                    *ngIf="bookingDetailInfo.cusClearanceInvoices && bookingDetailInfo.cusClearanceInvoices.length > 0"
+                  >
+                    {{ 'View' | translate }}
+                  </button>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    (click)="editPacklist()"
+                    *ngIf="bookingDetailInfo.status == 0 || bookingDetailInfo.status == 2"
+                  >
+                    {{ 'Edit' | translate }}
+                  </button>
+                </div>
+              </div>
+              <document-layout [BusinessId]="BusinessId" [BusinessType]="BusinessType"> </document-layout>
+            </nz-tab>
+            <nz-tab [nzTitle]="'Quotes' | translate">
+              <div
+                *ngIf="!bookingDetailInfo.quoteEnquiryId && relateQuoteCount <= 0"
+                style="text-align: center; margin-top: 100px;"
+              >
+                <div style="color: #717a83; height: 30px;">
+                  {{ 'No quotation, please add a quotation and send it to the customer' | translate }}
+                </div>
+                <div>
+                  <button nz-button nzType="primary" (click)="addQuote()">
+                    {{ 'Add Quotes' | translate }}
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="bookingDetailInfo.quoteEnquiryId">
+                <div style="text-align: right; margin-right: 10px;">
+                  <button nz-button nzType="primary" (click)="isShowUpdateTab = true">
+                    {{ 'Update quote' | translate }}
+                  </button>
+                </div>
+                <quote-quote-simple-info
+                  *ngIf="bookingDetailInfo.quoteEnquiryId"
+                  [Id]="bookingDetailInfo.quoteEnquiryId"
+                ></quote-quote-simple-info>
+              </div>
+              <div
+                *ngIf="relateQuoteCount > 0 && !bookingDetailInfo.quoteEnquiryId"
+                style="text-align: center; margin-top: 100px;"
+              >
+                <div style="color: #717a83; height: 30px;">
+                  {{ 'Match to' | translate }}<span>{{ relateQuoteCount }}</span
+                  >{{
+                    'Quotation for similar routes, please confirm the selection to be linked to the data of the current booking'
+                      | translate
+                  }}
+                </div>
+                <div>
+                  <button nz-button nzType="primary" (click)="selectQuote()">
+                    {{ 'Select quotation' | translate }}
+                  </button>
+                </div>
+              </div>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+      <div class="content-right">
+        <div class="Booking-detail">
+          <div class="Booking-detail-bookingDetail">
+            <div class="detail-word">
+              <label for="" style="font-size: 15px; font-weight: 600;">{{ 'BookingDetail' | translate }}</label>
+            </div>
+          </div>
+
+          <div class="Booking-detail-line">
+            <nz-list style="margin-bottom: 0;">
+              <nz-list-item
+                class="list-item-header"
+                style="border: none; display: flex; justify-content: space-between;"
+              >
+                <span
+                  ><label>{{ 'Route' | translate }}</label></span
+                >
+                <span>
+                  <button nz-button nzType="default" (click)="openRoute()" *ngIf="bookingDetailInfo?.tradeType != 1">
+                    {{ 'Improve the route' | translate }}
+                  </button>
+                </span>
+              </nz-list-item>
+              <nz-list-item
+                style="height: initial; margin-top: 14px; padding-bottom: 0; margin-bottom: 0px;"
+                class="timeline"
+              >
+                <route-time-line
+                  class="timeline-icon-bg-1"
+                  [originAddress]="
+                    (bookingDetailInfo.tradeType === 1
+                      ? bookingDetailInfo.originAddress
+                      : bookingDetailInfo.deliveryWarehouse) || { name: bookingDetailInfo.shipperCustomerName }
+                  "
+                  [originPort]="bookingDetailInfo.originPort"
+                  [destinationPort]="bookingDetailInfo.destinationPort"
+                  [destinationAddress]="
+                    bookingDetailInfo.destinationAddress || { name: bookingDetailInfo.consigneeCustomerName }
+                  "
+                  [freightMethodType]="bookingDetailInfo.freightMethodType"
+                  [subOriginAddress]="lastData.originAddress"
+                  [subDestinationAddress]="lastData.destinationAddress"
+                  [subOriginPort]="lastData.originPort"
+                  [subDestinationPort]="lastData.destinationPort"
+                ></route-time-line>
+              </nz-list-item>
+            </nz-list>
+          </div>
+          <div class="detailInfo-wap">
+            <nz-list>
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="">{{ 'Basic' | translate }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Cargo ready date' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for=""
+                    >{{ bookingDetailInfo.cargoReadyDate | date: 'yyyy-MM-dd' }}
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.cargoReadyDate"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="cargoReadyDatecontentTemplate"
+                    >
+                    </span>
+                    <ng-template #cargoReadyDatecontentTemplate>
+                      <p>{{ 'before fixing' | translate }}:{{ lastData.cargoReadyDate | date: 'yyy-MM-dd' }}</p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item *ngIf="bookingDetailInfo.deliveryDate">
+                <span
+                  ><label for="">{{ 'Delivery date' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    {{ bookingDetailInfo.deliveryDate | date: 'yyyy-MM-dd' }}
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Freight Type' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    <span *ngIf="bookingDetailInfo.freightType == 1">
+                      CY-CY
+                    </span>
+                    <span *ngIf="bookingDetailInfo.freightType == 2">
+                      CY-DOOR
+                    </span>
+                    <span *ngIf="bookingDetailInfo.freightType == 3">
+                      DOOR-CY
+                    </span>
+                    <span *ngIf="bookingDetailInfo.freightType == 4">
+                      DOOR-DOOR
+                    </span>
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.freightType"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="freightTypecontentTemplate"
+                      [title]="'修改前:' + lastData.freightType"
+                    >
+                    </span>
+                    <ng-template #freightTypecontentTemplate>
+                      <p>
+                        {{ 'before fixing' | translate }}:
+                        <span *ngIf="lastData.freightType == 1">
+                          CY-CY
+                        </span>
+                        <span *ngIf="lastData.freightType == 2">
+                          CY-DOOR
+                        </span>
+                        <span *ngIf="lastData.freightType == 3">
+                          DOOR-CY
+                        </span>
+                        <span *ngIf="lastData.freightType == 4">
+                          DOOR-DOOR
+                        </span>
+                      </p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Trade Type' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    <span *ngIf="bookingDetailInfo.tradeType == 1">
+                      General
+                    </span>
+                    <span *ngIf="bookingDetailInfo.tradeType == 2">
+                      FBA
+                    </span>
+                    <span *ngIf="bookingDetailInfo.tradeType == 3">
+                      FBM
+                    </span>
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.tradeType"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="tradeTypecontentTemplate"
+                    >
+                    </span>
+                    <ng-template #tradeTypecontentTemplate>
+                      <p>
+                        {{ 'before fixing' | translate }}:
+                        <span *ngIf="lastData.tradeType == 1">
+                          General
+                        </span>
+                        <span *ngIf="lastData.tradeType == 2">
+                          FBA
+                        </span>
+                        <span *ngIf="lastData.tradeType == 3">
+                          FBM
+                        </span>
+                      </p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Incoterms' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    <span>
+                      <label>{{ bookingDetailInfo.incotermsString }}</label>
+                      <span
+                        id="gengxin"
+                        *ngIf="lastData.incotermsString"
+                        class="iconfont icon-gengxin"
+                        nz-popover
+                        nzPopoverTitle="Title"
+                        nzPopoverTrigger="hover"
+                        [nzPopoverContent]="incotermsStringcontentTemplate"
+                      >
+                      </span>
+                      <ng-template #incotermsStringcontentTemplate>
+                        <p>
+                          {{ 'before fixing' | translate }}:{{ lastData.incotermsString }}
+                          >
+                        </p>
+                      </ng-template>
+                    </span>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Freight Type' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    <ng-container
+                      *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean; else elseTemplate"
+                    >
+                      ocean
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      air
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item *ngIf="containList.length > 0">
+                <span
+                  ><label for="">{{ 'Container Type' | translate }}</label></span
+                >
+                <span class="bookingDetail-word">
+                  <label for="" *ngFor="let item of containList">
+                    <span style="margin-right: 5px;" *ngIf="item.value > 0">{{ item.value }}X{{ item.name }}</span>
+                  </label>
+                  <span
+                    id="gengxin"
+                    *ngIf="lastcontainString"
+                    class="iconfont icon-gengxin"
+                    [title]="lastcontainString"
+                    nz-popover
+                    nzPopoverTitle="Title"
+                    nzPopoverTrigger="hover"
+                    [nzPopoverContent]="lastcontainStringcontentTemplate"
+                  >
+                  </span>
+                  <ng-template #lastcontainStringcontentTemplate>
+                    <p>{{ 'before fixing' | translate }}:{{ lastcontainString }}</p>
+                  </ng-template>
+                </span>
+              </nz-list-item>
+
+              <nz-list-item *ngIf="bookingDetailInfo.tradeType != 1">
+                <span
+                  ><label for=""> {{ 'Channel' | translate }}</label></span
+                >
+                <span
+                  ><label>
+                    <span>
+                      <span>{{ bookingDetailInfo.fbaFreightMethodString }}</span>
+                      <span>,</span>
+                      <span> {{ bookingDetailInfo.channelString }}</span>
+                      <span *ngIf="bookingDetailInfo.isTaxIncluded">(Withtax)</span>
+                      <span *ngIf="!bookingDetailInfo.isTaxIncluded">(Withouttax)</span>
+                    </span>
+                  </label></span
+                >
+              </nz-list-item>
+            </nz-list>
+            <nz-list *ngIf="bookingDetailInfo.quantity && bookingDetailInfo.weight && bookingDetailInfo.volume">
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{
+                    'Cargo Detail' | translate
+                  }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Quantity' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for=""
+                    >{{ bookingDetailInfo.quantity
+                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.quantityUnitString }}</span>
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.quantity"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="quantitycontentTemplate"
+                    >
+                    </span>
+                    <ng-template #quantitycontentTemplate>
+                      <p>
+                        {{ 'before fixing' | translate }}: {{ lastData.quantity
+                        }}<span style="margin-left: 5px;">
+                          <ng-container *ngIf="lastData.quantityUnitString; else elseTemplate">
+                            <span>
+                              {{ lastData.quantityUnitString }}
+                            </span>
+                          </ng-container>
+                          <ng-template #elseTemplate>
+                            <span>
+                              {{ bookingDetailInfo.quantityUnitString }}
+                            </span>
+                          </ng-template>
+                        </span>
+                      </p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Total Weight' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for=""
+                    >{{ bookingDetailInfo.weight
+                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.weightUnitString }}</span>
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.weight"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="weightcontentTemplate"
+                    >
+                    </span>
+                    <ng-template #weightcontentTemplate>
+                      <p>
+                        {{ 'before fixing' | translate }}: {{ lastData.weight
+                        }}<span style="margin-left: 5px;">
+                          <ng-container *ngIf="lastData.quantityUnitString; else elseTemplate">
+                            <span>
+                              {{ lastData.weightUnitString }}
+                            </span>
+                          </ng-container>
+                          <ng-template #elseTemplate>
+                            <span>
+                              {{ bookingDetailInfo.weightUnitString }}
+                            </span>
+                          </ng-template>
+                        </span>
+                      </p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <nz-list-item>
+                <span
+                  ><label for="">{{ 'Total Volume' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for=""
+                    >{{ bookingDetailInfo.volume
+                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.volumeUnitString }}</span>
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.volume"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="volumecontentTemplate"
+                    >
+                    </span>
+                    <ng-template #volumecontentTemplate>
+                      <p>
+                        {{ 'before fixing' | translate }}: {{ lastData.volume
+                        }}<span style="margin-left: 5px;">
+                          <ng-container *ngIf="lastData.quantityUnitString; else elseTemplate">
+                            <span>
+                              {{ lastData.volumeUnitString }}
+                            </span>
+                          </ng-container>
+                          <ng-template #elseTemplate>
+                            <span>
+                              {{ bookingDetailInfo.volumeUnitString }}
+                            </span>
+                          </ng-template>
+                        </span>
+                      </p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+            </nz-list>
+            <nz-list
+              *ngIf="
+                bookingDetailInfo.description || specialgoodsList.length > 0 || bookingDetailInfo.specialInstructions
+              "
+            >
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Detail' | translate }}</label></span
+                >
+              </nz-list-item>
+              <nz-list-item *ngIf="bookingDetailInfo.description">
+                <span
+                  ><label for="">{{ 'Description Of Products' | translate }}</label></span
+                >
+                <span class="bookingDetail-word"
+                  ><label for="">{{ bookingDetailInfo.description }}</label>
+                  <span
+                    id="gengxin"
+                    *ngIf="lastData.description"
+                    class="iconfont icon-gengxin"
+                    nz-popover
+                    nzPopoverTitle="Title"
+                    nzPopoverTrigger="hover"
+                    [nzPopoverContent]="descriptioncontentTemplate"
+                  >
+                  </span>
+                  <ng-template #descriptioncontentTemplate>
+                    <p>{{ 'before fixing' | translate }}: {{ lastData.description }}></p>
+                  </ng-template>
+                </span>
+              </nz-list-item>
+
+              <nz-list-item *ngIf="bookingDetailInfo.specialInstructions">
+                <span>
+                  <label for="">{{ 'Remark' | translate }}</label>
+                </span>
+                <span class="bookingDetail-word"
+                  ><label for="">
+                    {{ bookingDetailInfo.specialInstructions }}
+                    <span
+                      id="gengxin"
+                      *ngIf="lastData.specialInstructions"
+                      class="iconfont icon-gengxin"
+                      nz-popover
+                      nzPopoverTitle="Title"
+                      nzPopoverTrigger="hover"
+                      [nzPopoverContent]="specialInstructionscontentTemplate"
+                    >
+                    </span>
+                    <ng-template #specialInstructionscontentTemplate>
+                      <p>{{ 'before fixing' | translate }}: {{ lastData.specialInstructions }}></p>
+                    </ng-template>
+                  </label></span
+                >
+              </nz-list-item>
+              <div *ngIf="specialgoodsList.length > 0" class="un-List">
+                <span class="detailInfo-wap-info-left">
+                  <label for="">{{ 'Special Goods' | translate }}</label>
+                </span>
+                <div [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0px;">
+                  <div *ngFor="let item of specialgoodsList" class="quoteDetail-check">
+                    <label style="height: 25px;" nz-checkbox [(ngModel)]="item.IsSelected">{{ item.Name }}</label>
+                  </div>
+                </div>
+              </div>
+            </nz-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-back-top [nzTemplate]="tpl" [nzVisibilityHeight]="5">
+  <ng-template #tpl>
+    <div class="ant-back-top-inner">{{ 'UP' | translate }}</div>
+  </ng-template>
+</nz-back-top>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isShowRoute"
+  (nzOnCancel)="isShowRoute = false; bookingObj = {}"
+  nzWidth="35%"
+  [nzTitle]="'Edit route information' | translate"
+>
+  <div class="RoutelDetail">
+    <div class="RoutelDetail-top">
+      <span class="iconfont icon-locationnew"></span>
+      <nz-select
+        style="width: 70%; margin-left: 24px;"
+        [(ngModel)]="bookingObj.deliveryWarehouseId"
+        nzAllowClear
+        nzPlaceHolder="Choose"
+      >
+        <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of cityoceanList">
+          <div>{{ item.name }}</div>
+          <div>
+            {{ item.streetAddress }}<span>,</span>{{ item.city }}<span>,</span>{{ item.province }}<span>,</span
+            >{{ item.country }}
+          </div>
+        </nz-option>
+      </nz-select>
+    </div>
+    <div class="RoutelDetail-bottom">
+      <div class="RoutelDetail-bottom-left"></div>
+      <div class="RoutelDetail-bottom-right">
+        <div class="red" style="margin-left: 16px;" *ngIf="!bookingObj.deliveryWarehouseId && isSubmitted == true">
+          {{ 'deliveryWarehouse is Required' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="RoutelDetail">
+    <div class="RoutelDetail-top">
+      <span
+        class="iconfont icon-portnew"
+        *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean"
+      ></span>
+      <span
+        class="iconfont icon-airplane"
+        *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air"
+      ></span>
+      <nz-select
+        style="width: 70%; margin-left: 24px;"
+        [(ngModel)]="bookingObj.originPortId"
+        nzShowSearch
+        nzServerSearch
+        (nzOnSearch)="portOriginsearch($event)"
+        (ngModelChange)="originChange($event)"
+        nzAllowClear
+        nzPlaceHolder="Choose"
+      >
+        <nz-option
+          nzCustomContent
+          [nzValue]="item.id"
+          [nzLabel]="item.name + ',' + item.regionName"
+          *ngFor="let item of OriginPortList"
+        >
+          <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
+            <div class="port-name">
+              <span>{{ item.name }}</span>
+              <!-- <span class="iconfont icon-airplane"></span>
+              <span class="iconfont icon-Ocean"></span> -->
+              <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+              <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+              <span *ngIf="item.isAir && item.isOcean">
+                <span class="iconfont icon-airplane"></span>
+                <span class="iconfont icon-Ocean"></span>
+              </span>
+            </div>
+            <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
+            <div class="port-region">{{ item.regionName }}</div>
+          </div>
+        </nz-option>
+      </nz-select>
+    </div>
+    <div class="RoutelDetail-bottom">
+      <div class="RoutelDetail-bottom-left"></div>
+      <div class="RoutelDetail-bottom-right">
+        <div class="red" *ngIf="!isSamePort">
+          {{ 'deliveryWarehouse is Required' | translate }}
+          {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="RoutelDetail">
+    <div class="RoutelDetail-top">
+      <span
+        class="iconfont icon-portnew"
+        *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean"
+      ></span>
+      <span
+        class="iconfont icon-airport"
+        *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air"
+      ></span>
+      <nz-select
+        style="width: 70%; margin-left: 24px;"
+        nzShowSearch
+        nzServerSearch
+        (nzOnSearch)="portDesinationsearch($event)"
+        (ngModelChange)="desinationChange($event)"
+        [(ngModel)]="bookingObj.destinationPortId"
+        nzAllowClear
+        nzPlaceHolder="Choose"
+      >
+        <nz-option
+          nzCustomContent
+          [nzValue]="item.id"
+          [nzLabel]="item.name + ',' + item.regionName"
+          *ngFor="let item of DesinationPortList"
+        >
+          <div class="port-info" (click)="comparePort($event, item.id, 'destination')">
+            <div class="port-name">
+              <span>{{ item.name }}</span>
+              <!-- <span class="iconfont icon-Ocean"></span><span class="iconfont icon-airplane"></span> -->
+              <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+              <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+              <span *ngIf="item.isAir && item.isOcean">
+                <span class="iconfont icon-airplane"></span>
+                <span class="iconfont icon-Ocean"></span>
+              </span>
+            </div>
+            <div class="port-code"><span>customs:</span> {{ item.code }}</div>
+            <div class="port-region">{{ item.regionName }}</div>
+          </div>
+        </nz-option>
+      </nz-select>
+    </div>
+    <div class="RoutelDetail-bottom">
+      <div class="RoutelDetail-bottom-left"></div>
+      <div class="RoutelDetail-bottom-right">
+        <div class="red" *ngIf="!isSamePort">
+          {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="RoutelDetail">
+    <div class="RoutelDetail-top">
+      <span class="iconfont icon-locationnew"></span>
+      <nz-select
+        *ngIf="bookingDetailInfo.tradeType == 2"
+        style="width: 70%; margin-left: 24px;"
+        nzShowSearch
+        [(ngModel)]="bookingObj.destinationAddressId"
+        [appSearchByExtraKey]="['name', 'streetAddress', 'unlocode']"
+        nzAllowClear
+        nzPlaceHolder="Choose"
+        [nzCustomTemplate]="destinationAddresscustom"
+      >
+        <nz-option
+          nzCustomContent
+          [nzValue]="item.id"
+          [nzLabel]="item.name"
+          [appNzOptionExtra]="item"
+          *ngFor="let item of amazonList"
+        >
+          <div>{{ item.name }}<span>,</span>{{ item.streetAddress }}<span>,</span>{{ item.code }}</div>
+        </nz-option>
+      </nz-select>
+      <ng-template #destinationAddresscustom let-selected>
+        <div>
+          <span *ngIf="selected.template._appExtra.name">{{ selected.template._appExtra.name }},</span>
+          <span *ngIf="selected.template._appExtra.streetAddress"
+            >{{ selected.template._appExtra.streetAddress }},</span
+          >
+          {{ selected.template._appExtra.code }}
+        </div>
+      </ng-template>
+      <nz-select
+        *ngIf="bookingDetailInfo.tradeType == 3"
+        style="width: 70%; margin-left: 24px;"
+        [(ngModel)]="bookingObj.destinationAddressId"
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Choose"
+        [nzCustomTemplate]="companyContactcustom"
+        [appSearchByExtraKey]="['name']"
+      >
+        <nz-option
+          nzCustomContent
+          [nzValue]="item.id"
+          [nzLabel]="item.name"
+          [appNzOptionExtra]="item"
+          *ngFor="let item of companyContactlist"
+        >
+          <div class="OriginLocation-edit">{{ item.name }}-{{ item.tenantName }}</div>
+          <div>
+            <span
+              >{{ item.streetAddress2 }}
+              <span *ngIf="item.streetAddress2">,</span>
+            </span>
+            <span>{{ item.streetAddress }} <span *ngIf="item.streetAddress">,</span></span>
+            <span>{{ item.city }}<span *ngIf="item.city">,</span></span>
+            <span>{{ item.province }}<span *ngIf="item.province">,</span></span>
+            <span>{{ item.country }}</span>
+          </div>
+        </nz-option>
+      </nz-select>
+      <ng-template #companyContactcustom let-selected>
+        <div>
+          <span
+            >{{ selected.template._appExtra.name }}<span>-</span>{{ selected.template._appExtra.tenantName }}
+            <span
+              >{{ selected.template._appExtra.streetAddress
+              }}<span *ngIf="selected.template._appExtra.streetAddress">,</span>{{ selected.template._appExtra.city
+              }}<span *ngIf="selected.template._appExtra.city">,</span>{{ selected.template._appExtra.province
+              }}<span *ngIf="selected.template._appExtra.province">,</span
+              >{{ selected.template._appExtra.country }}</span
+            >
+          </span>
+        </div>
+      </ng-template>
+    </div>
+    <div class="red" style="margin-left: 80px;" *ngIf="!bookingObj.destinationAddressId && isSubmitted == true">
+      {{ 'destinationAddress is Required' | translate }}
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isShowRoute = false; bookingObj = {}">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button nz-button nzType="primary" type="submit" (click)="routeOk()">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isShowcreatequotes"
+  [nzTitle]="(isCreate ? 'Add Quotes' : 'Update quote') | translate"
+  (nzOnCancel)="createquotesCancel()"
+  nzWidth="75%"
+>
+  <booking-createquotes
+    [isCreate]="isCreate"
+    [quoteinfo]="quoteinfo"
+    *ngIf="isShowcreatequotes"
+    [bookingId]="bookingId"
+    (isSuccessfully)="isSuccessfully($event)"
+    (isClosed)="isClosed = $event"
+    (isQuoteStatus)="isQuoteStatus = $event"
+  >
+  </booking-createquotes>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="createquotesCancel()">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button nz-button nzType="primary" type="submit" (click)="createquotesOk()" [nzLoading]="isQuoteStatus">
+      {{ (isCreate ? 'Add Quotes' : 'Update quote') | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isShowUpdateTab"
+  (nzOnCancel)="isShowUpdateTab = false"
+  (nzOnOk)="updateQuoteOk()"
+  nzWidth="25%"
+>
+  <p>
+    {{
+      'If you update the quotation, you need to wait for the customer to reconfirm the price, whether to continue to update?'
+        | translate
+    }}
+  </p>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" type="submit" (click)="updateQuoteOk()">
+      {{ 'Keep editing' | translate }}
+    </button>
+    <button nz-button nzType="default" (click)="isShowUpdateTab = false">{{ 'Cancel' | translate }}</button>
+  </div>
+</nz-modal>
+
+<nz-modal nzMaskClosable="false" [(nzVisible)]="isShowquotesRecord" (nzOnCancel)="quotesRecordCancel()" nzWidth="65%">
+  <booking-quote-recorddetail
+    [quoteinfo]="quoteinfo"
+    [bookingId]="bookingId"
+    (isClosed)="isClosed = $event"
+    (isClosedRecord)="closeQuored($event)"
+    (isSuccessfully)="isRecorddetailSuccessfully($event)"
+    *ngIf="relateQuotelist.length > 0 && isShowquotesRecord"
+    [isShowtab]="isShowtab"
+    [relateQuotelist]="relateQuotelist"
+    [filterrelateQuotelist]="relateQuotelist"
+    (isQuoteRecordStatus)="isQuoteRecordStatus = $event"
+    (selSelectIndex)="selIndexnum($event)"
+  >
+  </booking-quote-recorddetail>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="quotesRecordCancel()">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      type="submit"
+      (click)="quotesRecordOk()"
+      *ngIf="selIndex == 1"
+      [nzLoading]="isQuoteRecordStatus"
+    >
+      {{ 'Add Quotes' | translate }}
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isShowPacklist"
+  [nzTitle]="'Packing list' | translate"
+  (nzOnCancel)="packlisthandleCancel()"
+  (nzOnOk)="packlisthandleOk()"
+  nzWidth="1500"
+>
+  <div style="text-align: right;">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="isDisabledPack = false"
+      *ngIf="bookingDetailInfo.status == 0 || bookingDetailInfo.status == 2"
+    >
+      {{ 'Edit' | translate }}
+    </button>
+  </div>
+  <div>
+    <crm-packing-list
+      *ngIf="bookingDetailInfo.tradeType"
+      [bookingId]="bookingDetailInfo.id"
+      [isEdit]="isEdit"
+      [tradeType]="bookingDetailInfo.tradeType"
+      [isPackSubmitted]="isSubmitted"
+      [pageList]="bookingDetailInfo.packingLists"
+      [listOfData]="bookingDetailInfo.cusClearanceInvoices"
+      (declareCurrency)="(bookingDetailInfo.declareCurrencyId)"
+      (verificationPassed)="verificationPassed = $event"
+      (packingLists)="bookingDetailInfo.packingLists = $event"
+      (cusClearanceInvoices)="bookingDetailInfo.cusClearanceInvoices = $event"
+      (cusClearanceInvoicesGroup)="cusClearanceInvoicesGroup = $event"
+      [isDisabledPack]="isDisabledPack"
+    >
+    </crm-packing-list>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="packlisthandleCancel()">{{ 'Cancel' | translate }}</button>
+    <button nz-button nzType="primary" [ngClass]="{ notClickn: isDisabledPack }" (click)="packlisthandleOk()">
+      {{ 'save' | translate }}
+    </button>
+  </div>
+</nz-modal>

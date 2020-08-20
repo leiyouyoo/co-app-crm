@@ -1,0 +1,474 @@
+<div style="overflow: hidden; height: 100%; display: flex; flex-direction: column;">
+  <div class="set-button">
+    <button nz-button
+            copyDomToImage
+            [domGenerator]="generateCopyDom"
+            nz-popover
+            [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+            [disabled]="isIE()">{{ 'Copy image' | translate }}</button>
+    <button nz-button
+            nz-popover
+            [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+            [disabled]="isIE()"
+            (click)="onSavePNG()">{{ 'Download image' | translate }}</button>
+    <button nz-button nzType="primary" ngxClipboard [cbContent]="copyUrl" (cbOnSuccess)="onTips()">
+      {{ 'Copy Link' | translate }}
+    </button>
+  </div>
+
+  <div class="share-list">
+    <div style="overflow-y: auto; padding-right: 20px;">
+      <div class="share-view" *ngFor="let da of data?.cacheItem; let i = index">
+        <div class="share-view-title">
+          <div>
+            <img [src]="da.carrierLogo" style="width: 35px; height: 35px;" *ngIf="da.carrierLogo" />
+          </div>
+          <div class="share-view-title-button">
+            <!-- <button nz-button nzSize="small" (click)="onShowSchedules($event)">Schedules</button> -->
+            &nbsp;
+            <!-- <button
+              *ngIf="!da.isQuoteOrFreight"
+              nz-button
+              nzSize="small"
+              nz-popover
+              nzPopoverTrigger="click"
+              nzPopoverPlacement="bottomLeft"
+              [nzPopoverContent]="contentTemplate"
+              [disabled]="true"
+              (click)="
+                onGetSails({
+                  polId: da.polId,
+                  podId: da.podId
+                })
+              "
+            >
+              {{ 'Schedules' | translate }}
+            </button>
+            <ng-template #contentTemplate>
+              <div class="schedules">
+                <sailing-schedules-content
+                  [datas]="sailDatas"
+                  [loading]="isSailLoading"
+                  (onMaxResultCountChanged)="onSailMaxResultCountChanged($event)"
+                  [maxResultCount]="sailMaxResultCount"
+                  [skipCount]="sailSkipCount"
+                  (onSkipCountChanged)="onSailSkipCountChanged($event)"
+                ></sailing-schedules-content>
+              </div>
+            </ng-template>
+
+            <button nz-button nzType="primary" nzSize="small" [disabled]="true" (click)="goCsp()">
+              {{ 'Book shipment' | translate }}
+            </button> -->
+          </div>
+          <span style="font-weight: 800; font-size: 16px;">{{ da.carrier }}</span>
+          <span>
+            <div style="color: #00000045;">{{ 'Expires' | translate }}</div>
+            <div style="font-size: 18px;">{{ da.durationFrom | date }} -- {{ da.durationTo | date }}</div>
+          </span>
+          <div class="border-radius-left"></div>
+          <div class="border-radius-right"></div>
+        </div>
+        <div class="share-view-content">
+          <div class="border-radius-left"></div>
+          <div class="border-radius-right"></div>
+          <!-- {{ da.pol }} - {{ da.pod }} -->
+          <curved-route
+            [typeId]="i"
+            [transitTime]="da.tt"
+            [data]="{
+              freightType: da.freightType === 0 ? 1 : da.freightType,
+              originPort: { name: da.pol, regionName: da.orgionPolCity, countryName: da.orgionPolCountry },
+              destinationPort: {
+                name: da.pod ? da.pod : da.delivery,
+                regionName: da.destinationPodCity,
+                countryName: da.destinationPodCountry
+              },
+              originAddress: {
+                displayAddressName: da.origionTruckAddress,
+                city: da.origionTruckAddresCity,
+                country: da.origionTruckAddresCountry
+              },
+              destinationAddress: {
+                displayAddressName: da.destinationTruckAddress,
+                city: da.destinationTruckAddresCity,
+                country: da.destinationTruckAddresCountry
+              },
+              freightMethodType: 1
+            }"
+          ></curved-route>
+
+          <div class="commidity">
+            <strong>{{ 'Commodity' | translate }}:</strong>{{ da.commodity || '--' }}
+          </div>
+          <div class="commidity">
+            <strong>{{ 'Remark' | translate }}:</strong>{{ da.remark || '--' }}
+          </div>
+
+          <div class="share-view-content-footer">
+            <div class="share-view-content-footer-rates">
+              <div *ngFor="let detail of da.units">
+                <p>{{ detail.unit }}:</p>
+                <span>${{ detail.rate }}</span>
+              </div>
+            </div>
+
+            <button
+              nz-button
+              nzSize="small"
+              nz-popover
+              nzPopoverTrigger="click"
+              nzPopoverPlacement="bottomLeft"
+              [nzPopoverContent]="content2Template"
+              *ngIf="da?.originLocalRates.length > 0 || da?.destinationLocalRates.length > 0"
+            >
+              {{ 'Local Fees' | translate }}<i nz-icon nzType="up" nzTheme="outline"></i>
+            </button>
+            <ng-template #content2Template>
+              <div class="share-view-table-all">
+                <div class="share-view-table" *ngIf="da?.originLocalRates.length > 0">
+                  <div class="share-view-table-title">{{ 'POL/From' | translate }}</div>
+                  <nz-table #basicTable [nzData]="da.originLocalRates" nzSize="small" nzHideOnSinglePage>
+                    <thead>
+                      <tr>
+                        <th nzWidth="15%">{{ 'Fee name' | translate }}</th>
+                        <th nzWidth="15%">{{ 'Currency' | translate }}</th>
+                        <th *ngFor="let title of da.originLocalRates[0]?.units">
+                          {{ title.unit }}
+                        </th>
+                        <th nzWidth="25%">{{ 'Charge by per shipment' | translate }}</th>
+                        <th nzWidth="15%">{{ 'Remark' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of basicTable.data">
+                        <td nzEllipsis>{{ data.chargingCodeName || '--' }}</td>
+                        <td nzEllipsis>{{ data.currency || '--' }}</td>
+                        <td nzEllipsis *ngFor="let title of data.units">
+                          {{ title.rate || '--' }}
+                        </td>
+
+                        <td nzEllipsis>{{ data.price || '--' }}</td>
+                        <td nzEllipsis>{{ data.remark || '--' }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </div>
+
+                <div class="share-view-table" *ngIf="da?.destinationLocalRates.length > 0">
+                  <div class="share-view-table-title">{{ 'Delivery/To' | translate }}</div>
+                  <nz-table #basic2Table [nzData]="da.destinationLocalRates" nzSize="small" nzHideOnSinglePage>
+                    <thead>
+                      <tr>
+                        <th nzWidth="15%">{{ 'Fee name' | translate }}</th>
+                        <th nzWidth="15%">{{ 'Currency' | translate }}</th>
+                        <th *ngFor="let title of da.destinationLocalRates[0]?.units">
+                          {{ title.unit }}
+                        </th>
+                        <th nzWidth="25%">{{ 'Charge by per shipment' | translate }}</th>
+                        <th nzWidth="15%">{{ 'Remark' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of basic2Table.data">
+                        <td nzEllipsis>{{ data.chargingCodeName || '--' }}</td>
+                        <td nzEllipsis>{{ data.currency || '--' }}</td>
+                        <td nzEllipsis *ngFor="let title of data.units">
+                          {{ title.rate || '--' }}
+                        </td>
+
+                        <td nzEllipsis>{{ data.price || '--' }}</td>
+                        <td nzEllipsis>{{ data.remark || '--' }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="share-msg">
+      <div class="share-msg-top">
+        <div class="share-msg-left">
+          <div class="share-img">
+            <img
+              src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
+              *ngIf="data?.user?.profilePictureId; else noimg"
+            />
+            <ng-template #noimg>
+              <img src="assets/images/avatar.png" />
+            </ng-template>
+            <!--
+            <img src="assets/images/avatar.png" /> -->
+          </div>
+          <div class="share-name">
+            <p>{{ data?.user?.name || '--' }}</p>
+            <span>{{ data?.user?.position || '--' }}</span>
+          </div>
+        </div>
+
+        <div class="share-msg-right">
+          <img src="assets/images/icon_logo2.png" />
+          <p>{{ data?.user?.companyName || '--' }}</p>
+        </div>
+
+        <div class="share-msg-detail">
+          <div><span class="iconfont icon-shouji"></span>{{ data?.user?.phoneNumber || '--' }}</div>
+          <div><span class="iconfont icon-wangzhi"></span>app.cityocean.com</div>
+          <div><span class="iconfont icon-youxiang"></span>{{ data?.user?.emailAddress || '--' }}</div>
+        </div>
+      </div>
+
+      <div class="share-msg-title">
+        {{ 'Terms' | translate }}
+      </div>
+
+      <div class="share-msg-html">
+        <div><strong>QUOTE VALIDITY TERMS: </strong></div>
+        <span>
+          This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
+          shipper must accept the terms in writing by email or by making a booking pursuant to this NR& Unless otherwise
+          specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door delivery,
+          or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be assessed for
+          collect freight. All charges not included in the rates but which are published in our Rules Tahff and in
+          effect at the time of shipment shall apply to this arrangement ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE
+          ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA
+          OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+        </span>
+        <div><strong>Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents：</strong></div>
+        Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
+        change or documentation charges requested after the shipment has been received
+        <div *ngIf="(data?.cacheItem)[0]?.isTerms">
+          <div><strong>Chassis Rental:</strong></div>
+          A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental
+          is required
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 用于分享图片 -->
+<div style="position: absolute; left: 20000px; width: 100%;">
+  <div class="share-list" [id]="'share' + z" *ngFor="let da of data?.cacheItem; let z = index" style="padding: 24px;">
+    <div>
+      <div class="share-view">
+        <div class="share-view-title">
+          <div>
+            <!-- <img [src]="da.carrierLogo" style="width: 35px; height: 35px;" *ngIf="da.carrierLogo" /> -->
+          </div>
+          <div class="share-view-title-button">
+            <!-- <button nz-button nzSize="small" (click)="onShowSchedules($event)">Schedules</button> -->
+
+            <button
+              *ngIf="!da.isQuoteOrFreight"
+              nz-button
+              nzSize="small"
+              nz-popover
+              nzPopoverTrigger="click"
+              nzPopoverPlacement="bottomLeft"
+              [nzPopoverContent]="contentTemplate"
+              (click)="
+                onGetSails({
+                  polId: da.polId,
+                  podId: da.podId
+                })
+              "
+            >
+              {{ 'Schedules' | translate }}
+            </button>
+            <ng-template #contentTemplate>
+              <div class="schedules">
+                <sailing-schedules-content
+                  [datas]="sailDatas"
+                  [loading]="isSailLoading"
+                  (onMaxResultCountChanged)="onSailMaxResultCountChanged($event)"
+                  [maxResultCount]="sailMaxResultCount"
+                  [skipCount]="sailSkipCount"
+                  (onSkipCountChanged)="onSailSkipCountChanged($event)"
+                ></sailing-schedules-content>
+              </div>
+            </ng-template>
+
+            <button nz-button nzType="primary" nzSize="small" (click)="goCsp()">
+              {{ 'Book shipment' | translate }}
+            </button>
+          </div>
+          <span style="font-weight: 800; font-size: 16px;">{{ da.carrier }}</span>
+          <span>
+            <div style="color: #00000045;">{{ 'Expires' | translate }}</div>
+            <div style="font-size: 18px;">
+              {{ da.durationFrom | date: 'yyyy-MM-dd' }} - {{ da.durationTo | date: 'yyyy-MM-dd' }}
+            </div>
+          </span>
+          <div class="border-radius-left"></div>
+          <div class="border-radius-right"></div>
+        </div>
+        <!-- <ticket-divider></ticket-divider> -->
+        <div class="share-view-content">
+          <div class="border-radius-left"></div>
+          <div class="border-radius-right"></div>
+          <!-- {{ da.pol }} - {{ da.pod }} -->
+          <curved-route
+            [typeId]="da.id"
+            [transitTime]="da.tt"
+            [data]="{
+              freightType: da.freightType === 0 ? 1 : da.freightType,
+              originPort: { name: da.pol, regionName: da.orgionPolCity, countryName: da.orgionPolCountry },
+              destinationPort: {
+                name: da.pod ? da.pod : da.delivery,
+                regionName: da.destinationPodCity,
+                countryName: da.destinationPodCountry
+              },
+              originAddress: {
+                displayAddressName: da.origionTruckAddress,
+                city: da.origionTruckAddresCity,
+                country: da.origionTruckAddresCountry
+              },
+              destinationAddress: {
+                displayAddressName: da.destinationTruckAddress,
+                city: da.destinationTruckAddresCity,
+                country: da.destinationTruckAddresCountry
+              },
+              freightMethodType: 1
+            }"
+          ></curved-route>
+
+          <div class="commidity">
+            <strong>{{ 'Commidity' | translate }}:</strong>{{ da.commodity || '--' }}
+          </div>
+          <div class="commidity">
+            <strong>{{ 'Remark' | translate }}:</strong>{{ da.remark || '--' }}
+          </div>
+
+          <div class="share-view-content-footer">
+            <div class="share-view-content-footer-rates">
+              <div *ngFor="let detail of da.units">
+                <p>{{ detail.unit }}:</p>
+                <span>${{ detail.rate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="share-view-table">
+            <div class="share-view-table-title">{{ 'POL/From' | translate }}</div>
+            <nz-table #basicTable [nzData]="da.originLocalRates" nzSize="small" nzHideOnSinglePage>
+              <thead>
+                <tr>
+                  <th nzWidth="15%">{{ 'Fee name' | translate }}</th>
+                  <th nzWidth="15%">{{ 'Currency' | translate }}</th>
+                  <th *ngFor="let title of da.destinationLocalRates[0]?.units">
+                    {{ title.unit }}
+                  </th>
+                  <th nzWidth="25%">{{ 'Charge by per shipment' | translate }}</th>
+                  <th nzWidth="15%">{{ 'Remark' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                  <td nzEllipsis>{{ data.chargingCodeName || '--' }}</td>
+                  <td nzEllipsis>{{ data.currency || '--' }}</td>
+                  <td nzEllipsis *ngFor="let title of data.units">
+                    {{ title.rate || '--' }}
+                  </td>
+
+                  <td nzEllipsis>{{ data.price || '--' }}</td>
+                  <td nzEllipsis>{{ data.remark || '--' }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+
+          <div class="share-view-table">
+            <div class="share-view-table-title">{{ 'Delivery/To' | translate }}</div>
+            <nz-table #basic2Table [nzData]="da.destinationLocalRates" nzSize="small" nzHideOnSinglePage>
+              <thead>
+                <tr>
+                  <th nzWidth="15%">{{ 'Fee name' | translate }}</th>
+                  <th nzWidth="15%">{{ 'Currency' | translate }}</th>
+                  <th *ngFor="let title of da.destinationLocalRates[0]?.units">
+                    {{ title.unit }}
+                  </th>
+                  <th nzWidth="25%">{{ 'Charge by per shipment' | translate }}</th>
+                  <th nzWidth="15%">{{ 'Remark' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basic2Table.data">
+                  <td nzEllipsis>{{ data.chargingCodeName || '--' }}</td>
+                  <td nzEllipsis>{{ data.currency || '--' }}</td>
+                  <td nzEllipsis *ngFor="let title of data.units">
+                    {{ title.rate || '--' }}
+                  </td>
+
+                  <td nzEllipsis>{{ data.price || '--' }}</td>
+                  <td nzEllipsis>{{ data.remark || '--' }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="share-msg">
+      <div class="share-msg-top">
+        <div class="share-msg-left">
+          <div class="share-img">
+            <img
+              src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
+              *ngIf="data?.user?.profilePictureId; else noimg"
+            />
+            <ng-template #noimg>
+              <img src="assets/images/avatar.png" />
+            </ng-template>
+          </div>
+          <div class="share-name">
+            <p>{{ data?.user?.name || '--' }}</p>
+            <span>{{ data?.user?.position || '--' }}</span>
+          </div>
+        </div>
+
+        <div class="share-msg-right">
+          <img src="assets/images/icon_logo2.png" />
+          <p>{{ data?.user?.companyName || '--' }}</p>
+        </div>
+
+        <div class="share-msg-detail">
+          <div><span class="iconfont icon-shouji"></span>{{ data?.user?.phoneNumber || '--' }}</div>
+          <div><span class="iconfont icon-wangzhi"></span>app.cityocean.com</div>
+          <div><span class="iconfont icon-youxiang"></span>{{ data?.user?.emailAddress || '--' }}</div>
+        </div>
+      </div>
+
+      <div class="share-msg-title">
+        {{ 'Terms' | translate }}
+      </div>
+
+      <div class="share-msg-html">
+        <div><strong>QUOTE VALIDITY TERMS: </strong></div>
+        <span>
+          This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
+          shipper must accept the terms in writing by email or by making a booking pursuant to this NR& Unless otherwise
+          specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door delivery,
+          or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be assessed for
+          collect freight. All charges not included in the rates but which are published in our Rules Tahff and in
+          effect at the time of shipment shall apply to this arrangement ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE
+          ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA
+          OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+        </span>
+        <div><strong>Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents：</strong></div>
+        Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
+        change or documentation charges requested after the shipment has been received
+        <div *ngIf="(data?.cacheItem)[0]?.isTerms">
+          <div><strong>Chassis Rental:</strong></div>
+          A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental
+          is required
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

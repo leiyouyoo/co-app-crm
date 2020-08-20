@@ -1,0 +1,197 @@
+<div class="crm-body" id="body-list">
+  <div class="search">
+    <div>
+      <div class="search-header">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input
+            type="text"
+            nz-input
+            placeholder="{{ 'Please enter key words' | translate }}"
+            [(ngModel)]="searchData"
+            (keyup)="onSearch($event)"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <i nz-icon nzType="search" (click)="nowSearch()"></i>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="button-head">
+      <button class="button" nz-button [disabled]="transDisabled" (click)="transModal()">
+        {{ 'Transfer' | translate }}
+      </button>
+
+      <button class="button" nz-button [nzType]="'primary'" (click)="createModal()">
+        {{ 'New' | translate }}
+      </button>
+      <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
+        {{ 'customer merge' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="body-list">
+    <nz-table
+      #rowSelectionTable2
+      [nzData]="listOfData?.items"
+      [nzLoading]="loading"
+      [nzFrontPagination]="false"
+      nzShowPagination="false"
+      nzTableLayout="fixed"
+      calcNzTableBodyScroll
+    >
+      <thead>
+        <tr>
+          <th nzWidth="50px">
+            <label
+              nz-checkbox
+              nzShowCheckbox
+              [(nzChecked)]="isAllDisplayDataChecked"
+              (nzCheckedChange)="checkAll($event)"
+            ></label>
+          </th>
+          <th nzWidth="500px">
+            {{ 'CustomerTableName' | translate }}
+          </th>
+
+          <th [nzShowSort]="false" nzColumnKey="CountryProvince" nzWidth="150px">
+            {{ 'Country, province' | translate }}
+          </th>
+          <th [nzShowSort]="false" nzColumnKey="Contact" nzWidth="150px">
+            {{ 'Contact' | translate }}
+          </th>
+          <th [nzShowSort]="false" nzColumnKey="Tel" nzWidth="150px">
+            {{ 'Phone' | translate }}
+          </th>
+          <th [nzShowSort]="false" nzColumnKey="owner" nzWidth="150px">
+            {{ 'Owner' | translate }}
+          </th>
+          <th nzRight="0" nzWidth="100px">{{ 'Operating' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of rowSelectionTable2.data; let i = index"
+          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
+          (dblclick)="showDetial(data)"
+        >
+          <td nzEllipsis>
+            <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
+          </td>
+          <td nzEllipsis>
+            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">
+              {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
+            >
+          </td>
+
+          <td nzEllipsis nzBreakWord>
+            {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
+          </td>
+          <td nzEllipsis nzBreakWord>
+            {{ data.contactName || '--' }}
+          </td>
+          <td nzEllipsis nzBreakWord>
+            {{ data.contactTel || '--' }}
+          </td>
+          <td nzEllipsis nzBreakWord>
+            {{ data.owner || '--' }}
+          </td>
+          <td nzEllipsis nzBreakWord nzRight="0">
+            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">{{ 'View' | translate }}</a>
+            <span style="margin-left: 20px; color: #f5222dff;" (click)="deleteCustormer(data.id)">{{
+              'Delete' | translate
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <div class="pagination">
+    <nz-pagination
+      [nzPageIndex]="skipCount"
+      [nzPageSize]="maxResultCount"
+      nzShowQuickJumper
+      nzShowSizeChanger
+      nzHideOnSinglePage
+      [nzTotal]="listOfData?.totalCount"
+      (nzPageSizeChange)="pageSizeChange($event)"
+      (nzPageIndexChange)="pageIndexChange($event)"
+    ></nz-pagination>
+  </div>
+</div>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isVisibleCreate"
+  nzTitle="{{ 'New customer' | translate }}"
+  [nzFooter]="cusFooter"
+  nzOkText="Save"
+  nzWidth="50%"
+  (nzOnCancel)="createCancel()"
+>
+  <div #createCustomer></div>
+  <ng-template #cusFooter>
+    <button nz-button (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+      {{ 'Application' | translate }}
+    </button>
+
+    <button nz-button nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+      {{ 'Save' | translate }}
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isVisibleTrans"
+  nzTitle="{{ 'Transfer customer' | translate }}"
+  [nzFooter]="tranFooter"
+  (nzOnCancel)="cancelTrans()"
+  nzOkText="{{ 'Transfer' | translate }}"
+  nzCancelText="{{ 'Cancel' | translate }}"
+  nzWidth="50%"
+>
+  <transfer-tocustomer></transfer-tocustomer>
+  <ng-template #tranFooter>
+    <button nz-button nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
+      {{ 'Transfer' | translate }}
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- 删除 -->
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isDelete"
+  [nzTitle]="modalOneText"
+  (nzOnCancel)="cancelDelete()"
+  (nzOnOk)="customerDelete()"
+  nzOkText="{{ 'OK' | translate }}"
+  nzCancelText="{{ 'Cancel' | translate }}"
+>
+  {{ modalOneContent }}
+</nz-modal>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="unDelete"
+  [nzTitle]="modalTwoText"
+  (nzOnCancel)="cancelDeleteCustomer()"
+  (nzOnOk)="cancelDeleteCustomer()"
+  nzOkText="{{ 'OK' | translate }}"
+  [nzFooter]="modalFooter"
+  [nzContent]="modalTwoContent"
+>
+</nz-modal>
+
+<ng-template #modalContent>
+  {{ modalTwoContent }}
+</ng-template>
+
+<ng-template #modalFooter>
+  <button nz-button nzType="primary" (click)="cancelDeleteCustomer()">{{ 'OK' | translate }}</button>
+</ng-template>
+<app-customer-merge (getCustomerByPageList)="getCustomerByPageList()"></app-customer-merge>

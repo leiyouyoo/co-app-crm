@@ -1,0 +1,15 @@
+<div class="flexTableset" id="table">
+  <nz-tabset [nzAnimated]="false" [(nzSelectedIndex)]="selectIndex" (nzSelectChange)="onselectRate($event)">
+    <nz-tab nzTitle="{{ 'Shipping fee' | translate }}">
+      <ng-template nz-tab>
+        <app-inquiry-ocean></app-inquiry-ocean>
+      </ng-template>
+    </nz-tab>
+
+    <nz-tab nzTitle="{{ 'Trucking fee' | translate }}">
+      <ng-template nz-tab>
+        <app-inquiry-track></app-inquiry-track>
+      </ng-template>
+    </nz-tab>
+  </nz-tabset>
+</div>

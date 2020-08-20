@@ -1,0 +1,71 @@
+@import '../../../../../styles/variables.less';
+.errorBorder {
+  color: @errorBorder !important;
+}
+.icon-gengxin {
+  color: #fa6400;
+}
+.inner-content {
+  .list-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .index-header-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px !important;
+      .index-header-title-filter {
+        display: flex;
+        align-items: center;
+
+        // min-height: 80px;
+        .index-header-title-filter-perple {
+          width: 200px;
+          margin-right: 16px;
+        }
+        .index-header-title-filter-status {
+          width: 200px;
+          margin-right: 16px;
+        }
+        .icon-all {
+          align-items: center;
+          // width: 200px;
+          margin-right: 16px;
+          .tradeTypeGroup {
+            min-width: 250px;
+            .tradeTypeInfo {
+              min-width: 100px;
+              &:extend(.radio-button-width);
+              text-align: center;
+              background-color: #ffffff;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+
+      .list-content-action {
+        text-align: right;
+      }
+    }
+
+    .content-list {
+      padding: 0px 24px;
+      flex: 1;
+      overflow: hidden;
+      /deep/ nz-spin {
+        .ant-spin-container {
+          height: 100% !important;
+        }
+        height: 100% !important;
+      }
+      .man_width {
+        width: 150px;
+      }
+      .min_width {
+        width: 30px;
+      }
+    }
+  }
+}

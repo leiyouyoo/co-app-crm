@@ -1,0 +1,264 @@
+<div class="customerAuth-content" *ngIf="isBind; else noCustomer">
+  <div class="table-title">
+    <div class="card-title"></div>
+    <button nz-button nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
+      {{ 'Edit' | translate }}
+    </button>
+  </div>
+  <div class="customerAuth-content-operation">
+    <nz-alert
+      nzType="warning"
+      nzMessage="{{
+        'Tip: After the customer level configuration is released, customers who have already opened the tenant can log in to the CSP platform to view the freight rate after the addition'
+          | translate
+      }}"
+      nzShowIcon
+    ></nz-alert>
+  </div>
+
+  <div class="table-content">
+    <div style="width: 40%; border-right: 1px solid #00000015;">
+      <div>
+        {{ 'Username' | translate }}:<span>{{ clientMsg?.userName }}</span>
+      </div>
+      <div>
+        {{ 'Role' | translate }}:<span>{{ clientMsg?.editionRoleName }}</span>
+      </div>
+      <div>
+        {{ 'Contact information' | translate }}:<span>{{ clientMsg?.contactFullName }}</span>
+      </div>
+      <div>
+        {{ 'Customer configuration level' | translate }}:
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 0">
+          自定义
+        </span>
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 1">
+          T1 {{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)
+        </span>
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 2">
+          T2 {{ 'range' | translate }}:(<span style="color: #faad14;">100-199.99</span>)
+        </span>
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 3">
+          T3 {{ 'range' | translate }}:(<span style="color: #faad14;">200-299.99)</span>)
+        </span>
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 4">
+          T4 {{ 'range' | translate }}:(<span style="color: #faad14;">300-499.99)</span>)
+        </span>
+        <span *ngIf="clientMsg?.customerConfigure.customerLevel == 5">
+          T5 {{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
+        </span>
+      </div>
+    </div>
+    <div style="flex: 1; margin-left: 20px;">
+      <div>
+        {{ 'Profit' | translate }}:<span>{{ clientMsg?.customerConfigure.oceanAttachFee }}</span>
+      </div>
+      <div>
+        {{ 'Price plus interval' | translate }}:
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 1">50~99 <span>USD</span></span>
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 2"
+          >100~199 <span>USD</span></span
+        >
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 3"
+          >200~299 <span>USD</span></span
+        >
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 4"
+          >300~499 <span>USD</span></span
+        >
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 5">≥ 500 <span>USD</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noCustomer>
+  <div class="noCustomer">
+    <div class="noCustomer-right">
+      <div>
+        <img src="assets/images/customer/noCustomer.png" />
+      </div>
+      <div style="text-align: left;">
+        <div class="title">{{ 'Customer is not certified' | translate }}</div>
+        <div class="message">{{ 'Sorry, you have not performed client authentication' | translate }}</div>
+        <div class="message" style="color: #e55354;" *ngIf="!isCanBind">
+          {{ 'Sorry, the partner is not bound to the customer' | translate }}
+        </div>
+        <div>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="onCertification()"
+            [disabled]="!isOwner || (!partnerIsOwner && isPartner)"
+          >
+            {{ 'Authentication now' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<nz-modal
+  nzMaskClosable="false"
+  [(nzVisible)]="isVisible"
+  nzTitle="{{ 'Customer certification' | translate }}"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="footer"
+  nzWidth="50%"
+>
+  <div>
+    <nz-alert
+      style="margin-bottom: 20px;"
+      nzType="warning"
+      nzMessage="{{
+        'After the customer level configuration is released, customers who have already opened the tenant can log in to the CSP platform to view the maritime freight rate after the bonus'
+          | translate
+      }}"
+      nzShowIcon
+    ></nz-alert>
+
+    <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="userName" nzRequired>{{ 'Username' | translate }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="userNameError">
+              <input
+                type="text"
+                nz-input
+                formControlName="userName"
+                [disabled]="clientMsg?.userName ? true : false"
+                [attr.disabled]="clientMsg?.userName ? 'disabled' : null"
+              />
+            </nz-form-control>
+            <ng-template #userNameError>
+              {{ 'Please input the correct email address!' | translate }}
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="editionRoleId" nzRequired>{{ 'Role' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="{{ 'Please select' | translate }}"
+                nzAllowClear
+                formControlName="editionRoleId"
+              >
+                <nz-option *ngFor="let item of rolesList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
+                ></nz-select
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzFor="customerLevel">{{
+              'Customer configuration level' | translate
+            }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="{{ 'Please select' | translate }}"
+                nzAllowClear
+                formControlName="customerLevel"
+                [nzCustomTemplate]="multipleTemplate"
+                (ngModelChange)="changeCustomerLevel($event)"
+              >
+                <nz-option [nzValue]="1" nzCustomContent>
+                  T1{{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)
+                </nz-option>
+                <nz-option [nzValue]="2" nzCustomContent>
+                  T2{{ 'range' | translate }}:(<span style="color: #faad14;">100-199.99</span>)
+                </nz-option>
+                <nz-option [nzValue]="3" nzCustomContent>
+                  T3{{ 'range' | translate }}:(<span style="color: #faad14;">200-299.99)</span>)
+                </nz-option>
+                <nz-option [nzValue]="4" nzCustomContent>
+                  T4{{ 'range' | translate }}:(<span style="color: #faad14;">300-499.99)</span>)
+                </nz-option>
+                <nz-option [nzValue]="5" nzCustomContent>
+                  T5{{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
+                </nz-option>
+                <nz-option [nzValue]="0" nzCustomContent>
+                  自定义
+                </nz-option>
+              </nz-select>
+
+              <ng-template #multipleTemplate let-selected>
+                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value!=0">
+                  T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span
+                    style="color: #faad14;"
+                    ><span *ngIf="!maxPrice">≥</span>{{ minPrice }}<span *ngIf="maxPrice">-{{ maxPrice }}</span></span
+                  >)
+                </div>
+
+                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value==0">
+                  自定义
+                </div>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Profit' | translate }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="errortips">
+              <nz-input-group nzAddOnAfter="USD">
+                <input
+                  type="number"
+                  nz-input
+                  formControlName="oceanAttachFee"
+                  placeholder="{{ 'Please enter' | translate }}"
+                />
+              </nz-input-group>
+            </nz-form-control>
+            <ng-template #errortips>
+              {{ 'Please enter the price in the price range' | translate }}
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId">{{ 'Contact' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="{{ 'Please choose' | translate }}"
+                nzAllowClear
+                formControlName="contactId"
+              >
+                <nz-option
+                  *ngFor="let item of contactList"
+                  [nzLabel]="item.name + (item.surname ? item.surname : '')"
+                  [nzValue]="item.id"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ng-template #footer>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="noRZModal"
+  [nzTitle]="'Customer is not certified' | translate"
+  (nzOnCancel)="noRXModalhandleCancel()"
+  [nzCancelText]="null"
+  [nzOkText]="'Yes' | translate"
+  (nzOnOk)="noRXModalhandleOk()"
+>
+  <p>{{ 'Please provide the tax number and apply for the certification from the finance department' | translate }}</p>
+  <p>{{ 'CSP account can only be opened after financial audit' | translate }}</p>
+</nz-modal>

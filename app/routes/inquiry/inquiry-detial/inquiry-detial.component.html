@@ -1,0 +1,698 @@
+<div class="inquiry-right-footer" *ngIf="item">
+  <div class="drawer-bar">
+    <div class="box-sj"></div>
+  </div>
+
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="{{ 'Basic Information' | translate }}">
+      <ng-template nz-tab>
+        <inquiry-basic-information [item]="item"></inquiry-basic-information>
+        <strong class="contract-title">
+          {{ 'Contract information' | translate }}
+        </strong>
+        <div class="contract">
+          <div class="contract-msg">
+            <div>
+              <span>
+                <i nz-icon nzType="user" nzTheme="outline"></i>
+                <span>{{ 'Shipper' | translate }}</span>
+              </span>
+              <span>{{ item.shipper || '--' }}</span>
+            </div>
+            <div>
+              <span>
+                <i nz-icon nzType="user" nzTheme="outline"></i>
+                <span>{{ 'Consignee' | translate }}</span>
+              </span>
+              <span>{{ item.consignee || '--' }}</span>
+            </div>
+            <div>
+              <span>
+                <i nz-icon nzType="user" nzTheme="outline"></i>
+                <span>{{ 'Notify' | translate }}</span>
+              </span>
+              <span>{{ item.notify || '--' }}</span>
+            </div>
+          </div>
+
+          <div class="contract-line"></div>
+
+          <div class="contract-msg">
+            <div>
+              <span>{{ 'Contract NO' | translate }}</span> <span>{{ item.contractNO || '--' }}</span>
+            </div>
+            <div>
+              <span>{{ 'Shippingline' | translate }}</span> <span>{{ item.shipline || '--' }}</span>
+            </div>
+            <div>
+              <span>{{ 'Account Type' | translate }}</span> <span>{{ item.accountType || '--' }}</span>
+            </div>
+            <div>
+              <span>{{ 'Account' | translate }}</span> <span>{{ item.account || '--' }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="{{ 'Fee details' | translate }}">
+      <ng-template nz-tab>
+        <nz-table #detialTable [nzData]="item.costDetails" nzShowPagination="false" [nzScroll]="{ x: '500px' }"
+          [nzFrontPagination]="false" style="min-height: 200px;width:100%;margin-top: 24px;">
+          <thead>
+            <tr>
+              <th nzWidth="150px">
+                {{ 'Fee item' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Currency' | translate }}
+              </th>
+              <th nzWidth="150px" *ngFor="let detial of item.costUnits">
+                {{ detial }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'POL/From' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'POD' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Delivery/To' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Term' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'ItemCode' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Duration(From)' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Duration(To)' | translate }}
+              </th>
+              <th nzWidth="150px">
+                {{ 'Customer(Agent)' | translate }}
+              </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of detialTable.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
+              <td nzEllipsis>
+                {{ data.costType }}
+              </td>
+              <td nzEllipsis>
+                {{ data.currency || '--' }}
+              </td>
+              <td nzEllipsis *ngFor="let detial of item.costUnits">
+                {{ data[detial] }}
+              </td>
+              <td nzEllipsis>
+                {{ data.pol || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.pod || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.delivery || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.term || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.itemCode || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.from | date: 'yyyy-MM-dd' || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.to | date: 'yyyy-MM-dd' || '--' }}
+              </td>
+              <td nzEllipsis>
+                {{ data.customer || '--' }}
+              </td>
+            </tr>
+            <tr>
+              <td nzWidth="150px" style="background: #E7F3FF;color:#5CB0FF;">{{'Total'|translate}}</td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ item.currency }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total20GP.toFixed(2) || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total40GP.toFixed(2) || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total40HQ.toFixed(2) || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total50HQ.toFixed(2) || '--' }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <!-- <nz-table [nzScroll]="{ x: '500px' }" style="width:100%;margin-top: 1px;">
+          <thead>
+            <tr>
+              <td nzWidth="150px" style="background: #E7F3FF;color:#5CB0FF;">Total&nbsp;&nbsp;&nbsp;</td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total20GP || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total40GP || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total40HQ || '--' }}
+              </td>
+              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+                {{ total50HQ || '--' }}
+            </tr>
+            </tr>
+          </thead>
+        </nz-table> -->
+      </ng-template>
+    </nz-tab>
+
+    <nz-tab nzTitle="{{ 'Local charge' | translate }}">
+      <ng-template nz-tab>
+        <div class="tab-box">
+          <div class="tab-item" (click)="chargeItemChange('pol')" [ngClass]="{ tabitemactive: chargeItem=='pol' }">
+            POL-XX{{ 'port' | translate }}
+          </div>
+          <div class="tab-item" (click)="chargeItemChange('pod')" [ngClass]="{ tabitemactive: chargeItem=='pod' }">
+            POD-XX{{ 'port' | translate }}
+          </div>
+        </div>
+        <div class="loc-charge-table">
+          <!-- <nz-table
+            #locChargeTable
+            [nzData]="locChargeLists"
+            nzShowPagination="false"
+            [nzScroll]="{ x: '500px' }"
+            [nzFrontPagination]="false"
+
+            style="min-height: 200px;width:100%;margin-top: 24px;"
+          >
+            <thead>
+              <tr  class="blue-head">
+                <th nzWidth="150px">
+                  {{ 'Fee item' | translate }}
+                </th>
+                <th nzWidth="150px">
+                  单票价格
+                </th>
+                <th nzWidth="150px">
+                  币种
+                </th>
+                <th nzWidth="150px" *ngFor="let detial of locChargeItem">
+                  {{ detial }}
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let data of locChargeTable.data; let i = index">
+                <tr>
+                  <td nzEllipsis>
+                    {{ data.chargingCodeName ? data.chargingCodeName : '--' }}
+                  </td>
+                  <td nzEllipsis>
+                    <span>
+                      {{ chargeunittypePipe[data.chargeUnitType]  || '--' }}
+                    </span>
+                    <span>
+                      / {{ data.totalPrice || '--' }}
+                    </span>
+                  </td>
+                  <td nzEllipsis>
+                    {{ data.currencyName ? data.currencyName : '--' }}
+                  </td>
+                  <td nzEllipsis *ngFor="let i of data.localUnitRateByPortOutputs">
+                    {{ i.cost || '--'}}
+                  </td>
+                </tr>
+                <tr [nzExpand]="true" class="no-padding-tr">
+                  <td>
+                    <span>备注：</span>
+                    <span>{{ data.remark || '--' }}</span>
+                  </td>
+
+                </tr>
+            </tbody>
+          </nz-table> -->
+
+
+          <div class="loc-table-box">
+            <div class="loc-table-content">
+              <div class="loc-table-head">
+                <div class="loc-head-item">
+                  {{ 'Fee item' | translate }}
+                </div>
+                <div class="loc-head-item">
+                  {{ 'The price of a ticket' | translate }}
+                </div>
+                <div class="loc-head-item">
+                  {{ 'Currerncy' | translate }}
+                </div>
+                <div class="loc-head-item" *ngFor="let detial of locChargeItem">
+                  {{ detial }}
+                </div>
+              </div>
+              <div class="loc-body-item" *ngFor="let data of locChargeLists; let i = index">
+                <div class="loc-body-td" [title]="data?.chargingCodeName">
+                  {{ data.chargingCodeName ? data.chargingCodeName : '--' }}
+                </div>
+                <div class="loc-body-td">
+                  <span>
+                    {{ data.totalPrice || '--' }}
+                  </span>
+                  <span>
+                    /{{ chargeunittypePipe[data.chargeUnitType]  || '--' }}
+                  </span>
+                </div>
+                <div class="loc-body-td">
+                  {{ data.currencyName ? data.currencyName : '--' }}
+                </div>
+                <div class="loc-body-td" *ngFor="let i of data.localUnitRateByPortOutputs;let idx = index">
+                  {{ i.cost || '--'}}
+
+                </div>
+
+                <div class="loc-body-mark"
+                  [ngStyle]="{'width': 150*(locChargeItem ? locChargeItem.length+3 : 3) + 'px'}">
+                  <span>{{ 'Remark' | translate }}：</span>
+                  <span>{{ data.remark || '--' }}</span>
+                </div>
+                <div class="line"></div>
+              </div>
+
+              <div class="loc-body-item" *ngIf="locChargeLists&&locChargeLists.length>0">
+                <div class="loc-body-td">
+                  <span class="txt-total">{{ 'Total' | translate }}(USD)</span>
+                </div>
+                <div class="loc-body-td"></div>
+                <div class="loc-body-td"></div>
+                <div class="loc-body-td" style="color:#FA6400" *ngFor="let total of locChargeItem">
+                  {{  locTotalList[total] ? locTotalList[total]?.toFixed(2) : "" }}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+
+      </ng-template>
+    </nz-tab>
+
+
+  </nz-tabset>
+</div>
+
+<div class="inquiry-right-footer" *ngIf="trailerDetial">
+  <div class="drawer-bar ">
+    <div class="box-sj"></div>
+  </div>
+
+  <!-- <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="{{ 'Basic' | translate }}"> -->
+  <div class="inquiry-detial">
+    <!-- 商务报价 -->
+    <div class="inquiry-first-item">
+      <div class="inquiry-title" *ngIf="trailerDetial.quoteReply" style="margin:0px 0px 0px 0px !important;">
+        <strong>{{ 'Business quote' | translate }}:</strong>
+        <span> {{ trailerDetial.quoteReply?.replyNo || '--' }}</span>
+      </div>
+      <div>
+        <span *ngIf="trailerDetial.quoteReply" style="margin-right: 15px;">{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
+                trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
+              }}</span>
+      </div>
+    </div>
+
+    <!-- 基本运费 -->
+    <div *ngIf="trailerDetial.quoteReply">
+      <!-- <div class="inquiry-title">
+            <strong>{{ 'Basic freight' | translate }}</strong>
+          </div> -->
+
+      <ng-template #noData></ng-template>
+
+      <!-- 基本运费 -->
+      <nz-table #containerTypeTable [nzData]="trailerDetial.quoteReply?.table1" [nzFrontPagination]="false"
+        nzShowPagination="false" class="small-table table-no-nodatabox" nzSize="small" [nzNoResult]="noData"
+        style="margin: 24px 0px;">
+        <thead>
+          <tr>
+            <th nzWidth="40%">
+              {{ 'Carrier' | translate }}
+            </th>
+            <th nzWidth="20%">
+              {{ 'T/T' | translate }}
+            </th>
+            <th nzWidth="20%" *ngFor="let data of containerTypeTable.data">
+              {{ data.containerCode }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{ trailerDetial.quoteReply.replyCarrier || '--' }}
+            </td>
+            <td>
+              {{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}
+            </td>
+            <td *ngFor="let data of containerTypeTable.data">
+              {{ data.unitPrice?.toFixed(2) }} {{ data.currency }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <!-- 表格1 -->
+      <div class="loc-table-box loc-table-box-autowidth">
+        <div class="loc-table-content">
+          <div class="loc-table-head flex-self">
+            <div class="loc-head-item">
+              {{ 'Origin' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Rate' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Quantity' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Total' | translate }}
+            </div>
+          </div>
+          <div class="loc-body-item flex-self" *ngFor="let data of trailerDetial.quoteReply?.table2">
+            <div class="loc-body-td" [title]="data.chargingCode">
+              {{ data.chargingCode || '--' }}
+            </div>
+            <div class="loc-body-td">
+              {{ data.unitPrice?.toFixed(2) || '--' }} {{data.currency}}
+            </div>
+            <div class="loc-body-td">
+              X{{ data.quantity || '--' }}
+              <ng-container *ngIf="data.quantity">
+                {{data.containerCode}}
+              </ng-container>
+            </div>
+            <div class="loc-body-td">
+              {{ (data.unitPrice * data.quantity).toFixed(2) }} {{data.currency}}
+            </div>
+            <div class="loc-body-mark" [ngStyle]="{'width': '100%'}">
+              <span>{{ 'Remark' | translate }}：</span>
+              <span style="color:#E02020">{{ data.remark || '--' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 表格2 -->
+      <div class="loc-table-box loc-table-box-autowidth">
+        <div class="loc-table-content">
+          <div class="loc-table-head">
+            <div class="loc-head-item">
+              {{ 'Destination' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Rate' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Quantity' | translate }}
+            </div>
+            <div class="loc-head-item">
+              {{ 'Total' | translate }}
+            </div>
+          </div>
+          <div class="loc-body-item" *ngFor="let data of trailerDetial.quoteReply?.table3">
+            <div class="loc-body-td" [title]="data.chargingCode">
+              {{ data.chargingCode || '--' }}
+            </div>
+            <div class="loc-body-td">
+              {{ data.unitPrice?.toFixed(2) || '--' }} {{data.currency}}
+            </div>
+            <div class="loc-body-td">
+              X{{ data.quantity || '--' }}
+              <ng-container *ngIf="data.quantity">
+                {{data.containerCode}}
+              </ng-container>
+            </div>
+            <div class="loc-body-td">
+              {{ (data.unitPrice * data.quantity).toFixed(2) }} {{data.currency}}
+            </div>
+            <div class="loc-body-mark" [ngStyle]="{'width': '100%'}">
+              <span>{{ 'Remark' | translate }}：</span>
+              <span style="color:#E02020">{{ data.remark || '--' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="inquiry-detial-table">
+        <!-- 表格1 -->
+        <!-- <div class="inquiry-detial-left">
+              <div class="inquiry-table-border-flex">
+                <span>{{ 'Carrier' | translate }}</span
+                ><strong>{{ trailerDetial.quoteReply.replyCarrier || '--' }}</strong>
+              </div>
+              <div class="inquiry-table-border-flex">
+                <span>{{ 'T/T' | translate }}</span
+                ><strong>{{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}</strong>
+              </div>
+
+              <nz-table
+                #containerTypeTable
+                [nzData]="trailerDetial.quoteReply?.table1"
+                [nzFrontPagination]="false"
+                nzShowPagination="false"
+                class="small-table"
+                nzSize="small"
+              >
+                <thead>
+                  <tr>
+                    <th nzWidth="150px">
+                      {{ 'ContainType' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Price' | translate }}
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of containerTypeTable.data">
+                    <td nzEllipsis>
+                      {{ data.containerCode }}
+                    </td>
+                    <td nzEllipsis>
+                      {{ data.unitPrice }}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>  -->
+        <!-- 表格2 -->
+        <!-- <div class="inquiry-detial-right">
+              <nz-table
+                style="border-bottom: 1px #e5e5e5 dashed;"
+                #replyItems1Table
+                [nzData]="trailerDetial.quoteReply?.table2"
+                [nzFrontPagination]="false"
+                nzShowPagination="false"
+                class="small-table"
+                nzSize="small"
+              >
+                <thead>
+                  <tr>
+                    <th nzWidth="150px">
+                      {{ 'Origin' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Rate' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Quantity' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Total' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Remark' | translate }}
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of replyItems1Table.data">
+                    <td nzEllipsis>
+                      {{ data.chargingCode }}
+                    </td>
+                    <td nzEllipsis>
+                      {{ data.unitPrice }}
+                    </td>
+                    <td nzEllipsis>X{{ data.quantity }}</td>
+                    <td nzEllipsis>
+                      {{ (data.unitPrice * data.quantity).toFixed(2) }}
+                    </td>
+                    <td nzEllipsis>
+                      {{ data.remark }}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+
+              <nz-table
+                style=""
+                #replyItems2Table
+                [nzData]="trailerDetial.quoteReply?.table3"
+                [nzFrontPagination]="false"
+                nzShowPagination="false"
+                class="small-table"
+                nzSize="small"
+              >
+                <thead>
+                  <tr>
+                    <th nzWidth="150px">
+                      {{ 'Destination' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Rate' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Quantity' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Total' | translate }}
+                    </th>
+                    <th nzWidth="150px">
+                      {{ 'Remark' | translate }}
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let data of replyItems2Table.data">
+                    <td nzEllipsis>
+                      {{ data.chargingCode }}
+                    </td>
+                    <td nzEllipsis>
+                      {{ data.unitPrice }}
+                    </td>
+                    <td nzEllipsis>X{{ data.quantity }}</td>
+                    <td nzEllipsis>
+                      {{ (data.unitPrice * data.quantity).toFixed(2) }}
+                    </td>
+                    <td nzEllipsis>
+                      {{ data.remark }}
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div> -->
+      </div>
+
+      <div class="inquiry-detial-msg" style="border-bottom: 1px solid #e5e5e5;">
+
+
+        <span>{{ 'Respond by' | translate }}:{{ trailerDetial.quoteReply?.replyUser }}</span>
+      </div>
+    </div>
+
+    <div class="inquiry-title">
+      <strong>{{ 'Inquiry information' | translate }}:</strong>
+      <span> {{ trailerDetial.quoteNo || '--' }}</span>
+    </div>
+
+    <!-- 四个表格 -->
+    <div class="inquiry-table">
+      <!-- 时间轴 -->
+      <div class="inquiry-table-border">
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'POL' | translate }}</span><strong>{{ trailerDetial.fromPlaceName || '--' }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'POD' | translate }}</span><strong>{{ trailerDetial.destinationPort || '--' }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Delivery' | translate }}</span><strong>{{ trailerDetial.toPlaceName || '--' }}</strong>
+        </div>
+      </div>
+
+      <!-- 货好日期 -->
+      <div class="inquiry-table-border">
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Cargo ready date' | translate }}</span><strong>{{ trailerDetial.cargoReadyDate | date: 'yyyy-MM-dd' }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Expected delivery date' | translate }}</span><strong>{{ trailerDetial.deliveryDate | date: 'yyyy-MM-dd' }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Expected shipowner' | translate }}</span><strong>{{ trailerDetial.carrierCustomer || '--' }}</strong>
+        </div>
+      </div>
+      <!-- 件数 -->
+      <div class="inquiry-table-border">
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Pieces' | translate }}</span><strong>{{ trailerDetial.quantity || 0 }}{{ trailerDetial.quantityUnit }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Gross weight' | translate }}</span><strong>{{ trailerDetial.weight || 0 }}{{ trailerDetial.totalWeightUnit }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Volume' | translate }}</span><strong>{{ trailerDetial.volume || 0 }}{{ trailerDetial.totalVolumeUnit }}</strong>
+        </div>
+      </div>
+
+      <!-- ETOD -->
+      <div class="inquiry-table-border">
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'ETOD' | translate }}</span><strong>{{ trailerDetial.etod || '--' }}</strong>
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Product Name' | translate }}</span><strong>{{ trailerDetial.commodity || '--' }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="inquiry-table">
+      <div class="inquiry-table-border" style="width: 49.5%;">
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Inquiry customer' | translate }}</span><strong>{{ trailerDetial.ownerCustomer || '--' }}</strong>
+          <span *ngIf="trailerDetial.isShipper" style="display:block;min-width: 101px;">
+            <label nz-checkbox [(ngModel)]="trailerDetial.isShipper" nzDisabled
+              style="margin-right: 20px;"></label>{{ 'sender' | translate }}</span>
+
+        </div>
+        <div class="inquiry-table-border-flex">
+          <span>{{ 'Inquirer' | translate }}</span><strong>{{ trailerDetial.ownerContact || '--' }}</strong>
+        </div>
+      </div>
+
+
+    </div>
+
+    <strong>{{ 'Remark' | translate }}</strong>
+    <div class="gray-box" style="width: 99.5%;">
+      <div>
+        {{ trailerDetial.description || '--' }}
+      </div>
+    </div>
+
+    <div class="inquiry-detial-msg">
+      <span>{{ 'Inquired by' | translate }}:{{ trailerDetial.quoteCreator }}</span>
+    </div>
+  </div>
+  <!-- </nz-tab>
+  </nz-tabset> -->
+</div>
+
+<share-loading *ngIf="!trailerDetial && !item"></share-loading>

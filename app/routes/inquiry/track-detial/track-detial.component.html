@@ -1,0 +1,214 @@
+<div class="inquiry-right-footer" *ngIf="item">
+  <div class="drawer-bar">
+    <div class="box-sj"></div>
+  </div>
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="{{ 'Basic' | translate }}">
+      <div class="inquiry-detial">
+        <!-- 商务报价 -->
+        <div style="display: flex; align-items: center;">
+          <div class="inquiry-title" *ngIf="item.quoteReply">
+            <strong>{{ 'Business quote' | translate }}:</strong>
+            <span style="margin-left: 24px;"> {{ item.quoteReply?.replyNo || '--' }}</span>
+          </div>
+        </div>
+
+        <!-- 基本运费 -->
+        <div>
+          <div>
+            <strong>{{ 'Remark' | translate }}:</strong>
+            <div style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;" >
+              {{ item.remark}}
+            </div>
+          </div>
+
+          <div class="inquiry-detial-msg" style="border-bottom: 1px solid #e5e5e5;">
+            <span style="margin-right: 15px;">{{ 'expires' | translate }}:{{ item.validStart | date: 'yyyy-MM-dd' }}~{{
+              item.validEnd | date: 'yyyy-MM-dd'
+              }}</span>
+            <span *ngIf="item.users">Respond by:{{ item.users}}</span>
+          </div>
+        </div>
+
+        <div class="inquiry-title">
+          <strong>{{ 'Contract information' | translate }}:</strong>
+        </div>
+
+        <div class="inquiry-table">
+          <!-- 时间轴 -->
+          <div class="inquiry-table-border">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'From' | translate }}</span>
+              <strong>
+                <span *ngIf="item.truckType == 1">{{ item.country }}-{{ item.city }}-{{ item.truckAddress }}</span>
+                <span *ngIf="item.truckType == 2">{{ item.truckPort }}</span>
+              </strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'To' | translate }}</span>
+              <strong>
+                <span *ngIf="item.truckType == 1">{{ item.truckPort }}</span>
+                <span *ngIf="item.truckType == 2">{{ item.country }}-{{ item.city }}-{{ item.truckAddress }}</span>
+              </strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'inquiry' | translate }}</span>
+              <strong>{{ item.rate?.toFixed(2) || '--' }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Fuel' | translate }}</span>
+              <strong>{{ item.fuel || '--' }}%</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Total' | translate }}</span>
+              <strong>{{ ((item.rate * item.fuel / 100) + item.rate).toFixed(2) }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Currerncy' | translate }}</span>
+              <strong>{{ item.currency || '--' }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Trucker' | translate }}</span>
+              <strong>{{ item.carrier }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+<div class="inquiry-right-footer" *ngIf="trailerDetial">
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="{{ 'Basic' | translate }}">
+      <div class="inquiry-detial">
+        <!-- 商务报价 -->
+        <div style="display: flex; align-items: center;">
+          <div class="inquiry-title" *ngIf="trailerDetial.quoteReply">
+            <strong>{{ 'Business quote' | translate }}:</strong>
+            <span style="margin-left: 24px;"> {{ trailerDetial.quoteReply?.replyNo || '--' }}</span>
+          </div>
+        </div>
+
+        <!-- 基本运费 -->
+        <div *ngIf="trailerDetial.quoteReply">
+          <div>
+            <strong>{{ 'Remark' | translate }}:</strong>
+            <div style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;" [innerHtml]="description">
+            </div>
+          </div>
+
+          <div class="inquiry-detial-msg" style="border-bottom: 1px solid #e5e5e5;">
+            <span *ngIf="trailerDetial.quoteReply" style="margin-right: 15px;">{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
+              trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
+              }}</span>
+            <span>Respond by:{{ trailerDetial.quoteReply?.replyUser || '--' }}</span>
+          </div>
+        </div>
+
+        <div class="inquiry-title">
+          <strong>{{ 'Inquiry information' | translate }}:</strong>
+          <span style="margin-left: 24px;"> {{ trailerDetial.quoteNo || '--' }}</span>
+        </div>
+
+        <!-- 五个表格 -->
+        <div class="inquiry-table">
+          <!-- 时间轴 -->
+          <div class="inquiry-table-border">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'From' | translate }}</span>
+              <strong>{{ trailerDetial.fromPlaceName || '--' }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'To' | translate }}</span>
+              <strong>{{ trailerDetial.toPlaceName || '--' }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'inquiry' | translate }}</span>
+              <strong>{{ trailerDetial.quoteReply?.quoteReplyItems[0]?.unitPrice?.toFixed(2) || '--' }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Fuel' | translate }}</span>
+              <strong>{{ trailerDetial.quoteReply?.quoteReplyItems[0]?.truckFuel || '--' }}%</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Total' | translate }}</span>
+              <strong>{{ ((trailerDetial.quoteReply?.quoteReplyItems[0]?.unitPrice * trailerDetial.quoteReply?.quoteReplyItems[0]?.truckFuel / 100)
+                + trailerDetial.quoteReply?.quoteReplyItems[0]?.unitPrice).toFixed(2) }}</strong>
+            </div>
+
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Currerncy' | translate }}</span>
+              <strong>{{ trailerDetial.quoteReply?.quoteReplyItems[0]?.currency || '--' }}</strong>
+            </div>
+          </div>
+
+          <!-- 货好日期 -->
+          <div class="inquiry-table-border" style="margin-left: 1%">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Cargo ready date' | translate }}</span><strong>{{ trailerDetial.cargoReadyDate | date: 'yyyy-MM-dd' }}</strong>
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Expected delivery date' | translate }}</span><strong>{{ trailerDetial.deliveryDate | date: 'yyyy-MM-dd' }}</strong>
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Trucker' | translate }}</span><strong>{{ trailerDetial.carrierCustomer || '--' }}</strong>
+            </div>
+          </div>
+          <!-- 件数 -->
+          <div class="inquiry-table-border">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Pieces' | translate }}</span><strong>{{ trailerDetial.quantity || 0 }}{{ trailerDetial.quantityUnit }}</strong>
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Gross weight' | translate }}</span><strong>{{ trailerDetial.weight || 0 }}{{ trailerDetial.totalWeightUnit }}</strong>
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Volume' | translate }}</span><strong>{{ trailerDetial.volume || 0 }}{{ trailerDetial.totalVolumeUnit }}</strong>
+            </div>
+          </div>
+
+          <!-- ETOD -->
+          <div class="inquiry-table-border" style="margin-left: 1%">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'ETOD' | translate }}</span><strong>{{ trailerDetial.etod || '--' }}</strong>
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Product Name' | translate }}</span><strong>{{ trailerDetial.commodity || '--' }}</strong>
+            </div>
+          </div>
+
+          <div class="inquiry-table-border">
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Inquiry customer' | translate }}</span><strong>{{ trailerDetial.ownerCustomer || '--' }}</strong>
+
+              <span *ngIf="trailerDetial.isShipper">
+                <label nz-checkbox [(ngModel)]="trailerDetial.isShipper" nzDisabled
+                  style="margin-right: 20px;"></label>{{ 'sender' | translate }}</span>
+
+            </div>
+            <div class="inquiry-table-border-flex">
+              <span>{{ 'Inquirer' | translate }}</span><strong>{{ trailerDetial.ownerContact || '--' }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="inquiry-detial-msg">
+          <span>{{ 'Inquired by' | translate }}:{{ trailerDetial.quoteCreator }}</span>
+        </div>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+<share-loading *ngIf="!trailerDetial && !item"></share-loading>

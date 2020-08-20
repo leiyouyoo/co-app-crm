@@ -1,0 +1,16 @@
+{
+  "BookNo": "NO",
+  "BookName": "Name",
+  "BookStatus": "Status",
+  "booking": {
+    "Name": "Name",
+    "Yes": "Yes",
+    "No": "No"
+  },
+  "CustomerTableName": "Name",
+  "labelorder": "order",
+  "labelshipment": "shipment",
+  "labelquote": "quote",
+  "labelbilling": "billing",
+  "labelbooking": "booking"
+}

@@ -1,0 +1,66 @@
+<co-page-layout>
+  <co-toolbar>
+    <co-toolbar-item>
+      <button nz-button nzType="primary" (click)="onShowDetailDrawer('add', jobDto)">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>{{ 'Add' | translate }}
+      </button>
+    </co-toolbar-item>
+  </co-toolbar>
+
+  <co-search-area-layout>
+    <co-search-area-item coWidth="auto">
+      <nz-input-group style="width: 320px;" [nzSuffix]="suffixIconSearch">
+        <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchParams.searchText" (enterKeydown)="getAll(searchParams)" />
+        <ng-template #suffixIconSearch>
+          <i nz-icon nzType="search" (click)="getAll(searchParams)"></i>
+        </ng-template>
+      </nz-input-group>
+    </co-search-area-item>
+
+    <co-search-area-item coWidth="auto">
+      <nz-radio-group
+        style="min-width: 260px;"
+        [nzButtonStyle]="'solid'"
+        class="tradeTypeGroup nz-radio-group-button-quote"
+        [(ngModel)]="searchParams.isValid"
+        (ngModelChange)="onChangeStatus($event)"
+      >
+        <label class="job-list-status" nz-radio-button [nzValue]="null">{{ 'All' | translate }}</label>
+        <label class="job-list-status" nz-radio-button [nzValue]="true">{{ 'Enable Status' | translate }}</label>
+        <label class="job-list-status" nz-radio-button [nzValue]="false">{{ 'Abolish Status' | translate }}</label>
+      </nz-radio-group>
+    </co-search-area-item>
+  </co-search-area-layout>
+
+  <co-page-main>
+    <co-st
+      #st
+      [data]="joblist"
+      [total]="jobtotal"
+      [page]="{ front: false }"
+      [columns]="columns"
+      [showFilters]="false"
+      [showCheckbox]="false"
+      [expandRowByClick]="true"
+      [rowClassName]="getRowClassName"
+      [loading]="loading"
+      virtualScroll
+      [scroll]="{ y: '600px' }"
+      [ps]="searchParams.maxResultCount"
+      (change)="onTableChange($event, 'edit')"
+    ></co-st>
+  </co-page-main>
+</co-page-layout>
+
+<ng-template #drawerTitle>
+  <div style="display: flex; align-items: center;">
+    <span style="margin-right: 8px;">
+      <span *ngIf="title == 'add'"> {{ 'Add' | translate }}{{ 'Job' | translate }} </span>
+      <span *ngIf="title == 'edit'"> {{ 'Edit' | translate }}{{ 'Job' | translate }} </span>
+    </span>
+    <ng-container *ngIf="title == 'edit'">
+      <nz-tag nzColor="processing" *ngIf="jobDto.isValid">{{ 'Activated' | translate }}</nz-tag>
+      <nz-tag nzColor="error" *ngIf="!jobDto.isValid">{{ 'Abolished' | translate }}</nz-tag>
+    </ng-container>
+  </div>
+</ng-template>

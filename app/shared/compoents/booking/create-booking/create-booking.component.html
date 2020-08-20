@@ -1,0 +1,1155 @@
+<div class="inner-content">
+  <div class="Booking" style="background: transparent;padding: 0;">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a (click)="location.back()">{{ 'Booking listing' | translate }}</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        {{ 'Create Booking' | translate }}
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
+  <div class="Booking">
+    <div id="BookingOverview" class="BookingOverview">
+      <div class="shipmentName_ChooseTem">
+        <div class="shipmentName ">
+          <h4>{{ 'booking.Name' | translate }}:</h4>
+          <nz-tag nzMode="closeable" (nzOnClose)="onClose()" style="position: absolute;
+                    z-index: 100;
+                    left: 55px;
+                    top: 5px;
+                    height: 25px;" *ngIf="!bookingObj.purchaseOrderIds?.length && bookingObj.name">
+            {{ bookingObj.name }}
+          </nz-tag>
+          <nz-select nzMode="multiple" [nzMaxTagCount]="3" nzShowSearch nzServerSearch
+            (ngModelChange)="orderChange($event)" (nzOnSearch)="getOrder($event)"
+            (nzOpenChange)="$event === false && (bookingNameSelectCloseFlag = true)" [(ngModel)]="nameList" nzAllowClear
+            [nzPlaceHolder]="'Choose' | translate">
+            <div *ngFor="let bookingOrderNo of bookingOrderNoList">
+              <nz-option nzCustomContent [nzValue]="bookingOrderNo.id" [nzLabel]="bookingOrderNo.orderNumber">
+                <div>{{ bookingOrderNo.orderNumber }}</div>
+                <div>{{ bookingOrderNo.productNames.join(',') }}</div>
+              </nz-option>
+            </div>
+          </nz-select>
+          <div class="red" *ngIf="isRepeat && isSubmitted">{{ 'shipName is used' | translate }}</div>
+        </div>
+        <div class="PortName" *ngIf="isCRM">
+          <h4><span class="red">*</span>{{ 'Port of operation' | translate }}:</h4>
+          <nz-select #shipSel nzAllowClear [nzPlaceHolder]="'Choose' | translate" nzShowSearch
+            [(ngModel)]="bookingObj.serviceCompanyId" class="main-interactive-element-width">
+            <nz-option [nzLabel]="item.displayNameLocalization" [nzValue]="item.id"
+              *ngFor="let item of operationPortlist">
+            </nz-option>
+          </nz-select>
+          <div class="red" *ngIf="!bookingObj.serviceCompanyId && isSubmitted">
+            {{ 'please select the Port of operation' | translate }}
+          </div>
+        </div>
+
+        <div class="ChooseTem" *ngIf="!isCRM">
+          <button nz-button nzType="default" nz-popover [(nzVisible)]="isShowTemplate" nzPopoverTrigger="click"
+            (nzVisibleChange)="GetAllTemplate({})" nzPopoverPlacement="bottom" [nzPopoverContent]="contentTemplate">
+            {{ 'Choose from Template' | translate }}
+          </button>
+        </div>
+      </div>
+      <ng-template #contentTemplate>
+        <div class="template">
+          <div *ngFor="let item of bookingTemplateList" class="templateDiv">
+            <div class="templateName">
+              <div class="templateNameInfo" (click)="GetBookingInfoByTemplate(item.id)">
+                <h4>
+                  <span> {{ item.name }}</span>
+                  <span *ngIf="item.incotermsId" style="margin-left: 5px;">-</span>
+                  <span>
+                    {{ item.incotermsString }}
+                  </span>
+                  <span *ngIf="item.originPort" style="margin-left: 5px;">-</span>
+                  <span>{{ item.originPort?.name }} </span>
+                  <span *ngIf="item.destinationPort" style="margin-left: 5px;">to</span>
+                  <span>{{ item.destinationPort?.name }} </span>
+                </h4>
+              </div>
+              <div class="templatelogo">
+                <span class="iconfont icon-ship" *ngIf="item.freightMethodType == FreightMethodType.Ocean"> </span>
+                <span class="iconfont icon-airplane" *ngIf="item.freightMethodType == FreightMethodType.Air"> </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <div class="BookingOverview-info">
+        <div class="freightMethod">
+          <nz-radio-group [(ngModel)]="bookingObj.freightMethodType"
+            (ngModelChange)="GetAllOrginalPort(); GetAllDesitinaPort(); getChannel()" [nzButtonStyle]="'solid'"
+            class="transportationModeGroup">
+            <label class="transparent-Ocean" nz-radio-button [nzValue]="FreightMethodType.Ocean"
+              [ngClass]="{ 'transparent-Ocean-blue': bookingObj.freightMethodType == FreightMethodType.Ocean }">
+              <div style="display: flex; align-items: center;">
+                <span class="iconfont icon-Ocean"
+                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Ocean }"></span>
+              </div>
+            </label>
+            <label class="transparent-Air" nz-radio-button [nzValue]="FreightMethodType.Air"
+              [ngClass]="{ 'transparent-Air-blue': bookingObj.freightMethodType == FreightMethodType.Air }">
+              <div style="display: flex; align-items: center;">
+                <span class="iconfont icon-Flight"
+                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Air }"></span>
+              </div>
+            </label>
+          </nz-radio-group>
+          <div class="red" *ngIf="bookingObj.tradeType == 1 && bookingObj.freightMethodType == null && isSubmitted">
+            {{ 'FreightMethod is Required' | translate }}
+          </div>
+        </div>
+        <div class="tradeType_incoterms">
+          <div class="tradeType left_right">
+            <h4><span class="tip">*</span>{{ 'Trade Type' | translate }}</h4>
+            <div class="tradeType_info" [ngClass]="{ redborder: !bookingObj.tradeType && isSubmitted }">
+              <nz-radio-group [(ngModel)]="bookingObj.tradeType"
+                (ngModelChange)="tradeTypeChange($event); resetSomeData()" [nzButtonStyle]="'solid'"
+                class="tradeTypeGroup nz-radio-group-button" style="width: 274px;">
+                <label class="tradeTypeInfo" nz-radio-button *ngFor="let item of tradeTypeList"
+                  [nzValue]="item.value">{{ item.key }}</label>
+              </nz-radio-group>
+            </div>
+            <div class="red" *ngIf="!bookingObj.tradeType && isSubmitted">
+              {{ 'TradeType is Required' | translate }}
+            </div>
+          </div>
+          <div class="incoterms left_right">
+            <h4><span class="tip">*</span>{{ 'Incoterms / FBA' | translate }}</h4>
+            <div class="incoterms_info"
+              [ngClass]="{ redborder: (!bookingObj.incotermsId || bookingObj.incotermsId == -1) && isSubmitted }">
+              <nz-radio-group [(ngModel)]="bookingObj.incotermsId" (ngModelChange)="other = null"
+                [nzButtonStyle]="'solid'" class="incotermsGroup nz-radio-group-button">
+                <label class="incotermsGroupInfo" nz-radio-button [nzValue]="item.value"
+                  *ngFor="let item of incotermsList">{{ item.key }}</label>
+                <nz-select *ngIf="otherList.length > 0" [(ngModel)]="other" nzAllowClear [ngClass]="{
+                    'selectOther-active select-checked':
+                      bookingObj.tradeType == 1 &&
+                      bookingObj.incotermsId &&
+                      bookingObj.incotermsId != 'd952c54f-5b36-438d-8695-4c2f9edf77d2' &&
+                      bookingObj.incotermsId != '66b84359-ad4e-4317-bdbe-10e4ffd8674e'
+                  }" [nzPlaceHolder]="'Others' | translate" (ngModelChange)="bookingObj.incotermsId = $event">
+                  <nz-option [nzValue]="item.value" [nzLabel]="item.key" *ngFor="let item of otherList"> </nz-option>
+                </nz-select>
+              </nz-radio-group>
+              <div class="red" *ngIf="(!bookingObj.incotermsId || bookingObj.incotermsId == -1) && isSubmitted">
+                {{ 'Incoterms is Required' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;width: 100%;">
+          <div class="ShipmentType left_right mb-24" *ngIf="bookingObj.freightMethodType === FreightMethodType.Ocean">
+            <h4><span class="tip">*</span>{{ 'Shipment Type' | translate }}</h4>
+            <nz-radio-group [(ngModel)]="bookingObj.shipmentType" [nzButtonStyle]="'solid'"
+              class="shipmentTypeGroup nz-radio-group-button" (ngModelChange)="shipmentChange($event)"
+              style="width: 184px;">
+              <label nz-radio-button [nzValue]="0" class="radio-button-width">{{ 'FCL' | translate }}</label>
+              <label nz-radio-button [nzValue]="1" class="radio-button-width">{{ 'LCL' | translate }}</label>
+            </nz-radio-group>
+            <div class="red" *ngIf="bookingObj.shipmentType == null && isSubmitted">
+              {{ 'shipmentType is Required' | translate }}
+            </div>
+          </div>
+          <div *ngIf="bookingObj.tradeType !== 1" class="freight-Method-info mb-24">
+            <div class="freight-Method-info-info left_right">
+              <h4><span class="tip">*</span>{{ 'Channel' | translate }}</h4>
+              <div [ngClass]="{ redborder: bookingObj.tradeType != 1 && bookingObj.channelId == null && isSubmitted }">
+                <nz-select class="main-interactive-element-width" [(ngModel)]="bookingObj.channelId"
+                  (ngModelChange)="onChannelChange($event)" nzAllowClear [nzPlaceHolder]="'Choose' | translate">
+                  <nz-option [nzValue]="item.channelId" [nzLabel]="item.channelGroupStr"
+                    *ngFor="let item of channelList"></nz-option>
+                </nz-select>
+                <div class="red" *ngIf="bookingObj.tradeType != 1 && bookingObj.channelId == null && isSubmitted"
+                  style="width: 100px;">
+                  {{ 'channel is required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="shipper_consignee">
+          <div class="BookingOverview-shipper">
+            <div class="shipper left_right" *ngIf="bookingObj.tradeType == 1 || isCRM">
+              <h4><span class="tip">*</span>{{ 'Shipper' | translate }}</h4>
+
+              <div class="shipper_info"
+                [ngClass]="{ redborder: shipSame || (!bookingObj.shipperCustomerId && isSubmitted) }">
+                <nz-select #shipSel nzAllowClear [nzPlaceHolder]="'Choose' | translate" nzShowSearch
+                  class="main-interactive-element-width" [(ngModel)]="defaultShipperId" (appNzOptionExtraChange)="
+                    getAllCompanyContact($event, 1);
+                    getPartnerId($event, 1);
+                    filterData($event, 1);
+                    GetCityoceanAll(true)
+                  ">
+                  <nz-option [nzLabel]="isCRM ? (item.partnerId !== null ? '(合)' + item.name : item.name) : item.name"
+                    [appNzOptionExtra]="item" [nzValue]="item.partnerId || item.customerId"
+                    *ngFor="let item of shipperList">
+                  </nz-option>
+                </nz-select>
+                <div class="red" *ngIf="shipSame">{{ 'Address is used as a Consignee' | translate }}</div>
+                <div class="red"
+                  *ngIf="(!bookingObj.shipperCustomerId && isSubmitted) || (!bookingObj.shipperCustomerId && isDraft)">
+                  {{ 'Shipper is Required' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="shipper left_right" *ngIf="bookingObj.tradeType != 1 && !isCRM">
+              <h4><span class="tip">*</span>{{ 'Shipper' | translate }}</h4>
+              <div class="shipper_info"
+                [ngClass]="{ redborder: shipSame || (!bookingObj.shipperCustomerId && isSubmitted) }">
+                <nz-select #shipOwnSel class="main-interactive-element-width" nzAllowClear
+                  [nzPlaceHolder]="'Choose' | translate" nzShowSearch [(ngModel)]="bookingObj.shipperCustomerId" (ngModelChange)="clearContact()">
+                  <nz-option [nzLabel]="currentCustomer.name" [appNzOptionExtra]="currentCustomer"
+                    [nzValue]="currentCustomer.id">
+                  </nz-option>
+                </nz-select>
+                <div class="red" *ngIf="shipSame">{{ 'Address is used as a Consignee' | translate }}</div>
+                <div class="red"
+                  *ngIf="(!bookingObj.shipperCustomerId && isSubmitted) || (!bookingObj.shipperCustomerId && isDraft)">
+                  {{ 'Shipper is Required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shipperConsignee">
+            <div class="contact-person left_right" *ngIf="bookingObj.tradeType != 1">
+              <h4 *ngIf="bookingObj.tradeType != 1"><span class="tip">*</span>{{ 'Contact person' | translate }}</h4>
+              <div [ngClass]="{ redborder: !bookingObj.contactId && isSubmitted && bookingObj.tradeType != 1 }">
+                <nz-select #conTactSel class="main-interactive-element-width" nzAllowClear nzShowSearch
+                  [nzPlaceHolder]="'Choose' | translate" [appSearchByExtraKey]="['name']"
+                  [(ngModel)]="bookingObj.contactId" [nzDropdownRender]="render" [nzCustomTemplate]="custom">
+                  <nz-option nzCustomContent [nzLabel]="item.name + item.surname" [nzValue]="item.id"
+                    [appNzOptionExtra]="item" *ngFor="let item of contactlist">
+                    <div class="OriginLocation-edit">
+                      <span class="word-bold">{{ item.name }}<span style="margin-left:5px;">{{ item.surname }}</span>
+                      </span><span>{{ item.phone }}</span>
+                      <span class="iconfont icon-icon_bianji" style="top: 5px;"
+                        (click)="editContact($event, item); conTactSel.setOpenState(false)"></span>
+                    </div>
+                  </nz-option>
+                </nz-select>
+
+                <ng-template #render>
+                  <nz-divider></nz-divider>
+                  <div class="add-item" (click)="addContact(); conTactSel.setOpenState(false)">
+                    <span class="iconfont icon-plus"></span>
+                    {{ 'Add as a new contact' | translate }}
+                  </div>
+                </ng-template>
+                <ng-template #custom let-selected>
+                  <div>
+                    <span style="margin-right: 5px;"><span>{{ selected.template._appExtra.name }}</span><span
+                        style="margin-left: 5px;">{{ selected.template._appExtra.surname }}</span>
+                    </span>
+                    <span>{{ selected.template._appExtra.phone }}</span>
+                  </div>
+                </ng-template>
+
+                <div class="red" *ngIf="!bookingObj.contactId && isSubmitted && bookingObj.tradeType != 1">
+                  {{ 'contacts is Required' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="Consignee left_right" *ngIf="bookingObj.tradeType == 1">
+              <h4><span class="tip">*</span>{{ 'Consignee' | translate }}</h4>
+              <div class="Consignee_info" [ngClass]="{
+                  redborder: (!bookingObj.consigneeCustomerId && isSubmitted && bookingObj.tradeType == 1) || consiSame
+                }">
+                <nz-select #consigneeSel class="main-interactive-element-width" nzAllowClear
+                  [nzPlaceHolder]="'Choose' | translate" nzShowSearch [(ngModel)]="defaultConsigneeId"
+                  (appNzOptionExtraChange)="
+                    getAllCompanyContact($event, 2); getPartnerId($event, 2); filterData($event, 2)
+                  ">
+                  <nz-option [nzLabel]="isCRM ? (item.partnerId !== null ? '(合)' + item.name : item.name) : item.name"
+                    [nzValue]="item.partnerId || item.customerId" [appNzOptionExtra]="item"
+                    *ngFor="let item of consigneeList">
+                  </nz-option>
+                </nz-select>
+                <div class="red" *ngIf="consiSame">{{ 'Address is used as a Shipper' | translate }}</div>
+                <div class="red" *ngIf="
+                    (!bookingObj.consigneeCustomerId && isSubmitted && bookingObj.tradeType == 1) ||
+                    (!bookingObj.consigneeCustomerId && isDraft && bookingObj.tradeType == 1)
+                  ">
+                  {{ 'Consignee is Required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Transpotation-address" *ngIf="false" [ngClass]="{ 'address-Transpotation': bookingObj.tradeType != 1 }">
+      <div id="Transpotation" class="Transpotation">
+        <div class="Transpotation-content">
+          <div class="freight-Method" *ngIf="bookingObj.tradeType != 1">
+            <ng-container *ngIf="recentlyUsed?.recentFbaChannels?.length">
+              <div *ngFor="let item of recentlyUsed?.recentFbaChannels; first as first" class="recently-used">
+                <span [ngStyle]="{ visibility: first ? 'initial' : 'hidden' }">{{ 'Recently Used' | translate }}:</span>
+                <span class="word">
+                  <span>{{ item?.fbaFreightMethodString }} </span><span>,</span>
+                  <span>{{ item?.channelString }}</span></span>
+                <span><a (click)="useRecently(item)">{{ 'use' | translate }}</a></span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="address">
+      <div id="Origin" class="Origin">
+        <div class="OriginPort" *ngIf="bookingObj.tradeType == 1">
+          <div class="CustomIns">
+            <nz-radio-group class="nz-radio-group-pill" (ngModelChange)="
+                bookingObj.originAddressId = $event ? recentlyUsed?.recentBooking?.originAddressId : null
+              " [(ngModel)]="bookingObj.originIsRequireTruck">
+              <label nz-radio-button [nzValue]="false">CY</label>
+              <label nz-radio-button [nzValue]="true">Door</label>
+            </nz-radio-group>
+          </div>
+          <div class="OriginLocation left_right" *ngIf="bookingObj.originIsRequireTruck">
+            <h4><span class="tip">*</span>{{ 'Origin Location' | translate }}</h4>
+            <div class="OriginLocation_info" [ngClass]="{
+                redborder:
+                  (bookingObj.tradeType == 1 &&
+                    bookingObj.originIsRequireTruck &&
+                    !bookingObj.originAddressId &&
+                    isSubmitted) ||
+                  !isLocationSame
+              }">
+              <nz-select #originaSel class="main-interactive-element-width" [(ngModel)]="bookingObj.originAddressId"
+                nzShowSearch nzAllowClear [nzPlaceHolder]="'Choose' | translate" [nzCustomTemplate]="custom"
+                [appSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzDropdownRender]="render"
+                nzOptionHeightPx="54">
+                <ng-container *ngFor="let item of shiplist">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                    *ngIf="item.customerId === bookingObj.shipperCustomerId">
+                    <div (click)="selLocation($event, item.id, 'originLocation')" class="OriginLocation-edit">
+                      <div>{{ item.tenantName }}<span>-</span>{{ item.name }}</div>
+                      <div style="font-weight: bold;">
+                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city
+                        }}<span *ngIf="item.city">,</span>{{ item.province }}<span
+                          *ngIf="item.province">,</span>{{ item.country }}
+                      </div>
+                      <span class="iconfont icon-icon_bianji"
+                        (click)="editLocation($event, item, 'originLocation'); originaSel.setOpenState(false)"></span>
+                    </div>
+                  </nz-option>
+                </ng-container>
+              </nz-select>
+              <ng-template #custom let-selected>
+                <div>
+                  <span>{{ selected.template._appExtra.tenantName }}<span>-</span>{{ selected.template._appExtra.name }}
+                    <span>{{ selected.template._appExtra.streetAddress
+                      }}<span
+                        *ngIf="selected.template._appExtra.streetAddress">,</span>{{ selected.template._appExtra.city }}<span
+                        *ngIf="selected.template._appExtra.city">,</span>{{ selected.template._appExtra.province
+                      }}<span
+                        *ngIf="selected.template._appExtra.province">,</span>{{ selected.template._appExtra.country }}</span>
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template #render>
+                <nz-divider></nz-divider>
+                <div class="add-item" (click)="addLocation('originLocation'); originaSel.setOpenState(false)">
+                  <span class="iconfont icon-plus"></span> {{ 'Add as a new address' | translate }}
+                </div>
+              </ng-template>
+              <div class="red" *ngIf="
+                  bookingObj.tradeType == 1 &&
+                  bookingObj.originIsRequireTruck &&
+                  !bookingObj.originAddressId &&
+                  isSubmitted
+                ">
+                {{ 'Origin location is required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isLocationSame">
+                {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="OriginPortInfo left_right">
+            <h4><span class="tip">*</span>{{ 'Origin Port' | translate }}</h4>
+            <div class="OriginPort_info" [ngClass]="{
+                redborder: (bookingObj.originPortId == null && bookingObj.tradeType == 1 && isSubmitted) || !isSamePort
+              }">
+              <nz-select [(ngModel)]="bookingObj.originPortId" class="main-interactive-element-width" nzShowSearch
+                nzServerSearch (nzOnSearch)="portOriginsearch($event)" nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate"
+                [nzDropdownClassName]="recentlyUsed?.originPorts === OriginPortList ? 'empty-class' : 'hide-nz-group'"
+                nzOptionHeightPx="86">
+                <nz-option-group [nzLabel]="isCRM ? '' : 'Recently used'">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name + ',' + item.regionName"
+                    *ngFor="let item of OriginPortList">
+                    <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
+                      <div class="port-name">
+                        <span>{{ item.name }}</span>
+                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+                        <span *ngIf="item.isAir && item.isOcean">
+                          <span class="iconfont icon-airplane"></span>
+                          <span class="iconfont icon-Ocean"></span>
+                        </span>
+                        <!-- <span class="iconfont icon-airplane"></span>
+                        <span class="iconfont icon-ship"></span> -->
+                      </div>
+                      <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
+                      <div class="port-region">{{ item.regionName }}</div>
+                    </div>
+                  </nz-option>
+                </nz-option-group>
+              </nz-select>
+              <div class="red" *ngIf="!isSamePort">
+                {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
+              </div>
+              <div class="red" *ngIf="bookingObj.originPortId == null && bookingObj.tradeType == 1 && isSubmitted">
+                {{ 'Origin Port is required' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="cargoDate left_right">
+            <h4><span class="tip">*</span>{{ 'Cargo ready date' | translate }}</h4>
+            <div style="width:100%"
+              [ngClass]="{ redborder: (bookingObj.cargoReadyDate == null && isSubmitted) || !isDateMatch }">
+              <nz-date-picker class="main-interactive-element-width" [(ngModel)]="bookingObj.cargoReadyDate"
+                [nzDisabledDate]="disabledDate"
+                (ngModelChange)="compareDate(bookingObj.cargoReadyDate, bookingObj.deliveryDate)">
+              </nz-date-picker>
+              <div class="red" *ngIf="bookingObj.cargoReadyDate == null && isSubmitted">
+                {{ 'Cargo ready date is required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isDateMatch">
+                {{ 'Delivery date cannot be before cargo ready date' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="isDeclaration_isInsurance">
+            <label nz-checkbox [(ngModel)]="bookingObj.isDeclaration">{{ 'Custom declaration' | translate }}</label>
+            <label nz-checkbox [(ngModel)]="bookingObj.isInsurance">{{ 'Insurance' | translate }}</label>
+          </div>
+        </div>
+        <div class="OriginPort" *ngIf="bookingObj.tradeType != 1">
+          <div class="delivery-method-check left_right mb-24">
+            <h4><span class="tip">*</span>{{ 'Delivery method' | translate }}</h4>
+            <div [ngClass]="{
+                redborder: isSubmitted && bookingObj.tradeType != 1 && bookingObj.deliveryMethodType == null
+              }">
+              <div>
+                <nz-radio-group [(ngModel)]="bookingObj.deliveryMethodType"
+                  (ngModelChange)="selfbadeliveryMethod($event)">
+                  <label nz-radio [nzValue]="0">{{ 'Delivery goods by myself' | translate }}</label>
+                  <label nz-radio [nzValue]="1">{{ 'Pick up by Cityocean' | translate }}</label>
+                </nz-radio-group>
+                <div class="red"
+                  *ngIf="isSubmitted && bookingObj.tradeType != 1 && bookingObj.deliveryMethodType == null">
+                  {{ 'Delivery Method is required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="OriginLocation left_right mb-24" *ngIf="bookingObj.deliveryMethodType == 1">
+            <h4><span class="tip">*</span>{{ 'Origin Location' | translate }}</h4>
+            <div [ngClass]="{
+                redborder:
+                  isSubmitted &&
+                  bookingObj.tradeType != 1 &&
+                  !bookingObj.originAddressId &&
+                  bookingObj.deliveryMethodType == 1
+              }">
+              <nz-select #originLocationSel class="main-interactive-element-width"
+                [(ngModel)]="bookingObj.originAddressId" nzShowSearch nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate" [nzDropdownRender]="render" nzOptionHeightPx="54">
+                <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name + ',' + item.streetAddress"
+                  *ngFor="let item of companyContactlist">
+                  <div (click)="selLocation($event, item.id, 'originLocation')" class="OriginLocation-edit">
+                    <div>{{ item.name }}<span>-</span>{{ item.tenantName }}</div>
+                    <div style="font-weight: bold;">
+                      {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city
+                      }}<span *ngIf="item.city">,</span>{{ item.province }}<span
+                        *ngIf="item.province">,</span>{{ item.country }}
+                    </div>
+                    <span class="iconfont icon-icon_bianji"
+                      (click)="editLocation($event, item, 'originLocation'); originLocationSel.setOpenState(false)"></span>
+                  </div>
+                </nz-option>
+              </nz-select>
+              <ng-template #render>
+                <nz-divider></nz-divider>
+                <div class="add-item" (click)="addLocation('originLocation'); originLocationSel.setOpenState(false)">
+                  <span class="iconfont icon-plus"></span>{{ 'Add as a new address' | translate }}
+                </div>
+              </ng-template>
+              <div class="red" *ngIf="
+                  isSubmitted &&
+                  bookingObj.tradeType != 1 &&
+                  !bookingObj.originAddressId &&
+                  bookingObj.deliveryMethodType == 1
+                ">
+                {{ 'Origin Location is Required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isLocationSame">
+                {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-warehouse left_right mb-24">
+            <h4><span class="tip">*</span>{{ 'Delivery warehouse' | translate }}</h4>
+            <div [title]="deliveryWarehouseTitle"
+              [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType != 1 && !bookingObj.deliveryWarehouseId }">
+              <nz-select class="main-interactive-element-width" [(ngModel)]="bookingObj.deliveryWarehouseId"
+                nzAllowClear nzShowSearch [nzPlaceHolder]="'Choose' | translate" nzOptionHeightPx="54">
+                <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of cityoceanList">
+                  <div (click)="selLocation($event, '', '',item,'DeliveryWarehouse')" [title]="item.name">
+                    {{ item.name }}</div>
+                  <div (click)="selLocation($event, '', '',item,'DeliveryWarehouse')"
+                    [title]="item.streetAddress + ',' + item.city + ',' + item.province + ',' + item.country">
+                    {{ item.streetAddress }}<span>,</span>{{ item.city }}<span>,</span>{{ item.province }}<span>,</span>{{ item.country }}
+                  </div>
+                </nz-option>
+              </nz-select>
+              <div class="red" *ngIf="isSubmitted && bookingObj.tradeType != 1 && !bookingObj.deliveryWarehouseId">
+                {{ 'Delivery warehouse is required' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="pick-time left_right" *ngIf="bookingObj.deliveryMethodType == 1">
+            <h4><span class="tip">*</span>{{ 'Pick up time' | translate }}</h4>
+            <div [ngClass]="{
+                redborder:
+                  (isSubmitted &&
+                    bookingObj.tradeType != 1 &&
+                    !bookingObj.pickUpTimeRange &&
+                    bookingObj.deliveryMethodType == 1) ||
+                  !isPickTimeMatch
+              }">
+              <app-date-picker class="main-interactive-element-width d-block"
+                [(outTimeStr)]="bookingObj.pickUpTimeRange" (outTimeStrChange)="fbaDateCompare()"></app-date-picker>
+              <div class="red" *ngIf="
+                  isSubmitted &&
+                  bookingObj.tradeType != 1 &&
+                  !bookingObj.pickUpTimeRange &&
+                  bookingObj.deliveryMethodType == 1
+                ">
+                {{ 'Pick up time is required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isPickTimeMatch">
+                {{ 'Origin pick up date cannot be after destination delivery date' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-time left_right" *ngIf="bookingObj.deliveryMethodType == 0">
+            <h4><span class="tip">*</span>{{ 'Delivery time' | translate }}</h4>
+            <div [ngClass]="{
+                redborder:
+                  (isSubmitted &&
+                    bookingObj.tradeType != 1 &&
+                    !bookingObj.deliveryTimeRange &&
+                    bookingObj.deliveryMethodType == 0) ||
+                  !isDeliveryTimeMatch
+              }">
+              <app-date-picker [(outTimeStr)]="bookingObj.deliveryTimeRange" (outTimeStrChange)="fbaDateCompare()">
+              </app-date-picker>
+              <div class="red" *ngIf="
+                  isSubmitted &&
+                  bookingObj.tradeType != 1 &&
+                  !bookingObj.deliveryTimeRange &&
+                  bookingObj.deliveryMethodType == 0
+                ">
+                {{ 'Delivery Time is required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isDeliveryTimeMatch">
+                {{ 'Origin delivery date cannot be after destination delivery date' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="Customsdeclaration-document">
+            <div class="left_right mb-24">
+              <h4 style="margin-right: 22px;">
+                <span class="tip">*</span>{{ 'Do you have Customs declaration document' | translate }}
+              </h4>
+              <div [ngClass]="{
+                  redborder:
+                    (isSubmitted && bookingObj.tradeType != 1 && bookingObj.isDeclaration == null) ||
+                    (bookingObj.isDeclaration && !bookingObj.customsDeclarationDocumentId)
+                }">
+                <div>
+                  <nz-radio-group class="nz-radio-group-pill" [(ngModel)]="bookingObj.isDeclaration">
+                    <label nz-radio-button [nzValue]="false">{{ 'No' | translate }}</label>
+                    <label nz-radio-button [nzValue]="true">{{ 'Yes' | translate }}</label>
+                  </nz-radio-group>
+                </div>
+                <div class="red" *ngIf="
+                    (isSubmitted && bookingObj.tradeType != 1 && bookingObj.isDeclaration == null) ||
+                    (isSubmitted && bookingObj.isDeclaration && !files.length)
+                  ">
+                  {{ 'Declaration Document is required' | translate }}
+                </div>
+              </div>
+            </div>
+            <div *ngIf="bookingObj.isDeclaration" style="min-height: 40px;">
+              <nz-upload [nzMultiple]="true" [nzLimit]="2" [nzShowUploadList]="false"
+                [nzAction]="uploadUrl + '/Storage/File/Upload'" [nzCustomRequest]="customReq">
+                <button nz-button>
+                  <i nz-icon nzType="upload"></i><span>{{ 'Upload Profile' | translate }}</span>
+                </button>
+              </nz-upload>
+            </div>
+            <div *ngFor="let item of files; last as last" [ngStyle]="{ 'margin-bottom': last ? 0 : '6px' }">
+              <nz-tag nzMode="closeable" (nzOnClose)="deleteFile(item)">
+                <a style="margin-right: 3px;"> <i nz-icon nzType="paper-clip" nzTheme="outline"></i> </a>
+                <a href="{{ item.downFileUrl }}" download="{{ item.downFileUrl }}">{{
+                  item.name || item.fileName + '.' + item.extensionName
+                }}</a>
+                <nz-divider nzType="vertical"></nz-divider>
+              </nz-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="Destination" class="Destination">
+        <div *ngIf="bookingObj.tradeType != 1" style="height: 100%;">
+          <div class="FBA-Address left_right mb-24" *ngIf="bookingObj.tradeType == 2">
+            <h4><span class="tip">*</span>{{ 'FBA Address' | translate }}</h4>
+            <div [title]="fbaTitle"
+              [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType == 2 && !bookingObj.destinationAddressId }">
+              <nz-select class="main-interactive-element-width" nzShowSearch (nzOnSearch)="onAmazonSearch($event)"
+                [(ngModel)]="bookingObj.destinationAddressId" [nzCustomTemplate]="custom" 
+                [appSearchByExtraKey]="['name', 'streetAddress', 'unlocode']" nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate"
+                [nzDropdownClassName]="recentlyUsed?.fbaAddresses === amazonList ? 'empty-class' : 'hide-nz-group'">
+                <nz-option-group [nzLabel]="isCRM ? '' : 'Recently used'">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                    *ngFor="let item of amazonList">
+                    <div (click)="selLocation($event, '', '',item,'FBA')"
+                      [title]="item.name + ',' + item.streetAddress +  (item.code?',' +item.code:'')">
+                      <span *ngIf="item.name">{{ item.name }},</span>
+                      <span *ngIf="item.streetAddress">{{ item.streetAddress}},</span>
+                      {{ item.code }}
+                    </div>
+                  </nz-option>
+                </nz-option-group>
+              </nz-select>
+              <ng-template #custom let-selected>
+                <div>
+                  <span *ngIf="selected.template._appExtra.name">{{ selected.template._appExtra.name }},</span>
+                  <span *ngIf="selected.template._appExtra.streetAddress">{{ selected.template._appExtra.streetAddress}},</span>
+                  {{ selected.template._appExtra.code }}
+                </div>
+              </ng-template>
+              <div class="red" *ngIf="isSubmitted && bookingObj.tradeType == 2 && !bookingObj.destinationAddressId">
+                {{ 'FBA Address is required' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="FBA-Address mb-24 left_right" *ngIf="bookingObj.tradeType == 3">
+            <h4><span class="tip">*</span>{{ 'FBM Address' | translate }}</h4>
+            <div [title]="fbmTitle"
+              [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType == 3 && !bookingObj.destinationAddressId }">
+              <nz-select #fbaAddressSel class="main-interactive-element-width"
+                [(ngModel)]="bookingObj.destinationAddressId" nzShowSearch nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate" [nzCustomTemplate]="custom" [appSearchByExtraKey]="['name']"
+                [nzDropdownRender]="render" nzOptionHeightPx="54">
+                <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                  *ngFor="let item of FbmList">
+                  <div [title]="
+                      item.streetAddress2+
+                      ',' +
+                      item.streetAddress +
+                      ',' +
+                      item.city +
+                      ',' +
+                      item.province +
+                      ',' +
+                      item.country
+                    " (click)="selLocation($event, item.id, 'destinationLocation',item,'FBM')"
+                    class="OriginLocation-edit">
+                    {{ item.name }}-{{ item.tenantName }}
+                    <span class="iconfont icon-icon_bianji"
+                      (click)="editLocation($event, item, 'destinationLocation'); fbaAddressSel.setOpenState(false)"></span>
+                    <br />
+                    <span>{{ item.streetAddress2 }} <span *ngIf="item.streetAddress2">,</span> </span>
+                    <span>{{ item.streetAddress }} <span *ngIf="item.streetAddress">,</span></span>
+                    <span>{{ item.city }}<span *ngIf="item.city">,</span></span>
+                    <span>{{ item.province }}<span *ngIf="item.province">,</span></span>
+                    <span>{{ item.country }}</span>
+                  </div>
+                </nz-option>
+              </nz-select>
+              <ng-template #custom let-selected>
+                <div>
+                  <span>{{ selected.template._appExtra.tenantName }}<span>-</span>{{ selected.template._appExtra.name }}
+                    <span>{{ selected.template._appExtra.streetAddress
+                      }}<span
+                        *ngIf="selected.template._appExtra.streetAddress">,</span>{{ selected.template._appExtra.city }}<span
+                        *ngIf="selected.template._appExtra.city">,</span>{{ selected.template._appExtra.province
+                      }}<span
+                        *ngIf="selected.template._appExtra.province">,</span>{{ selected.template._appExtra.country }}</span>
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template #render>
+                <nz-divider></nz-divider>
+                <div class="add-item" (click)="addLocation('destinationLocation'); fbaAddressSel.setOpenState(false)">
+                  <span class="iconfont icon-plus"></span> {{ 'Add as a new address' | translate }}
+                </div>
+              </ng-template>
+              <div class="red" *ngIf="isSubmitted && bookingObj.tradeType == 3 && !bookingObj.destinationAddressId">
+                {{ 'FBM Address is required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isLocationSame">
+                {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-date left_right mb-24">
+            <h4 style="padding-left: 7px;">{{ 'Delivery date' | translate }}</h4>
+            <div style="width: 100%;" [ngClass]="{ redborder: !isDeliveryTimeMatch || !isPickTimeMatch }">
+              <nz-date-picker class="main-interactive-element-width" [(ngModel)]="bookingObj.deliveryDate"
+                [nzDisabledDate]="disabledDate" (ngModelChange)="fbaDateCompare()">
+              </nz-date-picker>
+              <div class="red" *ngIf="!isDeliveryTimeMatch">
+                {{ 'Delivery date cannot be before origin pick up date' | translate }}
+              </div>
+              <div class="red" *ngIf="!isPickTimeMatch">
+                {{ 'Pick date cannot be before origin pick up date' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="block-container" *ngIf="bookingObj.tradeType == 1">
+          <div class="destinationTruck">
+            <nz-radio-group class="nz-radio-group-pill" (ngModelChange)="
+                bookingObj.destinationAddressId = $event ? recentlyUsed?.recentBooking?.destinationAddressId : null
+              " [(ngModel)]="bookingObj.destinationIsRequireTruck">
+              <label nz-radio-button [nzValue]="false">CY</label>
+              <label nz-radio-button [nzValue]="true">Door</label>
+            </nz-radio-group>
+          </div>
+          <div class="DestinationPort left_right">
+            <h4><span class="tip">*</span>{{ 'Destination Port' | translate }}</h4>
+            <div class="DestinationPort_info"
+              [ngClass]="{ redborder: (bookingObj.destinationPortId == null && isSubmitted) || !isSamePort }">
+              <nz-select class="main-interactive-element-width" nzShowSearch nzServerSearch
+                (nzOnSearch)="portDesinationsearch($event)" [(ngModel)]="bookingObj.destinationPortId" nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate" nzOptionHeightPx="86" [nzDropdownClassName]="
+                  recentlyUsed?.destinationPorts === DesinationPortList ? 'empty-class' : 'hide-nz-group'
+                ">
+                <nz-option-group [nzLabel]="isCRM ? '' : 'Recently used'">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name + ',' + item.regionName"
+                    *ngFor="let item of DesinationPortList">
+                    <div class="port-info" (click)="comparePort($event, item.id, 'destination')">
+                      <div class="port-name">
+                        <span>{{ item.name }}</span>
+                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+                        <span *ngIf="item.isAir && item.isOcean">
+                          <span class="iconfont icon-airplane"></span>
+                          <span class="iconfont icon-Ocean"></span>
+                        </span>
+                        <!-- <span class="iconfont icon-ship"></span><span class="iconfont icon-airplane"></span> -->
+                      </div>
+                      <div class="port-code">
+                        <span>{{ 'customs' | translate }}:</span> {{ item.code }}
+                      </div>
+                      <div class="port-region">{{ item.regionName }}</div>
+                    </div>
+                  </nz-option>
+                </nz-option-group>
+              </nz-select>
+              <div class="red" *ngIf="bookingObj.destinationPortId == null && isSubmitted">
+                {{ 'Destination Port is Required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isSamePort">
+                {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="destinationLocation left_right" *ngIf="bookingObj.destinationIsRequireTruck">
+            <h4><span class="tip">*</span>{{ 'Destination Location' | translate }}</h4>
+            <div class="destinationLocation_info" [ngClass]="{
+                redborder:
+                  (bookingObj.tradeType == 1 &&
+                    bookingObj.destinationIsRequireTruck &&
+                    !bookingObj.destinationAddressId &&
+                    isSubmitted) ||
+                  !isLocationSame
+              }">
+              <nz-select #destinationSel class="main-interactive-element-width"
+                [(ngModel)]="bookingObj.destinationAddressId" nzShowSearch nzAllowClear
+                [nzPlaceHolder]="'Choose' | translate"
+                [appSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzCustomTemplate]="custom"
+                [nzDropdownRender]="render" nzOptionHeightPx="54">
+                <ng-container *ngFor="let item of shiplist">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                    *ngIf="item.customerId === bookingObj.consigneeCustomerId">
+                    <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
+                      <div>{{ item.tenantName }}<span>-</span>{{ item.name }}</div>
+                      <div style="font-weight: bold;">
+                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city
+                        }}<span *ngIf="item.province">,</span>{{ item.province }}<span
+                          *ngIf="item.country">,</span>{{ item.country }}
+                      </div>
+                      <span class="iconfont icon-icon_bianji"
+                        (click)="editLocation($event, item, 'destinationLocation'); destinationSel.setOpenState(false)"></span>
+                    </div>
+                  </nz-option>
+                </ng-container>
+              </nz-select>
+              <ng-template #custom let-selected>
+                <div>
+                  <span>{{ selected.template._appExtra.tenantName }}<span>-</span>{{ selected.template._appExtra.name }}
+                    <span>{{ selected.template._appExtra.streetAddress
+                      }}<span
+                        *ngIf="selected.template._appExtra.streetAddress">,</span>{{ selected.template._appExtra.city }}<span
+                        *ngIf="selected.template._appExtra.city">,</span>{{ selected.template._appExtra.province
+                      }}<span
+                        *ngIf="selected.template._appExtra.province">,</span>{{ selected.template._appExtra.country }}</span>
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template #render>
+                <nz-divider></nz-divider>
+                <div class="add-item" (click)="addLocation('destinationLocation'); destinationSel.setOpenState(false)">
+                  <span class="iconfont icon-plus"></span> {{ 'Add as a new address' | translate }}
+                </div>
+              </ng-template>
+              <div class="red" *ngIf="
+                  bookingObj.tradeType == 1 &&
+                  bookingObj.destinationIsRequireTruck &&
+                  !bookingObj.destinationAddressId &&
+                  isSubmitted
+                ">
+                {{ 'Destination Location is Required' | translate }}
+              </div>
+              <div class="red" *ngIf="!isLocationSame">
+                {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="deliverydate left_right">
+            <h4 style="padding-left: 7px;">{{ 'Delivery date' | translate }}</h4>
+            <div style="width: 100%;" [ngClass]="{ redborder: !isDateMatch }">
+              <nz-date-picker class="main-interactive-element-width" [(ngModel)]="bookingObj.deliveryDate"
+                [nzDisabledDate]="disabledDate"
+                (ngModelChange)="compareDate(bookingObj.cargoReadyDate, bookingObj.deliveryDate)">
+              </nz-date-picker>
+              <div class="red" *ngIf="!isDateMatch">
+                {{ 'Delivery date cannot be before cargo ready date' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="isClearance">
+            <label nz-checkbox [(ngModel)]="bookingObj.isClearance">{{ 'Custom clearance' | translate }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="CargoSpecial">
+      <div class="block-container">
+        <div id="Cargo" class="Cargo">
+          <div class="ContainerType"
+            *ngIf="bookingObj.shipmentType == 0 && bookingObj.freightMethodType === FreightMethodType.Ocean">
+            <h4><span class="tip">*</span>{{ 'Container Type' | translate }}</h4>
+            <div [ngClass]="{ redborder: !isContain && isSubmitted }">
+              <div style="display   : flex;">
+                <div class="containerTypeShow">
+                  <div class="container" *ngFor="let item of containList">
+                    <span>
+                      <button nz-button nzType="default" (click)="operationCount(item.name, 'add')">+</button>
+                      <span class="containerNum"><span>{{ item.value }}</span><span>X {{ item.name }}</span></span>
+                      <button nz-button nzType="default" (click)="operationCount(item.name, 'less')">-</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="othercontainer-all">
+                  <span class="other_containerShow" nz-popover nzPopoverTrigger="click"
+                    [nzPopoverContent]="otherContainerTemplate">
+                    {{ 'Other' | translate }}
+                  </span>
+                  <ng-template #otherContainerTemplate>
+                    <div class="otherContainer">
+                      <div class="otherContainer-child">
+                        <ul>
+                          <li (click)="addContainer(otherNum, 'FR')">
+                            <span>{{ otherNum }}</span><span>FR</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'NOR')">
+                            <span>{{ otherNum }}</span><span>{{ 'NOR' | translate }}</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'HT')">
+                            <span>{{ otherNum }}</span><span>HT</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'HQ')">
+                            <span>{{ otherNum }}</span><span>HQ</span>
+                          </li>
+                        </ul>
+                        <ul>
+                          <li (click)="addContainer(otherNum, 'RF')">
+                            <span>{{ otherNum }}</span><span>RF</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'RH')">
+                            <span>{{ otherNum }}</span><span>RH</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'TK')">
+                            <span>{{ otherNum }}</span><span>TK</span>
+                          </li>
+                          <li (click)="addContainer(otherNum, 'OT')">
+                            <span>{{ otherNum }}</span><span>OT</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="otherContainer-num">
+                        <ul>
+                          <button nz-button (click)="changeNum(20)" [ngClass]="{ 'li-active': otherNum == '20' }">
+                            20
+                          </button>
+                          <button nz-button (click)="changeNum(40)" [ngClass]="{ 'li-active': otherNum == '40' }">
+                            40
+                          </button>
+                          <button nz-button (click)="changeNum(45)" [ngClass]="{ 'li-active': otherNum == '45' }">
+                            45
+                          </button>
+                          <button nz-button (click)="changeNum(53)" [ngClass]="{ 'li-active': otherNum == '53' }">
+                            53
+                          </button>
+                        </ul>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="red" *ngIf="!isContain && isSubmitted">{{ 'Container Type is required' | translate }}</div>
+            </div>
+          </div>
+          <div class="Units left_right">
+            <h4>
+              <span class="tip" [style.visibility]="
+                  bookingObj.freightMethodType === FreightMethodType.Air || bookingObj.shipmentType === ShipmentType.LCL
+                    ? 'visible'
+                    : 'hidden'
+                ">*</span>
+              <!--
+              -->{{ 'Cargo' | translate }}
+            </h4>
+            <div [ngClass]="{
+                redborder:
+                  ((!bookingObj.quantity &&
+                    (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                    (!bookingObj.quantity &&
+                      (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                        bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                        ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                          bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                          bookingObj.shipmentType == 1)))) &&
+                  isSubmitted &&
+                  ((!bookingObj.weight &&
+                    (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                    (!bookingObj.weight &&
+                      (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                        bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                        ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                          bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                          bookingObj.shipmentType == 1)))) &&
+                  isSubmitted &&
+                  ((!bookingObj.volume &&
+                    (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                    (!bookingObj.volume &&
+                      (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                        bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                        ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                          bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                          bookingObj.shipmentType == 1)))) &&
+                  isSubmitted
+              }">
+              <div class="CargoInfo">
+                <div class="CargoInfo-Quantity">
+                  <nz-input-number #inputElement style="width: 126px;" nz-input nz-tooltip nzTrigger="focus"
+                    nzPlacement="topLeft" nzOverlayClassName="numeric-input" [nzPrecision]="0" [nzMin]="0"
+                    [(ngModel)]="bookingObj.quantity" [nzPlaceHolder]="'Input Quantity' | translate"
+                    (blur)="onQuantityBlur(bookingObj.quantity)"></nz-input-number>
+
+                  <nz-select [(ngModel)]="bookingObj.quantityUnitCode" style="width:50%;">
+                    <nz-option nzLabel="{{ 'bale' | translate }}" nzValue="bale"></nz-option>
+                    <nz-option nzLabel="{{ 'barrel' | translate }}" nzValue="barrel"></nz-option>
+                    <nz-option nzLabel="{{ 'bundle' | translate }}" nzValue="bundle"></nz-option>
+                    <nz-option nzLabel="{{ 'crate' | translate }}" nzValue="crate"></nz-option>
+                    <nz-option nzLabel="{{ 'drum' | translate }}" nzValue="drum"></nz-option>
+                    <nz-option nzLabel="{{ 'package' | translate }}" nzValue="package"></nz-option>
+                    <nz-option nzLabel="{{ 'pallet' | translate }}" nzValue="pallet"></nz-option>
+                    <nz-option nzLabel="{{ 'roll' | translate }}" nzValue="roll"></nz-option>
+                    <nz-option nzLabel="{{ 'ctn' | translate }}" nzValue="ctn"></nz-option>
+                    <nz-option nzLabel="{{ 'box' | translate }}" nzValue="box"></nz-option>
+                    <nz-option nzLabel="{{ 'bag' | translate }}" nzValue="bag"></nz-option>
+                  </nz-select>
+                  <div class="red" *ngIf="
+                      (((!bookingObj.quantity || !bookingObj.quantityUnitCode) &&
+                        (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                        ((!bookingObj.quantity || !bookingObj.quantityUnitCode) &&
+                          (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                            bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                            ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                              bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                              bookingObj.shipmentType == 1)))) &&
+                      isSubmitted
+                    ">
+                    {{ 'Quantity is required' | translate }}
+                  </div>
+                </div>
+                <div class="CargoInfo-Weight">
+                  <nz-input-number #inputElement style="width: 126px;" nz-input nz-tooltip nzTrigger="focus"
+                    nzPlacement="topLeft" nzOverlayClassName="numeric-input" [nzMin]="0" [(ngModel)]="bookingObj.weight"
+                    [nzPlaceHolder]="'Input Weight' | translate" (blur)="onWeightBlur(bookingObj.weight)">
+                  </nz-input-number>
+                  <nz-radio-group class="nz-radio-group-normal" (ngModelChange)="changeUnitCode($event)"
+                    [(ngModel)]="bookingObj.weightUnitCode">
+                    <label nz-radio-button [nzValue]="WeightUnitCode.KGS">{{ 'kg' | translate }}</label>
+                    <label nz-radio-button [nzValue]="WeightUnitCode.LBS">{{ 'lb' | translate }}</label>
+                  </nz-radio-group>
+                  <div class="red" *ngIf="
+                      (((!bookingObj.weight || !bookingObj.weightUnitCode) &&
+                        (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                        ((!bookingObj.weight || !bookingObj.weightUnitCode) &&
+                          (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                            bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                            ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                              bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                              bookingObj.shipmentType == 1)))) &&
+                      isSubmitted
+                    ">
+                    {{ 'Total Weight is required' | translate }}
+                  </div>
+                </div>
+                <div class="CargoInfo-Volume">
+                  <nz-input-number #inputElement style="width: 126px;" nz-input nz-tooltip nzTrigger="focus"
+                    nzPlacement="topLeft" nzOverlayClassName="numeric-input" [nzMin]="0" [(ngModel)]="bookingObj.volume"
+                    [nzPlaceHolder]="'Input Volume' | translate" (blur)="onVolumeBlur(bookingObj.volume)">
+                  </nz-input-number>
+                  <nz-radio-group class="nz-radio-group-normal" (ngModelChange)="changeUnitCode($event)"
+                    [(ngModel)]="bookingObj.volumeUnitCode">
+                    <label nz-radio-button [nzValue]="VolumeUnitCode.CBM">{{ 'cbm' | translate }}</label>
+                    <label nz-radio-button [nzValue]="VolumeUnitCode.CFT">{{ 'cft' | translate }}</label>
+                  </nz-radio-group>
+                  <div class="red" *ngIf="
+                      (((!bookingObj.volume || !bookingObj.volumeUnitCode) &&
+                        (bookingObj.freightMethodType == FreightMethodType.Air || bookingObj.shipmentType == 1)) ||
+                        ((!bookingObj.volume || !bookingObj.volumeUnitCode) &&
+                          (bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.express ||
+                            bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.airExpress ||
+                            ((bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanTruck ||
+                              bookingObj.fbaFreightMethodId == fbaFreightMethodIdMap.oceanExpress) &&
+                              bookingObj.shipmentType == 1)))) &&
+                      isSubmitted
+                    ">
+                    {{ 'Total Volume is required' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Special mb-12">
+          <div class=" mb-24">
+            <span style="margin-right: 8px;"><span
+                class="tip">*</span>{{ 'Does your shipment contain any of the special goods' | translate }}?</span>
+            <nz-radio-group class="nz-radio-group-pill" [(ngModel)]="bookingObj.isContainsSpecialGoods"
+              (ngModelChange)="unContainsSpecialGoods($event)">
+              <label nz-radio-button [nzValue]="false">{{ 'booking.No' | translate }}</label>
+              <label nz-radio-button [nzValue]="true">{{ 'booking.Yes' | translate }}</label>
+            </nz-radio-group>
+          </div>
+          <div [ngClass]="{
+              redborder: bookingObj.isContainsSpecialGoods && !bookingObj.containsSpecialGoodsTypes && isSubmitted
+            }">
+            <div class="specialGoods">
+              <ng-container *ngIf="bookingObj.freightMethodType == FreightMethodType.Air; else elseTemplate">
+                <span *ngFor="let item of dictionaryList">
+                  <label nz-checkbox [(ngModel)]="item.checked" [nzDisabled]="!bookingObj.isContainsSpecialGoods"
+                    (ngModelChange)="selectSpecialGoods($event, item)">{{ item.nameLocalization || item.name }}</label>
+                </span>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <span *ngFor="let item of dictionaryList">
+                  <label nz-checkbox *ngIf="item.name != 'Magnetic Properties'"
+                    [nzDisabled]="!bookingObj.isContainsSpecialGoods" [(ngModel)]="item.checked"
+                    (ngModelChange)="selectSpecialGoods($event, item)">{{ item.nameLocalization || item.name }}</label>
+                </span>
+              </ng-template>
+            </div>
+            <!-- <div>
+              <label
+                nz-checkbox
+                [(ngModel)]="!bookingObj.isContainsSpecialGoods"
+                (ngModelChange)="unContainsSpecialGoods($event)"
+                >{{ 'No,my shipment does not contain any of the goods listed' | translate }}</label
+              >
+            </div> -->
+            <div class="red" *ngIf="
+                (bookingObj.isContainsSpecialGoods && !bookingObj.containsSpecialGoodsTypes && isSubmitted) ||
+                (bookingObj.isContainsSpecialGoods === null && isSubmitted)
+              ">
+              {{ 'Please indicate whether or not your shipment contains any of the goods listed' | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="More-Svervice">
+          <nz-collapse class="nz-collapse-form" [nzBordered]="false">
+            <nz-collapse-panel [nzHeader]="'More Service' | translate">
+              <div class="ComplianceInstructions">
+                <!-- <h2>{{ 'Products & Compliance' | translate }}</h2> -->
+                <div class="ComplianceInstructions-content">
+                  <div id="Compliance" class="Compliance">
+                    <!-- <h4>{{ 'Description of Products' | translate }}</h4> -->
+                    <div>
+                      <textarea rows="4" nz-input [placeholder]="'Description of Products' | translate"
+                        [(ngModel)]="bookingObj.description"></textarea>
+                    </div>
+                  </div>
+                  <div id="Instructions" class="Instructions">
+                    <!-- <h4>{{ 'Special Instructions' | translate }}</h4> -->
+                    <textarea rows="4" [(ngModel)]="bookingObj.specialInstructions"
+                      [placeholder]="'Special Instructions' | translate" nz-input></textarea>
+                  </div>
+                </div>
+              </div>
+              <booking-packing-list *ngIf="bookingObj.tradeType" [bookingId]="bookingObj.id" [isEdit]="isEdit"
+                [tradeType]="bookingObj.tradeType" [isPackSubmitted]="isSubmitted" [pageList]="bookingObj.packingLists"
+                [listOfData]="bookingObj.cusClearanceInvoices" (declareCurrency)="(bookingObj.declareCurrencyId)"
+                (verificationPassed)="verificationPassed = $event" (packingLists)="bookingObj.packingLists = $event"
+                (cusClearanceInvoices)="bookingObj.cusClearanceInvoices = $event"
+                (cusClearanceInvoicesGroup)="cusClearanceInvoicesGroup = $event">
+                <!-- (packingLists)="setpacklists($event); "  [pageList]="bookingObj.packingLists" -->
+              </booking-packing-list>
+            </nz-collapse-panel>
+          </nz-collapse>
+        </div>
+      </div>
+    </div>
+    <div class="operation">
+      <button nz-button nzType="primary" nzSize="large" [nzLoading]="submitting" [disabled]="submittingDraft"
+        (click)="SubmitBooking()">
+        {{ 'Submit Booking' | translate }}
+      </button>
+      <button nz-button nzType="default" nzSize="large" [nzLoading]="submittingDraft" [disabled]="submitting"
+        (click)="Draft()" class="draft">
+        {{ 'Save Draft' | translate }}
+      </button>
+      <button nz-button nzType="default" nzSize="large" (click)="location.back()" class="cancel">
+        {{ 'Cancel Booking' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<app-location-form-modal (modalClose)="modalClose($event, 1, originOr)"> </app-location-form-modal>
+<app-user-form-modal (modalClose)="modalClose($event, 2)"></app-user-form-modal>

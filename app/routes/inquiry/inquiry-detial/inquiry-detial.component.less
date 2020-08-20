@@ -1,0 +1,330 @@
+.inquiry-right-title {
+  display        : flex;
+  justify-content: space-between;
+  padding        : 12px;
+  font-size      : 18px;
+  background     : #fff;
+}
+
+.inquiry-right-content {
+  margin-top: 12px;
+  background: #fff;
+}
+
+.inquiry-right-footer {
+  background: #fff;
+  padding-left: 40px;
+  min-height: calc(100vh - 178px);
+}
+
+.detial-msg {
+  width        : 120px;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+}
+
+.contract {
+  display        : flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-radius  : 5px;
+  margin         : 24px 0;
+
+  .contract-msg {
+    width  : 100%;
+    min-width: 610px;
+    background:rgba(245,245,245,0.5);
+    padding: 24px;
+
+    div {
+      display        : flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      span:nth-child(1){
+        color:rgba(0,0,0,0.65);
+        i {
+          margin-right: 8px;
+          font-size: 17px;
+          color:#A8A8A8 !important;
+        }
+      }
+    }
+  }
+
+  .contract-line {
+    width: 100%;
+    height: 1px;
+    background:rgba(0,0,0,0.15);
+    margin:24px 0px;
+  }
+
+}
+
+
+.inquiry-detial {
+  padding: 0 24px 24px 0px;
+
+  .inquiry-title {
+    margin: 24px 0;
+  }
+
+  .inquiry-detial-msg {
+    padding-bottom : 24px;
+    margin         : 0 0.5% 24px 0.5%;
+    display        : flex;
+    justify-content: flex-end;
+    font-weight: 500;
+  }
+
+  .inquiry-detial-table {
+    display        : flex;
+    justify-content: space-around;
+    margin-bottom  : 24px;
+
+    .inquiry-detial-left {
+      th {
+        text-align: left;
+      }
+
+      .inquiry-table-border-flex {
+        display        : flex;
+        margin         : 24px 10px 24px 10px;
+        justify-content: space-between;
+      }
+
+      .small-table {
+        margin    : 15px 0 10px 0;
+        border-top: 1px dashed #e5e5e5;
+
+        .small-detial {
+          text-align : left;
+          height     : 15px;
+          line-height: 15px;
+        }
+      }
+
+      width : 24.5%;
+      border: 1px solid #e5e5e5;
+    }
+
+    .inquiry-detial-right {
+      .small-detial {
+        text-align : left;
+        height     : 15px;
+        line-height: 15px;
+      }
+
+      th {
+        width     : 25%;
+        text-align: left;
+      }
+
+      width : 74%;
+      border: 1px solid #e5e5e5;
+    }
+  }
+
+  .inquiry-table {
+    display        : flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+    margin-bottom  : 24px;
+    width:100%;
+
+    .inquiry-table-border {
+      width  : 49.5%;
+      padding: 20px;
+      margin-bottom: 12px;
+      background:rgba(250,250,250,1);
+
+      .inquiry-table-border-flex {
+        display        : flex;
+        justify-content: space-between;
+        padding-bottom : 15px;
+      }
+    }
+
+
+    .inquiry-border-flex {
+      display       : flex;
+      padding-bottom: 15px;
+
+      strong {
+        text-align: right;
+      }
+
+      p {
+        margin-bottom: 16px;
+        margin-right : 30px;
+      }
+    }
+  }
+}
+
+.total-box {
+  margin-top: 10px;
+  overflow-x: auto;
+  width:100%;
+  div {
+    display: inline-block;
+    width:174px;
+    height:54px;
+    line-height: 54px;
+    background:#E7F3FF;
+    color:#5CB0FF;
+    box-sizing: border-box;
+    padding-left: 20px;
+  }
+  span {
+    display: inline-block;
+    width:120px;
+    color:#FA6400;
+    height: 54px;
+    line-height: 54px;
+  }
+}
+
+.tab-box {
+  display: flex;
+  margin-top: 24px;
+  .tab-item {
+    padding:2px 8px;
+    text-align: center;
+    background-color: #EBEBEB;
+    color:#A8A8A8;
+    cursor: pointer;
+  }
+  .tabitemactive {
+    background-color: #1890FF;
+    color:#E2F1FF;
+  }
+}
+
+
+.blue-head {
+  th {
+    background-color: #F6FBFF;
+  }
+}
+
+
+.loc-table-box {
+  width:100%;
+  margin-top: 20px;
+  overflow-x: auto;
+  position: relative;
+  .loc-table-content {
+    white-space: nowrap;
+    .loc-table-head {
+      .loc-head-item {
+        display: inline-block;
+        background: #F6FBFF;
+        width:150px;
+        height: 42px;
+        line-height: 42px;
+        font-weight:600;
+        color:rgba(0,0,0,0.85);
+      }
+      .loc-head-item:nth-child(1) {
+        text-indent: 12px;
+        width: 35%!important;
+      }
+    }
+    .loc-body-item {
+      .loc-body-td {
+        display: inline-block;
+        width:150px;
+        height: 42px;
+        line-height: 42px;
+        font-weight:600;
+        color:rgba(0,0,0,0.85);
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        .txt-total {
+          display: block;
+          width:92px;
+          height:25px;
+          line-height: 25px;
+          background:#E7F3FF;
+          border-radius:2px;
+          color:#1890FF;
+        }
+      }
+      .loc-body-td:nth-child(1){
+        text-indent: 12px;
+        width: 35%!important;
+      }
+      .loc-body-mark {
+        width:100%;
+        height: 25px;
+        line-height: 25px;
+        background: #F2F2F2;
+        text-indent: 12px;
+      }
+      .line {
+        width:100%;
+        height: 1px;
+        background-color: #F8F8F8;
+        margin-top:10px;
+      }
+    }
+  }
+  
+}
+
+.contract-title {
+  margin-bottom: 24px;
+}
+
+.drawer-bar {
+  position: relative;
+  width:16px;
+  background-color: #E6E6E6;
+  position: absolute;
+  top:0px;
+  left:0px;
+  height:100%
+}
+
+.box-sj{
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-left: 13px solid #ACACAC;
+  border-bottom: 9px solid transparent;
+  position: absolute;
+  left:0px;
+  top:50vh;
+} 
+
+.gray-box {
+  padding: 20px;
+  margin:16px 0px 12px 0px;
+  background:rgba(250,250,250,1);
+}
+
+.loc-table-box-autowidth {
+  .loc-head-item,.loc-body-td{
+    width:20% !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+  }
+}
+
+.inquiry-first-item {
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inquiry-detial {
+  .inquiry-first-item+.inquiry-title {
+    margin:0px 0px 24px 0px;
+  }
+}
+
+
+

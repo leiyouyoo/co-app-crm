@@ -1,0 +1,75 @@
+@import '../../../../../styles/variables.less';
+
+
+
+.notClickn {
+  pointer-events: none;
+}
+
+.font-size-two {
+  font-size: 12px;
+}
+
+.currency-button {
+  height: 32px;
+
+  border-radius: 4px;
+}
+
+.currency-button:hover {
+  color           : #fff;
+  background-color: @primary-color;
+}
+
+::ng-deep .ant-card-bordered {
+  border: none;
+}
+
+
+nz-tabset::before {
+  margin: 0;
+}
+
+.customerinfo-input {
+  width     : 166px;
+  height    : 32px;
+  background: rgba(255, 255, 255, 1);
+  border    : 1px solid rgba(215, 227, 241, 1);
+}
+
+.ant-tabs-bar {
+  margin-bottom: 0 !important;
+}
+
+.certification {
+  display    : inline-block;
+  border     : 1px solid #91D5FF;
+  background : #E6F7FF;
+  color      : #1890FF;
+  margin-left: 20px;
+  padding    : 0 5px;
+  cursor: pointer;
+}
+
+.edit-customer {
+  margin-left: 20px;
+
+  img {
+    cursor       : pointer;
+    color        : #fff;
+    background   : #00000033;
+    border-radius: 100%;
+    padding      : 3px;
+
+    &:hover {
+      background: #1890FF;
+    }
+  }
+
+
+}
+
+.customer-center {
+  flex: 1;
+  overflow: hidden;
+}

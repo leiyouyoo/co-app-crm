@@ -1,0 +1,285 @@
+@line-color: #e4e4e4;
+@primary-color: #1890ff;
+@text-color: rgba(0, 0, 0, 0.85);
+
+.notClickn {
+  pointer-events: none;
+}
+
+.red {
+  color: red;
+  // height: 20px;
+}
+
+.clearfix {
+  display: flex;
+}
+
+.table-input {
+  width: 130px;
+  line-height: 30px;
+  min-height: 0px;
+}
+
+.redborder {
+  width: 130px;
+  line-height: 20px;
+  color: red;
+  white-space: pre-wrap;
+}
+
+.sku-table-container {
+  min-width: 200px;
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.Customsclearanceinvioce-FBA {
+  .Customsclearanceinvioce {
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .add-clearanceinvioce {
+      margin-right: 10px;
+      height: 32px;
+      line-height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    div.Customsclearanceinvioce1 {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      height: 32px;
+      line-height: 32px;
+
+      .ant-btn {
+        line-height: 1.5;
+        position: relative;
+        display: inline-block;
+        font-weight: 400;
+        white-space: nowrap;
+        text-align: center;
+        background-image: none;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+        height: 32px;
+        padding: 0 15px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: @text-color;
+        background-color: #fff;
+        border-color: @line-color;
+      }
+
+      .ant-btn:hover {
+        border-color: @primary-color;
+        color: @primary-color;
+      }
+
+      span {
+        margin-right: 5px;
+      }
+
+      .iconfont:before {
+        font-size: 0.1px;
+      }
+    }
+
+    div.Customsclearanceinvioce2 {
+      margin-right: 10px;
+      height: 32px;
+      line-height: 32px;
+      padding: 0 15px;
+      border: 1px solid @line-color;
+      border-radius: 5px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 5px;
+      }
+
+      .iconfont:before {
+        font-size: 0.1px;
+      }
+
+      a {
+        color: @text-color;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      .a-down:hover {
+        border-color: @primary-color;
+        color: @primary-color;
+      }
+    }
+
+    .Customsclearanceinvioce2:hover {
+      border-color: @primary-color;
+      color: @primary-color;
+    }
+
+    div.CustomsCurcy {
+      width: 300px;
+      display: flex;
+      align-items: center;
+
+      nz-select {
+        width: 200px;
+      }
+
+      label {
+        width: 120px;
+      }
+    }
+  }
+
+  .packingList {
+    margin-top: 16px;
+
+    .line-doubule {
+      height: 35px;
+      line-height: 35px;
+    }
+
+    .red {
+      color: red;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      padding: 0px;
+
+      li {
+        nz-select {
+          width: 150px;
+        }
+
+        input {
+          width: 180px;
+        }
+      }
+
+      li.package-show {
+        min-width: 230px;
+        min-height: 35px;
+        line-height: 35px;
+        margin-right: 10px;
+
+        span {
+          background-color: #ebedef;
+          height: 22px;
+          min-width: 135px;
+          line-height: 22px;
+          height: 22px;
+          display: inline-block;
+          font-weight: bold;
+          font-size: 16px;
+          padding-left: 5px;
+        }
+
+        button {
+          background-color: #ffffff;
+          color: @primary-color;
+        }
+      }
+
+      li.package-button {
+        min-width: 120px;
+        min-height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.list-item-header {
+  display: flex;
+
+  div {
+    width: 120px;
+  }
+
+  .list-item-sku,
+  .list-item-name {
+    width: 200px;
+  }
+}
+
+.list-item-Jisuan {
+  .list-item-weight {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+
+    div {
+      display: flex;
+      margin-right: 10px;
+      align-items: center;
+
+      span {
+        width: 180px;
+        display: inline-block;
+      }
+    }
+
+    nz-input-number {
+      width: 240px;
+    }
+  }
+
+  .list-item-volume {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    label {
+      width: 180px;
+    }
+
+    nz-input-number {
+      width: 135px;
+    }
+
+    span {
+      margin: 5px;
+    }
+  }
+}
+
+.packing-NO {
+  display: flex;
+  min-height: 50px;
+
+  div {
+    height: 35px;
+    min-width: 150px;
+  }
+
+  .word {
+    // width           : 15%;
+    min-width: 150px;
+    font-weight: bold;
+    background-color: #ebedef;
+    height: 20px;
+    margin-right: 5px;
+    text-align: center;
+  }
+}
