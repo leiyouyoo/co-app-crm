@@ -26,11 +26,12 @@ const THIRDMODULES = [CountdownModule, DragDropModule];
 import { environment } from '../../environments/environment';
 import { debounceInputDirective } from './directives/debounce-Input.directive';
 import { EnterKeydownDirective } from './directives/enter-keydown.directive';
+import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [];
 const COMPONENTS = [...COMPONENTS_ENTRY];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective];
+const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, CalcNzTableBodyScrollDirective];
 // #endregion
 
 
@@ -76,4 +77,4 @@ const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective];
     ...DIRECTIVES,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
