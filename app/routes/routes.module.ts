@@ -17,7 +17,7 @@ export const routers: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'booking',
+        redirectTo: 'inquiry',
         pathMatch: 'full',
       },
       // {
@@ -34,20 +34,20 @@ export const routers: Routes = [
       //     breadcrumb: '',
       //   },
       // },
-      // {
-      //   path: 'inquiry',
-      //   loadChildren: () => import('./inquiry/inquiry.module').then((mod) => mod.InquiryModule),
-      //   data: {
-      //     breadcrumb: '',
-      //   },
-      // },
       {
-        path: 'booking',
-        loadChildren: () => import('./booking/booking.module').then((mod) => mod.BookingModule),
+        path: 'inquiry',
+        loadChildren: () => import('./inquiry/inquiry.module').then((mod) => mod.InquiryModule),
         data: {
           breadcrumb: '',
         },
       },
+      // {
+      //   path: 'booking',
+      //   loadChildren: () => import('./booking/booking.module').then((mod) => mod.BookingModule),
+      //   data: {
+      //     breadcrumb: '',
+      //   },
+      // },
       {
         path: '**',
         component: EmptyComponent,
@@ -74,4 +74,4 @@ export const routers: Routes = [
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule {}
+export class RoutesModule { }

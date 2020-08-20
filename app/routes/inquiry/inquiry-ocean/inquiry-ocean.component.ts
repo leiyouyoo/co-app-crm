@@ -6,13 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 // import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { QuotesService } from '../../quotes/service/quotes.service';
+// import { QuotesService } from '../../quotes/service/quotes.service';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { finalize } from 'rxjs/operators';
 import { PlatformOrganizationUnitService, PUBContainerService, PUBTransportClauseService, PUBPlaceService, PUBShippingLineService } from '@co/cds';
 
 import { CRMCustomerService } from '../../../services/crm/customer.service';
-
+import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
+import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
+import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 // import { debounce } from '@shared/utils/debounce';
 @Component({
   selector: 'app-inquiry-ocean',
@@ -134,7 +136,7 @@ export class InquiryListOceanComponent implements OnInit {
     private fb: FormBuilder,
     public activeRoute: ActivatedRoute,
     public translate: TranslateService,
-    public quotesService: QuotesService,
+    // public quotesService: QuotesService,
     private router: Router,
     private OrganizationUnit: PlatformOrganizationUnitService,
     private pubContainer: PUBContainerService,
@@ -142,7 +144,9 @@ export class InquiryListOceanComponent implements OnInit {
     private crmCustomer: CRMCustomerService,
     private pubPlace: PUBPlaceService,
     private ShippingLine: PUBShippingLineService,
-    private
+    private OceanBaseItemService: RatesOceanBaseItemServiceService,
+    private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService
   ) { }
 
   ngOnInit() {
@@ -409,7 +413,7 @@ export class InquiryListOceanComponent implements OnInit {
     }
 
     this.loading = true;
-    this.customerService
+    this.OceanBaseItemService
       .getBusinessRateList({ ...datas, ...data })
       .pipe(
         finalize(() => {
@@ -481,9 +485,9 @@ export class InquiryListOceanComponent implements OnInit {
   onFollowChange(data) {
     this.loading = true;
     data.isFavorite = !data.isFavorite;
-    this.customerService
+    this.ratesFavoriteRateServiceService
       .bindFollow({
-        Id: data.id,
+        id: data.id,
         type: data.businessType,
       })
       .subscribe(
@@ -516,7 +520,7 @@ export class InquiryListOceanComponent implements OnInit {
       );
     }
 
-    this.customerService.quoteEnquiryCreate(data).subscribe(
+    this.ratesQuoteEnquiryService.create(data).subscribe(
       (res: any) => {
         this.msg.success('创建成功');
         this.loading = false;
