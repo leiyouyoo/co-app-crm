@@ -3,8 +3,9 @@ import { SailService } from 'projects/cityocean/sail-library/src/public-api';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import domToImage from 'dom-to-image';
-import { environment } from '@env/environment';
-import { isIE } from '@cityocean/shared-library';
+// import { environment } from '@env/environment';
+
+// import { isIE } from '@cityocean/shared-library';
 
 @Component({
   selector: 'app-share-ocean',
@@ -32,7 +33,7 @@ export class ShareOceanComponent {
     public sailingSchedulesService: SailService,
     private msg: NzMessageService,
     private translate: TranslateService,
-  ) {}
+  ) { }
 
   onTips() {
     this.msg.success(this.translate.instant('Copy Success!'));
@@ -68,7 +69,7 @@ export class ShareOceanComponent {
   }
 
   isIE() {
-    return isIE();
+    // return isIE();
   }
 
   /**

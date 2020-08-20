@@ -17,7 +17,7 @@ export class CustomerService {
     private crmService: CrmService,
     private userService: UserService,
     private roleService: RoleService,
-  ) {}
+  ) { }
 
   getCustomerByPageList(filterObj: {
     Sorting?: string;
