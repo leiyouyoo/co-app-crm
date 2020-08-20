@@ -27,7 +27,7 @@ const COMPONENTS_NOROUNT = [
   TrackDetialComponent,
   InquiryDetialComponent,
   InquiryBasicInfomationComponent,
-  // InquiryListOceanComponent,
+  InquiryListOceanComponent,
   InquiryTrackComponent,
 ];
 
