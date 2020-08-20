@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver, Input, SimpleChanges, HostListener, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { CustomerService } from '../../customer/service/customer.service';
-import { FooterCopyrightComponent } from '@shared/components/footer-copyright/footer-copyright.component';
+import { FooterCopyrightComponent } from './footer-copyright/footer-copyright.component';
 
 @Component({
   selector: 'app-inquiry-detial',

@@ -4,12 +4,12 @@ import { CustomerService } from '../../customer/service/customer.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
-import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
+// import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { TrackDetialComponent } from '../track-detial/track-detial.component';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { debounce } from '@shared/utils/debounce';
+// import { debounce } from '@shared/utils/debounce';
 
 @Component({
   selector: 'app-inquiry-track',
@@ -131,7 +131,7 @@ export class InquiryTrackComponent implements OnInit {
     private fb: FormBuilder,
     public activeRoute: ActivatedRoute,
     public translate: TranslateService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -571,7 +571,7 @@ export class InquiryTrackComponent implements OnInit {
     }
   }
 
-  
+
   countryLists = [];
   portList = [];
 
@@ -607,4 +607,30 @@ export class InquiryTrackComponent implements OnInit {
   //     this.dataOfList.items = data;
   //   }
   // }
+}
+
+
+export declare enum VolumeUnitCode {
+  CBM = "TJDWCBM",
+  CFT = "TJDWCFT"
+}
+export declare enum WeightUnitCode {
+  KGS = "ZLDWKGS",
+  LBS = "ZLDWLBS",
+  MT = "ZLDWMT"
+}
+export function debounce(delay: number = 300): MethodDecorator {
+  // tslint:disable-next-line: only-arrow-functions
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const timeoutKey = Symbol();
+
+    const original = descriptor.value;
+
+    descriptor.value = function (...args) {
+      clearTimeout(this[timeoutKey]);
+      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
+    };
+
+    return descriptor;
+  };
 }
