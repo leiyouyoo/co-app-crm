@@ -663,6 +663,57 @@ export class RatesQueryFreightRateOutput {
 /**
  *  No Remark 
  */
+export class RatesCrmBusinessRateListInput {
+
+
+        /* 默认查询关注的 */
+        isFollow?: boolean;
+
+
+        pol?: string;
+
+
+        pod?: string;
+
+
+        delivery?: string;
+
+
+        carrier?: any[];
+
+
+        shipline?: string;
+
+
+        commodity?: string;
+
+
+        fromDate?: string;
+
+
+        toDate?: string;
+
+
+        no?: string;
+
+
+        id?: string;
+
+        /* 排序 */
+        sorting?: string;
+
+        /* 页大小 */
+        maxResultCount?: number;
+
+        /* 跳过指定条数 */
+        skipCount?: number;
+
+
+}
+
+/**
+ *  No Remark 
+ */
 export class RatesCrmBusinessRateListOutput {
 
 
@@ -741,6 +792,9 @@ export class RatesCrmBusinessRateListOutput {
 
 
         account?: string;
+
+
+        reject?: boolean;
 
 
         ratePriceOutputs?: any[];
@@ -1487,6 +1541,12 @@ export class RatesQuoteEnquiryBaseDto {
         creatorUserId?: number;
 
 
+        reject?: boolean;
+
+
+        replyUserId?: number;
+
+
         id?: string;
 
 
@@ -2102,6 +2162,9 @@ export class RatesCrmTruckOuput {
 
 
         no?: string;
+
+
+        reject?: boolean;
 
 
         id?: string;
