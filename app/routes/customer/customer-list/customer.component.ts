@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { CostomerQueryEntity } from 'projects/crm/src/lib/entity/CostomerQueryEntity';
-import { CustomerService } from '../service/customer.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerMergeComponent } from '../component/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'app-customer',
@@ -30,15 +29,14 @@ export class CustomerComponent implements OnInit {
   @ViewChild(TransferTocustomerComponent, { static: true }) tranCustomer: TransferTocustomerComponent;
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   constructor(
-    private customerService: CustomerService,
     private msg: NzMessageService,
     public router: Router,
+    private crmCustomerService: CRMCustomerService,
     private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
     this.initData();
-    debugger;
     var tabs = window.localStorage.getItem('crmChangedTabs');
     if (tabs) {
       this.choosedNum = Number(tabs);
@@ -67,12 +65,12 @@ export class CustomerComponent implements OnInit {
     this.loading = true;
     const num = this.skipCount - 1;
 
-    this.customerService
-      .getCustomerByPageList({
-        IsCooperation: true,
-        MaxResultCount: this.maxResultCount,
-        SkipCount: num * this.maxResultCount,
-        SearchText: this.searchData,
+    this.crmCustomerService
+      .getAll({
+        isCooperation: true,
+        maxResultCount: this.maxResultCount,
+        skipCount: num * this.maxResultCount,
+        searchText: this.searchData,
       })
       .subscribe(
         (res: any) => {
@@ -136,7 +134,7 @@ export class CustomerComponent implements OnInit {
 
   transferCustomer(customerIds: any[], userId: any) {
     this.tranLoading = true;
-    this.customerService
+    this.crmCustomerService
       .transferCustomer(
         // tslint:disable-next-line: object-literal-shorthand
         { customerIds: customerIds, userId: userId },
@@ -173,9 +171,7 @@ export class CustomerComponent implements OnInit {
     if (isShow) {
       this.customerMerge.isVisible = true;
     } else {
-      this.msg.warning(
-        this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'),
-      );
+      this.msg.warning(this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'));
     }
   }
 

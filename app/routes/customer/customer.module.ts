@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared';
+import { SharedModule } from '../../shared/shared.module';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerDetailsComponent } from './component/customer-details/customer-details.component';
 import { ContactsListComponent } from './component/contact/contacts-list/contacts-list.component';
@@ -20,16 +20,13 @@ import { NodealDetailComponent } from './component/nodeal-detail/nodeal-detail.c
 import { CustomerIndexComponent } from './customer-index.component';
 import { CustomerAuthComponent } from './component/customer-auth/customer-auth.component';
 import { CustomerRecordComponent } from './component/customer-record/customer-record.component';
-// import { RecordEditComponent } from './component/customer-record/record-edit/record-edit.component';
 import { ShowImageComponent } from './component/customer-record/show-image/show-image.component';
 import { CustomerComponent } from './customer-list/customer.component';
 import { NoDealCustomerComponent } from './customer-list/no-deal-customer/no-deal-customer.component';
 import { UnownedClientComponent } from './customer-list/unowned-client/unowned-client.component';
 import { SharedCustomersComponent } from './customer-list/shared-customers/shared-customers.component';
 import { CustomerMergeComponent } from './component/customer-merge/customer-merge.component';
-import { ImTemplateModule } from '@cityocean/im-template-library';
 import { LegalEntityComponent } from './component/legal-entity/legal-entity.component';
-import { from } from 'rxjs';
 
 const COMPONENTS = [
   CustomerComponent,
@@ -58,7 +55,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [LegalEntityComponent];
 
 @NgModule({
-  imports: [SharedModule, CustomerRoutingModule, ImTemplateModule],
+  imports: [SharedModule, CustomerRoutingModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
@@ -73,4 +70,4 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent];
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class CustomerModule { }
+export class CustomerModule {}

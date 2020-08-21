@@ -14,15 +14,17 @@ const routes: Routes = [
     component: CustomerIndexComponent,
     data: {
       breadcrumb: 'Customer List',
+      titleI18n: 'Customer List',
+      reuse: true,
     },
     children: [
       {
         path: '',
         component: CustomerComponent,
-        data:{
-          keep:true,
-          key:'customer'
-        }
+        data: {
+          keep: true,
+          key: 'customer',
+        },
       },
       {
         path: 'customerdetails/:id',

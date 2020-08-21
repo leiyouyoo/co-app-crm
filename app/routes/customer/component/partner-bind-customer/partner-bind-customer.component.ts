@@ -11,13 +11,10 @@ import {
 } from '@angular/core';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomerService } from '../../service/customer.service';
 import { NzMessageService } from 'ng-zorro-antd';
-
-// import { CreateCustomerComponent } from '../create-customer/create-customer.component';
-import { CreateOrUpdatePartnerInput } from 'projects/crm/src/lib/entity/CreateOrUpdatePartnerInput';
 import { TranslateService } from '@ngx-translate/core';
-import { CreateCustomerComponent } from '@shared/components/create-customer/create-customer.component';
+import { CRMCustomerService, CRMPartnerService, CRMCreateOrUpdatePartnerDto } from 'apps/crm/app/services/crm';
+import { CreateCustomerComponent } from 'apps/crm/app/shared/compoents/customer/create-customer/create-customer.component';
 
 @Component({
   selector: 'partner-bind-customer',
@@ -49,8 +46,9 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private customerService: CustomerService,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private crmCustomerService: CRMCustomerService,
+    private crmPartnerService: CRMPartnerService,
     private message: NzMessageService,
     private translate: TranslateService,
   ) {}
@@ -97,13 +95,13 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     }
     let num = this.tableSkipCount - 1;
     this.loading = true;
-    this.customerService
+    this.crmCustomerService
       .getCustomerByName({
         customerId: this.customerId,
         // tslint:disable-next-line: object-literal-shorthand
         name: name,
-        SkipCount: num * this.tableMaxResultCount,
-        MaxResultCount: this.tableMaxResultCount,
+        skipCount: num * this.tableMaxResultCount,
+        maxResultCount: this.tableMaxResultCount,
       })
       .subscribe(
         (res: any) => {
@@ -135,9 +133,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
   onShowCreate() {
     this.hasValue = false;
     this.createCustomer.clear();
-    this.com = this.createCustomer.createComponent(
-      this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent),
-    );
+    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
 
     this.com.instance.initData();
     this.com.instance.bindData(this.validateForm.value.name);
@@ -147,7 +143,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
   }
 
   bindCustomer(type: number, id: any, isGetCustomer: boolean) {
-    this.customerService
+    this.crmPartnerService
       .bindCustomer({
         partnerId: this.parentId,
         customerId: this.customerId,
@@ -180,7 +176,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     });
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({block: "end", mode: 'smooth' });
+      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
     if (!this.com.instance.submitForm()) {
       this.message.warning(this.translate.instant('Please check the content'));
@@ -208,7 +204,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     if (value.isSalesCustomer === null) {
       value.isSalesCustomer = false;
     }
-    let entity: CreateOrUpdatePartnerInput = {
+    let entity: CRMCreateOrUpdatePartnerDto = {
       partnerName: value.name,
       customerId: this.customerId,
       partnerId: this.parentId ? this.parentId : null,
@@ -222,8 +218,6 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
         tel: tel.toString(),
         fax: value.fax,
         keyWord: value.keyWord,
-        cargoCanvassingType: value.cargoCanvassingType,
-        forwardingType: value.forwardingType,
         email: value.email,
         customerType: value.customerType,
         isSalesCustomer: value.isSalesCustomer,
@@ -237,11 +231,11 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     };
 
     if (application) {
-      entity.partnerCustomer.IsAudit = true;
+      entity.partnerCustomer.isAudit = true;
     }
 
     this.cusLoading = true;
-    this.customerService.createPartnerCustomer(entity).subscribe(
+    this.crmPartnerService.create(entity).subscribe(
       (res: any) => {
         this.cusLoading = false;
         this.showSearch = true;

@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { CrmService } from './../../../../../../projects/crm/src/lib/service/crm.service';
-import { CustomerType } from 'projects/crm/src/lib/entity/CustomerType';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CustomerType } from '../../../../shared/types/customer/CustomerType';
 @Component({
   selector: 'app-customer-merge',
   templateUrl: './customer-merge.component.html',
@@ -23,9 +21,9 @@ export class CustomerMergeComponent implements OnInit {
   KeepCustomerId = null;
   searchObj = { searchText: null, SkipCount: 0, MaxResultCount: 20 };
   constructor(
-    private crmService: CrmService,
     private msg: NzMessageService,
     private modalService: NzModalService,
+    private crmCustomerService: CRMCustomerService,
     public translate: TranslateService,
   ) {}
 
@@ -36,7 +34,7 @@ export class CustomerMergeComponent implements OnInit {
       return;
     }
     this.searchObj.searchText = value;
-    this.crmService.getAllForMerge(this.searchObj).subscribe((res: any) => {
+    this.crmCustomerService.getAllForMerge(this.searchObj).subscribe((res: any) => {
       //  过滤数据
       this.customerList = res.items;
       if (this.customerList.length > 0) {
@@ -138,27 +136,24 @@ export class CustomerMergeComponent implements OnInit {
           nzContent: tipText,
           nzOkText: this.translate.instant('OK'),
           nzOnOk: () => {
-            this.crmService
-              .mergeCustomer({ customerIds: this.customerIds, keepCustomerId: this.KeepCustomerId })
-              .subscribe((res: any) => {
-                this.msg.success(this.translate.instant('merge ') + this.translate.instant('success'));
-                this.cancelFun();
-                this.getCustomerByPageList.emit();
-              });
+            this.saveData();
           },
           nzCancelText: this.translate.instant('Cancel'),
         });
       } else {
-        this.crmService
-          .mergeCustomer({ customerIds: this.customerIds, keepCustomerId: this.KeepCustomerId })
-          .subscribe((res: any) => {
-            this.msg.success(this.translate.instant('merge ') + this.translate.instant('success'));
-            this.cancelFun();
-            this.getCustomerByPageList.emit();
-          });
+        this.saveData();
       }
     }
   }
+
+  saveData() {
+    this.crmCustomerService.mergeCustomer({ customerIds: this.customerIds, keepCustomerId: this.KeepCustomerId }).subscribe((res: any) => {
+      this.msg.success(this.translate.instant('merge ') + this.translate.instant('success'));
+      this.cancelFun();
+      this.getCustomerByPageList.emit();
+    });
+  }
+
   cancelFun() {
     this.isVisible = false;
     this.customerId = null;

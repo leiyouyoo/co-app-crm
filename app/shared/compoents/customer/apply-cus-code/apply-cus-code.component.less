@@ -1,0 +1,56 @@
+.apply-cus-code-content {
+    min-height: 479px;
+}
+
+.cus-option-box {
+    border-bottom: 1px solid #E8E8E8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 58px;
+    align-items: center;
+    .cus-left-item {
+        display: flex;
+        width: 100%;
+        span {
+            display: inline-block;
+            max-width: 35%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        
+        .iconfont::before {
+            color:#0041C4;
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        .c-name{
+            color:#1890FF;
+            font-weight:500;
+            font-size: 16px;
+            margin-right: 3px;
+        }
+        .c-e-name {
+            font-size: 12px;
+        }
+    }
+}
+
+.cus-code-box {
+    height: 430px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.cusOptionNoHeight {
+    display: none;
+}
+.cus-item {
+    span:not(:nth-child(1)){
+      margin-right: 10px;
+    }
+}
+.w100 {
+    width: 100%;
+}

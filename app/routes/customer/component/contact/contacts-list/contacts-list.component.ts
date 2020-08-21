@@ -1,11 +1,15 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, ViewChild, Output, EventEmitter } from '@angular/core';
-import { CustomerService } from '../../../service/customer.service';
 import { CreateContactsComponent } from '../create-contacts/create-contacts.component';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { FormBuilder, Validators } from '@angular/forms';
-import { CreateContactEntity } from 'projects/crm/src/lib/entity/CreateContactEntity';
 import { TranslateService } from '@ngx-translate/core';
-import { CrmService } from 'projects/crm/src/public-api';
+import {
+  CRMLocationService,
+  CRMContactService,
+  CRMLocationExternalService,
+  CRMCreateOrUpdateContactInput,
+} from '../../../../../services/crm';
+import { SSORoleService } from '@co/cds';
 
 @Component({
   selector: 'contacts-list',
@@ -74,10 +78,12 @@ export class ContactsListComponent implements OnInit {
 
   constructor(
     private modalService: NzModalService,
-    private customerService: CustomerService,
-    private crmService: CrmService,
-    public message: NzMessageService,
-    public translate: TranslateService,
+    private message: NzMessageService,
+    private translate: TranslateService,
+    private ssoRoleService: SSORoleService,
+    private crmLocationService: CRMLocationService,
+    private crmContactService: CRMContactService,
+    private crmLocationExternalService: CRMLocationExternalService,
     private fb: FormBuilder,
   ) {}
 
@@ -125,11 +131,10 @@ export class ContactsListComponent implements OnInit {
     if (isMainAccount) {
       id = null;
     }
-    this.crmService
+    this.ssoRoleService
       .getParentOrChildrens({
-        Type: 1,
-        ParentId: id,
-        isMainAccount: isMainAccount,
+        type: 1,
+        parentId: id,
       })
       .subscribe((res: any) => {
         this.rolesList = res.items;
@@ -139,14 +144,14 @@ export class ContactsListComponent implements OnInit {
   bindLocation() {
     let data: any = {};
     if (this.customerId) {
-      data.CustomerId = this.customerId;
+      data.customerId = this.customerId;
     }
     if (this.partnerId) {
-      data.PartnerId = this.partnerId;
+      data.partnerId = this.partnerId;
     }
-    this.customerService.getAllByCustomerOrPartner(data).subscribe((response: any) => {
+    this.crmLocationService.getAllByCustomerOrPartner(data).subscribe((response: any) => {
       this.allLocations = response.items;
-      this.customerService
+      this.crmLocationService
         .getByContactId({
           contactId: this.i,
         })
@@ -168,20 +173,20 @@ export class ContactsListComponent implements OnInit {
 
     let num = this.filterContact.SkipCount - 1;
     let data: any = {
-      MaxResultCount: this.filterContact.MaxResultCount,
-      SkipCount: num * this.filterContact.MaxResultCount,
+      maxResultCount: this.filterContact.MaxResultCount,
+      skipCount: num * this.filterContact.MaxResultCount,
     };
 
     if (this.filterContact.CustomerId) {
-      data.CustomerId = this.filterContact.CustomerId;
+      data.customerId = this.filterContact.CustomerId;
     }
 
     if (this.filterContact.PartnerId) {
-      data.PartnerId = this.filterContact.PartnerId;
+      data.partnerId = this.filterContact.PartnerId;
     }
 
     this.tabLoading = true;
-    this.customerService.getByCustomerOrPartnerPageList(data).subscribe(
+    this.crmContactService.getByCustomerOrPartner(data).subscribe(
       (res: any) => {
         this.tabLoading = false;
         this.users = res.items;
@@ -195,13 +200,15 @@ export class ContactsListComponent implements OnInit {
 
   getContactInfo() {
     this.contact = null;
-    this.customerService.getContactInfo(this.i).subscribe((res) => {
-      this.contact = res;
-      this.isCanDelete = this.contact.isCanDelete;
-      this.contact.isMaster === true
-        ? (this.isMasterText = this.translate.instant('Main contact'))
-        : (this.isMasterText = '');
-    });
+    this.crmContactService
+      .get({
+        id: this.i,
+      })
+      .subscribe((res) => {
+        this.contact = res;
+        this.isCanDelete = this.contact.isCanDelete;
+        this.contact.isMaster === true ? (this.isMasterText = this.translate.instant('Main contact')) : (this.isMasterText = '');
+      });
   }
 
   pageIndexChange(pageIndex: number) {
@@ -218,7 +225,7 @@ export class ContactsListComponent implements OnInit {
   }
 
   handleOk() {
-    this.customerService
+    this.crmLocationExternalService
       .assignLocationsToUser({
         contactId: this.i,
         locationIds: this.selectedLocationsListIds,
@@ -246,11 +253,11 @@ export class ContactsListComponent implements OnInit {
     this.userVisible = false;
   }
 
-  onAddOrUpdateContacts(entity) {
+  onAddOrUpdateContacts(entity: CRMCreateOrUpdateContactInput) {
     this.createContacts.loading = true;
     // 判断编辑或新增
     if (entity.id) {
-      this.customerService.updateForCustomer(entity).subscribe(
+      this.crmContactService.update(entity).subscribe(
         (res: any) => {
           this.loading = false;
           this.createContacts.loading = false;
@@ -273,7 +280,7 @@ export class ContactsListComponent implements OnInit {
     }
 
     if (entity.partnerId) {
-      this.customerService.createForPartner(entity).subscribe(
+      this.crmContactService.createForPartner(entity).subscribe(
         (res: any) => {
           this.message.success(this.translate.instant('New success'));
           this.createContacts.handleCancel();
@@ -285,7 +292,7 @@ export class ContactsListComponent implements OnInit {
         },
       );
     } else {
-      this.customerService.createForCustomer(entity).subscribe(
+      this.crmContactService.createForCustomer(entity).subscribe(
         (res: any) => {
           this.message.success(this.translate.instant('New success'));
           this.createContacts.handleCancel();
@@ -319,11 +326,15 @@ export class ContactsListComponent implements OnInit {
   }
 
   deleteConteacts() {
-    this.customerService.deleteContactsById(this.i).subscribe((res: any) => {
-      this.refushData.emit();
-      this.ngOnInit();
-      this.i = null;
-    });
+    this.crmContactService
+      .delete({
+        id: this.i,
+      })
+      .subscribe((res: any) => {
+        this.refushData.emit();
+        this.ngOnInit();
+        this.i = null;
+      });
   }
 
   onSetPassword(data) {
@@ -349,7 +360,7 @@ export class ContactsListComponent implements OnInit {
     }
 
     this.cspLoading = true;
-    this.customerService
+    this.crmContactService
       .resetUserPassword({
         userId: this.userPassData.id,
         newPassword: this.newPassword,
@@ -367,7 +378,7 @@ export class ContactsListComponent implements OnInit {
   }
 
   onSetUserPassword(data) {
-    this.customerService
+    this.crmContactService
       .resetUserPassword({
         userId: data.id,
         newPassword: data.password,
@@ -402,10 +413,15 @@ export class ContactsListComponent implements OnInit {
   }
 
   deleteCspUser(id: any) {
-    this.customerService.unbindOrDeleteUser(id).subscribe((res) => {
-      this.ngOnInit();
-      this.getContactInfo();
-    });
+    this.crmContactService
+      .unbindOrDeleteUser({
+        id: id,
+      })
+      .subscribe((res) => {
+        this.message.success(this.translate.instant('Delete success'));
+        this.ngOnInit();
+        this.getContactInfo();
+      });
   }
 
   showCspModal() {
@@ -448,7 +464,7 @@ export class ContactsListComponent implements OnInit {
     }
     if (this.validateForm.valid) {
       let value: any = this.validateForm.value;
-      let entity: CreateContactEntity = {};
+      let entity = new CRMCreateOrUpdateContactInput();
       entity.customerId = this.customerId;
       entity.partnerId = this.partnerId;
       entity.email = this.contact.email;
@@ -462,9 +478,10 @@ export class ContactsListComponent implements OnInit {
       entity.fax = this.contact.fax;
       entity.name = this.contact.name;
       entity.tel = this.contact.tel;
-      if (this.userId) {
-        entity.userId = this.userId;
-      }
+      entity.userId = this.userId;
+      entity.userName = value.username;
+      entity.role = value.roles;
+      entity.isSendEmail = value.isEeamil;
 
       if (this.contact) {
         entity.id = this.contact.id;
@@ -473,30 +490,17 @@ export class ContactsListComponent implements OnInit {
         }
       }
 
-      if (value.username) {
-        entity.userName = value.username;
-      }
-
       if (!this.reg.test(value.password)) {
         this.message.warning(
-          this.translate.instant(
-            'The password must consist of letters and numbers, and the length must be equal to 8 digits',
-          ),
+          this.translate.instant('The password must consist of letters and numbers, and the length must be equal to 8 digits'),
         );
         return;
       } else {
         entity.password = value.password;
       }
 
-      if (value.roles) {
-        entity.role = value.roles;
-      }
-
-      if (value.isEeamil) {
-        entity.isSendEmail = value.isEeamil;
-      }
       this.loading = true;
-      this.crmService
+      this.crmContactService
         .checkEmailRepeat({
           customerId: this.customerId,
           email: this.validateForm.get('username').value,
@@ -514,9 +518,7 @@ export class ContactsListComponent implements OnInit {
             if (!res.success) {
               this.modalService.confirm({
                 nzTitle: this.translate.instant('Tips'),
-                nzContent: this.translate.instant(
-                  'The mailbox already exists, whether to continue to use the existing account?',
-                ),
+                nzContent: this.translate.instant('The mailbox already exists, whether to continue to use the existing account?'),
                 nzOkText: this.translate.instant('Yes'),
                 nzOnOk: () => {
                   entity.userId = res.userId;

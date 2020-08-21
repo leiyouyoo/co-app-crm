@@ -1,12 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { CustomerService } from '../../../service/customer.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { CreateContactEntity } from 'projects/crm/src/lib/entity/CreateContactEntity';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { CrmService } from 'projects/crm/src/public-api';
+import { PUBDataDictionaryService, SSORoleService, SsoListResultDto } from '@co/cds';
+import { CRMContactService, CRMCreateOrUpdateContactInput } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'create-contacts',
@@ -44,11 +41,12 @@ export class CreateContactsComponent implements OnInit {
   editionRoleId: any;
   constructor(
     private fb: FormBuilder,
-    private customerService: CustomerService,
     private message: NzMessageService,
-    private crmService: CrmService,
     private modalService: NzModalService,
+    private pubDataDictionaryService: PUBDataDictionaryService,
     private translate: TranslateService,
+    private crmContactService: CRMContactService,
+    private ssoRoleService: SSORoleService,
   ) {}
 
   chineseValidator(): ValidatorFn {
@@ -74,11 +72,11 @@ export class CreateContactsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.customerService.getDataDictionary('EA4865B0-7B1F-4BCC-A23C-F0E247C3A914').subscribe((res: any) => {
+    this.pubDataDictionaryService.getAll({ typeId: 'EA4865B0-7B1F-4BCC-A23C-F0E247C3A914' }).subscribe((res: any) => {
       this.positionList = res.items;
     });
 
-    this.customerService.getAllRoleInfo().subscribe((res) => {
+    this.ssoRoleService.getAll({}).subscribe((res: any) => {
       this.roles = res.items;
       this.initData();
     });
@@ -119,7 +117,7 @@ export class CreateContactsComponent implements OnInit {
   }
 
   checkMainContact(id?: any) {
-    this.customerService
+    this.crmContactService
       .checkHasMainContact({
         customerId: this.customerId,
         partnerId: this.partnerId,
@@ -139,11 +137,10 @@ export class CreateContactsComponent implements OnInit {
     if (isMainAccount) {
       id = null;
     }
-    this.crmService
+    this.ssoRoleService
       .getParentOrChildrens({
-        Type: 1,
-        ParentId: id,
-        isMainAccount: isMainAccount,
+        type: 1,
+        parentId: id,
       })
       .subscribe((res: any) => {
         this.rolesList = res.items;
@@ -223,7 +220,7 @@ export class CreateContactsComponent implements OnInit {
         this.onSubmitData();
       } else {
         // 验证邮箱
-        this.crmService
+        this.crmContactService
           .checkEmailRepeat({
             customerId: this.customerId,
             email: this.validateForm.get('mail').value,
@@ -241,9 +238,7 @@ export class CreateContactsComponent implements OnInit {
                 this.isVisible = false;
                 this.modalService.confirm({
                   nzTitle: this.translate.instant('Tips'),
-                  nzContent: this.translate.instant(
-                    'The mailbox already exists, whether to continue to use the existing account?',
-                  ),
+                  nzContent: this.translate.instant('The mailbox already exists, whether to continue to use the existing account?'),
                   nzOkText: this.translate.instant('Yes'),
                   nzOnOk: () => this.onSubmitData(res.userId),
                   nzCancelText: this.translate.instant('No'),
@@ -264,7 +259,7 @@ export class CreateContactsComponent implements OnInit {
 
   onSubmitData(userId?: number) {
     let value: any = this.validateForm.value;
-    let entity: CreateContactEntity = {};
+    let entity = new CRMCreateOrUpdateContactInput();
     entity.customerId = this.customerId;
     entity.partnerId = this.partnerId;
     entity.email = value.mail;
@@ -280,9 +275,7 @@ export class CreateContactsComponent implements OnInit {
     entity.fax = value.fax;
     entity.name = value.name;
     entity.tel = value.tel;
-    if (userId) {
-      entity.userId = userId;
-    }
+    entity.userId = userId;
 
     if (this.data) {
       entity.id = this.data.id;
@@ -318,7 +311,7 @@ export class CreateContactsComponent implements OnInit {
         nzOnCancel: () => (this.isVisible = true),
       });
     } else {
-      this.customerService.unbindOrDeleteUser(this.data.id).subscribe(
+      this.crmContactService.unbindOrDeleteUser(this.data.id).subscribe(
         (res) => {
           this.message.success(this.translate.instant('Logout successful'));
           this.validateForm.patchValue({

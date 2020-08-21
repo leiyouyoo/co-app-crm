@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PlatformOrganizationUnitService } from '@co/cds';
 
 @Component({
   selector: 'transfer-tocustomer',
@@ -14,7 +14,7 @@ export class TransferTocustomerComponent implements OnInit {
   company: any;
   department: any;
 
-  constructor(private fb: FormBuilder, private customerService: CustomerService) {}
+  constructor(private fb: FormBuilder, private platformOrganizationUnitService: PlatformOrganizationUnitService) {}
 
   ngOnInit() {
     this.validateForm = this.fb.group({
@@ -30,9 +30,9 @@ export class TransferTocustomerComponent implements OnInit {
 
   // 默认获取
   getRegion() {
-    this.customerService
-      .getTranferCustomerList({
-        Type: 8,
+    this.platformOrganizationUnitService
+      .getAll({
+        type: 8,
       })
       .subscribe((res: any) => {
         this.region = res.items;
@@ -41,8 +41,8 @@ export class TransferTocustomerComponent implements OnInit {
 
   //
   getCompany(pid = null) {
-    this.customerService
-      .getTranferCustomerList({
+    this.platformOrganizationUnitService
+      .getAll({
         parentId: pid,
         type: 4,
       })
@@ -57,8 +57,8 @@ export class TransferTocustomerComponent implements OnInit {
 
   getDepartment(pid) {
     if (pid) {
-      this.customerService
-        .getTranferCustomerList({
+      this.platformOrganizationUnitService
+        .getAll({
           parentId: pid,
         })
         .subscribe((res: any) => {
@@ -115,7 +115,7 @@ export class TransferTocustomerComponent implements OnInit {
       pid = this.validateForm.get('department').value;
     }
 
-    this.customerService
+    this.platformOrganizationUnitService
       .getUsersByOrganizationUnitId({
         searchText: text,
         organizationUnitId: pid,

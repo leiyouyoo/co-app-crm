@@ -34,7 +34,6 @@
     [nzFrontPagination]="false"
     nzShowPagination="false"
     nzTableLayout="fixed"
-    [nzNoResult]="noResult"
     #table
     calcNzTableBodyScroll
     *ngIf="hasValue"
@@ -119,13 +118,6 @@
         </td>
       </tr>
     </tbody>
-
-    <ng-template #noResult>
-      <img src="assets\images\nodata.png" style="width: 150px; margin: 0 auto; display: block; padding: 20px 0;" />
-      <div style="text-align: center;">
-        <button nz-button nzType="primary" (click)="onShowCreate()">{{ 'New customer' | translate }}</button>
-      </div>
-    </ng-template>
   </nz-table>
 
   <div class="pagination" *ngIf="hasValue && listOfData?.totalCount > 0">
@@ -135,6 +127,13 @@
       (nzPageIndexChange)="tablePageIndexChange($event)"
       [nzTotal]="listOfData.totalCount"
     ></nz-pagination>
+  </div>
+
+  <div style="text-align: center;">
+    <img src="apps\crm\assets\images\nodata.png" style="width: 150px; margin: 0 auto; display: block; padding: 20px 0;" />
+    <div style="text-align: center;">
+      <button nz-button nzType="primary" (click)="onShowCreate()">{{ 'New customer' | translate }}</button>
+    </div>
   </div>
 
   <div style="padding-top: 20px; flex: 1; overflow: hidden;" [ngStyle]="hasValue ? { display: 'none' } : ''">

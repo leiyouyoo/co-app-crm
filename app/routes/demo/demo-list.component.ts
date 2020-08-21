@@ -167,7 +167,6 @@ export class DemoListComponent extends CoPageBase {
   }
 
   coOnInit() {
-    debugger;
     this.getAll({});
   }
 
