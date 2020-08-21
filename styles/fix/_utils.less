@@ -1,21 +1,21 @@
 .attachment {
-  display: flex;
-  align-items: center;
+  display      : flex;
+  align-items  : center;
   margin-bottom: 8px;
-  padding: 4px;
-  border: 1px solid @grey-4;
+  padding      : 4px;
+  border       : 1px solid @grey-4;
 
   &-icon {
-    padding: 2px;
+    padding  : 2px;
     font-size: 40px;
   }
 
   &-img {
-    width: 64px;
-    height: 64px;
-    background-color: transparent;
+    width              : 64px;
+    height             : 64px;
+    background-color   : transparent;
     background-position: center center;
-    background-size: cover;
+    background-size    : cover;
   }
 }
 
@@ -25,18 +25,18 @@
 
     &-tag {
       position: absolute;
-      top: -6px;
-      right: -2px;
+      top     : -6px;
+      right   : -2px;
     }
   }
 }
 
 .img {
   &-thm {
-    position: relative;
-    display: block;
-    max-width: 100%;
-    height: auto;
+    position        : relative;
+    display         : block;
+    max-width       : 100%;
+    height          : auto;
     background-color: transparent;
 
     &:hover {
@@ -46,33 +46,33 @@
     }
 
     &__mask {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 2;
-      display: block;
+      position        : absolute;
+      top             : 0;
+      right           : 0;
+      bottom          : 0;
+      left            : 0;
+      z-index         : 2;
+      display         : block;
       background-color: rgba(0, 0, 0, 0.3);
-      transition: all 0.2s ease-in-out;
+      transition      : all 0.2s ease-in-out;
     }
 
     &__icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 3;
-      display: block;
-      color: #fff;
-      font-size: 32px;
-      opacity: 0;
+      position  : absolute;
+      top       : 50%;
+      left      : 50%;
+      z-index   : 3;
+      display   : block;
+      color     : #fff;
+      font-size : 32px;
+      opacity   : 0;
       transition: all 0.2s ease-in-out;
     }
 
     &__img {
-      z-index: 1;
+      z-index  : 1;
       max-width: 100%;
-      height: auto;
+      height   : auto;
     }
 
     &__zoom-in {
@@ -103,4 +103,482 @@
       }
     }
   }
+}
+
+// #endregion
+
+.add {
+  height    : 48px;
+  margin-top: 14px;
+  padding   : 15px 0 15px 0;
+  text-align: center;
+  border    : 1px dashed rgba(94, 131, 255, 1);
+  cursor    : pointer;
+
+  >span {
+    display: inline-block;
+
+    &:first-child {
+      box-sizing   : content-box;
+      padding-right: 5px;
+      color        : rgba(111, 144, 255, 1);
+      font-weight  : 400;
+      font-size    : 14px;
+      font-family  : PingFangSC-Regular, PingFang SC;
+      line-height  : 20px;
+      border-right : 1px solid rgba(94, 131, 255, 1);
+      cursor       : pointer;
+    }
+
+    &:last-child {
+      box-sizing  : content-box;
+      padding-left: 5px;
+      color       : rgba(153, 153, 153, 1);
+      font-weight : 400;
+      font-family : PingFangSC-Regular, PingFang SC;
+      line-height : 20px;
+      cursor      : pointer;
+    }
+  }
+}
+
+.ant-table-placeholder {
+  border-top   : none !important;
+  border-bottom: none !important;
+}
+
+nz-table {
+  tbody {
+    tr {
+      td {
+        ul {
+          margin-bottom: 0;
+          padding-left : 0;
+
+          li {
+            list-style: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.cust-head {
+  width         : 100%;
+  margin-bottom : 24px;
+  padding-bottom: 24px;
+  background    : #fff;
+}
+
+.cust-head-input input {
+  width        : 250px;
+  height       : 32px;
+  background   : rgba(255, 255, 255, 1);
+  border       : 1px solid rgba(215, 227, 241, 1);
+  border-radius: 4px;
+}
+
+.cust-head-input {
+  display  : flex;
+  flex-wrap: wrap;
+
+  .font-size {
+    width      : 24px;
+    height     : 17px;
+    color      : rgba(23, 25, 26, 0.85);
+    font-weight: 400;
+    font-size  : 12px;
+    font-family: PingFang-SC-Regular, PingFang-SC;
+    line-height: 17px;
+  }
+
+  .search-button {
+    width      : 20px;
+    height     : 22px;
+    color      : rgba(255, 255, 255, 1);
+    font-weight: 400;
+    font-size  : 14px;
+    line-height: 22px;
+  }
+}
+
+// 样式改版
+
+
+.ant-pagination-item-active {
+  background: #1890FF;
+
+  a {
+    color: #fff !important;
+  }
+}
+
+.customer-user {
+  transition: none !important;
+
+  .ant-tabs-bar {
+    margin-bottom: 0 !important;
+  }
+}
+
+.userMsg {
+  .ant-card-body {
+    padding: 16px 16px 0 16px !important;
+  }
+}
+
+.user-info-wrap {
+  .ant-timeline-item-content {
+    background   : #F8F8FF;
+    border-radius: 10px;
+    padding      : 10px 5px;
+    margin       : 0 !important;
+    padding-left : 40px;
+  }
+
+  .ant-timeline-item-tail {
+    left: 20px;
+  }
+
+  .ant-timeline-item-head {
+    z-index: 999;
+    top    : 10px;
+    left   : 16px;
+  }
+}
+
+// .ant-form-item {
+//   margin-bottom: 0 !important;
+// }
+
+.tabs {
+  nz-table thead tr th:first-child {
+    text-align: left !important;
+  }
+
+  nz-table tbody tr td:first-child {
+    text-align: left !important;
+  }
+
+  background    : #fff;
+  height        : 100%;
+  display       : flex;
+  flex-direction: column;
+
+
+
+  nz-tabset {
+    height        : 100%;
+    display       : flex;
+    flex-direction: column;
+
+    nz-tabs-nav {
+      padding: 0 20px;
+    }
+
+    .ant-tabs-content {
+      flex    : 1;
+      overflow: hidden;
+
+      .ant-tabs-tabpane-active {
+        overflow: hidden;
+        height  : 100%;
+      }
+    }
+  }
+}
+
+.flexTableset {
+  background: #fff;
+  height    : 100%;
+  overflow  : hidden;
+
+  nz-tabset {
+    height        : 100%;
+    display       : flex;
+    flex-direction: column;
+
+
+    .ant-tabs-content {
+      flex    : 1;
+      overflow: hidden;
+
+      .ant-tabs-tabpane-active {
+        overflow: hidden;
+        height  : 100%;
+      }
+    }
+  }
+}
+
+.crm-body {
+  height        : 100%;
+  flex-direction: column;
+  display       : flex;
+
+  .search {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding        : 0 20px;
+    margin         : 20px 0;
+
+    i {
+      color: #D9D9D9;
+    }
+
+    div {
+      display: flex;
+    }
+
+  }
+
+  .body-list {
+    flex          : 1;
+    padding       : 0 20px;
+    height        : 100%;
+    overflow      : hidden;
+    display       : flex;
+    flex-direction: column;
+
+    .button-head {
+      padding      : 20px;
+      border-bottom: 1px solid #E8E8E8;
+    }
+
+    nz-table {
+      height  : auto;
+      overflow: hidden;
+      flex    : 1;
+    }
+  }
+
+  .pagination {
+    text-align: right;
+    padding   : 20px;
+  }
+
+
+}
+
+
+//客户详情
+.customer-detial {
+  height         : 100%;
+  padding        : 0px;
+  display        : flex;
+  justify-content: space-between;
+
+  .left {
+    border-radius: 8px;
+    background   : #fff;
+    flex         : 1;
+    padding      : 0 26px 16px 26px;
+    margin-right : 24px;
+    width        : 70%;
+    overflow     : hidden;
+
+    nz-tabset {
+      height        : 100%;
+      display       : flex;
+      flex-direction: column;
+
+
+      .ant-tabs-content {
+        flex    : 1;
+        overflow: hidden;
+
+        .ant-tabs-tabpane-active {
+          overflow: hidden;
+          height  : 100%;
+        }
+      }
+    }
+  }
+
+  .right {
+    width        : 270px;
+    background   : #fff;
+    border-radius: 8px;
+
+    .ant-timeline-item-content {
+      background: #F6FAFF;
+    }
+
+  }
+
+  .cust-detail-head {
+    display        : flex;
+    justify-content: space-between;
+    flex-direction : column;
+    height         : 100%;
+    overflow-y     : auto;
+    overflow-x     : hidden;
+
+    .head-customer-name {
+      border-radius: 5px;
+      background   : #F5F5F5;
+      align-items  : center;
+      padding      : 26px;
+      margin       : 15px 0;
+
+      img {
+        width         : 25px;
+        height        : 25px;
+        vertical-align: middle;
+        margin-left   : 5px;
+      }
+
+
+    }
+
+  }
+
+}
+
+.im-globel-search {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}
+
+
+//运价列表
+.table-detail-table-line {
+  .ant-timeline-item {
+    padding-bottom: 0px !important;
+  }
+}
+
+.inquiry-right-footer {
+  .ant-tabs-nav .ant-tabs-tab-active {
+    background   : rgba(24, 144, 255, 1);
+    border-radius: 4px;
+    color        : #fff !important;
+    padding      : 0px 15px;
+    line-height  : 22px;
+    height       : 22px;
+  }
+
+  .ant-tabs-ink-bar {
+    background: transparent;
+  }
+
+  .ant-tabs-nav-scroll {
+    padding-bottom: 10px;
+  }
+
+  .ant-tabs-bar {
+    border-bottom: 1px dashed #F0F0F0 !important;
+  }
+}
+
+.inquiry-ocean-content {
+
+  .ant-drawer-header,
+  .ant-drawer-body {
+    padding-left: 34px !important;
+  }
+}
+
+// 首页我的账号导航栏
+.myAcc-content {
+  .ant-tabs-bar {
+    border-bottom: none !important;
+  }
+}
+
+
+.no-padding-tr {
+  .nz-disable-td {
+    padding   : 0px 16px;
+    height    : 25px;
+    background: #F0F0F0 !important;
+    position  : relative;
+  }
+}
+
+.table-detial {
+  .ant-timeline-item-content {
+    padding-top: 0px !important;
+  }
+}
+
+.ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
+  box-shadow: none !important;
+}
+
+.cdk-virtual-scroll-viewport {
+  //自定义下拉框，内容只有一项时高度塌陷
+  min-height: 90px;
+}
+
+
+
+// .cdk-virtual-scroll-orientation-vertical {  //自定义下拉框，内容只有一项时高度塌陷
+//   min-height: 58px; 
+// }
+
+
+
+
+.share-view-table {
+  .ant-table-cell {
+    font-size: 12px !important;
+  }
+
+  .ant-table-thead {
+    background: #1890FF04 !important;
+    ;
+  }
+}
+
+.table-no-nodatabox {
+  .ant-table-placeholder {
+    display: none;
+  }
+}
+
+// 运价详情时间轴
+.inquiry-right-footer {
+  .ant-timeline-item-head {
+    width      : 15px;
+    height     : 15px;
+    border     : 5px solid transparent;
+    margin-left: -2px;
+  }
+
+  .ant-timeline-item-head-blue {
+    color       : #8BCBF3;
+    border-color: #8BCBF3;
+  }
+}
+
+.ant-form-item-label>label.ant-form-item-required::before {
+  content: '' !important;
+}
+
+.ant-form-item-label>label.ant-form-item-required::after {
+  display     : inline-block !important;
+  margin-right: 4px;
+  color       : #ff4d4f;
+  font-size   : 14px;
+  font-family : SimSun, sans-serif;
+  line-height : 1;
+  content     : '*'
+}
+
+.share-resources-modal {
+  .ant-timeline-item-content {
+    background: #F6FAFF;
+  }
+}
+
+.ant-modal-mask {
+  z-index: 998 !important;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+  transition: none !important;
 }

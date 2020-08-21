@@ -1,21 +1,21 @@
-@import '../../../../../styles/variables.less';
 * {
   font-size: 12px !important;
 }
+
 h4 {
   font-size: 16px !important;
 }
 
 .blue {
-  color: white;
+  color           : white;
   background-color: #5680fc !important;
-  border: 0;
+  border          : 0;
 }
 
 .white {
-  color: #ccc;
+  color           : #ccc;
   background-color: white !important;
-  border: 0;
+  border          : 0;
 }
 
 .gray::before {
@@ -35,32 +35,39 @@ h4 {
 }
 
 .list-content {
-  height: 100%;
-  padding: 20px;
-  overflow: auto;
+  height       : 100%;
+  padding      : 20px;
+  overflow     : auto;
   border-radius: 10px;
+
   .content {
-    display: flex;
+    display         : flex;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius   : 10px;
+
     .content-left {
-      width: 72%;
-      padding: 20px;
-      border-top-left-radius: 10px;
+      width                    : 72%;
+      padding                  : 20px;
+      border-top-left-radius   : 10px;
       border-bottom-left-radius: 10px;
+
       .content-left-quote {
         background-color: #fff;
+
         .icon-icon_dangerous::before {
           color: @errorBorder;
         }
+
         .content-tabel {
           position: relative;
+
           .btn-group {
             text-align: right;
-            position: absolute;
-            right: 0px;
+            position  : absolute;
+            right     : 0px;
+
             .ant-btn-primary {
-              min-width: 90px;
+              min-width : 90px;
               box-shadow: 0 0 0 0 rgba(24, 144, 255, 0.2);
             }
           }
@@ -69,81 +76,92 @@ h4 {
 
       .content-left-ActivityDetails {
         .content-left-Details {
-          margin-top: 8px;
-          padding: 16px;
-          background: rgba(249, 250, 252, 1);
+          margin-top   : 8px;
+          padding      : 16px;
+          background   : rgba(249, 250, 252, 1);
           border-radius: 4px;
         }
       }
     }
 
     .content-right {
-      width: 28%;
-      background: #f9fafc;
-      border-top-right-radius: 10px;
+      width                     : 28%;
+      background                : #f9fafc;
+      border-top-right-radius   : 10px;
       border-bottom-right-radius: 10px;
+
       .detailInfo-wap {
         float: left;
         width: 100%;
+
         .detailInfo-wap-detail {
           padding: 16px;
+
           label.detailInfo-wap-detail-detail {
-            color: rgba(38, 38, 38, 1);
+            color      : rgba(38, 38, 38, 1);
             font-weight: 600;
-            font-size: 14px;
+            font-size  : 14px;
             font-family: PingFangSC-Medium, PingFang SC;
           }
         }
+
         .ant-btn-primary {
           min-width: 90px;
         }
+
         .label {
-          align-items: center;
-          margin-right: 15px;
-          font-weight: bold;
-          font-size: 16px;
+          align-items   : center;
+          margin-right  : 15px;
+          font-weight   : bold;
+          font-size     : 16px;
           vertical-align: -3px;
         }
 
         .detailInfo-wap-info {
           .detailInfo-wap-info-left {
             label {
-              color: rgba(113, 122, 131, 1);
+              color      : rgba(113, 122, 131, 1);
               font-weight: 400;
-              font-size: 12px;
+              font-size  : 12px;
               font-family: PingFangSC-Regular, PingFang SC;
             }
           }
+
           .un-List {
             .detailInfo-wap-info-left {
               label {
-                color: rgba(113, 122, 131, 1);
+                color      : rgba(113, 122, 131, 1);
                 font-weight: 400;
-                font-size: 12px;
+                font-size  : 12px;
                 font-family: PingFangSC-Regular, PingFang SC;
               }
             }
           }
+
           .Booking-detail-line {
             padding-left: 24px;
           }
+
           .detailInfo-wap-info-bottom {
             padding: 0 24px;
           }
+
           nz-list:not(.notnzlist) {
             nz-list-item.list-item-header {
               font-weight: 500;
             }
+
             nz-list-item:not(.timeline) {
-              display: flex;
+              display        : flex;
               justify-content: space-between;
-              height: 30px;
-              border-width: 0;
+              height         : 30px;
+              border-width   : 0;
+
               span {
                 label {
-                  min-width: 5px;
-                  overflow: hidden;
-                  white-space: nowrap;
+                  min-width    : 5px;
+                  overflow     : hidden;
+                  white-space  : nowrap;
                   text-overflow: ellipsis;
                 }
               }
@@ -155,16 +173,16 @@ h4 {
   }
 
   .Documents-button {
-    position: relative;
+    position  : relative;
     min-height: 150px;
     margin-top: 20px;
-    padding: 30px;
-    border: 1px solid #ccc;
+    padding   : 30px;
+    border    : 1px solid #ccc;
 
     .button {
       position: absolute;
-      right: 10px;
-      width: 360px;
+      right   : 10px;
+      width   : 360px;
 
       button {
         width: 150px;
@@ -178,14 +196,14 @@ h4 {
 }
 
 :host ::ng-deep .ant-back-top-inner {
-  width: 40px;
-  height: 40px;
-  color: #fff;
-  font-size: 20px;
-  line-height: 40px;
-  text-align: center;
+  width           : 40px;
+  height          : 40px;
+  color           : #fff;
+  font-size       : 20px;
+  line-height     : 40px;
+  text-align      : center;
   background-color: #1088e9;
-  border-radius: 4px;
+  border-radius   : 4px;
 }
 
 :host ::ng-deep strong {

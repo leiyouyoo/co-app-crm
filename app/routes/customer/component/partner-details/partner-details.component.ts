@@ -1,13 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
+import { Component, OnInit, Output, EventEmitter, Input, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LocationListComponent } from '../location/location-list/location-list.component';
-import { ContactsListComponent } from '../contact/contacts-list/contacts-list.component';
-import { CreateContactsComponent } from '../contact/create-contacts/create-contacts.component';
-import { CreateLocationComponent } from '../location/create-location/create-location.component';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CustomerAuthComponent } from '../customer-auth/customer-auth.component';
 import { TranslateService } from '@ngx-translate/core';
+import { CRMPartnerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'partner-details',
@@ -26,15 +21,9 @@ export class PartnerDetailsComponent implements OnInit {
   partnerDetial: any;
   partnerIsOwner: any;
   edit = false;
-  cusState:any;
+  cusState: any;
 
-  constructor(
-    private activeRoute: ActivatedRoute,
-    private el: ElementRef,
-    private translate: TranslateService,
-    private customerService: CustomerService,
-    public msessage: NzMessageService,
-  ) {}
+  constructor(private activeRoute: ActivatedRoute, public msessage: NzMessageService, private crmPartnerService: CRMPartnerService) {}
 
   ngOnInit() {
     this.initData();
@@ -67,7 +56,9 @@ export class PartnerDetailsComponent implements OnInit {
   }
 
   getPartner(id: any) {
-    return this.customerService.getPartner(id);
+    return this.crmPartnerService.get({
+      id: id,
+    });
   }
 
   onBack() {

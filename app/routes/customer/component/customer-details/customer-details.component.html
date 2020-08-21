@@ -15,15 +15,11 @@
                 <div *ngIf="customerInfo?.state == 3" class="certification" (click)="ShowApplyModal()">
                   {{ 'Certification by' | translate }}
                 </div>
-                <div
-                  *ngIf="customerInfo?.state != 2 && customerInfo?.state != 3"
-                  class="certification"
-                  (click)="ShowApplyModal()"
-                >
+                <div *ngIf="customerInfo?.state != 2 && customerInfo?.state != 3" class="certification" (click)="ShowApplyModal()">
                   {{ 'Not certified' | translate }}
                 </div>
                 <div class="edit-customer" (click)="editCustomer()" *ngIf="customerInfo?.isOwner">
-                  <img src="assets/icon/Edit.svg" width="25px" />
+                  <img src="apps/crm/assets/icon/Edit.svg" width="25px" />
                 </div>
               </div>
               <div *ngIf="customerInfo" style="margin-top: 8px;">
@@ -35,7 +31,7 @@
             </div>
 
             <div class="customer-center">
-              <nz-tabset [nzType]="'card'" class="customer-user" [nzAnimated]="false">
+              <nz-tabset [nzType]="'card'" class="customer-user">
                 <nz-tab nzTitle="{{ 'Contact list' | translate }}">
                   <ng-template nz-tab>
                     <contacts-list
@@ -49,11 +45,7 @@
 
                 <nz-tab nzTitle="{{ 'Location list' | translate }}">
                   <ng-template nz-tab>
-                    <location-list
-                      [customerId]="customerId"
-                      [isOwner]="customerInfo?.isOwner"
-                      (refushData)="getCustomerById()"
-                    >
+                    <location-list [customerId]="customerId" [isOwner]="customerInfo?.isOwner" (refushData)="getCustomerById()">
                     </location-list>
                   </ng-template>
                 </nz-tab>

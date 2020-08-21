@@ -1,15 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  HostListener,
-  Input,
-} from '@angular/core';
-import { CostomerQueryEntity } from 'projects/crm/src/lib/entity/CostomerQueryEntity';
-import { CustomerService } from '../../service/customer.service';
-import { CreateOrUpdateCustomerInput } from 'projects/crm/src/lib/entity/CreateOrUpdateCustomerInput';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, HostListener, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -17,9 +6,9 @@ import { TransferTocustomerComponent } from '../../component/transfer-tocustomer
 // import { CreateCustomerComponent } from '../../component/create-customer/create-customer.component';
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
-import { CreateCustomerComponent } from '@shared/components/create-customer/create-customer.component';
 import { Validators } from '@angular/forms';
-
+import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
+import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 @Component({
   selector: 'app-no-deal-customer',
   templateUrl: './no-deal-customer.component.html',
@@ -58,10 +47,10 @@ export class NoDealCustomerComponent implements OnInit {
   skipCount = 1;
 
   constructor(
-    private customerService: CustomerService,
     private msg: NzMessageService,
     private translate: TranslateService,
     private router: Router,
+    private crmCustomerService: CRMCustomerService,
     private componentFactoryResolver: ComponentFactoryResolver,
   ) {}
 
@@ -85,9 +74,7 @@ export class NoDealCustomerComponent implements OnInit {
   createModal() {
     this.isVisibleCreate = true;
     this.createCustomer.clear();
-    this.com = this.createCustomer.createComponent(
-      this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent),
-    );
+    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
 
     this.com.instance.initData();
     setTimeout(() => {
@@ -111,7 +98,7 @@ export class NoDealCustomerComponent implements OnInit {
     });
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({block: "end", mode: 'smooth' });
+      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
     if (!this.com.instance.submitForm()) {
       this.msg.warning(this.translate.instant('Please check the content'));
@@ -142,7 +129,7 @@ export class NoDealCustomerComponent implements OnInit {
       this.cusLoading = true;
     }
 
-    let entity: CreateOrUpdateCustomerInput = {
+    let entity: CRMCreateOrUpdateCustomerInput = {
       name: value.name,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
@@ -152,8 +139,6 @@ export class NoDealCustomerComponent implements OnInit {
       tel: tel.toString(),
       fax: value.fax,
       keyWord: value.keyWord,
-      cargoCanvassingType: value.cargoCanvassingType,
-      forwardingType: value.forwardingType,
       email: value.email,
       customerType: value.customerType,
       isSalesCustomer: value.isSalesCustomer == null ? false : value.isSalesCustomer,
@@ -167,10 +152,10 @@ export class NoDealCustomerComponent implements OnInit {
     };
 
     if (application) {
-      entity.IsAudit = true;
+      entity.isAudit = true;
     }
 
-    this.customerService.createCustomer(entity).subscribe(
+    this.crmCustomerService.create(entity).subscribe(
       (res) => {
         if (application) {
           this.msg.success(this.translate.instant('application success!'));
@@ -241,12 +226,12 @@ export class NoDealCustomerComponent implements OnInit {
     this.loading = true;
     const num = this.skipCount - 1;
 
-    this.customerService
-      .getCustomerByPageList({
-        IsCooperation: false,
-        MaxResultCount: this.maxResultCount,
-        SkipCount: num * this.maxResultCount,
-        SearchText: this.searchData,
+    this.crmCustomerService
+      .getAll({
+        isCooperation: false,
+        maxResultCount: this.maxResultCount,
+        skipCount: num * this.maxResultCount,
+        searchText: this.searchData,
       })
       .subscribe(
         (res: any) => {
@@ -262,7 +247,7 @@ export class NoDealCustomerComponent implements OnInit {
   //客户转让
   transferCustomer(customerIds: any[], userId: any) {
     this.tranLoading = true;
-    this.customerService.transferCustomer({ customerIds: customerIds, userId: userId }).subscribe(
+    this.crmCustomerService.transferCustomer({ customerIds: customerIds, userId: userId }).subscribe(
       (res) => {
         this.tranLoading = false;
         this.isVisibleTrans = false;
@@ -279,65 +264,71 @@ export class NoDealCustomerComponent implements OnInit {
   deleteCustormer(id: any) {
     this.customerId = id;
 
-    this.customerService.checkDelete(id).subscribe(
-      (res: any) => {
-        if (res) {
-          switch (res.errorType) {
-            case 0:
-              this.modalOneText = this.translate.instant('Tips');
-              this.modalOneContent = this.translate.instant(
-                "Can't be recovered after deletion,Whether to continue operation?",
-              );
-              this.isDelete = true; //可删除，显示删除确认提示框
-              break;
-            case 1:
-              this.modalOneText = this.translate.instant('Tip: The customer has opened an account') + res.accountCount;
-              this.modalOneContent = this.translate.instant(
-                'If you confirm to delete the client, the CSP client account opened for the user will be automatically logged out. After logging out, the client cannot log in to the CSP client, please be careful!',
-              );
-              this.isDelete = true; //可删除，显示删除确认提示框
-              break;
-            case 2:
-              this.modalTwoText = this.translate.instant('failed to delete:');
-              this.modalTwoContent =
-                res.createAccountUsers +
-                '(Name of account salesperson) The CSP client account has already been opened for this customer and cannot be deleted directly, please contact first' +
-                res.createAccountUsers +
-                this.translate.instant("After deleting the client's csp login account, delete the client.");
-              this.unDelete = true; //不可删除 给出提示
-              break;
-            case 3:
-              this.modalTwoText = this.translate.instant('failed to delete:');
-              this.modalTwoContent =
-                '该客户被指定为' +
-                res.customerNames +
-                '的合作伙伴，不能直接删除,请先联系' +
-                res.bindUserNames +
-                '业务员解除绑定关系，然后删除。';
-              this.unDelete = true; //不可删除 给出提示
-              break;
+    this.crmCustomerService
+      .checkDelete({
+        customerId: id,
+      })
+      .subscribe(
+        (res: any) => {
+          if (res) {
+            switch (res.errorType) {
+              case 0:
+                this.modalOneText = this.translate.instant('Tips');
+                this.modalOneContent = this.translate.instant("Can't be recovered after deletion,Whether to continue operation?");
+                this.isDelete = true; //可删除，显示删除确认提示框
+                break;
+              case 1:
+                this.modalOneText = this.translate.instant('Tip: The customer has opened an account') + res.accountCount;
+                this.modalOneContent = this.translate.instant(
+                  'If you confirm to delete the client, the CSP client account opened for the user will be automatically logged out. After logging out, the client cannot log in to the CSP client, please be careful!',
+                );
+                this.isDelete = true; //可删除，显示删除确认提示框
+                break;
+              case 2:
+                this.modalTwoText = this.translate.instant('failed to delete:');
+                this.modalTwoContent =
+                  res.createAccountUsers +
+                  '(Name of account salesperson) The CSP client account has already been opened for this customer and cannot be deleted directly, please contact first' +
+                  res.createAccountUsers +
+                  this.translate.instant("After deleting the client's csp login account, delete the client.");
+                this.unDelete = true; //不可删除 给出提示
+                break;
+              case 3:
+                this.modalTwoText = this.translate.instant('failed to delete:');
+                this.modalTwoContent =
+                  '该客户被指定为' +
+                  res.customerNames +
+                  '的合作伙伴，不能直接删除,请先联系' +
+                  res.bindUserNames +
+                  '业务员解除绑定关系，然后删除。';
+                this.unDelete = true; //不可删除 给出提示
+                break;
+            }
           }
-        }
-      },
-      (err) => {
-        this.msg.error = err;
-      },
-    );
+        },
+        (err) => {
+          this.msg.error = err;
+        },
+      );
   }
 
   //确认删除
   customerDelete() {
-    this.customerService.deleteCustomer(this.customerId).subscribe(
-      (res: any) => {
-        this.msg.success(this.translate.instant('Delete success'));
-        this.isDelete = false;
-        this.getCustomerByPageList();
-      },
-      (err) => {
-        this.msg.error(err);
-        this.isDelete = true;
-      },
-    );
+    this.crmCustomerService
+      .delete({
+        id: this.customerId,
+      })
+      .subscribe(
+        (res: any) => {
+          this.msg.success(this.translate.instant('Delete success'));
+          this.isDelete = false;
+          this.getCustomerByPageList();
+        },
+        (err) => {
+          this.msg.error(err);
+          this.isDelete = true;
+        },
+      );
   }
 
   // tslint:disable-next-line: adjacent-overload-signatures
@@ -366,9 +357,7 @@ export class NoDealCustomerComponent implements OnInit {
     if (isShow) {
       this.customerMerge.isVisible = true;
     } else {
-      this.msg.warning(
-        this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'),
-      );
+      this.msg.warning(this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'));
     }
   }
 }

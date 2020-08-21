@@ -56,15 +56,9 @@
       <div>
         {{ 'Price plus interval' | translate }}:
         <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 1">50~99 <span>USD</span></span>
-        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 2"
-          >100~199 <span>USD</span></span
-        >
-        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 3"
-          >200~299 <span>USD</span></span
-        >
-        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 4"
-          >300~499 <span>USD</span></span
-        >
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 2">100~199 <span>USD</span></span>
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 3">200~299 <span>USD</span></span>
+        <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 4">300~499 <span>USD</span></span>
         <span class="price-range" *ngIf="clientMsg?.customerConfigure.customerLevel == 5">≥ 500 <span>USD</span></span>
       </div>
     </div>
@@ -75,7 +69,7 @@
   <div class="noCustomer">
     <div class="noCustomer-right">
       <div>
-        <img src="assets/images/customer/noCustomer.png" />
+        <img src="apps/crm/assets/images/customer/noCustomer.png" />
       </div>
       <div style="text-align: left;">
         <div class="title">{{ 'Customer is not certified' | translate }}</div>
@@ -84,12 +78,7 @@
           {{ 'Sorry, the partner is not bound to the customer' | translate }}
         </div>
         <div>
-          <button
-            nz-button
-            nzType="primary"
-            (click)="onCertification()"
-            [disabled]="!isOwner || (!partnerIsOwner && isPartner)"
-          >
+          <button nz-button nzType="primary" (click)="onCertification()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
             {{ 'Authentication now' | translate }}
           </button>
         </div>
@@ -141,12 +130,7 @@
           <nz-form-item>
             <nz-form-label nzFor="editionRoleId" nzRequired>{{ 'Role' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
-              <nz-select
-                nzShowSearch
-                nzPlaceHolder="{{ 'Please select' | translate }}"
-                nzAllowClear
-                formControlName="editionRoleId"
-              >
+              <nz-select nzShowSearch nzPlaceHolder="{{ 'Please select' | translate }}" nzAllowClear formControlName="editionRoleId">
                 <nz-option *ngFor="let item of rolesList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
                 ></nz-select
               >
@@ -156,9 +140,7 @@
 
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label nzRequired nzFor="customerLevel">{{
-              'Customer configuration level' | translate
-            }}</nz-form-label>
+            <nz-form-label nzRequired nzFor="customerLevel">{{ 'Customer configuration level' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
               <nz-select
                 nzShowSearch
@@ -189,14 +171,13 @@
               </nz-select>
 
               <ng-template #multipleTemplate let-selected>
-                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value!=0">
-                  T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span
-                    style="color: #faad14;"
+                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value != 0">
+                  T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span style="color: #faad14;"
                     ><span *ngIf="!maxPrice">≥</span>{{ minPrice }}<span *ngIf="maxPrice">-{{ maxPrice }}</span></span
                   >)
                 </div>
 
-                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value==0">
+                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value == 0">
                   自定义
                 </div>
               </ng-template>
@@ -209,12 +190,7 @@
             <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Profit' | translate }}</nz-form-label>
             <nz-form-control [nzErrorTip]="errortips">
               <nz-input-group nzAddOnAfter="USD">
-                <input
-                  type="number"
-                  nz-input
-                  formControlName="oceanAttachFee"
-                  placeholder="{{ 'Please enter' | translate }}"
-                />
+                <input type="number" nz-input formControlName="oceanAttachFee" placeholder="{{ 'Please enter' | translate }}" />
               </nz-input-group>
             </nz-form-control>
             <ng-template #errortips>
@@ -227,17 +203,8 @@
           <nz-form-item>
             <nz-form-label nzFor="contactId">{{ 'Contact' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-              <nz-select
-                nzShowSearch
-                nzPlaceHolder="{{ 'Please choose' | translate }}"
-                nzAllowClear
-                formControlName="contactId"
-              >
-                <nz-option
-                  *ngFor="let item of contactList"
-                  [nzLabel]="item.name + (item.surname ? item.surname : '')"
-                  [nzValue]="item.id"
-                >
+              <nz-select nzShowSearch nzPlaceHolder="{{ 'Please choose' | translate }}" nzAllowClear formControlName="contactId">
+                <nz-option *ngFor="let item of contactList" [nzLabel]="item.name + (item.surname ? item.surname : '')" [nzValue]="item.id">
                 </nz-option>
               </nz-select>
             </nz-form-control>

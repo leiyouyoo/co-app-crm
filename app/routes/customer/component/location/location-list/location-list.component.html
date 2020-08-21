@@ -15,7 +15,7 @@
       <div class="card-body" style="background-image: url(assets/images/customer/contact2.png);">
         <div class="divBottom" style="display: flex; justify-content: space-between; width: 100%;">
           <div>
-            <img src="assets/images/customer/loaction.png" />
+            <img src="apps/crm/assets/images/customer/loaction.png" />
             <span>{{ location?.name || '--' }}</span>
           </div>
 
@@ -33,8 +33,7 @@
             {{ location?.streetAddress2 }}
           </div>
           <div>
-            <span><i nz-icon nzType="mail" nzTheme="outline"></i>{{ 'Zip code' | translate }}：</span
-            >{{ location?.zip || '--' }}
+            <span><i nz-icon nzType="mail" nzTheme="outline"></i>{{ 'Zip code' | translate }}：</span>{{ location?.zip || '--' }}
           </div>
           <div>
             <span><i nz-icon nzType="container" nzTheme="outline"></i>{{ 'Port code' | translate }}：</span
@@ -52,11 +51,7 @@
       <div>
         <nz-tabset [nzAnimated]="false" [nzTabBarExtraContent]="tablebutton" style="width: 100%; margin-top: 24px;">
           <nz-tab nzTitle="{{ 'Location-bound contacts' | translate }}">
-            <crm-relation-contact
-              [contacts]="SelectedContantsList"
-              [locationId]="i"
-              (datas)="bindContacts()"
-            ></crm-relation-contact>
+            <crm-relation-contact [contacts]="SelectedContantsList" [locationId]="i" (datas)="bindContacts()"></crm-relation-contact>
           </nz-tab>
         </nz-tabset>
         <ng-template #tablebutton>
@@ -90,9 +85,7 @@
           <th nzWidth="150px">
             {{ 'Location Name' | translate }}
           </th>
-          <th nzWidth="200px">
-            {{ 'Country' | translate }}-{{ 'Province / State' | translate }}-{{ 'City' | translate }}
-          </th>
+          <th nzWidth="200px">{{ 'Country' | translate }}-{{ 'Province / State' | translate }}-{{ 'City' | translate }}</th>
           <th nzWidth="150px">
             {{ 'Address detail' | translate }}
           </th>
@@ -131,13 +124,7 @@
             {{ data.lastModifier }}
           </td>
           <td nzEllipsis nzRight="0">
-            <button
-              nz-button
-              nz-popover
-              nzPopoverTitle=""
-              [nzPopoverContent]="contentTemplate"
-              nzPopoverPlacement="bottom"
-            >
+            <button nz-button nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
               {{ 'Contact' | translate }}:{{ data.contacts.length }}
             </button>
             <ng-template #contentTemplate>
@@ -185,8 +172,4 @@
   </nz-select>
 </nz-modal>
 
-<create-location
-  [customerId]="customerId"
-  [partnerId]="partnerId"
-  (datas)="onAddOrUpdateLocation($event)"
-></create-location>
+<create-location [customerId]="customerId" [partnerId]="partnerId" (datas)="onAddOrUpdateLocation($event)"></create-location>

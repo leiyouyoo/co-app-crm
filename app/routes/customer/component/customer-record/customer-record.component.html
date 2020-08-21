@@ -1,4 +1,4 @@
-<div style="overflow: auto;height: 100%;">
+<div style="overflow: auto; height: 100%;">
   <div class="addButton">
     <button nz-button nzType="primary" (click)="addOrUpdateData(1, null)" [disabled]="!isOwner">
       {{ 'New' | translate }}
@@ -49,20 +49,20 @@
 
         <td>
           <div class="toFlex">
-            <span>跟进人</span>
+            <span>{{ 'Follower' | translate }}</span>
             <div>{{ data.creatorUser }}</div>
           </div>
         </td>
         <td>
           <div class="toFlex">
-            <span>跟进方式</span>
+            <span>{{ 'Follow-up method' | translate }}</span>
             <div>{{ data.traceLogType }}</div>
           </div>
         </td>
         <td class="aStyle">
-          <a (click)="addOrUpdateData(2, data.id)">修改</a>
+          <a (click)="addOrUpdateData(2, data.id)">{{ 'Modify' | translate }}</a>
           <nz-divider nzType="vertical"></nz-divider>
-          <a (click)="addOrUpdateData(3, data.id)">查看</a>
+          <a (click)="addOrUpdateData(3, data.id)">{{ 'View' | translate }}</a>
         </td>
       </tr>
     </tbody>

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
-import { RecordEditComponent } from '../../../../shared/components/record-edit/record-edit.component';
+import { RecordEditComponent } from '../../../../shared/compoents/customer/record-edit/record-edit.component';
 import { ShowImageComponent } from './show-image/show-image.component';
-import { environment } from '@env/environment';
 import { ActivatedRoute } from '@angular/router';
+import { CoConfigManager } from '@co/core';
+import { CRMTraceLogService } from 'apps/crm/app/services/crm';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'customer-customer-record',
   templateUrl: './customer-record.component.html',
@@ -19,30 +20,34 @@ export class CustomerRecordComponent implements OnInit {
   pageSize = 10;
   showPage = false;
   total = 0;
-  url = environment.StoreUrl;
+  url = CoConfigManager.getValue('storeUrl');
   id = null;
   imgList = [];
   dataDetail = null;
   isImgVisible = false;
   searchObj = {
-    Content: null,
-    Sorting: null,
-    MaxResultCount: this.pageSize,
-    SkipCount: 0,
-    CustomerId: null,
+    content: null,
+    sorting: null,
+    maxResultCount: this.pageSize,
+    skipCount: 0,
+    customerId: null,
   };
 
   @Input() isOwner: any;
 
-  constructor(private customerService: CustomerService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private translate: TranslateService,
+    private activatedRoute: ActivatedRoute,
+    private crmTraceLogService: CRMTraceLogService,
+  ) {}
 
   ngOnInit() {
     this.getList();
   }
 
   getList() {
-    this.searchObj.CustomerId = this.activatedRoute.snapshot.params.id;
-    this.customerService.getTraceLog(this.searchObj).subscribe((res: any) => {
+    this.searchObj.customerId = this.activatedRoute.snapshot.params.id;
+    this.crmTraceLogService.getAll(this.searchObj).subscribe((res: any) => {
       this.listOfData = res.items;
       this.total = res.totalCount;
       this.showPage = this.total > 10 ? true : false;
@@ -66,25 +71,25 @@ export class CustomerRecordComponent implements OnInit {
     this.id = id;
     if (type === 1) {
       // 新增
-      this.recordEditComponent.recordTitle = '新增跟进记录';
-      this.recordEditComponent.okText = '保存';
+      this.recordEditComponent.recordTitle = this.translate.instant('Add follow-up record');
+      this.recordEditComponent.okText = this.translate.instant('Save');
       this.recordEditComponent.showModal(type, null);
     } else if (type === 2) {
       // 修改
-      this.customerService.getTraceLogDetail(id).subscribe((res: any) => {
+      this.crmTraceLogService.get(id).subscribe((res: any) => {
         this.dataDetail = res;
         this.recordEditComponent.showModal(type, this.dataDetail);
       });
-      this.recordEditComponent.recordTitle = '修改跟进记录';
-      this.recordEditComponent.okText = '保存';
+      this.recordEditComponent.recordTitle = this.translate.instant('Modify follow-up record');
+      this.recordEditComponent.okText = this.translate.instant('Save');
     } else {
       // 查看
-      this.customerService.getTraceLogDetail(id).subscribe((res: any) => {
+      this.crmTraceLogService.get(id).subscribe((res: any) => {
         this.dataDetail = res;
         this.recordEditComponent.showModal(type, this.dataDetail);
       });
-      this.recordEditComponent.recordTitle = '跟进记录详情';
-      this.recordEditComponent.okText = '确定';
+      this.recordEditComponent.recordTitle = this.translate.instant('Follow up record details');
+      this.recordEditComponent.okText = this.translate.instant('OK');
     }
     this.recordEditComponent.isVisible = true;
   }
@@ -93,15 +98,15 @@ export class CustomerRecordComponent implements OnInit {
     this.pageIndex = event;
 
     if (event > 1) {
-      this.searchObj.SkipCount = this.searchObj.MaxResultCount * (event - 1);
+      this.searchObj.skipCount = this.searchObj.maxResultCount * (event - 1);
     } else {
-      this.searchObj.SkipCount = 0;
+      this.searchObj.skipCount = 0;
     }
     this.getList();
   }
   nzPageSizeChange(event: number): void {
     this.pageSize = event;
-    this.searchObj.MaxResultCount = event;
+    this.searchObj.maxResultCount = event;
     this.getList();
   }
 }

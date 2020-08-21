@@ -1,9 +1,9 @@
 <div class="userMsg">
-  <div class="header"><img src="assets/images/customer/company.png" /></div>
+  <div class="header"><img src="apps/crm/assets/images/customer/company.png" /></div>
 
   <div class="userMsg-name">{{ customerInfo?.name }}</div>
 
-  <div style="flex: 1;overflow: auto;">
+  <div style="flex: 1; overflow: auto;">
     <div class="userMsg-detial">
       <div>
         <span><i nz-icon nzType="user" nzTheme="outline"></i>{{ 'Contact' | translate }}</span>
@@ -12,7 +12,7 @@
         >
       </div>
 
-      <div style="padding-bottom: 10px">
+      <div style="padding-bottom: 10px;">
         <span><i nz-icon nzType="environment" nzTheme="outline"></i>{{ 'Position' | translate }}</span>
         <label
           ><span>{{ customerInfo?.locationCount || '--' }}</span></label
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <div style="padding-top:24px ;background:#ffffff" *ngIf="customerInfo">
+    <div style="padding-top: 24px; background: #ffffff;" *ngIf="customerInfo">
       <div style="margin-bottom: 10px;">
         <strong style="margin-bottom: 16px;">{{ 'Life cycle' | translate }}</strong>
       </div>
@@ -60,7 +60,7 @@
       <nz-timeline>
         <nz-timeline-item *ngFor="let item of customerInfo?.customerLifeCycles" nzColor="#8ACAF2">
           <div>{{ item.status | customerLifeCycle: item.remark }}</div>
-          <div style="color:#00000065">{{ item.creationTime | date: 'yyyy-MM-dd' }}</div>
+          <div style="color: #00000065;">{{ item.creationTime | date: 'yyyy-MM-dd' }}</div>
           <p *ngIf="item.status == 0">{{ 'Salesperson name' | translate }}:{{ item.remark }}</p>
         </nz-timeline-item>
       </nz-timeline>

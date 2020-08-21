@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
-import { merge } from 'lodash';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { _Validators } from '@delon/util';
-import { CrmService } from 'projects/crm/src/public-api';
 import { isThisISOWeek } from 'date-fns';
+import { SSORoleService, PlatformEditionService } from '@co/cds';
+import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'customer-customer-auth',
@@ -38,8 +36,8 @@ export class CustomerAuthComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
         let value = this.validateForm.get('oceanAttachFee').value;
-        if(this.minPrice==null&&this.maxPrice==null){
-          return
+        if (this.minPrice == null && this.maxPrice == null) {
+          return;
         }
         if (this.minPrice > value || (this.maxPrice ? value > this.maxPrice : false)) {
           return { existSameCode: true };
@@ -48,9 +46,11 @@ export class CustomerAuthComponent implements OnInit {
     };
   }
   constructor(
-    private customerService: CustomerService,
+    private ssoRoleService: SSORoleService,
+    private crmContactService: CRMContactService,
+    private platformEditionService: PlatformEditionService,
+    private crmCustomerService: CRMCustomerService,
     private fb: FormBuilder,
-    private crmService:CrmService,  
   ) {}
 
   ngOnInit() {
@@ -80,9 +80,9 @@ export class CustomerAuthComponent implements OnInit {
     }
   }
   onRolesList() {
-    this.customerService
+    this.ssoRoleService
       .getParentRoles({
-        Type: 1,
+        type: 1,
       })
       .subscribe((res: any) => {
         this.rolesList = res.items;
@@ -90,10 +90,10 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   onContactList() {
-    this.customerService
+    this.crmContactService
       .getAllByCustomer({
         customerId: this.customerId,
-        IsRegistered: false,
+        isRegistered: false,
       })
       .subscribe((res: any) => {
         this.contactList = res.items;
@@ -148,7 +148,7 @@ export class CustomerAuthComponent implements OnInit {
           oceanAttachFee: null,
         });
 
-      break;
+        break;
       default:
         break;
     }
@@ -156,33 +156,36 @@ export class CustomerAuthComponent implements OnInit {
 
   //获取网站配置版本
   getEditionAll() {
-    this.customerService.getEditionAll({ SkipCount: 0, MaxResultCount: 100 }).subscribe((c) => {
+    this.platformEditionService.getAll({ skipCount: 0, maxResultCount: 100 }).subscribe((c) => {
       this.editionlist = c.items;
     });
   }
 
   GetCustomerConfigure(id: any) {
-    this.customerService.GetCustomerConfigure(id).subscribe((c) => {
-      this.clientMsg = c;
-    });
+    this.crmCustomerService
+      .getCustomerConfigure({
+        customerId: id,
+      })
+      .subscribe((c) => {
+        this.clientMsg = c;
+      });
   }
 
-
-  noRZModal:boolean=false;
+  noRZModal: boolean = false;
   onCertification() {
     this.validateForm.reset();
-    if(this.customerState!=3){
+    if (this.customerState != 3) {
       this.noRZModal = true;
       return;
     }
     this.isVisible = true;
   }
 
-  noRXModalhandleOk(){
+  noRXModalhandleOk() {
     this.noRZModal = false;
   }
 
-  noRXModalhandleCancel(){
+  noRXModalhandleCancel() {
     this.noRZModal = false;
   }
 
@@ -198,7 +201,7 @@ export class CustomerAuthComponent implements OnInit {
     }
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({block: "end", mode: 'smooth' });
+      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
     if (!this.validateForm.valid) {
       return;
@@ -218,8 +221,8 @@ export class CustomerAuthComponent implements OnInit {
     }
 
     if (!this.isBind) {
-      this.customerService
-        .CustomerConfigure({
+      this.crmCustomerService
+        .customerConfigure({
           customerId: id,
           userName: this.validateForm.get('userName').value,
           editionRoleId: this.validateForm.get('editionRoleId').value,
@@ -243,7 +246,7 @@ export class CustomerAuthComponent implements OnInit {
       return;
     }
 
-    this.customerService
+    this.crmCustomerService
       .updateCustomerConfigure({
         customerId: id,
         userName: this.validateForm.get('userName').value,
@@ -285,9 +288,5 @@ export class CustomerAuthComponent implements OnInit {
     });
   }
 
-
-  getCusDetailById(){
-
-  }
-
+  getCusDetailById() {}
 }

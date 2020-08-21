@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
+import { CRMLocationService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'crm-relation-position',
@@ -8,16 +8,16 @@ import { CustomerService } from '../../service/customer.service';
 })
 export class RelationPositionComponent implements OnInit {
   @Input() locations;
-  @Input() contactId: number;
+  @Input() contactId: string;
   @Output() datas = new EventEmitter<any>();
-  constructor(private customerService: CustomerService) {}
+  constructor(private crmLocationService: CRMLocationService) {}
 
   ngOnInit() {}
 
   onDeleteLocation(location) {
     //删除操作
     this.locations = this.locations.filter((local) => local.id !== location.id);
-    this.customerService
+    this.crmLocationService
       .unbindUserLocation({
         locationId: location.id,
         contactId: this.contactId,

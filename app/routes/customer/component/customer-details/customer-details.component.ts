@@ -1,17 +1,13 @@
 import { Component, OnInit, ViewChild, Renderer2, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomerService } from '../../service/customer.service';
 import { Subscription } from 'rxjs';
-import { CustomerLifeCycleStatus } from 'projects/crm/src/lib/entity/CustomerLifeCycleStatus';
-import { ForwardingType } from 'projects/crm/src/lib/entity/ForwardingType';
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { TranslateService } from '@ngx-translate/core';
 import { LegalEntityComponent } from '../legal-entity/legal-entity.component';
 import { ContactsListComponent } from '../contact/contacts-list/contacts-list.component';
-import { ApplyCusCodeComponent } from '@shared/components/apply-cus-code/apply-cus-code.component';
-import { CrmService } from 'projects/crm/src/public-api';
-
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { ApplyCusCodeComponent } from '../../../../shared/compoents/customer/apply-cus-code/apply-cus-code.component';
 @Component({
   selector: 'customer-details',
   templateUrl: './customer-details.component.html',
@@ -31,8 +27,6 @@ export class CustomerDetailsComponent implements OnInit {
   //地点添加
   isVisiblelcation = false;
 
-  CustomerLifeCycleStatus: typeof CustomerLifeCycleStatus = CustomerLifeCycleStatus;
-  ForwardingType: typeof ForwardingType = ForwardingType;
   //判断是否合作伙伴详情页
   isPartnerDetails = false;
   //合作伙伴id
@@ -49,12 +43,11 @@ export class CustomerDetailsComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private customerService: CustomerService,
     public msessage: NzMessageService,
     public renderer2: Renderer2,
     public router: Router,
+    public crmCustomerService: CRMCustomerService,
     public translate: TranslateService,
-    private crmService: CrmService,
   ) {}
 
   ngOnInit() {
@@ -63,10 +56,14 @@ export class CustomerDetailsComponent implements OnInit {
 
   // 获取客户详情
   getCustomerById() {
-    this.customerService.getCustomerById(this.customerId).subscribe((res: any) => {
-      this.customerInfo = res;
-      debugger;
-    });
+    this.crmCustomerService
+      .get({
+        id: this.customerId,
+      })
+      .subscribe((res: any) => {
+        this.customerInfo = res;
+        debugger;
+      });
   }
 
   // 切换合作伙伴列表与详情
@@ -93,28 +90,23 @@ export class CustomerDetailsComponent implements OnInit {
 
   cusItemData: any = {};
   ShowApplyModal() {
-    this.crmService
-      .getCustomerByPageList({
-        MaxResultCount: 20,
-        SkipCount: 0,
-        SearchText: null,
-        IncludeTaxes:true,
-        IncludeShareOwner:true,
-        CustomerId:this.customerId,
-        IsOwn:false
+    this.crmCustomerService
+      .getAll({
+        maxResultCount: 20,
+        skipCount: 0,
+        searchText: null,
+        includeTaxes: true,
+        includeShareOwner: true,
+        customerId: this.customerId,
+        isOwn: false,
       })
-      .subscribe(
-        (res: any) => {
-          this.cusItemData = res.items ? res.items[0] : {};
-          this.applyCusCodeComponent.showModal();
-        },
-        (err) => {},
-      );
+      .subscribe((res: any) => {
+        this.cusItemData = res.items ? res.items[0] : {};
+        this.applyCusCodeComponent.showModal();
+      });
   }
 
-
-  refreshData(){
+  refreshData() {
     this.getCustomerById();
   }
-
 }
