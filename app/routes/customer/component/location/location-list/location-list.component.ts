@@ -1,8 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { CustomerService } from '../../../service/customer.service';
 import { CreateLocationComponent } from '../create-location/create-location.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  CRMLocationService,
+  CRMContactService,
+  CRMLocationExternalService,
+  CRMCreateOrUpdateLocationInput,
+  CRMCustomerService,
+} from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'location-list',
@@ -55,7 +61,9 @@ export class LocationListComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private customerService: CustomerService,
+    private crmLocationService: CRMLocationService,
+    private crmContactService: CRMContactService,
+    private crmLocationExternalService: CRMLocationExternalService,
     public message: NzMessageService,
   ) {}
 
@@ -83,20 +91,20 @@ export class LocationListComponent implements OnInit {
     let num = this.filterLocation.SkipCount - 1;
 
     let data: any = {
-      MaxResultCount: this.filterLocation.MaxResultCount,
-      SkipCount: num * this.filterLocation.MaxResultCount,
+      maxResultCount: this.filterLocation.MaxResultCount,
+      skipCount: num * this.filterLocation.MaxResultCount,
     };
 
     if (this.filterLocation.CustomerId) {
-      data.CustomerId = this.filterLocation.CustomerId;
+      data.customerId = this.filterLocation.CustomerId;
     }
 
     if (this.filterLocation.PartnerId) {
-      data.PartnerId = this.filterLocation.PartnerId;
+      data.partnerId = this.filterLocation.PartnerId;
     }
 
     this.tabLoading = true;
-    this.customerService.getLocationByPageList(data).subscribe(
+    this.crmLocationService.getAll(data).subscribe(
       (res: any) => {
         this.tabLoading = false;
         this.locations = res.items;
@@ -122,16 +130,16 @@ export class LocationListComponent implements OnInit {
   }
 
   bindContacts() {
-    this.customerService
-      .getAllByLocationOrPartner({
-        CustomerId: this.customerId,
-        PartnerId: this.partnerId ? this.partnerId : null,
+    this.crmContactService
+      .getAllByCustomer({
+        customerId: this.customerId,
+        partnerId: this.partnerId ? this.partnerId : null,
       })
       .subscribe((response: any) => {
         this.allContacts = response.items;
         //获取绑定位置的联系人
-        this.customerService
-          .getContactByLocationId({
+        this.crmContactService
+          .getByLocationId({
             locationId: this.i,
           })
           .subscribe((res: any) => {
@@ -144,9 +152,13 @@ export class LocationListComponent implements OnInit {
 
   getLocationInfo() {
     this.location = null;
-    this.customerService.getLocationInfo(this.i).subscribe((res) => {
-      this.location = res;
-    });
+    this.crmLocationService
+      .get({
+        id: this.i,
+      })
+      .subscribe((res) => {
+        this.location = res;
+      });
   }
 
   onBindContants() {
@@ -158,7 +170,7 @@ export class LocationListComponent implements OnInit {
   }
 
   handleOk() {
-    this.customerService
+    this.crmLocationExternalService
       .assignUsersToLocation({
         locationId: this.i,
         contactIds: this.selectedContantsListIds,
@@ -179,20 +191,24 @@ export class LocationListComponent implements OnInit {
   }
 
   onDeleteLocation() {
-    this.customerService.deleteLocationById(this.i).subscribe((res: any) => {
-      this.getLocationByPageList();
-      this.refushData.emit();
-      this.i = null;
-    });
+    this.crmLocationExternalService
+      .assignUsersToLocation({
+        locationId: this.i,
+      })
+      .subscribe((res: any) => {
+        this.getLocationByPageList();
+        this.refushData.emit();
+        this.i = null;
+      });
   }
 
-  onAddOrUpdateLocation(datas) {
+  onAddOrUpdateLocation(datas: CRMCreateOrUpdateLocationInput) {
     this.createLocations.loading = true;
     datas.partnerId = this.partnerId;
     datas.customerId = this.customerId;
 
     if (this.createLocations.edit) {
-      this.customerService.updateLocationById(datas).subscribe(
+      this.crmLocationService.update(datas).subscribe(
         (res: any) => {
           this.message.success(this.translate.instant('Modify success'));
           this.getLocationByPageList();
@@ -212,7 +228,7 @@ export class LocationListComponent implements OnInit {
 
     // 判断是否是客户
     if (!this.partnerId) {
-      this.customerService.createCustomerLocation(datas).subscribe(
+      this.crmLocationService.createCustomerLocation(datas).subscribe(
         (res: any) => {
           this.createLocations.loading = false;
           this.message.success(this.translate.instant('New success'));
@@ -232,7 +248,7 @@ export class LocationListComponent implements OnInit {
     } else {
       // 处理合作伙伴
       if (!this.createLocations.edit) {
-        this.customerService.createPartnerLocation(datas).subscribe(
+        this.crmLocationService.createPartnerLocation(datas).subscribe(
           (res: any) => {
             this.createLocations.loading = false;
             this.message.success(this.translate.instant('New success'));

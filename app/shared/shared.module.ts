@@ -21,22 +21,26 @@ import { DragulaModule } from 'ng2-dragula';
 const THIRDMODULES = [CountdownModule, DragDropModule];
 // #endregion
 
-
 // #region 自定义组件和指令
 import { environment } from '../../environments/environment';
 import { debounceInputDirective } from './directives/debounce-Input.directive';
 import { EnterKeydownDirective } from './directives/enter-keydown.directive';
+import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-change.directive';
+import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
+import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
+
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
+import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
-const COMPONENTS_ENTRY = [];
+const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent];
 const COMPONENTS = [...COMPONENTS_ENTRY];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, CalcNzTableBodyScrollDirective];
+const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective];
 // #endregion
-
 
 @NgModule({
   imports: [
+    TranslateModule,
     CommonModule,
     FormsModule,
     OverlayModule,
@@ -77,4 +81,4 @@ const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, CalcNzTableBo
     ...DIRECTIVES,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

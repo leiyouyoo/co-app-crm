@@ -1,19 +1,9 @@
-import {
-  Component,
-  Input,
-  ViewChild,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-// import { CreateCustomerComponent } from '../create-customer/create-customer.component';
+import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, Output, EventEmitter } from '@angular/core';
+import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-import { CreateOrUpdateCustomerInput } from 'projects/crm/src/lib/entity/CreateOrUpdateCustomerInput';
-import { CustomerService } from '../../service/customer.service';
-import { CreateCustomerComponent } from '@shared/components/create-customer/create-customer.component';
 import { Validators } from '@angular/forms';
+import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'crm-legal-entity',
@@ -31,8 +21,8 @@ export class LegalEntityComponent {
   cusLoading = false;
   applicationLoading = false;
   constructor(
+    private crmCustomerService: CRMCustomerService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private customerService: CustomerService,
     public msessage: NzMessageService,
     public translate: TranslateService,
   ) {}
@@ -40,9 +30,7 @@ export class LegalEntityComponent {
   onShowLegalEdit() {
     this.isCustomer = true;
     this.createCustomer.clear();
-    this.com = this.createCustomer.createComponent(
-      this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent),
-    );
+    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
 
     this.com.instance.initData(this.customerInfo);
     setTimeout(() => {
@@ -68,7 +56,7 @@ export class LegalEntityComponent {
     });
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({block: "end", mode: 'smooth' });
+      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
     if (!this.com.instance.submitForm()) {
       this.msessage.warning(this.translate.instant('Please check the content'));
@@ -82,25 +70,13 @@ export class LegalEntityComponent {
       return;
     }
 
-    // if (value.customerType === 3 && value.forwardingType === null) {
-    //   this.msessage.warning(this.translate.instant('Please fill in the freight forwarding type'));
-    //   return;
-    // }
-
-    // if (this.com.instance.userList && JSON.stringify(this.com.instance.userList) !== '{}') {
-    //   if (this.com.instance.userList.items.length > 0) {
-    //     this.msessage.warning(this.translate.instant('Duplicate customers already exist'));
-    //     return;
-    //   }
-    // }
-
     if (application) {
       this.applicationLoading = true;
     } else {
       this.cusLoading = true;
     }
 
-    let entity: CreateOrUpdateCustomerInput = {
+    let entity: CRMCreateOrUpdateCustomerInput = {
       id: this.customerInfo.id,
       name: value.name,
       nameLocalization: value.nameLocalization,
@@ -111,8 +87,6 @@ export class LegalEntityComponent {
       tel: tel.toString(),
       fax: value.fax,
       keyWord: value.keyWord,
-      cargoCanvassingType: value.cargoCanvassingType,
-      forwardingType: value.forwardingType,
       email: value.email,
       customerType: value.customerType,
       isSalesCustomer: value.isSalesCustomer,
@@ -126,10 +100,10 @@ export class LegalEntityComponent {
     };
 
     if (application) {
-      entity.IsAudit = true;
+      entity.isAudit = true;
     }
 
-    this.customerService.customerUpdate(entity).subscribe(
+    this.crmCustomerService.update(entity).subscribe(
       (res) => {
         this.msessage.success(this.translate.instant('Edited successfully!'));
         this.isCustomer = false;

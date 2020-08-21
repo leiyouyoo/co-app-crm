@@ -1,9 +1,9 @@
-import { Component, OnInit, HostListener, Input, ViewChild } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'app-shared-customers',
@@ -13,10 +13,10 @@ import { CustomerMergeComponent } from '../../component/customer-merge/customer-
 export class SharedCustomersComponent implements OnInit {
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   constructor(
-    private customerService: CustomerService,
     private msg: NzMessageService,
     private translate: TranslateService,
     public router: Router,
+    private crmCustomerService: CRMCustomerService,
   ) {}
   isVisible = false;
   listOfData: any;
@@ -37,7 +37,7 @@ export class SharedCustomersComponent implements OnInit {
   customList = [];
   tableLoading = false;
 
-  customerInfo:any=null;
+  customerInfo: any = null;
 
   ngOnInit(): void {
     this.getSharesList();
@@ -57,7 +57,7 @@ export class SharedCustomersComponent implements OnInit {
   }
 
   searchCustomer(name: string = '') {
-    this.customerService.getShares({ SearchText: name, MaxResultCount: 100 }).subscribe((res: any) => {
+    this.crmCustomerService.getShares({ searchText: name, maxResultCount: 100 }).subscribe((res: any) => {
       this.customList = res.items;
     });
   }
@@ -66,13 +66,12 @@ export class SharedCustomersComponent implements OnInit {
   getSharesList() {
     let num = this.skipCount - 1;
     this.loading = true;
-    this.customerService
+    this.crmCustomerService
       .getShares({
-        IsCooperation: false, //是否成交合作的客户
-        IsTenantUser: false, //是否是开通租户的联系人
-        MaxResultCount: this.maxResultCount,
-        SkipCount: num * this.maxResultCount,
-        SearchText: this.searchData,
+        isCooperation: false, //是否成交合作的客户
+        maxResultCount: this.maxResultCount,
+        skipCount: num * this.maxResultCount,
+        searchText: this.searchData,
       })
       .subscribe(
         (res: any) => {
@@ -97,15 +96,15 @@ export class SharedCustomersComponent implements OnInit {
   getTableData() {
     let num = this.tableSkipCount - 1;
     let data: any = {
-      MaxResultCount: this.tableMaxResultCount,
-      SkipCount: num * this.tableMaxResultCount, //跳过指定条数
+      maxResultCount: this.tableMaxResultCount,
+      skipCount: num * this.tableMaxResultCount, //跳过指定条数
     };
 
     if (this.shareInputName) {
       data.CustomerId = this.shareInputName;
     }
     this.tableLoading = true;
-    this.customerService.getShareSources(data).subscribe(
+    this.crmCustomerService.getShareSources(data).subscribe(
       (res) => {
         this.tableLoading = false;
         this.tableDatas = res;
@@ -129,7 +128,7 @@ export class SharedCustomersComponent implements OnInit {
 
   onBindCustomer(data) {
     this.tableLoading = true;
-    this.customerService.followCustomer({ customerId: data.id }).subscribe(
+    this.crmCustomerService.followCustomer({ customerId: data.id }).subscribe(
       (res: any) => {
         this.msg.success(this.translate.instant('Follow up success'));
         this.getSharesList();
@@ -165,9 +164,7 @@ export class SharedCustomersComponent implements OnInit {
     if (isShow) {
       this.customerMerge.isVisible = true;
     } else {
-      this.msg.warning(
-        this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'),
-      );
+      this.msg.warning(this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'));
     }
   }
 
@@ -186,9 +183,8 @@ export class SharedCustomersComponent implements OnInit {
 
   // 获取客户详情
   getCustomerById(id) {
-    this.customerService.getCustomerById(id).subscribe((res: any) => {
+    this.crmCustomerService.get(id).subscribe((res: any) => {
       this.customerInfo = res;
     });
   }
-
 }

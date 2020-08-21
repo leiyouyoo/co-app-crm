@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { environment } from '@env/environment';
+import { CoConfigManager } from '@co/core';
 
 @Component({
   selector: 'customer-show-image',
@@ -10,7 +10,7 @@ export class ShowImageComponent implements OnInit {
   imgList = [];
   imgIndex = 0;
   isImgVisible = false;
-  url = environment.StoreUrl;
+  url = CoConfigManager.getValue('storeUrl');
   constructor(private element: ElementRef) {}
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { CustomerType } from 'projects/crm/src/lib/entity/CustomerType';
-import { ForwardingType } from 'projects/crm/src/lib/entity/ForwardingType';
-import { CargoCanvassingType } from 'projects/crm/src/lib/entity/CargoCanvassingType';
+import { CustomerType } from '../../../../shared/types/customer/CustomerType';
+import { ForwardingType } from '../../../../shared/types/customer/ForwardingType';
+import { CargoCanvassingType } from '../../../../shared/types/customer/CargoCanvassingType';
 
 @Component({
   selector: 'crm-customer-source',

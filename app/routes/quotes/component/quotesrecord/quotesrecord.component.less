@@ -1,62 +1,64 @@
-@import '../../../../../styles/variables.less';
 @containerColor: rgba(249, 250, 252, 1);
+
 * {
   font-size: 12px !important;
 }
+
 h4 {
-  font-size: 16px !important;
+  font-size   : 16px !important;
   padding-left: 16px;
 }
 
 .icon-plus,
 .icon-Delete {
   color: #9cb2cd;
+
   &::before {
     margin-right: 12px;
   }
 }
 
 .ant-tabs-nav-scroll {
-  padding: 8px 0 5px 6px;
-  overflow: hidden;
-  white-space: nowrap;
+  padding         : 8px 0 5px 6px;
+  overflow        : hidden;
+  white-space     : nowrap;
   background-color: #d7e3f1;
 }
 
 .quote-active {
-  color: #6269e8;
+  color : #6269e8;
   border: 1px solid #e4e4e4;
 }
 
 .quote-accept {
-  color: #52a000;
+  color : #52a000;
   border: 1px solid #e4e4e4;
 }
 
 .quote-rejected {
-  color: @errorBorder;
+  color : @errorBorder;
   border: 1px solid @errorBorder;
 }
 
 .quote-booked {
-  color: @primary-color;
-  border: 1px solid @primary-color;
+  color : #1890ff;
+  border: 1px solid #1890ff;
 }
 
 .quote-expiress {
-  color: #f7b500;
+  color : #f7b500;
   border: 1px solid #f7b500;
 }
 
 .table-input {
-  min-height: 0;
+  min-height : 0;
   line-height: 30px;
 }
 
 .table-red {
-  position: absolute;
-  height: 20px;
-  color: red;
+  position   : absolute;
+  height     : 20px;
+  color      : red;
   line-height: 20px;
 }
 
@@ -65,61 +67,73 @@ h4 {
 }
 
 .card-container {
-  padding: 16px;
+  padding         : 16px;
   background-color: @containerColor;
-  border-radius: 10px;
+  border-radius   : 10px;
 }
+
 .icon-kongyun-1::before {
-  color: #4f6ed5;
+  color    : #4f6ed5;
   font-size: 24px !important;
 }
+
 .icon-hangyun::before {
-  color: #4f6ed5;
+  color    : #4f6ed5;
   font-size: 24px !important;
 }
+
 .icon-gongsi-yuan::before,
 .icon-chuanyun-yuan::before,
 .icon-kongyun-yuan::before {
-  color: #d9d9d9;
+  color    : #d9d9d9;
   font-size: 48px !important;
 }
+
 .content {
-  padding: 16px;
+  padding      : 16px;
   border-radius: 10px;
+
   .freightType {
     margin-bottom: 32px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.06), 0px 6px 12px 0px rgba(0, 0, 0, 0.04);
+    background   : rgba(255, 255, 255, 1);
+    box-shadow   : 0px 3px 6px 0px rgba(0, 0, 0, 0.06), 0px 6px 12px 0px rgba(0, 0, 0, 0.04);
     border-radius: 4px;
+
     .f-type {
-      display: flex;
-      align-items: center;
-      height: 80px;
-      background-image: url(../../../../../assets/images/quoteBJ.png);
-      background-repeat: no-repeat;
+      display            : flex;
+      align-items        : center;
+      height             : 80px;
+      background-image   : url(../../../../../assets/images/quoteBJ.png);
+      background-repeat  : no-repeat;
       background-position: right top;
-      background-size: 100% 100%;
+      background-size    : 100% 100%;
+
       .f-type-freightMethod {
-        font-size: 16px !important;
+        font-size  : 16px !important;
         margin-left: 8px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
-        color: rgba(0, 0, 0, 0.85);
+        color      : rgba(0, 0, 0, 0.85);
       }
     }
 
     .f-route {
       padding: 16px;
+
       .content-ocean-route {
         display: flex;
+
         .content-ocean-routeInfo {
           width: 25%;
+
           div {
-            font-size: 14px !important;
+            font-size  : 14px !important;
             font-weight: 400 !important;
-            color: rgba(49, 55, 58, 1) !important;
+            color      : rgba(49, 55, 58, 1) !important;
           }
+
           word-wrap: break-word;
+
           .content-ocean-routeInfo-shipper {
             font-weight: 5500;
             font-family: 'Roboto', sans-serif;
@@ -129,8 +143,9 @@ h4 {
 
       .content-ocean {
         display: flex;
+
         .icon-locationnew::before {
-          color: rgba(0, 0, 0, 0.45);
+          color    : rgba(0, 0, 0, 0.45);
           font-size: 22px !important;
         }
 
@@ -144,123 +159,129 @@ h4 {
         }
 
         .horizontal-line {
-          position: relative;
-          top: -35px;
-          left: 50px;
-          width: 80%;
-          height: 3px;
-          padding: 0;
-          overflow: hidden;
+          position        : relative;
+          top             : -35px;
+          left            : 50px;
+          width           : 80%;
+          height          : 3px;
+          padding         : 0;
+          overflow        : hidden;
           background-color: #e4e4e4;
         }
 
         .content-ocean-pic {
           width: 25%;
+
           .jy-ocean-StartingPlace {
-            position: relative;
-            z-index: 2;
-            display: inline-block;
+            position          : relative;
+            z-index           : 2;
+            display           : inline-block;
             -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            width: 30px;
-            height: 30px;
-            color: black;
-            font-weight: 600;
-            font-size: 16px;
-            font-size: 18px;
-            font-family: Tahoma, Helvetica, Arial, '宋体', sans-serif;
-            line-height: 30px;
-            text-align: center;
-            background-color: #fff;
-            background-repeat: no-repeat;
-            background-size: 35px 35px;
-            border: 1px solid #ccc;
-            border-radius: 100%;
+            -moz-box-sizing   : border-box;
+            box-sizing        : border-box;
+            width             : 30px;
+            height            : 30px;
+            color             : black;
+            font-weight       : 600;
+            font-size         : 16px;
+            font-size         : 18px;
+            font-family       : Tahoma, Helvetica, Arial, '宋体', sans-serif;
+            line-height       : 30px;
+            text-align        : center;
+            background-color  : #fff;
+            background-repeat : no-repeat;
+            background-size   : 35px 35px;
+            border            : 1px solid #ccc;
+            border-radius     : 100%;
           }
 
           .jy-ocean-StartingPlace-none {
-            position: relative;
-            z-index: 2;
-            display: inline-block;
+            position          : relative;
+            z-index           : 2;
+            display           : inline-block;
             -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            width: 30px;
-            height: 30px;
-            color: black;
-            font-weight: 600;
-            font-size: 16px;
-            font-size: 18px;
-            font-family: Tahoma, Helvetica, Arial, '宋体', sans-serif;
-            line-height: 30px;
-            text-align: center;
-            background-color: #fff;
-            background-repeat: no-repeat;
-            background-size: 35px 35px;
-            border: 1px solid rgba(0, 0, 0, 0.45);
-            border-radius: 100%;
+            -moz-box-sizing   : border-box;
+            box-sizing        : border-box;
+            width             : 30px;
+            height            : 30px;
+            color             : black;
+            font-weight       : 600;
+            font-size         : 16px;
+            font-size         : 18px;
+            font-family       : Tahoma, Helvetica, Arial, '宋体', sans-serif;
+            line-height       : 30px;
+            text-align        : center;
+            background-color  : #fff;
+            background-repeat : no-repeat;
+            background-size   : 35px 35px;
+            border            : 1px solid rgba(0, 0, 0, 0.45);
+            border-radius     : 100%;
           }
         }
       }
+
       .routeInfo {
-        position: relative;
-        display: flex;
-        min-width: 80px;
-        padding: 0px 5px;
+        position       : relative;
+        display        : flex;
+        min-width      : 80px;
+        padding        : 0px 5px;
         justify-content: space-between;
+
         li {
-          flex: 10;
+          flex      : 10;
           list-style: none;
-          overflow: hidden;
+          overflow  : hidden;
 
           &:nth-child(2) {
             flex: 7;
           }
 
           &:last-child {
-            flex-grow: 0;
+            flex-grow  : 0;
             flex-shrink: 0;
-            overflow: initial;
+            overflow   : initial;
 
             .routeInfo-info {
-              position: absolute;
-              right: 0;
-              width: 30%;
+              position  : absolute;
+              right     : 0;
+              width     : 30%;
               text-align: right;
             }
 
             .iconfont {
               margin-top: 45px;
-              display: inline-flex;
+              display   : inline-flex;
             }
           }
 
           .horizontal-line {
-            position: relative;
-            top: -35px;
-            left: 48px;
-            width: 88%;
-            height: 3px;
-            padding: 0;
-            overflow: hidden;
+            position        : relative;
+            top             : -35px;
+            left            : 48px;
+            width           : 88%;
+            height          : 3px;
+            padding         : 0;
+            overflow        : hidden;
             background-color: #e4e4e4;
           }
+
           .routeInfo-info {
             height: 45px;
           }
         }
+
         .word {
-          font-size: 14px !important;
+          font-size  : 14px !important;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: rgba(49, 55, 58, 1) !important;
+          color      : rgba(49, 55, 58, 1) !important;
         }
       }
     }
   }
+
   .originlocation {
-    min-width: 576px;
+    min-width : 576px;
     min-height: 100px;
   }
 }

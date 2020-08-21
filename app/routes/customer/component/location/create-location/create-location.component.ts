@@ -1,13 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BasicdataService } from '../../../service/basicdata-.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomerService } from '../../../service/customer.service';
-import { CreateContactEntity } from 'projects/crm/src/lib/entity/CreateContactEntity';
-import { CreateOrUpdateLocationEntity } from 'projects/crm/src/lib/entity/CreateOrUpdateLocationEntity';
 import { TranslateService } from '@ngx-translate/core';
-import { AmapService } from '@cityocean/amap-library';
-import { debounce } from "@cityocean/shared-library";
-import { ImBroadcastService } from "@cityocean/im-template-library";
+import { PUBPlaceService, PUBRegionService } from '@co/cds';
+import { debounce } from '@co/core';
+import { AmapService } from 'apps/crm/app/services/amap';
+import { CRMContactService, CRMCreateOrUpdateContactInput } from 'apps/crm/app/services/crm';
 @Component({
   selector: 'create-location',
   templateUrl: './create-location.component.html',
@@ -36,21 +33,19 @@ export class CreateLocationComponent implements OnInit {
   loading = false;
   title = this.translate.instant('Add Location');
   constructor(
-    private fb: FormBuilder,
-    private basicdataService: BasicdataService,
-    private customerService: CustomerService,
+    private pubPlaceService: PUBPlaceService,
     private aMapService: AmapService,
+    private fb: FormBuilder,
     private translate: TranslateService,
-    private imBroadcastService: ImBroadcastService
-  ) { }
+    private pubRegionService: PUBRegionService,
+    private crmContactService: CRMContactService,
+  ) {}
 
   ngOnInit() {
     this.initData();
-    this.imBroadcastService.on('changedLang').subscribe(r => {
-      this.get('').subscribe((res) => {
-        this.regions = res.items;
-      });
-    })
+    this.get('').subscribe((res) => {
+      this.regions = res.items;
+    });
   }
 
   async initData(data: any = {}) {
@@ -147,11 +142,17 @@ export class CreateLocationComponent implements OnInit {
       city: null,
     });
 
-    let res: any = await this.basicdataService.getPlaceInfo(event, true).toPromise();
+    let res: any = await this.pubPlaceService
+      .getAll({
+        regionId: event,
+        maxResultCount: 1000,
+        isCity: true,
+      })
+      .toPromise();
     this.citys = res.items;
   }
 
-  @debounce(200)
+  @debounce(1000)
   searchPlace(value, language = this.translate.currentLang) {
     const form = this.validateForm.value;
     let country = this.regions.filter((item) => item.id === form.country)[0] || { nameLocalization: '' };
@@ -166,24 +167,24 @@ export class CreateLocationComponent implements OnInit {
   getInitCustomerOrPartner() {
     let data: any = {};
     if (this.customerId) {
-      data.CustomerId = this.customerId;
+      data.customerId = this.customerId;
     }
     if (this.partnerId) {
-      data.PartnerId = this.partnerId;
+      data.partnerId = this.partnerId;
     }
 
-    this.customerService.getByCustomerOrPartner(data).subscribe((res: any) => {
+    this.crmContactService.getByCustomerOrPartner(data).subscribe((res: any) => {
       this.contacts = res.items;
     });
   }
 
   getRegionInfo() {
-    return this.basicdataService.getCountryInfo(null);
+    return this.pubRegionService.getAll({});
   }
 
   get(id: any) {
-    let obj = { ParentId: id };
-    return this.basicdataService.getRegionInfo(obj);
+    let obj = { parentId: id };
+    return this.pubRegionService.getAll(obj);
   }
 
   addContacts() {
@@ -200,7 +201,7 @@ export class CreateLocationComponent implements OnInit {
       this.validateContactForm.controls[i].updateValueAndValidity();
     }
     if (this.validateContactForm.valid) {
-      let entity: CreateContactEntity = {
+      let entity: CRMCreateOrUpdateContactInput = {
         nameLocalization: this.validateContactForm.value.nameLocalization,
         name: this.validateContactForm.value.name,
         surname: this.validateContactForm.value.surname,
@@ -211,12 +212,12 @@ export class CreateLocationComponent implements OnInit {
 
       if (this.partnerId) {
         entity.partnerId = this.partnerId;
-        this.customerService.createForPartner(entity).subscribe((res) => {
+        this.crmContactService.createForPartner(entity).subscribe((res) => {
           this.getInitCustomerOrPartner();
           this.isAddContacts = false;
         });
       } else {
-        this.customerService.createForCustomer(entity).subscribe((res) => {
+        this.crmContactService.createForCustomer(entity).subscribe((res) => {
           this.getInitCustomerOrPartner();
           this.isAddContacts = false;
         });
@@ -237,11 +238,11 @@ export class CreateLocationComponent implements OnInit {
     }
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({block: "end", mode: 'smooth' });
+      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
     if (this.validateForm.valid) {
       let value = this.validateForm.value;
-      let entity: CreateOrUpdateLocationEntity = {
+      let entity: any = {
         customerId: this.customerId,
         countryId: value.country,
         provinceId: value.province,
@@ -299,9 +300,9 @@ export class CreateLocationComponent implements OnInit {
       }
 
       if (selectedCountryId) {
-        let provinces = await this.basicdataService
-          .getRegionInfo({
-            ParentId: selectedCountryId,
+        let provinces = await this.pubRegionService
+          .getAll({
+            parentId: selectedCountryId,
           })
           .toPromise();
         this.provinces = provinces.items;
@@ -323,7 +324,12 @@ export class CreateLocationComponent implements OnInit {
       }
 
       if (selectedProvinceId) {
-        let citys = await this.basicdataService.getPlaceInfo(selectedProvinceId, true).toPromise();
+        let citys = await this.pubPlaceService
+          .getAll({
+            regionId: selectedProvinceId,
+            isCity: true,
+          })
+          .toPromise();
         this.citys = res.items;
 
         if (choosed.length > 2) {

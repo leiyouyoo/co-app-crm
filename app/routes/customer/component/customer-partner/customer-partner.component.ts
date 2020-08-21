@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
 import { PartnerBindCustomerComponent } from '../partner-bind-customer/partner-bind-customer.component';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CrmService } from 'projects/crm/src/public-api';
 import { TranslateService } from '@ngx-translate/core';
+import { CRMPartnerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'customer-partner',
@@ -43,12 +42,7 @@ export class CustomerPartnerComponent implements OnInit {
   //
   @Output() private outerPartnerDetails = new EventEmitter<string>();
 
-  constructor(
-    private customerService: CustomerService,
-    private message: NzMessageService,
-    private translate: TranslateService,
-    private crmService: CrmService,
-  ) {}
+  constructor(private crmPartnerService: CRMPartnerService, private message: NzMessageService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.filterPartner.CustomerId = this.customerId;
@@ -77,7 +71,7 @@ export class CustomerPartnerComponent implements OnInit {
   }
 
   unBindCustomer(id) {
-    this.customerService
+    this.crmPartnerService
       .unBindCustomer({
         // tslint:disable-next-line: radix
         partnerId: id,
@@ -135,11 +129,11 @@ export class CustomerPartnerComponent implements OnInit {
     }
     let num = filterObj.SkipCount - 1;
     this.loading = true;
-    this.customerService
-      .getPartnerByPageList({
-        CustomerId: filterObj.CustomerId,
-        MaxResultCount: filterObj.MaxResultCount,
-        SkipCount: num * filterObj.MaxResultCount,
+    this.crmPartnerService
+      .getAll({
+        customerId: filterObj.CustomerId,
+        maxResultCount: filterObj.MaxResultCount,
+        skipCount: num * filterObj.MaxResultCount,
       })
       .subscribe(
         (res: any) => {
