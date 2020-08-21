@@ -22,7 +22,7 @@ export class ShareOceanComponent {
   // 船期查询表格
   sailVisible = false;
   sailSkipCount = 1;
-  sailMaxResultCount = 10; s
+  sailMaxResultCount = 10;
   sailDatas: any;
   currentSailingSchdules: any;
   salesmanId: any;
@@ -72,7 +72,10 @@ export class ShareOceanComponent {
   }
 
   isIE() {
-    // return isIE();
+    if (!!(window as any).ActiveXObject || 'ActiveXObject' in window) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -128,3 +131,5 @@ export class ShareOceanComponent {
     // window.open('/csp/#/bookings');
   }
 }
+
+
