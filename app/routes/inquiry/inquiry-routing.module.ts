@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InquiryListComponent } from './inquiry-list/inquiry-list.component';
-
+import { InquiryListOceanComponent } from './inquiry-ocean/inquiry-ocean.component';
+import { InquiryTrackComponent } from './inquiry-track/inquiry-track.component';
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
   {
@@ -11,10 +12,24 @@ const routes: Routes = [
       breadcrumb: 'Inquiry list',
     },
   },
+  {
+    path: 'oceanlist',
+    component: InquiryListOceanComponent,
+    data: {
+      breadcrumb: 'Ocean list',
+    },
+  },
+  {
+    path: 'tracklist',
+    component: InquiryTrackComponent,
+    data: {
+      breadcrumb: 'Track list',
+    },
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InquiryRoutingModule {}
+export class InquiryRoutingModule { }

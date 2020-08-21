@@ -172,6 +172,10 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
 
+  GetNextMonthDay(date) {
+    return new Date(date.setDate(date.getDate() + 15));
+  }
+
   initData() {
     this.searchForm = this.fb.group({
       pol: [null],
@@ -180,7 +184,7 @@ export class InquiryListOceanComponent implements OnInit {
       delivery: [null],
       shipline: [null],
       commodity: [null],
-      fromDate: [null],
+      fromDate: [[new Date(), this.GetNextMonthDay(new Date())]],
       no: [null],
     });
 
@@ -376,18 +380,13 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onSearch() {
-    console.log(this.searchForm);
-    if (
-      !this.searchForm.value.pol &&
-      !this.searchForm.value.pod &&
-      !this.searchForm.value.shipline &&
-      !this.searchForm.value.no &&
-      !this.searchForm.value.fromDate &&
-      !this.searchForm.value.delivery &&
-      !this.searchForm.value.commodity &&
-      !this.searchForm.value.carrier
-    ) {
-      this.msg.info(this.translate.instant('Please select a condition'), {
+    if (!this.searchForm.value.pol && !this.searchForm.value.pod && !this.searchForm.value.delivery) {
+      this.msg.info(this.translate.instant('Please select pol'), {
+        nzDuration: 1000,
+      });
+      return false;
+    } else if (!this.searchForm.value.pod && !this.searchForm.value.delivery) {
+      this.msg.info(this.translate.instant('Please select pod or delivery'), {
         nzDuration: 1000,
       });
       return false;
@@ -396,6 +395,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.isFllow = false;
     this.id = null;
     this.onGetAll();
+
   }
 
   onGetAll() {

@@ -1,0 +1,76 @@
+<nz-form-item class="form-bg border-bottom_none padding-bottom_20">
+  <div nz-col nzSpan="24" class="fromTruck" [ngClass]="{ 'fromTruck--rowReverse': isFromPort }">
+    <div class="from-to">
+      <nz-form-label nzRequired nzFor="address">
+        {{ 'From' | translate }}
+      </nz-form-label>
+    </div>
+    <div class="zip-code">
+      <nz-form-label nzFor="ZIPcode">
+        {{ 'Zip code' | translate }}
+      </nz-form-label>
+    </div>
+    <div class="from-to">
+      <nz-form-label nzRequired>{{ 'To' | translate }}</nz-form-label>
+    </div>
+  </div>
+
+  <div nz-col nzSpan="24" class="fromTruck" [ngClass]="{ 'fromTruck--rowReverse': isFromPort }">
+    <div class="from-to">
+      <nz-form-control nzErrorTip="Please select your value!">
+        <nz-select
+          #formSelect
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Please select your value"
+          (nzOnSearch)="getFromList($event, null, isFromPort)"
+          [appSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']"
+          [formControl]="controlFrom"
+          (ngModelChange)="fromChange.emit(formSelect)"
+          (appNzOptionExtraChange)="fromExtraChange.emit($event)"
+        >
+          <nz-option
+            *ngFor="let item of countyList"
+            [appNzOptionExtra]="item"
+            [nzLabel]="item.nameLocalization"
+            [nzValue]="item.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+    <div class="zip-code">
+      <span>—</span>
+      <nz-form-control nzErrorTip="Please select your value!">
+        <input nz-input [formControl]="controlZipCode" id="rate" style="width: 100%;" />
+        <!-- <nz-input-number
+          [formControl]="controlZipCode"
+          id="rate"
+          [nzMin]="0"
+          [nzStep]="1"
+          [nzPrecision]="0"
+          style="width: 100%;"
+        ></nz-input-number> -->
+      </nz-form-control>
+    </div>
+    <div class="from-to">
+      <nz-form-control nzErrorTip="Please select your value!">
+        <nz-select
+          #toSelect
+          nzAllowClear
+          nzShowSearch
+          nzServerSearch
+          nzPlaceHolder="Please select your value"
+          [appSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']"
+          (nzOnSearch)="getToList($event, null, !isFromPort)"
+          [formControl]="controlTo"
+          ngModel
+          (ngModelChange)="toChange.emit(toSelect)"
+          (appNzOptionExtraChange)="toExtraChange.emit($event)"
+          class="select"
+        >
+          <nz-option *ngFor="let item of toList" [nzValue]="item.id" [nzLabel]="item.nameLocalization"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </div>
+</nz-form-item>
