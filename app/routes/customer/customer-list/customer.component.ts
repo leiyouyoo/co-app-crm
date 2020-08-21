@@ -37,7 +37,6 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
-    debugger;
     var tabs = window.localStorage.getItem('crmChangedTabs');
     if (tabs) {
       this.choosedNum = Number(tabs);

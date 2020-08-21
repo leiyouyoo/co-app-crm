@@ -15,7 +15,7 @@
       <div class="userContent">
         <div
           class="card-body"
-          style="background-image: url(assets/images/customer/contact2.png);"
+          style="background-image: url(apps/crm/assets/images/customer/contact2.png);"
           [ngClass]="contact.userInfo ? 'body-margin' : ''"
         >
           <div class="divBottom" style="display: flex; justify-content: space-between; width: 100%;">
@@ -38,37 +38,25 @@
           <div class="greenText">{{ isMasterText }}</div>
           <div class="contact-detial">
             <div>
-              <span><i nz-icon nzType="tablet" nzTheme="outline"></i>{{ 'Phone number' | translate }}：</span
-              >{{ contact?.phone }}
+              <span><i nz-icon nzType="tablet" nzTheme="outline"></i>{{ 'Phone number' | translate }}：</span>{{ contact?.phone }}
             </div>
             <div>
-              <span><i nz-icon nzType="mail" nzTheme="outline"></i>{{ 'Email' | translate }}：</span
-              >{{ contact?.email }}
+              <span><i nz-icon nzType="mail" nzTheme="outline"></i>{{ 'Email' | translate }}：</span>{{ contact?.email }}
             </div>
             <div>
-              <span><i nz-icon nzType="phone" nzTheme="outline"></i>{{ 'Telephone number' | translate }}：</span
-              >{{ contact?.tel }}
+              <span><i nz-icon nzType="phone" nzTheme="outline"></i>{{ 'Telephone number' | translate }}：</span>{{ contact?.tel }}
             </div>
             <div>
-              <span><i nz-icon nzType="container" nzTheme="outline"></i>{{ 'Fax' | translate }}：</span
-              >{{ contact?.fax }}
+              <span><i nz-icon nzType="container" nzTheme="outline"></i>{{ 'Fax' | translate }}：</span>{{ contact?.fax }}
             </div>
             <div style="width: 100%;">
-              <span><i nz-icon nzType="check-square" nzTheme="outline"></i>{{ 'Remark' | translate }}：</span
-              >{{ contact?.remark }}
+              <span><i nz-icon nzType="check-square" nzTheme="outline"></i>{{ 'Remark' | translate }}：</span>{{ contact?.remark }}
             </div>
           </div>
         </div>
 
-        <div
-          class="card-body"
-          *ngIf="contact.userInfo"
-          style="background-image: url(assets/images/customer/contact1.png);"
-        >
-          <div
-            class="card-body-title divBottom"
-            style="display: flex; justify-content: space-between; align-items: top;"
-          >
+        <div class="card-body" *ngIf="contact.userInfo" style="background-image: url(apps/crm/assets/images/customer/contact1.png);">
+          <div class="card-body-title divBottom" style="display: flex; justify-content: space-between; align-items: top;">
             <div style="display: flex; align-items: top;">
               <nz-avatar [nzText]="contact.userInfo?.name.substring(0, 2)" style="margin-right: 1em;"></nz-avatar>
               <div class="pName">
@@ -79,9 +67,7 @@
           </div>
 
           <div class="card-body-title">
-            <div class="pEmail">
-              <i nz-icon nzType="mail" nzTheme="outline"></i>{{ contact.userInfo?.emailAddress }}
-            </div>
+            <div class="pEmail"><i nz-icon nzType="mail" nzTheme="outline"></i>{{ contact.userInfo?.emailAddress }}</div>
             <div style="margin-bottom: 10px;">
               <i nz-icon nzType="lock" nzTheme="outline"></i>
               <span style="color: #00000085;">{{ 'Password' | translate }}：</span>
@@ -102,7 +88,7 @@
 
         <div
           class="card-body"
-          style="background-image: url(assets/images/customer/contact1.png); display: flex; justify-content: center;"
+          style="background-image: url(apps/crm/assets/images/customer/contact1.png); display: flex; justify-content: center;"
           *ngIf="!contact.userInfo"
         >
           <button nz-button nzType="primary" (click)="showCspModal()" style="align-self: center;" [disabled]="!isOwner">
@@ -115,8 +101,7 @@
       <div>
         <nz-tabset [nzAnimated]="false" [nzTabBarExtraContent]="tablebutton" style="width: 100%; margin-top: 24px;">
           <nz-tab nzTitle="{{ 'Associated location' | translate }}({{ contact?.name }})">
-            <crm-relation-position [locations]="selectedLocations" [contactId]="i" (datas)="refushDetialData()">
-            </crm-relation-position>
+            <crm-relation-position [locations]="selectedLocations" [contactId]="i" (datas)="refushDetialData()"> </crm-relation-position>
           </nz-tab>
         </nz-tabset>
         <ng-template #tablebutton>
@@ -187,7 +172,7 @@
             [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
             (dblclick)="onContactsDetails(data.id)"
           >
-            <td nzEllipsis style="color: #40a9ff;" (click)="onContactsDetails(data.id)">
+            <td nzEllipsis style="color: #40a9ff; cursor: pointer;" (click)="onContactsDetails(data.id)">
               {{ (data.name || '') + ' ' + (data.surname || '') }}
             </td>
             <td nzEllipsis>
@@ -240,13 +225,7 @@
             </td>
             <td nzEllipsis nzRight="0">
               <div class="detial_msg" style="width: 130px;">
-                <button
-                  nz-button
-                  nz-popover
-                  nzPopoverTitle=""
-                  [nzPopoverContent]="contentTemplate"
-                  nzPopoverPlacement="bottom"
-                >
+                <button nz-button nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
                   {{ 'Position' | translate }}:{{ data.locations.length }}
                 </button>
                 <ng-template #contentTemplate>
@@ -303,24 +282,14 @@
   <div style="margin: 10px 0;">
     <div style="margin: 10px 0;">{{ 'New Password' | translate }}</div>
     <div>
-      <input
-        type="password"
-        nz-input
-        placeholder="{{ 'Please enter a new password' | translate }}"
-        [(ngModel)]="newPassword"
-      />
+      <input type="password" nz-input placeholder="{{ 'Please enter a new password' | translate }}" [(ngModel)]="newPassword" />
     </div>
   </div>
 
   <div style="margin: 10px 0;">
     <div style="margin: 10px 0;">{{ 'New Password' | translate }}</div>
     <div>
-      <input
-        type="password"
-        nz-input
-        placeholder="{{ 'Please enter a new password' | translate }}"
-        [(ngModel)]="newPasswordAgain"
-      />
+      <input type="password" nz-input placeholder="{{ 'Please enter a new password' | translate }}" [(ngModel)]="newPasswordAgain" />
     </div>
   </div>
 
@@ -353,13 +322,7 @@
           [nzValidateStatus]="passwordB"
           nzErrorTip="{{ 'Password must be a combination of 8-16 letters and numbers' | translate }}"
         >
-          <input
-            type="password"
-            nz-input
-            formControlName="password"
-            (ngModelChange)="passwordChange($event)"
-            maxlength="8"
-          />
+          <input type="password" nz-input formControlName="password" (ngModelChange)="passwordChange($event)" maxlength="8" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -384,10 +347,5 @@
   </div>
 </nz-modal>
 
-<create-contacts
-  [customerId]="customerId"
-  [partnerId]="partnerId"
-  (datas)="onAddOrUpdateContacts($event)"
-  (resfush)="getContactInfo()"
->
+<create-contacts [customerId]="customerId" [partnerId]="partnerId" (datas)="onAddOrUpdateContacts($event)" (resfush)="getContactInfo()">
 </create-contacts>

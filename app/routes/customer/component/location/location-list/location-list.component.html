@@ -12,7 +12,7 @@
 
   <div *ngIf="i; else elseTemplate" style="overflow: auto;">
     <div class="userBody" *ngIf="location; else showLoading">
-      <div class="card-body" style="background-image: url(assets/images/customer/contact2.png);">
+      <div class="card-body" style="background-image: url(apps/crm/assets/images/customer/contact2.png);">
         <div class="divBottom" style="display: flex; justify-content: space-between; width: 100%;">
           <div>
             <img src="apps/crm/assets/images/customer/loaction.png" />
@@ -109,7 +109,7 @@
           [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
           (dblclick)="locationsDetails(data.id)"
         >
-          <td nzEllipsis style="color: #40a9ff;" (click)="locationsDetails(data.id)">
+          <td nzEllipsis style="color: #40a9ff; cursor: pointer;" (click)="locationsDetails(data.id)">
             {{ data.name }}
           </td>
           <td nzEllipsis>{{ data.country || '--' }} {{ data.province || '--' }} {{ data.city || '--' }}</td>

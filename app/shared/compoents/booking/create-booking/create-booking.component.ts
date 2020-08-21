@@ -202,7 +202,6 @@ export class CreateBookingComponent implements OnInit {
   isOpen: boolean = true;
 
   ngOnInit() {
-    debugger;
     this.activeRoute.queryParams.subscribe((params) => {
       if (params.BookingId) {
         //编辑传过来得id

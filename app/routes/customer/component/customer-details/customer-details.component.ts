@@ -62,7 +62,6 @@ export class CustomerDetailsComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.customerInfo = res;
-        debugger;
       });
   }
 
