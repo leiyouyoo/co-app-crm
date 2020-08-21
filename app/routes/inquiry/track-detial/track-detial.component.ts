@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CustomerService } from '../../customer/service/customer.service';
+// import { CustomerService } from '../../customer/service/customer.service';
+import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 
 @Component({
   selector: 'app-track-detial',
@@ -12,7 +13,11 @@ export class TrackDetialComponent {
   item: any;
   trailerDetial: any;
   description: any;
-  constructor(private customerService: CustomerService, private msg: NzMessageService) {}
+  constructor(
+    // private customerService: CustomerService,
+    private msg: NzMessageService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+  ) { }
 
   showDetial(data) {
     var re = new RegExp('\r\n\r\n', 'g'); //定义正则表达式
@@ -27,7 +32,7 @@ export class TrackDetialComponent {
     //海运询报价
 
     if (data.businessType === 1 || data.businessType === 3) {
-      this.customerService.getEnquiryDetial({ id: data.id }).subscribe((res) => {
+      this.ratesQuoteEnquiryService.get({ id: data.id }).subscribe((res) => {
         this.trailerDetial = res;
         this.description = this.trailerDetial?.quoteReply?.quoteReplyItems[0]?.remark;
         // 处理Rate Unit

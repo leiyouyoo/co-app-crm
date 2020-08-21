@@ -1,15 +1,25 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CustomerService } from '../../customer/service/customer.service';
+// import { CustomerService } from '../../customer/service/customer.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
+// import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { QuotesService } from '../../quotes/service/quotes.service';
+// import { QuotesService } from '../../quotes/service/quotes.service';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { finalize } from 'rxjs/operators';
-import { debounce } from '@shared/utils/debounce';
+import { PlatformOrganizationUnitService, PUBContainerService, PUBTransportClauseService, PUBPlaceService, PUBShippingLineService, PUBCurrencyService, PUBChargingCodeService } from '@co/cds';
+
+import { CRMCustomerService } from '../../../services/crm/customer.service';
+import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
+import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
+import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
+import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
+
+
+
+// import { debounce } from '@shared/utils/debounce';
 @Component({
   selector: 'app-inquiry-ocean',
   templateUrl: './inquiry-ocean.component.html',
@@ -52,6 +62,7 @@ export class InquiryListOceanComponent implements OnInit {
   isFllow = false;
   // @ViewChild('detial', { static: true })
   // detial: any;
+
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -125,14 +136,26 @@ export class InquiryListOceanComponent implements OnInit {
     ValidEnd: null
   };
   constructor(
-    private customerService: CustomerService,
+    // private customerService: CustomerService,
     private msg: NzMessageService,
     private fb: FormBuilder,
     public activeRoute: ActivatedRoute,
     public translate: TranslateService,
-    public quotesService: QuotesService,
+    // public quotesService: QuotesService,
     private router: Router,
-  ) {}
+    private OrganizationUnit: PlatformOrganizationUnitService,
+    private pubContainer: PUBContainerService,
+    private pubTransportClause: PUBTransportClauseService,
+    private crmCustomer: CRMCustomerService,
+    private pubPlace: PUBPlaceService,
+    private ShippingLine: PUBShippingLineService,
+    private OceanBaseItemService: RatesOceanBaseItemServiceService,
+    private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
+    private pubCurrency: PUBCurrencyService,
+    private pubChargingCode: PUBChargingCodeService
+  ) { }
 
   ngOnInit() {
     this.id = null;
@@ -217,9 +240,9 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   getOrganizationUnitUsers() {
-    this.customerService
+    this.OrganizationUnit
       .getOrganizationUnitUsers({
-        OrganizationUnitName: '商务部',
+        organizationUnitName: '商务部',
       })
       .subscribe((res: any) => {
         this.unitUsers = res.items;
@@ -246,7 +269,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   // GET rates
   getRates() {
-    this.customerService.getAllRates({ MaxResultCount: 100, SkipCount: 0 }).subscribe((res: any) => {
+    this.pubContainer.getAll({ maxResultCount: 100, skipCount: 0 }).subscribe((res: any) => {
       this.ratesList = res.items;
       this.ratesList.sort((a: any, b: any) => {
         const aMatch = a.desc.match(/(\d+)([A-Z]+)/);
@@ -282,7 +305,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   // TransportClause
   getTransportClause() {
-    this.customerService.getTransportClause().subscribe((res: any) => {
+    this.pubTransportClause.getAll({}).subscribe((res: any) => {
       this.transportList = res.items.filter((data) => {
         if (
           data.description === 'CY-CY' ||
@@ -298,13 +321,13 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   getCarrierCustomerList() {
-    this.customerService.getCarrierCustomerList({ CustomerType: 1 }).subscribe((res: any) => {
+    this.crmCustomer.getCustomerByType({ customerType: 1 }).subscribe((res: any) => {
       this.carrierCustomerList = res.items;
     });
   }
 
   getCustomerList() {
-    this.customerService
+    this.crmCustomer
       .getCurrentCustomerAndPartner({
         includePartner: false,
       })
@@ -330,24 +353,24 @@ export class InquiryListOceanComponent implements OnInit {
 
   @debounce(1000)
   getBasicPortList(value = '') {
-    this.customerService.getAllPlace({ Name: value, IsOcean: true }).subscribe((res: any) => {
+    this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
       this.basicPortList = res.items;
     });
-    this.customerService.getAllPlace({ Name: value, IsOcean: true }).subscribe((res: any) => {
+    this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
       this.deliveryList = res.items;
     });
   }
 
   // GET Carrier
   getCRMCarrierList(data) {
-    this.customerService.getCRMCarrierList(data).subscribe((res: any) => {
+    this.crmCustomer.getCustomerByType(data).subscribe((res: any) => {
       // tslint:disable-next-line: no-string-literal
       this.carriers = res.items;
     });
   }
 
   getAllShipLine() {
-    this.customerService.getAllShipLine({}).subscribe((res: any) => {
+    this.ShippingLine.getAll({}).subscribe((res: any) => {
       this.shippings = res.items;
     });
   }
@@ -398,7 +421,7 @@ export class InquiryListOceanComponent implements OnInit {
     }
 
     this.loading = true;
-    this.customerService
+    this.OceanBaseItemService
       .getBusinessRateList({ ...datas, ...data })
       .pipe(
         finalize(() => {
@@ -470,9 +493,9 @@ export class InquiryListOceanComponent implements OnInit {
   onFollowChange(data) {
     this.loading = true;
     data.isFavorite = !data.isFavorite;
-    this.customerService
+    this.ratesFavoriteRateServiceService
       .bindFollow({
-        Id: data.id,
+        id: data.id,
         type: data.businessType,
       })
       .subscribe(
@@ -505,7 +528,7 @@ export class InquiryListOceanComponent implements OnInit {
       );
     }
 
-    this.customerService.quoteEnquiryCreate(data).subscribe(
+    this.ratesQuoteEnquiryService.create(data).subscribe(
       (res: any) => {
         this.msg.success('创建成功');
         this.loading = false;
@@ -592,26 +615,26 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   async getCrmFreightAndQuoteRates(json) {
-    return this.customerService.getCrmFreightAndQuoteRates(json).toPromise();
+    return this.ratesOceanBaseItemExternalServiceService.getCrmFreightAndQuoteRates(json).toPromise();
   }
 
   async getCustomer(text) {
-    this.shareCustomerList = await this.customerService
-      .getCustomer({
-        SkipCount: 0,
-        MaxResultCount: 20,
-        SearchText: text,
-        IncludeContacts: true,
-        IsUserContact: true,
+    this.shareCustomerList = await this.crmCustomer
+      .getAll({
+        skipCount: 0,
+        maxResultCount: 20,
+        searchText: text,
+        includeContacts: true,
+        isUserContact: true,
       })
       .toPromise();
   }
 
   getCurrency() {
-    this.customerService
-      .getCurrency({
-        SkipCount: 0,
-        MaxResultCount: 100,
+    this.pubCurrency
+      .getAll({
+        skipCount: 0,
+        maxResultCount: 100,
       })
       .subscribe((res: any) => {
         this.shareCurrency = res.items;
@@ -621,22 +644,24 @@ export class InquiryListOceanComponent implements OnInit {
   //获取费用代码信息
 
   getCostAll(text: string = '') {
-    this.customerService
-      .getCostAll({
-        Text: text,
+    this.pubChargingCode
+      .getAll({
+        text: text,
       })
       .subscribe((res: any) => {
         this.costItemList = res.items;
       });
   }
 
+  // to do  检查一下
   async getShareCompnay(text) {
-    this.shareCompnayList = await this.customerService
-      .getShareCompnay({
-        SkipCount: 0,
-        MaxResultCount: 20,
-        SearchText: text,
-        CustomerType: 1,
+    this.shareCompnayList = await this.crmCustomer
+      .getCustomerByType({
+        skipCount: 0,
+        maxResultCount: 20,
+        // SearchText: text,
+        name: text,
+        customerType: 1,
       })
       .toPromise();
   }
@@ -926,12 +951,12 @@ export class InquiryListOceanComponent implements OnInit {
     //
     // 设置提交数据
     this.shareLoading = true;
-    this.customerService.saveFreightAndQuoteRates(data).subscribe(
+    this.ratesOceanBaseItemExternalServiceService.saveFreightAndQuoteRates(data).subscribe(
       (res) => {
         this.cacheKey = res;
         // this.cacheKey =
         //   'CO.Rates.Application.OceanBaseItemService.CrmDto.GetCrmFreightRateAndQuoteDto&626d6d41-9638-48a6-926f-b118abeddec1&f81a71d8-737b-4b71-41f8-08d7f2320c50&2304&12706';
-        this.customerService
+        this.ratesOceanBaseItemExternalServiceService
           .getCrmCacheFreightAndQuoteRates({
             cacheKey: this.cacheKey,
           })
@@ -1061,7 +1086,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   onSaveAndSendShare() {
     this.loadingSave = true;
-    this.customerService
+    this.ratesOceanBaseItemExternalServiceService
       .saveSendCustomer({
         cacheKey: this.cacheKey,
       })
@@ -1148,4 +1173,31 @@ export class InquiryListOceanComponent implements OnInit {
       this.dataOfList.items = data;
     }
   }
+}
+
+
+export function debounce(delay: number = 300): MethodDecorator {
+  // tslint:disable-next-line: only-arrow-functions
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const timeoutKey = Symbol();
+
+    const original = descriptor.value;
+
+    descriptor.value = function (...args) {
+      clearTimeout(this[timeoutKey]);
+      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
+    };
+
+    return descriptor;
+  };
+}
+
+export enum VolumeUnitCode {
+  CBM = "TJDWCBM",
+  CFT = "TJDWCFT"
+}
+export enum WeightUnitCode {
+  KGS = "ZLDWKGS",
+  LBS = "ZLDWLBS",
+  MT = "ZLDWMT"
 }

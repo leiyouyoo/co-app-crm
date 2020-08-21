@@ -29,11 +29,12 @@ import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-chang
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
 
+import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent];
 const COMPONENTS = [...COMPONENTS_ENTRY];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective];
+const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective];
 // #endregion
 
 @NgModule({

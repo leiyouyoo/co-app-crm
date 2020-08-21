@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared';
+// import { SharedModule } from '@shared';
 import { InquiryRoutingModule } from './inquiry-routing.module';
 import { InquiryListComponent } from './inquiry-list/inquiry-list.component';
 import { InquiryDetialComponent } from './inquiry-detial/inquiry-detial.component';
@@ -10,8 +10,9 @@ import { InquiryBasicInfomationComponent } from './inquiry-list/inquiry-basic-in
 import { InquiryListOceanComponent } from './inquiry-ocean/inquiry-ocean.component';
 import { InquiryTrackComponent } from './inquiry-track/inquiry-track.component';
 import { TrackDetialComponent } from './track-detial/track-detial.component';
-import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
-import { ClipboardModule } from 'ngx-clipboard';
+import { SharedModule } from '../../shared';
+// import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
+// import { ClipboardModule } from 'ngx-clipboard';
 const COMPONENTS = [
   InquiryListComponent,
   InquiryDetialComponent,
@@ -20,7 +21,7 @@ const COMPONENTS = [
   InquiryBasicInfomationComponent,
   InquiryListOceanComponent,
   InquiryTrackComponent,
-  ShareOceanComponent,
+  // ShareOceanComponent,
 ];
 const COMPONENTS_NOROUNT = [
   TrackDetialComponent,
@@ -31,8 +32,9 @@ const COMPONENTS_NOROUNT = [
 ];
 
 @NgModule({
-  imports: [SharedModule, ClipboardModule, InquiryRoutingModule],
+  // imports: [SharedModule, ClipboardModule, InquiryRoutingModule],
+  imports: [SharedModule, InquiryRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class InquiryModule {}
+export class InquiryModule { }

@@ -1,15 +1,20 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NzMessageService, NzSelectComponent } from 'ng-zorro-antd';
-import { CustomerService } from '../../customer/service/customer.service';
+// import { CustomerService } from '../../customer/service/customer.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
-import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
+// import { WeightUnitCode, VolumeUnitCode } from 'projects/cityocean/quote-library/src/public-api';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { TrackDetialComponent } from '../track-detial/track-detial.component';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { debounce } from '@shared/utils/debounce';
+import { CRMCustomerService } from 'apps/crm/app/services/crm/customer.service';
+import { PlatformOrganizationUnitService, PUBPlaceService } from '@co/cds';
+import { RatesTruckServiceService } from '../../../services/rates/truck-service.service';
+import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
+import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
+// import { debounce } from '@shared/utils/debounce';
 
 @Component({
   selector: 'app-inquiry-track',
@@ -126,12 +131,18 @@ export class InquiryTrackComponent implements OnInit {
   };
 
   constructor(
-    private customerService: CustomerService,
+    // private customerService: CustomerService,
     private msg: NzMessageService,
     private fb: FormBuilder,
     public activeRoute: ActivatedRoute,
     public translate: TranslateService,
-  ) {}
+    private crmCustomer: CRMCustomerService,
+    private OrganizationUnit: PlatformOrganizationUnitService,
+    private pubPlace: PUBPlaceService,
+    private ratesTruckServiceService: RatesTruckServiceService,
+    private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+  ) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -195,7 +206,7 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getCustomerList() {
-    this.customerService
+    this.crmCustomer
       .getCurrentCustomerAndPartner({
         includePartner: false,
       })
@@ -217,9 +228,9 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getOrganizationUnitUsers() {
-    this.customerService
+    this.OrganizationUnit
       .getOrganizationUnitUsers({
-        OrganizationUnitName: '商务部',
+        organizationUnitName: '商务部',
       })
       .subscribe((res: any) => {
         this.unitUsers = res.items;
@@ -227,14 +238,14 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getPlaceAndCounty(name: string = null) {
-    this.customerService.getPlaceAndCounty({ Name: name }).subscribe((res: any) => {
+    this.pubPlace.getPlaceAndCounty({ name: name }).subscribe((res: any) => {
       this.placeAndCountyList = res.items;
     });
   }
 
   // GET Carrier
   getCRMCarrierList(data) {
-    this.customerService.getCRMCarrierList(data).subscribe((res: any) => {
+    this.crmCustomer.getCustomerByType(data).subscribe((res: any) => {
       // tslint:disable-next-line: no-string-literal
       this.carriers = res.items;
     });
@@ -244,14 +255,14 @@ export class InquiryTrackComponent implements OnInit {
 
   @debounce(200)
   getPlace(name: string = null) {
-    this.customerService.getAllPlace({ Name: name }).subscribe((res: any) => {
+    this.pubPlace.getAll({ name: name }).subscribe((res: any) => {
       this.placeList = res.items;
     });
   }
 
   @debounce(200)
   getBasicPortList(value = '') {
-    this.customerService.getAllPlace({ Name: value, IsAirOrOcean: true }).subscribe((res: any) => {
+    this.pubPlace.getAll({ name: value, isAirOrOcean: true }).subscribe((res: any) => {
       this.basicPortList = res.items;
     });
   }
@@ -282,15 +293,15 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getToPlaceAndCounty(name: string = null) {
-    this.customerService
-      .getPlaceAndCounty({ Name: name, Type: this.placeAndCountyToListType })
+    this.pubPlace
+      .getPlaceAndCounty({ name: name, type: this.placeAndCountyToListType })
       .subscribe((res: any) => {
         this.placeAndCountyToList = res.items;
       });
   }
 
   getCarrierCustomerList() {
-    this.customerService.getCarrierCustomerList({ CustomerType: 5 }).subscribe((res: any) => {
+    this.crmCustomer.getCustomerByType({ customerType: 5 }).subscribe((res: any) => {
       this.carrierCustomerList = res.items;
     });
   }
@@ -316,8 +327,8 @@ export class InquiryTrackComponent implements OnInit {
       data.id = this.id;
     }
     this.loading = true;
-    this.customerService
-      .truckServiceGetAll({ ...data, ...datas })
+    this.ratesTruckServiceService
+      .getCrmGetAll({ ...data, ...datas })
       .pipe(
         finalize(() => {
           if (this.id && this.dataOfList && this.dataOfList.items.length > 0)
@@ -357,9 +368,9 @@ export class InquiryTrackComponent implements OnInit {
 
   onFollowChange(data) {
     this.loading = true;
-    this.customerService
+    this.ratesFavoriteRateServiceService
       .bindFollow({
-        Id: data.id,
+        id: data.id,
         type: data.businessType,
       })
       .subscribe(
@@ -439,7 +450,7 @@ export class InquiryTrackComponent implements OnInit {
       );
     }
 
-    this.customerService.quoteEnquiryCreate(data).subscribe(
+    this.ratesQuoteEnquiryService.create(data).subscribe(
       (res: any) => {
         this.msg.success('创建成功');
         this.loading = false;
@@ -571,13 +582,13 @@ export class InquiryTrackComponent implements OnInit {
     }
   }
 
-  
+
   countryLists = [];
   portList = [];
 
   // 获取from/To列表--首页查询
   getAddress(searchText = null, type = null) {
-    this.customerService.getAddress(searchText, type).subscribe((res: any) => {
+    this.ratesTruckServiceService.getAddress({ searchText: searchText, type: type }).subscribe((res: any) => {
       if (type) {
         if (type === 0) {
           this.countryLists = res.items;
@@ -607,4 +618,30 @@ export class InquiryTrackComponent implements OnInit {
   //     this.dataOfList.items = data;
   //   }
   // }
+}
+
+
+export enum VolumeUnitCode {
+  CBM = "TJDWCBM",
+  CFT = "TJDWCFT"
+}
+export enum WeightUnitCode {
+  KGS = "ZLDWKGS",
+  LBS = "ZLDWLBS",
+  MT = "ZLDWMT"
+}
+export function debounce(delay: number = 300): MethodDecorator {
+  // tslint:disable-next-line: only-arrow-functions
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const timeoutKey = Symbol();
+
+    const original = descriptor.value;
+
+    descriptor.value = function (...args) {
+      clearTimeout(this[timeoutKey]);
+      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
+    };
+
+    return descriptor;
+  };
 }

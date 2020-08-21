@@ -1,7 +1,11 @@
 import { Component, OnInit, ComponentFactoryResolver, Input, SimpleChanges, HostListener, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CustomerService } from '../../customer/service/customer.service';
-import { FooterCopyrightComponent } from '@shared/components/footer-copyright/footer-copyright.component';
+// import { CustomerService } from '../../customer/service/customer.service';
+import { FooterCopyrightComponent } from './footer-copyright/footer-copyright.component';
+import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
+import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
+import { RatesLocalBaseRateExternalServiceService } from '../../../services/rates/local-base-rate-external-service.service';
+import { PUBCurrencyService } from '@co/cds';
 
 @Component({
   selector: 'app-inquiry-detial',
@@ -25,7 +29,14 @@ export class InquiryDetialComponent {
   }
 
 
-  constructor(private customerService: CustomerService, private msg: NzMessageService) { }
+  constructor(
+    // private customerService: CustomerService, 
+    private msg: NzMessageService,
+    private OceanBaseItemService: RatesOceanBaseItemServiceService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    private ratesLocalBaseRateExternalServiceService: RatesLocalBaseRateExternalServiceService,
+    private pubCurrency: PUBCurrencyService,
+  ) { }
 
   showDetial(data) {
     this.item = null;
@@ -33,7 +44,7 @@ export class InquiryDetialComponent {
     this.initTotal();
     // 海运合约价
     if (data.businessType === 0 || data.businessType === 2) {
-      this.customerService.getBusinessRateDetails({ baseItemId: data.id }).subscribe((res: any) => {
+      this.OceanBaseItemService.getBusinessRateDetails({ baseItemId: data.id }).subscribe((res: any) => {
         if (res.costDetails) {
           res.costDetails.forEach(((e) => {
             this.total20GP += Number(e['20GP']);
@@ -79,7 +90,7 @@ export class InquiryDetialComponent {
 
     //海运询报价
     if (data.businessType === 1 || data.businessType === 3) {
-      this.customerService.getEnquiryDetial({ id: data.id }).subscribe((res) => {
+      this.ratesQuoteEnquiryService.get({ id: data.id }).subscribe((res) => {
         this.trailerDetial = res;
 
         // 处理Rate Unit
@@ -119,7 +130,7 @@ export class InquiryDetialComponent {
   locTotalList: any = {}; //表格字段统计数组
   maxLengthInArr: number = 0;
   getLocalRateByPort(id) {
-    this.customerService.getLocalRateByPort(id).subscribe((res: any) => {
+    this.ratesLocalBaseRateExternalServiceService.getLocalRateByPort(id).subscribe((res: any) => {
       this.LocalRateList = res;
       this.locChargeItem = res?.item2;
       this.maxLengthInArr = res?.item2.length;
@@ -162,7 +173,7 @@ export class InquiryDetialComponent {
         })
       }
 
-      this.customerService.GetExchangeList('USD').subscribe((res: any) => {
+      this.pubCurrency.getExchangeList({ toCode: 'USD' }).subscribe((res: any) => {
         if (this.locChargeLists && this.locChargeLists.length > 0) {
           this.locChargeLists.forEach(item => {
             item?.localUnitRateByPortOutputs.forEach((e, index, arr) => {
