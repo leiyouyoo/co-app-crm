@@ -1,5 +1,5 @@
-<div class="inquiry-ocean-content" style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
-  <form nz-form [formGroup]="searchForm" style="margin: 20px 20px 0 20px;">
+<div class="inquiry-ocean-content" style="background:#fff;padding:24px;height: 100%;">
+  <form nz-form [formGroup]="searchForm">
     <div class="login-form">
       <div>
         <nz-form-item>
@@ -97,7 +97,8 @@
   <div class="inquiry-right">
     <div class="inquiry-right-content">
       <nz-table #listTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
-        nzShowPagination="false" nzTableLayout="fixed" style="height: 500px;width:100%;" calcNzTableBodyScroll>
+        nzShowPagination="false" nzTableLayout="fixed" style="width:100%;min-height: 250px;height: 70vh;"
+        calcNzTableBodyScroll>
         <thead>
           <tr>
             <th nzWidth="80px">

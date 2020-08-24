@@ -102,6 +102,21 @@ export class RatesQuoteEnquiryService extends BaseApi {
 
 
     /**
+     * @param url /Rates/QuoteEnquiry/UpdateForRejectAsync
+     * 
+     */
+
+    @PUT('updateForRejectAsync')
+    updateForRejectAsync(
+        @Payload
+        _req:RatesCreateQuoteEnquiryInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /Rates/QuoteEnquiry/CreateTruckQuoteAndReply
      * 
      */
@@ -155,6 +170,21 @@ export class RatesQuoteEnquiryService extends BaseApi {
     deleteAsync(
         @Payload
         _req: {id?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /Rates/QuoteEnquiry/Reject
+     * 
+     */
+
+    @POST('reject')
+    reject(
+        @Payload
+        _req:RatesCoEntityDto
 
     ): Observable<any> {
         return null as any
