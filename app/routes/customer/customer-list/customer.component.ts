@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerMergeComponent } from '../component/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CoPageBase } from '@co/core';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.less'],
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent extends CoPageBase {
   totalCount: number;
   loading = false;
 
@@ -29,13 +30,16 @@ export class CustomerComponent implements OnInit {
   @ViewChild(TransferTocustomerComponent, { static: true }) tranCustomer: TransferTocustomerComponent;
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   constructor(
+    injector: Injector,
     private msg: NzMessageService,
     public router: Router,
     private crmCustomerService: CRMCustomerService,
     private translate: TranslateService,
-  ) {}
+  ) {
+    super(injector);
+  }
 
-  ngOnInit(): void {
+  coOnInit(): void {
     this.initData();
     var tabs = window.localStorage.getItem('crmChangedTabs');
     if (tabs) {
@@ -153,8 +157,14 @@ export class CustomerComponent implements OnInit {
   }
 
   showDetial(data) {
-    this.router.navigate(['/crm/home/customer/customerdetails', data.id]);
+    debugger;
+    this.$navigate(['crm/home/customer/customerdetails', data.id], {
+      queryParams: {
+        _title: `${data.name}`,
+      },
+    });
   }
+
   showMerge() {
     this.customerMerge.dataSet = [];
     let isShow = true;

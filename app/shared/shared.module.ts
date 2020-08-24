@@ -31,9 +31,11 @@ import { CreateCustomerComponent } from './compoents/customer/create-customer/cr
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
+import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-code-item.component';
+
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
-const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent];
+const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
 const COMPONENTS = [...COMPONENTS_ENTRY];
 const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective];
 // #endregion
