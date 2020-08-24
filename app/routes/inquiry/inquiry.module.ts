@@ -14,6 +14,7 @@ import { SharedModule } from '../../shared';
 import { TruckingFromToComponent } from './share/component/trucking-from-to/trucking-from-to.component';
 import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { CopyDomToImageDirective } from './share/directives/copy-dom-to-image.directive';
 const COMPONENTS = [
   InquiryListComponent,
   InquiryDetialComponent,
@@ -24,6 +25,7 @@ const COMPONENTS = [
   InquiryTrackComponent,
   TruckingFromToComponent,
   ShareOceanComponent,
+  CopyDomToImageDirective
 ];
 const COMPONENTS_NOROUNT = [
   TrackDetialComponent,
