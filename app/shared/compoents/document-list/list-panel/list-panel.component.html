@@ -1,0 +1,157 @@
+<div>
+  <nz-table class="nz-table-radius" #showfiles [nzData]="files">
+    <thead>
+      <tr>
+        <th nzShowCheckbox [(nzChecked)]="fileIsAllCheck" [nzIndeterminate]="fileIsAllCheckMin"
+              (nzCheckedChange)="filecheckAll($event)">
+        <th>{{ 'documentName' | libI18n }}</th>
+        <th>{{ 'Uploaded By' | libI18n }}</th>
+        <th>{{ 'documentUploaded' | libI18n }}</th>
+        <th>{{ 'Sharing' | libI18n }}</th>
+        <th>{{ 'Action' | libI18n }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of showfiles.data">
+        <td nzShowCheckbox [(nzChecked)]="checkStateMap[file.id]" (nzCheckedChange)="fieldRefreshStatus()"></td>
+        <td>{{ file.name }}</td>
+        <td>{{ file.updateBy }}</td>
+        <td>{{ file.updateTime | date:"yyyy-MM-dd HH:mm:ss" }}</td>
+        <td>
+          <span
+            nz-popover
+            nzPopoverTitle="Viewable By"
+            [nzPopoverContent]="content"
+            nzPopoverPlacement="bottomLeft"
+          >
+                  <ng-template #content>
+                    <nz-list
+                      [nzDataSource]="file.shareCompanies"
+                      nzSize="small"
+                      [nzRenderItem]="smallItem"
+                    >
+      <ng-template #smallItem let-item><nz-list-item [nzContent]="item"></nz-list-item></ng-template>
+    </nz-list>
+                  </ng-template>
+                  <i
+                    nz-icon
+                    nzType="team"
+                    nzTheme="outline"
+                  ></i>
+            {{ file.shareCompanies.length }}
+            <i *ngIf="file.shareCompanies.length" nz-icon nzType="down" nzTheme="outline"></i>
+                </span>
+        </td>
+        <td>
+          <a href="{{file.downFileUrl}}" download="{{file.downFileUrl}}">
+            <!-- <i class="action-icon" nz-icon nzType="download" nzTheme="outline"></i> -->
+            {{ 'Download' | translate }}
+          </a>
+          <a (click)="delete(file)" style="margin-left: 32px;">
+            <!-- <i class="action-icon" nz-icon nzType="delete" nzTheme="outline"></i> -->
+            <span style="color:red;">{{ 'Delete' | translate }}</span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<!-- <div class="upload-area">
+  <nz-upload #uploadComponent nzType="drag" [nzMultiple]="true" [(nzFileList)]="fileList"
+             [nzShowUploadList]="false"
+             [nzCustomRequest]="uploadFileList"
+             (nzChange)="fileChange($event)">
+    <p class="ant-upload-drag-icon">
+      <i nz-icon nzType="inbox"></i>
+    </p>
+    <p class="ant-upload-text">{{ 'uploadTips' | libI18n }}</p>
+  </nz-upload>
+</div>
+<div class="state-content">
+  <div class="file-state" *ngFor="let file of fileList;let i = index">
+    <div (click)="showPDF(i)">
+      <div class="up-name">
+        <div class="close" (click)="closeFile(i)">
+          <i nz-icon nzType="close" nzTheme="outline"></i>
+        </div>
+        <span>{{file.name}}</span>
+      </div>
+      <div class="down-state" [ngClass]="{'waitting': !file.response, 'uploaded':file.response}">
+        <span *ngIf="!file.isUploaded">{{ 'Wait for upload' | libI18n }}</span>
+        <span *ngIf="file.isUploaded"><i nz-icon nzType="check" nzTheme="outline"></i>{{ 'Uploaded' | libI18n }}</span>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <ng-container *ngIf="fileList?.length">
+  <div class="d-flex">
+    <div *ngIf="fileTypeList?.length" style="height: 53px;display:flex;align-items: flex-end;">
+      <nz-select style="width: 200px;margin-right: 10px;" [(ngModel)]="uploadAttachmentType" [nzPlaceHolder]="'File Type' | libI18n">
+        <nz-option *ngFor="let option of fileTypeList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </div>
+    <div *ngIf="BusinessType !== _BusinessType.Product">
+      <div>Sharing</div>
+      <div>
+        <nz-select style="width: 200px;" nzMode="multiple" [(ngModel)]="shareListInfo" [nzPlaceHolder]="'None Selected' | libI18n">
+          <nz-option *ngFor="let user of shareList; let i = index" [nzValue]="user" [nzLabel]="user.userFullName">
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 8px;">
+    <button nz-button nzType="primary" [nzLoading]="isLoading" [disabled]="isDisableSave" (click)="save()">{{ 'Save all' | libI18n }}</button>
+  </div>
+</ng-container> -->
+
+<nz-modal [nzWidth]="'80%'" [(nzVisible)]="isPDFVisible" [nzTitle]="'PDF Preview' | libI18n" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <div>
+    <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;"></pdf-viewer>
+  </div>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="showUploadField" nzWidth="900" [nzTitle]=" 'File Type' | libI18n "  [nzOkText]=" 'Save' | translate"
+[nzCancelText]=" 'Cancel' | translate " (nzOnCancel)="showUploadField=!showUploadField" [nzOkLoading]="_isLoading" (nzOnOk)="uploadFieldSave()" [nzOkDisabled]="isDisableSave">
+  <div class="upload-box">
+    <nz-upload
+        [nzAction]="uploadUrl"
+        [nzHeaders]="{ authorization: 'authorization-text' }"
+        (nzChange)="fileChange($event)"
+        [(nzFileList)]="fileList"
+      >
+        <button nz-button><i nz-icon nzType="upload"></i>{{ 'Upload File' | translate }}</button>
+    </nz-upload>
+  </div>
+
+  <form nz-form [nzLayout]="'vertical'" class="search__form" *ngIf="fileList?.length">
+    <div nz-row [nzGutter]="12">
+      <div *ngIf="fileTypeList?.length" nz-col nzSm="12" nzMd="12">
+        <div>
+          <nz-form-label nzFor="no">{{ 'File Type' | libI18n }}<span class="redStar">*</span></nz-form-label>
+          <nz-form-control>
+            <div>
+              <nz-select name="uploadAttachmentType" [(ngModel)]="uploadAttachmentType" [nzPlaceHolder]="'File Type' | libI18n">
+                <nz-option *ngFor="let option of fileTypeList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+              </nz-select>
+            </div>
+          </nz-form-control>
+        </div>
+      </div>
+      <div nz-col nzSm="12" nzMd="12">
+        <div>
+          <nz-form-label nzFor="no">{{ 'Sharing' | libI18n }}</nz-form-label>
+          <nz-form-control>
+            <nz-select  nzMode="multiple" name="shareListInfo" [(ngModel)]="shareListInfo" [nzPlaceHolder]="'None Selected' | libI18n">
+              <nz-option *ngFor="let user of shareList; let i = index" [nzValue]="user" [nzLabel]="user.userFullName">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </div>
+    </div>
+  </form>
+</nz-modal>
+

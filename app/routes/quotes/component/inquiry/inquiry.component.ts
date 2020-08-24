@@ -1,18 +1,18 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { QuoteEnquiry, quoteInputParams } from 'projects/cityocean/quote-library/src/public-api';
 import { Router } from '@angular/router';
 import { QuotesService } from '../../service/quotes.service';
-import { NzMessageService, NzModalRef, NzModalService, NzSafeAny } from 'ng-zorro-antd';
+import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { CreatequotesComponent } from '../createquotes/createquotes.component';
-import { quoteState } from '../../enum/quoteState';
 import { initiativeCreatequotesComponent } from '../initiativecreatequotes/initiativecreatequotes.component';
 import { QuotesrecordComponent } from '../quotesrecord/quotesrecord.component';
-import { FileManageService, FreightMethodType } from '@cityocean/basicdata-library';
-import { SharequotesComponent, isIE } from '@cityocean/shared-library';
+import { FreightMethodType, quoteState } from '../../enum/quoteState';
+
+import { SharequotesComponent } from '../../../../shared/compoents/sharequotes/sharequotes.component';
+import { isIE } from '../../../../shared/isIE';
 import domToImage from 'dom-to-image';
 import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '@env/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'quotes-inquiry',
@@ -38,11 +38,11 @@ export class InquiryComponent implements OnInit {
   isQuoteStatus: boolean = false;
   isQuoteRecordStatus: boolean = false;
   isClosed: boolean = false;
-  quoteinfo: QuoteEnquiry = {};
+  quoteinfo: any = {};
   //询价列表
-  quoteList: Array<QuoteEnquiry> = new Array<QuoteEnquiry>();
+  quoteList: any = new Array();
   //询价查询参数
-  quoteInputParams: quoteInputParams = {
+  quoteInputParams: any = {
     SortingValue: 'CreationTime',
     Id: 0,
     isGeneral: false,
@@ -73,7 +73,9 @@ export class InquiryComponent implements OnInit {
   quoteId: string;
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
   height = 500;
-  userId = abp.session.user.id;
+  user = JSON.parse(window.localStorage.getItem('co.session'));
+
+  userId = this.user.session.user.icpUserId;
   imgUrl = environment.SERVER_URL;
   ngOnInit() {
     setTimeout(() => {
@@ -98,7 +100,7 @@ export class InquiryComponent implements OnInit {
     this.selIndex = event;
   }
 
-  GetAllForCRM(quoteParams: quoteInputParams) {
+  GetAllForCRM(quoteParams: any) {
     if (quoteParams.SortingValue) {
       quoteParams.Sorting = quoteParams.SortingValue + ' ' + this.sortValue;
     }
