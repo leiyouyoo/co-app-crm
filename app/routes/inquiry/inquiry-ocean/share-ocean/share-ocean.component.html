@@ -1,16 +1,11 @@
 <div style="overflow: hidden; height: 100%; display: flex; flex-direction: column;">
   <div class="set-button">
-    <button nz-button
-            copyDomToImage
-            [domGenerator]="generateCopyDom"
-            nz-popover
-            [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
-            [disabled]="isIE()">{{ 'Copy image' | translate }}</button>
-    <button nz-button
-            nz-popover
-            [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
-            [disabled]="isIE()"
-            (click)="onSavePNG()">{{ 'Download image' | translate }}</button>
+    <button nz-button copyDomToImage [domGenerator]="generateCopyDom" nz-popover
+      [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+      [disabled]="isIE()">{{ 'Copy image' | translate }}</button>
+    <button nz-button nz-popover
+      [nzPopoverContent]="isIE() ? ('The current browser does not support, use Google or Firefox' | translate) : null"
+      [disabled]="isIE()" (click)="onSavePNG()">{{ 'Download image' | translate }}</button>
     <button nz-button nzType="primary" ngxClipboard [cbContent]="copyUrl" (cbOnSuccess)="onTips()">
       {{ 'Copy Link' | translate }}
     </button>
@@ -73,10 +68,7 @@
           <div class="border-radius-left"></div>
           <div class="border-radius-right"></div>
           <!-- {{ da.pol }} - {{ da.pod }} -->
-          <curved-route
-            [typeId]="i"
-            [transitTime]="da.tt"
-            [data]="{
+          <curved-route [typeId]="i" [transitTime]="da.tt" [data]="{
               freightType: da.freightType === 0 ? 1 : da.freightType,
               originPort: { name: da.pol, regionName: da.orgionPolCity, countryName: da.orgionPolCountry },
               destinationPort: {
@@ -95,8 +87,7 @@
                 country: da.destinationTruckAddresCountry
               },
               freightMethodType: 1
-            }"
-          ></curved-route>
+            }"></curved-route>
 
           <div class="commidity">
             <strong>{{ 'Commodity' | translate }}:</strong>{{ da.commodity || '--' }}
@@ -113,15 +104,9 @@
               </div>
             </div>
 
-            <button
-              nz-button
-              nzSize="small"
-              nz-popover
-              nzPopoverTrigger="click"
-              nzPopoverPlacement="bottomLeft"
+            <button nz-button nzSize="small" nz-popover nzPopoverTrigger="click" nzPopoverPlacement="bottomLeft"
               [nzPopoverContent]="content2Template"
-              *ngIf="da?.originLocalRates.length > 0 || da?.destinationLocalRates.length > 0"
-            >
+              *ngIf="da?.originLocalRates.length > 0 || da?.destinationLocalRates.length > 0">
               {{ 'Local Fees' | translate }}<i nz-icon nzType="up" nzTheme="outline"></i>
             </button>
             <ng-template #content2Template>
@@ -194,10 +179,8 @@
       <div class="share-msg-top">
         <div class="share-msg-left">
           <div class="share-img">
-            <img
-              src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
-              *ngIf="data?.user?.profilePictureId; else noimg"
-            />
+            <img src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
+              *ngIf="data?.user?.profilePictureId; else noimg" />
             <ng-template #noimg>
               <img src="assets/images/avatar.png" />
             </ng-template>
@@ -263,33 +246,21 @@
           <div class="share-view-title-button">
             <!-- <button nz-button nzSize="small" (click)="onShowSchedules($event)">Schedules</button> -->
 
-            <button
-              *ngIf="!da.isQuoteOrFreight"
-              nz-button
-              nzSize="small"
-              nz-popover
-              nzPopoverTrigger="click"
-              nzPopoverPlacement="bottomLeft"
-              [nzPopoverContent]="contentTemplate"
-              (click)="
+            <button *ngIf="!da.isQuoteOrFreight" nz-button nzSize="small" nz-popover nzPopoverTrigger="click"
+              nzPopoverPlacement="bottomLeft" [nzPopoverContent]="contentTemplate" (click)="
                 onGetSails({
                   polId: da.polId,
                   podId: da.podId
                 })
-              "
-            >
+              ">
               {{ 'Schedules' | translate }}
             </button>
             <ng-template #contentTemplate>
               <div class="schedules">
-                <sailing-schedules-content
-                  [datas]="sailDatas"
-                  [loading]="isSailLoading"
-                  (onMaxResultCountChanged)="onSailMaxResultCountChanged($event)"
-                  [maxResultCount]="sailMaxResultCount"
-                  [skipCount]="sailSkipCount"
-                  (onSkipCountChanged)="onSailSkipCountChanged($event)"
-                ></sailing-schedules-content>
+                <sailing-schedules-content [datas]="sailDatas" [loading]="isSailLoading"
+                  (onMaxResultCountChanged)="onSailMaxResultCountChanged($event)" [maxResultCount]="sailMaxResultCount"
+                  [skipCount]="sailSkipCount" (onSkipCountChanged)="onSailSkipCountChanged($event)">
+                </sailing-schedules-content>
               </div>
             </ng-template>
 
@@ -312,10 +283,7 @@
           <div class="border-radius-left"></div>
           <div class="border-radius-right"></div>
           <!-- {{ da.pol }} - {{ da.pod }} -->
-          <curved-route
-            [typeId]="da.id"
-            [transitTime]="da.tt"
-            [data]="{
+          <curved-route [typeId]="da.id" [transitTime]="da.tt" [data]="{
               freightType: da.freightType === 0 ? 1 : da.freightType,
               originPort: { name: da.pol, regionName: da.orgionPolCity, countryName: da.orgionPolCountry },
               destinationPort: {
@@ -334,8 +302,7 @@
                 country: da.destinationTruckAddresCountry
               },
               freightMethodType: 1
-            }"
-          ></curved-route>
+            }"></curved-route>
 
           <div class="commidity">
             <strong>{{ 'Commidity' | translate }}:</strong>{{ da.commodity || '--' }}
@@ -418,10 +385,8 @@
       <div class="share-msg-top">
         <div class="share-msg-left">
           <div class="share-img">
-            <img
-              src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
-              *ngIf="data?.user?.profilePictureId; else noimg"
-            />
+            <img src="{{ url + data?.user?.profilePictureId + '&handler=image' }}"
+              *ngIf="data?.user?.profilePictureId; else noimg" />
             <ng-template #noimg>
               <img src="assets/images/avatar.png" />
             </ng-template>

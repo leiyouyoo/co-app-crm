@@ -11,8 +11,9 @@ import { InquiryListOceanComponent } from './inquiry-ocean/inquiry-ocean.compone
 import { InquiryTrackComponent } from './inquiry-track/inquiry-track.component';
 import { TrackDetialComponent } from './track-detial/track-detial.component';
 import { SharedModule } from '../../shared';
-// import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
-// import { ClipboardModule } from 'ngx-clipboard';
+import { TruckingFromToComponent } from './share/component/trucking-from-to/trucking-from-to.component';
+import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
+import { ClipboardModule } from 'ngx-clipboard';
 const COMPONENTS = [
   InquiryListComponent,
   InquiryDetialComponent,
@@ -21,7 +22,8 @@ const COMPONENTS = [
   InquiryBasicInfomationComponent,
   InquiryListOceanComponent,
   InquiryTrackComponent,
-  // ShareOceanComponent,
+  TruckingFromToComponent,
+  ShareOceanComponent,
 ];
 const COMPONENTS_NOROUNT = [
   TrackDetialComponent,
@@ -32,8 +34,7 @@ const COMPONENTS_NOROUNT = [
 ];
 
 @NgModule({
-  // imports: [SharedModule, ClipboardModule, InquiryRoutingModule],
-  imports: [SharedModule, InquiryRoutingModule],
+  imports: [SharedModule, ClipboardModule, InquiryRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })

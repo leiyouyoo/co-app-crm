@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { SailService } from 'projects/cityocean/sail-library/src/public-api';
+// import { SailService } from 'projects/cityocean/sail-library/src/public-api';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import domToImage from 'dom-to-image';
 // import { environment } from '@env/environment';
-
+import { PUBSailingSchedulesService } from '@co/cds';
+import { CoConfigManager } from '@co/core';
 // import { isIE } from '@cityocean/shared-library';
 
 @Component({
@@ -28,11 +29,13 @@ export class ShareOceanComponent {
   isSailLoading: any;
   rateInfo: any;
   copyUrl: any;
-  url = environment.apiUrlPrefix + '/Storage/File/GetDownLoadFile?fileId=';
+  url = CoConfigManager.getValue('serverUrl') + '/Storage/File/GetDownLoadFile?fileId=';
+
   constructor(
-    public sailingSchedulesService: SailService,
+    // public sailingSchedulesService: SailService,
     private msg: NzMessageService,
     private translate: TranslateService,
+    private pubSailingSchedules: PUBSailingSchedulesService
   ) { }
 
   onTips() {
@@ -69,7 +72,10 @@ export class ShareOceanComponent {
   }
 
   isIE() {
-    // return isIE();
+    if (!!(window as any).ActiveXObject || 'ActiveXObject' in window) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -101,13 +107,13 @@ export class ShareOceanComponent {
     this.isSailLoading = true;
     let num = this.sailSkipCount - 1;
     this.sailDatas = null;
-    this.sailingSchedulesService
-      .getSailingSchedules({
-        OrigPortId: this.currentSailingSchdules.polId,
-        DestPortId: this.currentSailingSchdules.podId,
-        CarrierCode: [],
-        MaxResultCount: this.sailMaxResultCount,
-        SkipCount: num * this.sailMaxResultCount,
+    this.pubSailingSchedules
+      .querySailingSchedules({
+        origPortId: this.currentSailingSchdules.polId,
+        destPortId: this.currentSailingSchdules.podId,
+        carrierCode: [],
+        maxResultCount: this.sailMaxResultCount,
+        skipCount: num * this.sailMaxResultCount,
       })
       .subscribe(
         (res) => {
@@ -125,3 +131,5 @@ export class ShareOceanComponent {
     // window.open('/csp/#/bookings');
   }
 }
+
+
