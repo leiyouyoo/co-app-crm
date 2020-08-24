@@ -1,0 +1,58 @@
+<div
+  style="height: 100%;overflow: hidden;display: flex;
+flex-direction: column;"
+>
+  <!-- table -->
+
+  <div class="sailing-schedules_content" style="flex:1;overflow: hidden;">
+    <nz-table
+      style="height: 100%;overflow: hidden;"
+      #Table
+      [nzData]="datas?.items"
+      [nzFrontPagination]="false"
+      nzShowPagination="false"
+      [nzLoading]="loading"
+      calcNzTableBodyScroll
+    >
+      <thead>
+        <tr>
+          <th>{{ 'Carrier' | translate }}</th>
+          <th>{{ 'Vessel/Voyage' | translate }}</th>
+          <th>{{ 'Port of Loading' | translate }}</th>
+          <th nzShowSort (nzSortChange)="sort('DepartureDate', $event)">{{ 'ETD' | translate }}</th>
+          <th>{{ 'Port of Discharge' | translate }}</th>
+          <th nzShowSort (nzSortChange)="sort('ArrivalDate', $event)">{{ 'ETA' | translate }}</th>
+          <th nzShowSort (nzSortChange)="sort('TransitTime', $event)">{{ 'TT' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of Table.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
+          <td>
+            <img [src]="data.imageUrl" />
+            {{ data.carrierCode }}
+          </td>
+          <td>{{ data['Vessel/Voyage'] }}</td>
+          <td>{{ data['Port of Loading'] }}</td>
+          <td>{{ data.etd }}</td>
+          <td>{{ data['Port of Discharge'] }}</td>
+          <td>{{ data.eta }}</td>
+          <td>{{ data['T/T'] }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <div class="content_footer" *ngIf="datas">
+    <nz-pagination
+      [nzPageIndex]="skipCount"
+      [nzPageSize]="maxResultCount"
+      [nzTotal]="datas.totalCount"
+      nzShowSizeChanger
+      [nzShowTotal]="totalTemplate"
+      nzShowSizeChange
+      (nzPageIndexChange)="onPageIndexChanged($event)"
+      (nzPageSizeChange)="onPageSizeChanged($event)"
+    ></nz-pagination>
+    <ng-template #totalTemplate let-total> 共 {{ datas.totalCount }} 条 </ng-template>
+  </div>
+</div>

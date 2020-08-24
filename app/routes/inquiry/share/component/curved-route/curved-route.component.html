@@ -1,0 +1,68 @@
+<div
+  class="route-container"
+  [ngClass]="{
+    'cy-cy': data.freightType === 1,
+    'cy-door': data.freightType === 2,
+    'door-cy': data.freightType === 3,
+    'door-door': data.freightType === 4
+  }"
+>
+  <div style="padding: 0 24px;">
+    <div #route id="route" class="route">
+      <i id="{{ typeId }}i1" class="iconfont icon-zidingyiyushe"></i>
+      <i id="{{ typeId }}i2" class="iconfont icon-zidingyiyushe"></i>
+      <i id="{{ typeId }}i3" class="iconfont icon-zidingyiyushe"></i>
+      <i id="{{ typeId }}i4" class="iconfont icon-zidingyiyushe"></i>
+      <div class="icon-car icon-car--1"></div>
+      <div class="icon-car icon-car--2"></div>
+      <div class="tt-container">
+        <div style="color:rgba(0,0,0,0.45);">T/T:</div>
+        <div class="tt-value">{{ transitTimeDisplay }}{{ 'DAYS' | translate }}</div>
+        <div class="icon-shipb" *ngIf="data.freightMethodType === 1"></div>
+        <div class="icon-airb" *ngIf="data.freightMethodType === 2"></div>
+      </div>
+    </div>
+  </div>
+  <div class="route__content-container" wrapChildrenHeight>
+    <div>
+      <div class="route__title" *ngIf="data.originAddress">
+        {{data.originAddress?.displayAddressName || '************'}}
+      </div>
+      <div class="route__title" *ngIf="!data.originAddress && data?.originAddressName">************</div>
+      <div class="route__sub-title" *ngIf="data?.originAddress">
+        {{ [data?.originAddress?.city, data?.originAddress?.province, data?.originAddress?.country ] | arrayJoin }}</div>
+    </div>
+
+    <div>
+      <div class="route__title">{{ data.originPort?.name || ('originPort' | translate) }}</div>
+      <div class="route__sub-title">{{ [data.originPort?.regionName, data.originPort?.countryName] | arrayJoin }}</div>
+      <!-- <div class="route__desc">Commodity</div>
+      <div class="route__title">sss</div> -->
+    </div>
+    <div class="children-div-text-right">
+      <div class="route__title">{{ data.destinationPort?.name || ('destinationPort' | translate) }}</div>
+      <div class="route__sub-title">{{ [data.destinationPort?.regionName, data.destinationPort?.countryName] | arrayJoin }}</div>
+      <div class="route__desc">{{ 'Type' | translate }}</div>
+      <div class="route__title" *ngIf="data.freightType == 1">
+        {{ 'CY-CY' | translate }}
+      </div>
+      <div class="route__title" *ngIf="data.freightType == 2">
+        {{ 'CY-DOOR' | translate }}
+      </div>
+      <div class="route__title" *ngIf="data.freightType == 3">
+        {{ 'DOOR-CY' | translate }}
+      </div>
+      <div class="route__title" *ngIf="data.freightType == 4">
+        {{ 'DOOR-DOOR' | translate }}
+      </div>
+    </div>
+    <div class="children-div-text-right">
+      <div class="route__title " *ngIf="data.destinationAddress">
+        {{data.destinationAddress?.displayAddressName || '************'}}
+      </div>
+      <div class="route__title" *ngIf="!data.destinationAddress && data?.destinationAddressName">************</div>
+      <div class="route__sub-title" *ngIf="data?.destinationAddress">
+        {{ [data?.destinationAddress?.city, data?.destinationAddress?.province, data?.destinationAddress?.country ] | arrayJoin }}</div>
+    </div>
+  </div>
+</div>
