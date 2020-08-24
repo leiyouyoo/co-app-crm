@@ -1,0 +1,151 @@
+<section class="cus-code-item">
+    <div class="c-info">
+        <div class="left-box">
+            <i class="iconfont icon-gongsi-yuan"></i>
+            <div class="left-box-content">
+                <div class="flex-item">
+                    <span>{{ data?.name || '--' }}</span>
+                    <!-- claimStatus==0 无主客户 -->
+                    <span *ngIf="data?.claimStatus==0">{{ 'Unowned customers' | translate }}</span>
+                    <!-- claimStatus!=0 潜在。合作 ，共享，认证中，已认证 -->
+                    <span *ngIf="data?.claimStatus!=0 && data?.status==0" class="type-rzh">{{ 'Potential customers' | translate }}</span>
+                    <span *ngIf="data?.claimStatus!=0 && data?.status==1" class="type-rzh">{{ 'Cooperating customers' | translate }}</span>
+                    <span *ngIf="data?.claimStatus!=0 && data?.status==2" class="type-gxkh">{{ 'Share customers' | translate }}</span>
+                    <span *ngIf="data?.claimStatus!=0 && data?.state==2" class="type-rzh">{{ 'In the authentication' | translate }}</span>
+                    <span *ngIf="data?.claimStatus!=0 && data?.state==3" class="type-rzh">{{ 'Verified' | translate }}</span>
+                </div>
+                <div class="c-e-name">
+                    {{ data?.localizationName || '--' }}
+                </div>
+            </div>
+        </div>
+        <div class="right-box">
+          <p>
+              <span class="txt-dj">{{ 'Tax registration' | translate }}</span>
+              <nz-switch [(ngModel)]="hasTaxes"></nz-switch>
+            </p>  
+          <p>{{ 'Customer code' | translate }}：{{ data?.code || '--' }}</p>  
+        </div>
+    </div>
+
+
+    <!-- 税务登记 -->
+    <section *ngIf="hasTaxes">
+        <div class="log-box" [ngClass]="{ noPadTop: data.customerTaxes.length==0 }">
+            <form nz-form nzLayout="vertical" >
+                <div nz-row [nzGutter]="24" class="cus-taxes-item" *ngFor="let item of data.customerTaxes;let idx = index">
+                    <div nz-col [nzSpan]="11" style="min-height: 80px;">
+                        <nz-form-item>
+                            <nz-form-label [nzRequired]="false">{{ 'Tax registration type' | translate }}</nz-form-label>
+                            <nz-form-control nzErrorTip="Please select customer">
+                                <nz-select [(ngModel)]="item.taxType" [ngModelOptions]="{standalone: true}" [nzDisabled]="canEdit">
+                                    <nz-option nzValue="0" [nzLabel]="'Employer Identification Number' | translate" [nzDisabled]="optionCanSelect('0')"></nz-option>
+                                    <nz-option nzValue="1" [nzLabel]="'Social Security Number' | translate" [nzDisabled]="optionCanSelect('1')"></nz-option>
+                                    <nz-option nzValue="2" [nzLabel]="'Individual Taxpayer Identification Number' | translate" [nzDisabled]="optionCanSelect('2')"></nz-option>
+                                    <nz-option nzValue="3" [nzLabel]="'Adopted Tax Payer Identification Number' | translate" [nzDisabled]="optionCanSelect('3')"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="11" style="min-height: 80px;">
+                        <nz-form-item>
+                            <nz-form-label [nzRequired]="false">{{ 'Tax Registration Number' | translate }}</nz-form-label>
+                            <nz-form-control nzErrorTip="Please select date">
+                                <input nz-input [(ngModel)]="item.taxNo" maxlength="30" [ngModelOptions]="{standalone: true}" [disabled]="canEdit">
+                                <div style="color:red;" *ngIf="formCheck&&!item.taxNo">{{ 'please enter the Tax registration number' | translate }}</div>
+                            </nz-form-control>
+                            
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="2" style="min-height: 80px;" *ngIf="!canEdit">
+                      <i class="iconfont icon-Delete icon-del" (click)="deleteSW(idx)"></i>  
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button nz-button nzType="dashed" class="add-btn" (click)="addSW()" [disabled]="canEdit">+ {{ 'New' | translate }}</button>
+    </section>
+
+    
+
+
+    <!-- 客户列表  潜在客户和合作客户不显示-->
+    <nz-table #basicTable [nzData]="dataSet" [nzSize]="'small'" [nzShowPagination]="'false'" style="margin-top: 10px;" *ngIf="data?.claimStatus==0 || (data?.claimStatus!=0&&data?.status>1) ">
+        <thead>
+          <tr>
+            <th style="background-color: #F6FBFF;">{{ 'Owner' | translate }}</th>
+            <th style="background-color: #F6FBFF;">{{ 'Country' | translate }}</th>
+            <th style="background-color: #F6FBFF;">{{ 'Code' | translate }}</th>
+            <th style="background-color: #F6FBFF;">{{ 'Abbreviation' | translate }}</th>
+            <th style="background-color: #F6FBFF;">{{ 'Abbreviation-local language' | translate }}</th>
+            <th style="background-color: #F6FBFF;">{{ 'Telephone number' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of basicTable.data">
+            <td *ngIf="data.status!=2">
+                {{ data.owner || '--' }}
+            </td>
+
+            <td nzEllipsis nzBreakWord *ngIf="data.status=='2'">
+                <button
+                    *ngIf="item.sharedUsers.length > 0"
+                    nz-button
+                    nz-popover
+                    nzPopoverTitle=""
+                    [nzPopoverContent]="contentTemplate"
+                    nzPopoverPlacement="bottomRight"
+                    nzSize="small"
+                >
+                    {{ '+' + item.sharedUsers.length }}
+                </button>
+                <span *ngIf="item.sharedUsers.length == 0">--</span>
+                <ng-template #contentTemplate>
+                    <div *ngFor="let item of item.sharedUsers">
+                    <div>{{ item.userName || '--' }}</div>
+                    </div>
+                </ng-template>
+            </td>
+
+            <td>{{ item.country || '--' }}</td>
+            <td>{{ item.code || '--' }}</td>
+            <td>{{ item.shortName || '--' }}</td>
+            <td>{{ item.localizationShortName || '--' }}</td>
+            <td>{{ item.tel || '--' }}</td>
+          </tr>
+        </tbody>
+    </nz-table>
+
+
+
+
+    <!-- 
+        state<2
+            claimStatus==0  显示认领按钮+认领并申请按钮
+            status==2 显示跟进按钮+跟进并申请按钮
+            
+            else 显示申请按钮
+        
+        state>=2 显示重新提交按钮，点击重新提交按钮后按钮变成提交按钮，并且税务变为可编辑状态
+     -->
+
+    <div class="cus-foot-btn-box" *ngIf="data.state<2">
+
+        <!-- claimStatus==0 显示认领+认领并申请 -->
+        <div *ngIf="data?.claimStatus==0" (click)="claimCus()">{{ 'Claim' | translate }}</div>
+        <div *ngIf="data?.claimStatus==0" (click)="claimAndApplyCus()" [ngClass]="{ btnDisable: !hasTaxes }">{{ 'Claim and apply for customer  code' | translate }}</div>
+
+        <!-- claimStatus!=0 status=2 显示跟进+跟进并申请按钮 -->
+        <div *ngIf="data.claimStatus!=0 && data.status==2" (click)="followCus()" >{{ 'follow up' | translate }}</div>
+        <div *ngIf="data.claimStatus!=0 && data.status==2" (click)="followAndApply()" [ngClass]="{ btnDisable: !hasTaxes }">{{ 'follow up and apply for' | translate }}</div>
+        
+        <!-- else -->
+        <div *ngIf="data.claimStatus!=0 && data.status!=2" (click)="applyCus()" [ngClass]="{ btnDisable: !hasTaxes }">{{ 'To apply for' | translate }}</div>
+    </div>
+
+    <div class="cus-foot-btn-box" *ngIf="data.state>=2">
+        <div (click)="certificationAgain()" *ngIf="!showApplyBtn">{{ 'Certification again' | translate }}</div>
+        <div (click)="applyCus()" *ngIf="showApplyBtn" [ngClass]="{ btnDisable: !hasTaxes }">{{ 'To apply for' | translate }}</div>
+    </div>
+
+</section>

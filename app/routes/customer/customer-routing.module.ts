@@ -31,6 +31,8 @@ const routes: Routes = [
         component: CustomerDetailsComponent,
         data: {
           breadcrumb: 'Cooperation customer detail',
+          titleI18n: 'crm:customer',
+          reuse: true,
         },
       },
       {
@@ -38,6 +40,8 @@ const routes: Routes = [
         component: NodealDetailComponent,
         data: {
           breadcrumb: 'Potential customer detail',
+          titleI18n: 'crm:nodealdetial',
+          reuse: true,
         },
       },
       {
@@ -45,6 +49,8 @@ const routes: Routes = [
         component: UnownedDetailComponent,
         data: {
           breadcrumb: 'Unowned customers detail',
+          titleI18n: 'crm:unowndetial',
+          reuse: true,
         },
       },
       {
@@ -52,6 +58,8 @@ const routes: Routes = [
         component: ShareDetailsComponent,
         data: {
           breadcrumb: 'Share customers detail',
+          titleI18n: 'crm:shareddetial',
+          reuse: true,
         },
       },
     ],

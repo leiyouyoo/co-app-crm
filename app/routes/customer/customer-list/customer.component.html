@@ -45,12 +45,7 @@
               <thead>
                 <tr>
                   <th nzEllipsis nzWidth="50px">
-                    <label
-                      nz-checkbox
-                      nzShowCheckbox
-                      [(nzChecked)]="isAllDisplayDataChecked"
-                      (nzCheckedChange)="checkAll($event)"
-                    ></label>
+                    <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
                   </th>
                   <th nzEllipsis nzWidth="500px">
                     {{ 'CustomerTableName' | translate }}
@@ -83,15 +78,10 @@
                   (dblclick)="showDetial(data)"
                 >
                   <td nzEllipsis>
-                    <label
-                      nz-checkbox
-                      nzShowCheckbox
-                      [(nzChecked)]="data.choosed"
-                      (nzCheckedChange)="refreshStatus()"
-                    ></label>
+                    <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
                   </td>
                   <td nzEllipsis>
-                    <a [routerLink]="['/crm/home/customer/customerdetails', data.id]">
+                    <a (click)="showDetial(data)">
                       {{ data.name || '--' }}
 
                       <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
@@ -114,7 +104,7 @@
                     {{ data.firsttimeShipDate || '--' }}
                   </td>
                   <td nzEllipsis nzBreakWord nzRight="0">
-                    <a [routerLink]="['/crm/home/customer/customerdetails', data.id]">{{ 'View' | translate }}</a>
+                    <a (click)="showDetial(data)">{{ 'View' | translate }}</a>
                   </td>
                 </tr>
               </tbody>
