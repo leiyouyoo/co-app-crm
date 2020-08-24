@@ -4,6 +4,7 @@ import domToImage from 'dom-to-image';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { StorageFileService } from '@co/cds';
+import { CoConfigManager } from '@co/core';
 // import { I18nMessageService } from '@cityocean/i18n-library';
 
 function SelectText(element) {
@@ -43,6 +44,9 @@ function dataURItoFile(dataURI) {
 })
 export class DomToImageService {
 
+  downloadUrl = CoConfigManager.getValue('downloadUrl');
+
+
   constructor(
     // private fileManageService: FileManageService,
     private msg: NzMessageService,
@@ -59,6 +63,7 @@ export class DomToImageService {
         const res: any = await this.upload(dataURItoFile(data))
           .toPromise();
         let img = document.createElement('img');
+        debugger
         img.src = this.getDownloadFileUrl({ idOrUrl: res.fileId, handle: 'image' });
         return new Promise<HTMLElement>(resolve => {
           img.onload = () => {
@@ -105,7 +110,7 @@ export class DomToImageService {
       return idOrUrl;
     } else {
       // @ts-ignore
-      return `${this.http.environment.SERVER_URL}/Storage/File/GetDownLoadFile?fileId=${idOrUrl}&handler=${handle}`;
+      return `${this.downloadUrl}?fileId=${idOrUrl}&handler=${handle}`;
     }
   }
 
