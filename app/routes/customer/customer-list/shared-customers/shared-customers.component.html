@@ -75,7 +75,7 @@
             <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
           </td>
           <td nzEllipsis nzBreakWord style="color: #7297ff;">
-            <a [routerLink]="['/crm/home/customer/shareddetial', data.id]">
+            <a [routerLink]="['/crm/customers/shareddetial', data.id]">
               {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
             >
           </td>
@@ -111,7 +111,7 @@
             </ng-template>
           </td>
           <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/home/customer/shareddetial', data.id]">{{ 'View' | translate }}</a>
+            <a [routerLink]="['/crm/customers/shareddetial', data.id]">{{ 'View' | translate }}</a>
           </td>
         </tr>
       </tbody>

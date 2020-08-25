@@ -1,4 +1,4 @@
-<div class="inquiry-ocean-content" style="background: #fff; padding: 24px; height: 100%;">
+<div class="inquiry-ocean-content" style="background: #fff; padding: 24px; height: 100%; display: flex; flex-direction: column;">
   <form nz-form [formGroup]="searchForm">
     <div class="login-form">
       <div>
@@ -312,7 +312,7 @@
     </div>
   </div>
 
-  <div style="text-align: right; padding: 0 24px 24px 24px;">
+  <div style="text-align: right">
     <nz-pagination
       [nzPageIndex]="skipCount"
       [nzPageSize]="maxResultCount"
@@ -623,12 +623,19 @@
     <app-inquiry-detial #detial></app-inquiry-detial>
   </nz-modal> -->
 
-  <nz-drawer [nzClosable]="false" [nzBodyStyle]="drawerStyle" [nzWidth]="'1'" [nzVisible]="detialVisible"
-    nzPlacement="right" [nzTitle]="drawerTitle" (nzOnClose)="closeDrawerModal()" [nzMaskStyle]="maskStyle">
+  <nz-drawer
+    [nzClosable]="false"
+    [nzBodyStyle]="drawerStyle"
+    [nzWidth]="'1'"
+    [nzVisible]="detialVisible"
+    nzPlacement="right"
+    [nzTitle]="drawerTitle"
+    (nzOnClose)="closeDrawerModal()"
+    [nzMaskStyle]="maskStyle"
+  >
     <!-- <app-inquiry-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()">
     </app-inquiry-detial> -->
-    <app-inquiry-detial #detial mouseMoveEvent>
-    </app-inquiry-detial>
+    <app-inquiry-detial #detial mouseMoveEvent> </app-inquiry-detial>
   </nz-drawer>
 </div>
 

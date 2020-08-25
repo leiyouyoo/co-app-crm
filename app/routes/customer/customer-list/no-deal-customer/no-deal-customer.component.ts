@@ -87,7 +87,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   showDetial(data) {
-    this.$navigate(['crm/home/customer/customerdetails', data.id], {
+    this.$navigate(['crm/customers/customerdetails', data.id], {
       queryParams: {
         _title: `${data.name}`,
       },

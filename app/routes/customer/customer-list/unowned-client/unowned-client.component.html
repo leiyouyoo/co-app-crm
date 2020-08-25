@@ -82,7 +82,7 @@
           (dblclick)="showDetial(data)"
         >
           <td nzEllipsis style="color: #7297ff;" nzEllipsis>
-            <a [routerLink]="['/crm/home/customer/unowndetial', data.id]"> {{ data.name || '--' }}</a>
+            <a [routerLink]="['/crm/customers/unowndetial', data.id]"> {{ data.name || '--' }}</a>
           </td>
           <td nzEllipsis>
             <div class="detial_msg" style="width: 150px;">
@@ -118,7 +118,7 @@
             {{ data.pushName || '--' }}
           </td>
           <td nzEllipsis nzRight="0">
-            <a [routerLink]="['/crm/home/customer/unowndetial', data.id]">{{ 'View' | translate }}</a>
+            <a [routerLink]="['/crm/customers/unowndetial', data.id]">{{ 'View' | translate }}</a>
             <a
               *ngIf="data.claimStatus === 0 && data.pushUserId == currentUserId"
               style="padding-left: 20px;"

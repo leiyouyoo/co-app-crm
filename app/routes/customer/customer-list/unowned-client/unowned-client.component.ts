@@ -149,7 +149,7 @@ export class UnownedClientComponent extends CoPageBase {
   }
 
   showDetial(data) {
-    this.$navigate(['crm/home/customer/unowndetial', data.id], {
+    this.$navigate(['crm/customers/unowndetial', data.id], {
       queryParams: {
         _title: `${data.name}`,
       },

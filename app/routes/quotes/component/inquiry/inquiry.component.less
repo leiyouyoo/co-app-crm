@@ -2,38 +2,42 @@ h4 {
   font-size: 16px !important;
 }
 
+#table {
+  height: 100%;
+}
+
 .border-left {
-  color: #1890ff;
+  color : #1890ff;
   border: 1px solid #1890ff !important;
 }
 
 .border-right {
-  color: #1890ff;
+  color : #1890ff;
   border: 1px solid #1890ff !important;
 }
 
 .iconfont::before {
-  color: rgba(0, 0, 0, 0.45);
+  color    : rgba(0, 0, 0, 0.45);
   font-size: 22px;
 }
 
 .zise {
-  color: #6269e8;
+  color           : #6269e8;
   background-color: #6269e8;
 }
 
 .accept {
-  color: #52a000;
+  color           : #52a000;
   background-color: #52a000;
 }
 
 .expired {
-  color: #f7b500;
+  color           : #f7b500;
   background-color: #f7b500;
 }
 
 .reject {
-  color: #f6573a;
+  color           : #f6573a;
   background-color: #f6573a;
 }
 
@@ -43,73 +47,74 @@ h4 {
 
 .inner-content {
   .list-content {
-    display: flex;
+    display       : flex;
     flex-direction: column;
-    height: 100%;
+    height        : 100%;
 
     .index-header-title {
-      padding: 24px !important;
+      padding: 0 0 12px 0!important;
 
       .index-header-title-filter {
-        display: flex;
+        display    : flex;
         align-items: center;
 
         .index-header-title-filter-perple {
-          width: 240px;
+          width       : 240px;
           margin-right: 16px;
         }
 
         .index-header-title-filter-status {
-          width: 240px;
+          width       : 240px;
           margin-right: 16px;
         }
 
         .icon-all {
           display: flex;
-          width: 60%;
-          height: 32px;
+          width  : 60%;
+          height : 32px;
 
           div.icon-air {
-            width: 70px;
-            height: 32px;
-            line-height: 32px;
-            text-align: center;
-            border-top: 1px solid #e4e4e4;
-            border-right: 1px solid #e4e4e4;
-            border-bottom: 1px solid #e4e4e4;
-            border-left: 1px solid #e4e4e4;
-            border-top-left-radius: 5px;
+            width                    : 70px;
+            height                   : 32px;
+            line-height              : 32px;
+            text-align               : center;
+            border-top               : 1px solid #e4e4e4;
+            border-right             : 1px solid #e4e4e4;
+            border-bottom            : 1px solid #e4e4e4;
+            border-left              : 1px solid #e4e4e4;
+            border-top-left-radius   : 5px;
             border-bottom-left-radius: 5px;
-            cursor: pointer;
+            cursor                   : pointer;
           }
 
           div.icon-ocean {
-            width: 70px;
-            height: 32px;
-            line-height: 32px;
-            text-align: center;
-            border-top: 1px solid #e4e4e4;
-            border-right: 1px solid #e4e4e4;
-            border-bottom: 1px solid #e4e4e4;
-            border-left: 1px solid #e4e4e4;
-            border-top-right-radius: 5px;
+            width                     : 70px;
+            height                    : 32px;
+            line-height               : 32px;
+            text-align                : center;
+            border-top                : 1px solid #e4e4e4;
+            border-right              : 1px solid #e4e4e4;
+            border-bottom             : 1px solid #e4e4e4;
+            border-left               : 1px solid #e4e4e4;
+            border-top-right-radius   : 5px;
             border-bottom-right-radius: 5px;
-            cursor: pointer;
+            cursor                    : pointer;
           }
         }
 
         .list-content-action {
-          min-width: 180px;
+          min-width : 180px;
           text-align: right;
         }
       }
     }
 
     .content-list {
-      flex: 1;
+      flex         : 1;
       margin-bottom: 24px;
-      padding: 0 24px;
-      overflow: hidden;
+      padding      : 0;
+      overflow     : hidden;
+
       /deep/ nz-spin {
         .ant-spin-container {
           height: 100% !important;
@@ -119,36 +124,36 @@ h4 {
       }
 
       .jy-ocean-StartingPlace {
-        position: relative;
-        z-index: 2;
-        display: inline-block;
+        position          : relative;
+        z-index           : 2;
+        display           : inline-block;
         -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        width: 10px;
-        height: 10px;
-        font-weight: 600;
-        font-size: 16px;
-        font-size: 18px;
-        font-family: Tahoma, Helvetica, Arial, '宋体', sans-serif;
-        line-height: 10px;
-        text-align: center;
-        background-repeat: no-repeat;
-        background-size: 35px 35px;
-        border-radius: 100%;
+        -moz-box-sizing   : border-box;
+        box-sizing        : border-box;
+        width             : 10px;
+        height            : 10px;
+        font-weight       : 600;
+        font-size         : 16px;
+        font-size         : 18px;
+        font-family       : Tahoma, Helvetica, Arial, '宋体', sans-serif;
+        line-height       : 10px;
+        text-align        : center;
+        background-repeat : no-repeat;
+        background-size   : 35px 35px;
+        border-radius     : 100%;
       }
 
       .ant-btn-primary {
-        min-width: 60px !important;
-        min-height: 32px;
-        padding: 0 !important;
-        font-size: 12px;
+        min-width    : 60px !important;
+        min-height   : 32px;
+        padding      : 0 !important;
+        font-size    : 12px;
         border-radius: 4px;
       }
 
       .ghostButton {
-        min-width: 60px !important;
-        margin: 0 !important;
+        min-width   : 60px !important;
+        margin      : 0 !important;
         border-color: #1890ff !important;
       }
     }
@@ -156,23 +161,27 @@ h4 {
 }
 
 .copy {
-  color: rgba(0, 0, 0, 0.65);
+  color      : rgba(0, 0, 0, 0.65);
   font-weight: 400;
-  font-size: 14px;
+  font-size  : 14px;
   font-family: 'PingFangSC-Regular, PingFang SC';
 }
 
 .link {
-  color: rgba(255, 255, 255, 1);
+  color      : rgba(255, 255, 255, 1);
   font-weight: 400;
-  font-size: 14px;
+  font-size  : 14px;
   font-family: 'PingFangSC-Regular, PingFang SC';
 }
 
 .quotes-botton {
   margin-right: 24px;
-  color: rgba(24, 144, 255, 1) !important;
-  font-weight: 400;
-  font-size: 14px !important;
-  font-family: 'PingFangSC-Regular, PingFang SC';
+  color       : rgba(24, 144, 255, 1) !important;
+  font-weight : 400;
+  font-size   : 14px !important;
+  font-family : 'PingFangSC-Regular, PingFang SC';
+}
+
+.height-100 {
+  height: 100%;
 }

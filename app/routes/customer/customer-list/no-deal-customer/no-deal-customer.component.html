@@ -75,7 +75,7 @@
             <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
           </td>
           <td nzEllipsis>
-            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">
+            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">
               {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
             >
           </td>
@@ -93,7 +93,7 @@
             {{ data.owner || '--' }}
           </td>
           <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">{{ 'View' | translate }}</a>
+            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">{{ 'View' | translate }}</a>
             <span style="margin-left: 20px; color: #f5222dff;" (click)="deleteCustormer(data.id)">{{ 'Delete' | translate }}</span>
           </td>
         </tr>

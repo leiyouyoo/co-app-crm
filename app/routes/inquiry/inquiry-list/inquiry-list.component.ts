@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./inquiry-list.component.less'],
 })
 export class InquiryListComponent implements OnInit {
-  constructor(public translate: TranslateService, public activeRoute: ActivatedRoute, private router: Router) { }
+  constructor(public translate: TranslateService, public activeRoute: ActivatedRoute, private router: Router) {}
   selectIndex = 0;
   type: any;
   ngOnInit() {
@@ -28,6 +28,6 @@ export class InquiryListComponent implements OnInit {
   }
 
   onselectRate(event) {
-    if (this.type !== undefined && this.type != event.index) this.router.navigate(['/crm/inquiry/list/']);
+    if (this.type !== undefined && this.type != event.index) this.router.navigate(['/crm/inquiries/list/']);
   }
 }

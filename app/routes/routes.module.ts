@@ -17,43 +17,39 @@ export const routers: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'customers',
         pathMatch: 'full',
       },
       {
-        path: 'home',
-        loadChildren: () => import(/* webpackChunkName: "crm-customer" */ './customer/customer.module').then((mod) => mod.CustomerModule),
+        path: 'customers',
+        loadChildren: () => import(/* webpackChunkName: "crm-customers" */ './customer/customer.module').then((mod) => mod.CustomerModule),
         data: {
-          titleI18n: 'Customer',
           reuse: true,
-          breadcrumb: '',
+          titleI18n: 'Customer',
         },
       },
       {
         path: 'quotes',
         loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
         data: {
-          titleI18n: 'Quotes',
           reuse: true,
-          breadcrumb: '',
+          titleI18n: 'Quotes',
         },
       },
       {
-        path: 'inquiry',
+        path: 'inquiries',
         loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
         data: {
-          titleI18n: 'Inquiry',
           reuse: true,
-          breadcrumb: '',
+          titleI18n: 'Inquiry',
         },
       },
       {
-        path: 'booking',
-        loadChildren: () => import(/* webpackChunkName: "crm-booking" */ './booking/booking.module').then((mod) => mod.BookingModule),
+        path: 'bookings',
+        loadChildren: () => import(/* webpackChunkName: "crm-bookings" */ './booking/booking.module').then((mod) => mod.BookingModule),
         data: {
-          titleI18n: 'Booking',
           reuse: true,
-          breadcrumb: '',
+          titleI18n: 'Booking',
         },
       },
       {
