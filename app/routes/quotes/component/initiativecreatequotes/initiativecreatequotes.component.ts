@@ -2,22 +2,14 @@ import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef } from '
 import { FormGroup, NgForm } from '@angular/forms';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import {
-  QuoteEnquiry,
-  quoteReplys,
-  VolumeUnitCode,
-  WeightUnitCode,
-  unitType,
-  priceProduceNode,
-} from 'projects/cityocean/quote-library/src/public-api';
+import { VolumeUnitCode, WeightUnitCode, unitType, priceProduceNode, FreightMethodType } from '../../enum/quoteState';
 import { differenceInCalendarDays } from 'date-fns';
-import { FreightMethodType, emptyGuid } from '@cityocean/basicdata-library';
 import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
-import { AmapService } from '@cityocean/amap-library';
+import { AmapService } from '../../../../services/amap/amap.service';
 import { cloneDeep } from 'lodash';
 import { freightType } from '../../enum/quoteState';
 import { TranslateService } from '@ngx-translate/core';
-import { debounce } from '@shared/utils/debounce';
+import { debounce } from '@co/core';
 
 @Component({
   selector: 'initiativequotes-initiativecreatequotes',
@@ -36,7 +28,7 @@ export class initiativeCreatequotesComponent implements OnInit {
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
-  quoteinfo: QuoteEnquiry = {
+  quoteinfo: any = {
     freightMethodType: this.freightMethodTypeValue.Ocean,
     shipmentType: 0,
     containerType: '',
@@ -56,7 +48,7 @@ export class initiativeCreatequotesComponent implements OnInit {
     desinationPlaceId: null,
   };
   today = new Date();
-  copyquoteInfo: QuoteEnquiry = {};
+  copyquoteInfo: any = {};
   //基础费用
   basiccost: any[] = [{ tradeType: 0, shipmentType: 0, freightType: freightType.CYCY, validDateRange: [this.today] }];
   //目的地费用
@@ -100,11 +92,11 @@ export class initiativeCreatequotesComponent implements OnInit {
   @Output() isSuccessfully = new EventEmitter<boolean>();
   @Output() isClosed = new EventEmitter<boolean>();
   @Output() initiaveQuoteStatus = new EventEmitter<boolean>();
-  quoteReplys: quoteReplys = {
+  quoteReplys: any = {
     quoteReplyItems: [],
   };
   tableIndex = 1;
-  emptyGuid = emptyGuid;
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
   //是否提交
   isSubmitted: boolean = false;
   reg = /(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}/;
@@ -368,9 +360,9 @@ export class initiativeCreatequotesComponent implements OnInit {
   GetAllOrginalPort(name: string = '') {
     this.quotesService
       .getAllPost({
-        Name: name,
-        IsAir: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Air,
-        IsOcean: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Ocean,
+        name: name,
+        isAir: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Air,
+        isOcean: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Ocean,
       })
       .subscribe(
         (res) => {
@@ -387,9 +379,9 @@ export class initiativeCreatequotesComponent implements OnInit {
   GetAllDesitinaPort(name: string = '') {
     this.quotesService
       .getAllPost({
-        Name: name,
-        IsAir: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Air,
-        IsOcean: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Ocean,
+        name: name,
+        isAir: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Air,
+        isOcean: this.quoteinfo.freightMethodType === this.freightMethodTypeValue.Ocean,
       })
       .subscribe(
         (res) => {
@@ -611,10 +603,7 @@ export class initiativeCreatequotesComponent implements OnInit {
   //搜索港前拖车地址（地图）
   originLocationsearch(event: any) {
     this.locations = this.locations.filter(
-      (b) =>
-        (b.name && b.name.match(event)) ||
-        (b.streetAddress && b.streetAddress.match(event)) ||
-        (b.city && b.city.match(event)),
+      (b) => (b.name && b.name.match(event)) || (b.streetAddress && b.streetAddress.match(event)) || (b.city && b.city.match(event)),
     );
     if (event) {
       if (this.locations.length <= 0) {
@@ -704,9 +693,7 @@ export class initiativeCreatequotesComponent implements OnInit {
     if (
       !this.handlequotesComponent.verification() ||
       !this.formData.valid ||
-      (this.quoteinfo.freightMethodType == this.freightMethodTypeValue.Ocean &&
-        this.quoteinfo.shipmentType == 0 &&
-        !this.isContain) ||
+      (this.quoteinfo.freightMethodType == this.freightMethodTypeValue.Ocean && this.quoteinfo.shipmentType == 0 && !this.isContain) ||
       !this.isSamePort ||
       !this.isSamePort
     ) {

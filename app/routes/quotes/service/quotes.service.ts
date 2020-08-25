@@ -1,111 +1,127 @@
 import { Injectable } from '@angular/core';
 import {
-  QuoteLibraryService,
-  quoteInputParams,
-  quoteReplys,
-  QuoteReplyItem,
-  QuoteEnquiry,
-  oceanFreightParams,
-  truckRatesParams,
-  TruckListInput,
-  routeQuoteParams,
-} from 'projects/cityocean/quote-library/src/public-api';
+  CRMQuoteEnquiryListForCRMOutput,
+  CRMQuoteEnquiryDto,
+  CRMQuoteReplyDto,
+  CRMGetListByRouteForCRMOutput,
+} from '../../../services/crm/crm.types';
+import { RatesCspTruckListInput } from '../../../services/rates/rates.types';
+import { PUBDataDictionaryService, PUBPlaceService, PUBCurrencyService, SSOUserService } from '@co/cds';
+import { CRMQuoteEnquiryService, CRMQuoteReplyService, CRMCustomerService, CRMLocationExternalService } from '../../../services/crm';
+import { RatesLocalBaseRateExternalServiceService, RatesTruckExternalServiceService } from '../../../services/rates';
 import { Observable } from 'rxjs';
-import { locationLibraryService, DataDictionarySevice } from 'projects/cityocean/basicdata-library/src/public-api';
-import { SailService } from 'projects/cityocean/sail-library/src/public-api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuotesService {
   constructor(
-    private quoteLibraryService: QuoteLibraryService,
-    public locationLibraryService: locationLibraryService,
-    public sailService: SailService,
-    public dataDictionarySevice: DataDictionarySevice,
+    public dataDictionarySevice: PUBDataDictionaryService,
+    public crmQuoteEnquiryService: CRMQuoteEnquiryService,
+    public ssoUserService: SSOUserService,
+    public pubPlaceService: PUBPlaceService,
+    public pubCurrencyService: PUBCurrencyService,
+    public crmQuoteReplyService: CRMQuoteReplyService,
+    public crmCustomerService: CRMCustomerService,
+    public crmLocationExternalService: CRMLocationExternalService,
+    public RatesExternalService: RatesLocalBaseRateExternalServiceService,
+    public RatesTruckExternalService: RatesTruckExternalServiceService,
   ) {}
 
   //获取字典信息
   getDataDictionaryInfo(typeId: string): Observable<any> {
-    return this.quoteLibraryService.getDataDictionaryInfo(typeId);
+    return this.dataDictionarySevice.getAll({ typeId });
   }
 
-  GetAllForCRM(quoreInfo: quoteInputParams) {
-    quoreInfo.Status = quoreInfo.Status == null ? '' : quoreInfo.Status;
-    return this.quoteLibraryService.GetAllForCRM(quoreInfo);
+  GetAllForCRM(quoreInfo: CRMQuoteEnquiryListForCRMOutput) {
+    quoreInfo.status = quoreInfo.status == null ? null : quoreInfo.status;
+    return this.crmQuoteEnquiryService.getAllForCRM(quoreInfo);
   }
 
   getQuoteDetail(id: string) {
-    return this.quoteLibraryService.getQuoteDetail(id);
+    return this.crmQuoteEnquiryService.getForCRM({ id });
   }
 
   getUserInfo(id: number) {
-    return this.quoteLibraryService.getUserInfo(id);
+    return this.ssoUserService.get({ id });
   }
+
   //获取港口数据
   getAllPost(locationObj: {
-    Name?: string;
-    RegionId?: number;
-    IsOcean?: boolean;
-    IsAir?: boolean;
-    IsOther?: boolean;
-    IsValid?: boolean;
-    Sorting?: string;
-    MaxResultCount?: number;
-    IsCity?: boolean;
-    SkipCount?: number;
+    id?: string;
+    name?: string;
+    regionId?: string;
+    isOcean?: boolean;
+    isAir?: boolean;
+    isAirOrOcean?: boolean;
+    isRail?: boolean;
+    isOther?: boolean;
+    isCity?: boolean;
+    isRamp?: boolean;
+    isValid?: boolean;
+    isMultiple?: boolean;
+    sorting?: string;
+    maxResultCount?: number;
+    skipCount?: number;
   }): Observable<any> {
-    if (locationObj.IsOcean === false) delete locationObj.IsOcean;
-    if (locationObj.IsAir === false) delete locationObj.IsAir;
-    return this.locationLibraryService.GetAllPort(locationObj);
+    if (locationObj.isOcean === false) delete locationObj.isOcean;
+    if (locationObj.isAir === false) delete locationObj.isAir;
+    return this.pubPlaceService.getAll(locationObj);
   }
 
   //币别列表
   getAllCurrency(json: {
-    IsValid?: boolean;
-    Name?: string;
-    Code?: string;
-    RegionId?: number;
-    Sorting?: string;
-    MaxResultCount?: number;
-    SkipCount?: number;
+    code?: string;
+    name?: string;
+    regionId?: string;
+    isValid?: boolean;
+    sorting?: string;
+    maxResultCount?: number;
+    skipCount?: number;
   }): Observable<any> {
-    return this.dataDictionarySevice.getAll(json);
+    return this.pubCurrencyService.getAll(json);
   }
   //创建报价
-  create(quoteReplys: quoteReplys) {
-    return this.quoteLibraryService.create(quoteReplys);
+  create(quoteReplys: CRMQuoteReplyDto) {
+    return this.crmQuoteReplyService.create(quoteReplys);
   }
   //主动创建报价
-  initiaivecreate(quoteobj: QuoteEnquiry) {
-    return this.quoteLibraryService.initiaivecreate(quoteobj);
+  initiaivecreate(quoteobj: CRMQuoteEnquiryDto) {
+    return this.crmQuoteEnquiryService.create(quoteobj);
   }
   //获取船东信息
-  getCarrierList() {
-    return this.sailService.getCarrierList();
+  getCarrierList(carrirer: {
+    customerType: number;
+    name?: string;
+    customerId?: string;
+    sorting?: string;
+    maxResultCount?: number;
+    skipCount?: number;
+  }) {
+    return this.crmCustomerService.getCustomerByType(carrirer);
   }
 
   //获取贸易类型
   getTradeTypes() {
-    return this.quoteLibraryService.getTradeTypes();
+    return this.dataDictionarySevice.getTradeTypes({});
   }
   //获取费用代码列表
   getCostAll(costObj: { GroupId?: number; Text?: string; isValid?: boolean }): Observable<any> {
-    return this.dataDictionarySevice.getCostAll(costObj);
+    return this.dataDictionarySevice.getAll(costObj);
   }
 
   //获取船东
-  GetCustomerByType(CustomerType: number): Observable<any> {
-    return this.quoteLibraryService.GetCustomerByType(CustomerType);
+  GetCustomerByType(CustomerType: any): Observable<any> {
+    return this.crmCustomerService.getCustomerByType(CustomerType);
   }
   //获取发货人收货人信息
-  GetLocationByCustomer(): Observable<any> {
-    return this.quoteLibraryService.GetLocationByCustomer();
+  GetLocationByCustomer(customerId?): Observable<any> {
+    return this.crmLocationExternalService.getLocationByCustomer({ customerId });
   }
 
   //获取报价记录
-  getAllRecordForCRM(id: string): Observable<any> {
-    return this.quoteLibraryService.getAllRecordForCRM(id);
+  getAllRecordForCRM(id?: string): Observable<any> {
+    return this.crmQuoteReplyService.getAllForCRM({ id });
   }
   submit(formData: any): Observable<any> {
     for (const i in formData.controls) {
@@ -117,42 +133,41 @@ export class QuotesService {
   }
 
   getCRMCustomerAndUserHistorys() {
-    return this.quoteLibraryService.getCRMCustomerAndUserHistorys();
+    return this.crmQuoteEnquiryService.getCRMCustomerAndUserHistorys({});
   }
 
   //获取当前业务员拥有的所有客户(开通租户的)
-  GetOwnerCustomers(): Observable<any> {
-    return this.quoteLibraryService.GetOwnerCustomers();
+  GetOwnerCustomers(userId?): Observable<any> {
+    return this.crmCustomerService.getOwnerCustomers({ userId });
   }
 
   //CRM获取客户最近5条数据联动用户
   GetCRMCustomerBindUserHistorys(): Observable<any> {
-    return this.quoteLibraryService.GetCRMCustomerBindUserHistorys();
+    return this.crmQuoteEnquiryService.getCRMCustomerBindUserHistorys({});
   }
 
-  GetQuoteFreightRates(freight: oceanFreightParams): Observable<any> {
-    return this.quoteLibraryService.GetQuoteFreightRates(freight);
+  GetQuoteFreightRates(freight: RatesCspTruckListInput): Observable<any> {
+    return this.RatesTruckExternalService.getQuoteTruckRates(freight);
   }
 
-  GetQuoteTruckRates(truckRates: TruckListInput): Observable<any> {
-    return this.quoteLibraryService.GetQuoteTruckRates(truckRates);
+  GetQuoteTruckRates(truckRates: RatesCspTruckListInput): Observable<any> {
+    return this.RatesTruckExternalService.getQuoteTruckRates(truckRates);
   }
   GetOriginalAndDestinationLocalRates(params: { carrierId?: string; polId?: string; podId?: string }): Observable<any> {
-    return this.quoteLibraryService.GetOriginalAndDestinationLocalRates(params);
+    return this.RatesExternalService.getOriginalAndDestinationLocalRates(params);
   }
 
   //FBA地址
   GetFBALocations(isCityocean: boolean): Observable<any> {
-    return this.quoteLibraryService.GetFBALocations(isCityocean);
+    return this.crmLocationExternalService.getFBALocations({ isCityocean });
   }
 
   //获取询报价列表(用于复制)
-  GetListByRouteForCRM(quoreInfo: routeQuoteParams) {
-    return this.quoteLibraryService.GetListByRouteForCRM(quoreInfo);
+  GetListByRouteForCRM(quoreInfo: CRMGetListByRouteForCRMOutput) {
+    return this.crmQuoteEnquiryService.getListByRouteForCRM(quoreInfo);
   }
 
-  GetLastForCRM(id:string){
-    return this.quoteLibraryService.GetLastForCRM(id);
-
+  GetLastForCRM(id: string) {
+    return this.crmQuoteReplyService.getLastForCRM({ id });
   }
 }

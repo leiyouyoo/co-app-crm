@@ -1,5 +1,3 @@
-import { StringNullableChain } from 'lodash';
-
 export interface BookingEntity {
   id?: string;
   freightMethodType?: number;

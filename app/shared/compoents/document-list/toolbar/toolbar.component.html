@@ -1,0 +1,5 @@
+<div class="toolt-bar clearfix">
+  <nz-select *ngIf="fileTypeList?.length" style="width: 200px;" [(ngModel)]="typeValue" (ngModelChange)="ngModelChange($event)" [nzPlaceHolder]="'File Type' | translate">
+    <nz-option *ngFor="let option of fileTypeList" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+  </nz-select>
+</div>

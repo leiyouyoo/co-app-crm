@@ -1,17 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import {
-  QuoteEnquiry,
-  unitType,
-  computeFormula,
-  computeMode,
-  oceanFreightParams,
-  truckRatesParams,
-  TruckListInput,
-  quoteInputParams,
-  routeQuoteParams,
-  priceProduceNode,
-} from 'projects/cityocean/quote-library/src/public-api';
-import { FreightMethodType, emptyGuid } from '@cityocean/basicdata-library';
+import { unitType, computeFormula, computeMode, priceProduceNode, FreightMethodType } from '../../enum/quoteState';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService, isTemplateRef } from 'ng-zorro-antd';
 import { differenceInCalendarDays } from 'date-fns';
@@ -26,7 +14,7 @@ import { observable, Observable } from 'rxjs';
 })
 export class HandlequotesComponent implements OnInit {
   today = new Date();
-  @Input() _quoteinfo: QuoteEnquiry = {};
+  @Input() _quoteinfo: any = {};
   //基础费用
   @Input() basiccost: any[] = [{ validDateRange: [this.today] }];
   //目的地费用
@@ -57,8 +45,9 @@ export class HandlequotesComponent implements OnInit {
   desinationFreight: any[] = [];
   originLocalFee: any[] = [];
   desinationLocalFee: any[] = [];
-
-  oceanFreightParams: oceanFreightParams = {
+  //空的guid
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
+  oceanFreightParams: any = {
     OriginLocationId: null,
     DeliveryLocationId: null,
     OriginPortId: [],
@@ -70,7 +59,7 @@ export class HandlequotesComponent implements OnInit {
     SkipCount: 0,
     nzPageSize: 2,
   };
-  truckListInput: TruckListInput = {
+  truckListInput: any = {
     placeModel: {
       id: null,
       placeId: null,
@@ -102,8 +91,6 @@ export class HandlequotesComponent implements OnInit {
   isDateMatch = true;
   //新增起始地费用
   tableIndex = 1;
-  //空的guid
-  emptyGuid = emptyGuid;
   isShowFreigthOcean: boolean = true;
   isShowOriginFee: boolean = true;
   isShowDesinationFee: boolean = true;
@@ -121,9 +108,9 @@ export class HandlequotesComponent implements OnInit {
   units = [];
   reg = /(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}/;
   //询价列表
-  quoteList: Array<QuoteEnquiry> = new Array<QuoteEnquiry>();
+  quoteList = new Array();
   //询价查询参数
-  quoteInputParams: quoteInputParams = {
+  quoteInputParams = {
     SortingValue: 'CreationTime',
     Id: null,
     isGeneral: false,
@@ -134,7 +121,7 @@ export class HandlequotesComponent implements OnInit {
     pageIndex: 1,
     SkipCount: 0,
   };
-  routeQuoteParams: routeQuoteParams = {
+  routeQuoteParams = {
     Id: null,
     DestinationAddressId: null,
     OriginAddressId: null,
@@ -290,11 +277,7 @@ export class HandlequotesComponent implements OnInit {
       this.quotetotal = 0;
       this.selIndexByquote = '';
     }
-    if (
-      !this._quoteinfo.destinationPortId ||
-      !this._quoteinfo.destinationAddressId ||
-      !this._quoteinfo.destinationAddressName
-    ) {
+    if (!this._quoteinfo.destinationPortId || !this._quoteinfo.destinationAddressId || !this._quoteinfo.destinationAddressName) {
       //港后拖车费清空
       this.desinationFreight = [];
       this.desinationFreighttotal = 0;
@@ -334,7 +317,7 @@ export class HandlequotesComponent implements OnInit {
   }
 
   //获取海运费价格推荐
-  GetQuoteFreightRates(freight: oceanFreightParams) {
+  GetQuoteFreightRates(freight) {
     this.quotesService.GetQuoteFreightRates(freight).subscribe((res) => {
       this.oceanFreight = res.result;
       this.oceanFreighttotal = res.totalCount;
@@ -377,7 +360,7 @@ export class HandlequotesComponent implements OnInit {
   }
 
   //获取港前拖车费用
-  GetOriginTruckRates(truckRates: TruckListInput) {
+  GetOriginTruckRates(truckRates) {
     this.quotesService.GetQuoteTruckRates(truckRates).subscribe((res) => {
       if (res) {
         this.originFreight = res.items;
@@ -387,7 +370,7 @@ export class HandlequotesComponent implements OnInit {
   }
 
   //获取港后拖车费用
-  GetDesitinationTruckRates(truckRates: TruckListInput) {
+  GetDesitinationTruckRates(truckRates) {
     this.quotesService.GetQuoteTruckRates(truckRates).subscribe((res) => {
       if (res) {
         this.desinationFreight = res.items;
@@ -819,7 +802,7 @@ export class HandlequotesComponent implements OnInit {
   }
 
   /*获取所有报价(有报价的)*/
-  getListByRouteForCRM(quoteParams: routeQuoteParams) {
+  getListByRouteForCRM(quoteParams) {
     this.quotesService.GetListByRouteForCRM(quoteParams).subscribe(
       (res) => {
         this.quoteList = res.items;
@@ -1025,9 +1008,7 @@ export class HandlequotesComponent implements OnInit {
           data = res;
           data['freightList'] = data.quoteReplyItems.filter((b) => b.priceProduceNode == priceProduceNode.Freight);
           data['OriginList'] = data.quoteReplyItems.filter((b) => b.priceProduceNode == priceProduceNode.Origin);
-          data['DestinationList'] = data.quoteReplyItems.filter(
-            (b) => b.priceProduceNode == priceProduceNode.Destination,
-          );
+          data['DestinationList'] = data.quoteReplyItems.filter((b) => b.priceProduceNode == priceProduceNode.Destination);
         }
         ob.next(data);
         ob.complete();

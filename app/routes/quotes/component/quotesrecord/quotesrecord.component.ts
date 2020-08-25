@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { QuoteEnquiry, quoteReplys, priceProduceNode, unitType } from 'projects/cityocean/quote-library/src/public-api';
 import { QuotesService } from '../../service/quotes.service';
 import { NgForm } from '@angular/forms';
 import { groupBy } from 'lodash';
-import { FreightMethodType, emptyGuid } from '@cityocean/basicdata-library';
+import { FreightMethodType, unitType, priceProduceNode } from '../../enum/quoteState';
 import { Observable } from 'rxjs';
 import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
 
@@ -50,13 +49,13 @@ export class QuotesrecordComponent implements OnInit {
   @Output() isSuccessfully = new EventEmitter<boolean>();
   @Output() isQuoteRecordStatus = new EventEmitter<boolean>();
   @Output() isClosed = new EventEmitter<boolean>();
-  quoteReplys: quoteReplys = {
+  quoteReplys: any = {
     quoteReplyItems: [],
   };
   //最终有数据的箱型
   containHavedataList: Array<any> = [];
   @Input() isShowtab = false;
-  @Input() quoteinfo: QuoteEnquiry = { quoteReplys: [] };
+  @Input() quoteinfo: any = { quoteReplys: [] };
   _quoteId: string;
   selectIndex = 0;
   @Output() selSelectIndex = new EventEmitter<number>();
@@ -83,7 +82,7 @@ export class QuotesrecordComponent implements OnInit {
   sameEndIndex: number;
   //新增起始地费用
   tableIndex = 1;
-  emptyGuid = emptyGuid;
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
   loading: boolean = false;
   @ViewChild(HandlequotesComponent) handlequotesComponent: HandlequotesComponent;
   ngOnInit() {}
@@ -96,15 +95,9 @@ export class QuotesrecordComponent implements OnInit {
       if (this.recordlist.length > 0) {
         //最新报价
         this.newrecordlist = this.recordlist.splice(0, 1);
-        this.newfreightList = this.newrecordlist[0].quoteReplyItems.filter(
-          (c) => c.priceProduceNode == priceProduceNode.Freight,
-        );
-        this.newOriginList = this.newrecordlist[0].quoteReplyItems.filter(
-          (c) => c.priceProduceNode == priceProduceNode.Origin,
-        );
-        this.newDestinationList = this.newrecordlist[0].quoteReplyItems.filter(
-          (c) => c.priceProduceNode == priceProduceNode.Destination,
-        );
+        this.newfreightList = this.newrecordlist[0].quoteReplyItems.filter((c) => c.priceProduceNode == priceProduceNode.Freight);
+        this.newOriginList = this.newrecordlist[0].quoteReplyItems.filter((c) => c.priceProduceNode == priceProduceNode.Origin);
+        this.newDestinationList = this.newrecordlist[0].quoteReplyItems.filter((c) => c.priceProduceNode == priceProduceNode.Destination);
         this.newOriginRemarkList = this.objToArray(groupBy(this.newOriginList, 'chargingCodeId'));
         this.newDestinationRemarkList = this.objToArray(groupBy(this.newDestinationList, 'chargingCodeId'));
         //历史报价

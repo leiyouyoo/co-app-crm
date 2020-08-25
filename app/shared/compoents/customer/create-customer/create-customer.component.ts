@@ -6,8 +6,8 @@ import { debounce } from '@co/core';
 import { PUBRegionService, PUBDataDictionaryService, PUBPlaceService, PlatformEditionService } from '@co/cds';
 import { Observable } from 'rxjs';
 import { _HttpClient } from '@co/common';
-import { CRMCustomerService } from 'apps/crm/app/services/crm';
-import { FormValidators } from '../../../../../../../src/app/shared/utils/form-validators';
+import { CRMCustomerService } from '../../../../services/crm';
+import { FormValidators } from './service/form-validators';
 import { AmapService } from '../../../../services/amap';
 @Component({
   selector: 'create-customer',
@@ -374,7 +374,8 @@ export class CreateCustomerComponent {
       addressLocalization: [null],
       tel: new FormArray([]),
       fax: [null, [this.mobileValidator()]],
-      email: [null, [FormValidators.email]],
+      email: [null, [Validators.email]],
+      // email: [null, [FormValidators.email]],
       keyWord: [null, [Validators.required, this.checkKeyWordData()]],
       industry: [null, [Validators.required]],
       customerType: [3, [Validators.required]],

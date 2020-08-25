@@ -623,17 +623,12 @@
     <app-inquiry-detial #detial></app-inquiry-detial>
   </nz-modal> -->
 
-  <nz-drawer
-    [nzClosable]="false"
-    [nzBodyStyle]="drawerStyle"
-    [nzWidth]="'1'"
-    [nzVisible]="detialVisible"
-    nzPlacement="right"
-    [nzTitle]="drawerTitle"
-    (nzOnClose)="closeDrawerModal()"
-    [nzMaskStyle]="maskStyle"
-  >
-    <app-inquiry-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()"> </app-inquiry-detial>
+  <nz-drawer [nzClosable]="false" [nzBodyStyle]="drawerStyle" [nzWidth]="'1'" [nzVisible]="detialVisible"
+    nzPlacement="right" [nzTitle]="drawerTitle" (nzOnClose)="closeDrawerModal()" [nzMaskStyle]="maskStyle">
+    <!-- <app-inquiry-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()">
+    </app-inquiry-detial> -->
+    <app-inquiry-detial #detial mouseMoveEvent>
+    </app-inquiry-detial>
   </nz-drawer>
 </div>
 

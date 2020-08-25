@@ -9,6 +9,7 @@ import {
   CommodityPickerModule,
   PortPickerModule,
   CoLayoutComponentsModule,
+  CoNzSelectExtraModule,
 } from '@co/cbc';
 import { CoCmsModule, ReuseTabModule } from '@co/cms';
 
@@ -25,4 +26,6 @@ export const SHARED_CO_MODULES = [
   CommodityPickerModule,
   PortPickerModule,
   CoLayoutComponentsModule,
+  CoNzSelectExtraModule,
+  CoDatetimeRangePickerModule,
 ];

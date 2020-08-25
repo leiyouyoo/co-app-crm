@@ -1,0 +1,546 @@
+<div #copyToImage class="content">
+  <nz-spin [nzSpinning]="isLoading" nzTip="Loading...">
+    <div class="notice_box_cls1">
+      <div class="">
+        <div class="notice_body0">
+          <div id="commonNotice">
+            <div class="commonNotice_Carrier">
+              <ng-container *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean">
+                <h2>{{ 'Carrier' | translate }}:</h2>
+              </ng-container>
+              <ng-container *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Air">
+                <h2>{{ 'AirLine' | translate }}:</h2>
+              </ng-container>
+              <div
+                style="
+                font-size: 24px;
+                font-family: PingFangSC-Medium, PingFang SC;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 0.65);
+              "
+              >
+                {{ carrierName }}
+              </div>
+            </div>
+            <div class="commonNotice_Expires">
+              <h2>
+                {{ 'Expires' | translate }}
+              </h2>
+              <div
+                style="
+                font-size: 16px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: rgba(0, 0, 0, 0.65);
+              "
+              >
+                <span>
+                  {{ validStartDate | date: 'mediumDate' }}
+                </span>
+                <span>---</span>
+                <span>
+                  {{ validEndDate | date: 'mediumDate' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <ticket-divider></ticket-divider>
+        </div>
+      </div>
+    </div>
+    <div class="notice_box_cls2">
+      <div class="">
+        <div class="notice_body0">
+          <curved-route [data]="quoteObj" [typeId]="1"></curved-route>
+        </div>
+      </div>
+    </div>
+
+    <div class="freight">
+      <div class="freight_quote">
+        <div class="freight_quote_no">
+          <h4>
+            {{ 'Quotes' | translate }}
+          </h4>
+          <div class="no">
+            {{ quoteObj.quoteNo }}
+          </div>
+        </div>
+        <div class="freight_quote_total">
+          <h4>{{ 'Total charge' | translate }}({{ freightList[0]?.currencyName }})</h4>
+          <div class="totalCharge" *ngFor="let totalCharge of totalChargelist">
+            {{ totalCharge.Total?.toFixed(2) }} {{ totalCharge.Name }}
+          </div>
+          <!-- <h4>{{ 'Total charge' | translate }}(USD)</h4>
+        <div>
+          {{ unifiedTotalCharge }}
+        </div> -->
+        </div>
+      </div>
+
+      <div class="freight_oceanFreight">
+        <h1>{{ 'Ocean Freight' | translate }}</h1>
+        <div class="freight_oceanFreightTable">
+          <ng-container
+            *ngIf="
+              quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
+              else elsefreightTemplate
+            "
+          >
+            <nz-table
+              class="sharetable"
+              #innerTable
+              [nzData]="freightList"
+              *ngIf="freightList.length > 0"
+              nzSize="middle"
+              [nzShowPagination]="false"
+            >
+              <thead class="headColor">
+                <tr class="headColor">
+                  <th class="headColor1" nzWidth="25%">{{ 'Container Type' | translate }}</th>
+                  <th class="headColor" nzWidth="25%">{{ 'Quantity' | translate }}({{ 'Pc' | translate }})</th>
+                  <th class="headColor" nzWidth="25%">
+                    {{ 'Unit Price' | translate }}({{ freightList[0].currencyName }})
+                  </th>
+                  <th class="headColor" nzWidth="25%">{{ 'Total' | translate }}({{ freightList[0].currencyName }})</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let freight of freightList">
+                  <td class="backcolor" nzWidth="25%">
+                    {{ freight.containerCode }}
+                  </td>
+                  <td class="backcolor2" nzWidth="25%">
+                    {{ freight.quantity }}
+                  </td>
+                  <td class="backcolor" nzWidth="25%">
+                    <span style="margin-right: 5px;">{{ freight.unitPrice?.toFixed(2) }}</span
+                    >{{ freight.currencyName }}
+                  </td>
+                  <td class="backcolor" nzWidth="25%">{{ freight.totalPrice?.toFixed(2) }} {{ freight.currencyName }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </ng-container>
+          <ng-template #elsefreightTemplate>
+            <nz-table
+              class="sharetable"
+              #innerTable
+              [nzData]="freightList"
+              *ngIf="freightList.length > 0"
+              nzSize="middle"
+              [nzShowPagination]="false"
+            >
+              <thead class="headColor">
+                <tr class="headColor">
+                  <th class="headColor1" nzWidth="25%">{{ 'Freight' | translate }}</th>
+                  <th class="headColor" nzWidth="25%">{{ 'Rate' | translate }}</th>
+                  <th class="headColor" nzWidth="25%">
+                    <span *ngIf="freightList[0].unitType == 3 && freightList[0].computeFormula == 1">
+                      {{ 'Actual Weight' | translate }}
+                    </span>
+                    <span *ngIf="freightList[0].unitType == 3 && freightList[0].computeFormula == 2">
+                      {{ 'Chargeable Weight' | translate }}
+                    </span>
+                    <span *ngIf="freightList[0].unitType == 4 && freightList[0].computeFormula == 3">
+                      {{ 'Actual Volume' | translate }}
+                    </span>
+                    <span *ngIf="freightList[0].unitType == 4 && freightList[0].computeFormula == 4">
+                      {{ 'Chargeable Weight' | translate }}
+                    </span>
+                    <span *ngIf="freightList[0].unitType == 1 || freightList[0].unitType == 2">
+                      {{ 'Quantity' | translate }}</span
+                    >
+                  </th>
+                  <th class="headColor" nzWidth="25%">{{ 'Total' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let freight of freightList">
+                  <td class="backcolor" nzWidth="25%"></td>
+                  <td class="backcolor2" nzWidth="25%">
+                    <span style="margin-right: 5px;">{{ freight.currencyName }}</span
+                    >{{ freight.unitPrice?.toFixed(2) }}
+                  </td>
+                  <td class="backcolor" nzWidth="25%">
+                    <span style="margin-right: 5px;"> X</span>{{ freight.quantity }}
+                    <span *ngIf="freight.unitType == 1">({{ freight.containerCode }})</span>
+                    <span *ngIf="freight.unitType == 2">{{ 'Ticket' | translate }}</span>
+                    <span *ngIf="freight.unitType == 3 && freight.computeFormula == 1">
+                      <!-- 实际体积 -->
+                      {{ 'KG' | translate }}
+                    </span>
+                    <span *ngIf="freight.unitType == 3 && freight.computeFormula == 4">
+                      <!-- 计费吨 -->
+                      {{ 'RT' | translate }}
+                    </span>
+                    <span *ngIf="freight.unitType == 4 && freight.computeFormula == 3">
+                      <!-- 实际重量 -->
+                      {{ 'CBM' | translate }}</span
+                    >
+                    <span *ngIf="freight.unitType == 4 && freight.computeFormula == 4">
+                      <!-- 计费吨 -->
+                      {{ 'RT' | translate }}</span
+                    >
+                  </td>
+                  <td class="backcolor" nzWidth="25%">{{ freight.totalPrice?.toFixed(2) }} {{ freight.currencyName }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </ng-template>
+        </div>
+      </div>
+      <div class="freight_addtionalFees" *ngIf="OriginList.length > 0 || DestinationList.length > 0">
+        <h1>{{ 'Addtional Fees' | translate }}</h1>
+        <div class="freight_addtionalFees_tab">
+          <nz-tabset>
+            <nz-tab nzTitle="Origin">
+              <ng-container
+                *ngIf="
+                  quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
+                  else elseoriginTemplate
+                "
+              >
+                <nz-list *ngFor="let origin of OriginListByCode">
+                  <nz-list-item>
+                    <span> {{ origin.chargeId }}</span>
+                    <span
+                      style="
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
+                      font-weight: 500;
+                      color: rgba(0, 0, 0, 0.45);
+                    "
+                      >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
+                    >
+                  </nz-list-item>
+                  <nz-list-item>
+                    <span>
+                      <span
+                        *ngFor="let originitem of origin.list"
+                        style="margin-right: 8px; font-size: 12px; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      >
+                        {{ originitem.unitPrice?.toFixed(2) }}{{ originitem.currencyName }}/
+                        <span *ngIf="originitem.unitType == 1">({{ originitem.containerCode }})</span>
+                        <span *ngIf="originitem.unitType == 2">{{ 'Ticket' | translate }}</span>
+                      </span>
+                    </span>
+                    <span>{{ origin.total?.toFixed(2) }} {{ origin.currencyName }}</span>
+                  </nz-list-item>
+                  <nz-list-item *ngIf="filterRemark(OriginList)">
+                    <div *ngIf="origin.remark">
+                      <ng-container *ngIf="origin.remark.length > 8; else elseoriginRemarkTemplate">
+                        <a
+                          class="button-info"
+                          nz-popover
+                          nzOverlayClassName="originRemark"
+                          [nzPopoverContent]="remark"
+                          nzPopoverPlacement="bottom"
+                        >
+                          <ng-template #remark>
+                            <div>
+                              {{ origin.remark }}
+                            </div>
+                          </ng-template>
+                          {{ 'Remark' | translate }}
+                        </a>
+                      </ng-container>
+                      <ng-template #elseoriginRemarkTemplate>
+                        {{ origin.remark }}
+                      </ng-template>
+                    </div>
+                  </nz-list-item>
+                </nz-list>
+              </ng-container>
+              <ng-template #elseoriginTemplate>
+                <nz-list *ngFor="let origin of OriginList">
+                  <nz-list-item>
+                    <span> {{ origin.chargingCodeName }}</span>
+                    <span
+                      style="
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
+                      font-weight: 500;
+                      color: rgba(0, 0, 0, 0.45);
+                    "
+                      >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
+                    >
+                  </nz-list-item>
+                  <nz-list-item>
+                    <span>
+                      {{ origin.unitPrice?.toFixed(2) }} {{ origin.currencyName }}/
+                      <span *ngIf="origin.unitType == 1">({{ origin.containerCode }})</span>
+                      <span *ngIf="origin.unitType == 2">{{ 'Ticket' | translate }}</span>
+                      <span *ngIf="origin.unitType == 3">{{ 'KG' | translate }}</span>
+                      <span *ngIf="origin.unitType == 4">{{ 'CBM' | translate }}</span>
+                    </span>
+                    <span>{{ origin.totalPrice?.toFixed(2) }} {{ origin.currencyName }}</span>
+                  </nz-list-item>
+                  <nz-list-item *ngIf="filterRemark(OriginList)">
+                    <div *ngIf="origin.remark">
+                      <ng-container *ngIf="origin.remark.length > 8; else elseoriginRemarkTemplate">
+                        <a
+                          class="button-info"
+                          nz-popover
+                          nzOverlayClassName="originRemark"
+                          [nzPopoverContent]="remark"
+                          nzPopoverPlacement="bottom"
+                        >
+                          <ng-template #remark>
+                            <div>
+                              {{ origin.remark }}
+                            </div>
+                          </ng-template>
+                          {{ 'Remark' | translate }}
+                        </a>
+                      </ng-container>
+                      <ng-template #elseoriginRemarkTemplate>
+                        {{ origin.remark }}
+                      </ng-template>
+                    </div>
+                  </nz-list-item>
+                </nz-list>
+              </ng-template>
+            </nz-tab>
+            <nz-tab nzTitle="Destination">
+              <ng-container
+                *ngIf="
+                  quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
+                  else elsedestinaTemplate
+                "
+              >
+                <nz-list *ngFor="let destination of DestinationListByCode">
+                  <nz-list-item>
+                    <span> {{ destination.chargeId }}</span>
+                    <span
+                      style="
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
+                      font-weight: 500;
+                      color: rgba(0, 0, 0, 0.45);
+                    "
+                      >({{ 'Total' | translate }})（{{ destination.currencyName }}）：</span
+                    >
+                  </nz-list-item>
+                  <nz-list-item>
+                    <span style="margin-right: 8px;">
+                      <span
+                        *ngFor="let destinationitem of destination.list"
+                        style="margin-right: 8px; font-size: 12px; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      >
+                        {{ destinationitem.unitPrice?.toFixed(2) }}{{ destinationitem.currencyName }}/
+                        <span *ngIf="destinationitem.unitType == 1">({{ destinationitem.containerCode }})</span>
+                        <span *ngIf="destinationitem.unitType == 2">{{ 'Ticket' | translate }}</span>
+                      </span>
+                    </span>
+                    <span>{{ destination.total?.toFixed(2) }} {{ destination.currencyName }}</span>
+                  </nz-list-item>
+                  <nz-list-item *ngIf="filterRemark(DestinationList)">
+                    <div *ngIf="destination.remark">
+                      <ng-container *ngIf="destination.remark.length > 8; else elsedesinationRemarkTemplate">
+                        <a
+                          class="button-info"
+                          nz-popover
+                          nzOverlayClassName="originRemark"
+                          [nzPopoverContent]="remark"
+                          nzPopoverPlacement="bottom"
+                        >
+                          <ng-template #remark>
+                            <div>
+                              {{ destination.remark }}
+                            </div>
+                          </ng-template>
+                          {{ 'Remark' | translate }}
+                        </a>
+                      </ng-container>
+                      <ng-template #elsedesinationRemarkTemplate>
+                        {{ destination.remark }}
+                      </ng-template>
+                    </div>
+                  </nz-list-item>
+                </nz-list>
+              </ng-container>
+              <ng-template #elsedestinaTemplate>
+                <nz-list *ngFor="let destination of DestinationList">
+                  <nz-list-item>
+                    <span> {{ destination.chargingCodeName }}</span>
+                    <span
+                      style="
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
+                      font-weight: 500;
+                      color: rgba(0, 0, 0, 0.45);
+                    "
+                      >{{ 'Total' | translate }}（{{ destination.currencyName }}）：</span
+                    >
+                  </nz-list-item>
+                  <nz-list-item>
+                    <span>
+                      {{ destination.unitPrice?.toFixed(2) }} {{ destination.currencyName }}/
+                      <span *ngIf="destination.unitType == 1">({{ destination.containerCode }})</span>
+                      <span *ngIf="destination.unitType == 2">{{ 'Ticket' | translate }}</span>
+                      <span *ngIf="destination.unitType == 3">{{ 'KG' | translate }}</span>
+                      <span *ngIf="destination.unitType == 4">{{ 'CBM' | translate }}</span>
+                    </span>
+                    <span>{{ destination.totalPrice?.toFixed(2) }} {{ destination.currencyName }}</span>
+                  </nz-list-item>
+                  <nz-list-item *ngIf="filterRemark(DestinationList)">
+                    <div *ngIf="destination.remark">
+                      <ng-container *ngIf="destination.remark.length > 8; else elsedesinationRemarkTemplate">
+                        <a
+                          class="button-info"
+                          nz-popover
+                          nzOverlayClassName="originRemark"
+                          [nzPopoverContent]="remark"
+                          nzPopoverPlacement="bottom"
+                        >
+                          <ng-template #remark>
+                            <div>
+                              {{ destination.remark }}
+                            </div>
+                          </ng-template>
+                          {{ 'Remark' | translate }}
+                        </a>
+                      </ng-container>
+                      <ng-template #elsedesinationRemarkTemplate>
+                        {{ destination.remark }}
+                      </ng-template>
+                    </div>
+                  </nz-list-item>
+                </nz-list>
+              </ng-template>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+
+      <div class="freight_remark" *ngIf="remark">
+        <h1>{{ 'Remark' | translate }}</h1>
+        <div class="freight_remark_info">
+          {{ remark }}
+        </div>
+        <!-- <textarea rows="4" nz-input [(ngModel)]="ramark" style="margin-top: 16px;"></textarea> -->
+      </div>
+
+      <div class="freight_crminfo">
+        <div class="freight_crminfo_info">
+          <div class="freight_crminfo_avater">
+            <nz-avatar
+              *ngIf="profilePicture"
+              nzIcon="user"
+              style="width: 50px; height: 50px;"
+              [nzSrc]="imgUrl + '/Storage/File/GetDownLoadFile?fileId=' + profilePicture + '&Handler=image'"
+            ></nz-avatar>
+
+            <nz-avatar
+              *ngIf="!profilePicture"
+              nzIcon="user"
+              style="width: 50px; height: 50px;"
+              nzSrc="assets/images/avatar.png"
+            ></nz-avatar>
+            <div class="freight_crminfo_avaterinfo">
+              <h1>{{ userInfo.name }}</h1>
+              <h2>{{ 'Sales Manager' | translate }}</h2>
+            </div>
+          </div>
+          <div class="freight_crminfo_company">
+            <div style="height: 37px;">
+              <img src="assets/images/icon_logo.png" height="30" />
+            </div>
+            <h2>{{ 'CITY OCEAN INTERNATI' | translate }}</h2>
+          </div>
+        </div>
+        <div class="freight_crminfo_info-bottom">
+          <div class="freight_crminfo_info-bottom-right">
+            <span class="iconfont icon-phone1"></span> +{{ userInfo.phoneNumber }}
+          </div>
+          <div style="color: rgba(0,0,0,0.15);width: 1px;">
+            |
+          </div>
+          <div class="freight_crminfo_info-bottom-right">
+            <span class="iconfont icon-email"></span> {{ userInfo.emailAddress }}
+          </div>
+          <div style="color: rgba(0,0,0,0.15);width: 1px;">
+            |
+          </div>
+          <div
+            style="display: flex;
+        align-items: center;
+        color: rgba(0,0,0,.65);
+        font-weight: 400;
+        font-size: 14px;
+        font-family: PingFangSC-Regular,PingFang SC;margin-left: 24px;
+    "
+          >
+            <span class="iconfont icon-network1"></span>app.cityocean.com
+          </div>
+        </div>
+      </div>
+
+      <div class="freight_terms">
+        <h1>{{ 'Terms' | translate }}</h1>
+        <div class="freight_terms_validity">
+          <h1>Quotes VALIDITY TERMS:</h1>
+          <div>
+            This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted,
+            the shipper must accept the terms in writing by email or by making a booking pursuant to this NR.. Unless
+            otherwise specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes,
+            door delivery, or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may
+            be assessed for collect freight. All charges not included in the rates but which are published in our Rules
+            Tahff and in effect at the time of shipment shall apply to this arrangement
+            <span class="teLarge">
+              ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
+              BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
+              RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+            </span>
+            <div>
+              <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
+              Rates do not include truck waiting time or container detention or demurrage Rates do not include
+              destination change or documentation charges requested after the shipment has been received Chassis Rental:
+              A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis
+              rental is required
+            </div>
+            <div *ngIf="quoteObj.isAmericaLine">
+              <div class="teBold">
+                Chassis Rental:
+              </div>
+              A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis
+              rental is required
+            </div>
+          </div>
+          <!-- <div *ngIf="!quoteObj.IsAmericaLine">
+          This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
+          shipper must accept the terms in writing by email or by making a booking pursuant to this NR& Unless otherwise
+          specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door delivery,
+          or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be assessed for
+          collect freight. All charges not included in the rates but which are published in our Rules Tahff and in
+          effect at the time of shipment shall apply to this arrangement
+          <span class="teLarge">
+            ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
+            BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
+            RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+          </span>
+          <div>
+            <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
+            Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
+            change or documentation charges requested after the shipment has been received
+          </div>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </nz-spin>
+</div>
+
+<div style="position: absolute;">
+  <div #downToImage style="padding: 24px; background-color: #ffffff;">
+    <crm-hiddensharequotes
+      *ngIf="quoteObj.id"
+      [quoteObj]="quoteObj"
+      [userInfo]="userInfo"
+      [imgUrl]="imgUrl"
+      [profilePicture]="profilePicture"
+    >
+    </crm-hiddensharequotes>
+  </div>
+</div>

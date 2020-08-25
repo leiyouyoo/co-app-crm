@@ -29,33 +29,33 @@ export const routers: Routes = [
           breadcrumb: '',
         },
       },
-      // {
-      //   path: 'quotes',
-      //   loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
-      //   data: {
-      //     titleI18n: 'Quotes',
-      //     reuse: true,
-      //     breadcrumb: '',
-      //   },
-      // },
-      // {
-      //   path: 'inquiry',
-      //   loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
-      //   data: {
-      //     titleI18n: 'Inquiry',
-      //     reuse: true,
-      //     breadcrumb: '',
-      //   },
-      // },
-      // {
-      //   path: 'booking',
-      //   loadChildren: () => import(/* webpackChunkName: "crm-booking" */ './booking/booking.module').then((mod) => mod.BookingModule),
-      //   data: {
-      //     titleI18n: 'Booking',
-      //     reuse: true,
-      //     breadcrumb: '',
-      //   },
-      // },
+      {
+        path: 'quotes',
+        loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
+        data: {
+          titleI18n: 'Quotes',
+          reuse: true,
+          breadcrumb: '',
+        },
+      },
+      {
+        path: 'inquiry',
+        loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
+        data: {
+          titleI18n: 'Inquiry',
+          reuse: true,
+          breadcrumb: '',
+        },
+      },
+      {
+        path: 'booking',
+        loadChildren: () => import(/* webpackChunkName: "crm-booking" */ './booking/booking.module').then((mod) => mod.BookingModule),
+        data: {
+          titleI18n: 'Booking',
+          reuse: true,
+          breadcrumb: '',
+        },
+      },
       {
         path: '**',
         component: EmptyComponent,
