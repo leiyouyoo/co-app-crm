@@ -1,13 +1,14 @@
 import { Component, OnInit, Output, Input, EventEmitter, ViewChild } from '@angular/core';
-import { BusinessType, AttachmentType } from '@cityocean/basicdata-library';
+import { AttachmentType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/attachment-type';
+import { BusinessType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/business-type';
 import { cloneDeep } from 'lodash';
-import { DocumentListPanelComponent } from '../../../components/document-list/list-panel/list-panel.component';
+import { DocumentListPanelComponent } from '../list-panel/list-panel.component';
 
 const shipmentFileTypeList = [
-  {label: 'Commercial Invoice', value: 38},
-  {label: 'Packing list', value: 39},
-  {label: 'Purchase Order', value: 40},
-  {label: 'Declaration material', value: 41},
+  { label: 'Commercial Invoice', value: 38 },
+  { label: 'Packing list', value: 39 },
+  { label: 'Purchase Order', value: 40 },
+  { label: 'Declaration material', value: 41 },
 ];
 
 @Component({
@@ -35,20 +36,15 @@ export class DocumentLayoutComponent implements OnInit {
 
   @ViewChild('documentListPanelCommpponent') documentListPanelCommpponent: DocumentListPanelComponent;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  onTypeChange(e) {
-  }
+  onTypeChange(e) {}
 
-  onDownloadAllFile() {
-  }
+  onDownloadAllFile() {}
 
-  downAll(fileList) {
-  }
+  downAll(fileList) {}
 
   _onSuccess(e) {
     this.onSuccess.emit(e);
@@ -94,5 +90,4 @@ export class DocumentLayoutComponent implements OnInit {
   fileListEmitter(e) {
     this.showBtn = e.length > 0 ? true : false;
   }
-
 }

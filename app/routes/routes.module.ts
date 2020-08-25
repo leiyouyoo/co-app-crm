@@ -29,15 +29,15 @@ export const routers: Routes = [
           breadcrumb: '',
         },
       },
-      // {
-      //   path: 'quotes',
-      //   loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
-      //   data: {
-      //     titleI18n: 'Quotes',
-      //     reuse: true,
-      //     breadcrumb: '',
-      //   },
-      // },
+      {
+        path: 'quotes',
+        loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
+        data: {
+          titleI18n: 'Quotes',
+          reuse: true,
+          breadcrumb: '',
+        },
+      },
       {
         path: 'inquiry',
         loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
@@ -82,4 +82,4 @@ export const routers: Routes = [
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule { }
+export class RoutesModule {}

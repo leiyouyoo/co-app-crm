@@ -1,10 +1,12 @@
 import { Component, OnInit, Output, Input, EventEmitter, Inject, DoCheck } from '@angular/core';
-import { BusinessType, AttachmentType, FileManageService } from '@cityocean/basicdata-library';
+import { FileManageService } from 'apps/fcm/app/shared/im/src/util/file-manage/service/file-manage.service';
+import { AttachmentType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/attachment-type';
+import { BusinessType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/business-type';
 import { UploadXHRArgs, NzMessageService } from 'ng-zorro-antd';
 import { cloneDeep, merge } from 'lodash';
-import { Environment } from '../../../injectors';
-import { UploadChangeParam } from 'ng-zorro-antd/upload';
-import { PreviewPdfService } from '../../preview-pdf/preview-pdf.service';
+import { Environment } from 'apps/fcm/app/shared/im/src/service/environment';
+// import { UploadChangeParam } from 'ng-zorro-antd/upload';
+// import { PreviewPdfService } from '../../preview-pdf/preview-pdf.service';
 
 @Component({
   selector: 'document-list-panel',
@@ -68,11 +70,10 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
 
   constructor(
     public fileManageService: FileManageService,
-    private previewPdfService: PreviewPdfService,
+    // private previewPdfService: PreviewPdfService,
     private msg: NzMessageService,
-    @Inject(Environment) private environment,
-  ) {
-  }
+    private environment: Environment,
+  ) {}
 
   ngOnInit() {
     this.searchFile(this._AttachmentType);
@@ -83,8 +84,6 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
     this.fileManageService.getShareableUsers(params).subscribe((res: any) => {
       this.shareList = res.items;
     });
-
-
   }
 
   ngDoCheck(): void {
@@ -167,7 +166,7 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
   }
 
   save() {
-    let params: any = {items: []};
+    let params: any = { items: [] };
     let shareList = [];
     this.shareListInfo.forEach((info, index) => {
       shareList.push({});
@@ -193,8 +192,7 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
     this.create(params);
   }
 
-  onProgress(a, b) {
-  }
+  onProgress(a, b) {}
 
   /**
    * 在fileList列表中，删除选中的file
@@ -209,10 +207,10 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
    * @param i 文件的序列号
    */
   showPDF(i) {
-    this.previewPdfService.showByFileId(this.fileList[i].response.fileId);
-    return;
-    this.isPDFVisible = true;
-    this.pdfSrc = this.environment.StoreUrl + '/Storage/File/GetPdf?FileId=' + this.fileList[i].response.fileId;
+    // this.previewPdfService.showByFileId(this.fileList[i].response.fileId);
+    // return;
+    // this.isPDFVisible = true;
+    // this.pdfSrc = this.environment.StoreUrl + '/Storage/File/GetPdf?FileId=' + this.fileList[i].response.fileId;
   }
 
   uploadFileList = (items: UploadXHRArgs) => {
@@ -229,7 +227,6 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
     this.isPDFVisible = false;
   }
 
-
   // 上传
   showUploadField: boolean = false;
 
@@ -241,7 +238,6 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
     this.save();
   }
 
-
   // 支持多选下载，多选删除
   fileIsAllCheck: boolean = false;
   fileIsAllCheckMin: boolean = false;
@@ -251,21 +247,21 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
   fileCheckList: any[] = [];
 
   filecheckAll(value: boolean): void {
-    this.files.forEach(item => (this.checkStateMap[item.id] = value));
+    this.files.forEach((item) => (this.checkStateMap[item.id] = value));
     this.fieldRefreshStatus();
   }
 
   fieldRefreshStatus(): void {
-    this.fileIsAllCheck = this.files
-      .every(item => this.checkStateMap[item.id]);
+    this.fileIsAllCheck = this.files.every((item) => this.checkStateMap[item.id]);
     // 未全选中状态，但是已选择部分
     this.isIndeterminate =
-      this.files.some((item) => this.checkStateMap[item.id]) &&
-      !this.files.every((item) => this.checkStateMap[item.id]);
-    this.numberOfCheck = this.files.filter(item => this.checkStateMap[item.id]).length;
-    this.fileCheckList = this.files.filter(item => this.checkStateMap[item.id]).map((value) => {
-      return value;
-    });
+      this.files.some((item) => this.checkStateMap[item.id]) && !this.files.every((item) => this.checkStateMap[item.id]);
+    this.numberOfCheck = this.files.filter((item) => this.checkStateMap[item.id]).length;
+    this.fileCheckList = this.files
+      .filter((item) => this.checkStateMap[item.id])
+      .map((value) => {
+        return value;
+      });
   }
 
   downLoadFields() {
@@ -286,9 +282,9 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
   deletedFields() {
     if (this.fileCheckList.length > 0) {
       let parame = [];
-      this.fileCheckList.forEach(item => {
+      this.fileCheckList.forEach((item) => {
         parame.push({
-          id: item.id
+          id: item.id,
         });
       });
       this.fileManageService.deleteFiles(parame).subscribe((res) => {
@@ -300,6 +296,4 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
   getFile() {
     return this.files;
   }
-
-
 }

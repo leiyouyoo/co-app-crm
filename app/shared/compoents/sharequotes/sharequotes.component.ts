@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { groupBy } from 'lodash';
-import { FreightMethodType, QuoteLibraryService, SsoService } from '@cityocean/basicdata-library';
-import { quoteEntity } from '@cityocean/basicdata-library/lib/quote/class/quoteEntity';
+import { FreightMethodType } from '../../../routes/quotes/enum/quoteState';
+import { SSOUserService } from '@co/cds';
+import { CRMQuoteEnquiryService } from '../../../services/crm';
 
 @Component({
   selector: 'crm-sharequotes',
@@ -15,8 +16,8 @@ export class SharequotesComponent implements OnInit {
   @ViewChild('copyToImage') copyToImageRef: ElementRef;
   @ViewChild('downToImage') downToImageRef: ElementRef;
   profilePicture: string;
-  constructor(public quoteLibraryService: QuoteLibraryService, public ssoService: SsoService) {}
-  quoteObj: quoteEntity = {};
+  constructor(public quoteLibraryService: CRMQuoteEnquiryService, public ssoService: SSOUserService) {}
+  quoteObj: any = {};
   userInfo: any = {};
   isLoading: boolean = false;
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
@@ -28,7 +29,7 @@ export class SharequotesComponent implements OnInit {
 
   //获取销售人员信息
   getCrmInfo(Id: number) {
-    this.ssoService.getUserInfo(Id).subscribe((res: any) => {
+    this.ssoService.get({ id: Id }).subscribe((res: any) => {
       //获取详情
       this.userInfo = res.user;
       this.profilePicture = res.profilePictureId;
@@ -37,7 +38,7 @@ export class SharequotesComponent implements OnInit {
 
   getQuotesDetail(Id: string) {
     this.isLoading = true;
-    this.quoteLibraryService.getQuoteDetailForCRM(Id).subscribe((res) => {
+    this.quoteLibraryService.getForCRM({ id: Id }).subscribe((res) => {
       //获取详情
       this.isLoading = false;
       this.quoteObj = res;
