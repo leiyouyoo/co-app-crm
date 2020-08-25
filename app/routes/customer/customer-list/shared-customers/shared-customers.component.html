@@ -35,17 +35,12 @@
       [nzFrontPagination]="false"
       nzShowPagination="false"
       nzTableLayout="fixed"
-      calcNzTableBodyScroll
+      calcScroll
     >
       <thead>
         <tr>
           <th nzWidth="50px">
-            <label
-              nz-checkbox
-              nzShowCheckbox
-              [(nzChecked)]="isAllDisplayDataChecked"
-              (nzCheckedChange)="checkAll($event)"
-            ></label>
+            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
           </th>
           <th [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="500px">
             {{ 'CustomerTableName' | translate }}
@@ -160,13 +155,7 @@
           >
             <nz-option *ngFor="let option of customList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
           </nz-select>
-          <button
-            nz-button
-            (click)="getTableData()"
-            [nzLoading]="tableLoading"
-            nzType="primary"
-            style="margin-left: 24px;"
-          >
+          <button nz-button (click)="getTableData()" [nzLoading]="tableLoading" nzType="primary" style="margin-left: 24px;">
             {{ 'Search' | translate }}
           </button>
         </div>

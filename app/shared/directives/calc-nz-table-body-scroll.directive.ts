@@ -1,24 +1,16 @@
-import {
-  AfterContentInit,
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-} from '@angular/core';
+import { AfterContentInit, AfterViewChecked, ChangeDetectorRef, Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { InputBoolean, NzTableComponent } from 'ng-zorro-antd';
 import { debounce } from '../utils';
 
 @Directive({
-  selector: 'nz-table[calcNzTableBodyScroll]',
+  selector: 'nz-table[calcScroll]',
 })
 export class CalcNzTableBodyScrollDirective implements AfterContentInit, AfterViewChecked {
   @Input() @InputBoolean() disableCalcX = false;
   el: HTMLElement;
   lastHeight = 0;
 
-  constructor(private host: ElementRef, private nzTableComponent: NzTableComponent) { }
+  constructor(private host: ElementRef, private nzTableComponent: NzTableComponent) {}
 
   ngAfterContentInit(): void {
     this.el = this.host.nativeElement;

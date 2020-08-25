@@ -3,8 +3,13 @@
     <div>
       <div class="search-header">
         <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" nz-input placeholder="{{ 'Please enter customer name or code' | translate }}"
-            [(ngModel)]="searchData" (keyup)="onSearch($event)" />
+          <input
+            type="text"
+            nz-input
+            placeholder="{{ 'Please enter customer name or code' | translate }}"
+            [(ngModel)]="searchData"
+            (keyup)="onSearch($event)"
+          />
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <i nz-icon nzType="search" (click)="getOwnerlessCustomerByPageList()"></i>
@@ -17,14 +22,25 @@
 
   <div class="body-list">
     <div style="margin-bottom: 20px;">
-      <nz-alert nzType="info" nzMessage="{{
+      <nz-alert
+        nzType="info"
+        nzMessage="{{
           'Tip: The system randomly pushes 10 pieces of unowned customer information every day, which can be turned into your potential customers after claiming.'
             | translate
-        }}" nzShowIcon></nz-alert>
+        }}"
+        nzShowIcon
+      ></nz-alert>
     </div>
 
-    <nz-table #rowSelectionTable4 [nzData]="listOfData?.items" [nzLoading]="loading" [nzFrontPagination]="false"
-      nzShowPagination="false" nzTableLayout="fixed" calcNzTableBodyScroll>
+    <nz-table
+      #rowSelectionTable4
+      [nzData]="listOfData?.items"
+      [nzLoading]="loading"
+      [nzFrontPagination]="false"
+      nzShowPagination="false"
+      nzTableLayout="fixed"
+      calcScroll
+    >
       <thead>
         <tr>
           <th [nzShowSort]="false" nzEllipsis nzWidth="500px">
@@ -60,8 +76,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable4.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-          (dblclick)="showDetial(data)">
+        <tr
+          *ngFor="let data of rowSelectionTable4.data; let i = index"
+          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
+          (dblclick)="showDetial(data)"
+        >
           <td nzEllipsis style="color: #7297ff;" nzEllipsis>
             <a [routerLink]="['/crm/home/customer/unowndetial', data.id]"> {{ data.name || '--' }}</a>
           </td>
@@ -82,7 +101,7 @@
           </td>
 
           <td nzEllipsis>
-            {{  customerTypePipe[data.customerType] || '--' }}
+            {{ customerTypePipe[data.customerType] || '--' }}
           </td>
 
           <td nzEllipsis>
@@ -100,11 +119,18 @@
           </td>
           <td nzEllipsis nzRight="0">
             <a [routerLink]="['/crm/home/customer/unowndetial', data.id]">{{ 'View' | translate }}</a>
-            <a *ngIf="data.claimStatus === 0 && data.pushUserId == currentUserId" style="padding-left: 20px;"
-              (click)="claimCustomer(data.id)">{{ 'claim' | translate }}</a>
-            <a *ngIf="isSuper&&data.claimStatus === 0 && data.pushUserId != currentUserId" style="padding-left: 20px;" (click)="transferCustomer(data.id, data.pushUserId)">{{
-              'Assign' | translate
-            }}</a>
+            <a
+              *ngIf="data.claimStatus === 0 && data.pushUserId == currentUserId"
+              style="padding-left: 20px;"
+              (click)="claimCustomer(data.id)"
+              >{{ 'claim' | translate }}</a
+            >
+            <a
+              *ngIf="isSuper && data.claimStatus === 0 && data.pushUserId != currentUserId"
+              style="padding-left: 20px;"
+              (click)="transferCustomer(data.id, data.pushUserId)"
+              >{{ 'Assign' | translate }}</a
+            >
           </td>
         </tr>
       </tbody>

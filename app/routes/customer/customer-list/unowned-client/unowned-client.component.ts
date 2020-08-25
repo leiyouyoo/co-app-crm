@@ -1,21 +1,25 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, HostListener, Input, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CoPageBase } from '@co/core';
 
 @Component({
   selector: 'app-unowned-client',
   templateUrl: './unowned-client.component.html',
   styleUrls: ['./unowned-client.component.less'],
 })
-export class UnownedClientComponent implements OnInit {
+export class UnownedClientComponent extends CoPageBase {
   constructor(
     private msg: NzMessageService,
     public router: Router,
     public translate: TranslateService,
     private crmCustomerService: CRMCustomerService,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
 
   listOfData: any;
   skipCount = 1;
@@ -65,7 +69,7 @@ export class UnownedClientComponent implements OnInit {
     12: this.translate.instant('Other'),
   };
 
-  ngOnInit(): void {
+  coOnInit(): void {
     this.getOwnerlessCustomerByPageList();
   }
 
@@ -145,6 +149,10 @@ export class UnownedClientComponent implements OnInit {
   }
 
   showDetial(data) {
-    this.router.navigate(['/crm/home/customer/unowndetial', data.id]);
+    this.$navigate(['crm/home/customer/unowndetial', data.id], {
+      queryParams: {
+        _title: `${data.name}`,
+      },
+    });
   }
 }
