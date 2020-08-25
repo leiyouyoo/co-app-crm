@@ -47,15 +47,15 @@ export const routers: Routes = [
           breadcrumb: '',
         },
       },
-      // {
-      //   path: 'booking',
-      //   loadChildren: () => import(/* webpackChunkName: "crm-booking" */ './booking/booking.module').then((mod) => mod.BookingModule),
-      //   data: {
-      //     titleI18n: 'Booking',
-      //     reuse: true,
-      //     breadcrumb: '',
-      //   },
-      // },
+      {
+        path: 'booking',
+        loadChildren: () => import(/* webpackChunkName: "crm-booking" */ './booking/booking.module').then((mod) => mod.BookingModule),
+        data: {
+          titleI18n: 'Booking',
+          reuse: true,
+          breadcrumb: '',
+        },
+      },
       {
         path: '**',
         component: EmptyComponent,

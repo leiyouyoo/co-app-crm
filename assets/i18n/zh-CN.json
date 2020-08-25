@@ -865,5 +865,6 @@
   "Please select a condition": "请选择一个条件查询",
   "Waiting for the customer to confirm the price": "等待客户确认价格",
   "Ocean Freight/Total charge": "海运/总费用",
-  "NameAccount": "指定客户"
+  "NameAccount": "指定客户",
+  "Booking list": "订舱列表"
 }

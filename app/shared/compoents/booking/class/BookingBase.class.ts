@@ -1,4 +1,4 @@
-import { FbaFreightMethod } from '../models/enums';
+import { FbaFreightMethod } from './enums';
 
 export class BookingBase {
   readonly FbaFreightMethod = FbaFreightMethod;

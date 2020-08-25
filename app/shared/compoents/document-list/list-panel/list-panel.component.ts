@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, Input, EventEmitter, Inject, DoCheck } from '@angular/core';
-import { FileManageService } from 'apps/fcm/app/shared/im/src/util/file-manage/service/file-manage.service';
-import { AttachmentType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/attachment-type';
-import { BusinessType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/business-type';
+import { FileManageService } from '../file-manage/service/file-manage.service';
+import { AttachmentType } from '../file-manage/entity/attachment-type';
+import { BusinessType } from '../file-manage/entity/business-type';
 import { UploadXHRArgs, NzMessageService } from 'ng-zorro-antd';
 import { cloneDeep, merge } from 'lodash';
-import { Environment } from 'apps/fcm/app/shared/im/src/service/environment';
+import { CoConfigManager } from '@co/core';
 // import { UploadChangeParam } from 'ng-zorro-antd/upload';
 // import { PreviewPdfService } from '../../preview-pdf/preview-pdf.service';
 
@@ -61,7 +61,7 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
 
   //上传地址
   // tslint:disable-next-line: no-invalid-template-strings
-  uploadUrl = `${this.environment.SERVER_URL}/Storage/File/Upload`;
+  uploadUrl = `${CoConfigManager.getValue('serverUrl')}/Storage/File/Upload`;
 
   @Input() set AttachmentType(type: AttachmentType) {
     this._AttachmentType = type;
@@ -72,7 +72,6 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
     public fileManageService: FileManageService,
     // private previewPdfService: PreviewPdfService,
     private msg: NzMessageService,
-    private environment: Environment,
   ) {}
 
   ngOnInit() {
@@ -117,7 +116,7 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
             updateBy: element.uploadBy,
             updateTime: element.creationTime,
             id: element.id,
-            downFileUrl: `${this.environment.SERVER_URL}/Storage/File/GetDownLoadFile?FileId=${element.fileId}&Handler=raw`,
+            downFileUrl: `${CoConfigManager.getValue('serverUrl')}/Storage/File/GetDownLoadFile?FileId=${element.fileId}&Handler=raw`,
             shareCompanies: Array.from(new Set(element.sharingItems.map((o) => o.targetCompanyName))),
           });
         });

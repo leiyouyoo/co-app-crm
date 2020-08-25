@@ -1,0 +1,103 @@
+<section class="route-time-line-content">
+    <nz-timeline>
+        <nz-timeline-item nzColor="gray" [nzDot]="locationTemplate" *ngIf="originAddress">
+            <div class="item">
+                <p class="title">
+                    {{ originAddress&&originAddress.name ? originAddress.name : " "}}
+                    <span nz-popover [nzPopoverContent]="subTemplate1" *ngIf="subOriginAddress" class="icon">
+                       <i class="iconfont icon-beizhu"></i>
+                    </span>
+                </p>
+                <p>{{
+                    [
+                        originAddress&&originAddress.streetAddress ? originAddress.streetAddress : '',
+                        originAddress&&originAddress.city ? originAddress.city : '',
+                        originAddress&&originAddress.province ? originAddress.province : '',
+                        originAddress&&originAddress.country ? originAddress.country : ''
+                        ] | arrayJoin
+                   }}
+               </p>
+            </div>
+        </nz-timeline-item>
+        <nz-timeline-item nzColor="gray" [nzDot]="portTemplate" *ngIf="originPort">
+            <div class="item">
+                <p class="title">
+                    {{ originPort&&originPort.name ? originPort.name : ' ' }}
+                    <span nz-popover [nzPopoverContent]="subTemplate2" *ngIf="subOriginPort" class="icon">
+                        <i class="iconfont icon-beizhu"></i>
+                    </span>
+                </p>
+            </div>
+        </nz-timeline-item>
+        <nz-timeline-item nzColor="gray" [nzDot]="portTemplate" *ngIf="destinationPort">
+            <div class="item">
+                <p class="title">
+                    {{ destinationPort&&destinationPort.name ? destinationPort.name : ' ' }}
+                    <span nz-popover  [nzPopoverContent]="subTemplate3" *ngIf="subDestinationAddress" class="icon">
+                        <i class="iconfont icon-beizhu"></i>
+                    </span>
+                </p>
+            </div>
+        </nz-timeline-item>
+        <nz-timeline-item nzColor="gray" [nzDot]="locationTemplate" *ngIf="destinationAddress">
+            <div class="item">
+                <p class="title">
+                    {{destinationAddress&&destinationAddress.name ? destinationAddress.name : " "}}
+                    <span nz-popover  [nzPopoverContent]="subTemplate4" *ngIf="subDestinationPort" class="icon">
+                        <i class="iconfont icon-beizhu"></i>
+                    </span>
+                </p>
+                <p>{{
+                    [
+                        destinationAddress&&destinationAddress.streetAddress ? destinationAddress.streetAddress : '',
+                        destinationAddress&&destinationAddress.city ? destinationAddress.city : '',
+                        destinationAddress&&destinationAddress.province ? destinationAddress.province : '',
+                        destinationAddress&&destinationAddress.country ? destinationAddress.country : ''
+                        ] | arrayJoin
+                   }}
+               </p>
+            </div>
+        </nz-timeline-item>
+    </nz-timeline>
+    <ng-template #locationTemplate>
+        <i class="iconfont img-icon" nz-icon [nzIconfont]="'icon-location-outline'"></i>
+    </ng-template>
+    <ng-template #portTemplate>
+        <i class="iconfont img-icon" nz-icon [nzIconfont]="freightMethodType === FreightMethodType.Air ? 'icon-airport' : 'icon-port-outline'"></i>
+    </ng-template>
+
+    <ng-template #subTemplate1>
+        <p>{{ subOriginAddress&&subOriginAddress.name ? subOriginAddress.name : "" }}</p>
+        <p>
+            {{
+                [
+                    subOriginAddress&&subOriginAddress.streetAddress ? subOriginAddress.streetAddress : '',
+                    subOriginAddress&&subOriginAddress.city ? subOriginAddress.city : '',
+                    subOriginAddress&&subOriginAddress.province ? subOriginAddress.province : '',
+                    subOriginAddress&&subOriginAddress.country ? subOriginAddress.country : ''
+                    ] | arrayJoin
+            }}
+        </p>
+    </ng-template>
+    <ng-template #subTemplate2>
+        {{ subOriginPort&&subOriginPort.name ? subOriginPort.name : ' ' }}
+    </ng-template>
+    <ng-template #subTemplate3>
+        {{ subDestinationAddress&&subDestinationAddress.name ? subDestinationAddress.name : ' ' }}
+    </ng-template>
+    <ng-template #subTemplate4>
+        <p>{{ subDestinationAddress&&subDestinationAddress.name ? subDestinationAddress.name : '' }}</p>
+        <p>
+            {{
+                [
+                    subDestinationPort&&subDestinationPort.streetAddress ? subDestinationPort.streetAddress : '',
+                    subDestinationPort&&subDestinationPort.city ? subDestinationPort.city : '',
+                    subDestinationPort&&subDestinationPort.province ? subDestinationPort.province : '',
+                    subDestinationPort&&subDestinationPort.country ? subDestinationPort.country : ''
+                ] | arrayJoin
+            }}
+        </p>
+    </ng-template>
+
+</section>
+

@@ -2,15 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { groupBy, sumBy, orderBy, merge } from 'lodash';
 import { NzModalService, UploadFile, UploadXHRArgs } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { I18nMessageService } from '@cityocean/i18n-library';
-import {
-  BookingLibraryService,
-  cargo,
-  CurrencySevice,
-  DataDictionarySevice,
-  packingLists
-} from '@cityocean/basicdata-library';
-import { Environment } from '../../../injectors';
+import { I18nMessageService } from '@co/common';
+import { CoConfigManager } from '@co/core';
+import { CSPProductService } from '../../../../services/csp';
+import { PUBCurrencyService, PUBDataDictionaryService, StorageCSPExcelService } from '@co/cds';
 
 @Component({
   selector: 'booking-packing-list',
@@ -68,22 +63,22 @@ export class PackingListComponent implements OnInit {
 
   @Input() isDisabledPack: boolean = false; //在详情页面调用装箱单页面需要禁用
   declareCurrencyInfo = 'd67186ce-8b2c-4a75-81f1-a4fe3cc12de9'; //默认币别数据(暂时)
-  cargo: cargo = {};
+  cargo = {};
   isSelSku: boolean = false;
-  url = this.environment.SERVER_URL + '/CSP/Booking/ClearanceInviocesUpload'; //上传
-  imgUrl = this.environment.SERVER_URL;
-  downUrl = this.environment.SERVER_URL + '/CSP/Booking/ClearanceInviocesDownload'; //下载
-  downExcelUrl = this.environment.SERVER_URL + '/Storage/Excel/DownloadExcel';
-  uploadUrl = this.environment.SERVER_URL + '/Storage/File/Upload';
+  url = CoConfigManager.getValue('serverUrl') + '/CSP/Booking/ClearanceInviocesUpload'; //上传
+  imgUrl = CoConfigManager.getValue('serverUrl');
+  downUrl = CoConfigManager.getValue('serverUrl') + '/CSP/Booking/ClearanceInviocesDownload'; //下载
+  downExcelUrl = CoConfigManager.getValue('serverUrl') + '/Storage/Excel/DownloadExcel';
+  uploadUrl = CoConfigManager.getValue('serverUrl') + '/Storage/File/Upload';
   skuDuplicateMap: { [prop: string]: boolean };
 
-  constructor(public bookingSevice: BookingLibraryService,
-              public message: I18nMessageService,
+  constructor(public message: I18nMessageService,
               private fb: FormBuilder,
               private modalService: NzModalService,
-              public currencySevice: CurrencySevice,
-              public dataDictionarySevice: DataDictionarySevice,
-              @Inject(Environment) public environment,
+              public currencySevice: PUBCurrencyService,
+              public dataDictionarySevice: PUBDataDictionaryService,
+              private cspProductService: CSPProductService,
+              private storageCSPExcelService: StorageCSPExcelService,
   ) {
   }
 
@@ -311,13 +306,13 @@ export class PackingListComponent implements OnInit {
   options: Array<any> = new Array<any>();
 
   onInput(value: string): void {
-    this.getSkuList({SearchText: value});
+    this.getSkuList({searchText: value});
     this.isNoSku = -1;
   }
 
   //获取SKU列表
-  getSkuList(skuInput: { SearchText?: string; MaxResultCount?: number; SkipCount?: number }) {
-    this.bookingSevice.getSkuList(skuInput).subscribe((c: any) => {
+  getSkuList(skuInput: { searchText?: string; }) {
+    this.cspProductService.getSkuList(skuInput).subscribe((c: any) => {
       this.options = c.items;
     });
   }
@@ -344,7 +339,7 @@ export class PackingListComponent implements OnInit {
 
   //单位下拉框
   selUnit(typeId: string) {
-    this.dataDictionarySevice.getDataDictionaryInfo(typeId, 200).subscribe(
+    this.dataDictionarySevice.getAll({ typeCode: typeId, maxResultCount: 200 }).subscribe(
       (res) => {
         this.unitList = res.items;
       },
@@ -685,11 +680,12 @@ export class PackingListComponent implements OnInit {
   customReq = (item: UploadXHRArgs) => {
     const formData = new FormData();
     // tslint:disable-next-line:no-any
-    formData.append('file', item.file as any);
-    formData.append('Url', this.url);
-    formData.append('ApiTypes', '1');
-    this.formData(formData);
-    this.bookingSevice.AnalysisExcel(formData).subscribe(
+    this.storageCSPExcelService.analysisExcel({
+      file: item.file as any,
+      url: this.url,
+      apiTypes: 1,
+      headers: this.formData(),
+    }).subscribe(
       (res: any) => {
         //导入成功
         let list = JSON.parse(res);
@@ -712,69 +708,46 @@ export class PackingListComponent implements OnInit {
   fileToken: string = '';
   fileType: string = '';
 
-  formData(formData: FormData) {
-    formData.append('Headers[0].propertyName', 'Sku');
-    formData.append('Headers[0].order', '0');
-    formData.append('Headers[1].propertyName', 'FbaNo');
-    formData.append('Headers[1].order', '1');
-    formData.append('Headers[2].propertyName', 'ReferenceId');
-    formData.append('Headers[2].order', '2');
-    formData.append('Headers[3].propertyName', 'CommodityEnglishDesc');
-    formData.append('Headers[3].order', '3');
-    formData.append('Headers[4].propertyName', 'CommodityChineseDesc');
-    formData.append('Headers[4].order', '4');
-    formData.append('Headers[5].propertyName', 'Brand');
-    formData.append('Headers[5].order', '5');
-    formData.append('Headers[6].propertyName', 'Material');
-    formData.append('Headers[6].order', '6');
-    formData.append('Headers[7].propertyName', 'Uses');
-    formData.append('Headers[7].order', '7');
-    formData.append('Headers[8].propertyName', 'Model');
-    formData.append('Headers[8].order', '8');
-    formData.append('Headers[9].propertyName', 'HsCode');
-    formData.append('Headers[9].order', '9');
-    formData.append('Headers[10].propertyName', 'Quantity');
-    formData.append('Headers[10].order', '10');
-    formData.append('Headers[11].propertyName', 'Unit');
-    formData.append('Headers[11].order', '11');
-    formData.append('Headers[12].propertyName', 'UnitPriceValue');
-    formData.append('Headers[12].order', '12');
-    formData.append('Headers[13].propertyName', 'TotalPriceValue');
-    formData.append('Headers[13].order', '13');
-    formData.append('Headers[14].propertyName', 'ImageId');
-    formData.append('Headers[14].order', '14');
-    formData.append('Headers[15].propertyName', 'IsContainsBattery');
-    formData.append('Headers[15].order', '15');
-    formData.append('Headers[16].propertyName', 'Asin');
-    formData.append('Headers[16].order', '16');
-    formData.append('Headers[17].propertyName', 'Ctns');
-    formData.append('Headers[17].order', '17');
-    formData.append('Headers[18].propertyName', 'QuantitiesCarton');
-    formData.append('Headers[18].order', '18');
-    formData.append('Headers[19].propertyName', 'Length');
-    formData.append('Headers[19].order', '19');
-    formData.append('Headers[20].propertyName', 'Width');
-    formData.append('Headers[20].order', '20');
-    formData.append('Headers[21].propertyName', 'Height');
-    formData.append('Headers[21].order', '21');
-    formData.append('Headers[22].propertyName', 'Cbm');
-    formData.append('Headers[22].order', '22');
-    formData.append('Headers[23].propertyName', 'GrossWeight');
-    formData.append('Headers[23].order', '23');
-    formData.append('Headers[24].propertyName', 'NetWeight');
-    formData.append('Headers[24].order', '24');
+  formData() {
+    const arr = [
+      { propertyName: 'Sku', order: '0' },
+      { propertyName: 'FbaNo', order: '1' },
+      { propertyName: 'ReferenceId', order: '2' },
+      { propertyName: 'CommodityEnglishDesc', order: '3' },
+      { propertyName: 'CommodityChineseDesc', order: '4' },
+      { propertyName: 'Brand', order: '5' },
+      { propertyName: 'Material', order: '6' },
+      { propertyName: 'Uses', order: '7' },
+      { propertyName: 'Model', order: '8' },
+      { propertyName: 'HsCode', order: '9' },
+      { propertyName: 'Quantity', order: '10' },
+      { propertyName: 'Unit', order: '11' },
+      { propertyName: 'UnitPriceValue', order: '12' },
+      { propertyName: 'TotalPriceValue', order: '13' },
+      { propertyName: 'ImageId', order: '14' },
+      { propertyName: 'IsContainsBattery', order: '15' },
+      { propertyName: 'Asin', order: '16' },
+      { propertyName: 'Ctns', order: '17' },
+      { propertyName: 'QuantitiesCarton', order: '18' },
+      { propertyName: 'Length', order: '19' },
+      { propertyName: 'Width', order: '20' },
+      { propertyName: 'Height', order: '21' },
+      { propertyName: 'Cbm', order: '22' },
+      { propertyName: 'GrossWeight', order: '23' },
+      { propertyName: 'NetWeight', order: '24' },
+    ];
+    return arr;
   }
 
   downExcel() {
-    const formData = new FormData();
-    formData.append('Url', this.downUrl);
-    formData.append('ApiTypes', '1');
-    formData.append('SheetName', 'Customs clearance invioce 、 Pac');
-    formData.append('TemplateName', 'FBA-DownLoad-Template');
-    formData.append('ParametersJsonStr', JSON.stringify({id: this.bookingId}));
-    this.formData(formData);
-    formData.append('Headers[24].order', '24');
-    this.bookingSevice.ExportExcel(formData).subscribe(
+    this.storageCSPExcelService.cusClearanceInvoiceExportExcelAsync({
+      url: this.downUrl,
+      apiTypes: 1,
+      sheetName: 'Customs clearance invioce 、 Pac',
+      templateName: 'FBA-DownLoad-Template',
+      parametersJsonStr: JSON.stringify({ id: this.bookingId }),
+      headers: this.formData(),
+    }).subscribe(
       (res: any) => {
         if (res.isSuccess) {
           this.fileName = res.fileName;
@@ -797,7 +770,7 @@ export class PackingListComponent implements OnInit {
   imghandleChange({file, fileList, type}: { [key: string]: any }, data: any) {
     if (type == 'success') {
       //文件上传成功
-      data.imageId = file.response.fileId;
+      data.imageId = file.response.result.fileId;
       this.picList1.push({
         uid: file.id,
         name: file.name,
@@ -810,7 +783,7 @@ export class PackingListComponent implements OnInit {
 
   downTemplate() {
     let name = 'FBA-UpLoad-Template';
-    window.open(this.environment.SERVER_URL + '/Storage/ExcelTemplate/Get?name=' + name);
+    window.open(CoConfigManager.getValue('serverUrl') + '/Storage/ExcelTemplate/Get?name=' + name);
   }
 
   validateSku() {
@@ -847,7 +820,7 @@ export class PackingListComponent implements OnInit {
 
   downloadExcel(FileName: string, FileToken: string, FileType: string) {
     return window.open(
-      this.environment.SERVER_URL +
+      CoConfigManager.getValue('serverUrl') +
       '/Storage/Excel/DownloadExcel?FileName=' +
       FileName +
       '&&FileToken=' +

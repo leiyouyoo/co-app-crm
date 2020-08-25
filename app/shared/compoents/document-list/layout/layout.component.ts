@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, Input, EventEmitter, ViewChild } from '@angular/core';
-import { AttachmentType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/attachment-type';
-import { BusinessType } from 'apps/fcm/app/shared/im/src/util/file-manage/entity/business-type';
 import { cloneDeep } from 'lodash';
 import { DocumentListPanelComponent } from '../list-panel/list-panel.component';
+import { AttachmentType } from '../file-manage/entity/attachment-type';
+import { BusinessType } from '../file-manage/entity/business-type';
 
 const shipmentFileTypeList = [
   { label: 'Commercial Invoice', value: 38 },

@@ -1,3 +1,8 @@
+:host {
+  height: 100%;
+  overflow: auto;
+}
+
 .notClickn {
   pointer-events: none;
 }
@@ -7,8 +12,8 @@
 }
 
 .cancelling {
-  color : @errorBorder;
-  border: 1px solid @errorBorder;
+  color : #FE443F;
+  border: 1px solid #FE443F;
 }
 
 .canceled {
@@ -52,7 +57,7 @@
     height          : 30px;
     padding-left    : 5px;
     background-color: #ecf0fc;
-    border          : 1px solid @line-color;
+    border          : 1px solid #e4e4e4;
     border-radius   : 5px;
 
     .port-code-UN {
@@ -67,12 +72,14 @@
 }
 
 .inner-content {
+  height: 100%;
+  overflow: auto;
   .list-content {
     .content-header {
       display        : flex;
       align-items    : center;
       justify-content: space-between;
-      height         : 130px;
+      height         : 120px;
       border-bottom  : 1px solid rgba(240, 243, 247, 1);
 
       .content-header-title {
@@ -557,7 +564,7 @@
       width          : 16px;
       min-height     : 80px;
       margin         : 0 25px;
-      border-right   : 1px solid @line-color;
+      border-right   : 1px solid #e4e4e4;
     }
 
     .RoutelDetail-bottom-left-hidden {
@@ -586,6 +593,7 @@
   color          : #fff;
   background     : rgba(20, 220, 224, 1);
   border-radius  : 4px;
+  font-size: 32px;
 
   &::before {
     font-size: 32px;

@@ -26,18 +26,20 @@ import { environment } from '../../environments/environment';
 import { debounceInputDirective } from './directives/debounce-Input.directive';
 import { EnterKeydownDirective } from './directives/enter-keydown.directive';
 import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-change.directive';
+import { OptionsGroupValueDirective } from './directives/options-group-value.directive';
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
+import { RouteTimeLineComponent } from './compoents/route-time-line/route-time-line.component';
 import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-code-item.component';
 
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
-const COMPONENTS = [...COMPONENTS_ENTRY];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective];
+const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
+const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective];
 // #endregion
 
 @NgModule({

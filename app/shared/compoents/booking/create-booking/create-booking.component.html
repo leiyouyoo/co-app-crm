@@ -126,6 +126,7 @@
                 [nzButtonStyle]="'solid'" class="incotermsGroup nz-radio-group-button">
                 <label class="incotermsGroupInfo" nz-radio-button [nzValue]="item.value"
                   *ngFor="let item of incotermsList">{{ item.key }}</label>
+                {{ bookingObj.incotermsId }}
                 <nz-select *ngIf="otherList.length > 0" [(ngModel)]="other" nzAllowClear [ngClass]="{
                     'selectOther-active select-checked':
                       bookingObj.tradeType == 1 &&
@@ -144,7 +145,7 @@
         </div>
 
         <div style="display:flex;width: 100%;">
-          <div class="ShipmentType left_right mb-24" *ngIf="bookingObj.freightMethodType === FreightMethodType.Ocean">
+          <div class="ShipmentType left_right mb-lg" *ngIf="bookingObj.freightMethodType === FreightMethodType.Ocean">
             <h4><span class="tip">*</span>{{ 'Shipment Type' | translate }}</h4>
             <nz-radio-group [(ngModel)]="bookingObj.shipmentType" [nzButtonStyle]="'solid'"
               class="shipmentTypeGroup nz-radio-group-button" (ngModelChange)="shipmentChange($event)"
@@ -156,7 +157,7 @@
               {{ 'shipmentType is Required' | translate }}
             </div>
           </div>
-          <div *ngIf="bookingObj.tradeType !== 1" class="freight-Method-info mb-24">
+          <div *ngIf="bookingObj.tradeType !== 1" class="freight-Method-info mb-lg">
             <div class="freight-Method-info-info left_right">
               <h4><span class="tip">*</span>{{ 'Channel' | translate }}</h4>
               <div [ngClass]="{ redborder: bookingObj.tradeType != 1 && bookingObj.channelId == null && isSubmitted }">
@@ -181,14 +182,14 @@
               <div class="shipper_info"
                 [ngClass]="{ redborder: shipSame || (!bookingObj.shipperCustomerId && isSubmitted) }">
                 <nz-select #shipSel nzAllowClear [nzPlaceHolder]="'Choose' | translate" nzShowSearch
-                  class="main-interactive-element-width" [(ngModel)]="defaultShipperId" (appNzOptionExtraChange)="
+                  class="main-interactive-element-width" [(ngModel)]="defaultShipperId" (coNzOptionExtraChange)="
                     getAllCompanyContact($event, 1);
                     getPartnerId($event, 1);
                     filterData($event, 1);
                     GetCityoceanAll(true)
                   ">
                   <nz-option [nzLabel]="isCRM ? (item.partnerId !== null ? '(合)' + item.name : item.name) : item.name"
-                    [appNzOptionExtra]="item" [nzValue]="item.partnerId || item.customerId"
+                    [coNzOptionExtra]="item" [nzValue]="item.partnerId || item.customerId"
                     *ngFor="let item of shipperList">
                   </nz-option>
                 </nz-select>
@@ -205,7 +206,7 @@
                 [ngClass]="{ redborder: shipSame || (!bookingObj.shipperCustomerId && isSubmitted) }">
                 <nz-select #shipOwnSel class="main-interactive-element-width" nzAllowClear
                   [nzPlaceHolder]="'Choose' | translate" nzShowSearch [(ngModel)]="bookingObj.shipperCustomerId" (ngModelChange)="clearContact()">
-                  <nz-option [nzLabel]="currentCustomer.name" [appNzOptionExtra]="currentCustomer"
+                  <nz-option [nzLabel]="currentCustomer.name" [coNzOptionExtra]="currentCustomer"
                     [nzValue]="currentCustomer.id">
                   </nz-option>
                 </nz-select>
@@ -222,10 +223,10 @@
               <h4 *ngIf="bookingObj.tradeType != 1"><span class="tip">*</span>{{ 'Contact person' | translate }}</h4>
               <div [ngClass]="{ redborder: !bookingObj.contactId && isSubmitted && bookingObj.tradeType != 1 }">
                 <nz-select #conTactSel class="main-interactive-element-width" nzAllowClear nzShowSearch
-                  [nzPlaceHolder]="'Choose' | translate" [appSearchByExtraKey]="['name']"
+                  [nzPlaceHolder]="'Choose' | translate" [coSearchByExtraKey]="['name']"
                   [(ngModel)]="bookingObj.contactId" [nzDropdownRender]="render" [nzCustomTemplate]="custom">
                   <nz-option nzCustomContent [nzLabel]="item.name + item.surname" [nzValue]="item.id"
-                    [appNzOptionExtra]="item" *ngFor="let item of contactlist">
+                    [coNzOptionExtra]="item" *ngFor="let item of contactlist">
                     <div class="OriginLocation-edit">
                       <span class="word-bold">{{ item.name }}<span style="margin-left:5px;">{{ item.surname }}</span>
                       </span><span>{{ item.phone }}</span>
@@ -263,11 +264,11 @@
                 }">
                 <nz-select #consigneeSel class="main-interactive-element-width" nzAllowClear
                   [nzPlaceHolder]="'Choose' | translate" nzShowSearch [(ngModel)]="defaultConsigneeId"
-                  (appNzOptionExtraChange)="
+                  (coNzOptionExtraChange)="
                     getAllCompanyContact($event, 2); getPartnerId($event, 2); filterData($event, 2)
                   ">
                   <nz-option [nzLabel]="isCRM ? (item.partnerId !== null ? '(合)' + item.name : item.name) : item.name"
-                    [nzValue]="item.partnerId || item.customerId" [appNzOptionExtra]="item"
+                    [nzValue]="item.partnerId || item.customerId" [coNzOptionExtra]="item"
                     *ngFor="let item of consigneeList">
                   </nz-option>
                 </nz-select>
@@ -324,10 +325,10 @@
               }">
               <nz-select #originaSel class="main-interactive-element-width" [(ngModel)]="bookingObj.originAddressId"
                 nzShowSearch nzAllowClear [nzPlaceHolder]="'Choose' | translate" [nzCustomTemplate]="custom"
-                [appSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzDropdownRender]="render"
+                [coSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzDropdownRender]="render"
                 nzOptionHeightPx="54">
                 <ng-container *ngFor="let item of shiplist">
-                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [coNzOptionExtra]="item"
                     *ngIf="item.customerId === bookingObj.shipperCustomerId">
                     <div (click)="selLocation($event, item.id, 'originLocation')" class="OriginLocation-edit">
                       <div>{{ item.tenantName }}<span>-</span>{{ item.name }}</div>
@@ -434,7 +435,7 @@
           </div>
         </div>
         <div class="OriginPort" *ngIf="bookingObj.tradeType != 1">
-          <div class="delivery-method-check left_right mb-24">
+          <div class="delivery-method-check left_right mb-lg">
             <h4><span class="tip">*</span>{{ 'Delivery method' | translate }}</h4>
             <div [ngClass]="{
                 redborder: isSubmitted && bookingObj.tradeType != 1 && bookingObj.deliveryMethodType == null
@@ -453,7 +454,7 @@
             </div>
           </div>
 
-          <div class="OriginLocation left_right mb-24" *ngIf="bookingObj.deliveryMethodType == 1">
+          <div class="OriginLocation left_right mb-lg" *ngIf="bookingObj.deliveryMethodType == 1">
             <h4><span class="tip">*</span>{{ 'Origin Location' | translate }}</h4>
             <div [ngClass]="{
                 redborder:
@@ -499,7 +500,7 @@
             </div>
           </div>
 
-          <div class="delivery-warehouse left_right mb-24">
+          <div class="delivery-warehouse left_right mb-lg">
             <h4><span class="tip">*</span>{{ 'Delivery warehouse' | translate }}</h4>
             <div [title]="deliveryWarehouseTitle"
               [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType != 1 && !bookingObj.deliveryWarehouseId }">
@@ -530,8 +531,8 @@
                     bookingObj.deliveryMethodType == 1) ||
                   !isPickTimeMatch
               }">
-              <app-date-picker class="main-interactive-element-width d-block"
-                [(outTimeStr)]="bookingObj.pickUpTimeRange" (outTimeStrChange)="fbaDateCompare()"></app-date-picker>
+              <co-datetime-range-picker class="main-interactive-element-width d-block"
+                [(ngModel)]="bookingObj.pickUpTimeRange" (ngModelChange)="fbaDateCompare()"></co-datetime-range-picker>
               <div class="red" *ngIf="
                   isSubmitted &&
                   bookingObj.tradeType != 1 &&
@@ -556,8 +557,8 @@
                     bookingObj.deliveryMethodType == 0) ||
                   !isDeliveryTimeMatch
               }">
-              <app-date-picker [(outTimeStr)]="bookingObj.deliveryTimeRange" (outTimeStrChange)="fbaDateCompare()">
-              </app-date-picker>
+              <co-datetime-range-picker [(ngModel)]="bookingObj.deliveryTimeRange" (ngModelChange)="fbaDateCompare()">
+              </co-datetime-range-picker>
               <div class="red" *ngIf="
                   isSubmitted &&
                   bookingObj.tradeType != 1 &&
@@ -572,7 +573,7 @@
             </div>
           </div>
           <div class="Customsdeclaration-document">
-            <div class="left_right mb-24">
+            <div class="left_right mb-lg">
               <h4 style="margin-right: 22px;">
                 <span class="tip">*</span>{{ 'Do you have Customs declaration document' | translate }}
               </h4>
@@ -617,17 +618,17 @@
       </div>
       <div id="Destination" class="Destination">
         <div *ngIf="bookingObj.tradeType != 1" style="height: 100%;">
-          <div class="FBA-Address left_right mb-24" *ngIf="bookingObj.tradeType == 2">
+          <div class="FBA-Address left_right mb-lg" *ngIf="bookingObj.tradeType == 2">
             <h4><span class="tip">*</span>{{ 'FBA Address' | translate }}</h4>
             <div [title]="fbaTitle"
               [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType == 2 && !bookingObj.destinationAddressId }">
               <nz-select class="main-interactive-element-width" nzShowSearch (nzOnSearch)="onAmazonSearch($event)"
-                [(ngModel)]="bookingObj.destinationAddressId" [nzCustomTemplate]="custom" 
-                [appSearchByExtraKey]="['name', 'streetAddress', 'unlocode']" nzAllowClear
+                [(ngModel)]="bookingObj.destinationAddressId" [nzCustomTemplate]="custom"
+                [coSearchByExtraKey]="['name', 'streetAddress', 'unlocode']" nzAllowClear
                 [nzPlaceHolder]="'Choose' | translate"
                 [nzDropdownClassName]="recentlyUsed?.fbaAddresses === amazonList ? 'empty-class' : 'hide-nz-group'">
                 <nz-option-group [nzLabel]="isCRM ? '' : 'Recently used'">
-                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [coNzOptionExtra]="item"
                     *ngFor="let item of amazonList">
                     <div (click)="selLocation($event, '', '',item,'FBA')"
                       [title]="item.name + ',' + item.streetAddress +  (item.code?',' +item.code:'')">
@@ -651,15 +652,15 @@
             </div>
           </div>
 
-          <div class="FBA-Address mb-24 left_right" *ngIf="bookingObj.tradeType == 3">
+          <div class="FBA-Address mb-lg left_right" *ngIf="bookingObj.tradeType == 3">
             <h4><span class="tip">*</span>{{ 'FBM Address' | translate }}</h4>
             <div [title]="fbmTitle"
               [ngClass]="{ redborder: isSubmitted && bookingObj.tradeType == 3 && !bookingObj.destinationAddressId }">
               <nz-select #fbaAddressSel class="main-interactive-element-width"
                 [(ngModel)]="bookingObj.destinationAddressId" nzShowSearch nzAllowClear
-                [nzPlaceHolder]="'Choose' | translate" [nzCustomTemplate]="custom" [appSearchByExtraKey]="['name']"
+                [nzPlaceHolder]="'Choose' | translate" [nzCustomTemplate]="custom" [coSearchByExtraKey]="['name']"
                 [nzDropdownRender]="render" nzOptionHeightPx="54">
-                <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [coNzOptionExtra]="item"
                   *ngFor="let item of FbmList">
                   <div [title]="
                       item.streetAddress2+
@@ -712,7 +713,7 @@
             </div>
           </div>
 
-          <div class="delivery-date left_right mb-24">
+          <div class="delivery-date left_right mb-lg">
             <h4 style="padding-left: 7px;">{{ 'Delivery date' | translate }}</h4>
             <div style="width: 100%;" [ngClass]="{ redborder: !isDeliveryTimeMatch || !isPickTimeMatch }">
               <nz-date-picker class="main-interactive-element-width" [(ngModel)]="bookingObj.deliveryDate"
@@ -788,10 +789,10 @@
               <nz-select #destinationSel class="main-interactive-element-width"
                 [(ngModel)]="bookingObj.destinationAddressId" nzShowSearch nzAllowClear
                 [nzPlaceHolder]="'Choose' | translate"
-                [appSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzCustomTemplate]="custom"
+                [coSearchByExtraKey]="['name', 'streetAddress', 'tenantName', 'city']" [nzCustomTemplate]="custom"
                 [nzDropdownRender]="render" nzOptionHeightPx="54">
                 <ng-container *ngFor="let item of shiplist">
-                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item"
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [coNzOptionExtra]="item"
                     *ngIf="item.customerId === bookingObj.consigneeCustomerId">
                     <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
                       <div>{{ item.tenantName }}<span>-</span>{{ item.name }}</div>
@@ -1060,7 +1061,7 @@
           </div>
         </div>
         <div class="Special mb-12">
-          <div class=" mb-24">
+          <div class=" mb-lg">
             <span style="margin-right: 8px;"><span
                 class="tip">*</span>{{ 'Does your shipment contain any of the special goods' | translate }}?</span>
             <nz-radio-group class="nz-radio-group-pill" [(ngModel)]="bookingObj.isContainsSpecialGoods"
