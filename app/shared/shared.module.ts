@@ -29,6 +29,8 @@ import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-chang
 import { OptionsGroupValueDirective } from './directives/options-group-value.directive';
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
+import { SearchByExtraKeyDirective } from './directives/search-by-extra-key.directive';
+import { NzOptionExtraDirective } from './directives/nz-option-extra.directive';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
@@ -39,7 +41,7 @@ environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
 const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective];
+const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective, SearchByExtraKeyDirective, NzOptionExtraDirective];
 // #endregion
 
 @NgModule({
@@ -85,4 +87,4 @@ const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtra
     ...DIRECTIVES,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
