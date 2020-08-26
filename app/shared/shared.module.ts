@@ -29,6 +29,8 @@ import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-chang
 import { OptionsGroupValueDirective } from './directives/options-group-value.directive';
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
+import { SearchByExtraKeyDirective } from './directives/search-by-extra-key.directive';
+import { NzOptionExtraDirective } from './directives/nz-option-extra.directive';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
@@ -55,6 +57,8 @@ const DIRECTIVES = [
   NzOptionExtraChangeDirective,
   CalcNzTableBodyScrollDirective,
   OptionsGroupValueDirective,
+  SearchByExtraKeyDirective,
+  NzOptionExtraDirective,
 ];
 // #endregion
 
