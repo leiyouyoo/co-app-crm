@@ -39,6 +39,7 @@ import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-cod
 import { DocumentLayoutComponent } from '../shared/compoents/document-list/layout/layout.component';
 import { DocumentListPanelComponent } from '../shared/compoents/document-list/list-panel/list-panel.component';
 import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
+import { FormvalidationComponent } from './compoents/formvalidation/formvalidation.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -50,7 +51,7 @@ const COMPONENTS_ENTRY = [
   DocumentListPanelComponent,
   DocumentToolbarComponent,
 ];
-const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
+const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent, FormvalidationComponent];
 const DIRECTIVES = [
   debounceInputDirective,
   EnterKeydownDirective,

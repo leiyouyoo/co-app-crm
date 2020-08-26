@@ -1,0 +1,10 @@
+<div *ngIf="value.invalid && (value.dirty || value.touched)" class="alert alert-danger">
+  <div *ngIf="value.errors?.required">{{ requiredName | translate }}{{ ' is required' | translate }}</div>
+
+  <div *ngIf="value.errors?.minlength">
+    {{ minlength }}
+  </div>
+  <div *ngIf="value.errors?.maxlength">
+    {{ maxlength }}
+  </div>
+</div>
