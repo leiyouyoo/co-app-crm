@@ -34,12 +34,28 @@ import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
 import { RouteTimeLineComponent } from './compoents/route-time-line/route-time-line.component';
 import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-code-item.component';
-
+import { DocumentLayoutComponent } from '../shared/compoents/document-list/layout/layout.component';
+import { DocumentListPanelComponent } from '../shared/compoents/document-list/list-panel/list-panel.component';
+import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
-const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
+const COMPONENTS_ENTRY = [
+  ApplyCusCodeComponent,
+  CreateCustomerComponent,
+  RecordEditComponent,
+  CusCodeItemComponent,
+  DocumentLayoutComponent,
+  DocumentListPanelComponent,
+  DocumentToolbarComponent,
+];
 const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective];
+const DIRECTIVES = [
+  debounceInputDirective,
+  EnterKeydownDirective,
+  NzOptionExtraChangeDirective,
+  CalcNzTableBodyScrollDirective,
+  OptionsGroupValueDirective,
+];
 // #endregion
 
 @NgModule({
