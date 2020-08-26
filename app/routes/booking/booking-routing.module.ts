@@ -13,26 +13,29 @@ const routes: Routes = [
     component: BookingIndexComponent,
     data: {
       breadcrumb: 'Booking',
+      titleI18n: 'crm:Booking list',
     },
 
     children: [
       {
         path: '',
         component: BookingComponent,
+        data: { reuse: true, }
       },
       {
         path: 'bookingDetail/:id',
         component: BookingdetailComponent,
         data: {
           breadcrumb: 'Booking detial',
+          reuse: true,
         },
       },
     ],
   },
   {
-    path: 'createBooking',
+    path: 'createBooking/:id',
     component: CreateBookingComponent,
-    canDeactivate: [CanDeactivateGuard],
+    data: { reuse: true, titleI18n: 'crm:createBooking' },
   },
 ];
 @NgModule({

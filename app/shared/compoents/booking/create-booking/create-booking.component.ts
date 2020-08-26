@@ -4,45 +4,42 @@ import { Location } from '@angular/common';
 import { forkJoin, Observable } from 'rxjs';
 import { differenceInCalendarDays } from 'date-fns';
 import { PackingListComponent } from '../packing-list/packing-list.component';
+import { UploadXHRArgs, NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { HttpRequest } from '@angular/common/http';
+import { finalize, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { LocationFormModalComponent, UserFormModalComponent } from '@co/cbc';
+import { isArray } from 'lodash';
 import {
   AttachmentType,
   BusinessType,
   FreightMethodType,
   RecentlyUsed,
   FbaFreightMethod,
-  emptyGuid,
-  NetworkPartnerService,
-  NetworkContactService,
-  NetworkCustomerService,
-  CustomerPartner,
-  Customer,
-  BookingLibraryService,
   BookingEntity,
-  packingLists,
-  cusClearanceInvoices,
   bookingStatus,
   VolumeUnitCode,
   WeightUnitCode,
   DictionaryType,
-  QuoteLibraryService,
-  DataDictionarySevice,
-  NetworkLocationService,
-  locationLibraryService,
-} from '@cityocean/basicdata-library';
-import { UploadXHRArgs, NzModalService } from 'ng-zorro-antd';
-import { HttpRequest } from '@angular/common/http';
-import { finalize, tap } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
-import { I18nMessageService } from '@cityocean/i18n-library';
-import { LocationFormModalComponent } from '../../network/location-form-modal/location-form-modal.component';
-import { UserFormModalComponent } from '../../network/user-form-modal/user-form-modal.component';
-import { isArray } from 'lodash';
+} from '../class';
 
-import { CSPAttachmentService } from '../../../../services/csp';
+import {
+  CSPAttachmentService,
+  CSPBookingService,
+  CSPBookingTemplateService,
+  CSPPurchaseOrderService,
+} from '../../../../services/csp';
+import {
+  CRMPartnerExternalService,
+  CRMContactService,
+  CRMContactExternalService,
+  CRMCustomerExternalService, CRMCustomerService, CRMQuoteEnquiryService, CRMLocationExternalService, CRMCustomerDto,
+} from '../../../../services/crm';
 import { _HttpClient } from '@co/common';
-import { CoConfigManager } from '@co/core';
+import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, ISessionService } from '@co/core';
+import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
 
-declare var abp;
+const emptyGuid = '00000000-0000-0000-0000-000000000000'
 
 @Component({
   selector: 'createBooking-create-booking',
@@ -140,7 +137,6 @@ export class CreateBookingComponent implements OnInit {
   //上传地址
   uploadUrl = CoConfigManager.getValue('uploadUrl');
   cannotDeactivate = true;
-  readonly abp = abp;
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
   @ViewChild(PackingListComponent) PackingListComponent: PackingListComponent;
@@ -153,7 +149,7 @@ export class CreateBookingComponent implements OnInit {
   submittingDraft = false;
   OriginPortListFromRates: any[] = [];
   DesitinaPortListFromRates: any[] = [];
-  currentCustomer: Customer;
+  currentCustomer: CRMCustomerDto;
   readonly ShipmentType = {
     FCL: 0,
     LCL: 1,
@@ -164,19 +160,24 @@ export class CreateBookingComponent implements OnInit {
     public location: Location,
     public router: Router,
     public _httpClient: _HttpClient,
-    public bookingService: BookingLibraryService,
+    public crmQuoteEnquiryService: CRMQuoteEnquiryService,
+    public cspBookingTemplateService: CSPBookingTemplateService,
+    public cspBookingService: CSPBookingService,
+    public cspPurchaseOrderService: CSPPurchaseOrderService,
     public cspAttachmentService: CSPAttachmentService,
     public modalService: NzModalService,
-    private message: I18nMessageService,
-    public quoteService: QuoteLibraryService,
-    private networkPartnerService: NetworkPartnerService,
-    private networkContactService: NetworkContactService,
-    private networkCustomerService: NetworkCustomerService,
-    public dataDictionarySevice: DataDictionarySevice,
-    public networkLocationService: NetworkLocationService,
-    // tslint:disable-next-line:no-shadowed-variable
-    public locationLibraryService: locationLibraryService,
+    // todo I18nMessageService
+    private message: NzMessageService,
+    private crmPartnerExternalService: CRMPartnerExternalService,
+    private crmContactExternalService: CRMContactExternalService,
+    private crmCustomerExternalService: CRMCustomerExternalService,
+    private crmLocationExternalService: CRMLocationExternalService,
+    private crmCustomerService: CRMCustomerService,
     private translate: TranslateService,
+    private pubDataDictionaryService: PUBDataDictionaryService,
+    private pubPlaceService: PUBPlaceService,
+    private platformCompanyConfigureService: PlatformCompanyConfigureService,
+    @Inject(CO_SESSIONSERVICE_TOKEN) private sessionService: ISessionService,
   ) {}
   //路由跳转命名的参数
   DetailId: string;
@@ -202,12 +203,12 @@ export class CreateBookingComponent implements OnInit {
   isOpen: boolean = true;
 
   ngOnInit() {
+    const id = this.activeRoute.snapshot.params.id;
+    if (typeof +id !== 'number') {
+      this.BookingId = id;
+      this.BusinessId = this.BookingId;
+    }
     this.activeRoute.queryParams.subscribe((params) => {
-      if (params.BookingId) {
-        //编辑传过来得id
-        this.BookingId = params['BookingId'];
-        this.BusinessId = this.BookingId;
-      }
       if (params['TemplateId']) {
         //模板传过来得Id
         this.TemplateId = params['TemplateId'];
@@ -298,7 +299,7 @@ export class CreateBookingComponent implements OnInit {
 
   //关联订单搜索
   getOrder(searchKey?: string) {
-    this.bookingService.bookingSearch(searchKey).subscribe((c: any) => {
+    this.cspPurchaseOrderService.bookingSearch({ searchKeyword: searchKey }).subscribe((c: any) => {
       this.bookingOrderNoList = c.items;
       if (c.items.length <= 0 || !searchKey) {
         // 如果是下拉框关闭的，不清除booking name
@@ -335,15 +336,16 @@ export class CreateBookingComponent implements OnInit {
 
   bookingCheck() {
     return new Promise((resolve, reject) => {
+      const param = {
+        purchaseOrderIds: this.bookingObj.purchaseOrderIds,
+        name: this.bookingObj.name,
+        id: this.bookingObj.shipperCustomerId,
+        shipperCustomerId: this.bookingObj.id,
+        consigneeCustomerId: this.bookingObj.consigneeCustomerId,
+      };
       //订单选择是否有重复判断
-      this.bookingService
-        .cspBookingCheck(
-          this.bookingObj.purchaseOrderIds,
-          this.bookingObj.name,
-          this.bookingObj.shipperCustomerId,
-          this.bookingObj.id,
-          this.bookingObj.consigneeCustomerId,
-        )
+      this.cspBookingService
+        .isExists(param)
         .subscribe((c: any) => {
           this.isRepeat = c;
           resolve(this.isRepeat);
@@ -360,7 +362,7 @@ export class CreateBookingComponent implements OnInit {
   //获取特殊物品类别
   getAllDictionary(typeId: string) {
     return new Observable((ob) => {
-      this.dataDictionarySevice.getDataDictionaryInfo(typeId).subscribe(
+      this.pubDataDictionaryService.getAll({ typeCode: typeId }).subscribe(
         (res) => {
           this.dictionaryList = res.items;
           this.dictionaryList.forEach((c) => {
@@ -377,9 +379,9 @@ export class CreateBookingComponent implements OnInit {
   }
 
   //获取单位
-  getUnitDictionary(typeId: string) {
+  getUnitDictionary(typeCode: string) {
     return new Observable((ob) => {
-      this.dataDictionarySevice.getDataDictionaryInfo(typeId).subscribe(
+      this.pubDataDictionaryService.getAll({ typeCode }).subscribe(
         (res) => {
           this.unitList = res.items;
           ob.next(this.unitList);
@@ -395,14 +397,14 @@ export class CreateBookingComponent implements OnInit {
   getMyCustomerAndPartner() {
     if (this.isCRM) {
       // CRM过来
-      this.bookingService.getMyCustomerAndPartners().subscribe((data: any) => {
+      this.crmCustomerService.getMyCustomerAndPartners({}).subscribe((data: any) => {
         this.customerAndPartnerList = data.items;
         this.shipperList = [...this.customerAndPartnerList];
         this.consigneeList = [...this.customerAndPartnerList];
       });
     } else {
-      this.networkPartnerService.getMyCustomerAndPartners().subscribe((data) => {
-        this.customerAndPartnerList = data;
+      this.crmPartnerExternalService.getMyCustomerAndPartners({}).subscribe((data) => {
+        this.customerAndPartnerList = data as any;
         this.shipperList = [...this.customerAndPartnerList];
         this.consigneeList = [...this.customerAndPartnerList];
       });
@@ -410,7 +412,7 @@ export class CreateBookingComponent implements OnInit {
   }
 
   getqueteDetail(id: string) {
-    return this.quoteService.getQuoteDetail(id).pipe(
+    return this.crmQuoteEnquiryService.getForCRM({ id }).pipe(
       tap((res) => {
         for (let item in this.bookingObj) {
           if (res[item] != undefined) {
@@ -428,7 +430,7 @@ export class CreateBookingComponent implements OnInit {
   //获取贸易类型
   getTradeTypes() {
     return new Observable((ob) => {
-      this.bookingService.getTradeTypes().subscribe(
+      this.pubDataDictionaryService.getTradeTypes({}).subscribe(
         (res: any[]) => {
           this.tradeTypeList = res;
           if (this.isEdit == 'false' && this.isTemplate == 'false') {
@@ -449,8 +451,8 @@ export class CreateBookingComponent implements OnInit {
   //获取FBA运输方式
   fbaFreightMethodList: Array<any> = new Array<any>();
 
-  getFbaFreightMethod(Code: string) {
-    this.dataDictionarySevice.getDataDictionaryInfo(Code).subscribe(
+  getFbaFreightMethod(typeCode: string) {
+    this.pubDataDictionaryService.getAll({ typeCode }).subscribe(
       (res) => {
         this.fbaFreightMethodList = res.items;
       },
@@ -479,7 +481,7 @@ export class CreateBookingComponent implements OnInit {
   // }
 
   GetIncotermsByTradeType(tradeType: number) {
-    this.bookingService.GetIncotermsByTradeType(tradeType).subscribe(
+    this.pubDataDictionaryService.getIncotermsByTradeType({ tradeType }).subscribe(
       (res: any[]) => {
         this.incotermsList = res;
         this.otherList = [];
@@ -558,7 +560,7 @@ export class CreateBookingComponent implements OnInit {
   cachedAmazonList = [];
 
   GetAmazonAll(isCityocean: boolean) {
-    this.networkLocationService.GetFBALocations(isCityocean).subscribe((c: any) => {
+    this.crmLocationExternalService.getFBALocations({ isCityocean }).subscribe((c: any) => {
       this.cachedAmazonList = c.items;
     });
   }
@@ -585,26 +587,26 @@ export class CreateBookingComponent implements OnInit {
     // } else {
     //   id = abp.session.user.customerId;
     // }
-    this.networkLocationService.GetFBALocations(isCityocean).subscribe((c: any) => {
+    this.crmLocationExternalService.getFBALocations({ isCityocean }).subscribe((c: any) => {
       this.cityoceanList = c.items;
     });
   }
 
   //港口数据
   //获取起始port
-  GetAllOrginalPort(name: string = '', Id = '') {
-    this.locationLibraryService
-      .GetAllPort({
-        Id,
-        Name: name,
-        IsOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
-        IsAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
-        MaxResultCount: 10,
+  GetAllOrginalPort(name: string = '', id = '') {
+    this.pubPlaceService
+      .getAll({
+        id,
+        name,
+        isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
+        isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
+        maxResultCount: 10,
       })
       .subscribe(
         (res: any) => {
           this.OriginPortList = res.items;
-          if (Id) {
+          if (id) {
             setTimeout(() => {
               this.portOriginsearch('');
             });
@@ -618,19 +620,19 @@ export class CreateBookingComponent implements OnInit {
   }
 
   //获取目的port
-  GetAllDesitinaPort(name: string = '', Id = '') {
-    this.locationLibraryService
-      .GetAllPort({
-        Id,
-        Name: name,
-        IsOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
-        IsAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
-        MaxResultCount: 10,
+  GetAllDesitinaPort(name: string = '', id = '') {
+    this.pubPlaceService
+      .getAll({
+        id,
+        name,
+        isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
+        isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
+        maxResultCount: 10,
       })
       .subscribe(
         (res: any) => {
           this.DesinationPortList = res.items;
-          if (Id) {
+          if (id) {
             setTimeout(() => {
               this.portDesinationsearch('');
             });
@@ -714,8 +716,8 @@ export class CreateBookingComponent implements OnInit {
   }
 
   //获取发货人收货人地址
-  GetTenentAllLocation(id = null) {
-    this.networkLocationService.getLocationByCustomerId(id).subscribe(
+  GetTenentAllLocation(customerId = null) {
+    this.crmLocationExternalService.getLocationByCustomer({ customerId }).subscribe(
       (res: any) => {
         this.shiplist = res.items;
       },
@@ -726,7 +728,7 @@ export class CreateBookingComponent implements OnInit {
   }
 
   getFbmData(customer?) {
-    this.networkLocationService.GetLocationByCustomerOwn(customer?.customerId).subscribe(
+    this.crmLocationExternalService.getLocationByCustomerOwn({customerId: customer?.customerId}).subscribe(
       (res: any) => {
         this.FbmList = [...res.items];
       },
@@ -740,13 +742,13 @@ export class CreateBookingComponent implements OnInit {
   getAllCompanyContact(customer, type) {
     if (customer) {
       if (type === 1) {
-        this.networkContactService.getAll({ customerId: customer?.customerId }).subscribe((data: any) => {
+        this.crmContactExternalService.getByCustomerAndPartner({ customerId: customer?.customerId }).subscribe((data: any) => {
           this.contactlist = data.items;
         });
         this.bookingObj.shipperCustomerId = customer?.customerId;
         if (this.bookingObj.tradeType !== 1) {
           // this.bookingObj.contactId = null;
-          this.networkLocationService.GetLocationByCustomerOwn(customer?.customerId).subscribe(
+          this.crmLocationExternalService.getLocationByCustomerOwn({ customerId: customer?.customerId }).subscribe(
             (res: any) => {
               this.companyContactlist = [...res.items];
             },
@@ -762,7 +764,7 @@ export class CreateBookingComponent implements OnInit {
         this.bookingObj.consigneeCustomerId = customer?.customerId;
 
         if (this.bookingObj.tradeType === 3) {
-          this.networkLocationService.GetLocationByCustomerOwn(customer?.customerId).subscribe(
+          this.crmLocationExternalService.getLocationByCustomerOwn({ customerId: customer?.customerId }).subscribe(
             (res: any) => {
               this.companyContactlist = res.items;
             },
@@ -1118,15 +1120,15 @@ export class CreateBookingComponent implements OnInit {
 
   //获取bookingTemplate模板信息
   GetAllTemplate(obj: { Sorting?: string; MaxResultCount?: number; SkipCount?: number }) {
-    this.bookingService.GetAllTemplate(obj).subscribe((res: any) => {
+    this.cspBookingTemplateService.getAll({}).subscribe((res: any) => {
       this.bookingTemplateList = res.items;
     });
   }
 
   //从订单过来得数据
   UseOrderForBooking(orderIds: any[]) {
-    return this.bookingService.UseOrderForBooking(orderIds).pipe(
-      tap((res) => {
+    return this.cspPurchaseOrderService.booking({ orderIds, toBooking: true }).pipe(
+      tap((res: any) => {
         let namelist: any[] = [];
         this.bookingObj = { ...this.bookingObj, ...res.bookingOrder, ...this.unitBasic };
         res.orders.forEach((c) => {
@@ -1364,8 +1366,8 @@ export class CreateBookingComponent implements OnInit {
     this.bookingCheck().then((d) => {
       if (!this.isRepeat) {
         if (!this.bookingObj.id) {
-          this.bookingService
-            .createBooking(this.bookingObj)
+          this.cspBookingService
+            .create(this.bookingObj as any)
             .pipe(
               finalize(() => {
                 this.submitting = false;
@@ -1393,8 +1395,8 @@ export class CreateBookingComponent implements OnInit {
               },
             );
         } else {
-          this.bookingService
-            .updateBooking(this.bookingObj)
+          this.cspBookingService
+            .update(this.bookingObj as any)
             .pipe(
               finalize(() => {
                 this.submitting = false;
@@ -1439,7 +1441,7 @@ export class CreateBookingComponent implements OnInit {
       this.portDesinationsearch('', this.bookingObj.destinationPortId);
       this.onAmazonSearch('', this.bookingObj.destinationAddressId);
     } else {
-      this.bookingService.GetRecentlyUsed(tradeType, this.bookingObj.freightMethodType).subscribe((res) => {
+      this.cspBookingService.getRecentlyUsed({ tradeType, freightMethodType: this.bookingObj.freightMethodType }).subscribe((res: any) => {
         this.recentlyUsed = res;
         this.portOriginsearch('', this.bookingObj.originPortId);
         this.portDesinationsearch('', this.bookingObj.destinationPortId);
@@ -1504,9 +1506,9 @@ export class CreateBookingComponent implements OnInit {
   getChannel() {
     if (!this.bookingObj.freightMethodType) return;
 
-    this.bookingService.getChannelList(this.bookingObj.freightMethodType).subscribe(
-      (res) => {
-        this.channelList = res;
+    this.cspBookingService.getChannelList({ freightMethodType: this.bookingObj.freightMethodType }).subscribe(
+      (res: any) => {
+        this.channelList = res.items;
       },
       (error) => {
         this.message.info('Data loading failed');
@@ -1515,8 +1517,8 @@ export class CreateBookingComponent implements OnInit {
   }
 
   //获取正在编辑得数据
-  GetBookingForUpdate(Id: string) {
-    return this.bookingService.GetBookingForUpdate(Id).pipe(
+  GetBookingForUpdate(id: string) {
+    return this.cspBookingService.get({id}).pipe(
       tap((res: any) => {
         this.bookingObj = res;
         this.defaultShipperId = this.bookingObj.shipperPartnerId || this.bookingObj.shipperCustomerId;
@@ -1545,8 +1547,8 @@ export class CreateBookingComponent implements OnInit {
   }
 
   //从booking模板或者询价过来得数据
-  GetBookingInfoByTemplate(Id?: string) {
-    this.bookingService.GetBookingInfoByTemplate(Id).subscribe((res: any) => {
+  GetBookingInfoByTemplate(id?: string) {
+    this.cspBookingTemplateService.getDetailById({ id }).subscribe((res: any) => {
       if (res) {
         this.bookingObj = res;
         this.bookingObj.name = '';
@@ -1698,7 +1700,7 @@ export class CreateBookingComponent implements OnInit {
   }
 
   getCurrentCustomer() {
-    this.networkCustomerService.get(abp.session.user.customerId).subscribe((result: any) => {
+    this.crmCustomerExternalService.get({ id: this.sessionService.data.session.user.customerId }).subscribe((result: any) => {
       this.currentCustomer = result;
     });
   }
@@ -1711,7 +1713,7 @@ export class CreateBookingComponent implements OnInit {
 
   // 获取口岸
   getByPlaceOrLocation() {
-    this.bookingService.getByPlaceOrLocation().subscribe((res: any) => {
+    this.platformCompanyConfigureService.getByPlaceOrLocation({}).subscribe((res: any) => {
       this.operationPortlist = res.items;
     });
   }

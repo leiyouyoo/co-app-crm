@@ -1,0 +1,32 @@
+<div class="file-layout">
+  <div class="flex space-between">
+    <div class="flex">
+      <span class="txt-type">{{ 'File Type' | translate }}：</span>
+      <document-toolbar
+        [fileList]="fileList"
+        [fileTypeList]="fileTypeListMap[BusinessType]"
+        (onAttachmentTypeChange)="AttachmentType = $event"
+      >
+      </document-toolbar>
+    </div>
+    <div class="flex pad-b-10">
+      <button nz-button nzType="default" (click)="deleted()" *ngIf="showBtn">{{ 'Delete' | translate }}</button>
+      <button nz-button nzType="default" (click)="down()" *ngIf="showBtn">{{ 'Download' | translate }}</button>
+      <button nz-button nzType="default" (click)="upload()">+ {{ 'Upload' | translate }}</button>
+    </div>
+  </div>
+
+  <document-list-panel
+    #documentListPanelCommpponent
+    (onSuccess)="_onSuccess($event)"
+    (onError)="_onError($event)"
+    (onSearchSuccess)="_onSearchSuccess($event)"
+    (onDownloadAll)="downLoadAll($event)"
+    (fileListEmitter)="fileListEmitter($event)"
+    [BusinessId]="BusinessId"
+    [BusinessType]="BusinessType"
+    [fileTypeList]="fileTypeListMap[BusinessType]"
+    [isToIcp]="isToIcp"
+    [AttachmentType]="AttachmentType"
+  ></document-list-panel>
+</div>

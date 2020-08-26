@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { QuoteEnquiry } from 'projects/cityocean/quote-library/src/public-api';
 import { Location } from '@angular/common';
 import { CreatequotesComponent } from '../createquotes/createquotes.component';
-import { FreightMethodType, BusinessType } from '@cityocean/basicdata-library';
+import { FreightMethodType, BusinessType } from '../../enum/quoteState';
 import { QuoteSimpleInfoComponent } from '../quote-simple-info/quote-simple-info.component';
 @Component({
   selector: 'quotes-inquirydetail',
@@ -16,7 +15,7 @@ export class InquirydetailComponent implements OnInit {
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
   quoteDetail: Array<any> = new Array<any>();
   submitting = false;
-  quotesObj?: QuoteEnquiry = { freightMethodType: this.freightMethodTypeValue.Ocean, originIsRequireTruck: true };
+  quotesObj?: any = { freightMethodType: this.freightMethodTypeValue.Ocean, originIsRequireTruck: true };
   inputValue = '';
   BusinessId: any;
   BusinessType = 0;

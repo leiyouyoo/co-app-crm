@@ -50,13 +50,19 @@ export class BookingComponent extends CoPageBase {
   }
 
   ngOnInit() {
+    super.ngOnInit();
     setTimeout(() => {
       this.onDivHeight();
     }, 500);
     this.bookingStateList = Object.keys(this.bookingState).filter((f) => !isNaN(Number(f)));
-    this.GetAllListForCRM(this.bookingInputParams);
     this.GetFilterDataSourceByCustomer({ isRequiredContact: true, isRequiredCustomer: true });
     this.GetFilterDataSource({ isRequiredBookingNo: true, isRequiredBookingName: true }); //
+    this.GetAllListForCRM(this.bookingInputParams);
+  }
+
+  coOnActived() {
+    super.coOnActived();
+    this.GetAllListForCRM(this.bookingInputParams);
   }
 
   onDivHeight() {
@@ -171,18 +177,20 @@ export class BookingComponent extends CoPageBase {
 
   //查看
   view(data: any) {
-    this.router.navigate(['/crm/booking/bookinglist/bookingDetail', data.id]);
+    this.$navigate(['/crm/booking/bookinglist/bookingDetail', data.id], {
+      queryParams: { _title: this.$L('Booking detail') + `-${data.bookingNo}` }
+    });
   }
   //新增booking
   addBooking() {
-    this.router.navigate(['/crm/booking/createBooking'], {
-      queryParams: { isEdit: false, CRM: true },
+    this.$navigate(['/crm/booking/createBooking', Date.now()], {
+      queryParams: { isEdit: false, CRM: true, _title: this.$L('Create booking') },
     }); //createType===1  代表从CRM进去的
   }
   //编辑
   editRouter(data: any, edit: string) {
-    this.router.navigate(['/crm/booking//createBooking'], {
-      queryParams: { BookingId: data.id, isEdit: true, CRM: true },
+    this.$navigate(['/crm/booking/createBooking', data.id], {
+      queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking'), },
     });
   }
 }

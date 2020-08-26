@@ -17,12 +17,12 @@
   "ZIP code": "邮编",
   "You don't have any general notifications yet": "您没有任何消息",
   "Duration Form": "有效时间（开始）",
-  "Successful claim~ You can follow up under [Potential Customers].":"认领成功~ 可在【潜在客户】项下跟进。",
+  "Successful claim~ You can follow up under [Potential Customers].": "认领成功~ 可在【潜在客户】项下跟进。",
   "Duration To": "有效时间（结束）",
   "Quotation validity": "报价有效期",
   "Add follow-up record": "新增跟进记录",
-  "Allocation is successful!":"分配成功!",
-  "Modify follow-up record":"修改跟进记录",
+  "Allocation is successful!": "分配成功!",
+  "Modify follow-up record": "修改跟进记录",
   "Quote No": "报价编号",
   "Select customer": "选择客户",
   "Please enter the correct fax!": "请输入正确的传真!",
@@ -265,7 +265,7 @@
   "New customer": "新增客户",
   "Save": "保存",
   "Delete": "删除",
-  "Follow up record details":"跟进记录详情",
+  "Follow up record details": "跟进记录详情",
   "OK": "确定",
   "Sharer": "共享人",
   "Name": "姓名",
@@ -865,5 +865,6 @@
   "Please select a condition": "请选择一个条件查询",
   "Waiting for the customer to confirm the price": "等待客户确认价格",
   "Ocean Freight/Total charge": "海运/总费用",
-  "NameAccount": "指定客户"
+  "NameAccount": "指定客户",
+  "Booking list": "订舱列表"
 }

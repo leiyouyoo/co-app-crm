@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, HostListener, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, HostListener, Input, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -9,12 +9,13 @@ import { CustomerMergeComponent } from '../../component/customer-merge/customer-
 import { Validators } from '@angular/forms';
 import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
+import { CoPageBase } from '@co/core';
 @Component({
   selector: 'app-no-deal-customer',
   templateUrl: './no-deal-customer.component.html',
   styleUrls: ['./no-deal-customer.component.less'],
 })
-export class NoDealCustomerComponent implements OnInit {
+export class NoDealCustomerComponent extends CoPageBase {
   @ViewChild(TransferTocustomerComponent, { static: true }) tranCustomer: TransferTocustomerComponent;
   com: any;
   @ViewChild('createCustomer', { static: true, read: ViewContainerRef }) createCustomer: ViewContainerRef;
@@ -52,9 +53,12 @@ export class NoDealCustomerComponent implements OnInit {
     private router: Router,
     private crmCustomerService: CRMCustomerService,
     private componentFactoryResolver: ComponentFactoryResolver,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
 
-  ngOnInit(): void {
+  coOnInit(): void {
     this.getCustomerByPageList();
   }
 
@@ -83,7 +87,11 @@ export class NoDealCustomerComponent implements OnInit {
   }
 
   showDetial(data) {
-    this.router.navigate(['/crm/home/customer/customerdetails', data.id]);
+    this.$navigate(['crm/customers/customerdetails', data.id], {
+      queryParams: {
+        _title: `${data.name}`,
+      },
+    });
   }
 
   create(application?: boolean): void {

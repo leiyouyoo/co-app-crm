@@ -26,7 +26,7 @@
         {{ 'DOOR-DOOR' | translate }}
       </div>
     </div>
-    <div style="border: 0.05em solid #e4e4e4; margin: 0px 24px;"></div>
+    <div style="margin: 0 24px; border: 0.05em solid #e4e4e4;"></div>
     <div class="f-route">
       <ul class="routeInfo">
         <li *ngIf="_quoteinfo.originAddress || _quoteinfo?.originAddressName">
@@ -41,7 +41,7 @@
                 ] | arrayJoin
               }}
             </div>
-            <div *ngIf="_quoteinfo?.originAddressName" >
+            <div *ngIf="_quoteinfo?.originAddressName">
               <div *ngIf="!_quoteinfo.originAddress" class="word">
                 {{ _quoteinfo.originAddressName }}
               </div>
@@ -60,17 +60,11 @@
             </div>
             <div *ngIf="!_quoteinfo.originPort" class="word">{{ 'originPort' | translate }}</div>
           </div>
-          <span
-            class="iconfont icon-chuanyun-yuan"
-            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
-          ></span>
-          <span
-            class="iconfont icon-kongyun-yuan"
-            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
-          ></span>
+          <span class="iconfont icon-chuanyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
+          <span class="iconfont icon-kongyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
           <div class="horizontal-line"></div>
         </li>
-        <li >
+        <li>
           <div class="routeInfo-info">
             <div *ngIf="_quoteinfo.destinationPort">
               <div class="word">{{ _quoteinfo.destinationPort?.name }}</div>
@@ -78,18 +72,9 @@
             </div>
             <div *ngIf="!_quoteinfo.destinationPort" class="word">{{ 'destinationPort' | translate }}</div>
           </div>
-          <span
-            class="iconfont icon-chuanyun-yuan"
-            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
-          ></span>
-          <span
-            class="iconfont icon-kongyun-yuan"
-            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
-          ></span>
-          <div
-            class="horizontal-line"
-            *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"
-          ></div>
+          <span class="iconfont icon-chuanyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
+          <span class="iconfont icon-kongyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
+          <div class="horizontal-line" *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"></div>
         </li>
         <li *ngIf="_quoteinfo.destinationAddress || _quoteinfo.destinationAddressName">
           <div class="routeInfo-info">

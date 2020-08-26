@@ -1,12 +1,18 @@
 .errorBorder {
-  color: @errorBorder  !important;
+  color: #FE443F  !important;
 }
 
 .icon-gengxin {
   color: #fa6400;
 }
 
+.height-100 {
+  height: 100%;
+}
+
 .inner-content {
+  height: 100%;
+
   .list-content {
     display       : flex;
     flex-direction: column;
@@ -16,7 +22,7 @@
       display        : flex;
       align-items    : center;
       justify-content: space-between;
-      padding        : 24px !important;
+      padding        : 0 0 24px !important;
 
       .index-header-title-filter {
         display    : flex;
@@ -43,7 +49,7 @@
 
             .tradeTypeInfo {
               min-width       : 100px;
-              &               :extend(.radio-button-width);
+              &:extend(.radio-button-width);
               text-align      : center;
               background-color: #ffffff;
               font-size       : 14px;
@@ -58,7 +64,6 @@
     }
 
     .content-list {
-      padding : 0px 24px;
       flex    : 1;
       overflow: hidden;
 

@@ -1,15 +1,11 @@
-<div
-  style="height: 100%;overflow: hidden;
-display: flex;
-flex-direction: column;"
->
+<div style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
   <div class="button-bind" style="text-align: right;">
     <button nz-button [nzType]="'primary'" class="currency-button" (click)="onShowNewCustomer()" [disabled]="!isOwner">
       {{ 'Bind new customers' | translate }}
     </button>
   </div>
 
-  <div style="background: #fff; flex: 1;overflow: hidden;">
+  <div style="background: #fff; flex: 1; overflow: hidden;">
     <nz-table
       #filterTable
       [nzData]="listOfData"
@@ -17,8 +13,8 @@ flex-direction: column;"
       [nzFrontPagination]="false"
       nzShowPagination="false"
       nzTableLayout="fixed"
-      calcNzTableBodyScroll
-      style="height: 100%;overflow: hidden;"
+      calcScroll
+      style="height: 100%; overflow: hidden;"
     >
       <thead>
         <tr>
@@ -71,13 +67,7 @@ flex-direction: column;"
           </td>
           <td nzEllipsis>
             <div class="detial_msg" style="width: 150px;">
-              <button
-                nz-button
-                nzType="default"
-                nzSize="small"
-                *ngIf="data.matchCustomers.length > 0"
-                (click)="bindCustomer(data)"
-              >
+              <button nz-button nzType="default" nzSize="small" *ngIf="data.matchCustomers.length > 0" (click)="bindCustomer(data)">
                 +{{ data.matchCustomers.length }}
               </button>
               <span *ngIf="data.matchCustomers.length == 0">{{ data.partnerCustomerOwner || '--' }}</span>
@@ -93,11 +83,9 @@ flex-direction: column;"
             <a (click)="details(data.id)">{{ 'View' | translate }}</a
             >&nbsp;&nbsp;
             <a *ngIf="data.bindUserName != null" (click)="unBindCustomer(data.id)">{{ 'Unbind' | translate }}</a>
-            <a
-              *ngIf="data.bindUserName == null && data.matchCustomers.length <= 0"
-              (click)="transferToCustomer(data.id, data.name)"
-              >{{ 'Convert to customer' | translate }}</a
-            >
+            <a *ngIf="data.bindUserName == null && data.matchCustomers.length <= 0" (click)="transferToCustomer(data.id, data.name)">{{
+              'Convert to customer' | translate
+            }}</a>
           </td>
         </tr>
       </tbody>
@@ -122,7 +110,6 @@ flex-direction: column;"
     [nzFooter]="null"
     nzWidth="80%"
   >
-    <partner-bind-customer [modalName]="modalName" [customerId]="customerId" (outData)="partnerOk($event)">
-    </partner-bind-customer>
+    <partner-bind-customer [modalName]="modalName" [customerId]="customerId" (outData)="partnerOk($event)"> </partner-bind-customer>
   </nz-modal>
 </div>

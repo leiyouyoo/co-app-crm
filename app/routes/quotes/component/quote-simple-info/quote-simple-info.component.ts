@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { QuoteEnquiry } from 'projects/cityocean/quote-library/src/public-api';
 import { QuotesService } from '../../service/quotes.service';
-import { FreightMethodType } from '@cityocean/basicdata-library';
+import { FreightMethodType } from '../../enum/quoteState';
 import { groupBy } from 'lodash';
 import { Observable } from 'rxjs';
 import { QuotesrecordComponent } from '../quotesrecord/quotesrecord.component';
@@ -14,7 +13,7 @@ import { QuotesrecordComponent } from '../quotesrecord/quotesrecord.component';
   styleUrls: ['./quote-simple-info.component.less'],
 })
 export class QuoteSimpleInfoComponent implements OnInit {
-  @Input() quoteObj: QuoteEnquiry = {};
+  @Input() quoteObj: any = {};
   @Input() record: any = {};
   @Input() Id: string;
   // @Input() quoteData: any = {};

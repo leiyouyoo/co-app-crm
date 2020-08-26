@@ -35,17 +35,12 @@
       [nzFrontPagination]="false"
       nzShowPagination="false"
       nzTableLayout="fixed"
-      calcNzTableBodyScroll
+      calcScroll
     >
       <thead>
         <tr>
           <th nzWidth="50px">
-            <label
-              nz-checkbox
-              nzShowCheckbox
-              [(nzChecked)]="isAllDisplayDataChecked"
-              (nzCheckedChange)="checkAll($event)"
-            ></label>
+            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
           </th>
           <th [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="500px">
             {{ 'CustomerTableName' | translate }}
@@ -80,7 +75,7 @@
             <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
           </td>
           <td nzEllipsis nzBreakWord style="color: #7297ff;">
-            <a [routerLink]="['/crm/home/customer/shareddetial', data.id]">
+            <a [routerLink]="['/crm/customers/shareddetial', data.id]">
               {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
             >
           </td>
@@ -116,7 +111,7 @@
             </ng-template>
           </td>
           <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/home/customer/shareddetial', data.id]">{{ 'View' | translate }}</a>
+            <a [routerLink]="['/crm/customers/shareddetial', data.id]">{{ 'View' | translate }}</a>
           </td>
         </tr>
       </tbody>
@@ -160,13 +155,7 @@
           >
             <nz-option *ngFor="let option of customList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
           </nz-select>
-          <button
-            nz-button
-            (click)="getTableData()"
-            [nzLoading]="tableLoading"
-            nzType="primary"
-            style="margin-left: 24px;"
-          >
+          <button nz-button (click)="getTableData()" [nzLoading]="tableLoading" nzType="primary" style="margin-left: 24px;">
             {{ 'Search' | translate }}
           </button>
         </div>

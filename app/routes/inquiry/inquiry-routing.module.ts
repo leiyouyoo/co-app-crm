@@ -9,7 +9,8 @@ const routes: Routes = [
     path: 'list',
     component: InquiryListComponent,
     data: {
-      breadcrumb: 'Inquiry list',
+      titleI18n: 'frm:Inquiry list',
+      reuse: true,
     },
   },
   {
@@ -25,11 +26,11 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Track list',
     },
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InquiryRoutingModule { }
+export class InquiryRoutingModule {}

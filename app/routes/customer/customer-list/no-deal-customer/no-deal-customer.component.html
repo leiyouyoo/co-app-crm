@@ -39,17 +39,12 @@
       [nzFrontPagination]="false"
       nzShowPagination="false"
       nzTableLayout="fixed"
-      calcNzTableBodyScroll
+      calcScroll
     >
       <thead>
         <tr>
           <th nzWidth="50px">
-            <label
-              nz-checkbox
-              nzShowCheckbox
-              [(nzChecked)]="isAllDisplayDataChecked"
-              (nzCheckedChange)="checkAll($event)"
-            ></label>
+            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
           </th>
           <th nzWidth="500px">
             {{ 'CustomerTableName' | translate }}
@@ -80,7 +75,7 @@
             <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
           </td>
           <td nzEllipsis>
-            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">
+            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">
               {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
             >
           </td>
@@ -98,10 +93,8 @@
             {{ data.owner || '--' }}
           </td>
           <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/home/customer/nodealdetial', data.id]">{{ 'View' | translate }}</a>
-            <span style="margin-left: 20px; color: #f5222dff;" (click)="deleteCustormer(data.id)">{{
-              'Delete' | translate
-            }}</span>
+            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">{{ 'View' | translate }}</a>
+            <span style="margin-left: 20px; color: #f5222dff;" (click)="deleteCustormer(data.id)">{{ 'Delete' | translate }}</span>
           </td>
         </tr>
       </tbody>

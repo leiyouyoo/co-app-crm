@@ -2,7 +2,7 @@
   <div class="list-content main-container bg-double-circle">
     <div class="content-header">
       <div class="d-flex align-items-center">
-        <i class="iconfont icon-booking-no"></i>
+        <i class="iconfont  icon-booking-no" nz-icon [nzIconfont]="'icon-booking-no'"></i>
         <span style="margin-left: 16px; font-size: 16px;">{{ bookingDetailInfo?.bookingNo }}</span>
         <span style="font-size: 24px; font-weight: 500; margin-left: 16px;">
           <span *ngIf="status == 0">

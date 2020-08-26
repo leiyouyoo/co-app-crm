@@ -1,15 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import {
-  QuoteEnquiry,
-  QuoteReplyItem,
-  quoteReplys,
-  unitType,
-  priceProduceNode,
-} from 'projects/cityocean/quote-library/src/public-api';
 import { QuotesService } from '../../service/quotes.service';
+import { priceProduceNode, unitType, FreightMethodType } from '../../enum/quoteState';
+import { CRMQuoteEnquiryDto } from '../../../../services/crm/crm.types';
 import { NgForm } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
-import { FreightMethodType, emptyGuid } from '@cityocean/basicdata-library';
 import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -27,11 +21,7 @@ export class CreatequotesComponent implements OnInit {
     }
   }
 
-  constructor(
-    public quotesService: QuotesService,
-    private message: NzMessageService,
-    private translate: TranslateService
-  ) {}
+  constructor(public quotesService: QuotesService, private message: NzMessageService, private translate: TranslateService) {}
   today = new Date();
   //基础费用
   basiccost: any[] = [{ validDateRange: [this.today] }];
@@ -50,8 +40,8 @@ export class CreatequotesComponent implements OnInit {
   @Output() isSuccessfully = new EventEmitter<any>();
   @Output() isQuoteStatus = new EventEmitter<boolean>();
   @Output() isClosed = new EventEmitter<boolean>();
-  _quoteinfo: QuoteEnquiry = {}; //询价实体
-  quoteReplys: quoteReplys = {
+  _quoteinfo: CRMQuoteEnquiryDto = {}; //询价实体
+  quoteReplys: any = {
     quoteReplyItems: [],
   };
   //最终有数据的箱型
@@ -61,7 +51,8 @@ export class CreatequotesComponent implements OnInit {
   currencyList: Array<any> = new Array<any>();
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
   //空的guid
-  emptyGuid = emptyGuid;
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
+
   @ViewChild(HandlequotesComponent) handlequotesComponent: HandlequotesComponent;
   ngOnInit() {}
 
@@ -254,7 +245,7 @@ export class CreatequotesComponent implements OnInit {
         remark: this.basiccost[0].remark,
       });
       this.startingplace.forEach((c) => {
-        //起始地
+        //起始地e
         if (c.unitType == unitType.Ticket) {
           //票
           c.quantity = 1;

@@ -10,59 +10,48 @@ import { CustomerComponent } from './customer-list/customer.component';
 const routes: Routes = [
   { path: '', redirectTo: 'customer', pathMatch: 'full' },
   {
-    path: 'customer',
-    component: CustomerIndexComponent,
+    path: '',
+    component: CustomerComponent,
     data: {
-      breadcrumb: 'Customer List',
-      titleI18n: 'Customer List',
+      keep: true,
+      key: 'customer',
+    },
+  },
+  {
+    path: 'customerdetails/:id',
+    component: CustomerDetailsComponent,
+    data: {
+      breadcrumb: 'Cooperation customer detail',
+      titleI18n: 'crm:customer',
       reuse: true,
     },
-    children: [
-      {
-        path: '',
-        component: CustomerComponent,
-        data: {
-          keep: true,
-          key: 'customer',
-        },
-      },
-      {
-        path: 'customerdetails/:id',
-        component: CustomerDetailsComponent,
-        data: {
-          breadcrumb: 'Cooperation customer detail',
-          titleI18n: 'crm:customer',
-          reuse: true,
-        },
-      },
-      {
-        path: 'nodealdetial/:id',
-        component: NodealDetailComponent,
-        data: {
-          breadcrumb: 'Potential customer detail',
-          titleI18n: 'crm:nodealdetial',
-          reuse: true,
-        },
-      },
-      {
-        path: 'unowndetial/:id',
-        component: UnownedDetailComponent,
-        data: {
-          breadcrumb: 'Unowned customers detail',
-          titleI18n: 'crm:unowndetial',
-          reuse: true,
-        },
-      },
-      {
-        path: 'shareddetial/:id',
-        component: ShareDetailsComponent,
-        data: {
-          breadcrumb: 'Share customers detail',
-          titleI18n: 'crm:shareddetial',
-          reuse: true,
-        },
-      },
-    ],
+  },
+  {
+    path: 'nodealdetial/:id',
+    component: NodealDetailComponent,
+    data: {
+      breadcrumb: 'Potential customer detail',
+      titleI18n: 'crm:nodealdetial',
+      reuse: true,
+    },
+  },
+  {
+    path: 'unowndetial/:id',
+    component: UnownedDetailComponent,
+    data: {
+      breadcrumb: 'Unowned customers detail',
+      titleI18n: 'crm:unowndetial',
+      reuse: true,
+    },
+  },
+  {
+    path: 'shareddetial/:id',
+    component: ShareDetailsComponent,
+    data: {
+      breadcrumb: 'Share customers detail',
+      titleI18n: 'crm:shareddetial',
+      reuse: true,
+    },
   },
   {
     path: 'location/:id',

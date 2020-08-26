@@ -1,23 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CoPageBase } from '@co/core';
 
 @Component({
   selector: 'app-shared-customers',
   templateUrl: './shared-customers.component.html',
   styleUrls: ['./shared-customers.component.less'],
 })
-export class SharedCustomersComponent implements OnInit {
+export class SharedCustomersComponent extends CoPageBase {
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   constructor(
     private msg: NzMessageService,
     private translate: TranslateService,
     public router: Router,
     private crmCustomerService: CRMCustomerService,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
   isVisible = false;
   listOfData: any;
   loading = false;
@@ -39,7 +43,7 @@ export class SharedCustomersComponent implements OnInit {
 
   customerInfo: any = null;
 
-  ngOnInit(): void {
+  coOnInit(): void {
     this.getSharesList();
   }
 
@@ -146,8 +150,13 @@ export class SharedCustomersComponent implements OnInit {
   }
 
   showDetial(data) {
-    this.router.navigate(['/crm/home/customer/shareddetial', data.id]);
+    this.$navigate(['crm/customers/shareddetial', data.id], {
+      queryParams: {
+        _title: `${data.name}`,
+      },
+    });
   }
+
   showMerge() {
     this.customerMerge.dataSet = [];
     let isShow = true;
