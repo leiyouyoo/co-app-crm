@@ -35,7 +35,6 @@ import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
 import { RouteTimeLineComponent } from './compoents/route-time-line/route-time-line.component';
 import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-code-item.component';
-import { SearchByExtraKeyDirective } from '@co/cbc';
 
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
@@ -44,6 +43,9 @@ import { DocumentListPanelComponent } from '../shared/compoents/document-list/li
 import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
 import { FormvalidationComponent } from './compoents/formvalidation/formvalidation.component';
 import { SharequotesComponent } from './compoents/sharequotes/sharequotes.component';
+import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divider.component';
+import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
+import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -55,15 +57,22 @@ const COMPONENTS_ENTRY = [
   DocumentListPanelComponent,
   DocumentToolbarComponent,
 ];
-const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent, FormvalidationComponent, SharequotesComponent];
+const COMPONENTS = [
+  ...COMPONENTS_ENTRY,
+  RouteTimeLineComponent,
+  FormvalidationComponent,
+  SharequotesComponent,
+  TicketDividerComponent,
+  CurvedRouteComponent,
+];
 const DIRECTIVES = [
   debounceInputDirective,
   EnterKeydownDirective,
   NzOptionExtraChangeDirective,
   CalcNzTableBodyScrollDirective,
   OptionsGroupValueDirective,
-  SearchByExtraKeyDirective,
   NzOptionExtraDirective,
+  WrapChildrenHeightDirective,
 ];
 // #endregion
 
