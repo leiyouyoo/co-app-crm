@@ -601,6 +601,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   up() {
+    console.log(1)
     this.canMove = false;
   }
 

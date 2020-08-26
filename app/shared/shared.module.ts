@@ -30,6 +30,7 @@ import { OptionsGroupValueDirective } from './directives/options-group-value.dir
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
 import { NzOptionExtraDirective } from './directives/nz-option-extra.directive';
+import { MouseMoveDirective } from './directives/mouse-move.directive';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
@@ -73,6 +74,7 @@ const DIRECTIVES = [
   OptionsGroupValueDirective,
   NzOptionExtraDirective,
   WrapChildrenHeightDirective,
+  MouseMoveDirective
 ];
 // #endregion
 
@@ -119,4 +121,4 @@ const DIRECTIVES = [
     ...DIRECTIVES,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
