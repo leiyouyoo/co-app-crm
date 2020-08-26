@@ -34,12 +34,20 @@ import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
 import { RouteTimeLineComponent } from './compoents/route-time-line/route-time-line.component';
 import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-code-item.component';
+import { SearchByExtraKeyDirective } from '@co/cbc';
 
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
 const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective];
+const DIRECTIVES = [
+  debounceInputDirective,
+  EnterKeydownDirective,
+  NzOptionExtraChangeDirective,
+  CalcNzTableBodyScrollDirective,
+  OptionsGroupValueDirective,
+  SearchByExtraKeyDirective,
+];
 // #endregion
 
 @NgModule({

@@ -7,7 +7,6 @@ import { PUBRegionService, PUBDataDictionaryService, PUBPlaceService, PlatformEd
 import { Observable } from 'rxjs';
 import { _HttpClient } from '@co/common';
 import { CRMCustomerService } from '../../../../services/crm';
-import { FormValidators } from './service/form-validators';
 import { AmapService } from '../../../../services/amap';
 @Component({
   selector: 'create-customer',
