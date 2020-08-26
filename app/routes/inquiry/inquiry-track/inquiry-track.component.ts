@@ -14,6 +14,7 @@ import { PlatformOrganizationUnitService, PUBPlaceService } from '@co/cds';
 import { RatesTruckServiceService } from '../../../services/rates/truck-service.service';
 import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
+import { debounce } from 'apps/crm/app/shared/utils';
 // import { debounce } from '@shared/utils/debounce';
 
 @Component({
@@ -630,18 +631,4 @@ export enum WeightUnitCode {
   LBS = "ZLDWLBS",
   MT = "ZLDWMT"
 }
-export function debounce(delay: number = 300): MethodDecorator {
-  // tslint:disable-next-line: only-arrow-functions
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const timeoutKey = Symbol();
 
-    const original = descriptor.value;
-
-    descriptor.value = function (...args) {
-      clearTimeout(this[timeoutKey]);
-      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
-    };
-
-    return descriptor;
-  };
-}
