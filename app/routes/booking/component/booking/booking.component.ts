@@ -6,6 +6,7 @@ import { FreightMethodType } from '../../../../shared/types/booking/FreightMetho
 import { CSPBookingService, CSPSureServiceCompanyInput } from '../../../../services/csp';
 import { PlatformCompanyConfigureService } from '@co/cds';
 import { CoPageBase } from '@co/core';
+import { STColumn } from '@co/cbc';
 
 @Component({
   selector: 'booking-booking',
@@ -39,6 +40,26 @@ export class BookingComponent extends CoPageBase {
 
   user = JSON.parse(window.localStorage.getItem('co.session'));
   userId = this.user.session.user.icpUserId;
+  columns: STColumn[] = [
+    { title: 'BookNo', index: 'bookingNo', render: 'no', },
+    { title: 'BookName', index: 'name', render: '', },
+    { title: 'Freight Type', width: 80, index: 'freightMethodType', render: 'freightMethodType', },
+    { title: 'cargo ready date', index: 'cargoReadyDate', render: 'cargoReadyDate', },
+    { title: 'Shipper', index: 'originAddress', render: 'originAddress', },
+    { title: 'Consignee', index: 'destinationAddress', render: 'destinationAddress', },
+    { title: 'Cargo Detail', index: 'totalWeightDisplay', render: 'totalWeightDisplay', },
+    { title: 'BookStatus', index: 'status', render: 'status', },
+    { title: 'Company', index: 'serviceCompanyDisplay', render: 'serviceCompanyDisplay', },
+    { title: 'Action',
+      type: 'action',
+      width: 120,
+      fixed: 'right',
+      buttons: [
+        { text: 'View', iif: (data) => data.status !== 0, click: (data) => this.view(data) },
+        { text: 'Edit', iif: (data) => data.status === 0 && data.creatorUserId === this.userId, click: (data) => this.editRouter(data, 'isEdit') },
+      ],
+    },
+  ];
 
   constructor(
     injector: Injector,

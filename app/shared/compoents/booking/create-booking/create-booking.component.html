@@ -1,14 +1,4 @@
 <div class="inner-content">
-  <div class="Booking" style="background: transparent;padding: 0;">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a (click)="location.back()">{{ 'Booking listing' | translate }}</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        {{ 'Create Booking' | translate }}
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-  </div>
   <div class="Booking">
     <div id="BookingOverview" class="BookingOverview">
       <div class="shipmentName_ChooseTem">
@@ -87,15 +77,15 @@
             <label class="transparent-Ocean" nz-radio-button [nzValue]="FreightMethodType.Ocean"
               [ngClass]="{ 'transparent-Ocean-blue': bookingObj.freightMethodType == FreightMethodType.Ocean }">
               <div style="display: flex; align-items: center;">
-                <span class="iconfont icon-Ocean"
-                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Ocean }"></span>
+                <i class="iconfont icon-ocean" nz-icon [nzIconfont]="'icon-ocean'"
+                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Ocean }"></i>
               </div>
             </label>
             <label class="transparent-Air" nz-radio-button [nzValue]="FreightMethodType.Air"
               [ngClass]="{ 'transparent-Air-blue': bookingObj.freightMethodType == FreightMethodType.Air }">
               <div style="display: flex; align-items: center;">
-                <span class="iconfont icon-Flight"
-                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Air }"></span>
+                <i class="iconfont icon-flight" nz-icon [nzIconfont]="'icon-flight'"
+                  [ngClass]="{ beijingIcon: bookingObj.freightMethodType == FreightMethodType.Air }"></i>
               </div>
             </label>
           </nz-radio-group>
@@ -126,13 +116,9 @@
                 [nzButtonStyle]="'solid'" class="incotermsGroup nz-radio-group-button">
                 <label class="incotermsGroupInfo" nz-radio-button [nzValue]="item.value"
                   *ngFor="let item of incotermsList">{{ item.key }}</label>
-                {{ bookingObj.incotermsId }}
                 <nz-select *ngIf="otherList.length > 0" [(ngModel)]="other" nzAllowClear [ngClass]="{
                     'selectOther-active select-checked':
-                      bookingObj.tradeType == 1 &&
-                      bookingObj.incotermsId &&
-                      bookingObj.incotermsId != 'd952c54f-5b36-438d-8695-4c2f9edf77d2' &&
-                      bookingObj.incotermsId != '66b84359-ad4e-4317-bdbe-10e4ffd8674e'
+                      bookingObj.tradeType == 1 && other
                   }" [nzPlaceHolder]="'Others' | translate" (ngModelChange)="bookingObj.incotermsId = $event">
                   <nz-option [nzValue]="item.value" [nzLabel]="item.key" *ngFor="let item of otherList"> </nz-option>
                 </nz-select>
