@@ -1,0 +1,14 @@
+<div class="divider" [style.height.px]="size" [style.padding-left.px]="paddingXpx" [style.padding-right.px]="paddingXpx">
+  <div class="cutter"></div>
+  <div class="semicircle semicircle--left">
+    <ng-template [ngTemplateOutlet]="semicircle"></ng-template>
+  </div>
+  <div class="semicircle semicircle--right">
+    <ng-template [ngTemplateOutlet]="semicircle"></ng-template>
+  </div>
+</div>
+<ng-template #semicircle>
+  <img
+    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABWElEQVRYR+WXbQ7CIAyGyy9hl9D730oPwgyrHZTBKB9DE5cYM7Ksz963LUWteIG7wv/Pklvd1vEHoPVNbQ8PulQIIIUgUGN0N8wGEAfm99vdrhApQc8oBU+t9aNVkANAGoZe7+3A58i2FYwxTWrsAGHgmRAMIAdB63FihuvoZL0SB4ASBElP1dELkQSIIfKW8BIlFQDgZYy5SxIzC7Cnnded9YlYCaqOWiuKAGfJmWtWCGNhWZZiZYgAyhBpKySlKQaILaH2nLfCinpDFwAvzzYVqgGO+wW1aWzZ1tqqDtkNkFLBWlRD0pguAXDBHcT/Aky1wE9Rk5IwP75NKkM+N/ISDGdH14qHdkIKnJ4b277evUtUhufB0Xv+9QM3o1zwy7fjMPD0gST11RzCyz58JDsLfvlQWvabJ9yIs8HvHExSHS7MdO81HlJ9TqziCTg1Jf/G4fSbx/M3+6RtTpNM0McAAAAASUVORK5CYII="
+    alt="" [height]="size" [width]="size">
+</ng-template>

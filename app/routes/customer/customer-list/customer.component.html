@@ -1,5 +1,5 @@
 <div class="tabs" id="tabs">
-  <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="choosedNum" (nzSelectedIndexChange)="selectedIndexChange($event)">
+  <nz-tabset [nzAnimated]="false">
     <nz-tab nzTitle="{{ 'Cooperating customers' | translate }}">
       <ng-template nz-tab>
         <div class="crm-body">
@@ -22,106 +22,33 @@
             </div>
 
             <div>
-              <button class="button" nz-button nzType="default" [disabled]="transDisabled" (click)="transModal()">
+              <button class="button" nz-button nzType="default" [disabled]="choosedData.length === 0" (click)="transModal()">
                 {{ 'Transfer' | translate }}
               </button>
-              <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
+              <button class="button" nz-button [nzType]="'primary'" [disabled]="choosedData.length === 0" (click)="showMerge()">
                 {{ 'customer merge' | translate }}
               </button>
             </div>
           </div>
 
           <div class="body-list">
-            <nz-table
-              *ngIf="listOfData"
-              #rowSelectionTable1
-              [nzData]="listOfData?.items"
-              [nzLoading]="loading"
-              [nzFrontPagination]="false"
-              nzShowPagination="false"
-              nzTableLayout="fixed"
+            <co-st
+              style="height: 100%;"
+              #st
+              [rowClassName]="getrowClassName"
+              [data]="listOfData?.items"
+              [columns]="columns"
+              [showFilters]="false"
+              [scroll]="{ x: '2000px' }"
+              [total]="listOfData?.totalCount"
+              [loading]="loading"
+              (change)="checkChange($event)"
+              [page]="{ front: false }"
+              [(ps)]="maxResultCount"
               calcScroll
+              disableCalcX
             >
-              <thead>
-                <tr>
-                  <th nzEllipsis nzWidth="50px">
-                    <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
-                  </th>
-                  <th nzEllipsis nzWidth="500px">
-                    {{ 'CustomerTableName' | translate }}
-                  </th>
-
-                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="CountryProvince" nzWidth="150px">
-                    {{ 'Country, province' | translate }}
-                  </th>
-                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Contact" nzWidth="150px">
-                    {{ 'Contact' | translate }}
-                  </th>
-                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Tel" nzWidth="150px">
-                    {{ 'Phone' | translate }}
-                  </th>
-                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="150px">
-                    {{ 'Owner' | translate }}
-                  </th>
-                  <th nzEllipsis [nzShowSort]="false" nzColumnKey="Owner" nzWidth="250px">
-                    {{ 'First shipment time' | translate }}
-                  </th>
-                  <th nzEllipsis nzRight="0" nzWidth="100px">
-                    {{ 'Operating' | translate }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let data of rowSelectionTable1.data; let i = index"
-                  [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-                  (dblclick)="showDetial(data)"
-                >
-                  <td nzEllipsis>
-                    <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
-                  </td>
-                  <td nzEllipsis>
-                    <a (click)="showDetial(data)">
-                      {{ data.name || '--' }}
-
-                      <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
-                    >
-                  </td>
-                  <td nzEllipsis nzBreakWord>
-                    {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
-                  </td>
-
-                  <td nzEllipsis nzBreakWord>
-                    {{ data.contactName || '--' }}
-                  </td>
-                  <td nzEllipsis nzBreakWord>
-                    {{ data.contactTel || '--' }}
-                  </td>
-                  <td nzEllipsis nzBreakWord>
-                    {{ data.owner || '--' }}
-                  </td>
-                  <td nzEllipsis nzBreakWord>
-                    {{ data.firsttimeShipDate || '--' }}
-                  </td>
-                  <td nzEllipsis nzBreakWord nzRight="0">
-                    <a (click)="showDetial(data)">{{ 'View' | translate }}</a>
-                  </td>
-                </tr>
-              </tbody>
-            </nz-table>
-          </div>
-
-          <div class="pagination">
-            <nz-pagination
-              [nzPageIndex]="skipCount"
-              [nzPageSize]="maxResultCount"
-              nzShowQuickJumper
-              nzShowSizeChanger
-              nzHideOnSinglePage
-              [nzTotal]="listOfData?.totalCount"
-              (nzPageSizeChange)="pageSizeChange($event)"
-              (nzPageIndexChange)="pageIndexChange($event)"
-            ></nz-pagination>
+            </co-st>
           </div>
         </div>
       </ng-template>

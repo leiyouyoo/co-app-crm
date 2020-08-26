@@ -20,9 +20,9 @@
       <nz-form-control nzErrorTip="Please select your value!">
         <nz-select #formSelect nzShowSearch nzAllowClear nzPlaceHolder="Please select your value"
           (nzOnSearch)="getFromList($event, null, isFromPort)"
-          [appSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']" [formControl]="controlFrom"
-          (ngModelChange)="fromChange.emit(formSelect)" (appNzOptionExtraChange)="fromExtraChange.emit($event)">
-          <nz-option *ngFor="let item of countyList" [appNzOptionExtra]="item" [nzLabel]="item.nameLocalization"
+          [coSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']" [formControl]="controlFrom"
+          (ngModelChange)="fromChange.emit(formSelect)" (coNzOptionExtraChange)="fromExtraChange.emit($event)">
+          <nz-option *ngFor="let item of countyList" [coNzOptionExtra]="item" [nzLabel]="item.nameLocalization"
             [nzValue]="item.id"></nz-option>
         </nz-select>
       </nz-form-control>
@@ -44,9 +44,9 @@
     <div class="from-to">
       <nz-form-control nzErrorTip="Please select your value!">
         <nz-select #toSelect nzAllowClear nzShowSearch nzServerSearch nzPlaceHolder="Please select your value"
-          [appSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']"
+          [coSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']"
           (nzOnSearch)="getToList($event, null, !isFromPort)" [formControl]="controlTo" ngModel
-          (ngModelChange)="toChange.emit(toSelect)" (appNzOptionExtraChange)="toExtraChange.emit($event)"
+          (ngModelChange)="toChange.emit(toSelect)" (coNzOptionExtraChange)="toExtraChange.emit($event)"
           class="select">
           <nz-option *ngFor="let item of toList" [nzValue]="item.id" [nzLabel]="item.nameLocalization"></nz-option>
         </nz-select>

@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, Injector } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, isTemplateRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerMergeComponent } from '../component/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
+import { STColumn } from '@co/cbc';
 
 @Component({
   selector: 'app-customer',
@@ -19,14 +20,48 @@ export class CustomerComponent extends CoPageBase {
   maxResultCount = 20;
   skipCount = 1;
 
-  isAllDisplayDataChecked = false;
-  transDisabled = true;
   isVisibleTrans = false;
   tranLoading = false;
-  choosedNum: any;
   searchData: any = null;
   listOfData: any;
-  data: any;
+
+  choosedData: any = [];
+
+  columns: STColumn[] = [
+    {
+      width: '250px',
+      title: 'CustomerTableName',
+      index: 'name',
+      format: (item, _col) => `${item.isMerged ? item.name + this.translate.instant('merged customers') : item.name}`,
+    },
+    {
+      width: '150px',
+      title: 'Country, province',
+      index: 'country',
+      format: (item, _col) => `${item.country + '' + item.province}`,
+    },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'Owner', index: 'owner' },
+    { width: '250px', title: 'First shipment time', index: 'firsttimeShipDate' },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      className: 'no-line-through',
+      buttons: [
+        {
+          text: this.translate.instant('View'),
+          type: 'none',
+          click: (e) => {
+            this.showDetial(e);
+          },
+        },
+      ],
+    },
+  ];
+
   @ViewChild(TransferTocustomerComponent, { static: true }) tranCustomer: TransferTocustomerComponent;
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   constructor(
@@ -41,10 +76,6 @@ export class CustomerComponent extends CoPageBase {
 
   coOnInit(): void {
     this.initData();
-    var tabs = window.localStorage.getItem('crmChangedTabs');
-    if (tabs) {
-      this.choosedNum = Number(tabs);
-    }
   }
 
   initData() {
@@ -80,12 +111,21 @@ export class CustomerComponent extends CoPageBase {
         (res: any) => {
           this.loading = false;
           this.listOfData = res;
-          this.data = res.items;
         },
         (err) => {
           this.loading = false;
         },
       );
+  }
+
+  checkChange(e): void {
+    //
+    e.type === 'pi' && this.pageIndexChange(e.pi - 1);
+    e.type === 'ps' && this.pageSizeChange(e.ps);
+
+    if (e.type === 'checkbox') {
+      this.choosedData = e.checkbox;
+    }
   }
 
   pageIndexChange(event: number): void {
@@ -99,24 +139,8 @@ export class CustomerComponent extends CoPageBase {
   }
 
   transModal() {
-    if (this.data.some((c) => c.choosed === true)) {
-      this.isVisibleTrans = true;
-      this.tranCustomer.validateForm.reset();
-    }
-  }
-
-  refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.data.every((item) => item.choosed === true);
-    this.transDisabled = !this.data.some((item) => item.choosed === true);
-  }
-
-  checkAll(data) {
-    if (data) {
-      this.data.forEach((e) => (e.choosed = true));
-    } else {
-      this.data.forEach((e) => (e.choosed = false));
-    }
-    this.refreshStatus();
+    this.isVisibleTrans = true;
+    this.tranCustomer.validateForm.reset();
   }
 
   cancelTrans() {
@@ -127,16 +151,15 @@ export class CustomerComponent extends CoPageBase {
     if (!this.tranCustomer.formValid()) {
       return;
     }
-    let list = [];
-    this.data.forEach((data) => {
-      if (data.choosed) {
-        list.push(data.id);
-      }
-    });
-    this.transferCustomer(list, this.tranCustomer.validateForm.get('userId').value);
+    this.transferCustomer(
+      this.choosedData.map((e) => e.id),
+      this.tranCustomer.validateForm.get('userId').value,
+    );
   }
 
   transferCustomer(customerIds: any[], userId: any) {
+    debugger;
+
     this.tranLoading = true;
     this.crmCustomerService
       .transferCustomer(
@@ -147,7 +170,7 @@ export class CustomerComponent extends CoPageBase {
         (res) => {
           this.tranLoading = false;
           this.isVisibleTrans = false;
-          this.msg.success(this.translate.instant('转让成功'));
+          this.msg.success(this.translate.instant('Successful transfer'));
           this.getCustomerByPageList();
         },
         (err) => {
@@ -165,16 +188,15 @@ export class CustomerComponent extends CoPageBase {
   }
 
   showMerge() {
+    debugger;
     this.customerMerge.dataSet = [];
     let isShow = true;
-    this.listOfData.items.forEach((data) => {
-      if (data.choosed) {
-        if (data.isMerged) {
-          isShow = false;
-          return;
-        } else {
-          this.customerMerge.addLine(data);
-        }
+    this.choosedData.forEach((data) => {
+      if (data.isMerged) {
+        isShow = false;
+        return;
+      } else {
+        this.customerMerge.addLine(data);
       }
     });
     if (isShow) {
@@ -182,9 +204,5 @@ export class CustomerComponent extends CoPageBase {
     } else {
       this.msg.warning(this.translate.instant('The merged customers cannot be merged again. Please check the selected data!'));
     }
-  }
-
-  selectedIndexChange(event) {
-    window.localStorage.setItem('crmChangedTabs', event);
   }
 }

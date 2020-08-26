@@ -29,7 +29,6 @@ import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-chang
 import { OptionsGroupValueDirective } from './directives/options-group-value.directive';
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
-import { SearchByExtraKeyDirective } from './directives/search-by-extra-key.directive';
 import { NzOptionExtraDirective } from './directives/nz-option-extra.directive';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
@@ -39,9 +38,42 @@ import { CusCodeItemComponent } from './compoents/customer/cus-code-item/cus-cod
 
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
-const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
-const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
-const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtraChangeDirective, CalcNzTableBodyScrollDirective, OptionsGroupValueDirective, SearchByExtraKeyDirective, NzOptionExtraDirective];
+import { DocumentLayoutComponent } from '../shared/compoents/document-list/layout/layout.component';
+import { DocumentListPanelComponent } from '../shared/compoents/document-list/list-panel/list-panel.component';
+import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
+import { FormvalidationComponent } from './compoents/formvalidation/formvalidation.component';
+import { SharequotesComponent } from './compoents/sharequotes/sharequotes.component';
+import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divider.component';
+import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
+import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
+environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
+
+const COMPONENTS_ENTRY = [
+  ApplyCusCodeComponent,
+  CreateCustomerComponent,
+  RecordEditComponent,
+  CusCodeItemComponent,
+  DocumentLayoutComponent,
+  DocumentListPanelComponent,
+  DocumentToolbarComponent,
+];
+const COMPONENTS = [
+  ...COMPONENTS_ENTRY,
+  RouteTimeLineComponent,
+  FormvalidationComponent,
+  SharequotesComponent,
+  TicketDividerComponent,
+  CurvedRouteComponent,
+];
+const DIRECTIVES = [
+  debounceInputDirective,
+  EnterKeydownDirective,
+  NzOptionExtraChangeDirective,
+  CalcNzTableBodyScrollDirective,
+  OptionsGroupValueDirective,
+  NzOptionExtraDirective,
+  WrapChildrenHeightDirective,
+];
 // #endregion
 
 @NgModule({
@@ -87,4 +119,4 @@ const DIRECTIVES = [debounceInputDirective, EnterKeydownDirective, NzOptionExtra
     ...DIRECTIVES,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

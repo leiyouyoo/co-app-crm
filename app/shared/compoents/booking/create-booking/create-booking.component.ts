@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { forkJoin, Observable } from 'rxjs';
@@ -36,7 +36,7 @@ import {
   CRMCustomerExternalService, CRMCustomerService, CRMQuoteEnquiryService, CRMLocationExternalService, CRMCustomerDto,
 } from '../../../../services/crm';
 import { _HttpClient } from '@co/common';
-import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, ISessionService } from '@co/core';
+import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
 
 const emptyGuid = '00000000-0000-0000-0000-000000000000'
@@ -46,7 +46,7 @@ const emptyGuid = '00000000-0000-0000-0000-000000000000'
   templateUrl: './create-booking.component.html',
   styleUrls: ['./create-booking.component.less'],
 })
-export class CreateBookingComponent implements OnInit {
+export class CreateBookingComponent extends CoPageBase implements OnInit {
   //booking实体
   bookingObj: BookingEntity = {
     isTaxIncluded: true,
@@ -178,7 +178,10 @@ export class CreateBookingComponent implements OnInit {
     private pubPlaceService: PUBPlaceService,
     private platformCompanyConfigureService: PlatformCompanyConfigureService,
     @Inject(CO_SESSIONSERVICE_TOKEN) private sessionService: ISessionService,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
   //路由跳转命名的参数
   DetailId: string;
   BookingId: string;
@@ -203,6 +206,7 @@ export class CreateBookingComponent implements OnInit {
   isOpen: boolean = true;
 
   ngOnInit() {
+    super.ngOnInit();
     const id = this.activeRoute.snapshot.params.id;
     if (typeof +id !== 'number') {
       this.BookingId = id;
@@ -1387,7 +1391,8 @@ export class CreateBookingComponent implements OnInit {
               (res) => {
                 this.message.info(this.translate.instant('Successful operation'));
                 if (this.isCRM) {
-                  this.router.navigate(['/crm/booking/bookinglist']);
+                  this.$close();
+                  this.router.navigate(['/crm/bookings/bookinglist']);
                 } else {
                   this.router.navigate(['/bookings']);
                 }
@@ -1416,7 +1421,7 @@ export class CreateBookingComponent implements OnInit {
               (res) => {
                 this.message.info(this.translate.instant('Successful operation'));
                 if (this.isCRM) {
-                  this.router.navigate(['/crm/booking/bookinglist']);
+                  this.router.navigate(['/crm/bookings/bookinglist']);
                 } else {
                   this.router.navigate(['/bookings']);
                 }

@@ -13,9 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared';
 import { BookingSharedModule } from '../../shared/compoents/booking-shared.module';
-import { DocumentLayoutComponent } from '../../shared/compoents/document-list/layout/layout.component';
-import { DocumentListPanelComponent } from '../../shared/compoents/document-list/list-panel/list-panel.component';
-import { DocumentToolbarComponent } from '../../shared/compoents/document-list/toolbar/toolbar.component';
 
 const component = [
   BookingComponent,
@@ -25,9 +22,6 @@ const component = [
   UpdatequotesComponent,
   QuoteRecorddetailComponent,
   PackingListComponent,
-  DocumentLayoutComponent,
-  DocumentListPanelComponent,
-  DocumentToolbarComponent,
 ];
 
 @NgModule({

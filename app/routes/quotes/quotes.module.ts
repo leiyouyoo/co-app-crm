@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuotesRoutingModule } from './quotes-routing.module';
 import { SharedModule } from '../../shared';
-import { DocumentLayoutComponent } from '../../shared/compoents/document-list/layout/layout.component';
-import { DocumentListPanelComponent } from '../../shared/compoents/document-list/list-panel/list-panel.component';
-import { DocumentToolbarComponent } from '../../shared/compoents/document-list/toolbar/toolbar.component';
 import { InquiryComponent } from './component/inquiry/inquiry.component';
 import { initiativeCreatequotesComponent } from './component/initiativecreatequotes/initiativecreatequotes.component';
 import { CreatequotesComponent } from './component/createquotes/createquotes.component';
@@ -23,9 +20,6 @@ const COMPONENTS = [
   InquirydetailComponent,
   QuotesIndexComponent,
   HandlequotesComponent,
-  DocumentLayoutComponent,
-  DocumentListPanelComponent,
-  DocumentToolbarComponent,
 ];
 
 @NgModule({

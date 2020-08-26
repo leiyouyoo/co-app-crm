@@ -45,7 +45,8 @@
     </div>
     <div class="content-list">
       <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: hidden">
-        <co-st [columns]="columns"
+        <co-st class="list-table"
+          [columns]="columns"
                [data]="bookingList"
                [showCheckbox]="false"
                [showFilters]="false"
@@ -89,7 +90,7 @@
           <!-- 货物信息 -->
           <ng-template st-row="totalWeightDisplay" let-data>
             <ng-container *ngIf="data.totalWeightDisplay && data.totalVolumeDisplay; else elseWeightTemplate">
-              <ul>
+              <ul class="ellipse-ul">
                 <li>{{ data.totalWeightDisplay }}</li>
                 <li>{{ data.totalVolumeDisplay }}</li>
               </ul>
@@ -148,8 +149,8 @@
           <!-- 发货人收货人模板 -->
           <ng-template #addressTemplate let-address>
             <ng-container *ngIf="address; else elsedestinationAddressTemplate">
-              <ul *ngIf="address">
-                <li>
+              <ul *ngIf="address" class="ellipse-ul">
+                <li [title]="address?.customerName || address?.name">
                   <ng-container *ngIf="address.customerName; else elsedestinationTemplate">
                     {{ address?.customerName }}
                   </ng-container>
@@ -157,7 +158,7 @@
                     {{ address?.name }}
                   </ng-template>
                 </li>
-                <li>
+                <li [title]="[address?.streetAddress, address?.city, address?.country] | arrayJoin">
                       <span *ngIf="address">
                         {{ address?.streetAddress }}
 

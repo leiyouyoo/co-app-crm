@@ -217,12 +217,12 @@
                   nzShowSearch
                   nzAllowClear
                   formControlName="countryId"
-                  [appSearchByExtraKey]="['chineseName', 'name']"
+                  [coSearchByExtraKey]="['chineseName', 'name']"
                   nzPlaceHolder="{{ 'Please select a country' | translate }}"
                   (ngModelChange)="selectedCountry($event)"
                 >
                   <nz-option
-                    [appNzOptionExtra]="option"
+                    [coNzOptionExtra]="option"
                     *ngFor="let option of regions"
                     [nzLabel]="option.nameLocalization"
                     [nzValue]="option.id"
@@ -241,11 +241,11 @@
                   nzAllowClear
                   formControlName="provinceId"
                   (ngModelChange)="selectedProvinces($event)"
-                  [appSearchByExtraKey]="['chineseName', 'name']"
+                  [coSearchByExtraKey]="['chineseName', 'name']"
                   nzPlaceHolder="{{ 'Please select province' | translate }}"
                 >
                   <nz-option
-                    [appNzOptionExtra]="option"
+                    [coNzOptionExtra]="option"
                     *ngFor="let option of provinces"
                     [nzLabel]="option.nameLocalization"
                     [nzValue]="option.id"
@@ -264,12 +264,12 @@
                   nzAllowClear
                   formControlName="cityId"
                   nzPlaceHolder="{{ 'Please select city' | translate }}"
-                  [appSearchByExtraKey]="['chineseName', 'name']"
+                  [coSearchByExtraKey]="['chineseName', 'name']"
                   (ngModelChange)="selectedCity($event)"
                 >
                   <nz-option
                     *ngFor="let option of citys"
-                    [appNzOptionExtra]="option"
+                    [coNzOptionExtra]="option"
                     [nzLabel]="option.nameLocalization + '(' + option.name + ')'"
                     [nzValue]="option.id"
                   >
