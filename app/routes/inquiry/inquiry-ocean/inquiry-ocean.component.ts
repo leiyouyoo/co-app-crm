@@ -16,6 +16,7 @@ import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-
 import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
+import { debounce } from 'apps/crm/app/shared/utils';
 
 
 
@@ -600,6 +601,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   up() {
+    console.log(1)
     this.canMove = false;
   }
 
@@ -1176,21 +1178,7 @@ export class InquiryListOceanComponent implements OnInit {
 }
 
 
-export function debounce(delay: number = 300): MethodDecorator {
-  // tslint:disable-next-line: only-arrow-functions
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const timeoutKey = Symbol();
 
-    const original = descriptor.value;
-
-    descriptor.value = function (...args) {
-      clearTimeout(this[timeoutKey]);
-      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
-    };
-
-    return descriptor;
-  };
-}
 
 export enum VolumeUnitCode {
   CBM = "TJDWCBM",

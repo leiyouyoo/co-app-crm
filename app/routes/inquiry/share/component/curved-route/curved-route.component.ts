@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { jsPlumb, jsPlumbInstance } from 'jsplumb';
+import { debounce } from 'apps/crm/app/shared';
 // import { debounce } from '../../utils/debounce';
 
 @Component({
@@ -69,18 +70,4 @@ export class CurvedRouteComponent implements OnInit {
   }
 }
 
-export function debounce(delay: number = 300): MethodDecorator {
-  // tslint:disable-next-line: only-arrow-functions
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const timeoutKey = Symbol();
 
-    const original = descriptor.value;
-
-    descriptor.value = function (...args) {
-      clearTimeout(this[timeoutKey]);
-      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
-    };
-
-    return descriptor;
-  };
-}

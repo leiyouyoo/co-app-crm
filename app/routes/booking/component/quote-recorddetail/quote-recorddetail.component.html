@@ -23,7 +23,7 @@
           border: 1px solid rgba(215, 227, 241, 1);
         "
       >
-        <span class="iconfont icon-icon_remind"></span
+        <span class="iconfont icon-icon_remind" nz-icon nzIconfont="icon-info-fill"></span
         ><span class="tishi">{{
           'Tip: After selecting the quotation to be associated with the current booking business, the quotation will be sent to the customer synchronously'
             | translate
@@ -42,18 +42,18 @@
               <!-- *ngIf="quoteinfo?.originAddress" -->
               <div class="content-ocean-pic" *ngIf="quoteinfo?.originAddress">
                 <span class="jy-ocean-StartingPlace-none">
-                  <span class="iconfont icon-locationnew" id="warehouse-first"></span>
+                  <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline" id="warehouse-first"></span>
                 </span>
                 <div class="horizontal-line"></div>
               </div>
               <div class="content-ocean-pic">
                 <span class="jy-ocean-StartingPlace">
                   <span
-                    class="iconfont icon-port"
+                    class="iconfont icon-port" nz-icon nzIconfont="icon-vessel-freight"
                     *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
                   ></span>
                   <span
-                    class="iconfont icon-airport"
+                    class="iconfont icon-airport" nz-icon nzIconfont="icon-air-freight"
                     *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
                   ></span>
                 </span>
@@ -62,11 +62,11 @@
               <div class="content-ocean-pic">
                 <span class="jy-ocean-StartingPlace">
                   <span
-                    class="iconfont icon-port"
+                    class="iconfont icon-port" nz-icon nzIconfont="icon-vessel-freight"
                     *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
                   ></span>
                   <span
-                    class="iconfont icon-airport"
+                    class="iconfont icon-airport" nz-icon nzIconfont="icon-air-freight"
                     *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
                   ></span>
                 </span>
@@ -76,7 +76,7 @@
               <!-- *ngIf="quoteinfo.destinationAddress" -->
               <div class="content-ocean-pic" *ngIf="quoteinfo.destinationAddress">
                 <span class="jy-ocean-StartingPlace">
-                  <span class="iconfont icon-locationnew"></span>
+                  <span class="iconfont icon-locationnew nz-icon nzIconfont="icon-location-outline""></span>
                 </span>
               </div>
             </div>
@@ -158,18 +158,18 @@
             <!-- *ngIf="quote_copy?.originAddress" -->
             <div class="content-ocean-pic" *ngIf="quote_copy?.originAddress">
               <span class="jy-ocean-StartingPlace-none">
-                <span class="iconfont icon-locationnew" id="warehouse-first"></span>
+                <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline" id="warehouse-first"></span>
               </span>
               <div class="horizontal-line"></div>
             </div>
             <div class="content-ocean-pic">
               <span class="jy-ocean-StartingPlace">
                 <span
-                  class="iconfont icon-port"
+                  class="iconfont icon-port" nz-icon nzIconfont="icon-vessel-freight"
                   *ngIf="quote_copy.freightMethodType == freightMethodTypeValue.Ocean"
                 ></span>
                 <span
-                  class="iconfont icon-airport"
+                  class="iconfont icon-airport" nz-icon nzIconfont="icon-air-freight"
                   *ngIf="quote_copy.freightMethodType == freightMethodTypeValue.Air"
                 ></span>
               </span>
@@ -178,11 +178,11 @@
             <div class="content-ocean-pic">
               <span class="jy-ocean-StartingPlace">
                 <span
-                  class="iconfont icon-port"
+                  class="iconfont icon-port" nz-icon nzIconfont="icon-vessel-freight"
                   *ngIf="quote_copy.freightMethodType == freightMethodTypeValue.Ocean"
                 ></span>
                 <span
-                  class="iconfont icon-airport"
+                  class="iconfont icon-airport" nz-icon nzIconfont="icon-air-freight"
                   *ngIf="quote_copy.freightMethodType == freightMethodTypeValue.Air"
                 ></span>
               </span>
@@ -192,7 +192,7 @@
             <!-- *ngIf="quote_copy.destinationAddress" -->
             <div class="content-ocean-pic" *ngIf="quote_copy.destinationAddress">
               <span class="jy-ocean-StartingPlace">
-                <span class="iconfont icon-locationnew"></span>
+                <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline"></span>
               </span>
             </div>
           </div>
@@ -827,8 +827,8 @@
                   <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
                 </td>
                 <td style="min-width: 120px;">
-                  <span class="iconfont icon-plus" (click)="addOrigin()"></span>
-                  <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+                  <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addOrigin()"></span>
+                  <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
                 </td>
               </tr>
             </tbody>
@@ -938,8 +938,8 @@
                   <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
                 </td>
                 <td>
-                  <span class="iconfont icon-plus" (click)="addOrigin()"></span>
-                  <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+                  <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addOrigin()"></span>
+                  <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
                 </td>
               </tr>
             </tbody>
@@ -1085,8 +1085,8 @@
                   <input nz-input [name]="'remark' + i" #remark="ngModel" [(ngModel)]="item.remark" />
                 </td>
                 <td>
-                  <span class="iconfont icon-plus" (click)="addDestination()"></span>
-                  <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+                  <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addDestination()"></span>
+                  <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
                 </td>
               </tr>
             </tbody>
@@ -1197,8 +1197,8 @@
                   </div>
                 </td>
                 <td>
-                  <span class="iconfont icon-plus" (click)="addDestination()"></span>
-                  <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+                  <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addDestination()"></span>
+                  <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
                 </td>
               </tr>
             </tbody>

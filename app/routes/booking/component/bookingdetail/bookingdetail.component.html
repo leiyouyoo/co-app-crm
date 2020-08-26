@@ -31,9 +31,11 @@
           </span>
         </span>
         <div style="margin-left: 16px;" *ngIf="bookingDetailInfo.status == 1 || bookingDetailInfo.status == 7">
-          <span class="iconfont icon-icon_dangerous" [title]="bookingCancel[bookingDetailInfo.cancelReason]"> </span>
+          <span class="iconfont icon-icon_dangerous" nz-icon nzIconfont="icon-dangerous" [title]="bookingCancel[bookingDetailInfo.cancelReason]"> </span>
           <span
             class="iconfont icon-beizhu"
+            nz-icon
+            nzIconfont="icon-remark"
             *ngIf="bookingDetailInfo.cancelRemark"
             [title]="bookingDetailInfo.cancelRemark"
           >
@@ -57,7 +59,7 @@
             }}</span>
           </div>
           <div *ngIf="bookingDetailInfo.deliveryMethodType == 1">
-            <span class="iconfont icon-dingwei" nz-popover [nzPopoverContent]="dingweiTemplate"> </span>
+            <span class="iconfont icon-dingwei" nz-icon nzIconfont="icon-location" nz-popover [nzPopoverContent]="dingweiTemplate"> </span>
             <ng-template #dingweiTemplate>
               <div style="width: 80%;" class="content-header-fba-bottom-left-right">
                 <span>
@@ -74,7 +76,7 @@
             </ng-template>
           </div>
           <div>
-            <span class="iconfont icon-user-login" nz-popover [nzPopoverContent]="userTemplate"> </span>
+            <span class="iconfont icon-user-login" nz-icon nzIconfont="icon-user-login" nz-popover [nzPopoverContent]="userTemplate"> </span>
             <ng-template #userTemplate>
               <div style="width: 80%;" class="content-header-fba-bottom-left-right">
                 <span
@@ -760,6 +762,8 @@
                       id="gengxin"
                       *ngIf="lastData.cargoReadyDate"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -804,6 +808,8 @@
                       id="gengxin"
                       *ngIf="lastData.freightType"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -850,6 +856,8 @@
                       id="gengxin"
                       *ngIf="lastData.tradeType"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -885,6 +893,8 @@
                         id="gengxin"
                         *ngIf="lastData.incotermsString"
                         class="iconfont icon-gengxin"
+                        nz-icon
+                        [nzIconfont]="'icon-gengxin'"
                         nz-popover
                         nzPopoverTitle="Title"
                         nzPopoverTrigger="hover"
@@ -930,6 +940,8 @@
                     id="gengxin"
                     *ngIf="lastcontainString"
                     class="iconfont icon-gengxin"
+                    nz-icon
+                    [nzIconfont]="'icon-gengxin'"
                     [title]="lastcontainString"
                     nz-popover
                     nzPopoverTitle="Title"
@@ -980,6 +992,8 @@
                       id="gengxin"
                       *ngIf="lastData.quantity"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -1018,6 +1032,8 @@
                       id="gengxin"
                       *ngIf="lastData.weight"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -1056,6 +1072,8 @@
                       id="gengxin"
                       *ngIf="lastData.volume"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -1103,6 +1121,8 @@
                     id="gengxin"
                     *ngIf="lastData.description"
                     class="iconfont icon-gengxin"
+                    nz-icon
+                    [nzIconfont]="'icon-gengxin'"
                     nz-popover
                     nzPopoverTitle="Title"
                     nzPopoverTrigger="hover"
@@ -1126,6 +1146,8 @@
                       id="gengxin"
                       *ngIf="lastData.specialInstructions"
                       class="iconfont icon-gengxin"
+                      nz-icon
+                      [nzIconfont]="'icon-gengxin'"
                       nz-popover
                       nzPopoverTitle="Title"
                       nzPopoverTrigger="hover"
@@ -1171,7 +1193,7 @@
 >
   <div class="RoutelDetail">
     <div class="RoutelDetail-top">
-      <span class="iconfont icon-locationnew"></span>
+      <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline"></span>
       <nz-select
         style="width: 70%; margin-left: 24px;"
         [(ngModel)]="bookingObj.deliveryWarehouseId"
@@ -1200,10 +1222,14 @@
     <div class="RoutelDetail-top">
       <span
         class="iconfont icon-portnew"
+        nz-icon
+        nzIconfont="icon-port-outline"
         *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean"
       ></span>
       <span
         class="iconfont icon-airplane"
+        nz-icon
+        nzIconfont="icon-airplane"
         *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air"
       ></span>
       <nz-select
@@ -1227,11 +1253,11 @@
               <span>{{ item.name }}</span>
               <!-- <span class="iconfont icon-airplane"></span>
               <span class="iconfont icon-Ocean"></span> -->
-              <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-              <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+              <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+              <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
               <span *ngIf="item.isAir && item.isOcean">
-                <span class="iconfont icon-airplane"></span>
-                <span class="iconfont icon-Ocean"></span>
+                <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
+                <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
               </span>
             </div>
             <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
@@ -1254,10 +1280,14 @@
     <div class="RoutelDetail-top">
       <span
         class="iconfont icon-portnew"
+        nz-icon
+        nzIconfont="icon-port-outline"
         *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean"
       ></span>
       <span
         class="iconfont icon-airport"
+        nz-icon
+        nzIconfont="icon-airport"
         *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Air"
       ></span>
       <nz-select
@@ -1280,11 +1310,11 @@
             <div class="port-name">
               <span>{{ item.name }}</span>
               <!-- <span class="iconfont icon-Ocean"></span><span class="iconfont icon-airplane"></span> -->
-              <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-              <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+              <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+              <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
               <span *ngIf="item.isAir && item.isOcean">
-                <span class="iconfont icon-airplane"></span>
-                <span class="iconfont icon-Ocean"></span>
+                <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
+                <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
               </span>
             </div>
             <div class="port-code"><span>customs:</span> {{ item.code }}</div>
@@ -1304,7 +1334,7 @@
   </div>
   <div class="RoutelDetail">
     <div class="RoutelDetail-top">
-      <span class="iconfont icon-locationnew"></span>
+      <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline"></span>
       <nz-select
         *ngIf="bookingDetailInfo.tradeType == 2"
         style="width: 70%; margin-left: 24px;"

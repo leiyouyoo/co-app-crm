@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { merge } from 'rxjs';
 // import { debounce } from '@shared/utils/debounce';
 import { PUBPlaceService } from '@co/cds';
+import { debounce } from 'apps/crm/app/shared';
 @Component({
   selector: 'app-trucking-from-to',
   templateUrl: './trucking-from-to.component.html',
@@ -90,18 +91,4 @@ export class TruckingFromToComponent implements OnInit, OnChanges {
   }
 }
 
-export function debounce(delay: number = 300): MethodDecorator {
-  // tslint:disable-next-line: only-arrow-functions
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const timeoutKey = Symbol();
 
-    const original = descriptor.value;
-
-    descriptor.value = function (...args) {
-      clearTimeout(this[timeoutKey]);
-      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
-    };
-
-    return descriptor;
-  };
-}
