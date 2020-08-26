@@ -499,6 +499,15 @@ export class CreateBookingComponent implements OnInit {
     );
   }
 
+  isIncotermOtherActive() {
+    if (this.bookingObj.tradeType !== 1 || !this.incotermsList?.length) return false;
+
+    const hit = this.incotermsList.find(o => o.value === this.bookingObj.incotermsId);
+    if (!hit) return false;
+
+    return !['DDP', 'C&F'].includes(hit.key);
+  }
+
   //选择贸易条款类型
   tradeTypeChange(event: any) {
     if (event == 2 || event == 3) {
