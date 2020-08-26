@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
+import { STColumn } from '@co/cbc';
 
 @Component({
   selector: 'app-shared-customers',
@@ -42,6 +43,50 @@ export class SharedCustomersComponent extends CoPageBase {
   tableLoading = false;
 
   customerInfo: any = null;
+
+  choosedData = [];
+  columns: STColumn[] = [
+    {
+      width: '250px',
+      title: 'CustomerTableName',
+      index: 'name',
+      format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
+    },
+    {
+      width: '150px',
+      title: 'Country, province',
+      index: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
+    },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    { width: '150px', title: 'Sharer', index: 'contactTel' },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      className: 'no-line-through',
+      buttons: [
+        {
+          text: this.translate.instant('View'),
+          type: 'none',
+          click: (e) => {
+            this.showDetial(e);
+          },
+        },
+        {
+          text: this.translate.instant('Delete'),
+          type: 'none',
+          className: 'st__btn--red',
+          click: (e) => {
+            this.onBindCustomer(e);
+          },
+        },
+      ],
+    },
+  ];
 
   coOnInit(): void {
     this.getSharesList();
@@ -160,14 +205,12 @@ export class SharedCustomersComponent extends CoPageBase {
   showMerge() {
     this.customerMerge.dataSet = [];
     let isShow = true;
-    this.listOfData.items.forEach((data) => {
-      if (data.choosed) {
-        if (data.isMerged) {
-          isShow = false;
-          return;
-        } else {
-          this.customerMerge.addLine(data);
-        }
+    this.choosedData.forEach((data) => {
+      if (data.isMerged) {
+        isShow = false;
+        return;
+      } else {
+        this.customerMerge.addLine(data);
       }
     });
     if (isShow) {
@@ -195,5 +238,15 @@ export class SharedCustomersComponent extends CoPageBase {
     this.crmCustomerService.get(id).subscribe((res: any) => {
       this.customerInfo = res;
     });
+  }
+
+  checkChange(e): void {
+    //
+    e.type === 'pi' && this.pageIndexChange(e.pi);
+    e.type === 'ps' && this.pageSizeChange(e.ps);
+
+    if (e.type === 'checkbox') {
+      this.choosedData = e.checkbox;
+    }
   }
 }

@@ -15,7 +15,7 @@ import { throwIfAlreadyLoaded } from './core';
 const coConfig: CoConfig = {
   st: {
     modal: { size: 'lg' },
-    size: 'small',
+    size: 'default',
     page: {
       front: false,
       zeroIndexed: false,
@@ -23,7 +23,7 @@ const coConfig: CoConfig = {
       placement: 'right',
       show: true,
       showSize: true,
-      pageSizes: [10, 15, 30, 45, 60],
+      pageSizes: [10, 15, 30, 45, 60, 100],
       showQuickJumper: false,
       total: true,
       toTop: true,

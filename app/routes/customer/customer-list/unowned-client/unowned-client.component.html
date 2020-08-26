@@ -32,121 +32,41 @@
       ></nz-alert>
     </div>
 
-    <nz-table
-      #rowSelectionTable4
-      [nzData]="listOfData?.items"
-      [nzLoading]="loading"
-      [nzFrontPagination]="false"
-      nzShowPagination="false"
-      nzTableLayout="fixed"
+    <co-st
+      style="height: 100%;"
+      #st
+      [rowClassName]="getrowClassName"
+      [data]="listOfData?.items"
+      [columns]="columns"
+      [showFilters]="false"
+      [scroll]="{ x: '2000px' }"
+      [total]="listOfData?.totalCount"
+      [loading]="loading"
+      (change)="checkChange($event)"
+      [page]="{ front: false }"
+      [(ps)]="maxResultCount"
       calcScroll
+      disableCalcX
     >
-      <thead>
-        <tr>
-          <th [nzShowSort]="false" nzEllipsis nzWidth="500px">
-            {{ 'CustomerTableName' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="CountryProvince" nzWidth="150px">
-            {{ 'Country, province' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="Contact" nzWidth="150px">
-            {{ 'Contact' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="Tel" nzWidth="150px">
-            {{ 'Phone' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="Owner" nzWidth="150px">
-            {{ 'First shipment time' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="CustomerType" nzWidth="150px">
-            {{ 'CustomerType' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="CustomerName" nzWidth="150px">
-            {{ 'Status' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="CustomerName" nzWidth="150px">
-            {{ 'Claimant' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzEllipsis nzColumnKey="CustomerName" nzWidth="150px">
-            {{ 'Assign' | translate }}
-          </th>
-          <th nzRight="0" nzWidth="180px">
-            {{ 'Operating' | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let data of rowSelectionTable4.data; let i = index"
-          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-          (dblclick)="showDetial(data)"
+      <ng-template st-row="action" let-data>
+        <button
+          nz-button
+          nz-popover
+          class="redButton"
+          nzPopoverTitle=""
+          [nzPopoverContent]="contentTemplate"
+          nzPopoverPlacement="bottomRight"
+          nzSize="small"
+          *ngIf="data.sharedUsers"
         >
-          <td nzEllipsis style="color: #7297ff;" nzEllipsis>
-            <a [routerLink]="['/crm/customers/unowndetial', data.id]"> {{ data.name || '--' }}</a>
-          </td>
-          <td nzEllipsis>
-            <div class="detial_msg" style="width: 150px;">
-              {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
-            </div>
-          </td>
-
-          <td nzEllipsis>
-            {{ data.contactName || '--' }}
-          </td>
-          <td nzEllipsis>
-            {{ data.contactTel || '--' }}
-          </td>
-          <td nzEllipsis>
-            {{ data.firsttimeShipDate || '--' }}
-          </td>
-
-          <td nzEllipsis>
-            {{ customerTypePipe[data.customerType] || '--' }}
-          </td>
-
-          <td nzEllipsis>
-            <span *ngIf="data.claimStatus === 0">{{ 'Unclaimed' | translate }}</span>
-            <span *ngIf="data.claimStatus === 1" class="redColor">{{ 'Claimed' | translate }}</span>
-            <button nz-button nzType="danger" *ngIf="data.claimStatus === 2">
-              {{ 'Department manager assignment' | translate }}
-            </button>
-          </td>
-          <td nzEllipsis>
-            {{ data.owner || '--' }}
-          </td>
-          <td nzEllipsis>
-            {{ data.pushName || '--' }}
-          </td>
-          <td nzEllipsis nzRight="0">
-            <a [routerLink]="['/crm/customers/unowndetial', data.id]">{{ 'View' | translate }}</a>
-            <a
-              *ngIf="data.claimStatus === 0 && data.pushUserId == currentUserId"
-              style="padding-left: 20px;"
-              (click)="claimCustomer(data.id)"
-              >{{ 'claim' | translate }}</a
-            >
-            <a
-              *ngIf="isSuper && data.claimStatus === 0 && data.pushUserId != currentUserId"
-              style="padding-left: 20px;"
-              (click)="transferCustomer(data.id, data.pushUserId)"
-              >{{ 'Assign' | translate }}</a
-            >
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+          {{ '+' + data.sharedUsers.length }}
+        </button>
+        <ng-template #contentTemplate>
+          <div *ngFor="let item of data.sharedUsers">
+            <p>{{ item.userName }}</p>
+          </div>
+        </ng-template>
+      </ng-template>
+    </co-st>
   </div>
-
-  <!-- <div class="pagination">
-    <nz-pagination
-      [nzPageIndex]="skipCount"
-      [nzPageSize]="maxResultCount"
-      nzShowQuickJumper
-      nzShowSizeChanger
-      nzHideOnSinglePage
-      [nzTotal]="listOfData?.totalCount"
-      (nzPageSizeChange)="pageSizeChange($event)"
-      (nzPageIndexChange)="pageIndexChange($event)"
-    ></nz-pagination>
-  </div> -->
 </div>

@@ -25,7 +25,7 @@
               <button class="button" nz-button nzType="default" [disabled]="choosedData.length === 0" (click)="transModal()">
                 {{ 'Transfer' | translate }}
               </button>
-              <button class="button" nz-button [nzType]="'primary'" [disabled]="choosedData.length === 0" (click)="showMerge()">
+              <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
                 {{ 'customer merge' | translate }}
               </button>
             </div>
@@ -75,11 +75,13 @@
   nzCancelText="{{ 'Cancel' | translate }}"
   nzWidth="50%"
 >
-  <transfer-tocustomer></transfer-tocustomer>
-  <ng-template #tranFooter>
-    <button nz-button nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
-      {{ 'Transfer' | translate }}
-    </button>
-  </ng-template>
+  <div style="height: 100%;">
+    <transfer-tocustomer></transfer-tocustomer>
+    <ng-template #tranFooter>
+      <button nz-button nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
+        {{ 'Transfer' | translate }}
+      </button>
+    </ng-template>
+  </div>
 </nz-modal>
 <app-customer-merge (getCustomerByPageList)="getCustomerByPageList()"></app-customer-merge>

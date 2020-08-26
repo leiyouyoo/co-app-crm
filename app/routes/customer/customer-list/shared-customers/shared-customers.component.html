@@ -28,107 +28,42 @@
   </div>
 
   <div class="body-list">
-    <nz-table
-      #rowSelectionTable3
-      [nzData]="listOfData?.items"
-      [nzLoading]="loading"
-      [nzFrontPagination]="false"
-      nzShowPagination="false"
-      nzTableLayout="fixed"
+    <co-st
+      style="height: 100%;"
+      #st
+      [rowClassName]="getrowClassName"
+      [data]="listOfData?.items"
+      [columns]="columns"
+      [showFilters]="false"
+      [scroll]="{ x: '2000px' }"
+      [total]="listOfData?.totalCount"
+      [loading]="loading"
+      (change)="checkChange($event)"
+      [page]="{ front: false }"
+      [(ps)]="maxResultCount"
       calcScroll
+      disableCalcX
     >
-      <thead>
-        <tr>
-          <th nzWidth="50px">
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="500px">
-            {{ 'CustomerTableName' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="CountryProvince" nzWidth="150px">
-            {{ 'Country, province' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="Contact" nzWidth="150px">
-            {{ 'Contact' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="Tel" nzWidth="150px">
-            {{ 'Phone' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="Owner" nzWidth="150px">
-            {{ 'First shipment time' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="CustomerName" nzWidth="150px">
-            {{ 'Sharer' | translate }}
-          </th>
-          <th nzRight="0" nzWidth="100px">
-            {{ 'Operating' | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let data of rowSelectionTable3.data; let i = index"
-          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-          (dblclick)="showDetial(data)"
+      <ng-template st-row="action" let-data>
+        <button
+          nz-button
+          nz-popover
+          class="redButton"
+          nzPopoverTitle=""
+          [nzPopoverContent]="contentTemplate"
+          nzPopoverPlacement="bottomRight"
+          nzSize="small"
+          *ngIf="data.sharedUsers"
         >
-          <td nzEllipsis>
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
-          </td>
-          <td nzEllipsis nzBreakWord style="color: #7297ff;">
-            <a [routerLink]="['/crm/customers/shareddetial', data.id]">
-              {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
-            >
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.contactName || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.contactTel || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.firsttimeShipDate || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord>
-            <button
-              *ngIf="data.sharedUsers.length > 0"
-              nz-button
-              nz-popover
-              nzPopoverTitle=""
-              [nzPopoverContent]="contentTemplate"
-              nzPopoverPlacement="bottomRight"
-              nzSize="small"
-            >
-              {{ '+' + data.sharedUsers.length }}
-            </button>
-            <span *ngIf="data.sharedUsers.length == 0">--</span>
-            <ng-template #contentTemplate>
-              <div *ngFor="let item of data.sharedUsers">
-                <div>{{ item.userName || '--' }}</div>
-              </div>
-            </ng-template>
-          </td>
-          <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/customers/shareddetial', data.id]">{{ 'View' | translate }}</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </div>
-
-  <div class="pagination">
-    <nz-pagination
-      [nzPageIndex]="skipCount"
-      [nzPageSize]="maxResultCount"
-      nzShowQuickJumper
-      nzShowSizeChanger
-      nzHideOnSinglePage
-      [nzTotal]="listOfData?.totalCount"
-      (nzPageSizeChange)="pageSizeChange($event)"
-      (nzPageIndexChange)="pageIndexChange($event)"
-    ></nz-pagination>
+          {{ '+' + data.sharedUsers.length }}
+        </button>
+        <ng-template #contentTemplate>
+          <div *ngFor="let item of data.sharedUsers">
+            <p>{{ item.userName }}</p>
+          </div>
+        </ng-template>
+      </ng-template>
+    </co-st>
   </div>
 
   <nz-modal
@@ -182,35 +117,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let data of basicTable.data; let i = index"
-              [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-              (click)="getCustomerById(data.id)"
-            >
+            <tr *ngFor="let data of basicTable.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
               <td nzEllipsis>{{ data.name }}</td>
               <td nzEllipsis>{{ data.country }}-{{ data.province }}</td>
               <td nzEllipsis>{{ data.contactName || '--' }}</td>
               <td nzEllipsis>{{ data.contactTel || '--' }}</td>
               <td nzEllipsis>{{ data.firsttimeShipDate || '--' }}</td>
-              <td nzEllipsis>
-                <button
-                  nz-button
-                  nz-popover
-                  class="redButton"
-                  nzPopoverTitle=""
-                  [nzPopoverContent]="contentTemplate"
-                  nzPopoverPlacement="bottomRight"
-                  nzSize="small"
-                  *ngIf="data.sharedUsers"
-                >
-                  {{ '+' + data.sharedUsers.length }}
-                </button>
-                <ng-template #contentTemplate>
-                  <div *ngFor="let item of data.sharedUsers">
-                    <p>{{ item.userName }}</p>
-                  </div>
-                </ng-template>
-              </td>
+              <td nzEllipsis></td>
               <td nzEllipsis nzRight="0">
                 <div>
                   <a (click)="onBindCustomer(data)">{{ 'follow up' | translate }}</a>

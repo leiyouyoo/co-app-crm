@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
+import { STColumn } from '@co/cbc';
 
 @Component({
   selector: 'app-unowned-client',
@@ -29,45 +30,55 @@ export class UnownedClientComponent extends CoPageBase {
   isSuper: boolean;
   loading = false;
   searchData: any = null;
-  user = JSON.parse(window.localStorage.getItem('co.session'));
-  currentUserId = this.user.session.user.icpUserId;
 
-  customerTypePipe: any = {
-    1: this.translate.instant('Carrier'),
-
-    // 航空公司
-    2: this.translate.instant('AirLine'),
-
-    // 货代
-    3: this.translate.instant('Forwarding'),
-
-    // 直客
-    4: this.translate.instant('DirectClient'),
-
-    // 拖车行
-    5: this.translate.instant('Trucker'),
-
-    // 报关行
-    6: this.translate.instant('CustomsBroker'),
-
-    // 仓储
-    7: this.translate.instant('WareHouse'),
-
-    // 堆场
-    8: this.translate.instant('Storage'),
-
-    // 铁路
-    9: this.translate.instant('RailWay'),
-
-    // 快递
-    10: this.translate.instant('Express'),
-
-    // 码头
-    11: this.translate.instant('Terminal'),
-
-    // 其他
-    12: this.translate.instant('Other'),
-  };
+  columns: STColumn[] = [
+    {
+      width: '250px',
+      title: 'CustomerTableName',
+      index: 'name',
+      format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
+    },
+    {
+      width: '150px',
+      title: 'Country, province',
+      index: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
+    },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    {
+      width: '150px',
+      title: 'CustomerType',
+      index: 'customerType',
+      type: 'enum',
+      enum: {
+        1: this.translate.instant('Carrier'),
+        2: this.translate.instant('AirLine'),
+        3: this.translate.instant('Forwarding'),
+        4: this.translate.instant('DirectClient'),
+        5: this.translate.instant('Trucker'),
+        6: this.translate.instant('CustomsBroker'),
+        7: this.translate.instant('WareHouse'),
+        8: this.translate.instant('Storage'),
+        9: this.translate.instant('RailWay'),
+        10: this.translate.instant('Express'),
+        11: this.translate.instant('Terminal'),
+        12: this.translate.instant('Other'),
+      },
+    },
+    { width: '150px', title: 'Status', index: 'contactTel' },
+    { width: '150px', title: 'Claimant', index: 'contactTel' },
+    { width: '150px', title: 'Assign', index: 'contactTel' },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      className: 'no-line-through',
+      render: 'action',
+    },
+  ];
 
   coOnInit(): void {
     this.getOwnerlessCustomerByPageList();
@@ -155,4 +166,6 @@ export class UnownedClientComponent extends CoPageBase {
       },
     });
   }
+
+  checkChange(e) {}
 }
