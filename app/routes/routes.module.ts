@@ -39,10 +39,10 @@ export const routers: Routes = [
       //   },
       // },
       {
-        path: 'inquiry',
+        path: 'inquiries',
         loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
         data: {
-          titleI18n: 'Inquiry',
+          titleI18n: 'inquiries',
           reuse: true,
           breadcrumb: '',
         },
