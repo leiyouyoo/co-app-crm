@@ -43,6 +43,7 @@ import { DocumentLayoutComponent } from '../shared/compoents/document-list/layou
 import { DocumentListPanelComponent } from '../shared/compoents/document-list/list-panel/list-panel.component';
 import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
 import { FormvalidationComponent } from './compoents/formvalidation/formvalidation.component';
+import { SharequotesComponent } from './compoents/sharequotes/sharequotes.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -54,7 +55,7 @@ const COMPONENTS_ENTRY = [
   DocumentListPanelComponent,
   DocumentToolbarComponent,
 ];
-const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent, FormvalidationComponent];
+const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent, FormvalidationComponent, SharequotesComponent];
 const DIRECTIVES = [
   debounceInputDirective,
   EnterKeydownDirective,
