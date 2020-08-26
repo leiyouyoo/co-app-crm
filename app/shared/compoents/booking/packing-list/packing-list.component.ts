@@ -63,7 +63,7 @@ export class PackingListComponent implements OnInit {
 
   @Input() isDisabledPack: boolean = false; //在详情页面调用装箱单页面需要禁用
   declareCurrencyInfo = 'd67186ce-8b2c-4a75-81f1-a4fe3cc12de9'; //默认币别数据(暂时)
-  cargo = {};
+  cargo: any = {};
   isSelSku: boolean = false;
   url = CoConfigManager.getValue('serverUrl') + '/CSP/Booking/ClearanceInviocesUpload'; //上传
   imgUrl = CoConfigManager.getValue('serverUrl');

@@ -198,19 +198,19 @@ export class BookingComponent extends CoPageBase {
 
   //查看
   view(data: any) {
-    this.$navigate(['/crm/booking/bookinglist/bookingDetail', data.id], {
+    this.$navigate(['/crm/bookings/bookinglist/bookingDetail', data.id], {
       queryParams: { _title: this.$L('Booking detail') + `-${data.bookingNo}` }
     });
   }
   //新增booking
   addBooking() {
-    this.$navigate(['/crm/booking/createBooking', Date.now()], {
+    this.$navigate(['/crm/bookings/createBooking', Date.now()], {
       queryParams: { isEdit: false, CRM: true, _title: this.$L('Create booking') },
     }); //createType===1  代表从CRM进去的
   }
   //编辑
   editRouter(data: any, edit: string) {
-    this.$navigate(['/crm/booking/createBooking', data.id], {
+    this.$navigate(['/crm/bookings/createBooking', data.id], {
       queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking'), },
     });
   }
