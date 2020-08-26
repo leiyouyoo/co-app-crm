@@ -29,6 +29,7 @@ import { NzOptionExtraChangeDirective } from './directives/nz-option-extra-chang
 import { OptionsGroupValueDirective } from './directives/options-group-value.directive';
 import { ApplyCusCodeComponent } from './compoents/customer/apply-cus-code/apply-cus-code.component';
 import { CreateCustomerComponent } from './compoents/customer/create-customer/create-customer.component';
+import { NzOptionExtraDirective } from './directives/nz-option-extra.directive';
 
 import { CalcNzTableBodyScrollDirective } from './directives/calc-nz-table-body-scroll.directive';
 import { RecordEditComponent } from './compoents/customer/record-edit/record-edit.component';
@@ -38,8 +39,22 @@ import { SearchByExtraKeyDirective } from '@co/cbc';
 
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
-const COMPONENTS_ENTRY = [ApplyCusCodeComponent, CreateCustomerComponent, RecordEditComponent, CusCodeItemComponent];
-const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent];
+import { DocumentLayoutComponent } from '../shared/compoents/document-list/layout/layout.component';
+import { DocumentListPanelComponent } from '../shared/compoents/document-list/list-panel/list-panel.component';
+import { DocumentToolbarComponent } from '../shared/compoents/document-list/toolbar/toolbar.component';
+import { FormvalidationComponent } from './compoents/formvalidation/formvalidation.component';
+environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
+
+const COMPONENTS_ENTRY = [
+  ApplyCusCodeComponent,
+  CreateCustomerComponent,
+  RecordEditComponent,
+  CusCodeItemComponent,
+  DocumentLayoutComponent,
+  DocumentListPanelComponent,
+  DocumentToolbarComponent,
+];
+const COMPONENTS = [...COMPONENTS_ENTRY, RouteTimeLineComponent, FormvalidationComponent];
 const DIRECTIVES = [
   debounceInputDirective,
   EnterKeydownDirective,
@@ -47,6 +62,7 @@ const DIRECTIVES = [
   CalcNzTableBodyScrollDirective,
   OptionsGroupValueDirective,
   SearchByExtraKeyDirective,
+  NzOptionExtraDirective,
 ];
 // #endregion
 
