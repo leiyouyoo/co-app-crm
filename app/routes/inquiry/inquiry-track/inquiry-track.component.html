@@ -102,15 +102,9 @@
         <nz-form-item class="search-item">
           <nz-form-label>{{ 'From' | translate }}</nz-form-label>
           <nz-form-control>
-            <nz-select
-              style="width: 200px;"
-              nzAllowClear
-              nzShowSearch
-              nzServerSearch
-              (nzOnSearch)="getAddress($event, 0)"
-              [nzPlaceHolder]="'Input location/port' | translate"
-              formControlName="From"
-            >
+            <nz-select style="width: 200px;" nzAllowClear nzShowSearch nzServerSearch
+              (nzOnSearch)="getAddress($event, 0)" [nzPlaceHolder]="'Input location/port' | translate"
+              formControlName="From">
               <nz-option *ngFor="let item of countryLists" origin [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -119,16 +113,9 @@
         <nz-form-item class="search-item">
           <nz-form-label>{{ 'To' | translate }}</nz-form-label>
           <nz-form-control>
-            <nz-select
-              style="width: 200px;"
-              nzAllowClear
-              nzShowSearch
-              nzServerSearch
-              [nzPlaceHolder]="'Input location/port' | translate"
-              (nzOnSearch)="getAddress($event, 1)"
-              formControlName="To"
-              class="select"
-            >
+            <nz-select style="width: 200px;" nzAllowClear nzShowSearch nzServerSearch
+              [nzPlaceHolder]="'Input location/port' | translate" (nzOnSearch)="getAddress($event, 1)"
+              formControlName="To" class="select">
               <nz-option *ngFor="let item of portList" [nzValue]="item.id" [nzLabel]="item.name"> </nz-option>
             </nz-select>
           </nz-form-control>
@@ -176,9 +163,11 @@
         <nz-form-item>
           <nz-form-label>{{ 'Trucker' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please select Trucker' | translate }}">
-            <nz-select formControlName="Carrier" nzPlaceHolder="{{ 'Please select Trucker' | translate }}" nzShowSearch nzAllowClear>
+            <nz-select formControlName="Carrier" nzPlaceHolder="{{ 'Please select Trucker' | translate }}" nzShowSearch
+              nzAllowClear>
               <!-- (nzOnSearch)="getCRMCarrierList($event)" -->
-              <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
+              <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.name" [nzValue]="option.id">
+              </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -196,7 +185,8 @@
         <nz-form-item>
           <nz-form-label>{{ 'NO' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please input your NO' | translate }}">
-            <input type="text" nz-input formControlName="No" placeholder="{{ 'Please enter the quote number' | translate }}" />
+            <input type="text" nz-input formControlName="No"
+              placeholder="{{ 'Please enter the quote number' | translate }}" />
           </nz-form-control>
         </nz-form-item>
 
@@ -211,15 +201,8 @@
   </form>
 
   <div class="inquiry-right">
-    <nz-table
-      #basicTable
-      [nzData]="dataOfList?.items"
-      [nzLoading]="loading"
-      [nzFrontPagination]="false"
-      nzShowPagination="false"
-      nzTableLayout="fixed"
-      calcScroll
-    >
+    <nz-table #basicTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
+      nzShowPagination="false" nzTableLayout="fixed" calcScroll>
       <thead>
         <tr>
           <!-- <th nzWidth="80px">
@@ -269,11 +252,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          (click)="showDetial(data, i)"
-          *ngFor="let data of basicTable.data; let i = index"
-          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0, 'list-selected': data.selected }"
-        >
+        <tr (click)="showDetial(data, i)" *ngFor="let data of basicTable.data; let i = index"
+          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0, 'list-selected': data.selected }">
           <!-- <td>
             <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
           </td> -->
@@ -285,15 +265,11 @@
               (ngModelChange)="onFollowChange(data)"
             ></nz-switch> -->
 
-              <i
-                nz-icon
-                nzType="star"
-                nzTheme="outline"
-                (click)="$event.stopPropagation(); onFollowChange(data)"
-                *ngIf="!data.isFavorite"
-              ></i>
+              <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
+                *ngIf="!data.isFavorite"></i>
 
-              <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)" *ngIf="data.isFavorite"></i>
+              <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)"
+                *ngIf="data.isFavorite"></i>
             </div>
           </td>
 
@@ -401,25 +377,15 @@
   </div>
 
   <div style="text-align: right; padding: 0 24px 24px 24px;">
-    <nz-pagination
-      [nzPageIndex]="skipCount"
-      [nzPageSize]="maxResultCount"
-      [nzTotal]="dataOfList?.totalCount"
-      [nzShowTotal]="totalTemplate"
-      (nzPageIndexChange)="onPageIndexChanged($event)"
-    >
+    <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
+      [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
     </nz-pagination>
     <ng-template #totalTemplate let-total> {{ 'Total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
   </div>
 </div>
 
-<nz-modal
-  [(nzVisible)]="modalVisible"
-  (nzOnCancel)="modalVisible = false"
-  nzWidth="70%"
-  nzTitle="{{ 'Request quote' | translate }}"
-  [nzFooter]="footer"
->
+<nz-modal [(nzVisible)]="modalVisible" (nzOnCancel)="modalVisible = false" nzWidth="70%"
+  nzTitle="{{ 'Request quote' | translate }}" [nzFooter]="footer">
   <form nz-form [formGroup]="validateForm" nzLayout="vertical" style="margin: 0 0 0 24px;">
     <div class="flex-form-four">
       <nz-form-item>
@@ -436,12 +402,9 @@
     </div>
 
     <div>
-      <app-trucking-from-to
-        [controlFrom]="validateForm.controls.truckPortId"
-        [controlZipCode]="validateForm.controls.zipCode"
-        [controlTo]="validateForm.controls.truckAddressId"
-        [isFromPort]="validateForm.value.truckType !== '1'"
-      ></app-trucking-from-to>
+      <app-trucking-from-to [controlFrom]="validateForm.controls.truckPortId"
+        [controlZipCode]="validateForm.controls.zipCode" [controlTo]="validateForm.controls.truckAddressId"
+        [isFromPort]="validateForm.value.truckType !== '1'"></app-trucking-from-to>
     </div>
 
     <strong>{{ 'Route information' | translate }}</strong>
@@ -487,13 +450,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Choose a bidder' | translate }}</nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-select
-            nzPlaceHolder="{{ 'Please select' | translate }}"
-            style="width: 100%;"
-            nzShowSearch
-            nzAllowClear
-            formControlName="ReplyUserId"
-          >
+          <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;" nzShowSearch nzAllowClear
+            formControlName="ReplyUserId">
             <nz-option *ngFor="let option of unitUsers" [nzLabel]="option.name" [nzValue]="option.userId"></nz-option>
           </nz-select>
         </nz-form-control>
@@ -505,14 +463,8 @@
       <nz-form-item>
         <nz-form-label>{{ 'Inquiry customer' | translate }}</nz-form-label>
         <nz-form-control>
-          <nz-select
-            nzShowSearch
-            nzAllowClear
-            nzPlaceHolder="{{ 'Please select' | translate }}"
-            style="width: 100%;"
-            formControlName="ownerCustomerId"
-            (ngModelChange)="onCustomerListChange($event)"
-          >
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;"
+            formControlName="ownerCustomerId" (ngModelChange)="onCustomerListChange($event)">
             <nz-option *ngFor="let option of customerList" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
           </nz-select>
         </nz-form-control>
@@ -521,8 +473,10 @@
       <nz-form-item>
         <nz-form-label>{{ 'Inquirer' | translate }}</nz-form-label>
         <nz-form-control>
-          <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;" formControlName="ownerContactId" nzAllowClear>
-            <nz-option *ngFor="let option of customerUserList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
+          <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;"
+            formControlName="ownerContactId" nzAllowClear>
+            <nz-option *ngFor="let option of customerUserList" [nzLabel]="option.name" [nzValue]="option.id">
+            </nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -532,11 +486,8 @@
       <nz-form-item>
         <nz-form-label>{{ 'cargo ready date' | translate }}</nz-form-label>
         <nz-form-control nzErrorTip="Please select date!">
-          <nz-date-picker
-            (ngModelChange)="onAStartChange()"
-            [nzDisabledDate]="disabledAStartDate"
-            formControlName="cargoReadyDate"
-          ></nz-date-picker>
+          <nz-date-picker (ngModelChange)="onAStartChange()" [nzDisabledDate]="disabledAStartDate"
+            formControlName="cargoReadyDate"></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
 
@@ -553,12 +504,8 @@
         <nz-form-label>{{ 'Pieces' | translate }}</nz-form-label>
         <nz-form-control [nzErrorTip]="quantityErrorTpl">
           <nz-input-group [nzAddOnAfter]="a">
-            <nz-input-number
-              style="width: 100%; border-radius: 4px 0 0 4px;"
-              formControlName="quantity"
-              [nzMin]="1"
-              [nzStep]="1"
-            ></nz-input-number>
+            <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="quantity" [nzMin]="1"
+              [nzStep]="1"></nz-input-number>
             <ng-template #quantityErrorTpl>
               <ng-container *ngIf="validateForm.get('quantity').hasError('existSameCode')">
                 {{ 'Data must be greater than 0' | translate }}
@@ -587,12 +534,8 @@
         <nz-form-label>{{ 'Gross weight' | translate }}</nz-form-label>
         <nz-form-control [nzErrorTip]="weightErrorTpl">
           <nz-input-group [nzAddOnAfter]="b" class="group-addon-nopadding">
-            <nz-input-number
-              style="width: 100%; border-radius: 4px 0 0 4px;"
-              formControlName="weight"
-              [nzMin]="1"
-              [nzStep]="1"
-            ></nz-input-number>
+            <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="weight" [nzMin]="1"
+              [nzStep]="1"></nz-input-number>
             <ng-template #weightErrorTpl>
               <ng-container *ngIf="validateForm.get('weight').hasError('existSameCode')">
                 {{ 'Data must be greater than 0' | translate }}
@@ -612,12 +555,8 @@
         <nz-form-label>{{ 'Volume' | translate }}</nz-form-label>
         <nz-form-control [nzErrorTip]="volumeErrorTpl">
           <nz-input-group [nzAddOnAfter]="c" class="group-addon-nopadding">
-            <nz-input-number
-              style="width: 100%; border-radius: 4px 0 0 4px;"
-              formControlName="volume"
-              [nzMin]="1"
-              [nzStep]="1"
-            ></nz-input-number>
+            <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="volume" [nzMin]="1"
+              [nzStep]="1"></nz-input-number>
             <ng-template #volumeErrorTpl>
               <ng-container *ngIf="validateForm.get('volume').hasError('existSameCode')">
                 {{ 'Data must be greater than 0' | translate }}
@@ -638,20 +577,16 @@
       <nz-form-item>
         <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
         <nz-form-control>
-          <input
-            type="text"
-            nz-input
-            maxlength="2000"
-            formControlName="description"
-            placeholder="{{ 'Please enter remark' | translate }}"
-          />
+          <input type="text" nz-input maxlength="2000" formControlName="description"
+            placeholder="{{ 'Please enter remark' | translate }}" />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label>{{ 'Commodity' | translate }}</nz-form-label>
         <nz-form-control>
-          <input type="text" nz-input formControlName="commodity" placeholder="{{ 'Please enter commodity' | translate }}" />
+          <input type="text" nz-input formControlName="commodity"
+            placeholder="{{ 'Please enter commodity' | translate }}" />
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -660,8 +595,10 @@
       <nz-form-item>
         <nz-form-label>{{ 'Trucker' | translate }}</nz-form-label>
         <nz-form-control>
-          <nz-select formControlName="carrierCustomerId" nzPlaceHolder="{{ 'Please select' | translate }}" nzAllowClear nzShowSearch>
-            <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.localizationName" [nzValue]="option.id"> </nz-option>
+          <nz-select formControlName="carrierCustomerId" nzPlaceHolder="{{ 'Please select' | translate }}" nzAllowClear
+            nzShowSearch>
+            <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.localizationName"
+              [nzValue]="option.id"> </nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -698,17 +635,10 @@
   <app-track-detial #detial></app-track-detial>
 </nz-modal> -->
 
-<nz-drawer
-  [nzClosable]="false"
-  [nzWidth]="'1'"
-  [nzBodyStyle]="drawerStyle"
-  [nzVisible]="detialVisible"
-  nzPlacement="right"
-  [nzTitle]="drawerTitle"
-  (nzOnClose)="closeDrawerModal()"
-  [nzMaskStyle]="maskStyle"
->
-  <app-track-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()"> </app-track-detial>
+<nz-drawer [nzClosable]="false" [nzWidth]="'1'" [nzBodyStyle]="drawerStyle" [nzVisible]="detialVisible"
+  nzPlacement="right" [nzTitle]="drawerTitle" (nzOnClose)="closeDrawerModal()" [nzMaskStyle]="maskStyle">
+  <app-track-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()">
+  </app-track-detial>
 </nz-drawer>
 
 <ng-template #drawerTitle>
