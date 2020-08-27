@@ -5,28 +5,21 @@ import { InquirydetailComponent } from './component/inquirydetail/inquirydetail.
 import { QuotesIndexComponent } from './quotes-index.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'quoteslist', pathMatch: 'full' },
   {
-    path: 'quoteslist',
-    component: QuotesIndexComponent,
+    path: '',
+    component: InquiryComponent,
     data: {
-      breadcrumb: 'Inquiry list',
-      titleI18n: 'frm:Inquiry list',
+      titleI18n: 'crm:quoteslist',
       reuse: true,
     },
-    children: [
-      {
-        path: '',
-        component: InquiryComponent,
-      },
-      {
-        path: 'quotesDetail/:id',
-        component: InquirydetailComponent,
-        data: {
-          breadcrumb: 'Inquiry detial',
-        },
-      },
-    ],
+  },
+  {
+    path: 'quotesDetail/:id',
+    component: InquirydetailComponent,
+    data: {
+      titleI18n: 'crm:Inquiry list',
+      reuse: true,
+    },
   },
 ];
 

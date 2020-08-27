@@ -10,6 +10,7 @@ import { Validators } from '@angular/forms';
 import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 import { CoPageBase } from '@co/core';
+import { STColumn } from '@co/cbc';
 @Component({
   selector: 'app-no-deal-customer',
   templateUrl: './no-deal-customer.component.html',
@@ -28,6 +29,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   isVisibleCreate: boolean;
 
   //是否删除
+  errLoading = false;
   isDelete: boolean;
   unDelete: boolean;
   modalTwoText: string;
@@ -47,6 +49,49 @@ export class NoDealCustomerComponent extends CoPageBase {
   maxResultCount = 20;
   skipCount = 1;
 
+  choosedData = [];
+  columns: STColumn[] = [
+    {
+      width: '250px',
+      title: 'CustomerTableName',
+      index: 'name',
+      format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
+    },
+    {
+      width: '150px',
+      title: 'Country, province',
+      index: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
+    },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'Owner', index: 'owner' },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      className: 'no-line-through',
+      buttons: [
+        {
+          text: this.translate.instant('View'),
+          type: 'none',
+          click: (e) => {
+            this.showDetial(e);
+          },
+        },
+        {
+          text: this.translate.instant('Delete'),
+          type: 'none',
+          className: 'st__btn--red',
+          click: (e) => {
+            this.deleteCustormer(e.id);
+          },
+        },
+      ],
+    },
+  ];
+
   constructor(
     private msg: NzMessageService,
     private translate: TranslateService,
@@ -60,6 +105,16 @@ export class NoDealCustomerComponent extends CoPageBase {
 
   coOnInit(): void {
     this.getCustomerByPageList();
+  }
+
+  checkChange(e): void {
+    debugger;
+    e.type === 'pi' && this.pageIndexChange(e.pi);
+    e.type === 'ps' && this.pageSizeChange(e.ps);
+
+    if (e.type === 'checkbox') {
+      this.choosedData = e.checkbox;
+    }
   }
 
   onSearch(e) {
@@ -196,7 +251,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   transModal() {
-    if (this.listOfData.items.some((c) => c.choosed === true)) {
+    if (this.choosedData.length > 0) {
       this.isVisibleTrans = true;
     }
   }
@@ -322,17 +377,20 @@ export class NoDealCustomerComponent extends CoPageBase {
 
   //确认删除
   customerDelete() {
+    this.errLoading = true;
     this.crmCustomerService
       .delete({
         id: this.customerId,
       })
       .subscribe(
         (res: any) => {
+          this.errLoading = false;
           this.msg.success(this.translate.instant('Delete success'));
           this.isDelete = false;
           this.getCustomerByPageList();
         },
         (err) => {
+          this.errLoading = false;
           this.msg.error(err);
           this.isDelete = true;
         },
@@ -352,14 +410,12 @@ export class NoDealCustomerComponent extends CoPageBase {
   showMerge() {
     this.customerMerge.dataSet = [];
     let isShow = true;
-    this.listOfData.items.forEach((data) => {
-      if (data.choosed) {
-        if (data.isMerged) {
-          isShow = false;
-          return;
-        } else {
-          this.customerMerge.addLine(data);
-        }
+    this.choosedData.forEach((data) => {
+      if (data.isMerged) {
+        isShow = false;
+        return;
+      } else {
+        this.customerMerge.addLine(data);
       }
     });
     if (isShow) {

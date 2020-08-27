@@ -23,34 +23,18 @@ export const routers: Routes = [
       {
         path: 'customers',
         loadChildren: () => import(/* webpackChunkName: "crm-customers" */ './customer/customer.module').then((mod) => mod.CustomerModule),
-        data: {
-          reuse: true,
-          titleI18n: 'Customer',
-        },
       },
       {
         path: 'quotes',
         loadChildren: () => import(/* webpackChunkName: "crm-quotes" */ './quotes/quotes.module').then((mod) => mod.QuotesModule),
-        data: {
-          reuse: true,
-          titleI18n: 'Quotes',
-        },
       },
       {
         path: 'inquiries',
-        loadChildren: () => import(/* webpackChunkName: "crm-inquiry" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
-        data: {
-          reuse: true,
-          titleI18n: 'Inquiry',
-        },
+        loadChildren: () => import(/* webpackChunkName: "crm-inquiries" */ './inquiry/inquiry.module').then((mod) => mod.InquiryModule),
       },
       {
         path: 'bookings',
         loadChildren: () => import(/* webpackChunkName: "crm-bookings" */ './booking/booking.module').then((mod) => mod.BookingModule),
-        data: {
-          reuse: true,
-          titleI18n: 'Booking',
-        },
       },
       {
         path: '**',

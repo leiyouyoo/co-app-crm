@@ -67,6 +67,8 @@ export class TransferTocustomerComponent implements OnInit {
             department: null,
           });
         });
+    } else {
+      this.onSearchUser();
     }
   }
 

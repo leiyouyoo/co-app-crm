@@ -4,12 +4,11 @@ import { InquiryListComponent } from './inquiry-list/inquiry-list.component';
 import { InquiryListOceanComponent } from './inquiry-ocean/inquiry-ocean.component';
 import { InquiryTrackComponent } from './inquiry-track/inquiry-track.component';
 const routes: Routes = [
-  { path: '', redirectTo: 'list', pathMatch: 'full' },
   {
-    path: 'list',
+    path: '',
     component: InquiryListComponent,
     data: {
-      titleI18n: 'frm:Inquiry list',
+      titleI18n: 'crm:inquirylist',
       reuse: true,
     },
   },
@@ -17,14 +16,16 @@ const routes: Routes = [
     path: 'oceanlist',
     component: InquiryListOceanComponent,
     data: {
-      breadcrumb: 'Ocean list',
+      titleI18n: 'crm:oceanlist',
+      reuse: true,
     },
   },
   {
     path: 'tracklist',
     component: InquiryTrackComponent,
     data: {
-      breadcrumb: 'Track list',
+      titleI18n: 'crm:tracklist',
+      reuse: true,
     },
   },
 ];

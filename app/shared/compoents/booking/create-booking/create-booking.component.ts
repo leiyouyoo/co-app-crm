@@ -23,23 +23,22 @@ import {
   DictionaryType,
 } from '../class';
 
-import {
-  CSPAttachmentService,
-  CSPBookingService,
-  CSPBookingTemplateService,
-  CSPPurchaseOrderService,
-} from '../../../../services/csp';
+import { CSPAttachmentService, CSPBookingService, CSPBookingTemplateService, CSPPurchaseOrderService } from '../../../../services/csp';
 import {
   CRMPartnerExternalService,
   CRMContactService,
   CRMContactExternalService,
-  CRMCustomerExternalService, CRMCustomerService, CRMQuoteEnquiryService, CRMLocationExternalService, CRMCustomerDto,
+  CRMCustomerExternalService,
+  CRMCustomerService,
+  CRMQuoteEnquiryService,
+  CRMLocationExternalService,
+  CRMCustomerDto,
 } from '../../../../services/crm';
 import { _HttpClient } from '@co/common';
 import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
 
-const emptyGuid = '00000000-0000-0000-0000-000000000000'
+const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
 @Component({
   selector: 'createBooking-create-booking',
@@ -348,12 +347,10 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
         consigneeCustomerId: this.bookingObj.consigneeCustomerId,
       };
       //订单选择是否有重复判断
-      this.cspBookingService
-        .isExists(param)
-        .subscribe((c: any) => {
-          this.isRepeat = c;
-          resolve(this.isRepeat);
-        });
+      this.cspBookingService.isExists(param).subscribe((c: any) => {
+        this.isRepeat = c;
+        resolve(this.isRepeat);
+      });
     });
   }
 
@@ -506,7 +503,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   isIncotermOtherActive() {
     if (this.bookingObj.tradeType !== 1 || !this.incotermsList?.length) return false;
 
-    const hit = this.incotermsList.find(o => o.value === this.bookingObj.incotermsId);
+    const hit = this.incotermsList.find((o) => o.value === this.bookingObj.incotermsId);
     if (!hit) return false;
 
     return !['DDP', 'C&F'].includes(hit.key);
@@ -741,7 +738,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   }
 
   getFbmData(customer?) {
-    this.crmLocationExternalService.getLocationByCustomerOwn({customerId: customer?.customerId}).subscribe(
+    this.crmLocationExternalService.getLocationByCustomerOwn({ customerId: customer?.customerId }).subscribe(
       (res: any) => {
         this.FbmList = [...res.items];
       },
@@ -1390,12 +1387,8 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
             .subscribe(
               (res) => {
                 this.message.info(this.translate.instant('Successful operation'));
-                if (this.isCRM) {
-                  this.$close();
-                  this.router.navigate(['/crm/bookings/bookinglist']);
-                } else {
-                  this.router.navigate(['/bookings']);
-                }
+                this.$close();
+                this.router.navigate(['/crm/bookings']);
               },
               (error) => {
                 this.modalService.confirm({
@@ -1421,7 +1414,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
               (res) => {
                 this.message.info(this.translate.instant('Successful operation'));
                 if (this.isCRM) {
-                  this.router.navigate(['/crm/bookings/bookinglist']);
+                  this.router.navigate(['/crm/bookings']);
                 } else {
                   this.router.navigate(['/bookings']);
                 }
@@ -1532,7 +1525,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
   //获取正在编辑得数据
   GetBookingForUpdate(id: string) {
-    return this.cspBookingService.get({id}).pipe(
+    return this.cspBookingService.get({ id }).pipe(
       tap((res: any) => {
         this.bookingObj = res;
         this.defaultShipperId = this.bookingObj.shipperPartnerId || this.bookingObj.shipperCustomerId;

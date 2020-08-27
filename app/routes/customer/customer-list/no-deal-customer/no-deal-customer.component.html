@@ -18,7 +18,7 @@
     </div>
 
     <div class="button-head">
-      <button class="button" nz-button [disabled]="transDisabled" (click)="transModal()">
+      <button class="button" nz-button [disabled]="choosedData.length === 0" (click)="transModal()">
         {{ 'Transfer' | translate }}
       </button>
 
@@ -32,86 +32,23 @@
   </div>
 
   <div class="body-list">
-    <nz-table
-      #rowSelectionTable2
-      [nzData]="listOfData?.items"
-      [nzLoading]="loading"
-      [nzFrontPagination]="false"
-      nzShowPagination="false"
-      nzTableLayout="fixed"
+    <co-st
+      style="height: 100%;"
+      #st
+      [rowClassName]="getrowClassName"
+      [data]="listOfData?.items"
+      [columns]="columns"
+      [showFilters]="false"
+      [scroll]="{ x: '2000px' }"
+      [total]="listOfData?.totalCount"
+      [loading]="loading"
+      (change)="checkChange($event)"
+      [page]="{ front: false }"
+      [(ps)]="maxResultCount"
       calcScroll
+      disableCalcX
     >
-      <thead>
-        <tr>
-          <th nzWidth="50px">
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" (nzCheckedChange)="checkAll($event)"></label>
-          </th>
-          <th nzWidth="500px">
-            {{ 'CustomerTableName' | translate }}
-          </th>
-
-          <th [nzShowSort]="false" nzColumnKey="CountryProvince" nzWidth="150px">
-            {{ 'Country, province' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="Contact" nzWidth="150px">
-            {{ 'Contact' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="Tel" nzWidth="150px">
-            {{ 'Phone' | translate }}
-          </th>
-          <th [nzShowSort]="false" nzColumnKey="owner" nzWidth="150px">
-            {{ 'Owner' | translate }}
-          </th>
-          <th nzRight="0" nzWidth="100px">{{ 'Operating' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let data of rowSelectionTable2.data; let i = index"
-          [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
-          (dblclick)="showDetial(data)"
-        >
-          <td nzEllipsis>
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
-          </td>
-          <td nzEllipsis>
-            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">
-              {{ data.name || '--' }}<span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
-            >
-          </td>
-
-          <td nzEllipsis nzBreakWord>
-            {{ data.country }}&nbsp;{{ data.province }} <span *ngIf="!data.country && !data.province">--</span>
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.contactName || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.contactTel || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord>
-            {{ data.owner || '--' }}
-          </td>
-          <td nzEllipsis nzBreakWord nzRight="0">
-            <a [routerLink]="['/crm/customers/nodealdetial', data.id]">{{ 'View' | translate }}</a>
-            <span style="margin-left: 20px; color: #f5222dff;" (click)="deleteCustormer(data.id)">{{ 'Delete' | translate }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </div>
-
-  <div class="pagination">
-    <nz-pagination
-      [nzPageIndex]="skipCount"
-      [nzPageSize]="maxResultCount"
-      nzShowQuickJumper
-      nzShowSizeChanger
-      nzHideOnSinglePage
-      [nzTotal]="listOfData?.totalCount"
-      (nzPageSizeChange)="pageSizeChange($event)"
-      (nzPageIndexChange)="pageIndexChange($event)"
-    ></nz-pagination>
+    </co-st>
   </div>
 </div>
 
@@ -155,7 +92,6 @@
 </nz-modal>
 
 <!-- 删除 -->
-
 <nz-modal
   nzMaskClosable="false"
   [(nzVisible)]="isDelete"
@@ -163,6 +99,7 @@
   (nzOnCancel)="cancelDelete()"
   (nzOnOk)="customerDelete()"
   nzOkText="{{ 'OK' | translate }}"
+  [nzOkLoading]="errLoading"
   nzCancelText="{{ 'Cancel' | translate }}"
 >
   {{ modalOneContent }}

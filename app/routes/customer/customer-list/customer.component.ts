@@ -32,13 +32,13 @@ export class CustomerComponent extends CoPageBase {
       width: '250px',
       title: 'CustomerTableName',
       index: 'name',
-      format: (item, _col) => `${item.isMerged ? item.name + this.translate.instant('merged customers') : item.name}`,
+      format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
     },
     {
       width: '150px',
       title: 'Country, province',
       index: 'country',
-      format: (item, _col) => `${item.country + '' + item.province}`,
+      format: (item, _col) => `${item.country + '-' + item.province}`,
     },
     { width: '150px', title: 'Contact', index: 'contactName' },
     { width: '150px', title: 'Phone', index: 'contactTel' },
@@ -120,7 +120,7 @@ export class CustomerComponent extends CoPageBase {
 
   checkChange(e): void {
     //
-    e.type === 'pi' && this.pageIndexChange(e.pi - 1);
+    e.type === 'pi' && this.pageIndexChange(e.pi);
     e.type === 'ps' && this.pageSizeChange(e.ps);
 
     if (e.type === 'checkbox') {

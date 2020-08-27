@@ -41,22 +41,27 @@ export class BookingComponent extends CoPageBase {
   user = JSON.parse(window.localStorage.getItem('co.session'));
   userId = this.user.session.user.icpUserId;
   columns: STColumn[] = [
-    { title: 'BookNo', index: 'bookingNo', render: 'no', },
-    { title: 'BookName', index: 'name', render: '', },
-    { title: 'Freight Type', width: 110, index: 'freightMethodType', render: 'freightMethodType', },
-    { title: 'cargo ready date', index: 'cargoReadyDate', render: 'cargoReadyDate', },
-    { title: 'Shipper', index: 'originAddress', render: 'originAddress', },
-    { title: 'Consignee', index: 'destinationAddress', render: 'destinationAddress', },
-    { title: 'Cargo Detail', index: 'totalWeightDisplay', render: 'totalWeightDisplay', },
-    { title: 'BookStatus', index: 'status', render: 'status', },
-    { title: 'Company', width: 140, index: 'serviceCompanyDisplay', render: 'serviceCompanyDisplay', },
-    { title: 'Action',
+    { title: 'BookNo', index: 'bookingNo', render: 'no' },
+    { title: 'BookName', index: 'name', render: '' },
+    { title: 'Freight Type', width: 110, index: 'freightMethodType', render: 'freightMethodType' },
+    { title: 'cargo ready date', index: 'cargoReadyDate', render: 'cargoReadyDate' },
+    { title: 'Shipper', index: 'originAddress', render: 'originAddress' },
+    { title: 'Consignee', index: 'destinationAddress', render: 'destinationAddress' },
+    { title: 'Cargo Detail', index: 'totalWeightDisplay', render: 'totalWeightDisplay' },
+    { title: 'BookStatus', index: 'status', render: 'status' },
+    { title: 'Company', width: 140, index: 'serviceCompanyDisplay', render: 'serviceCompanyDisplay' },
+    {
+      title: 'Action',
       type: 'action',
       width: 120,
       fixed: 'right',
       buttons: [
         { text: 'View', iif: (data) => data.status !== 0, click: (data) => this.view(data) },
-        { text: 'Edit', iif: (data) => data.status === 0 && data.creatorUserId === this.userId, click: (data) => this.editRouter(data, 'isEdit') },
+        {
+          text: 'Edit',
+          iif: (data) => data.status === 0 && data.creatorUserId === this.userId,
+          click: (data) => this.editRouter(data, 'isEdit'),
+        },
       ],
     },
   ];
@@ -198,8 +203,8 @@ export class BookingComponent extends CoPageBase {
 
   //查看
   view(data: any) {
-    this.$navigate(['/crm/bookings/bookinglist/bookingDetail', data.id], {
-      queryParams: { _title: this.$L('Booking detail') + `-${data.bookingNo}` }
+    this.$navigate(['/crm/bookings/bookingDetail', data.id], {
+      queryParams: { _title: this.$L('Booking detail') + `-${data.bookingNo}` },
     });
   }
   //新增booking
@@ -211,7 +216,7 @@ export class BookingComponent extends CoPageBase {
   //编辑
   editRouter(data: any, edit: string) {
     this.$navigate(['/crm/bookings/createBooking', data.id], {
-      queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking'), },
+      queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking') },
     });
   }
 }

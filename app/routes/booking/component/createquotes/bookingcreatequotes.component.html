@@ -575,8 +575,8 @@
               <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
             </td>
             <td style="min-width: 120px;">
-              <span class="iconfont icon-plus" (click)="addOrigin()"></span>
-              <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+              <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addOrigin()"></span>
+              <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
             </td>
           </tr>
         </tbody>
@@ -674,8 +674,8 @@
               <input nz-input [(ngModel)]="item.remark" [name]="'remark' + i" #remark="ngModel" />
             </td>
             <td>
-              <span class="iconfont icon-plus" (click)="addOrigin()"></span>
-              <span class="iconfont icon-Delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
+              <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addOrigin()"></span>
+              <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteOrigin(i)" *ngIf="startingplace.length > 1"></span>
             </td>
           </tr>
         </tbody>
@@ -809,8 +809,8 @@
               <input nz-input [name]="'remark' + i" #remark="ngModel" [(ngModel)]="item.remark" />
             </td>
             <td>
-              <span class="iconfont icon-plus" (click)="addDestination()"></span>
-              <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+              <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addDestination()"></span>
+              <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
             </td>
           </tr>
         </tbody>
@@ -909,8 +909,8 @@
               </div>
             </td>
             <td>
-              <span class="iconfont icon-plus" (click)="addDestination()"></span>
-              <span class="iconfont icon-Delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
+              <span class="iconfont icon-plus" nz-icon nzIconfont="icon-add-fill" (click)="addDestination()"></span>
+              <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteDestination(i)" *ngIf="endplace.length > 1"></span>
             </td>
           </tr>
         </tbody>
