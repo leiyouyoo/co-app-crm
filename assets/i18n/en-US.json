@@ -5,8 +5,11 @@
     "quoteslist": "Quotes list",
     "bookinglist": "Booking list",
     "customerlist": "Customer list",
+    "tracklist": "Track list",
     "bookingDetail": "Booking detail",
     "Create booking": "Create booking",
     "Booking detail": "Booking detail",
+    "oceanlist": "Ocean List",
+    "Input location/port": "Input location/port",
     "createBooking": "New booking"
 }
