@@ -1,3 +1,12 @@
 {
-    "Inquiry list": "Inquiry list"
+    "Customer": "Customer",
+    "Inquiry list": "Inquiry list",
+    "inquirylist": "Inquiry list",
+    "quoteslist": "Quotes list",
+    "bookinglist": "Booking list",
+    "customerlist": "Customer list",
+    "bookingDetail": "Booking detail",
+    "Create booking": "Create booking",
+    "Booking detail": "Booking detail",
+    "createBooking": "New booking"
 }

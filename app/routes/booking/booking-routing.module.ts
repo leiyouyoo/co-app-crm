@@ -7,30 +7,18 @@ import { CreateBookingComponent } from '../../shared/compoents/booking/create-bo
 import { CanDeactivateGuard } from './route-guards/can-deactivate.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'bookinglist', pathMatch: 'full' },
   {
-    path: 'bookinglist',
-    component: BookingIndexComponent,
+    path: '',
+    component: BookingComponent,
+    data: { titleI18n: 'crm:bookinglist', reuse: true },
+  },
+  {
+    path: 'bookingDetail/:id',
+    component: BookingdetailComponent,
     data: {
-      breadcrumb: 'Booking',
-      titleI18n: 'crm:Booking list',
+      titleI18n: 'crm:bookingDetail',
+      reuse: true,
     },
-
-    children: [
-      {
-        path: '',
-        component: BookingComponent,
-        data: { reuse: true, }
-      },
-      {
-        path: 'bookingDetail/:id',
-        component: BookingdetailComponent,
-        data: {
-          breadcrumb: 'Booking detial',
-          reuse: true,
-        },
-      },
-    ],
   },
   {
     path: 'createBooking/:id',

@@ -11,6 +11,7 @@ import { InquirydetailComponent } from './component/inquirydetail/inquirydetail.
 import { QuotesIndexComponent } from './quotes-index.component';
 import { QuoteCommmonModule } from './quote-commmon.module';
 import { HandlequotesComponent } from './component/handlequotes/handlequotes.component';
+import { QuoteSimpleInfoComponent } from './component/quote-simple-info/quote-simple-info.component';
 
 const COMPONENTS = [
   InquiryComponent,
@@ -19,6 +20,7 @@ const COMPONENTS = [
   QuotesrecordComponent,
   InquirydetailComponent,
   QuotesIndexComponent,
+  QuoteSimpleInfoComponent,
   HandlequotesComponent,
 ];
 
