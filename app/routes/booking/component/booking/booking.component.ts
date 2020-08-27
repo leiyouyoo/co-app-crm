@@ -128,7 +128,7 @@ export class BookingComponent extends CoPageBase {
     } else {
       locationid = data.deliveryWarehouseId;
     }
-    this.companyConfigureService.getByPlaceOrLocation({ isActive: true, placeId: placeid, locationId: locationid }).subscribe((res) => {
+    this.companyConfigureService.getByPlaceOrLocation({ placeId: placeid, locationId: locationid }).subscribe((res) => {
       this.companylist = res.items;
     });
   }
