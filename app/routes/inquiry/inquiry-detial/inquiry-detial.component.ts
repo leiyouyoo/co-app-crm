@@ -157,7 +157,7 @@ export class InquiryDetialComponent {
   initTotalList() {
     try {
       this.locTotalList = {};
-      this.locChargeItem.forEach(e => {
+      this.locChargeItem?.length > 0 && this.locChargeItem.forEach(e => {
         this.locTotalList[e] = 0;
       })
 
