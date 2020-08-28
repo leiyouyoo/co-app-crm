@@ -78,9 +78,13 @@ export class RecordEditComponent implements OnInit {
       customerid: [null, this.showCusSelect ? [Validators.required] : null],
     });
 
-    this.pubDataDictionaryService.getAll({}).subscribe((res: any) => {
-      this.radioList = res.items;
-    });
+    this.pubDataDictionaryService
+      .getAll({
+        typeCode: '100',
+      })
+      .subscribe((res: any) => {
+        this.radioList = res.items;
+      });
 
     this.getCusList('');
   }
@@ -147,19 +151,19 @@ export class RecordEditComponent implements OnInit {
     this.obj.traceLogItems = [];
     this.obj.customerId = this.activatedRoute.snapshot.params.id;
     this.fileList.forEach((element) => {
-      this.obj.traceLogItems.push({ fileId: element.response.fileId });
+      this.obj.traceLogItems.push({ fileId: element.response.result.fileId });
     });
     if (this.type === 1) {
       this.crmTraceLogService.create(this.obj).subscribe((res: any) => {
         this.getList.emit();
-        this.message.success('新增成功');
+        this.message.success(this.translate.instant('Added successfully!'));
         this.defaultCancel();
       });
     } else {
       this.obj.id = this.baseData.id;
       this.crmTraceLogService.update(this.obj).subscribe((res: any) => {
         this.getList.emit();
-        this.message.success('修改成功');
+        this.message.success(this.translate.instant('Modify success'));
         this.defaultCancel();
       });
     }
@@ -217,11 +221,11 @@ export class RecordEditComponent implements OnInit {
     if (status === 'done') {
       if (this.fileList.length === 0) {
         this.fileList[0].url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          `${CoConfigManager.getValue('storeUrl')}/Storage/File/GetDownLoadFile?FileId=${file.response.fileId}&Handler=raw`,
+          `${CoConfigManager.getValue('storeUrl')}/Storage/File/GetDownLoadFile?FileId=${file.response.result.fileId}&Handler=raw`,
         );
       } else {
         this.fileList[this.fileList.length - 1].url = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          `${CoConfigManager.getValue('storeUrl')}/Storage/File/GetDownLoadFile?FileId=${file.response.fileId}&Handler=raw`,
+          `${CoConfigManager.getValue('storeUrl')}/Storage/File/GetDownLoadFile?FileId=${file.response.result.fileId}&Handler=raw`,
         );
       }
     } else if (status === 'error') {
