@@ -35,11 +35,9 @@
             <co-st
               style="height: 100%;"
               #st
-              
               [data]="listOfData?.items"
               [columns]="columns"
               [showFilters]="false"
-              [scroll]="{ x: '2000px' }"
               [total]="listOfData?.totalCount"
               [loading]="loading"
               (change)="checkChange($event)"

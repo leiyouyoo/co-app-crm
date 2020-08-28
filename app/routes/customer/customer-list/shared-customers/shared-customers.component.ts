@@ -47,25 +47,25 @@ export class SharedCustomersComponent extends CoPageBase {
   choosedData = [];
   columns: STColumn[] = [
     {
-      width: '250px',
+      width: 250,
       title: 'CustomerTableName',
       index: 'name',
       format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
     },
     {
-      width: '150px',
+      width: 150,
       title: 'Country, province',
       index: 'country',
       format: (item, _col) => `${item.country + '-' + item.province}`,
     },
-    { width: '150px', title: 'Contact', index: 'contactName' },
-    { width: '150px', title: 'Phone', index: 'contactTel' },
-    { width: '150px', title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
-    { width: '150px', title: 'Sharer', index: 'contactTel' },
+    { width: 100, title: 'Contact', index: 'contactName' },
+    { width: 100, title: 'Phone', index: 'contactTel' },
+    { width: 100, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    { width: 100, title: 'Sharer', render: 'sharer' },
     {
       title: 'Action',
       type: 'action',
-      width: 80,
+      width: 150,
       fixed: 'right',
       className: 'no-line-through',
       buttons: [
@@ -74,14 +74,6 @@ export class SharedCustomersComponent extends CoPageBase {
           type: 'none',
           click: (e) => {
             this.showDetial(e);
-          },
-        },
-        {
-          text: this.translate.instant('Delete'),
-          type: 'none',
-          className: 'st__btn--red',
-          click: (e) => {
-            this.onBindCustomer(e);
           },
         },
       ],
@@ -235,9 +227,13 @@ export class SharedCustomersComponent extends CoPageBase {
 
   // 获取客户详情
   getCustomerById(id) {
-    this.crmCustomerService.get(id).subscribe((res: any) => {
-      this.customerInfo = res;
-    });
+    this.crmCustomerService
+      .get({
+        id: id,
+      })
+      .subscribe((res: any) => {
+        this.customerInfo = res;
+      });
   }
 
   checkChange(e): void {

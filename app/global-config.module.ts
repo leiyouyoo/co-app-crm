@@ -15,7 +15,7 @@ import { throwIfAlreadyLoaded } from './core';
 const coConfig: CoConfig = {
   st: {
     modal: { size: 'lg' },
-    size: 'default',
+    size: 'small',
     page: {
       front: false,
       zeroIndexed: false,

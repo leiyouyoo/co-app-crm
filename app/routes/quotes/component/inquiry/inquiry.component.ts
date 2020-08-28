@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, Inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
@@ -13,13 +13,14 @@ import domToImage from 'dom-to-image';
 import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
+import { CoPageBase } from '@co/core';
 
 @Component({
   selector: 'quotes-inquiry',
   templateUrl: './inquiry.component.html',
   styleUrls: ['./inquiry.component.less'],
 })
-export class InquiryComponent implements OnInit {
+export class InquiryComponent extends CoPageBase {
   constructor(
     private router: Router,
     public quoteService: QuotesService,
@@ -27,7 +28,10 @@ export class InquiryComponent implements OnInit {
     private nzModalService: NzModalService,
     private clipboardService: ClipboardService,
     private translate: TranslateService,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
   small: 'small';
   loading = false;
   bordered = false;
@@ -77,7 +81,8 @@ export class InquiryComponent implements OnInit {
 
   userId = this.user.session.user.icpUserId;
   imgUrl = environment.SERVER_URL;
-  ngOnInit() {
+
+  coOnInit() {
     setTimeout(() => {
       this.onDivHeight();
     }, 500);
@@ -124,7 +129,9 @@ export class InquiryComponent implements OnInit {
   }
 
   getQuotesDetailInfo(data: any) {
-    this.router.navigate(['/crm/quotes/quoteslist/quotesDetail', data.id]);
+    this.$navigate(['/crm/quotes/quotesDetail', data.id], {
+      queryParams: { _title: this.$L('Quotes Detail') },
+    });
   }
 
   viewQuote(data: any) {

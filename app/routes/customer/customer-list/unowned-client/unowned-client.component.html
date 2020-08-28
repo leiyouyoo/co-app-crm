@@ -38,7 +38,6 @@
       [data]="listOfData?.items"
       [columns]="columns"
       [showFilters]="false"
-      [scroll]="{ x: '2000px' }"
       [total]="listOfData?.totalCount"
       [loading]="loading"
       (change)="checkChange($event)"
@@ -47,24 +46,28 @@
       calcScroll
       disableCalcX
     >
-      <ng-template st-row="action" let-data>
-        <button
-          nz-button
-          nz-popover
-          class="redButton"
-          nzPopoverTitle=""
-          [nzPopoverContent]="contentTemplate"
-          nzPopoverPlacement="bottomRight"
-          nzSize="small"
-          *ngIf="data.sharedUsers"
-        >
-          {{ '+' + data.sharedUsers.length }}
+      <ng-template st-row="Status" let-data>
+        <span *ngIf="data.claimStatus === 0">{{ 'Unclaimed' | translate }}</span>
+        <span *ngIf="data.claimStatus === 1" class="redColor">{{ 'Claimed' | translate }}</span>
+        <button nz-button nzType="danger" *ngIf="data.claimStatus === 2">
+          {{ 'Department manager assignment' | translate }}
         </button>
-        <ng-template #contentTemplate>
-          <div *ngFor="let item of data.sharedUsers">
-            <p>{{ item.userName }}</p>
-          </div>
-        </ng-template>
+      </ng-template>
+
+      <ng-template st-row="action" let-data>
+        <a [routerLink]="['/crm/customers/unowndetial', data.id]">{{ 'View' | translate }}</a>
+        <a
+          *ngIf="data.claimStatus === 0 && data.pushUserId == currentUserId"
+          style="padding-left: 20px;"
+          (click)="claimCustomer(data.id)"
+          >{{ 'claim' | translate }}</a
+        >
+        <a
+          *ngIf="isSuper && data.claimStatus === 0 && data.pushUserId != currentUserId"
+          style="padding-left: 20px;"
+          (click)="transferCustomer(data.id, data.pushUserId)"
+          >{{ 'Assign' | translate }}</a
+        >
       </ng-template>
     </co-st>
   </div>
