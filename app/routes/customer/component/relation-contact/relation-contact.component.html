@@ -4,7 +4,7 @@
   [nzFrontPagination]="false"
   nzShowPagination="false"
   nzTableLayout="fixed"
-  [nzScroll]="{x:'1200px'}"
+  [nzScroll]="{ x: '1200px' }"
 >
   <thead>
     <tr>
@@ -54,12 +54,7 @@
       </td>
       <td nzEllipsis>
         <ng-container *ngIf="data.userId != null; else userid">
-          <img
-            src="assets/images/check-circle.png"
-            alt=""
-            style="width:19px;
-                    height:19px;"
-          />
+          <img src="apps/crm/assets/images/check-circle.png" alt="" style="width: 19px; height: 19px;" />
         </ng-container>
         <ng-template #userid> </ng-template>
       </td>
@@ -71,8 +66,8 @@
       </td>
       <td nzEllipsis>
         <ng-container *ngIf="data.userInfo; else noInfo">
-          <label style="color: #1890FF;" *ngIf="data.userInfo.isActive">{{ 'Activated' | translate }}</label>
-          <label style="color: #1890FF;" *ngIf="!data.userInfo.isActive">{{ 'Inactivated' | translate }}</label>
+          <label style="color: #1890ff;" *ngIf="data.userInfo.isActive">{{ 'Activated' | translate }}</label>
+          <label style="color: #1890ff;" *ngIf="!data.userInfo.isActive">{{ 'Inactivated' | translate }}</label>
         </ng-container>
         <ng-template #noInfo>
           --
