@@ -31,11 +31,9 @@
     <co-st
       style="height: 100%;"
       #st
-      [rowClassName]="getrowClassName"
       [data]="listOfData?.items"
       [columns]="columns"
       [showFilters]="false"
-      [scroll]="{ x: '2000px' }"
       [total]="listOfData?.totalCount"
       [loading]="loading"
       (change)="checkChange($event)"
@@ -44,7 +42,7 @@
       calcScroll
       disableCalcX
     >
-      <ng-template st-row="action" let-data>
+      <ng-template st-row="sharer" let-data>
         <button
           nz-button
           nz-popover
@@ -117,13 +115,35 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of basicTable.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
+            <tr
+              *ngFor="let data of basicTable.data; let i = index"
+              [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }"
+              (click)="getCustomerById(data.id)"
+            >
               <td nzEllipsis>{{ data.name }}</td>
               <td nzEllipsis>{{ data.country }}-{{ data.province }}</td>
               <td nzEllipsis>{{ data.contactName || '--' }}</td>
               <td nzEllipsis>{{ data.contactTel || '--' }}</td>
               <td nzEllipsis>{{ data.firsttimeShipDate || '--' }}</td>
-              <td nzEllipsis></td>
+              <td nzEllipsis>
+                <button
+                  nz-button
+                  nz-popover
+                  class="redButton"
+                  nzPopoverTitle=""
+                  [nzPopoverContent]="contentTemplate"
+                  nzPopoverPlacement="bottomRight"
+                  nzSize="small"
+                  *ngIf="data.sharedUsers"
+                >
+                  {{ '+' + data.sharedUsers.length }}
+                </button>
+                <ng-template #contentTemplate>
+                  <div *ngFor="let item of data.sharedUsers">
+                    <p>{{ item.userName }}</p>
+                  </div>
+                </ng-template>
+              </td>
               <td nzEllipsis nzRight="0">
                 <div>
                   <a (click)="onBindCustomer(data)">{{ 'follow up' | translate }}</a>

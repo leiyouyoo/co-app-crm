@@ -10,7 +10,7 @@
 >
   <form nz-form nzLayout="vertical" [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <nz-form-item [ngClass]="{ borderB: see }">
-      <nz-form-label [nzRequired]="!see">跟进方式</nz-form-label>
+      <nz-form-label [nzRequired]="!see">{{ 'Follow-up method' | translate }}</nz-form-label>
       <nz-form-control nzErrorTip="Please select the type">
         <nz-radio-group *ngIf="!see" formControlName="traceLogTypeId">
           <label nz-radio [nzValue]="item.id" *ngFor="let item of radioList">{{ item.name }}</label>
@@ -22,12 +22,20 @@
     <div nz-row [nzGutter]="24">
       <div nz-col [nzSpan]="12" *ngIf="showCusSelect">
         <nz-form-item [ngClass]="{ borderB: see }">
-          <nz-form-label [nzRequired]="!see">跟进客户</nz-form-label>
+          <nz-form-label [nzRequired]="!see">{{ 'Follow up with customers' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="Please select customer">
-            <nz-select nzShowSearch [nzServerSearch]="'true'" (nzOnSearch)="searchCus($event)" nzAllowClear nzPlaceHolder="Select a person" nzSize="large" formControlName="customerid">
+            <nz-select
+              nzShowSearch
+              [nzServerSearch]="'true'"
+              (nzOnSearch)="searchCus($event)"
+              nzAllowClear
+              nzPlaceHolder="Select a person"
+              nzSize="large"
+              formControlName="customerid"
+            >
               <nz-option [nzCustomContent]="'true'" [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of cusList">
                 <div class="cus-option-box">
-                  <p>{{i.name}}</p>
+                  <p>{{ i.name }}</p>
                   <p class="cus-item">
                     <span>{{ i.LocalizationName ? i.LocalizationName : '' }}</span>
                     <span>{{ i.tel ? i.tel : '' }}</span>
@@ -41,7 +49,7 @@
       </div>
       <div nz-col [nzSpan]="showCusSelect ? 12 : 24">
         <nz-form-item [ngClass]="{ borderB: see }">
-          <nz-form-label [nzRequired]="!see">时间</nz-form-label>
+          <nz-form-label [nzRequired]="!see">{{ 'Duration' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="Please select date">
             <nz-date-picker
               *ngIf="!see"
@@ -57,10 +65,8 @@
       </div>
     </div>
 
-
-    
     <nz-form-item [ngClass]="{ borderB: see }">
-      <nz-form-label [nzRequired]="!see">内容</nz-form-label>
+      <nz-form-label [nzRequired]="!see">{{ 'Content' | translate }}</nz-form-label>
       <nz-form-control nzErrorTip="Please input the value">
         <textarea
           [readonly]="see"
@@ -68,10 +74,10 @@
           [ngClass]="{ readonlyE: see }"
           *ngIf="!see"
           nz-input
-          placeholder="请输入内容"
+          [placeholder]="'Please enter' | translate"
           formControlName="content"
           maxlength="500"
-          style="padding-bottom:25px"
+          style="padding-bottom: 25px;"
         ></textarea>
         <span style="float: right;" *ngIf="!see"
           >{{ !validateForm.value?.content?.length ? 0 : validateForm.value?.content?.length }} / 500</span
@@ -80,7 +86,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item [ngClass]="{ paddingTop: see }">
-      <nz-form-label>图片</nz-form-label>
+      <nz-form-label>{{ 'Image' | translate }}</nz-form-label>
       <nz-form-control>
         <div class="clearfix">
           <nz-upload
@@ -95,7 +101,7 @@
             [nzRemove]="handleRemove"
           >
             <i nz-icon nzType="plus"></i>
-            <div class="ant-upload-text">上传照片</div>
+            <div class="ant-upload-text">{{ 'Upload photos' | translate }}</div>
           </nz-upload>
           <nz-modal
             [nzVisible]="previewVisible"

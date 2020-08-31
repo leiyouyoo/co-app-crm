@@ -53,11 +53,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="carrier-content"
-      [ngClass]="{ dash: isDash }"
-      *ngFor="let item of quoteObj.quoteReplys; let hisIndex = index"
-    >
+    <div class="carrier-content" [ngClass]="{ dash: isDash }" *ngFor="let item of quoteObj.quoteReplys; let hisIndex = index">
       <div class="content-left-quote-bottom" [ngClass]="{ yinying: isShowOpearButton }">
         <div class="content-left-quote-bottom-top">
           <div class="content-left-quote-bottom-top-left">
@@ -78,43 +74,23 @@
                   </span>
                   <span class="word">
                     <div *ngIf="!isShowQuotesNo && !isRecord">
-                      <div
-                        class="content-left-quote-status"
-                        [ngClass]="{ 'quote-active': item.status == 0 }"
-                        *ngIf="item.status == 0"
-                      >
+                      <div class="content-left-quote-status" [ngClass]="{ 'quote-active': item.status == 0 }" *ngIf="item.status == 0">
                         {{ 'active' | translate }}
                       </div>
-                      <div
-                        class="content-left-quote-status"
-                        [ngClass]="{ 'quote-accept': item.status == 1 }"
-                        *ngIf="item.status == 1"
-                      >
+                      <div class="content-left-quote-status" [ngClass]="{ 'quote-accept': item.status == 1 }" *ngIf="item.status == 1">
                         <span style="color: #00dbe0;">
                           {{ 'Accept' | translate }}
                         </span>
                       </div>
-                      <div
-                        class="content-left-quote-status"
-                        [ngClass]="{ 'quote-rejected': item.status == 2 }"
-                        *ngIf="item.status == 2"
-                      >
+                      <div class="content-left-quote-status" [ngClass]="{ 'quote-rejected': item.status == 2 }" *ngIf="item.status == 2">
                         {{ 'Reject' | translate }}
                       </div>
-                      <div
-                        class="content-left-quote-status"
-                        [ngClass]="{ 'quote-accept': item.status == 3 }"
-                        *ngIf="item.status == 3"
-                      >
+                      <div class="content-left-quote-status" [ngClass]="{ 'quote-accept': item.status == 3 }" *ngIf="item.status == 3">
                         <span style="color: #00dbe0;">
                           {{ 'Accept' | translate }}
                         </span>
                       </div>
-                      <div
-                        class="content-left-quote-status"
-                        [ngClass]="{ 'quote-expiress': item.status == 4 }"
-                        *ngIf="item.status == 4"
-                      >
+                      <div class="content-left-quote-status" [ngClass]="{ 'quote-expiress': item.status == 4 }" *ngIf="item.status == 4">
                         {{ 'expired' | translate }}
                       </div>
                     </div>
@@ -130,8 +106,7 @@
                   <span class="list-right">{{ item.validEndDate | date: 'mediumDate' }}</span>
                 </nz-list-item>
                 <nz-list-item
-                  ><span class="list-left">{{ 'Transit' | translate }}:</span
-                  ><span class="list-right">{{ item.transitTime }}Days</span>
+                  ><span class="list-left">{{ 'Transit' | translate }}:</span><span class="list-right">{{ item.transitTime }}Days</span>
                 </nz-list-item>
                 <nz-list-item>
                   <span class="list-left"> {{ 'Carrier' | translate }}: </span>
@@ -195,13 +170,7 @@
                 >
               </nz-list-item>
               <nz-list-item *ngFor="let freight of item.freightList">
-                <span
-                  style="
-                    font-size: 14px;
-                    font-family: PingFangSC-Regular, PingFang SC;
-                    font-weight: 400;
-                    color: rgba(0, 0, 0, 0.65);
-                  "
+                <span style="font-size: 14px; font-family: PingFangSC-Regular, PingFang SC; font-weight: 400; color: rgba(0, 0, 0, 0.65);"
                   >{{ freight.unitPrice?.toFixed(2) }} X {{ freight.quantity }}
 
                   (
@@ -232,9 +201,7 @@
                   ><span style="font-weight: 400; margin-right: 16px; font-size: 14px; color: rgba(0, 0, 0, 0.85);">{{
                     freight.totalPrice?.toFixed(2)
                   }}</span>
-                  <span style="font-weight: 500; font-size: 16px; color: rgba(0, 0, 0, 0.65);">{{
-                    freight.currencyName
-                  }}</span></span
+                  <span style="font-weight: 500; font-size: 16px; color: rgba(0, 0, 0, 0.65);">{{ freight.currencyName }}</span></span
                 >
               </nz-list-item>
             </nz-list>
@@ -242,13 +209,7 @@
         </div>
         <div class="content-left-quote-bottom-bottom">
           <div style="margin-bottom: 16px;" class="table-backcolor" *ngIf="item.OriginList.length > 0">
-            <nz-table
-              class="backcolor"
-              #innerTable
-              [nzData]="item.OriginList"
-              nzSize="middle"
-              [nzShowPagination]="false"
-            >
+            <nz-table class="backcolor" #innerTable [nzData]="item.OriginList" nzSize="middle" [nzShowPagination]="false">
               <thead class="headColor">
                 <tr class="headColor">
                   <th class="headColor" nzWidth="24%">{{ 'Origin' | translate }}</th>
@@ -257,11 +218,7 @@
                   <th class="headColor" nzWidth="12%">
                     {{ 'Total' | translate }}
                   </th>
-                  <th
-                    class="headColor"
-                    nzWidth="15%"
-                    (click)="hisIndexs = hisIndex; isshowHisOrigin = !isshowHisOrigin"
-                  >
+                  <th class="headColor" nzWidth="15%" (click)="hisIndexs = hisIndex; isshowHisOrigin = !isshowHisOrigin">
                     {{ 'Remark' | translate }}
                     <i nz-icon nzType="caret-down" nzTheme="outline" *ngIf="!isshowHisOrigin"></i
                     ><i nz-icon nzType="caret-up" nzTheme="outline" *ngIf="isshowHisOrigin"></i>
@@ -302,13 +259,7 @@
             </nz-table>
           </div>
           <div class="table-backcolor" *ngIf="item.DestinationList.length > 0">
-            <nz-table
-              class="backcolor"
-              #innerTable
-              [nzData]="item.DestinationList"
-              nzSize="middle"
-              [nzShowPagination]="false"
-            >
+            <nz-table class="backcolor" #innerTable [nzData]="item.DestinationList" nzSize="middle" [nzShowPagination]="false">
               <thead class="headColor">
                 <tr class="headColor">
                   <th class="headColor" nzWidth="24%">{{ 'Destination' | translate }}</th>
@@ -317,11 +268,7 @@
                   <th class="headColor" nzWidth="12%">
                     {{ 'Total' | translate }}
                   </th>
-                  <th
-                    class="headColor"
-                    nzWidth="15%"
-                    (click)="hisIndexs = hisIndex; isshowHisDestina = !isshowHisDestina"
-                  >
+                  <th class="headColor" nzWidth="15%" (click)="hisIndexs = hisIndex; isshowHisDestina = !isshowHisDestina">
                     {{ 'Remark' | translate }}
                     <i nz-icon nzType="caret-down" nzTheme="outline" *ngIf="!isshowHisDestina"></i
                     ><i nz-icon nzType="caret-up" nzTheme="outline" *ngIf="isshowHisDestina"></i>
@@ -363,7 +310,7 @@
         </div>
         <!-- <img
           *ngIf="isHalfangle"
-          src="assets/images/11.png"
+          src="apps/crm/assets/images/11.png"
           width="56"
           height="56"
           style="
@@ -373,7 +320,7 @@
         />
         <img
           *ngIf="isHalfangle"
-          src="assets/images/11.png"
+          src="apps/crm/assets/images/11.png"
           width="56"
           height="56"
           style="    position: absolute;

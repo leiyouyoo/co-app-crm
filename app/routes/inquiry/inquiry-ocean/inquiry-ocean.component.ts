@@ -9,7 +9,15 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 // import { QuotesService } from '../../quotes/service/quotes.service';
 import { InquiryDetialComponent } from '../inquiry-detial/inquiry-detial.component';
 import { finalize } from 'rxjs/operators';
-import { PlatformOrganizationUnitService, PUBContainerService, PUBTransportClauseService, PUBPlaceService, PUBShippingLineService, PUBCurrencyService, PUBChargingCodeService } from '@co/cds';
+import {
+  PlatformOrganizationUnitService,
+  PUBContainerService,
+  PUBTransportClauseService,
+  PUBPlaceService,
+  PUBShippingLineService,
+  PUBCurrencyService,
+  PUBChargingCodeService,
+} from '@co/cds';
 
 import { CRMCustomerService } from '../../../services/crm/customer.service';
 import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
@@ -18,8 +26,6 @@ import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.
 import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn, STData, STComponent } from '@co/cbc';
-
-
 
 // import { debounce } from '@shared/utils/debounce';
 @Component({
@@ -64,7 +70,6 @@ export class InquiryListOceanComponent implements OnInit {
   isFllow = false;
   // @ViewChild('detial', { static: true })
   // detial: any;
-
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -137,7 +142,7 @@ export class InquiryListOceanComponent implements OnInit {
   //排序
   mapOfSort: { [key: string]: any } = {
     ValidStart: null,
-    ValidEnd: null
+    ValidEnd: null,
   };
 
 
@@ -244,8 +249,8 @@ export class InquiryListOceanComponent implements OnInit {
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
     private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
     private pubCurrency: PUBCurrencyService,
-    private pubChargingCode: PUBChargingCodeService
-  ) { }
+    private pubChargingCode: PUBChargingCodeService,
+  ) {}
 
   ngOnInit() {
     this.id = null;
@@ -364,13 +369,11 @@ export class InquiryListOceanComponent implements OnInit {
 
 
   getOrganizationUnitUsers() {
-    this.OrganizationUnit
-      .getOrganizationUnitUsers({
-        organizationUnitName: '商务部',
-      })
-      .subscribe((res: any) => {
-        this.unitUsers = res.items;
-      });
+    this.OrganizationUnit.getOrganizationUnitUsers({
+      organizationUnitName: '商务部',
+    }).subscribe((res: any) => {
+      this.unitUsers = res.items;
+    });
   }
 
   refreshStatus(): void {
@@ -529,7 +532,6 @@ export class InquiryListOceanComponent implements OnInit {
     this.isFllow = false;
     this.id = null;
     this.onGetAll();
-
   }
 
   onGetAll() {
@@ -554,13 +556,17 @@ export class InquiryListOceanComponent implements OnInit {
       data.id = this.id;
     }
 
+    if (this.searchForm.value.fromDate?.length <= 0) {
+      //处理日期问题
+      this.searchForm.value.fromDate = null;
+      this.searchForm.value.ToDate = null;
+    }
+
     this.loading = true;
-    this.OceanBaseItemService
-      .getBusinessRateList({ ...datas, ...data })
+    this.OceanBaseItemService.getBusinessRateList({ ...datas, ...data })
       .pipe(
         finalize(() => {
-          if (this.id && this.dataOfList && this.dataOfList.items.length > 0)
-            this.showDetial(this.dataOfList?.items[0], 0);
+          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
           data.id = null;
           this.id = null;
         }),
@@ -773,7 +779,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   up() {
-    console.log(1)
+    console.log(1);
     this.canMove = false;
   }
 
@@ -1194,48 +1200,36 @@ export class InquiryListOceanComponent implements OnInit {
     if (type === 1) {
       this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.setValue('');
 
-      this.validateShareForm.controls.rates.controls[index].controls[name].controls[
-        index2
-      ].controls.Price.setValidators([]);
+      this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.setValidators([]);
 
-      this.validateShareForm.controls.rates.controls[index].controls[name].controls[
-        index2
-      ].controls.Price.updateValueAndValidity();
+      this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.updateValueAndValidity();
 
       this.dataItem[index][typeNameTitle].forEach((e) => {
         this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].setValue('');
 
-        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[
-          e
-        ].setValidators([Validators.required]);
+        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].setValidators([
+          Validators.required,
+        ]);
 
-        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[
-          e
-        ].updateValueAndValidity();
+        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].updateValueAndValidity();
       });
     }
 
     if (type === 2) {
       this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.setValue('');
 
-      this.validateShareForm.controls.rates.controls[index].controls[name].controls[
-        index2
-      ].controls.Price.setValidators([Validators.required]);
+      this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.setValidators([
+        Validators.required,
+      ]);
 
-      this.validateShareForm.controls.rates.controls[index].controls[name].controls[
-        index2
-      ].controls.Price.updateValueAndValidity();
+      this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls.Price.updateValueAndValidity();
 
       this.dataItem[index][typeNameTitle].forEach((e) => {
         this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].setValue('');
 
-        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].setValidators(
-          [],
-        );
+        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].setValidators([]);
 
-        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[
-          e
-        ].updateValueAndValidity();
+        this.validateShareForm.controls.rates.controls[index].controls[name].controls[index2].controls[e].updateValueAndValidity();
       });
     }
   }
@@ -1349,15 +1343,12 @@ export class InquiryListOceanComponent implements OnInit {
   }
 }
 
-
-
-
 export enum VolumeUnitCode {
-  CBM = "TJDWCBM",
-  CFT = "TJDWCFT"
+  CBM = 'TJDWCBM',
+  CFT = 'TJDWCFT',
 }
 export enum WeightUnitCode {
-  KGS = "ZLDWKGS",
-  LBS = "ZLDWLBS",
-  MT = "ZLDWMT"
+  KGS = 'ZLDWKGS',
+  LBS = 'ZLDWLBS',
+  MT = 'ZLDWMT',
 }

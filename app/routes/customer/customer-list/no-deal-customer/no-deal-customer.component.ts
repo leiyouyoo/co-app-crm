@@ -69,7 +69,7 @@ export class NoDealCustomerComponent extends CoPageBase {
     {
       title: 'Action',
       type: 'action',
-      width: 80,
+      width: 150,
       fixed: 'right',
       className: 'no-line-through',
       buttons: [

@@ -76,18 +76,26 @@ export class CustomerRecordComponent implements OnInit {
       this.recordEditComponent.showModal(type, null);
     } else if (type === 2) {
       // 修改
-      this.crmTraceLogService.get(id).subscribe((res: any) => {
-        this.dataDetail = res;
-        this.recordEditComponent.showModal(type, this.dataDetail);
-      });
+      this.crmTraceLogService
+        .get({
+          id: id,
+        })
+        .subscribe((res: any) => {
+          this.dataDetail = res;
+          this.recordEditComponent.showModal(type, this.dataDetail);
+        });
       this.recordEditComponent.recordTitle = this.translate.instant('Modify follow-up record');
       this.recordEditComponent.okText = this.translate.instant('Save');
     } else {
       // 查看
-      this.crmTraceLogService.get(id).subscribe((res: any) => {
-        this.dataDetail = res;
-        this.recordEditComponent.showModal(type, this.dataDetail);
-      });
+      this.crmTraceLogService
+        .get({
+          id: id,
+        })
+        .subscribe((res: any) => {
+          this.dataDetail = res;
+          this.recordEditComponent.showModal(type, this.dataDetail);
+        });
       this.recordEditComponent.recordTitle = this.translate.instant('Follow up record details');
       this.recordEditComponent.okText = this.translate.instant('OK');
     }

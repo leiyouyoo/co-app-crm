@@ -11,14 +11,7 @@
               <ng-container *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Air">
                 <h2>{{ 'AirLine' | translate }}:</h2>
               </ng-container>
-              <div
-                style="
-                font-size: 24px;
-                font-family: PingFangSC-Medium, PingFang SC;
-                font-weight: 500;
-                color: rgba(0, 0, 0, 0.65);
-              "
-              >
+              <div style="font-size: 24px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.65);">
                 {{ carrierName }}
               </div>
             </div>
@@ -26,14 +19,7 @@
               <h2>
                 {{ 'Expires' | translate }}
               </h2>
-              <div
-                style="
-                font-size: 16px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                color: rgba(0, 0, 0, 0.65);
-              "
-              >
+              <div style="font-size: 16px; font-family: PingFangSC-Regular, PingFang SC; font-weight: 400; color: rgba(0, 0, 0, 0.65);">
                 <span>
                   {{ validStartDate | date: 'mediumDate' }}
                 </span>
@@ -82,10 +68,7 @@
         <h1>{{ 'Ocean Freight' | translate }}</h1>
         <div class="freight_oceanFreightTable">
           <ng-container
-            *ngIf="
-              quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
-              else elsefreightTemplate
-            "
+            *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elsefreightTemplate"
           >
             <nz-table
               class="sharetable"
@@ -99,9 +82,7 @@
                 <tr class="headColor">
                   <th class="headColor1" nzWidth="25%">{{ 'Container Type' | translate }}</th>
                   <th class="headColor" nzWidth="25%">{{ 'Quantity' | translate }}({{ 'Pc' | translate }})</th>
-                  <th class="headColor" nzWidth="25%">
-                    {{ 'Unit Price' | translate }}({{ freightList[0].currencyName }})
-                  </th>
+                  <th class="headColor" nzWidth="25%">{{ 'Unit Price' | translate }}({{ freightList[0].currencyName }})</th>
                   <th class="headColor" nzWidth="25%">{{ 'Total' | translate }}({{ freightList[0].currencyName }})</th>
                 </tr>
               </thead>
@@ -148,9 +129,7 @@
                     <span *ngIf="freightList[0].unitType == 4 && freightList[0].computeFormula == 4">
                       {{ 'Chargeable Weight' | translate }}
                     </span>
-                    <span *ngIf="freightList[0].unitType == 1 || freightList[0].unitType == 2">
-                      {{ 'Quantity' | translate }}</span
-                    >
+                    <span *ngIf="freightList[0].unitType == 1 || freightList[0].unitType == 2"> {{ 'Quantity' | translate }}</span>
                   </th>
                   <th class="headColor" nzWidth="25%">{{ 'Total' | translate }}</th>
                 </tr>
@@ -196,21 +175,13 @@
           <nz-tabset>
             <nz-tab nzTitle="Origin">
               <ng-container
-                *ngIf="
-                  quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
-                  else elseoriginTemplate
-                "
+                *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elseoriginTemplate"
               >
                 <nz-list *ngFor="let origin of OriginListByCode">
                   <nz-list-item>
                     <span> {{ origin.chargeId }}</span>
                     <span
-                      style="
-                      font-size: 12px;
-                      font-family: PingFangSC-Medium, PingFang SC;
-                      font-weight: 500;
-                      color: rgba(0, 0, 0, 0.45);
-                    "
+                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
                       >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -257,12 +228,7 @@
                   <nz-list-item>
                     <span> {{ origin.chargingCodeName }}</span>
                     <span
-                      style="
-                      font-size: 12px;
-                      font-family: PingFangSC-Medium, PingFang SC;
-                      font-weight: 500;
-                      color: rgba(0, 0, 0, 0.45);
-                    "
+                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
                       >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -304,21 +270,13 @@
             </nz-tab>
             <nz-tab nzTitle="Destination">
               <ng-container
-                *ngIf="
-                  quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0;
-                  else elsedestinaTemplate
-                "
+                *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elsedestinaTemplate"
               >
                 <nz-list *ngFor="let destination of DestinationListByCode">
                   <nz-list-item>
                     <span> {{ destination.chargeId }}</span>
                     <span
-                      style="
-                      font-size: 12px;
-                      font-family: PingFangSC-Medium, PingFang SC;
-                      font-weight: 500;
-                      color: rgba(0, 0, 0, 0.45);
-                    "
+                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
                       >({{ 'Total' | translate }})（{{ destination.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -365,12 +323,7 @@
                   <nz-list-item>
                     <span> {{ destination.chargingCodeName }}</span>
                     <span
-                      style="
-                      font-size: 12px;
-                      font-family: PingFangSC-Medium, PingFang SC;
-                      font-weight: 500;
-                      color: rgba(0, 0, 0, 0.45);
-                    "
+                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
                       >{{ 'Total' | translate }}（{{ destination.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -436,7 +389,7 @@
               *ngIf="!profilePicture"
               nzIcon="user"
               style="width: 50px; height: 50px;"
-              nzSrc="assets/images/avatar.png"
+              nzSrc="apps/crm/assets/images/avatar.png"
             ></nz-avatar>
             <div class="freight_crminfo_avaterinfo">
               <h1>{{ userInfo.name }}</h1>
@@ -445,32 +398,30 @@
           </div>
           <div class="freight_crminfo_company">
             <div style="height: 37px;">
-              <img src="assets/images/icon_logo.png" height="30" />
+              <img src="apps/crm/assets/images/icon_logo.png" height="30" />
             </div>
             <h2>{{ 'CITY OCEAN INTERNATI' | translate }}</h2>
           </div>
         </div>
         <div class="freight_crminfo_info-bottom">
-          <div class="freight_crminfo_info-bottom-right">
-            <span class="iconfont icon-phone1"></span> +{{ userInfo.phoneNumber }}
-          </div>
-          <div style="color: rgba(0,0,0,0.15);width: 1px;">
+          <div class="freight_crminfo_info-bottom-right"><span class="iconfont icon-phone1"></span> +{{ userInfo.phoneNumber }}</div>
+          <div style="color: rgba(0, 0, 0, 0.15); width: 1px;">
             |
           </div>
-          <div class="freight_crminfo_info-bottom-right">
-            <span class="iconfont icon-email"></span> {{ userInfo.emailAddress }}
-          </div>
-          <div style="color: rgba(0,0,0,0.15);width: 1px;">
+          <div class="freight_crminfo_info-bottom-right"><span class="iconfont icon-email"></span> {{ userInfo.emailAddress }}</div>
+          <div style="color: rgba(0, 0, 0, 0.15); width: 1px;">
             |
           </div>
           <div
-            style="display: flex;
-        align-items: center;
-        color: rgba(0,0,0,.65);
-        font-weight: 400;
-        font-size: 14px;
-        font-family: PingFangSC-Regular,PingFang SC;margin-left: 24px;
-    "
+            style="
+              display: flex;
+              align-items: center;
+              color: rgba(0, 0, 0, 0.65);
+              font-weight: 400;
+              font-size: 14px;
+              font-family: PingFangSC-Regular, PingFang SC;
+              margin-left: 24px;
+            "
           >
             <span class="iconfont icon-network1"></span>app.cityocean.com
           </div>
@@ -482,30 +433,26 @@
         <div class="freight_terms_validity">
           <h1>Quotes VALIDITY TERMS:</h1>
           <div>
-            This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted,
-            the shipper must accept the terms in writing by email or by making a booking pursuant to this NR.. Unless
-            otherwise specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes,
-            door delivery, or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may
-            be assessed for collect freight. All charges not included in the rates but which are published in our Rules
-            Tahff and in effect at the time of shipment shall apply to this arrangement
+            This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the shipper must
+            accept the terms in writing by email or by making a booking pursuant to this NR.. Unless otherwise specified, the rates quoted
+            do not include marine insurance, customs clearance, duties, taxes, door delivery, or any customary charges at deshnation such as
+            CSC, DDC, DTHC, or Port Charges A charge may be assessed for collect freight. All charges not included in the rates but which
+            are published in our Rules Tahff and in effect at the time of shipment shall apply to this arrangement
             <span class="teLarge">
-              ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
-              BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
-              RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+              ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S BOOKING OF CARGO AFTER
+              RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
             </span>
             <div>
               <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
-              Rates do not include truck waiting time or container detention or demurrage Rates do not include
-              destination change or documentation charges requested after the shipment has been received Chassis Rental:
-              A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis
-              rental is required
+              Rates do not include truck waiting time or container detention or demurrage Rates do not include destination change or
+              documentation charges requested after the shipment has been received Chassis Rental: A chassis rental fee may be assessed by
+              your trucker or by the steamship line through us if a chassis rental is required
             </div>
             <div *ngIf="quoteObj.isAmericaLine">
               <div class="teBold">
                 Chassis Rental:
               </div>
-              A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis
-              rental is required
+              A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental is required
             </div>
           </div>
           <!-- <div *ngIf="!quoteObj.IsAmericaLine">
