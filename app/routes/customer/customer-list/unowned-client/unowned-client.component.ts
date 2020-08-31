@@ -167,5 +167,7 @@ export class UnownedClientComponent extends CoPageBase {
     });
   }
 
-  checkChange(e) {}
+  checkChange(e) {
+    e.type === 'dblClick' && this.showDetial(e.dblClick.item);
+  }
 }
