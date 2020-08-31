@@ -13,7 +13,6 @@ import { TrackDetialComponent } from './track-detial/track-detial.component';
 import { SharedModule } from '../../shared';
 import { TruckingFromToComponent } from './share/component/trucking-from-to/trucking-from-to.component';
 import { ShareOceanComponent } from './inquiry-ocean/share-ocean/share-ocean.component';
-import { CurvedRouteComponent } from './share/component/curved-route/curved-route.component';
 import { SailingSchedulesContentComponent } from './share/component/sailing-schedules-content/sailing-schedules-content.component';
 import { LoadingComponent } from './share/component/loading/loading.component';
 import { ArrayJoinPipe } from './share/pipe/array-join.pipe';
@@ -29,7 +28,6 @@ const COMPONENTS = [
   InquiryTrackComponent,
   TruckingFromToComponent,
   ShareOceanComponent,
-  CurvedRouteComponent,
   LoadingComponent,
   SailingSchedulesContentComponent,
   CopyDomToImageDirective,

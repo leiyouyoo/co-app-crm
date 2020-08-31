@@ -199,6 +199,7 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'T/T', index: 'tt', width: 120 },
     { title: 'Description', index: 'remarkBusiness', width: 120 },
     { title: 'Update by', index: 'updateBy', width: 120 },
+    { title: 'RejectRemark', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
@@ -229,7 +230,7 @@ export class InquiryListOceanComponent implements OnInit {
     private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = null;
@@ -553,7 +554,6 @@ export class InquiryListOceanComponent implements OnInit {
         (res) => {
           this.loading = false;
           this.dataOfList = res;
-          debugger;
           let tablestitle = [];
 
           let arr = this.dataOfList.items.map((item) => item.ratePriceOutputs);
@@ -598,7 +598,11 @@ export class InquiryListOceanComponent implements OnInit {
 
           let titleItem = [];
           this.tablestitle.forEach((e) => {
-            titleItem.push({ title: e, index: '', render: e, width: 120 });
+            titleItem.push({
+              title: e, index: '', render: e, width: 120, sort: {
+                compare: (a, b) => a - b,
+              },
+            });
           });
           console.log(titleItem);
           titleItem.unshift(4, 0);
