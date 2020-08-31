@@ -3,11 +3,13 @@
     <div class="f-type">
       <span
         class="iconfont icon-kongyun-1"
+        nz-icon nzIconfont="icon-airplane"
         *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
         style="padding-left: 16px;"
       ></span>
       <span
         class="iconfont icon-hangyun"
+        nz-icon nzIconfont="icon-ocean"
         *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
         style="padding-left: 16px;"
       ></span>
@@ -48,7 +50,7 @@
             </div>
           </div>
           <div>
-            <span class="iconfont icon-gongsi-yuan"></span>
+            <span class="iconfont icon-gongsi-yuan" nz-icon nzIconfont="icon-company-circle"></span>
             <div class="horizontal-line"></div>
           </div>
         </li>
@@ -60,8 +62,8 @@
             </div>
             <div *ngIf="!_quoteinfo.originPort" class="word">{{ 'originPort' | translate }}</div>
           </div>
-          <span class="iconfont icon-chuanyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
-          <span class="iconfont icon-kongyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
+          <span class="iconfont icon-chuanyun-yuan" nz-icon nzIconfont="icon-ocean-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
+          <span class="iconfont icon-kongyun-yuan" nz-icon nzIconfont="icon-airplane-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
           <div class="horizontal-line"></div>
         </li>
         <li>
@@ -72,8 +74,8 @@
             </div>
             <div *ngIf="!_quoteinfo.destinationPort" class="word">{{ 'destinationPort' | translate }}</div>
           </div>
-          <span class="iconfont icon-chuanyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
-          <span class="iconfont icon-kongyun-yuan" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
+          <span class="iconfont icon-chuanyun-yuan" nz-icon nzIconfont="icon-ocean-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
+          <span class="iconfont icon-kongyun-yuan" nz-icon nzIconfont="icon-airplane-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
           <div class="horizontal-line" *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"></div>
         </li>
         <li *ngIf="_quoteinfo.destinationAddress || _quoteinfo.destinationAddressName">
@@ -95,7 +97,7 @@
               </div>
             </div>
           </div>
-          <span class="iconfont icon-gongsi-yuan"></span>
+          <span class="iconfont icon-gongsi-yuan" nz-icon nzIconfont="icon-company-circle"></span>
         </li>
       </ul>
       <!-- <div class="content-ocean-route">

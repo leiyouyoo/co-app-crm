@@ -9,7 +9,6 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { bookingCancel } from '../../../../shared/compoents/booking/class/bookingCancel';
 import { QuoteEnquiry } from '../../../../shared/compoents/booking/class/quoteEntity';
 import { bookingCreatequotesComponent } from '../createquotes/bookingcreatequotes.component';
-import { QuoteSimpleInfoComponent } from '../quote-simple-info/quote-simple-info.component';
 import { QuoteRecorddetailComponent } from '../quote-recorddetail/quote-recorddetail.component';
 import { UpdatequotesComponent } from '../updatequotes/updatequotes.component';
 import { PackingListComponent } from '../packing-list/packing-list.component';
@@ -17,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CSPBookingService, CSPBookingDto, CSPBookingOldData } from '../../../../services/csp';
 import { PUBPlaceService } from '@co/cds';
 import { CRMLocationExternalService, CRMQuoteEnquiryService } from '../../../../services/crm';
+import { QuoteSimpleInfoComponent } from '../../../quotes/component/quote-simple-info/quote-simple-info.component';
 
 @Component({
   selector: 'booking-bookingdetail',

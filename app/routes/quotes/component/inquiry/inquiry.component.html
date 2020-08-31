@@ -140,10 +140,10 @@
                 </td>
                 <td>
                   <ng-container *ngIf="data.freightMethodType == freightMethodTypeValue.Ocean; else elsefreightMethodTypeTemplate">
-                    <span class="iconfont icon-Ocean"></span>
+                    <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
                   </ng-container>
                   <ng-template #elsefreightMethodTypeTemplate>
-                    <span class="iconfont icon-airplane"></span>
+                    <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
                   </ng-template>
                 </td>
                 <td>
