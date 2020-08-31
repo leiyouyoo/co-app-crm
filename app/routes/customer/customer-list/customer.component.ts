@@ -122,7 +122,7 @@ export class CustomerComponent extends CoPageBase {
     //
     e.type === 'pi' && this.pageIndexChange(e.pi);
     e.type === 'ps' && this.pageSizeChange(e.ps);
-
+    e.type === 'dblClick' && this.showDetial(e.dblClick.item);
     if (e.type === 'checkbox') {
       this.choosedData = e.checkbox;
     }
