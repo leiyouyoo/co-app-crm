@@ -165,17 +165,10 @@ export class InquiryListOceanComponent implements OnInit {
   //             </div>
 
   columns: STColumn[] = [
-    {
-      title: 'Attention',
-      index: '',
-      width: 120,
-      type: 'widget',
-      widget: { type: '' },
-    },
+    { title: "Attention", index: '', render: "Attention", width: 120 },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'POD', index: 'pod', width: 120 },
     { title: 'Delivery/To', index: 'delivery', width: 120 },
-    { title: 'detial', index: '', width: 120 },
     { title: 'Carrier', index: 'shipCompany', width: 120 },
     { title: 'Duration(From)', index: 'from', width: 120 },
     { title: 'Duration(To)', index: 'to', width: 120 },
@@ -212,22 +205,6 @@ export class InquiryListOceanComponent implements OnInit {
       width: 80,
       fixed: 'right',
       buttons: [
-        // {
-        //   text: 'Edit',
-        //   type: 'none',
-        //   click: (e) => {
-        //     this.desListEditComponent.showModal(e);
-        //   },
-        // },
-        // {
-        //   text: 'Detail',
-        //   type: 'none',
-        //   click: (e) => {
-        //     this.$navigate(['fcm/order/orderdetail/' + e.shipmentId], {
-        //       queryParams: { businessid: e.id, isAccept: false, _title: `${this.$L('acceptDetail')}-${e.shipmentNo}` },
-        //     });
-        //   },
-        // },
       ],
     },
   ];
@@ -624,30 +601,9 @@ export class InquiryListOceanComponent implements OnInit {
             titleItem.push({ title: e, index: '', render: e, width: 120 });
           });
           console.log(titleItem);
-          titleItem.unshift(2, 0);
+          titleItem.unshift(4, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
           this.st.resetColumns();
-
-          console.log(this.dataOfList, 'dataOfList');
-          console.log(this.columns, 'columns');
-          // this.dataOfList.forEach(item => {
-
-          // })
-          // this.columns.forEach(item => {
-
-          // })
-
-          // <td nzEllipsis *ngFor="let detial of tablestitle">
-          //     <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
-          //       <div *ngIf="mdata.unit === detial">
-          //         <ng-container *ngIf="mdata.rate != 0; else elseratePriceTemplate">
-          //           {{ mdata.rate.toFixed(2) }}
-          //         </ng-container>
-          //         <ng-template #elseratePriceTemplate> </ng-template>
-          //       </div>
-          //     </div>
-
-          //   </td>
         },
         (err) => {
           this.loading = false;
