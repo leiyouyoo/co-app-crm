@@ -145,7 +145,6 @@ export class InquiryListOceanComponent implements OnInit {
     ValidEnd: null,
   };
 
-
   // <span *ngIf="data.businessType == 0">
   //               <div class="radius" style="background: #1890ff;"></div>
   //               {{ 'Contract price' | translate }}
@@ -167,9 +166,11 @@ export class InquiryListOceanComponent implements OnInit {
 
   columns: STColumn[] = [
     {
-      title: 'Attention', index: '', width: 120,
+      title: 'Attention',
+      index: '',
+      width: 120,
       type: 'widget',
-      widget: { type: '' }
+      widget: { type: '' },
     },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'POD', index: 'pod', width: 120 },
@@ -181,17 +182,19 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'ItemCode', index: 'itemCode', width: 120 },
     { title: 'NameAccount', index: 'account', width: 120 },
     {
-      title: 'business type', index: '', width: 120,
+      title: 'business type',
+      index: '',
+      width: 120,
       format: (item, _col) => {
         if (item.businessType == 0) {
-          return this.translate.instant('Contract price')
+          return this.translate.instant('Contract price');
         } else if (item.businessType == 1) {
           if (item.status == null) {
-            return this.translate.instant('Inquiry-to be quoted')
+            return this.translate.instant('Inquiry-to be quoted');
           } else if (item.status == 0) {
-            return this.translate.instant('Inquiry-Quoted')
+            return this.translate.instant('Inquiry-Quoted');
           } else if (item.status == 1) {
-            return this.translate.instant('Inquiry-Invalid quote')
+            return this.translate.instant('Inquiry-Invalid quote');
           }
         }
       },
@@ -228,7 +231,6 @@ export class InquiryListOceanComponent implements OnInit {
       ],
     },
   ];
-
 
   constructor(
     // private customerService: CustomerService,
@@ -269,20 +271,22 @@ export class InquiryListOceanComponent implements OnInit {
 
   checkChange(e) {
     console.log(e);
-    e.type === 'click' && this.showDetial(e.click.item, e.click.index)
+    e.type === 'click' && this.showDetial(e.click.item, e.click.index);
     if (e.type === 'checkbox') {
-      this.dataOfList.items.forEach(e => { e.choosed = false });
+      this.dataOfList.items.forEach((e) => {
+        e.choosed = false;
+      });
       if (e?.checkbox?.length > 0) {
-        e.checkbox.forEach(item => {
-          this.dataOfList.items.forEach(i => {
-            i.id == item.id && (i.choosed = true)
-          })
-        })
+        e.checkbox.forEach((item) => {
+          this.dataOfList.items.forEach((i) => {
+            i.id == item.id && (i.choosed = true);
+          });
+        });
       }
     }
     this.refreshStatus();
 
-    console.log(this.dataOfList)
+    console.log(this.dataOfList);
   }
 
   GetNextMonthDay(date) {
@@ -359,14 +363,13 @@ export class InquiryListOceanComponent implements OnInit {
   dataProcess(data: STData[]) {
     return data.map((i: STData, index: number) => {
       if (i.businessType == 0 || (i.status == 0 && i.businessType == 1)) {
-        i.disabled = false
+        i.disabled = false;
       } else {
         i.disabled = true;
       }
       return i;
     });
   }
-
 
   getOrganizationUnitUsers() {
     this.OrganizationUnit.getOrganizationUnitUsers({
@@ -450,8 +453,7 @@ export class InquiryListOceanComponent implements OnInit {
   getCarrierCustomerList() {
     this.crmCustomer.getCustomerByType({ customerType: 1 }).subscribe((res: any) => {
       this.carrierCustomerList = res.items;
-      console.log(this.carrierCustomerList)
-
+      console.log(this.carrierCustomerList);
     });
   }
 
@@ -489,7 +491,6 @@ export class InquiryListOceanComponent implements OnInit {
   //     this.deliveryList = res.items;
   //   });
   // }
-
   getBasicPortList(value = '') {
     if (/[\u4e00-\u9fa5]{2}/gi.test(value) || value.length > 2) {
       this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
@@ -575,7 +576,7 @@ export class InquiryListOceanComponent implements OnInit {
         (res) => {
           this.loading = false;
           this.dataOfList = res;
-
+          debugger;
           let tablestitle = [];
 
           let arr = this.dataOfList.items.map((item) => item.ratePriceOutputs);
@@ -616,29 +617,25 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          console.log(this.tablestitle)
+          console.log(this.tablestitle);
 
           let titleItem = [];
-          this.tablestitle.forEach(e => {
-            titleItem.push({ title: e, index: '', render: e, width: 120 },)
-          })
-          console.log(titleItem)
+          this.tablestitle.forEach((e) => {
+            titleItem.push({ title: e, index: '', render: e, width: 120 });
+          });
+          console.log(titleItem);
           titleItem.unshift(2, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
           this.st.resetColumns();
 
-
-          console.log(this.dataOfList, "dataOfList")
-          console.log(this.columns, "columns")
+          console.log(this.dataOfList, 'dataOfList');
+          console.log(this.columns, 'columns');
           // this.dataOfList.forEach(item => {
 
           // })
           // this.columns.forEach(item => {
 
           // })
-
-
-
 
           // <td nzEllipsis *ngFor="let detial of tablestitle">
           //     <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
@@ -651,9 +648,6 @@ export class InquiryListOceanComponent implements OnInit {
           //     </div>
 
           //   </td>
-
-
-
         },
         (err) => {
           this.loading = false;
