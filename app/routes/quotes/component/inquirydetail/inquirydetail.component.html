@@ -10,7 +10,7 @@
           <div class="create-notes">
             <span *ngIf="quotesObj">
               <span class="notes-info" *ngIf="quotesObj.status == 3">
-                <span class="iconfont icon-icon_dangerous"></span>
+                <span class="iconfont icon-icon_dangerous" nz-icon nzIconfont="icon-dangerous"></span>
                 <span>{{ 'All quotes have expired and cannot be booked' | translate }}</span></span
               >
             </span>

@@ -605,14 +605,17 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   //港口数据
   //获取起始port
   GetAllOrginalPort(name: string = '', id = '') {
+    const param = {
+      id,
+      name,
+      isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
+      isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
+      maxResultCount: 10,
+    };
+    if (!param.isOcean) delete param.isOcean;
+    if (!param.isAir) delete param.isAir;
     this.pubPlaceService
-      .getAll({
-        id,
-        name,
-        isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
-        isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
-        maxResultCount: 10,
-      })
+      .getAll(param)
       .subscribe(
         (res: any) => {
           this.OriginPortList = res.items;
@@ -631,14 +634,17 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
   //获取目的port
   GetAllDesitinaPort(name: string = '', id = '') {
+    const param = {
+      id,
+      name,
+      isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
+      isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
+      maxResultCount: 10,
+    };
+    if (!param.isOcean) delete param.isOcean;
+    if (!param.isAir) delete param.isAir;
     this.pubPlaceService
-      .getAll({
-        id,
-        name,
-        isOcean: this.bookingObj.freightMethodType === FreightMethodType.Ocean,
-        isAir: this.bookingObj.freightMethodType === FreightMethodType.Air,
-        maxResultCount: 10,
-      })
+      .getAll(param)
       .subscribe(
         (res: any) => {
           this.DesinationPortList = res.items;
