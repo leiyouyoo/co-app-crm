@@ -3,8 +3,18 @@
     <div class="content-left-quote-top">
       <div class="content-left-quote-top-left">
         <div class="icon-air">
-          <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="quoteObj.freightMethodType == FreightMethodType.Air"></span>
-          <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="quoteObj.freightMethodType == FreightMethodType.Ocean"></span>
+          <span
+            class="iconfont icon-airplane"
+            nz-icon
+            nzIconfont="icon-airplane"
+            *ngIf="quoteObj.freightMethodType == FreightMethodType.Air"
+          ></span>
+          <span
+            class="iconfont icon-Ocean"
+            nz-icon
+            nzIconfont="icon-ocean"
+            *ngIf="quoteObj.freightMethodType == FreightMethodType.Ocean"
+          ></span>
         </div>
         <div class="content-left-quote-no">{{ quoteObj.quoteNo }}</div>
         <div *ngIf="!isRecord">
@@ -57,7 +67,7 @@
       <div class="content-left-quote-bottom" [ngClass]="{ yinying: isShowOpearButton }">
         <div class="content-left-quote-bottom-top">
           <div class="content-left-quote-bottom-top-left">
-            <span class="iconfont icon-quotetype" nz-icon nzIconfont="icon-quote"> </span>
+            <span class="iconfont icon-quotetype" nz-icon nzIconfont="icon-quote" style="font-size: 84px !important;"> </span>
             <div class="content-left-quote-bottom-top-left-right">
               <nz-list>
                 <nz-list-item>
@@ -248,7 +258,8 @@
                     <span
                       *ngIf="Origin.remark"
                       class="iconfont icon-beizhu"
-                      nz-icon nzIconfont="icon-remark"
+                      nz-icon
+                      nzIconfont="icon-remark"
                       nz-tooltip
                       [nzTooltipTitle]="Origin.remark"
                       nzTooltipPlacement="top"
@@ -298,7 +309,8 @@
                     <span
                       *ngIf="Destination.remark"
                       class="iconfont icon-beizhu"
-                      nz-icon nzIconfont="icon-remark"
+                      nz-icon
+                      nzIconfont="icon-remark"
                       nz-tooltip
                       [nzTooltipTitle]="Destination.remark"
                       nzTooltipPlacement="top"
