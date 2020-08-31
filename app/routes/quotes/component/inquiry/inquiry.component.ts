@@ -55,6 +55,7 @@ export class InquiryComponent extends CoPageBase {
     nzPageSize: 10,
     pageIndex: 1,
     SkipCount: 0,
+    Status: '',
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
