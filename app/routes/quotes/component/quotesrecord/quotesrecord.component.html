@@ -57,11 +57,13 @@
         <div class="f-type">
           <span
             class="iconfont icon-kongyun-1"
+            nz-icon nzIconfont="icon-airplane"
             *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
             style="padding-left: 16px;"
           ></span>
           <span
             class="iconfont icon-hangyun"
+            nz-icon nzIconfont="icon-ocean"
             *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
             style="padding-left: 16px;"
           ></span>
@@ -188,7 +190,7 @@
                 </div>
               </div>
               <div>
-                <span class="iconfont icon-gongsi-yuan"></span>
+                <span class="iconfont icon-gongsi-yuan" nz-icon nzIconfont="icon-company-circle"></span>
                 <div class="horizontal-line"></div>
               </div>
             </li>
@@ -202,10 +204,12 @@
               </div>
               <span
                 class="iconfont icon-chuanyun-yuan"
+                nz-icon nzIconfont="icon-ocean-circle"
                 *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
               ></span>
               <span
                 class="iconfont icon-kongyun-yuan"
+                nz-icon nzIconfont="icon-airplane-circle"
                 *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
               ></span>
               <div class="horizontal-line"></div>
@@ -220,10 +224,12 @@
               </div>
               <span
                 class="iconfont icon-chuanyun-yuan"
+                nz-icon nzIconfont="icon-ocean-circle"
                 *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
               ></span>
               <span
                 class="iconfont icon-kongyun-yuan"
+                nz-icon nzIconfont="icon-airplane-circle"
                 *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Air"
               ></span>
               <div
@@ -250,7 +256,7 @@
                   </div>
                 </div>
               </div>
-              <span class="iconfont icon-gongsi-yuan"></span>
+              <span class="iconfont icon-gongsi-yuan" nz-icon nzIconfont="icon-company-circle"></span>
             </li>
           </ul>
         </div>

@@ -48,7 +48,7 @@
                         <div style="display: flex;">
                           <div style="width: 50%;">{{ item.contacts.length }} {{ 'Contact person' | translate }}</div>
                           <div style="width: 50%;">
-                            <span class="iconfont icon-dingwei"></span>{{ item.locations.length }}
+                            <span class="iconfont icon-dingwei" nz-icon nzIconfont="icon-location"></span>{{ item.locations.length }}
                             {{ 'Position' | translate }}
                           </div>
                         </div>
@@ -105,6 +105,7 @@
                       <div style="display: flex; align-items: center; justify-content: center;">
                         <span
                           class="iconfont icon-Ocean"
+                          nz-icon nzIconfont="icon-ocean"
                           [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Ocean }"
                         ></span>
                         <!-- <span
@@ -124,6 +125,7 @@
                       <div style="display: flex; align-items: center; justify-content: center;">
                         <span
                           class="iconfont icon-airplane"
+                          nz-icon nzIconfont="icon-airplane"
                           [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Air }"
                         ></span>
                         <!-- <span
@@ -384,11 +386,11 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
                         <span *ngIf="item.isAir && item.isOcean">
-                          <span class="iconfont icon-airplane"></span>
-                          <span class="iconfont icon-Ocean"></span>
+                          <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
+                          <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
                         </span>
                       </div>
                       <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
@@ -465,11 +467,11 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'destination')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
                         <span *ngIf="item.isAir && item.isOcean">
-                          <span class="iconfont icon-airplane"></span>
-                          <span class="iconfont icon-Ocean"></span>
+                          <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
+                          <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
                         </span>
                       </div>
                       <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
@@ -740,7 +742,7 @@
                           >-
                         </a>
                         <span class="containerNum" style="padding: 0px 8px; height: 30px;"> {{ item.name }}</span>
-                        <span class="iconfont icon-Delete" (click)="deleteContainer(item)"></span>
+                        <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteContainer(item)"></span>
                       </span>
                     </div>
                   </div>
