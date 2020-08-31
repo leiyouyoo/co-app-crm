@@ -145,33 +145,22 @@ export class InquiryListOceanComponent implements OnInit {
     ValidEnd: null,
   };
 
-  // <span *ngIf="data.businessType == 0">
-  //               <div class="radius" style="background: #1890ff;"></div>
-  //               {{ 'Contract price' | translate }}
-  //             </span>
-  //             <div *ngIf="data.businessType == 1">
-  //               <span *ngIf="data.status == null">
-  //                 <div class="radius" style="background: #f7b500;"></div>
-  //                 {{ 'Inquiry-to be quoted' | translate }}
-  //               </span>
-  //               <span *ngIf="data.status == 0">
-  //                 <div class="radius" style="background: #52c41a;"></div>
-  //                 {{ 'Inquiry-Quoted' | translate }}
-  //               </span>
-  //               <span *ngIf="data.status == 1">
-  //                 <div class="radius" style="background: #f5222d;"></div>
-  //                 {{ 'Inquiry-Invalid quote' | translate }}
-  //               </span>
-  //             </div>
-
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 120 },
+    { title: "Attention", index: '', render: "Attention", width: 40 },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'POD', index: 'pod', width: 120 },
     { title: 'Delivery/To', index: 'delivery', width: 120 },
-    { title: 'Carrier', index: 'shipCompany', width: 120 },
-    { title: 'Duration(From)', index: 'from', width: 120 },
-    { title: 'Duration(To)', index: 'to', width: 120 },
+    { title: 'Carrier', index: 'shipCompany', width: 80 },
+    {
+      title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+        compare: (a, b) => a.from - b.from,
+      },
+    },
+    {
+      title: 'Duration(To)', index: 'to', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+        compare: (a, b) => a.to - b.to,
+      },
+    },
     { title: 'ItemCode', index: 'itemCode', width: 120 },
     { title: 'NameAccount', index: 'account', width: 120 },
     {
@@ -599,7 +588,7 @@ export class InquiryListOceanComponent implements OnInit {
           let titleItem = [];
           this.tablestitle.forEach((e) => {
             titleItem.push({
-              title: e, index: '', render: e, width: 120, sort: {
+              title: e, index: '', render: e, width: 70, sort: {
                 compare: (a, b) => a - b,
               },
             });
