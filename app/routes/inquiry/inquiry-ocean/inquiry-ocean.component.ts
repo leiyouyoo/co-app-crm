@@ -17,6 +17,7 @@ import { RatesFavoriteRateServiceService } from '../../../services/rates/favorit
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
+import { STColumn, STData, STComponent } from '@co/cbc';
 
 
 
@@ -73,6 +74,8 @@ export class InquiryListOceanComponent implements OnInit {
 
   @ViewChild('scrollComponent')
   private _scrollViewport: CdkVirtualScrollViewport;
+
+  @ViewChild('st', { static: false }) st: STComponent;
 
   id: any;
 
@@ -136,6 +139,92 @@ export class InquiryListOceanComponent implements OnInit {
     ValidStart: null,
     ValidEnd: null
   };
+
+
+  // <span *ngIf="data.businessType == 0">
+  //               <div class="radius" style="background: #1890ff;"></div>
+  //               {{ 'Contract price' | translate }}
+  //             </span>
+  //             <div *ngIf="data.businessType == 1">
+  //               <span *ngIf="data.status == null">
+  //                 <div class="radius" style="background: #f7b500;"></div>
+  //                 {{ 'Inquiry-to be quoted' | translate }}
+  //               </span>
+  //               <span *ngIf="data.status == 0">
+  //                 <div class="radius" style="background: #52c41a;"></div>
+  //                 {{ 'Inquiry-Quoted' | translate }}
+  //               </span>
+  //               <span *ngIf="data.status == 1">
+  //                 <div class="radius" style="background: #f5222d;"></div>
+  //                 {{ 'Inquiry-Invalid quote' | translate }}
+  //               </span>
+  //             </div>
+
+  columns: STColumn[] = [
+    {
+      title: 'Attention', index: '', width: 120,
+      type: 'widget',
+      widget: { type: '' }
+    },
+    { title: 'POL/From', index: 'pol', width: 120 },
+    { title: 'POD', index: 'pod', width: 120 },
+    { title: 'Delivery/To', index: 'delivery', width: 120 },
+    { title: 'detial', index: '', width: 120 },
+    { title: 'Carrier', index: 'shipCompany', width: 120 },
+    { title: 'Duration(From)', index: 'from', width: 120 },
+    { title: 'Duration(To)', index: 'to', width: 120 },
+    { title: 'ItemCode', index: 'itemCode', width: 120 },
+    { title: 'NameAccount', index: 'account', width: 120 },
+    {
+      title: 'business type', index: '', width: 120,
+      format: (item, _col) => {
+        if (item.businessType == 0) {
+          return this.translate.instant('Contract price')
+        } else if (item.businessType == 1) {
+          if (item.status == null) {
+            return this.translate.instant('Inquiry-to be quoted')
+          } else if (item.status == 0) {
+            return this.translate.instant('Inquiry-Quoted')
+          } else if (item.status == 1) {
+            return this.translate.instant('Inquiry-Invalid quote')
+          }
+        }
+      },
+    },
+    { title: 'Commodity', index: 'commodity', width: 120 },
+    { title: 'Term', index: 'term', width: 120 },
+    { title: 'SurCharge', index: 'surCharge', width: 120 },
+    { title: 'CLS', index: 'cls', width: 120 },
+    { title: 'T/T', index: 'tt', width: 120 },
+    { title: 'Description', index: 'remarkBusiness', width: 120 },
+    { title: 'Update by', index: 'updateBy', width: 120 },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      buttons: [
+        // {
+        //   text: 'Edit',
+        //   type: 'none',
+        //   click: (e) => {
+        //     this.desListEditComponent.showModal(e);
+        //   },
+        // },
+        // {
+        //   text: 'Detail',
+        //   type: 'none',
+        //   click: (e) => {
+        //     this.$navigate(['fcm/order/orderdetail/' + e.shipmentId], {
+        //       queryParams: { businessid: e.id, isAccept: false, _title: `${this.$L('acceptDetail')}-${e.shipmentNo}` },
+        //     });
+        //   },
+        // },
+      ],
+    },
+  ];
+
+
   constructor(
     // private customerService: CustomerService,
     private msg: NzMessageService,
@@ -171,6 +260,24 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
+  }
+
+  checkChange(e) {
+    console.log(e);
+    e.type === 'click' && this.showDetial(e.click.item, e.click.index)
+    if (e.type === 'checkbox') {
+      this.dataOfList.items.forEach(e => { e.choosed = false });
+      if (e?.checkbox?.length > 0) {
+        e.checkbox.forEach(item => {
+          this.dataOfList.items.forEach(i => {
+            i.id == item.id && (i.choosed = true)
+          })
+        })
+      }
+    }
+    this.refreshStatus();
+
+    console.log(this.dataOfList)
   }
 
   GetNextMonthDay(date) {
@@ -233,7 +340,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   bindData() {
     this.getBasicPortList();
-    this.getCRMCarrierList('');
+    this.getCRMCarrierList({ name: '', customerType: 1, sorting: 'code' });
     this.getAllShipLine();
     this.getCarrierCustomerList();
     this.getCustomerList();
@@ -243,6 +350,18 @@ export class InquiryListOceanComponent implements OnInit {
     this.isFllow = true;
     this.onGetAll();
   }
+
+  dataProcess(data: STData[]) {
+    return data.map((i: STData, index: number) => {
+      if (i.businessType == 0 || (i.status == 0 && i.businessType == 1)) {
+        i.disabled = false
+      } else {
+        i.disabled = true;
+      }
+      return i;
+    });
+  }
+
 
   getOrganizationUnitUsers() {
     this.OrganizationUnit
@@ -328,6 +447,8 @@ export class InquiryListOceanComponent implements OnInit {
   getCarrierCustomerList() {
     this.crmCustomer.getCustomerByType({ customerType: 1 }).subscribe((res: any) => {
       this.carrierCustomerList = res.items;
+      console.log(this.carrierCustomerList)
+
     });
   }
 
@@ -357,13 +478,25 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   @debounce(1000)
+  // getBasicPortList(value = '') {
+  //   this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
+  //     this.basicPortList = res.items;
+  //   });
+  //   this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
+  //     this.deliveryList = res.items;
+  //   });
+  // }
+
   getBasicPortList(value = '') {
-    this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
-      this.basicPortList = res.items;
-    });
-    this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
-      this.deliveryList = res.items;
-    });
+    if (/[\u4e00-\u9fa5]{2}/gi.test(value) || value.length > 2) {
+      this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
+        this.basicPortList = res.items;
+        this.deliveryList = res.items;
+      });
+      // this.customerService.getAllPlace({ Name: value, IsOcean: true }).subscribe((res: any) => {
+      //   this.deliveryList = res.items;
+      // });
+    }
   }
 
   // GET Carrier
@@ -476,6 +609,45 @@ export class InquiryListOceanComponent implements OnInit {
                 return 0;
             }
           });
+
+          console.log(this.tablestitle)
+
+          let titleItem = [];
+          this.tablestitle.forEach(e => {
+            titleItem.push({ title: e, index: '', render: e, width: 120 },)
+          })
+          console.log(titleItem)
+          titleItem.unshift(2, 0);
+          Array.prototype.splice.apply(this.columns, titleItem);
+          this.st.resetColumns();
+
+
+          console.log(this.dataOfList, "dataOfList")
+          console.log(this.columns, "columns")
+          // this.dataOfList.forEach(item => {
+
+          // })
+          // this.columns.forEach(item => {
+
+          // })
+
+
+
+
+          // <td nzEllipsis *ngFor="let detial of tablestitle">
+          //     <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
+          //       <div *ngIf="mdata.unit === detial">
+          //         <ng-container *ngIf="mdata.rate != 0; else elseratePriceTemplate">
+          //           {{ mdata.rate.toFixed(2) }}
+          //         </ng-container>
+          //         <ng-template #elseratePriceTemplate> </ng-template>
+          //       </div>
+          //     </div>
+
+          //   </td>
+
+
+
         },
         (err) => {
           this.loading = false;

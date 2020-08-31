@@ -3,10 +3,20 @@
   <form nz-form [formGroup]="searchForm">
     <div class="login-form">
       <div>
-        <nz-form-item>
+        <!-- <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
             <nz-select formControlName="pol" nzPlaceHolder="{{ 'POL' | translate }}" nzShowSearch nzServerSearch
               nzAllowClear (nzOnSearch)="getBasicPortList($event)">
+              <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item> -->
+
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select formControlName="pol" nzPlaceHolder="{{ 'POL' | translate }}" nzShowSearch nzServerSearch
+              nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
               <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
             </nz-select>
@@ -16,7 +26,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
             <nz-select formControlName="pod" nzPlaceHolder="{{ 'POD' | translate }}" nzShowSearch nzServerSearch
-              nzAllowClear (nzOnSearch)="getBasicPortList($event)">
+              nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
               <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
             </nz-select>
@@ -97,7 +107,7 @@
 
   <div class="inquiry-right">
     <div class="inquiry-right-content">
-      <nz-table #listTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
+      <!-- <nz-table #listTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
         nzShowPagination="false" nzTableLayout="fixed" style="width: 100%; min-height: 250px; height: 70vh;" calcScroll>
         <thead>
           <tr>
@@ -171,11 +181,6 @@
             </td>
             <td nzEllipsis>
               <div class="detial_msg" style="width: 75px;">
-                <!-- <nz-switch
-                  [(ngModel)]="data.isFavorite"
-                  nzSize="small"
-                  (ngModelChange)="onFollowChange(data)"
-                ></nz-switch> -->
 
                 <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
                   *ngIf="!data.isFavorite"></i>
@@ -202,9 +207,7 @@
                   <ng-template #elseratePriceTemplate> </ng-template>
                 </div>
               </div>
-              <!-- <div *ngFor="let mdata of data.ratePriceOutputs" class="detial_msg">
-                <div *ngIf="mdata.unit === detial">{{ mdata.rate.toFixed(2) }}</div>
-              </div> -->
+             
             </td>
             <td nzEllipsis>
               {{ data.shipCompany || '--' }}
@@ -264,7 +267,25 @@
             </td>
           </tr>
         </tbody>
-      </nz-table>
+      </nz-table> -->
+
+
+      <co-st #st style="height: 100%;" [loading]="loading" [res]="{process: dataProcess}" [data]="dataOfList?.items"
+        [columns]="columns" [scroll]="{ x: '2000px' }" [showFilters]="false" [total]="listTotal"
+        [page]="{ front: false }" (change)="checkChange($event)" calcScroll>
+
+        <div *ngFor="let i of tablestitle">
+          <ng-template st-row=i let-data>
+            123
+            <!-- <span *ngFor="let item of data.ratePriceOutputs">
+              <span *ngIf="item.unit==i">{{ item.rate }}</span>
+            </span> -->
+          </ng-template>
+        </div>
+
+
+      </co-st>
+
     </div>
   </div>
 
