@@ -44,6 +44,7 @@ export class InquiryTrackComponent implements OnInit {
   tablestitle: any;
   maxResultCount = 20;
   skipCount = 1;
+  listTotal: any;
 
   detialVisible = false;
   // modalVisible = true;
