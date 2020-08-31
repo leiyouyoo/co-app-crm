@@ -27,6 +27,7 @@
                   nzAllowClear
                   required
                   [name]="'carrierId' + i"
+                  class="width-100"
                   #carrierId="ngModel"
                 >
                   <nz-option [nzValue]="item.id" [nzLabel]="item.code" *ngFor="let item of carrierList"> </nz-option>
@@ -478,6 +479,7 @@
                 <nz-select
                   [(ngModel)]="item.chargingCodeId"
                   [name]="'chargingCodeId' + i"
+                  class="width-100"
                   #chargingCodeId="ngModel"
                   nzShowSearch
                   nzAllowClear
@@ -498,6 +500,7 @@
                 <nz-select
                   [(ngModel)]="item.currencyId"
                   [name]="'currencyId' + i"
+                  class="width-100"
                   #currencyId="ngModel"
                   nzAllowClear
                   nzPlaceHolder="{{ 'Choose' | translate }}"
@@ -512,6 +515,7 @@
                 <nz-select
                   [(ngModel)]="item.unitType"
                   [name]="'unitType' + i"
+                  class="width-100"
                   #unitType="ngModel"
                   nzAllowClear
                   nzPlaceHolder="{{ 'Choose' | translate }}"
@@ -624,6 +628,7 @@
                 <nz-select
                   [(ngModel)]="item.unitType"
                   [name]="'unitType' + i"
+                  class="width-100"
                   #unitType="ngModel"
                   nzAllowClear
                   nzPlaceHolder="{{ 'Choose' | translate }}"
@@ -654,6 +659,7 @@
                 <nz-select
                   [(ngModel)]="item.chargingCodeId"
                   [name]="'chargingCodeId' + i"
+                  class="width-100"
                   #chargingCodeId="ngModel"
                   nzShowSearch
                   nzAllowClear
@@ -717,6 +723,7 @@
                 <nz-select
                   [(ngModel)]="item.chargingCodeId"
                   #chargingCodeId="ngModel"
+                  class="width-100"
                   [name]="'chargingCodeId' + i"
                   nzShowSearch
                   nzAllowClear
@@ -737,6 +744,7 @@
                 <nz-select
                   [(ngModel)]="item.currencyId"
                   [name]="'currencyId' + i"
+                  class="width-100"
                   #currencyId="ngModel"
                   nzAllowClear
                   nzPlaceHolder="{{ 'Choose' | translate }}"
@@ -751,6 +759,7 @@
                 <nz-select
                   [(ngModel)]="item.unitType"
                   [name]="'unitType' + i"
+                  class="width-100"
                   #unitType="ngModel"
                   nzAllowClear
                   nzPlaceHolder="{{ 'Choose' | translate }}"
