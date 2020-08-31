@@ -15,6 +15,7 @@ import { RatesTruckServiceService } from '../../../services/rates/truck-service.
 import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { debounce } from 'apps/crm/app/shared/utils';
+import { STColumn } from '@co/cbc';
 // import { debounce } from '@shared/utils/debounce';
 
 @Component({
@@ -130,6 +131,63 @@ export class InquiryTrackComponent implements OnInit {
   mapOfSort: { [key: string]: any } = {
     rate: null,
   };
+
+
+  columns: STColumn[] = [
+    { title: "Attention", index: '', render: "Attention", width: 120 },
+    { title: 'From', index: '', render: "From", width: 120, },
+    { title: 'To', index: '', render: "To", width: 120 },
+    { title: 'Zip code', index: 'zipCode', width: 120 },
+    {
+      title: 'Rate', index: '', width: 120, render: 'Rate'
+    },
+    { title: 'Fuel', index: 'fuel', width: 120 },
+    {
+      title: 'Total', index: '', width: 120, render: "Total"
+    },
+    { title: 'Currerncy', index: 'currency', width: 120 },
+    {
+      title: 'Status', index: 'account', width: 120,
+      format: (item) => {
+        if (item.status == '0') {
+          return 'effective'
+        } else if (item.status == 1) {
+          return 'invalid'
+        }
+      }
+    },
+    { title: 'Duration', index: '', width: 120, render: 'Duration' },
+    { title: 'Trucker', index: 'carrier', width: 120 },
+    {
+      title: 'business type',
+      index: '',
+      width: 120,
+      format: (item, _col) => {
+        if (item.businessType == 2) {
+          return this.translate.instant('Contract price');
+        } else if (item.businessType == 3) {
+          if (item.status == null) {
+            return this.translate.instant('Inquiry-to be quoted');
+          } else if (item.status == 0) {
+            return this.translate.instant('Inquiry-Quoted');
+          } else if (item.status == 1) {
+            return this.translate.instant('Inquiry-Invalid quote');
+          }
+        }
+      },
+    },
+    { title: 'NO', index: 'no', width: 120 },
+    { title: 'Update By', index: 'users', width: 120 },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 80,
+      fixed: 'right',
+      buttons: [
+      ],
+    },
+  ];
+
 
   constructor(
     // private customerService: CustomerService,
@@ -266,6 +324,10 @@ export class InquiryTrackComponent implements OnInit {
     this.pubPlace.getAll({ name: value, isAirOrOcean: true }).subscribe((res: any) => {
       this.basicPortList = res.items;
     });
+  }
+
+  checkChange(e) {
+    e.type === 'click' && this.showDetial(e.click.item, e.click.index);
   }
 
   onCustomerListChange(id) {

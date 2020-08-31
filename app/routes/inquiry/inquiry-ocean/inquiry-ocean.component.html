@@ -309,9 +309,22 @@
       >
         <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
           <span *ngFor="let ratePrice of data.ratePriceOutputs">
-            <span *ngIf="ratePrice.unit === tata">{{ ratePrice.rate }}</span>
+            <span *ngIf="ratePrice.unit === tata" style="color:#7ace4d;">{{ ratePrice.rate }}</span>
           </span>
         </ng-template>
+
+
+        <ng-template st-row="Attention" let-data>
+          <div class="detial_msg" style="width: 75px;">
+
+            <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
+              *ngIf="!data.isFavorite"></i>
+
+            <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)"
+              *ngIf="data.isFavorite"></i>
+          </div>
+        </ng-template>
+
       </co-st>
     </div>
   </div>

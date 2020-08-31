@@ -201,13 +201,10 @@
   </form>
 
   <div class="inquiry-right">
-    <nz-table #basicTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
+    <!-- <nz-table #basicTable [nzData]="dataOfList?.items" [nzLoading]="loading" [nzFrontPagination]="false"
       nzShowPagination="false" nzTableLayout="fixed" calcScroll>
       <thead>
         <tr>
-          <!-- <th nzWidth="80px">
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="isAll" (nzCheckedChange)="checkAll($event)"></label>
-          </th> -->
           <th nzWidth="100px">
             {{ 'Attention' | translate }}
           </th>
@@ -254,16 +251,8 @@
       <tbody>
         <tr (click)="showDetial(data, i)" *ngFor="let data of basicTable.data; let i = index"
           [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0, 'list-selected': data.selected }">
-          <!-- <td>
-            <label nz-checkbox nzShowCheckbox [(nzChecked)]="data.choosed" (nzCheckedChange)="refreshStatus()"></label>
-          </td> -->
           <td nzEllipsis>
             <div class="detial_msg" style="width: 75px;">
-              <!-- <nz-switch
-              [(ngModel)]="data.isFavorite"
-              nzSize="small"
-              (ngModelChange)="onFollowChange(data)"
-            ></nz-switch> -->
 
               <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
                 *ngIf="!data.isFavorite"></i>
@@ -274,23 +263,6 @@
           </td>
 
           <td nzEllipsis>
-            <!-- <div *ngIf="data.truckType == 1">
-              <ng-container *ngIf="data.fromDetails?.name">
-                {{ data.fromDetails?.name + ',' }}
-              </ng-container>
-              <ng-container *ngIf="data.fromDetails?.cityName">
-                {{ data.fromDetails?.cityName + ',' }}
-              </ng-container>
-              {{ data.fromDetails?.province + ',' + data.fromDetails?.country }}
-            </div>
-            <div *ngIf="data.truckType == 2">
-              <ng-container *ngIf="data.fromDetails?.name; else elseTemplate">
-                {{ data.fromDetails?.name }}
-              </ng-container>
-              <ng-template #elseTemplate>
-                {{ data.fromDetails?.cityName }}
-              </ng-template>
-            </div> -->
             <div *ngIf="data.businessType == 2">
               <span *ngIf="data.truckType == 1" [title]="data.truckAddress">{{ data.truckAddress }}</span>
               <span *ngIf="data.truckType == 2" [title]="data.truckPort">{{ data.truckPort }}</span>
@@ -311,23 +283,6 @@
               <span *ngIf="data.truckType == 1" [title]="data.truckPort">{{ data.truckPort }}</span>
               <span *ngIf="data.truckType == 2" [title]="data.truckAddress">{{ data.truckAddress }}</span>
             </div>
-            <!-- <div *ngIf="data.truckType == 1">
-              <ng-container *ngIf="data.toDetails?.name; else elseTemplate">
-                {{ data.toDetails?.name }}
-              </ng-container>
-              <ng-template #elseTemplate>
-                {{ data.toDetails?.cityName }}
-              </ng-template>
-            </div>
-            <div *ngIf="data.truckType == 2">
-              <ng-container *ngIf="data.toDetails?.name">
-                {{ data.toDetails?.name + ',' }}
-              </ng-container>
-              <ng-container *ngIf="data.toDetails?.cityName">
-                {{ data.toDetails?.cityName + ',' }}
-              </ng-container>
-              {{ data.toDetails?.province + ',' + data.toDetails?.country }}
-            </div> -->
           </td>
           <td>
             {{ data.zipCode || '--' }}
@@ -373,7 +328,68 @@
           </td>
         </tr>
       </tbody>
-    </nz-table>
+    </nz-table> -->
+
+    <co-st #st style="height: 100%;" [loading]="loading" [data]="dataOfList?.items" [columns]="columns"
+      [scroll]="{ x: '2000px' }" [showFilters]="false" [total]="listTotal" [page]="{ front: false }"
+      (change)="checkChange($event)" calcScroll>
+
+      <ng-template st-row="Attention" let-data>
+        <div class="detial_msg" style="width: 75px;">
+
+          <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
+            *ngIf="!data.isFavorite"></i>
+
+          <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)"
+            *ngIf="data.isFavorite"></i>
+        </div>
+      </ng-template>
+
+      <ng-template st-row="Rate" let-data>
+        {{ data.rate?.toFixed(2) }}
+      </ng-template>
+
+      <ng-template st-row="Total" let-data>
+        {{ ((data.rate * data.fuel) / 100 + data.rate).toFixed(2) }}
+      </ng-template>
+
+
+      <ng-template st-row="From" let-data>
+        <div *ngIf="data.businessType == 2">
+          <span *ngIf="data.truckType == 1" [title]="data.truckAddress">{{ data.truckAddress }}</span>
+          <span *ngIf="data.truckType == 2" [title]="data.truckPort">{{ data.truckPort }}</span>
+        </div>
+
+        <div *ngIf="data.businessType == 3">
+          <span *ngIf="data.truckType == 1" [title]="data.truckAddress">{{ data.truckAddress }}</span>
+          <span *ngIf="data.truckType == 2" [title]="data.truckPort">{{ data.truckPort }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template st-row="To" let-data>
+        <div *ngIf="data.businessType == 2">
+          <span *ngIf="data.truckType == 1" [title]="data.truckPort">{{ data.truckPort }}</span>
+          <span *ngIf="data.truckType == 2" [title]="data.truckAddress">{{ data.truckAddress }}</span>
+        </div>
+
+        <div *ngIf="data.businessType == 3">
+          <span *ngIf="data.truckType == 1" [title]="data.truckPort">{{ data.truckPort }}</span>
+          <span *ngIf="data.truckType == 2" [title]="data.truckAddress">{{ data.truckAddress }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template st-row="Duration" let-data>
+        <div>
+          {{ data.validStart | date: 'yyyy-MM-dd' || '--' }}
+        </div>
+        <div>
+          {{ data.validEnd | date: 'yyyy-MM-dd' || '--' }}
+        </div>
+      </ng-template>
+
+
+    </co-st>
+
   </div>
 
   <div style="text-align: right; padding: 0 24px 24px 24px;">
