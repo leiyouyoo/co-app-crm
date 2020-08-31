@@ -22,8 +22,7 @@
               </button>
               <!-- <button nz-button nzType="primary" (click)="fenxiang()">分享</button> -->
             </div>
-            <quote-quote-simple-info *ngIf="quotesObj.id" [Id]="quotesObj.id" [isRecord]="false">
-            </quote-quote-simple-info>
+            <quote-quote-simple-info *ngIf="quotesObj.id" [Id]="quotesObj.id" [isRecord]="false"> </quote-quote-simple-info>
           </div>
         </div>
       </div>
@@ -53,15 +52,8 @@
         </div>
         <div style="height: 10px; border-bottom: 1px solid #e4e4e4; margin-bottom: 8px;"></div>
         <div class="detailInfo-wap-info">
-          <div
-            *ngIf="
-              quotesObj.tradeType == 1 && (quotesObj.isDeclaration || quotesObj.isClearance || quotesObj.isInsurance)
-            "
-          >
-            <div
-              *ngIf="quotesObj.tradeType == 1"
-              style="display: flex; justify-content: space-between; padding: 8px 24px;"
-            >
+          <div *ngIf="quotesObj.tradeType == 1 && (quotesObj.isDeclaration || quotesObj.isClearance || quotesObj.isInsurance)">
+            <div *ngIf="quotesObj.tradeType == 1" style="display: flex; justify-content: space-between; padding: 8px 24px;">
               <span class="detailInfo-wap-info-left" style="margin-right: 16px;">
                 <label>{{ 'Channel requirements' | translate }}</label></span
               >
@@ -92,10 +84,7 @@
               </button>
             </div>
           </div>
-          <div
-            *ngIf="quotesObj.tradeType != 1"
-            style="display: flex; justify-content: space-between; padding: 8px 24px;"
-          >
+          <div *ngIf="quotesObj.tradeType != 1" style="display: flex; justify-content: space-between; padding: 8px 24px;">
             <span class="detailInfo-wap-info-left" style="margin-right: 16px;">
               <label>{{ 'Channel requirements' | translate }}</label>
             </span>
@@ -123,9 +112,7 @@
                   [originAddress]="quotesObj.originAddress ? quotesObj.originAddress : quotesObj.originAddressName"
                   [originPort]="quotesObj.originPort"
                   [destinationPort]="quotesObj.destinationPort"
-                  [destinationAddress]="
-                    quotesObj.destinationAddress ? quotesObj.destinationAddress : quotesObj.destinationAddressName
-                  "
+                  [destinationAddress]="quotesObj.destinationAddress ? quotesObj.destinationAddress : quotesObj.destinationAddressName"
                   [freightMethodType]="quotesObj.freightMethodType"
                 ></route-time-line>
               </nz-list-item>
@@ -163,12 +150,7 @@
                 >
                 <span
                   ><label for="">
-                    <ng-container
-                      *ngIf="
-                        quotesObj.freightMethodType == freightMethodTypeValue.Ocean;
-                        else elsefreightMethodTemplate
-                      "
-                    >
+                    <ng-container *ngIf="quotesObj.freightMethodType == freightMethodTypeValue.Ocean; else elsefreightMethodTemplate">
                       {{ 'ocean' | translate }}
                     </ng-container>
                     <ng-template #elsefreightMethodTemplate>
@@ -180,7 +162,7 @@
 
               <nz-list-item>
                 <span class="detailInfo-wap-info-left"
-                  ><label for="">{{ 'Freight Type' | translate }}</label></span
+                  ><label for="">{{ 'Shipping terms' | translate }}</label></span
                 >
                 <span
                   ><label for="">
@@ -232,9 +214,7 @@
             <nz-list *ngIf="quotesObj.quantity && quotesObj.weight && quotesObj.volume">
               <nz-list-item class="list-item-header">
                 <span
-                  ><label for="" style="font-size: 14px; font-weight: bold;">{{
-                    'Cargo Detail' | translate
-                  }}</label></span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Cargo Detail' | translate }}</label></span
                 >
               </nz-list-item>
               <nz-list-item>
@@ -292,11 +272,7 @@
                 <label for="">{{ 'Special goods' | translate }}</label>
               </span>
 
-              <div
-                *ngIf="containsSpecialGoodsTypes"
-                [ngClass]="{ notClickn: true }"
-                style="display: block; padding: 8px 0px;"
-              >
+              <div *ngIf="containsSpecialGoodsTypes" [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0px;">
                 <div *ngFor="let item of containsSpecialGoodsTypes" class="quoteDetail-check">
                   <label style="height: 25px;" nz-checkbox [(ngModel)]="item.IsSelected">{{ item.Name }}</label>
                 </div>

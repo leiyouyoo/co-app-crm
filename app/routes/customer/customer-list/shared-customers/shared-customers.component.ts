@@ -50,7 +50,7 @@ export class SharedCustomersComponent extends CoPageBase {
       width: 250,
       title: 'CustomerTableName',
       index: 'name',
-      format: (item, _col) => `${item.isMerged ? item.name + '(' + this.translate.instant('merged customers') + ')' : item.name}`,
+      render: 'CustomerTableName',
     },
     {
       width: 150,

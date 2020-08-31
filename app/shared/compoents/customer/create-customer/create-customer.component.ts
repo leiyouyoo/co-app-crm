@@ -403,6 +403,7 @@ export class CreateCustomerComponent {
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
+        maxResultCount: 1000,
         typeCode: '006',
       })
       .subscribe((res) => {
@@ -412,6 +413,7 @@ export class CreateCustomerComponent {
     // 行业的
     this.pubDataDictionaryService
       .getAll({
+        maxResultCount: 1000,
         typeCode: '098',
       })
       .subscribe((res) => {
@@ -499,6 +501,7 @@ export class CreateCustomerComponent {
       });
       let res = await this.pubPlaceService
         .getAll({
+          maxResultCount: 1000,
           regionId: event,
           isCity: true,
         })

@@ -80,7 +80,7 @@ export class InquiryComponent extends CoPageBase {
   height = 500;
   user = JSON.parse(window.localStorage.getItem('co.session'));
 
-  userId = this.user.session.user.icpUserId;
+  userId = this.user.session.user.id;
   imgUrl = environment.SERVER_URL;
 
   coOnInit() {
