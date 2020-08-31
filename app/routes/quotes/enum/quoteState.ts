@@ -37,8 +37,9 @@ export enum unitType {
   Volume,
 }
 export enum FreightMethodType {
-  Ocean,
-  Air,
+  Unknown = 0,
+  Ocean = 1,
+  Air = 2
 }
 
 export enum priceProduceNode {
