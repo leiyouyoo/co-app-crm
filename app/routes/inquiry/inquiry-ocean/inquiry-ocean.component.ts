@@ -146,6 +146,11 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   columns: STColumn[] = [
+    {
+      title: "index", index: '', width: 40, format: (item, col, index) => {
+        return `${index + 1}`
+      }
+    },
     { title: "Attention", index: '', render: "Attention", width: 40 },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'POD', index: 'pod', width: 120 },
@@ -153,12 +158,28 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'Carrier', index: 'shipCompany', width: 80 },
     {
       title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
-        compare: (a, b) => a.from - b.from,
+        compare: (a, b) => {
+          if (a.from > b.from) {
+            return 1
+          } else if (a.from < b.from) {
+            return -1
+          } else {
+            return 0
+          }
+        }
       },
     },
     {
       title: 'Duration(To)', index: 'to', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
-        compare: (a, b) => a.to - b.to,
+        compare: (a, b) => {
+          if (a.to > b.to) {
+            return 1
+          } else if (a.to < b.to) {
+            return -1
+          } else {
+            return 0
+          }
+        },
       },
     },
     { title: 'ItemCode', index: 'itemCode', width: 120 },
@@ -589,14 +610,36 @@ export class InquiryListOceanComponent implements OnInit {
           this.tablestitle.forEach((e) => {
             titleItem.push({
               title: e, index: '', render: e, width: 70, sort: {
-                compare: (a, b) => a - b,
+                compare: (a, b) => {
+                  console.log(a)
+                  console.log(b)
+                  let aItem;
+                  let bItem;
+                  a?.ratePriceOutputs.forEach(item => {
+                    if (item.unit == e) {
+                      aItem = item.rate
+                    }
+                  })
+                  b?.ratePriceOutputs.forEach(item => {
+                    if (item.unit == e) {
+                      bItem = item.rate
+                    }
+                  })
+                  if (aItem > bItem) {
+                    return 1
+                  } else if (aItem < bItem) {
+                    return -1
+                  } else {
+                    return 0
+                  }
+                },
               },
             });
           });
           console.log(titleItem);
           titleItem.unshift(4, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
-          this.st.resetColumns();
+          this.st?.resetColumns();
         },
         (err) => {
           this.loading = false;

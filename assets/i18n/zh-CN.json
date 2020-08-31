@@ -882,5 +882,7 @@
   "Waiting for the customer to confirm the price": "等待客户确认价格",
   "Ocean Freight/Total charge": "海运/总费用",
   "NameAccount": "指定客户",
-  "Booking list": "订舱列表"
+  "Booking list": "订舱列表",
+  "index":"顺序",
+  "RejectRemark":"驳回理由"
 }
