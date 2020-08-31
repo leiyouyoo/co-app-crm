@@ -650,9 +650,10 @@ export class InquiryTrackComponent implements OnInit {
   countryLists = [];
   portList = [];
 
+
   // 获取from/To列表--首页查询
   getAddress(searchText = null, type = null) {
-    this.ratesTruckServiceService.getAddress({ searchText: searchText, type: type }).subscribe((res: any) => {
+    this.ratesTruckServiceService.getAddressForTruckingFee({ searchText: searchText, type: type }).subscribe((res: any) => {
       if (type) {
         if (type === 0) {
           this.countryLists = res.items;
