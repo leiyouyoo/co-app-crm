@@ -15,5 +15,10 @@
     "createBooking": "New booking",
     "Quotes Detail": "Quotes Detail",
     "Add":"Add",
-    "Follow-up method": "Follow-up method"
+    "Follow-up method": "Follow-up method",
+  "booking": {
+    "Name": "Name",
+    "Yes": "Yes",
+    "No": "No"
+  }
 }
