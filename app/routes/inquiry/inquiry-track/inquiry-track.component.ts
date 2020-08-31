@@ -135,16 +135,16 @@ export class InquiryTrackComponent implements OnInit {
 
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 120 },
+    { title: "Attention", index: '', render: "Attention", width: 60 },
     { title: 'From', index: '', render: "From", width: 120, },
     { title: 'To', index: '', render: "To", width: 120 },
     { title: 'Zip code', index: 'zipCode', width: 120 },
     {
       title: 'Rate', index: '', width: 120, render: 'Rate'
     },
-    { title: 'Fuel', index: 'fuel', width: 120 },
+    { title: 'Fuel', index: 'fuel', width: 70 },
     {
-      title: 'Total', index: '', width: 120, render: "Total"
+      title: 'Total', index: '', width: 70, render: "Total"
     },
     { title: 'Currerncy', index: 'currency', width: 120 },
     {

@@ -847,7 +847,7 @@
   "Create filed!": "创建失败",
   "Quote Preview": "报价单预览",
   "Data loading failed": "数据加载失败",
-  "inquiry": "运价查询",
+  "inquiry": "运价",
   "Quote": "报价",
   "Invited": "已邀请",
   "My company": "本公司",
@@ -882,5 +882,7 @@
   "Waiting for the customer to confirm the price": "等待客户确认价格",
   "Ocean Freight/Total charge": "海运/总费用",
   "NameAccount": "指定客户",
-  "Booking list": "订舱列表"
+  "Booking list": "订舱列表",
+  "index":"顺序",
+  "RejectRemark":"驳回理由"
 }
