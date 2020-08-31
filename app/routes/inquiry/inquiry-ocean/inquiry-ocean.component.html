@@ -295,12 +295,12 @@
     </div>
   </div>
 
-  <div style="text-align: right;">
+  <!-- <div style="text-align: right;">
     <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
       [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
     </nz-pagination>
     <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
-  </div>
+  </div> -->
 
   <nz-modal nzMaskClosable="false" [(nzVisible)]="modalVisible" (nzOnCancel)="modalVisible = false" nzWidth="70%"
     nzTitle="{{ 'Inquiry' | translate }}" [nzFooter]="footer">
