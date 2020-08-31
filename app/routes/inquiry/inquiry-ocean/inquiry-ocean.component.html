@@ -69,7 +69,8 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select style="width: 200px;" formControlName="carrier" nzPlaceHolder="{{ 'Carrier' | translate }}"
-            nzShowSearch nzServerSearch nzAllowClear (nzOnSearch)="getCRMCarrierList($event)">
+            nzShowSearch nzServerSearch nzAllowClear
+            (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' } )">
             <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"> </nz-option>
           </nz-select>
         </nz-form-control>
