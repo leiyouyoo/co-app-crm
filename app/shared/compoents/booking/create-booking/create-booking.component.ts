@@ -954,7 +954,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
           this.getAllCompanyContact({ customerId: this.bookingObj.consigneeCustomerId }, originType);
         }
       } else {
-        this.getAllCompanyContact({ customerId: this.bookingObj.shipperCustomerId }, 3);
+        this.getAllCompanyContact({ customerId: this.bookingObj.shipperCustomerId }, 1);
       }
     } else this.message.info('create failed');
   }
