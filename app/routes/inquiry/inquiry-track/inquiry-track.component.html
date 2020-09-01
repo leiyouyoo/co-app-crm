@@ -400,17 +400,18 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="modalVisible" (nzOnCancel)="modalVisible = false" nzWidth="70%"
+<nz-modal [(nzVisible)]="modalVisible" (nzOnCancel)="modalVisible = false; onClearCreate();" nzWidth="70%"
   nzTitle="{{ 'Request quote' | translate }}" [nzFooter]="footer">
-  <form nz-form [formGroup]="validateForm" nzLayout="vertical" style="margin: 0 0 0 24px;">
+  <form *ngIf="modalVisible" nz-form [formGroup]="validateForm" nzLayout="vertical" style="margin: 0 0 0 24px;">
+    <strong>{{ 'Route information' | translate }}</strong>
     <div class="flex-form-four">
       <nz-form-item>
         <nz-form-label>{{ 'Types of' | translate }}</nz-form-label>
         <nz-form-control>
           <nz-input-group>
-            <nz-radio-group formControlName="truckType" (ngModelChange)="ngModelChangeYruckType($event)">
-              <label nz-radio nzValue="1">{{ 'Origin Truck' | translate }}</label>
-              <label nz-radio nzValue="2">{{ 'Destination Truck' | translate }}</label>
+            <nz-radio-group formControlName="truckType">
+              <label nz-radio [nzValue]="1">{{ 'Origin Truck' | translate }}</label>
+              <label nz-radio [nzValue]="2">{{ 'Destination Truck' | translate }}</label>
             </nz-radio-group>
           </nz-input-group>
         </nz-form-control>
@@ -418,12 +419,18 @@
     </div>
 
     <div>
-      <app-trucking-from-to [controlFrom]="validateForm.controls.truckPortId"
-        [controlZipCode]="validateForm.controls.zipCode" [controlTo]="validateForm.controls.truckAddressId"
-        [isFromPort]="validateForm.value.truckType !== '1'"></app-trucking-from-to>
+      <app-trucking-from-to
+        [controlFrom]="
+          validateForm.value.truckType == 1 ? validateForm.controls.truckAddressId : validateForm.controls.truckPortId
+        "
+        [controlZipCode]="validateForm.controls.zipCode"
+        [controlTo]="
+          validateForm.value.truckType == 1 ? validateForm.controls.truckPortId : validateForm.controls.truckAddressId
+        "
+        [isFromPort]="validateForm.value.truckType != 1"
+      ></app-trucking-from-to>
     </div>
 
-    <strong>{{ 'Route information' | translate }}</strong>
     <div class="flex-form-four">
       <!-- <nz-form-item>
         <nz-form-label nzRequired>{{ 'From' | translate }}</nz-form-label>
@@ -467,7 +474,7 @@
         <nz-form-label nzRequired>{{ 'Choose a bidder' | translate }}</nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;" nzShowSearch nzAllowClear
-            formControlName="ReplyUserId">
+            formControlName="replyUserId">
             <nz-option *ngFor="let option of unitUsers" [nzLabel]="option.name" [nzValue]="option.userId"></nz-option>
           </nz-select>
         </nz-form-control>
