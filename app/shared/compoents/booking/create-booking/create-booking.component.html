@@ -508,14 +508,8 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
-                        <span *ngIf="item.isAir && item.isOcean">
-                          <span class="iconfont icon-airplane"></span>
-                          <span class="iconfont icon-Ocean"></span>
-                        </span>
-                        <!-- <span class="iconfont icon-airplane"></span>
-                        <span class="iconfont icon-ship"></span> -->
+                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
                       </div>
                       <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
                       <div class="port-region">{{ item.regionName }}</div>
@@ -928,8 +922,8 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'destination')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" *ngIf="item.isOcean && !item.isAir"></span>
+                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
+                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
                         <span *ngIf="item.isAir && item.isOcean">
                           <span class="iconfont icon-airplane"></span>
                           <span class="iconfont icon-Ocean"></span>
