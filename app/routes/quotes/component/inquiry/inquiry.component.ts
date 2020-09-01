@@ -13,7 +13,7 @@ import domToImage from 'dom-to-image';
 import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
-import { CoPageBase } from '@co/core';
+import { CoConfigManager, CoPageBase } from '@co/core';
 
 @Component({
   selector: 'quotes-inquiry',
@@ -386,7 +386,7 @@ export class InquiryComponent extends CoPageBase {
   copyLink() {
     const contentComponentInstance = this.shareModalRef.getContentComponent();
     this.clipboardService.copyFromContent(
-      `${location.origin}/share/#/redirect?redirectType=quote&quotesId=${contentComponentInstance.Id}&userId=${this.userId}&isForShare=true`,
+      `${CoConfigManager.getValue('appCityoceanUrl')}/share/#/redirect?redirectType=quote&quotesId=${contentComponentInstance.Id}&userId=${this.userId}&isForShare=true`,
     );
     this.message.info(this.translate.instant('Generated successfully'));
   }

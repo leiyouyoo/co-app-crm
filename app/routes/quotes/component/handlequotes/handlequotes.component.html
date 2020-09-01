@@ -125,9 +125,9 @@
   <div class="basicFee" #basicFee>
     <div style="display: flex; align-items: center; justify-content: space-between; height: 50px;">
       <h4>{{ 'Base cost' | translate }}</h4>
-      <nz-switch [(ngModel)]="isShowFreigthOcean" *ngIf="oceanFreight.length > 0"></nz-switch>
+      <nz-switch [(ngModel)]="isShowFreigthOcean" *ngIf="oceanFreight?.length > 0"></nz-switch>
     </div>
-    <div [ngClass]="{ active_ocean_bg: isShowFreigthOcean && oceanFreight.length > 0 }">
+    <div [ngClass]="{ active_ocean_bg: isShowFreigthOcean && oceanFreight?.length > 0 }">
       <form class="originLocation" nz-form #basicData="ngForm">
         <div
           class="basic-cost"
@@ -584,7 +584,7 @@
       <!-- 海运整柜价格推荐 -->
       <div
         class="freightOcean"
-        *ngIf="isShowFreigthOcean && oceanFreight.length > 0"
+        *ngIf="isShowFreigthOcean && oceanFreight?.length > 0"
         style="background-color: #fff; padding: 8px 16px; margin-top: 16px;"
       >
         <nz-table
