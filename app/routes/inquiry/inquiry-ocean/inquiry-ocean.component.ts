@@ -607,6 +607,10 @@ export class InquiryListOceanComponent implements OnInit {
           console.log(this.tablestitle);
 
           let titleItem = [];
+
+          this.initColumn();
+
+
           this.tablestitle.forEach((e) => {
             titleItem.push({
               title: e, index: '', render: e, width: 70, sort: {
@@ -805,6 +809,83 @@ export class InquiryListOceanComponent implements OnInit {
       .subscribe((res: any) => {
         this.shareCurrency = res.items;
       });
+  }
+
+  initColumn() {
+    this.columns = [
+      {
+        title: "index", index: '', width: 40, format: (item, col, index) => {
+          return `${index + 1}`
+        }
+      },
+      { title: "Attention", index: '', render: "Attention", width: 40 },
+      { title: 'POL/From', index: 'pol', width: 120 },
+      { title: 'POD', index: 'pod', width: 120 },
+      { title: 'Delivery/To', index: 'delivery', width: 120 },
+      { title: 'Carrier', index: 'shipCompany', width: 80 },
+      {
+        title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+          compare: (a, b) => {
+            if (a.from > b.from) {
+              return 1
+            } else if (a.from < b.from) {
+              return -1
+            } else {
+              return 0
+            }
+          }
+        },
+      },
+      {
+        title: 'Duration(To)', index: 'to', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+          compare: (a, b) => {
+            if (a.to > b.to) {
+              return 1
+            } else if (a.to < b.to) {
+              return -1
+            } else {
+              return 0
+            }
+          },
+        },
+      },
+      { title: 'ItemCode', index: 'itemCode', width: 120 },
+      { title: 'NameAccount', index: 'account', width: 120 },
+      {
+        title: 'business type',
+        index: 'businessType',
+        width: 120,
+        format: (item, _col) => {
+          if (item.businessType == 0) {
+            return this.translate.instant('Contract price');
+          } else if (item.businessType == 1) {
+            if (item.status == null) {
+              return this.translate.instant('Inquiry-to be quoted');
+            } else if (item.status == 0) {
+              return this.translate.instant('Inquiry-Quoted');
+            } else if (item.status == 1) {
+              return this.translate.instant('Inquiry-Invalid quote');
+            }
+          }
+        },
+      },
+      { title: 'Commodity', index: 'commodity', width: 120 },
+      { title: 'Term', index: 'term', width: 120 },
+      { title: 'SurCharge', index: 'surCharge', width: 120 },
+      { title: 'CLS', index: 'cls', width: 120 },
+      { title: 'T/T', index: 'tt', width: 120 },
+      { title: 'Description', index: 'remarkBusiness', width: 120 },
+      { title: 'Update by', index: 'updateBy', width: 120 },
+      { title: 'RejectRemark', index: 'rejectRemark', width: 120 },
+      {
+        title: 'Action',
+        type: 'action',
+        width: 80,
+        fixed: 'right',
+        buttons: [
+        ],
+      },
+    ];
   }
 
   //获取费用代码信息
