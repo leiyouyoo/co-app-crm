@@ -6,7 +6,7 @@ import {
   CRMGetListByRouteForCRMOutput,
 } from '../../../services/crm/crm.types';
 import { RatesCspTruckListInput } from '../../../services/rates/rates.types';
-import { PUBDataDictionaryService, PUBPlaceService, PUBCurrencyService, SSOUserService } from '@co/cds';
+import { PUBDataDictionaryService, PUBPlaceService, PUBCurrencyService, SSOUserService, PUBChargingCodeService } from '@co/cds';
 import { CRMQuoteEnquiryService, CRMQuoteReplyService, CRMCustomerService, CRMLocationExternalService } from '../../../services/crm';
 import { RatesLocalBaseRateExternalServiceService, RatesTruckExternalServiceService } from '../../../services/rates';
 import { Observable } from 'rxjs';
@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 export class QuotesService {
   constructor(
     public dataDictionarySevice: PUBDataDictionaryService,
+    public pubChargingCodeService: PUBChargingCodeService,
     public crmQuoteEnquiryService: CRMQuoteEnquiryService,
     public ssoUserService: SSOUserService,
     public pubPlaceService: PUBPlaceService,
@@ -30,7 +31,7 @@ export class QuotesService {
 
   //获取字典信息
   getDataDictionaryInfo(typeId: string): Observable<any> {
-    return this.dataDictionarySevice.getAll({ typeId });
+    return this.dataDictionarySevice.getAll({ typeId: typeId });
   }
 
   GetAllForCRM(quoreInfo: CRMQuoteEnquiryListForCRMOutput) {
@@ -39,11 +40,11 @@ export class QuotesService {
   }
 
   getQuoteDetail(id: string) {
-    return this.crmQuoteEnquiryService.getForCRM({ id });
+    return this.crmQuoteEnquiryService.getForCRM({ id: id });
   }
 
   getUserInfo(id: number) {
-    return this.ssoUserService.get({ id });
+    return this.ssoUserService.get({ id: id });
   }
 
   //获取港口数据
@@ -106,22 +107,24 @@ export class QuotesService {
     return this.dataDictionarySevice.getTradeTypes({});
   }
   //获取费用代码列表
-  getCostAll(costObj: { GroupId?: number; Text?: string; isValid?: boolean }): Observable<any> {
-    return this.dataDictionarySevice.getAll(costObj);
+  getCostAll(costObj: { groupId?: string; text?: string; isValid?: boolean }): Observable<any> {
+    return this.pubChargingCodeService.getAll(costObj);
   }
 
   //获取船东
   GetCustomerByType(CustomerType: any): Observable<any> {
-    return this.crmCustomerService.getCustomerByType(CustomerType);
+    return this.crmCustomerService.getCustomerByType({
+      customerType: CustomerType,
+    });
   }
   //获取发货人收货人信息
   GetLocationByCustomer(customerId?): Observable<any> {
-    return this.crmLocationExternalService.getLocationByCustomer({ customerId });
+    return this.crmLocationExternalService.getLocationByCustomer({ customerId: customerId });
   }
 
   //获取报价记录
   getAllRecordForCRM(id?: string): Observable<any> {
-    return this.crmQuoteReplyService.getAllForCRM({ id });
+    return this.crmQuoteReplyService.getAllForCRM({ id: id });
   }
   submit(formData: any): Observable<any> {
     for (const i in formData.controls) {
@@ -138,7 +141,7 @@ export class QuotesService {
 
   //获取当前业务员拥有的所有客户(开通租户的)
   GetOwnerCustomers(userId?): Observable<any> {
-    return this.crmCustomerService.getOwnerCustomers({ userId });
+    return this.crmCustomerService.getOwnerCustomers({ userId: userId });
   }
 
   //CRM获取客户最近5条数据联动用户
@@ -159,7 +162,7 @@ export class QuotesService {
 
   //FBA地址
   GetFBALocations(isCityocean: boolean): Observable<any> {
-    return this.crmLocationExternalService.getFBALocations({ isCityocean });
+    return this.crmLocationExternalService.getFBALocations({ isCityocean: isCityocean });
   }
 
   //获取询报价列表(用于复制)
@@ -168,6 +171,6 @@ export class QuotesService {
   }
 
   GetLastForCRM(id: string) {
-    return this.crmQuoteReplyService.getLastForCRM({ id });
+    return this.crmQuoteReplyService.getLastForCRM({ id: id });
   }
 }
