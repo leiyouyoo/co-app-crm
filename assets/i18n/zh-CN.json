@@ -886,5 +886,6 @@
   "index":"序号",
   "RejectRemark":"驳回理由",
   "Please select pol": "请选择装货港",
-  "Please select pol and pod": "请选择装货港和卸货港"
+  "Please select pol and pod": "请选择装货港和卸货港",
+  "Please select pod or delivery": "请选择卸货港或者交货地"
 }
