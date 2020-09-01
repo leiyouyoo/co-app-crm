@@ -186,7 +186,7 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'NameAccount', index: 'account', width: 120 },
     {
       title: 'business type',
-      index: '',
+      index: 'businessType',
       width: 120,
       format: (item, _col) => {
         if (item.businessType == 0) {
