@@ -7,6 +7,7 @@ import { NgForm, NgModel, AbstractControl } from '@angular/forms';
 import { cloneDeep, merge, uniqBy, uniqWith, groupBy } from 'lodash';
 import { observable, Observable } from 'rxjs';
 import { RatesCspTruckListInput } from 'apps/crm/app/services/rates';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'crm-handlequotes',
@@ -135,7 +136,7 @@ export class HandlequotesComponent implements OnInit {
   quotetotal: number;
   isShowQuoteList: boolean = false;
   selIndexByquote: string;
-  constructor(public quotesService: QuotesService, private message: NzMessageService) {}
+  constructor(public quotesService: QuotesService, private message: NzMessageService, private crmCustomerService: CRMCustomerService) {}
   ngOnInit(): void {
     this.getAllCurrency();
     this.getCarrierList();
@@ -304,17 +305,25 @@ export class HandlequotesComponent implements OnInit {
 
   //获取船东信息
   getCarrierList() {
-    this.quotesService.GetCustomerByType(1).subscribe((res: any) => {
-      this.carrierList = res.items;
-    });
+    this.crmCustomerService
+      .getCustomerByType({
+        customerType: 1,
+      })
+      .subscribe((res: any) => {
+        this.carrierList = res.items;
+      });
   }
 
   //获取航空公司信息
   airList: any[] = [];
   getAirList() {
-    this.quotesService.GetCustomerByType(2).subscribe((res: any) => {
-      this.airList = res.items;
-    });
+    this.crmCustomerService
+      .getCustomerByType({
+        customerType: 2,
+      })
+      .subscribe((res: any) => {
+        this.airList = res.items;
+      });
   }
 
   //获取海运费价格推荐
