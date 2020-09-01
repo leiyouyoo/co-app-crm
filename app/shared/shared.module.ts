@@ -47,6 +47,7 @@ import { SharequotesComponent } from './compoents/sharequotes/sharequotes.compon
 import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divider.component';
 import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
 import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
+import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hiddensharequotes.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -65,6 +66,7 @@ const COMPONENTS = [
   SharequotesComponent,
   TicketDividerComponent,
   CurvedRouteComponent,
+  HiddensharequotesComponent,
 ];
 const DIRECTIVES = [
   debounceInputDirective,
