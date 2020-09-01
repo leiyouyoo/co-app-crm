@@ -8,7 +8,11 @@ import {
 import { RatesCspTruckListInput } from '../../../services/rates/rates.types';
 import { PUBDataDictionaryService, PUBPlaceService, PUBCurrencyService, SSOUserService, PUBChargingCodeService } from '@co/cds';
 import { CRMQuoteEnquiryService, CRMQuoteReplyService, CRMCustomerService, CRMLocationExternalService } from '../../../services/crm';
-import { RatesLocalBaseRateExternalServiceService, RatesTruckExternalServiceService } from '../../../services/rates';
+import {
+  RatesLocalBaseRateExternalServiceService,
+  RatesTruckExternalServiceService,
+  RatesOceanBaseItemExternalServiceService,
+} from '../../../services/rates';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,6 +31,7 @@ export class QuotesService {
     public crmLocationExternalService: CRMLocationExternalService,
     public RatesExternalService: RatesLocalBaseRateExternalServiceService,
     public RatesTruckExternalService: RatesTruckExternalServiceService,
+    public ratesOceanBaseItemExternalService: RatesOceanBaseItemExternalServiceService,
   ) {}
 
   //获取字典信息
@@ -149,8 +154,8 @@ export class QuotesService {
     return this.crmQuoteEnquiryService.getCRMCustomerBindUserHistorys({});
   }
 
-  GetQuoteFreightRates(freight: RatesCspTruckListInput): Observable<any> {
-    return this.RatesTruckExternalService.getQuoteTruckRates(freight);
+  GetQuoteFreightRates(freight): Observable<any> {
+    return this.ratesOceanBaseItemExternalService.getQuoteFreightRates(freight);
   }
 
   GetQuoteTruckRates(truckRates: RatesCspTruckListInput): Observable<any> {

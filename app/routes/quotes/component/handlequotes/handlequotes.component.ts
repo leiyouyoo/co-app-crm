@@ -6,6 +6,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import { NgForm, NgModel, AbstractControl } from '@angular/forms';
 import { cloneDeep, merge, uniqBy, uniqWith, groupBy } from 'lodash';
 import { observable, Observable } from 'rxjs';
+import { RatesCspTruckListInput } from 'apps/crm/app/services/rates';
 
 @Component({
   selector: 'crm-handlequotes',
