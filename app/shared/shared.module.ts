@@ -48,6 +48,7 @@ import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divide
 import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
 import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
 import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hiddensharequotes.component';
+import { CopyDomToImageDirective } from './directives/copy-dom-to-image.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -76,7 +77,8 @@ const DIRECTIVES = [
   OptionsGroupValueDirective,
   NzOptionExtraDirective,
   WrapChildrenHeightDirective,
-  MouseMoveDirective
+  MouseMoveDirective,
+  CopyDomToImageDirective,
 ];
 // #endregion
 
