@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { debounce } from '@co/core';
+import { CoConfigManager, debounce } from '@co/core';
 import { PUBRegionService, PUBDataDictionaryService, PUBPlaceService, PlatformEditionService } from '@co/cds';
 import { Observable } from 'rxjs';
 import { _HttpClient } from '@co/common';
@@ -220,7 +220,7 @@ export class CreateCustomerComponent {
 
   mapSearch(input: any, language = 'en', options = {}): Observable<any> {
     // csp写死，此处为复制
-    let url = `https://api.cityocean.com:20001/place/maps/api/place/autocomplete/json`;
+    let url = `${CoConfigManager.getValue('googleApiUrl')}/place/maps/api/place/autocomplete/json`;
     let params = {
       input,
       key: 'AIzaSyAEdT5BA0MmANhrmcnR4QrXu08gLtgvhqI',
