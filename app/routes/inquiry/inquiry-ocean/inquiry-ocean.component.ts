@@ -295,6 +295,7 @@ export class InquiryListOceanComponent implements OnInit {
         codes = code.map((c) => c.name);
         res.containerType = codes;
       }
+      console.log(res)
       this.validateForm.patchValue(res, { emitEvent: false });
       const ids = [res.originPortId, res.destinationPortId];
       this.getPortByIds(ids);
@@ -359,7 +360,7 @@ export class InquiryListOceanComponent implements OnInit {
       description: [null],
       carrierCustomerId: [null],
       freightMethodType: [1],
-      ReplyUserId: [null, [Validators.required]],
+      replyUserId: [null, [Validators.required]],
     });
     // 单位公制英制统一切换
     const weightUnitCode = this.validateForm.get('weightUnitCode');
@@ -635,7 +636,6 @@ export class InquiryListOceanComponent implements OnInit {
           });
 
           console.log(this.listOfData)
-          debugger
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -950,6 +950,7 @@ export class InquiryListOceanComponent implements OnInit {
       {
         title: 'Action',
         type: 'action',
+        render: 'action',
         width: 80,
         fixed: 'right',
         buttons: [
