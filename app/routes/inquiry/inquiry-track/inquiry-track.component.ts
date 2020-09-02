@@ -139,20 +139,20 @@ export class InquiryTrackComponent implements OnInit {
 
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 60 },
+    { title: "Attention", index: '', render: "Attention", width: 40 },
     { title: 'From', index: '', render: "From", width: 120, },
     { title: 'To', index: '', render: "To", width: 120 },
-    { title: 'Zip code', index: 'zipCode', width: 120 },
+    { title: 'Zip code', index: 'zipCode', width: 60 },
     {
-      title: 'Rate', index: '', width: 120, render: 'Rate'
+      title: 'Rate', index: '', width: 80, render: 'Rate'
     },
     { title: 'Fuel', index: 'fuel', width: 70 },
     {
       title: 'Total', index: '', width: 70, render: "Total"
     },
-    { title: 'Currerncy', index: 'currency', width: 120 },
+    { title: 'Currerncy', index: 'currency', width: 70 },
     {
-      title: 'Status', index: 'account', width: 120,
+      title: 'Status', index: 'account', width: 80,
       format: (item) => {
         if (item.status == '0') {
           return 'effective'
@@ -161,7 +161,7 @@ export class InquiryTrackComponent implements OnInit {
         }
       }
     },
-    { title: 'Duration', index: '', width: 120, render: 'Duration' },
+    { title: 'Duration', index: '', width: 80, render: 'Duration' },
     { title: 'Trucker', index: 'carrier', width: 120 },
     {
       title: 'business type',
@@ -625,8 +625,8 @@ export class InquiryTrackComponent implements OnInit {
     this.validateForm.patchValue({
       truckType: 2,
       quantityUnitCode: 'ctn',
-      weightUnitCode:WeightUnitCode.KGS,
-      volumeUnitCode:VolumeUnitCode.CBM,
+      weightUnitCode: WeightUnitCode.KGS,
+      volumeUnitCode: VolumeUnitCode.CBM,
     });
   }
 
@@ -700,20 +700,20 @@ export class InquiryTrackComponent implements OnInit {
 
   // 获取from/To列表--首页查询
   getAddress(searchText = null, type = null) {
-  if (/[\u4e00-\u9fa5]{2}/gi.test(searchText) || searchText.length > 2) {
-    this.ratesTruckServiceService.getAddressForTruckingFee({ searchText: searchText, type: type }).subscribe((res: any) => {
-      if (type) {
-        if (type === 0) {
-          this.countryLists = res.items;
+    if (/[\u4e00-\u9fa5]{2}/gi.test(searchText) || searchText.length > 2) {
+      this.ratesTruckServiceService.getAddressForTruckingFee({ searchText: searchText, type: type }).subscribe((res: any) => {
+        if (type) {
+          if (type === 0) {
+            this.countryLists = res.items;
+          } else {
+            this.portList = res.items;
+          }
         } else {
+          console.log(res);
           this.portList = res.items;
+          this.countryLists = res.items;
         }
-      } else {
-        console.log(res);
-        this.portList = res.items;
-        this.countryLists = res.items;
-      }
-    });
+      });
     }
   }
   // /**

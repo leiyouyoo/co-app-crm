@@ -330,8 +330,8 @@
       </tbody>
     </nz-table> -->
 
-    <co-st #st style="height: 100%;" [loading]="loading" [data]="dataOfList?.items" [columns]="columns"
-      [scroll]="{ x: '2000px' }" [showFilters]="false" [total]="listTotal" [page]="{ front: false }"
+    <co-st #st virtualScroll [loading]="loading" [data]="dataOfList?.items" [columns]="columns"
+      [scroll]="{ x: '2000px', y: '500px' }" [showFilters]="false" [total]="listTotal" [page]="{ front: false }"
       (change)="checkChange($event)" calcScroll>
 
       <ng-template st-row="Attention" let-data>
@@ -393,9 +393,10 @@
   </div>
 
   <div style="text-align: right; padding: 0 24px 24px 24px;">
-    <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
+    <!-- <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
       [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
-    </nz-pagination>
+    </nz-pagination> -->
+    <span>{{ 'Total' | translate }}:{{ dataOfList?.totalCount }}</span>
     <ng-template #totalTemplate let-total> {{ 'Total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
   </div>
 </div>
@@ -419,16 +420,11 @@
     </div>
 
     <div>
-      <app-trucking-from-to
-        [controlFrom]="
+      <app-trucking-from-to [controlFrom]="
           validateForm.value.truckType == 1 ? validateForm.controls.truckAddressId : validateForm.controls.truckPortId
-        "
-        [controlZipCode]="validateForm.controls.zipCode"
-        [controlTo]="
+        " [controlZipCode]="validateForm.controls.zipCode" [controlTo]="
           validateForm.value.truckType == 1 ? validateForm.controls.truckPortId : validateForm.controls.truckAddressId
-        "
-        [isFromPort]="validateForm.value.truckType != 1"
-      ></app-trucking-from-to>
+        " [isFromPort]="validateForm.value.truckType != 1"></app-trucking-from-to>
     </div>
 
     <div class="flex-form-four">
