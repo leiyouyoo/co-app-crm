@@ -18,6 +18,7 @@ import { LoadingComponent } from './share/component/loading/loading.component';
 import { ArrayJoinPipe } from './share/pipe/array-join.pipe';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CopyDomToImageDirective } from './share/directives/copy-dom-to-image.directive';
+import { InquirySubmitDialogComponent } from './inquiry-ocean/inquiry-submit-dialog/inquiry-submit-dialog.component';
 import { CoACLModule } from '@co/acl';
 const COMPONENTS = [
   InquiryListComponent,
@@ -40,6 +41,7 @@ const COMPONENTS_NOROUNT = [
   InquiryBasicInfomationComponent,
   InquiryListOceanComponent,
   InquiryTrackComponent,
+  InquirySubmitDialogComponent,
 ];
 
 @NgModule({
