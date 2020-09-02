@@ -26,6 +26,8 @@ import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.
 import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn, STData, STComponent } from '@co/cbc';
+import { Observable } from 'rxjs';
+import { differenceInCalendarDays } from 'date-fns';
 
 // import { debounce } from '@shared/utils/debounce';
 @Component({
@@ -51,12 +53,12 @@ export class InquiryListOceanComponent implements OnInit {
   customerList: any;
   unitUsers: any;
   transportList: any;
-  dataOfList: any;
   tablestitle: any;
   maxResultCount = 1000;
   skipCount = 1;
   ratesList: any;
   detialVisible = false;
+  init: boolean = true;
 
   drawerStyle: any = {
     width: '680px',
@@ -146,16 +148,18 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   columns: STColumn[] = [
+    { title: "Attention", index: '', type: 'action', fixed: 'left', render: "Attention", width: 40 },
+
     {
-      title: "index", index: '', width: 40, format: (item, col, index) => {
+      title: "index", index: '', type: 'action', fixed: 'left', width: 40, format: (item, col, index) => {
         return `${index + 1}`
       }
     },
-    { title: "Attention", index: '', render: "Attention", width: 40 },
-    { title: 'POL/From', index: 'pol', width: 120 },
-    { title: 'POD', index: 'pod', width: 120 },
-    { title: 'Delivery/To', index: 'delivery', width: 120 },
     { title: 'Carrier', index: 'shipCompany', width: 80 },
+    { title: 'POL/From', index: 'pol', width: 120 },
+    { title: 'Delivery/To', index: 'delivery', width: 120 },
+    { title: 'POD', index: 'pod', width: 120 },
+
     {
       title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
         compare: (a, b) => {
@@ -209,11 +213,12 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'T/T', index: 'tt', width: 120 },
     { title: 'Description', index: 'remarkBusiness', width: 120 },
     { title: 'Update by', index: 'updateBy', width: 120 },
-    { title: 'RejectRemark', index: 'rejectRemark', width: 120 },
+    { title: 'Reject reason', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
       width: 80,
+      render: 'action',
       fixed: 'right',
       buttons: [
       ],
@@ -251,7 +256,7 @@ export class InquiryListOceanComponent implements OnInit {
       // setTimeout(() => {
       //   if (params?.type) {
       //     // this.notifationType = params?.type;
-      //     if (this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
+      //     if (this.dataOfList && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
       //   }
       // }, 100);
     });
@@ -261,12 +266,12 @@ export class InquiryListOceanComponent implements OnInit {
     console.log(e);
     e.type === 'click' && this.showDetial(e.click.item, e.click.index);
     if (e.type === 'checkbox') {
-      this.dataOfList.items.forEach((e) => {
+      this.listOfData.forEach((e) => {
         e.choosed = false;
       });
       if (e?.checkbox?.length > 0) {
         e.checkbox.forEach((item) => {
-          this.dataOfList.items.forEach((i) => {
+          this.listOfData.forEach((i) => {
             i.id == item.id && (i.choosed = true);
           });
         });
@@ -274,11 +279,49 @@ export class InquiryListOceanComponent implements OnInit {
     }
     this.refreshStatus();
 
-    console.log(this.dataOfList);
   }
 
   GetNextMonthDay(date) {
     return new Date(date.setDate(date.getDate() + 15));
+  }
+
+  onEdit(data, e) {
+    this.modalVisible = true;
+    e.stopPropagation();
+    this.getEnquiryDetial(data.id).subscribe((res: any) => {
+      let codes;
+      if (res.containerType) {
+        const code = JSON.parse(res.containerType);
+        codes = code.map((c) => c.name);
+        res.containerType = codes;
+      }
+      this.validateForm.patchValue(res, { emitEvent: false });
+      const ids = [res.originPortId, res.destinationPortId];
+      this.getPortByIds(ids);
+      this.getdeliveryList(res.deliveryAddressId);
+    });
+  }
+
+  getEnquiryDetial(id) {
+    return new Observable((ob) => {
+      this.ratesQuoteEnquiryService.get({ id: id }).subscribe((res) => {
+        ob.next(res);
+        6;
+        ob.complete();
+      });
+    });
+  }
+
+  getPortByIds(ids: any[]) {
+    this.pubPlace.getByPlacesIds(ids).subscribe((res: any) => {
+      this.basicPortList = res.items;
+    });
+  }
+
+  getdeliveryList(value) {
+    this.pubPlace.getAll({ id: value, isOcean: true }).subscribe((res: any) => {
+      this.deliveryList = res.items;
+    });
   }
 
   initData() {
@@ -368,19 +411,19 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   refreshStatus(): void {
-    this.isAll = this.dataOfList?.items.every((item) => item.choosed === true);
-    this.shareDisabled = !this.dataOfList?.items.some((item) => item.choosed === true);
+    this.isAll = this.listOfData.every((item) => item.choosed === true);
+    this.shareDisabled = !this.listOfData.some((item) => item.choosed === true);
   }
 
   checkAll(data) {
     if (data) {
-      this.dataOfList?.items.forEach((e) => {
+      this.listOfData.forEach((e) => {
         if (e.businessType === 0 || (e.status === 0 && e.businessType === 1)) {
           e.choosed = true;
         }
       });
     } else {
-      this.dataOfList?.items.forEach((e) => (e.choosed = false));
+      this.listOfData.forEach((e) => (e.choosed = false));
     }
     this.refreshStatus();
   }
@@ -523,6 +566,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.onGetAll();
   }
 
+  listOfData: any;
   onGetAll() {
     let datas = this.searchForm.value;
     let num = this.skipCount - 1;
@@ -551,11 +595,12 @@ export class InquiryListOceanComponent implements OnInit {
       this.searchForm.value.ToDate = null;
     }
 
+
     this.loading = true;
     this.OceanBaseItemService.getBusinessRateList({ ...datas, ...data })
       .pipe(
         finalize(() => {
-          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
+          if (this.id && this.listOfData && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
           data.id = null;
           this.id = null;
         }),
@@ -563,15 +608,34 @@ export class InquiryListOceanComponent implements OnInit {
       .subscribe(
         (res) => {
           this.loading = false;
-          this.dataOfList = res;
+          // this.dataOfList = res;
           let tablestitle = [];
 
-          let arr = this.dataOfList.items.map((item) => item.ratePriceOutputs);
+          this.listOfData = res.items;
+
+
+
+          let arr = this.listOfData.map((item) => item.ratePriceOutputs);
           arr.forEach((e) => {
             e.forEach((c) => {
               tablestitle.push(c.unit);
             });
           });
+
+          this.listOfData.forEach((res) => {
+            if (res.to) {
+              if (differenceInCalendarDays(new Date(res.to), new Date()) < 0) {
+                res.isValid = false;
+              } else {
+                res.isValid = true;
+              }
+            } else {
+              res.isValid = true;
+            }
+          });
+
+          console.log(this.listOfData)
+          debugger
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -603,6 +667,11 @@ export class InquiryListOceanComponent implements OnInit {
                 return 0;
             }
           });
+
+          if (this.init) {
+            this.websort('40GP', 'ascend');
+            this.init = false;
+          }
 
           console.log(this.tablestitle);
 
@@ -641,7 +710,7 @@ export class InquiryListOceanComponent implements OnInit {
             });
           });
           console.log(titleItem);
-          titleItem.unshift(4, 0);
+          titleItem.unshift(5, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
           this.st?.resetColumns();
         },
@@ -650,6 +719,7 @@ export class InquiryListOceanComponent implements OnInit {
         },
       );
   }
+
 
   onClear() {
     this.searchForm.reset();
@@ -720,10 +790,10 @@ export class InquiryListOceanComponent implements OnInit {
     this.busType = data;
     this.detialVisible = true;
 
-    this.dataOfList.items.forEach((element) => {
+    this.listOfData.forEach((element) => {
       element.selected = false;
     });
-    if (this.dataOfList && this.dataOfList.items.length > 0) data.selected = true;
+    if (this.listOfData && this.listOfData.length > 0) data.selected = true;
     this.detailComponent.showDetial(data);
   }
 
@@ -774,7 +844,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onShowShareModal() {
-    let item = this.dataOfList?.items.filter((data) => data.choosed === true);
+    let item = this.listOfData.filter((data) => data.choosed === true);
 
     if (item.every((r) => r.isTerms) || item.every((r) => !r.isTerms)) {
       this.shareModal = true;
@@ -957,7 +1027,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   async initShareData(customerId) {
     this.shareFormLoading = true;
-    let item = this.dataOfList?.items.filter((data) => data.choosed === true);
+    let item = this.listOfData.filter((data) => data.choosed === true);
     let ids = item.map((e) => e.id);
     this.shareIds = ids;
 
@@ -978,7 +1048,7 @@ export class InquiryListOceanComponent implements OnInit {
         id: [e.id],
         delivery: [e.delivery],
         deliveryId: [e.deliveryId],
-        tt: [e.tt, [Validators.required]],
+        tt: [e.tt],
         term: [e.term],
         durationFrom: [e.durationFrom ? new Date(e.durationFrom) : null, [Validators.required]],
         durationTo: [e.durationTo ? new Date(e.durationTo) : null, [Validators.required]],
@@ -1394,10 +1464,10 @@ export class InquiryListOceanComponent implements OnInit {
    * 前端排序
    */
   websort(sortName: string, value: string): void {
-    const data = [...this.dataOfList?.items];
+    const data = [...this.listOfData];
     if (sortName && value) {
       // tslint:disable-next-line: max-line-length
-      this.dataOfList.items = data.sort((a, b) => {
+      this.listOfData = data.sort((a, b) => {
         const adata = a.ratePriceOutputs.find((c) => c.unit == sortName);
         const bdata = b.ratePriceOutputs.find((c) => c.unit == sortName);
         const avalue = adata ? adata.rate : 0;
@@ -1405,7 +1475,7 @@ export class InquiryListOceanComponent implements OnInit {
         return value === 'ascend' ? (avalue > bvalue ? 1 : -1) : bvalue > avalue ? 1 : -1;
       });
     } else {
-      this.dataOfList.items = data;
+      this.listOfData = data;
     }
   }
 }

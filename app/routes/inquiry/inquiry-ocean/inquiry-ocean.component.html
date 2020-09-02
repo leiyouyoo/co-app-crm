@@ -270,15 +270,16 @@
         </tbody>
       </nz-table> -->
 
-      <co-st #st virtualScroll [loading]="loading" [res]="{ process: dataProcess }" [data]="dataOfList?.items"
+      <co-st #st virtualScroll [loading]="loading" [res]="{ process: dataProcess }" [data]="listOfData"
         [columns]="columns" [size]="'small'" [scroll]="{ x: '2000px' , y: '400px' }" [showFilters]="false"
         [total]="listTotal" [page]="{ front: false }" (change)="checkChange($event)" calcScroll *ngIf="tablestitle">
         <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
           <span *ngFor="let ratePrice of data.ratePriceOutputs">
-            <span *ngIf="ratePrice.unit === tata" style="color:#7ace4d;">{{ ratePrice.rate }}</span>
+            <span *ngIf="ratePrice.unit === tata" style="color:#2eaf0e;" [ngClass]="{
+              'tdGrayAndDisable': !data.isValid
+            }">{{ ratePrice.rate }}</span>
           </span>
         </ng-template>
-
 
 
         <ng-template st-row="Attention" let-data>
@@ -292,6 +293,13 @@
           </div>
         </ng-template>
 
+
+        <ng-template st-row="action" let-data>
+          <a *ngIf="data.reject" (click)="onEdit(data, $event)">
+            {{ 'Edit' | translate }}
+          </a>
+        </ng-template>
+
       </co-st>
     </div>
   </div>
@@ -300,7 +308,7 @@
     <!-- <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
       [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
     </nz-pagination> -->
-    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
+    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ listOfData?.totalCount }} </ng-template>
     <span>{{ 'total' | translate }}:{{ dataOfList?.totalCount }}</span>
   </div>
 

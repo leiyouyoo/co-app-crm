@@ -183,10 +183,12 @@ export class InquiryTrackComponent implements OnInit {
     },
     { title: 'NO', index: 'no', width: 120 },
     { title: 'Update By', index: 'users', width: 120 },
+    { title: 'Reject reason', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
       width: 80,
+      render: 'action',
       fixed: 'right',
       buttons: [
       ],

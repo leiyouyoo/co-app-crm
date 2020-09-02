@@ -387,6 +387,12 @@
         </div>
       </ng-template>
 
+      <ng-template st-row="action" let-data>
+        <a *ngIf="data.reject" (click)="onEdit(data, $event)">
+          {{ 'Edit' | translate }}
+        </a>
+      </ng-template>
+
 
     </co-st>
 
