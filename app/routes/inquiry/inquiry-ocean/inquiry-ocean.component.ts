@@ -71,6 +71,8 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   isFllow = false;
+  dataOfList;
+  listTotal;
   // @ViewChild('detial', { static: true })
   // detial: any;
 
