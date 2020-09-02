@@ -530,17 +530,6 @@ export class InquiryTrackComponent implements OnInit {
       );
     }
 
-    this.ratesQuoteEnquiryService.create(data).subscribe(
-      (res: any) => {
-        this.msg.success('创建成功');
-        this.loading = false;
-        this.modalVisible = false;
-        this.onSearch();
-      },
-      (err) => {
-        this.loading = false;
-      },
-    );
     if (!data.id) {
       this.ratesQuoteEnquiryService.create(data).subscribe(
         (res: any) => {
