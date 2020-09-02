@@ -5,11 +5,11 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { VolumeUnitCode, WeightUnitCode, unitType, priceProduceNode, FreightMethodType } from '../../enum/quoteState';
 import { differenceInCalendarDays } from 'date-fns';
 import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
-import { AmapService } from '../../../../services/amap/amap.service';
 import { cloneDeep } from 'lodash';
 import { freightType } from '../../enum/quoteState';
 import { TranslateService } from '@ngx-translate/core';
 import { debounce } from '@co/core';
+import { GoogleMapService } from '@co/common';
 
 @Component({
   selector: 'initiativequotes-initiativecreatequotes',
@@ -20,7 +20,7 @@ export class initiativeCreatequotesComponent implements OnInit {
   constructor(
     private quotesService: QuotesService,
     private message: NzMessageService,
-    private amapService: AmapService,
+    private googleMapService: GoogleMapService,
     private translate: TranslateService,
   ) {}
 
@@ -666,8 +666,9 @@ export class initiativeCreatequotesComponent implements OnInit {
   }
   //地图搜索地址
   mapList: any[] = [];
+  @debounce(500)
   mapSearch(input: any) {
-    this.amapService.mapSearch(input).subscribe((res) => {
+    this.googleMapService.autocomplete(input).subscribe((res) => {
       this.mapList = res.predictions;
       this.locations = this.mapList.map((map) => {
         return {
