@@ -28,6 +28,7 @@ import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn, STData, STComponent } from '@co/cbc';
 import { Observable } from 'rxjs';
 import { differenceInCalendarDays } from 'date-fns';
+import { ACLService } from '@co/acl';
 
 // import { debounce } from '@shared/utils/debounce';
 @Component({
@@ -104,6 +105,9 @@ export class InquiryListOceanComponent implements OnInit {
   shareFormLoading = false;
   loadingSave = false;
   notcertified = false;
+
+  showShareBtn: boolean = true;
+  showInquiryBtn: boolean = true;
 
   //通知 类型
   notifationType = 0;
@@ -245,6 +249,7 @@ export class InquiryListOceanComponent implements OnInit {
     private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
+    private aCLService: ACLService
   ) { }
 
   ngOnInit() {
@@ -260,6 +265,13 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
+
+
+    // console.log(this.aCLService.can({ jobs: {'j:商务员'} }), "00000000000")
+
+    console.log(this.aCLService.can('j:商务员'), '0000000000')
+
+
   }
 
   checkChange(e) {

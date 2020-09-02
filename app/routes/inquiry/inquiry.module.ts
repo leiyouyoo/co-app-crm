@@ -18,6 +18,7 @@ import { LoadingComponent } from './share/component/loading/loading.component';
 import { ArrayJoinPipe } from './share/pipe/array-join.pipe';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CopyDomToImageDirective } from './share/directives/copy-dom-to-image.directive';
+import { CoACLModule } from '@co/acl';
 const COMPONENTS = [
   InquiryListComponent,
   InquiryDetialComponent,
@@ -42,7 +43,7 @@ const COMPONENTS_NOROUNT = [
 ];
 
 @NgModule({
-  imports: [SharedModule, ClipboardModule, InquiryRoutingModule],
+  imports: [SharedModule, ClipboardModule, InquiryRoutingModule, CoACLModule.forRoot()],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })

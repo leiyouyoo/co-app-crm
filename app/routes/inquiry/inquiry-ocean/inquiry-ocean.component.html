@@ -35,11 +35,18 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-            <nz-select formControlName="delivery" nzPlaceHolder="{{ 'Delivery' | translate }}" nzShowSearch
+            <!-- <nz-select formControlName="delivery" nzPlaceHolder="{{ 'Delivery' | translate }}" nzShowSearch
               nzServerSearch nzAllowClear (nzOnSearch)="getBasicPortList($event)">
               <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
+            </nz-select> -->
+
+            <nz-select formControlName="delivery" nzPlaceHolder="{{ 'Delivery' | translate }}" nzShowSearch
+              nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
+              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
             </nz-select>
+
           </nz-form-control>
         </nz-form-item>
 
@@ -55,11 +62,13 @@
       </div>
 
       <div class="from-button">
-        <button nz-button [disabled]="shareDisabled" (click)="onShowShareModal()">
+
+
+        <button nz-button *ngIf="showShareBtn" [disabled]="shareDisabled" (click)="onShowShareModal()">
           {{ 'Share' | translate }}
         </button>
 
-        <button nz-button nzType="primary" (click)="onShowModal()">
+        <button nz-button *ngIf="showInquiryBtn" nzType="primary" (click)="onShowModal()">
           {{ 'Inquiry' | translate }}
         </button>
       </div>
@@ -277,7 +286,7 @@
           <span *ngFor="let ratePrice of data.ratePriceOutputs">
             <span *ngIf="ratePrice.unit === tata" class="col-green" [ngClass]="{
               'tablelineThrough': !data.isValid
-            }">{{ ratePrice.rate }}</span>
+            }">{{ ratePrice.rate==0 ? '' : ratePrice.rate }}</span>
           </span>
         </ng-template>
 
