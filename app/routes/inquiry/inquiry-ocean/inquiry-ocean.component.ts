@@ -193,6 +193,12 @@ export class InquiryListOceanComponent implements OnInit {
         },
       },
     },
+
+    { title: 'Term', index: 'term', width: 120 },
+    { title: 'SurCharge', index: 'surCharge', width: 120 },
+    { title: 'CLS', index: 'cls', width: 120 },
+    { title: 'T/T', index: 'tt', width: 120 },
+    { title: 'Description', index: 'remarkBusiness', width: 120 },
     { title: 'ItemCode', index: 'itemCode', width: 120 },
     { title: 'NameAccount', index: 'account', width: 120 },
     {
@@ -213,14 +219,9 @@ export class InquiryListOceanComponent implements OnInit {
         }
       },
     },
-
-    { title: 'Term', index: 'term', width: 120 },
-    { title: 'SurCharge', index: 'surCharge', width: 120 },
-    { title: 'CLS', index: 'cls', width: 120 },
-    { title: 'T/T', index: 'tt', width: 120 },
-    { title: 'Description', index: 'remarkBusiness', width: 120 },
-    { title: 'Update by', index: 'updateBy', width: 120 },
     { title: 'Reject reason', index: 'rejectRemark', width: 120 },
+    { title: 'Update by', index: 'updateBy', width: 120 },
+
     {
       title: 'Action',
       type: 'action',
@@ -734,6 +735,12 @@ export class InquiryListOceanComponent implements OnInit {
           },
         },
       },
+
+      { title: 'Term', index: 'term', width: 120 },
+      { title: 'SurCharge', index: 'surCharge', width: 120 },
+      { title: 'CLS', index: 'cls', width: 120 },
+      { title: 'T/T', index: 'tt', width: 120 },
+      { title: 'Description', index: 'remarkBusiness', width: 120 },
       { title: 'ItemCode', index: 'itemCode', width: 120 },
       { title: 'NameAccount', index: 'account', width: 120 },
       {
@@ -754,14 +761,9 @@ export class InquiryListOceanComponent implements OnInit {
           }
         },
       },
-
-      { title: 'Term', index: 'term', width: 120 },
-      { title: 'SurCharge', index: 'surCharge', width: 120 },
-      { title: 'CLS', index: 'cls', width: 120 },
-      { title: 'T/T', index: 'tt', width: 120 },
-      { title: 'Description', index: 'remarkBusiness', width: 120 },
-      { title: 'Update by', index: 'updateBy', width: 120 },
       { title: 'Reject reason', index: 'rejectRemark', width: 120 },
+      { title: 'Update by', index: 'updateBy', width: 120 },
+
       {
         title: 'Action',
         type: 'action',

@@ -56,17 +56,11 @@
               </nz-option>
             </nz-select> -->
 
-            <nz-select
-              formControlName="delivery"
-              nzPlaceHolder="{{ 'Delivery' | translate }}"
-              nzShowSearch
-              nzServerSearch
-              nzAllowClear
-              nzMode="multiple"
-              [nzMaxTagCount]="1"
-              (nzOnSearch)="getBasicPortList($event)"
-            >
-              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id"> </nz-option>
+            <nz-select formControlName="delivery" nzPlaceHolder="{{ 'Delivery' | translate }}" nzShowSearch
+              nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)"
+              class="selectIptNoPadding">
+              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
+              </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -96,15 +90,9 @@
     <div class="login-form2" *ngIf="showMoreSearch">
       <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-select
-            style="width: 200px;"
-            formControlName="carrier"
-            nzPlaceHolder="{{ 'Carrier' | translate }}"
-            nzShowSearch
-            nzServerSearch
-            nzAllowClear
-            (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
-          >
+          <nz-select nzMode="multiple" style="width: 200px;" formControlName="carrier"
+            nzPlaceHolder="{{ 'Carrier' | translate }}" nzShowSearch nzServerSearch nzAllowClear
+            (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' } )">
             <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"> </nz-option>
           </nz-select>
         </nz-form-control>

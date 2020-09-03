@@ -8,7 +8,7 @@
   </header>
 
   <section class="drawer_content">
-    <form nz-form [formGroup]="validateForm" nzLayout="vertical" style="margin: 0 0 0 24px;">
+    <form nz-form [formGroup]="validateForm" nzLayout="vertical">
       <strong>{{ 'Route information' | translate }}</strong>
       <div class="flex-form-four">
         <nz-form-item>
@@ -75,7 +75,7 @@
           <nz-form-label nzRequired>{{ 'Choose a bidder' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
             <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;" nzShowSearch nzAllowClear
-                       formControlName="replyUserId">
+              formControlName="replyUserId">
               <nz-option *ngFor="let option of unitUsers" [nzLabel]="option.name" [nzValue]="option.userId"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -88,7 +88,7 @@
           <nz-form-label>{{ 'Inquiry customer' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-select nzShowSearch nzAllowClear nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;"
-                       formControlName="ownerCustomerId" (ngModelChange)="onCustomerListChange($event)">
+              formControlName="ownerCustomerId" (ngModelChange)="onCustomerListChange($event)">
               <nz-option *ngFor="let option of customerList" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -98,7 +98,7 @@
           <nz-form-label>{{ 'Inquirer' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-select nzPlaceHolder="{{ 'Please select' | translate }}" style="width: 100%;"
-                       formControlName="ownerContactId" nzAllowClear>
+              formControlName="ownerContactId" nzAllowClear>
               <nz-option *ngFor="let option of customerUserList" [nzLabel]="option.name" [nzValue]="option.id">
               </nz-option>
             </nz-select>
@@ -111,7 +111,7 @@
           <nz-form-label>{{ 'cargo ready date' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="Please select date!">
             <nz-date-picker (ngModelChange)="onAStartChange()" [nzDisabledDate]="disabledAStartDate"
-                            formControlName="cargoReadyDate"></nz-date-picker>
+              formControlName="cargoReadyDate"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
 
@@ -123,13 +123,13 @@
         </nz-form-item>
       </div>
 
-      <div class="flex-form-four">
-        <nz-form-item>
+      <div class="flex-form-four" style="display: flex;flex-wrap: wrap;">
+        <nz-form-item style="width: 33.33%;min-width: 250px;">
           <nz-form-label>{{ 'Pieces' | translate }}</nz-form-label>
           <nz-form-control [nzErrorTip]="quantityErrorTpl">
             <nz-input-group [nzAddOnAfter]="a">
               <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="quantity" [nzMin]="1"
-                               [nzStep]="1"></nz-input-number>
+                [nzStep]="1"></nz-input-number>
               <ng-template #quantityErrorTpl>
                 <ng-container *ngIf="validateForm.get('quantity').hasError('existSameCode')">
                   {{ 'Data must be greater than 0' | translate }}
@@ -154,12 +154,12 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item>
+        <nz-form-item style="width: 33.33%;min-width: 264px;">
           <nz-form-label>{{ 'Gross weight' | translate }}</nz-form-label>
           <nz-form-control [nzErrorTip]="weightErrorTpl">
             <nz-input-group [nzAddOnAfter]="b" class="group-addon-nopadding">
               <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="weight" [nzMin]="1"
-                               [nzStep]="1"></nz-input-number>
+                [nzStep]="1"></nz-input-number>
               <ng-template #weightErrorTpl>
                 <ng-container *ngIf="validateForm.get('weight').hasError('existSameCode')">
                   {{ 'Data must be greater than 0' | translate }}
@@ -175,12 +175,12 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item>
+        <nz-form-item style="width: 33.33%;min-width: 306px;">
           <nz-form-label>{{ 'Volume' | translate }}</nz-form-label>
           <nz-form-control [nzErrorTip]="volumeErrorTpl">
             <nz-input-group [nzAddOnAfter]="c" class="group-addon-nopadding">
               <nz-input-number style="width: 100%; border-radius: 4px 0 0 4px;" formControlName="volume" [nzMin]="1"
-                               [nzStep]="1"></nz-input-number>
+                [nzStep]="1"></nz-input-number>
               <ng-template #volumeErrorTpl>
                 <ng-container *ngIf="validateForm.get('volume').hasError('existSameCode')">
                   {{ 'Data must be greater than 0' | translate }}
@@ -202,7 +202,7 @@
           <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
           <nz-form-control>
             <input type="text" nz-input maxlength="2000" formControlName="description"
-                   placeholder="{{ 'Please enter remark' | translate }}" />
+              placeholder="{{ 'Please enter remark' | translate }}" />
           </nz-form-control>
         </nz-form-item>
 
@@ -210,7 +210,7 @@
           <nz-form-label>{{ 'Commodity' | translate }}</nz-form-label>
           <nz-form-control>
             <input type="text" nz-input formControlName="commodity"
-                   placeholder="{{ 'Please enter commodity' | translate }}" />
+              placeholder="{{ 'Please enter commodity' | translate }}" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -219,10 +219,10 @@
         <nz-form-item>
           <nz-form-label>{{ 'Trucker' | translate }}</nz-form-label>
           <nz-form-control>
-            <nz-select formControlName="carrierCustomerId" nzPlaceHolder="{{ 'Please select' | translate }}" nzAllowClear
-                       nzShowSearch>
+            <nz-select formControlName="carrierCustomerId" nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzAllowClear nzShowSearch>
               <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.localizationName"
-                         [nzValue]="option.id"> </nz-option>
+                [nzValue]="option.id"> </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -241,8 +241,9 @@
   <footer class="drawer_footer">
     <div class="line"></div>
     <div class="drawer_footer_btn">
-        <button nz-button nzType="default" (click)="closeView()" >{{ 'Reset' | translate }}</button>
-        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="okLoading">{{ 'Submit' | translate }}</button>
+      <button nz-button nzType="default" (click)="closeView()">{{ 'Reset' | translate }}</button>
+      <button nz-button nzType="primary" (click)="handleOk()"
+        [nzLoading]="okLoading">{{ 'Submit' | translate }}</button>
     </div>
   </footer>
 
