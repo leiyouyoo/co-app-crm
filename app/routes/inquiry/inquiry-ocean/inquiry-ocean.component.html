@@ -15,8 +15,9 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-            <nz-select formControlName="pol" nzPlaceHolder="{{ 'POL' | translate }}" nzShowSearch nzServerSearch
-              nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
+            <nz-select formControlName="pol" class="selectIptNoPadding" nzPlaceHolder="{{ 'POL' | translate }}"
+              nzShowSearch nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1"
+              (nzOnSearch)="getBasicPortList($event)">
               <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
             </nz-select>
@@ -25,8 +26,9 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-            <nz-select formControlName="pod" nzPlaceHolder="{{ 'POD' | translate }}" nzShowSearch nzServerSearch
-              nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
+            <nz-select formControlName="pod" class="selectIptNoPadding" nzPlaceHolder="{{ 'POD' | translate }}"
+              nzShowSearch nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1"
+              (nzOnSearch)="getBasicPortList($event)">
               <nz-option *ngFor="let option of basicPortList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
             </nz-select>
