@@ -1,6 +1,6 @@
 <div class="content">
-  <div class="choose-title">
-    <div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
+  <div class="choose-title justify-content-end">
+    <!--<div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
       {{ 'Inquiry information' | translate }}
     </div>
 
@@ -10,7 +10,8 @@
 
     <div (click)="onGoDetial(3)" [ngClass]="i === 3 ? 'choosed' : 'choose'">{{ 'Origin cost' | translate }}</div>
     <div (click)="onGoDetial(4)" [ngClass]="i === 4 ? 'choosed' : 'choose'">{{ 'Destination cost' | translate }}</div>
-    <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>
+    <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>-->
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="ngSubmit()" style="margin-bottom: 10px;">{{ 'Add Quotes' | translate }}</button>
   </div>
   <div class="head_quote">
     <form nz-form #formData="ngForm">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, ElementRef, Injector } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -8,21 +8,24 @@ import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
 import { cloneDeep } from 'lodash';
 import { freightType } from '../../enum/quoteState';
 import { TranslateService } from '@ngx-translate/core';
-import { debounce } from '@co/core';
-import { GoogleMapService } from '@co/common';
+import { CoPageBase, debounce } from '@co/core';
+import { GoogleMapService, I18nMessageService } from '@co/common';
 
 @Component({
   selector: 'initiativequotes-initiativecreatequotes',
   templateUrl: './initiativecreatequotes.component.html',
   styleUrls: ['./initiativecreatequotes.component.less'],
 })
-export class initiativeCreatequotesComponent implements OnInit {
+export class initiativeCreatequotesComponent extends CoPageBase implements OnInit {
   constructor(
     private quotesService: QuotesService,
-    private message: NzMessageService,
+    private message: I18nMessageService,
     private googleMapService: GoogleMapService,
     private translate: TranslateService,
-  ) {}
+    injector: Injector,
+  ) {
+    super(injector);
+  }
 
   validateForm: FormGroup;
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
@@ -91,7 +94,6 @@ export class initiativeCreatequotesComponent implements OnInit {
   isLocationSame = true;
   @Output() isSuccessfully = new EventEmitter<boolean>();
   @Output() isClosed = new EventEmitter<boolean>();
-  @Output() initiaveQuoteStatus = new EventEmitter<boolean>();
   quoteReplys: any = {
     quoteReplyItems: [],
   };
@@ -100,9 +102,15 @@ export class initiativeCreatequotesComponent implements OnInit {
   //是否提交
   isSubmitted: boolean = false;
   reg = /(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}/;
+  loading = false;
   @ViewChild(HandlequotesComponent) handlequotesComponent: HandlequotesComponent;
   ngOnInit() {
+    super.ngOnInit();
     this.init();
+
+    // setTimeout(() => {
+    //   this.ngScroll();
+    // }, 500);
   }
 
   ngScroll() {
@@ -191,7 +199,7 @@ export class initiativeCreatequotesComponent implements OnInit {
       },
       (error) => {
         // this.message.info('Data loading failed');
-        this.message.info(this.translate.instant('Data loading failed'));
+        this.message.info('Data loading failed');
       },
     );
   }
@@ -370,7 +378,7 @@ export class initiativeCreatequotesComponent implements OnInit {
         },
         (error) => {
           // this.message.info('Data loading failed');
-          this.message.info(this.translate.instant('Data loading failed'));
+          this.message.info('Data loading failed');
         },
       );
   }
@@ -389,7 +397,7 @@ export class initiativeCreatequotesComponent implements OnInit {
         },
         (error) => {
           // this.message.info('Data loading failed');
-          this.message.info(this.translate.instant('Data loading failed'));
+          this.message.info('Data loading failed');
         },
       );
   }
@@ -705,7 +713,7 @@ export class initiativeCreatequotesComponent implements OnInit {
       }, 0);
       return false;
     }
-    this.initiaveQuoteStatus.emit(true);
+    this.loading = true;
     this.quoteReplys.carrierId = this.basiccost[0].carrierId;
     this.quoteReplys.quoteEnquiryId = this.quoteinfo.id;
     this.quoteReplys.transitTime = this.basiccost[0].transitTime;
@@ -956,11 +964,14 @@ export class initiativeCreatequotesComponent implements OnInit {
     this.quotesService.initiaivecreate(this.copyquoteInfo).subscribe(
       (c) => {
         this.isSuccessfully.emit(true);
-        this.initiaveQuoteStatus.emit(false);
+        this.loading = false;
+        this.message.success('Success')
+        this.$close();
+        this.$navigate(['/crm/quotes']);
       },
       (error) => {
         this.isSuccessfully.emit(false);
-        this.initiaveQuoteStatus.emit(false);
+        this.loading = false;
       },
     );
   }

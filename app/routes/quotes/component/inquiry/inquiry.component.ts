@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild, Inject, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { CreatequotesComponent } from '../createquotes/createquotes.component';
@@ -29,6 +29,7 @@ export class InquiryComponent extends CoPageBase {
     private nzModalService: NzModalService,
     private clipboardService: ClipboardService,
     private translate: TranslateService,
+    private activatedRoute: ActivatedRoute,
     injector: Injector,
   ) {
     super(injector);
@@ -236,10 +237,11 @@ export class InquiryComponent extends CoPageBase {
 
   //主动报价回复
   createinitiativequotes() {
-    this.isShowinitiativecreatequotes = true;
-    setTimeout(() => {
-      this.initiativeCreatequotesComponent.ngScroll();
-    }, 500);
+    // this.isShowinitiativecreatequotes = true;
+    // setTimeout(() => {
+    //   this.initiativeCreatequotesComponent.ngScroll();
+    // }, 500);
+    this.$navigate(['/crm/quotes/create-quote'], )
   }
   createinitiativequotesCancel() {
     this.initiativeCreatequotesComponent.clearDate();

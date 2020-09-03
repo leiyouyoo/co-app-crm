@@ -177,28 +177,6 @@
     </div> -->
   </div>
 </div>
-<nz-modal
-  nzWidth="70%"
-  nzMaskClosable="false"
-  class="createQuotes"
-  [(nzVisible)]="isShowinitiativecreatequotes"
-  [nzTitle]="'Add Quotes' | translate"
-  (nzOnCancel)="createinitiativequotesCancel()"
->
-  <initiativequotes-initiativecreatequotes
-    *ngIf="isShowinitiativecreatequotes"
-    (isSuccessfully)="createinitiativequotesSuccessfully($event)"
-    (isClosed)="isClosed = $event"
-    (initiaveQuoteStatus)="isinitiaveQuoteStatus = $event"
-  >
-  </initiativequotes-initiativecreatequotes>
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="createinitiativequotesCancel()">{{ 'Cancel' | translate }}</button>
-    <button nz-button nzType="primary" type="submit" (click)="createinitiativequotesOk()" [nzLoading]="isinitiaveQuoteStatus">
-      {{ 'Add Quotes' | translate }}
-    </button>
-  </div>
-</nz-modal>
 
 <nz-drawer
   [nzClosable]="false"
