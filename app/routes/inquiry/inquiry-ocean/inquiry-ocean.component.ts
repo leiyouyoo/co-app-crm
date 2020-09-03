@@ -253,7 +253,7 @@ export class InquiryListOceanComponent implements OnInit {
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
     private aCLService: ACLService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = null;
