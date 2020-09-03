@@ -154,13 +154,12 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', type: 'action', fixed: 'left', render: "Attention", width: 40 },
-
     {
       title: "index", index: '', type: 'action', fixed: 'left', width: 40, format: (item, col, index) => {
         return `${index + 1}`
       }
     },
+    { title: "Attention", index: '', type: 'action', fixed: 'left', render: "Attention", width: 40 },
     { title: 'Carrier', index: 'shipCompany', width: 80 },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'Delivery/To', index: 'delivery', width: 120 },
@@ -267,12 +266,11 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
-
-
-    // console.log(this.aCLService.can({ jobs: {'j:商务员'} }), "00000000000")
-
     console.log(this.aCLService.can('j:商务员'), '0000000000')
-
+    if (this.aCLService.can('j:商务员')) {
+      this.showInquiryBtn = false;
+      this.showShareBtn = false;
+    }
 
   }
 
@@ -689,6 +687,7 @@ export class InquiryListOceanComponent implements OnInit {
 
           console.log(this.tablestitle);
 
+
           let titleItem = [];
 
           this.initColumn();
@@ -726,6 +725,10 @@ export class InquiryListOceanComponent implements OnInit {
           console.log(titleItem);
           titleItem.unshift(5, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
+
+          console.log(this.columns)
+          debugger
+
           this.st?.resetColumns();
         },
         (err) => {
