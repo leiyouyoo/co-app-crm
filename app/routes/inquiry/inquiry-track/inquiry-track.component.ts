@@ -150,7 +150,7 @@ export class InquiryTrackComponent implements OnInit {
     {
       title: 'Rate', index: '', width: 80, render: 'Rate'
     },
-    { title: 'Fuel', index: 'fuel', width: 70 },
+    { title: 'Fuel', index: 'fuel', width: 70, format: (data) => `${data.fuel}%`, },
     {
       title: 'Total', index: '', width: 70, render: "Total"
     },
