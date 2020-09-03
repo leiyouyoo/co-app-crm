@@ -142,11 +142,14 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 40 },
+    { title: 'Attention', index: '', render: 'Attention', width: 40 },
     {
-      title: "index", index: '', width: 40, format: (item, col, index) => {
-        return `${index + 1}`
-      }
+      title: 'index',
+      index: '',
+      width: 40,
+      format: (item, col, index) => {
+        return `${index + 1}`;
+      },
     },
     { title: 'Carrier', index: 'shipCompany', width: 80 },
     { title: 'POL/From', index: 'pol', width: 120 },
@@ -155,27 +158,37 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'Commodity', index: 'commodity', width: 120 },
 
     {
-      title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+      title: 'Duration(From)',
+      index: 'from',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
+      width: 120,
+      sort: {
         compare: (a, b) => {
           if (a.from > b.from) {
-            return 1
+            return 1;
           } else if (a.from < b.from) {
-            return -1
+            return -1;
           } else {
-            return 0
+            return 0;
           }
-        }
+        },
       },
     },
     {
-      title: 'Duration(To)', index: 'to', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+      title: 'Duration(To)',
+      index: 'to',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
+      width: 120,
+      sort: {
         compare: (a, b) => {
           if (a.to > b.to) {
-            return 1
+            return 1;
           } else if (a.to < b.to) {
-            return -1
+            return -1;
           } else {
-            return 0
+            return 0;
           }
         },
       },
@@ -214,8 +227,7 @@ export class InquiryListOceanComponent implements OnInit {
       width: 80,
       render: 'action',
       fixed: 'right',
-      buttons: [
-      ],
+      buttons: [],
     },
   ];
 
@@ -239,8 +251,8 @@ export class InquiryListOceanComponent implements OnInit {
     private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
-    private aCLService: ACLService
-  ) { }
+    private aCLService: ACLService,
+  ) {}
 
   ngOnInit() {
     this.id = null;
@@ -255,12 +267,11 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
-    console.log(this.aCLService.can('j:商务员'), '0000000000')
+    console.log(this.aCLService.can('j:商务员'), '0000000000');
     if (this.aCLService.can('j:商务员')) {
       this.showInquiryBtn = false;
       this.showShareBtn = false;
     }
-
   }
 
   checkChange(e) {
@@ -279,7 +290,6 @@ export class InquiryListOceanComponent implements OnInit {
       }
     }
     this.refreshStatus();
-
   }
 
   GetNextMonthDay(date) {
@@ -380,17 +390,17 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onSearch() {
-    if (!this.searchForm.value.pol && !this.searchForm.value.pod && !this.searchForm.value.delivery) {
-      this.msg.info(this.translate.instant('Please select pol'), {
-        nzDuration: 1000,
-      });
-      return false;
-    } else if (!this.searchForm.value.pod && !this.searchForm.value.delivery) {
-      this.msg.info(this.translate.instant('Please select pod or delivery'), {
-        nzDuration: 1000,
-      });
-      return false;
-    }
+    // if (!this.searchForm.value.pol && !this.searchForm.value.pod && !this.searchForm.value.delivery) {
+    //   this.msg.info(this.translate.instant('Please select pol'), {
+    //     nzDuration: 1000,
+    //   });
+    //   return false;
+    // } else if (!this.searchForm.value.pod && !this.searchForm.value.delivery) {
+    //   this.msg.info(this.translate.instant('Please select pod or delivery'), {
+    //     nzDuration: 1000,
+    //   });
+    //   return false;
+    // }
     this.shareDisabled = true;
     this.isFllow = false;
     this.id = null;
@@ -427,7 +437,6 @@ export class InquiryListOceanComponent implements OnInit {
       this.searchForm.value.ToDate = null;
     }
 
-
     this.loading = true;
     this.OceanBaseItemService.getBusinessRateList({ ...datas, ...data })
       .pipe(
@@ -445,8 +454,6 @@ export class InquiryListOceanComponent implements OnInit {
 
           this.listOfData = res.items;
           this.totalCount = res.totalCount;
-
-
 
           let arr = this.listOfData.map((item) => item.ratePriceOutputs);
           arr.forEach((e) => {
@@ -467,7 +474,7 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          console.log(this.listOfData)
+          console.log(this.listOfData);
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -507,36 +514,38 @@ export class InquiryListOceanComponent implements OnInit {
 
           console.log(this.tablestitle);
 
-
           let titleItem = [];
 
           this.initColumn();
 
-
           this.tablestitle.forEach((e) => {
             titleItem.push({
-              title: e, index: '', render: e, width: 70, sort: {
+              title: e,
+              index: '',
+              render: e,
+              width: 70,
+              sort: {
                 compare: (a, b) => {
-                  console.log(a)
-                  console.log(b)
+                  console.log(a);
+                  console.log(b);
                   let aItem;
                   let bItem;
-                  a?.ratePriceOutputs.forEach(item => {
+                  a?.ratePriceOutputs.forEach((item) => {
                     if (item.unit == e) {
-                      aItem = item.rate
+                      aItem = item.rate;
                     }
-                  })
-                  b?.ratePriceOutputs.forEach(item => {
+                  });
+                  b?.ratePriceOutputs.forEach((item) => {
                     if (item.unit == e) {
-                      bItem = item.rate
+                      bItem = item.rate;
                     }
-                  })
+                  });
                   if (aItem > bItem) {
-                    return 1
+                    return 1;
                   } else if (aItem < bItem) {
-                    return -1
+                    return -1;
                   } else {
-                    return 0
+                    return 0;
                   }
                 },
               },
@@ -546,8 +555,8 @@ export class InquiryListOceanComponent implements OnInit {
           titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
-          console.log(this.columns)
-          debugger
+          console.log(this.columns);
+          debugger;
           this.st?.resetColumns();
         },
         (err) => {
@@ -555,7 +564,6 @@ export class InquiryListOceanComponent implements OnInit {
         },
       );
   }
-
 
   onClear() {
     this.searchForm.reset();
@@ -618,7 +626,7 @@ export class InquiryListOceanComponent implements OnInit {
       const boxWidth = Number(this.drawerStyle.width.slice(0, this.drawerStyle.width.length - 2));
       if (boxWidth + (this.lastClientX - e.clientX) >= 680) {
         if (boxWidth + (this.lastClientX - e.clientX) <= document.body.clientWidth) {
-          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX))
+          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX));
           if (drawerPosition - 10 < e.clientX && e.clientX < drawerPosition + 30) {
             this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
           }
@@ -675,11 +683,14 @@ export class InquiryListOceanComponent implements OnInit {
 
   initColumn() {
     this.columns = [
-      { title: "Attention", index: '', render: "Attention", width: 40 },
+      { title: 'Attention', index: '', render: 'Attention', width: 40 },
       {
-        title: "index", index: '', width: 40, format: (item, col, index) => {
-          return `${index + 1}`
-        }
+        title: 'index',
+        index: '',
+        width: 40,
+        format: (item, col, index) => {
+          return `${index + 1}`;
+        },
       },
       { title: 'Carrier', index: 'shipCompany', width: 80 },
       { title: 'POL/From', index: 'pol', width: 120 },
@@ -688,27 +699,37 @@ export class InquiryListOceanComponent implements OnInit {
       { title: 'Commodity', index: 'commodity', width: 120 },
 
       {
-        title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+        title: 'Duration(From)',
+        index: 'from',
+        type: 'date',
+        dateFormat: 'yyyy-MM-dd',
+        width: 120,
+        sort: {
           compare: (a, b) => {
             if (a.from > b.from) {
-              return 1
+              return 1;
             } else if (a.from < b.from) {
-              return -1
+              return -1;
             } else {
-              return 0
+              return 0;
             }
-          }
+          },
         },
       },
       {
-        title: 'Duration(To)', index: 'to', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
+        title: 'Duration(To)',
+        index: 'to',
+        type: 'date',
+        dateFormat: 'yyyy-MM-dd',
+        width: 120,
+        sort: {
           compare: (a, b) => {
             if (a.to > b.to) {
-              return 1
+              return 1;
             } else if (a.to < b.to) {
-              return -1
+              return -1;
             } else {
-              return 0
+              return 0;
             }
           },
         },
@@ -747,8 +768,7 @@ export class InquiryListOceanComponent implements OnInit {
         width: 80,
         render: 'action',
         fixed: 'right',
-        buttons: [
-        ],
+        buttons: [],
       },
     ];
   }
