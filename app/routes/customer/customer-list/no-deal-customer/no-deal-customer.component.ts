@@ -11,19 +11,21 @@ import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';
+import { NzResizableService, NzResizeEvent } from 'ng-zorro-antd/resizable';
 @Component({
   selector: 'app-no-deal-customer',
   templateUrl: './no-deal-customer.component.html',
   styleUrls: ['./no-deal-customer.component.less'],
+  providers: [NzResizableService],
 })
 export class NoDealCustomerComponent extends CoPageBase {
   @ViewChild(TransferTocustomerComponent, { static: true }) tranCustomer: TransferTocustomerComponent;
-  com: any;
-  @ViewChild('createCustomer', { static: true, read: ViewContainerRef }) createCustomer: ViewContainerRef;
+  @ViewChild(CreateCustomerComponent, { static: true }) createCustomer: CreateCustomerComponent;
   @ViewChild(CustomerMergeComponent, { static: true }) customerMerge: CustomerMergeComponent;
   listOfData: any;
   loading = false;
-
+  width = 600;
+  requestAnimationFrameId: number;
   sortValue: string | null = 'desc';
   //创建客户
   isVisibleCreate: boolean;
@@ -105,6 +107,7 @@ export class NoDealCustomerComponent extends CoPageBase {
 
   coOnInit(): void {
     this.getCustomerByPageList();
+    this.createModal();
   }
 
   checkChange(e): void {
@@ -130,15 +133,22 @@ export class NoDealCustomerComponent extends CoPageBase {
     this.getCustomerByPageList();
   }
 
-  createModal() {
-    this.isVisibleCreate = true;
-    this.createCustomer.clear();
-    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
+    });
+  }
 
-    this.com.instance.initData();
+  createModal() {
+    this.createCustomer.initData();
     setTimeout(() => {
-      this.com.instance.ngScroll();
+      this.createCustomer.ngScroll();
     }, 500);
+  }
+
+  showModal() {
+    this.isVisibleCreate = true;
   }
 
   showDetial(data) {
@@ -150,7 +160,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   create(application?: boolean): void {
-    this.com.instance.validateForm.controls.customerTaxes.controls.forEach((e) => {
+    this.createCustomer.validateForm.controls.customerTaxes.controls.forEach((e) => {
       if (application) {
         e.controls.taxNo.setValidators([Validators.required]);
         e.controls.taxType.setValidators([Validators.required]);
@@ -163,28 +173,16 @@ export class NoDealCustomerComponent extends CoPageBase {
       const tmp = document.querySelector('.ant-form-item-explain');
       tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
-    if (!this.com.instance.submitForm()) {
+    if (!this.createCustomer.submitForm()) {
       this.msg.warning(this.translate.instant('Please check the content'));
       return;
     }
-    let value = this.com.instance.validateForm.value;
+    let value = this.createCustomer.validateForm.value;
     let tel = value.tel.map((res) => res.tel);
     if (!value.email && !value.fax) {
       this.msg.warning('Please enter email or fax');
       return;
     }
-
-    // if (value.customerType === 3 && value.forwardingType === null) {
-    //   this.msg.warning('Please fill in the freight forwarding type');
-    //   return;
-    // }
-
-    // if (this.com.instance.userList && JSON.stringify(this.com.instance.userList) !== '{}') {
-    //   if (this.com.instance.userList.items.length > 0) {
-    //     this.msg.warning('Duplicate customers already exist');
-    //     return;
-    //   }
-    // }
 
     if (application) {
       this.applicationLoading = true;
@@ -230,7 +228,7 @@ export class NoDealCustomerComponent extends CoPageBase {
         this.applicationLoading = false;
         this.isVisibleCreate = false;
         this.getCustomerByPageList();
-        this.com.instance.validateForm.reset();
+        this.createCustomer.validateForm.reset();
       },
       (err) => {
         this.cusLoading = false;

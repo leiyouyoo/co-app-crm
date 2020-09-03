@@ -1,11 +1,17 @@
-<nz-modal
-  nzMaskClosable="false"
-  [(nzVisible)]="isVisible"
-  [nzTitle]="title"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="footer"
-  nzWidth="50%"
+<div
+  class="review-shipment-dialog"
+  nz-resizable
+  (nzResize)="onResize($event)"
+  [style.width.px]="width"
+  [ngStyle]="{ display: isVisible == true ? 'flex' : 'none' }"
 >
+  <header class="drawer_head">
+    <div>
+      <span style="font-weight: 600;">{{ title }}</span>
+    </div>
+    <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+  </header>
+
   <div class="contacts">
     <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'" *ngIf="validateForm">
       <div nz-row [nzGutter]="24">
@@ -31,12 +37,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Name' | translate }}({{ 'Local' | translate }})</nz-form-label>
             <nz-form-control>
-              <input
-                type="text"
-                nz-input
-                formControlName="nameLocalization"
-                placeholder="{{ 'Please enter' | translate }}"
-              />
+              <input type="text" nz-input formControlName="nameLocalization" placeholder="{{ 'Please enter' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -71,9 +72,7 @@
                 [attr.disabled]="data?.id ? 'disabled' : null"
               />
               <ng-template #mailError>
-                <ng-container
-                  *ngIf="validateForm.get('mail').hasError('required') || validateForm.get('mail').hasError('email')"
-                >
+                <ng-container *ngIf="validateForm.get('mail').hasError('required') || validateForm.get('mail').hasError('email')">
                   {{ 'Please input the correct email address!' | translate }}
                 </ng-container>
                 <ng-container *ngIf="validateForm.get('mail').hasError('existSameCode')">
@@ -88,12 +87,7 @@
           <nz-form-item>
             <nz-form-label nzFor="Post">{{ 'Job Capacity' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="Please input your Post!">
-              <nz-select
-                nzShowSearch
-                nzAllowClear
-                nzPlaceHolder="{{ 'Please select' | translate }}"
-                formControlName="position"
-              >
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="{{ 'Please select' | translate }}" formControlName="position">
                 <nz-option *ngFor="let option of positionList" [nzLabel]="option.name" [nzValue]="option.name">
                   {{ option.name }}</nz-option
                 >
@@ -148,9 +142,7 @@
                 formControlName="isCspAccountOpen"
                 style="margin-right: 20px;"
                 [nzDisabled]="
-                  (validateForm.get('mail').errors ? true : false) ||
-                  (data?.isMainAccount ? true : false) ||
-                  (editionRoleId ? false : true)
+                  (validateForm.get('mail').errors ? true : false) || (data?.isMainAccount ? true : false) || (editionRoleId ? false : true)
                 "
               ></label
               >{{ 'Whether to open account' | translate }}
@@ -199,12 +191,7 @@
       <div nz-col [nzSpan]="24">
         <nz-form-item>
           <nz-form-label nzFor="isMaster"
-            ><label
-              nz-checkbox
-              formControlName="isMaster"
-              style="margin-right: 20px;"
-              [nzDisabled]="mainContact"
-            ></label
+            ><label nz-checkbox formControlName="isMaster" style="margin-right: 20px;" [nzDisabled]="mainContact"></label
             >{{ 'Whether the main contact' | translate
             }}<span *ngIf="mainContact">{{ 'Primary contact already exists' | translate }}</span></nz-form-label
           >
@@ -213,7 +200,13 @@
     </form>
   </div>
 
-  <ng-template #footer>
+  <footer class="drawer_footer">
     <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
-  </ng-template>
-</nz-modal>
+  </footer>
+
+  <nz-resize-handle nzDirection="left">
+    <div class="right-wrap">
+      <div class="triangle"></div>
+    </div>
+  </nz-resize-handle>
+</div>

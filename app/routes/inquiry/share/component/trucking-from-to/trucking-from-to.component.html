@@ -6,7 +6,7 @@
       </nz-form-label>
     </div>
     <div class="zip-code">
-      <nz-form-label nzFor="ZIPcode">
+      <nz-form-label nzRequired nzFor="ZIPcode">
         {{ 'Zip code' | translate }}
       </nz-form-label>
     </div>
@@ -46,8 +46,7 @@
         <nz-select #toSelect nzAllowClear nzShowSearch nzServerSearch nzPlaceHolder="Please select your value"
           [coSearchByExtraKey]="['fullNameLocalization', 'fullName', 'localizationText']"
           (nzOnSearch)="getToList($event, null, !isFromPort)" [formControl]="controlTo" ngModel
-          (ngModelChange)="toChange.emit(toSelect)" (coNzOptionExtraChange)="toExtraChange.emit($event)"
-          class="select">
+          (ngModelChange)="toChange.emit(toSelect)" (coNzOptionExtraChange)="toExtraChange.emit($event)" class="select">
           <nz-option *ngFor="let item of toList" [nzValue]="item.id" [nzLabel]="item.nameLocalization"></nz-option>
         </nz-select>
       </nz-form-control>

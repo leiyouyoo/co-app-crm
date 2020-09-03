@@ -1,43 +1,125 @@
-i[nz-icon] {
-  color: #999;
-  font-size: 32px;
-}
 .ant-upload-text {
   margin-top: 8px;
-  color: #666;
+  color     : #666;
 }
 
 .textarea {
-  height: 96px !important;
+  height   : 96px !important;
   word-wrap: break-word;
-  resize: none;
+  resize   : none;
 }
 
 .ant-calendar-picker {
   width: 100%;
 }
+
 .readonlyE {
   padding: 0;
-  border: none;
+  border : none;
 }
+
 .borderB {
-  padding-top: 20px;
+  padding-top  : 20px;
   border-bottom: 1px solid #e9e9e9;
 }
+
 .borderB:nth-of-type(1) {
   padding-top: 0;
 }
+
 .paddingTop {
   padding-top: 20px;
 }
+
 .cus-option-box {
   border-bottom: 1px solid #E8E8E8;
 }
+
 .cus-item {
-  span:not(:nth-child(1)){
+  span:not(:nth-child(1)) {
     margin-right: 10px;
   }
 }
+
 .w100 {
   width: 100%;
+}
+
+.review-shipment-dialog {
+  flex-direction: column;
+  position      : fixed;
+  top           : 44px;
+  bottom        : 0;
+  right         : 0;
+  background    : #fff;
+  padding-left  : 18px;
+  border-top    : 1px solid #f2f2f2;
+  box-shadow    : 5px 5px 5px #f2f2f2;
+  z-index       : 999;
+  padding-right : 10px;
+
+  .triangle {
+    width        : 0;
+    height       : 0;
+    border-top   : 7px solid transparent;
+    border-left  : 11px solid #ACACAC;
+    border-bottom: 7px solid transparent;
+  }
+
+  .drawer_head {
+    margin-bottom  : 10px;
+    border-bottom  : 1px solid #f2f2f2;
+    display        : flex;
+    justify-content: space-between;
+    padding        : 12px 0;
+    font-size      : 18px;
+    font-weight    : 800;
+
+    span {
+      margin-right: 24px;
+
+      i {
+        color : #e55354;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .drawer_footer {
+    text-align: right;
+    padding   : 10px 15px 10px 5px;
+    border-top: 1px solid #f2f2f2;
+
+    .drawer_total {
+      width           : calc(100% - 12px);
+      margin          : 0 auto 12px;
+      padding         : 8px;
+      display         : flex;
+      justify-content : space-between;
+      background-color: #E7F3FF;
+    }
+
+    .drawer_btn {
+      margin-top     : 12px;
+      padding-right  : 5px;
+      display        : flex;
+      justify-content: flex-end;
+    }
+
+
+  }
+}
+
+
+.right-wrap {
+  height         : 100%;
+  width          : 18px;
+  background     : #e6e6e6;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+
+  &:hover {
+    cursor: w-resize;
+  }
 }

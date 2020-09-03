@@ -45,6 +45,7 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzResizableModule } from 'ng-zorro-antd/resizable';
 
 export const SHARED_ZORRO_MODULES = [
   NzButtonModule,
@@ -94,4 +95,5 @@ export const SHARED_ZORRO_MODULES = [
   NzTreeSelectModule,
   NzTimelineModule,
   NzSpaceModule,
+  NzResizableModule,
 ];

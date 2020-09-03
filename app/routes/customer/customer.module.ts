@@ -27,6 +27,7 @@ import { UnownedClientComponent } from './customer-list/unowned-client/unowned-c
 import { SharedCustomersComponent } from './customer-list/shared-customers/shared-customers.component';
 import { CustomerMergeComponent } from './component/customer-merge/customer-merge.component';
 import { LegalEntityComponent } from './component/legal-entity/legal-entity.component';
+import { NzResizableModule } from 'ng-zorro-antd/resizable';
 
 const COMPONENTS = [
   CustomerComponent,
@@ -55,7 +56,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [LegalEntityComponent];
 
 @NgModule({
-  imports: [SharedModule, CustomerRoutingModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT,

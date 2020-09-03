@@ -39,6 +39,7 @@
                       [customerId]="customerId"
                       [editionRoleId]="customerInfo?.editionRoleId"
                       (refushData)="getCustomerById()"
+                      (closeModal)="createCancel()"
                     ></contacts-list>
                   </ng-template>
                 </nz-tab>
@@ -112,7 +113,37 @@
   </div>
 </div>
 
-<crm-legal-entity [customerInfo]="customerInfo" (outCustomerById)="getCustomerById()"></crm-legal-entity>
+<div
+  class="review-shipment-dialog"
+  nz-resizable
+  (nzResize)="onResize($event)"
+  [style.width.px]="width"
+  [ngStyle]="{ display: showCustomer == true ? 'flex' : 'none' }"
+>
+  <header class="drawer_head">
+    <div>
+      <span style="font-weight: 600;">{{ 'New customer' | translate }}</span>
+    </div>
+    <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+  </header>
+
+  <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
+  <footer class="drawer_footer">
+    <button nz-button (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+      {{ 'Application' | translate }}
+    </button>
+
+    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+      {{ 'Save' | translate }}
+    </button>
+  </footer>
+
+  <nz-resize-handle nzDirection="left">
+    <div class="right-wrap">
+      <div class="triangle"></div>
+    </div>
+  </nz-resize-handle>
+</div>
 
 <!-- 申请用户代码弹窗 -->
 <apply-cus-code [itemData]="cusItemData" (closeModal)="refreshData()"></apply-cus-code>

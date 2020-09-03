@@ -5,9 +5,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { CoConfigManager, debounce } from '@co/core';
 import { PUBRegionService, PUBDataDictionaryService, PUBPlaceService, PlatformEditionService } from '@co/cds';
 import { Observable } from 'rxjs';
-import { _HttpClient } from '@co/common';
+import { _HttpClient, GoogleMapService } from '@co/common';
 import { CRMCustomerService } from '../../../../services/crm';
-import { AmapService } from '../../../../services/amap';
 @Component({
   selector: 'create-customer',
   templateUrl: './create-customer.component.html',
@@ -140,7 +139,7 @@ export class CreateCustomerComponent {
     private pubDataDictionaryService: PUBDataDictionaryService,
     private crmCustomerService: CRMCustomerService,
     private msg: NzMessageService,
-    private aMapService: AmapService,
+    private googleMapService: GoogleMapService,
   ) {}
   ngOnInit() {
     // 获取国家
@@ -206,28 +205,16 @@ export class CreateCustomerComponent {
     };
   }
 
-  @debounce(200)
+  @debounce(500)
   searchPlace(value, language = this.translate.currentLang) {
     const form = this.validateForm.value;
     let country = this.regions.filter((item) => item.id === form.countryId)[0] || { nameLocalization: '' };
     let province = (this.provinces || []).filter((item) => item.id === form.provinceId)[0] || { nameLocalization: '' };
     let city = (this.citys || []).filter((item) => item.id === form.cityId)[0] || { nameLocalization: '' };
     const address = `${country.nameLocalization}${province.nameLocalization}${city.nameLocalization}`;
-    this.mapSearch(address + value.target.value, language).subscribe((res: any) => {
+    this.googleMapService.autocomplete(address + value.target.value, language).subscribe((res: any) => {
       this.placeList = res.predictions;
     });
-  }
-
-  mapSearch(input: any, language = 'en', options = {}): Observable<any> {
-    // csp写死，此处为复制
-    let url = `${CoConfigManager.getValue('googleApiUrl')}/place/maps/api/place/autocomplete/json`;
-    let params = {
-      input,
-      key: 'AIzaSyAEdT5BA0MmANhrmcnR4QrXu08gLtgvhqI',
-      language,
-      ...options,
-    };
-    return this.httpClient.get(url, params);
   }
 
   checkEnData(): ValidatorFn {
@@ -615,7 +602,7 @@ export class CreateCustomerComponent {
 
   @debounce(1000)
   async bindGoogleMapData(input) {
-    let res = await this.aMapService.mapSearch(input, this.translate.currentLang).toPromise();
+    let res = await this.googleMapService.autocomplete(input, this.translate.currentLang).toPromise();
     let item = res?.predictions;
     if (item) {
       let choosed: any = item[0]?.terms;
@@ -697,7 +684,7 @@ export class CreateCustomerComponent {
       patchProvinceIdValue && patchProvinceIdValue();
       patchCityIdValue && patchCityIdValue();
 
-      let detialMsg: any = await this.aMapService
+      let detialMsg: any = await this.googleMapService
         .getPlaceDetail(item[0].place_id, {
           language: 'zh-CN',
           fields: 'formatted_address',

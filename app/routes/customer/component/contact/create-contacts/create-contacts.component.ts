@@ -4,6 +4,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { PUBDataDictionaryService, SSORoleService, SsoListResultDto } from '@co/cds';
 import { CRMContactService, CRMCreateOrUpdateContactInput } from 'apps/crm/app/services/crm';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 @Component({
   selector: 'create-contacts',
@@ -17,6 +18,9 @@ export class CreateContactsComponent implements OnInit {
   @Output() resfush = new EventEmitter();
   @Output() datas = new EventEmitter();
   @Output() create = new EventEmitter();
+
+  width = 600;
+  requestAnimationFrameId: number;
 
   isVisible = false;
   validateForm: FormGroup;
@@ -69,6 +73,13 @@ export class CreateContactsComponent implements OnInit {
       const valid = phoneReg.test(control.value);
       return valid ? null : { existSameCode: true };
     };
+  }
+
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
+    });
   }
 
   ngOnInit() {

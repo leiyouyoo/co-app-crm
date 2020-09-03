@@ -47,6 +47,7 @@ import { SharequotesComponent } from './compoents/sharequotes/sharequotes.compon
 import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divider.component';
 import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
 import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
+import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hiddensharequotes.component';
 import { CopyDomToImageDirective } from './directives/copy-dom-to-image.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
@@ -88,6 +89,7 @@ const DIRECTIVES = [
     CommonModule,
     FormsModule,
     OverlayModule,
+    NzResizableModule,
     RouterModule,
     ReactiveFormsModule,
     CoACLModule.forRoot(),
@@ -125,4 +127,4 @@ const DIRECTIVES = [
     ...DIRECTIVES,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

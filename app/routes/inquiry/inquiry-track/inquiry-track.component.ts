@@ -18,6 +18,7 @@ import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn } from '@co/cbc';
 import { Observable } from 'rxjs';
 import { TruckingFromToComponent } from '../share/component/trucking-from-to/trucking-from-to.component';
+import { ACLService } from '@co/acl';
 // import { debounce } from '@shared/utils/debounce';
 
 @Component({
@@ -53,6 +54,9 @@ export class InquiryTrackComponent implements OnInit {
   placeAndCountyToListType: any;
   placeAndCountyToList: any;
   carrierCustomerList: any;
+  inquiryId: string;
+
+  showInquiryBtn: boolean = true;
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -183,10 +187,12 @@ export class InquiryTrackComponent implements OnInit {
     },
     { title: 'NO', index: 'no', width: 120 },
     { title: 'Update By', index: 'users', width: 120 },
+    { title: 'Reject reason', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
       width: 80,
+      render: 'action',
       fixed: 'right',
       buttons: [
       ],
@@ -206,6 +212,7 @@ export class InquiryTrackComponent implements OnInit {
     private ratesTruckServiceService: RatesTruckServiceService,
     private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    private aCLService: ACLService
   ) { }
 
   ngOnInit() {
@@ -271,6 +278,12 @@ export class InquiryTrackComponent implements OnInit {
       this.bindData();
     });
     this.bindData();
+
+
+    if (this.aCLService.can('j:商务员')) {
+      this.showInquiryBtn = false;
+    }
+
   }
 
   getCustomerList() {
@@ -528,17 +541,6 @@ export class InquiryTrackComponent implements OnInit {
       );
     }
 
-    this.ratesQuoteEnquiryService.create(data).subscribe(
-      (res: any) => {
-        this.msg.success('创建成功');
-        this.loading = false;
-        this.modalVisible = false;
-        this.onSearch();
-      },
-      (err) => {
-        this.loading = false;
-      },
-    );
     if (!data.id) {
       this.ratesQuoteEnquiryService.create(data).subscribe(
         (res: any) => {
@@ -734,12 +736,8 @@ export class InquiryTrackComponent implements OnInit {
   // }
   onEdit(data, e) {
     this.modalVisible = true;
+    this.inquiryId = data.id;
     e.stopPropagation();
-    this.getEnquiryDetial(data.id).subscribe((res: any) => {
-      this.validateForm.patchValue(res, { emitEvent: false });
-      this.truckingFromToComponent.getFromList(null, res.fromId, res.truckType === 2);
-      this.truckingFromToComponent.getToList(null, res.toId, res.truckType === 1);
-    });
   }
 
   getEnquiryDetial(id) {
