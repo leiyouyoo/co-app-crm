@@ -142,14 +142,14 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', type: 'action', fixed: 'left', render: "Attention", width: 40 },
+    { title: "Attention", index: '', render: "Attention", width: 40 },
 
     {
-      title: "index", index: 'indexNo', fixed: 'left', width: 40, format: (item, col, index) => {
+      title: "index", index: 'indexNo', width: 40, format: (item, col, index) => {
         return `${index + 1}`
       }
     },
-    { title: "Attention", index: 'attention', fixed: 'left', render: "Attention", width: 40 },
+    { title: "Attention", index: 'attention', render: "Attention", width: 40 },
     { title: 'Carrier', index: 'shipCompany', width: 80 },
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'Delivery/To', index: 'delivery', width: 120 },
@@ -681,7 +681,7 @@ export class InquiryListOceanComponent implements OnInit {
           return `${index + 1}`
         }
       },
-      { title: "Attention",  index: 'attention', fixed: 'left', render: "Attention", width: 40 },
+      { title: "Attention", index: 'attention', fixed: 'left', render: "Attention", width: 40 },
       { title: 'POL/From', index: 'pol', width: 120 },
       { title: 'POD', index: 'pod', width: 120 },
       { title: 'Delivery/To', index: 'delivery', width: 120 },
