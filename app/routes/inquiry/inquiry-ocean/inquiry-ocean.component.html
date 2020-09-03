@@ -282,8 +282,9 @@
       </nz-table> -->
 
       <co-st #st virtualScroll [loading]="loading" [res]="{ process: dataProcess }" [data]="listOfData"
-        [columns]="columns" [size]="'small'" [scroll]="{ x: '2000px' , y: '400px' }" [showFilters]="false"
-        [total]="listTotal" [page]="{ front: false }" (change)="checkChange($event)" calcScroll *ngIf="tablestitle">
+        [columns]="columns" [size]="'small'" [scroll]="{ x: '2000px' , y: '70vh' }" [showFilters]="false"
+        [total]="listTotal" [page]="{ front: false }" (change)="checkChange($event)" calcScroll *ngIf="tablestitle"
+        style="max-height: ;">
         <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
           <span *ngFor="let ratePrice of data.ratePriceOutputs">
             <span *ngIf="ratePrice.unit === tata" class="col-green" [ngClass]="{
