@@ -53,6 +53,7 @@ export class InquiryTrackComponent implements OnInit {
   placeAndCountyToListType: any;
   placeAndCountyToList: any;
   carrierCustomerList: any;
+  inquiryId: string;
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -725,12 +726,8 @@ export class InquiryTrackComponent implements OnInit {
   // }
   onEdit(data, e) {
     this.modalVisible = true;
+    this.inquiryId = data.id;
     e.stopPropagation();
-    this.getEnquiryDetial(data.id).subscribe((res: any) => {
-      this.validateForm.patchValue(res, { emitEvent: false });
-      this.truckingFromToComponent.getFromList(null, res.fromId, res.truckType === 2);
-      this.truckingFromToComponent.getToList(null, res.toId, res.truckType === 1);
-    });
   }
 
   getEnquiryDetial(id) {
