@@ -1,121 +1,139 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzTitle]="recordTitle"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
-  [nzOkText]="okText"
-  [nzCancelText]="null"
-  nzWidth="50%"
-  nzMaskClosable="false"
+<div
+  class="review-shipment-dialog"
+  nz-resizable
+  (nzResize)="onResize($event)"
+  [style.width.px]="width"
+  [ngStyle]="{ display: isVisible == true ? 'flex' : 'none' }"
 >
-  <form nz-form nzLayout="vertical" [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <nz-form-item [ngClass]="{ borderB: see }">
-      <nz-form-label [nzRequired]="!see">{{ 'Follow-up method' | translate }}</nz-form-label>
-      <nz-form-control nzErrorTip="Please select the type">
-        <nz-radio-group *ngIf="!see" formControlName="traceLogTypeId">
-          <label nz-radio [nzValue]="item.id" *ngFor="let item of radioList">{{ item.name }}</label>
-        </nz-radio-group>
-        <span *ngIf="see">{{ baseData.traceLogType }}</span>
-      </nz-form-control>
-    </nz-form-item>
-
-    <div nz-row [nzGutter]="24">
-      <div nz-col [nzSpan]="12" *ngIf="showCusSelect">
-        <nz-form-item [ngClass]="{ borderB: see }">
-          <nz-form-label [nzRequired]="!see">{{ 'Follow up with customers' | translate }}</nz-form-label>
-          <nz-form-control nzErrorTip="Please select customer">
-            <nz-select
-              nzShowSearch
-              [nzServerSearch]="'true'"
-              (nzOnSearch)="searchCus($event)"
-              nzAllowClear
-              nzPlaceHolder="Select a person"
-              nzSize="large"
-              formControlName="customerid"
-            >
-              <nz-option [nzCustomContent]="'true'" [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of cusList">
-                <div class="cus-option-box">
-                  <p>{{ i.name }}</p>
-                  <p class="cus-item">
-                    <span>{{ i.LocalizationName ? i.LocalizationName : '' }}</span>
-                    <span>{{ i.tel ? i.tel : '' }}</span>
-                    <span>{{ i.fax ? i.fax : '' }}</span>
-                  </p>
-                </div>
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="showCusSelect ? 12 : 24">
-        <nz-form-item [ngClass]="{ borderB: see }">
-          <nz-form-label [nzRequired]="!see">{{ 'Duration' | translate }}</nz-form-label>
-          <nz-form-control nzErrorTip="Please select date">
-            <nz-date-picker
-              *ngIf="!see"
-              [nzDisabledDate]="disabledStartDate(startDate, endDate)"
-              formControlName="followUpRecord"
-              nzSize="large"
-              [nzDisabled]="type !== 1"
-              class="w100"
-            ></nz-date-picker>
-            <span *ngIf="see">{{ baseData.followUpRecord | date: 'yyyy-MM-dd' }}</span>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
+  <header class="drawer_head">
+    <div>
+      <span style="font-weight: 600;">{{ recordTitle }}</span>
     </div>
+    <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+  </header>
 
-    <nz-form-item [ngClass]="{ borderB: see }">
-      <nz-form-label [nzRequired]="!see">{{ 'Content' | translate }}</nz-form-label>
-      <nz-form-control nzErrorTip="Please input the value">
-        <textarea
-          [readonly]="see"
-          class="textarea"
-          [ngClass]="{ readonlyE: see }"
-          *ngIf="!see"
-          nz-input
-          [placeholder]="'Please enter' | translate"
-          formControlName="content"
-          maxlength="500"
-          style="padding-bottom: 25px;"
-        ></textarea>
-        <span style="float: right;" *ngIf="!see"
-          >{{ !validateForm.value?.content?.length ? 0 : validateForm.value?.content?.length }} / 500</span
-        >
-        <span *ngIf="see">{{ validateForm?.value?.content }}</span>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item [ngClass]="{ paddingTop: see }">
-      <nz-form-label>{{ 'Image' | translate }}</nz-form-label>
-      <nz-form-control>
-        <div class="clearfix">
-          <nz-upload
-            [nzAction]="uploadUrl + '/Storage/File/Upload'"
-            nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzShowButton]="!see"
-            nzFileType="image/png,image/jpeg,image/gif,image/bmp,image/jpg"
-            [nzShowUploadList]="showUploadList"
-            [nzPreview]="handlePreview"
-            (nzChange)="handleChange($event)"
-            [nzRemove]="handleRemove"
-          >
-            <i nz-icon nzType="plus"></i>
-            <div class="ant-upload-text">{{ 'Upload photos' | translate }}</div>
-          </nz-upload>
-          <nz-modal
-            [nzVisible]="previewVisible"
-            [nzContent]="modalContent"
-            [nzFooter]="null"
-            nzWidth="fit-content"
-            (nzOnCancel)="previewVisible = false"
-          >
-            <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
-            </ng-template>
-          </nz-modal>
+  <div style="display: flex; flex: 1; overflow: hidden; flex-direction: column;">
+    <form nz-form nzLayout="vertical" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item [ngClass]="{ borderB: see }">
+        <nz-form-label [nzRequired]="!see">{{ 'Follow-up method' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="Please select the type">
+          <nz-radio-group *ngIf="!see" formControlName="traceLogTypeId">
+            <label nz-radio [nzValue]="item.id" *ngFor="let item of radioList">{{ item.name }}</label>
+          </nz-radio-group>
+          <span *ngIf="see">{{ baseData.traceLogType }}</span>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" *ngIf="showCusSelect">
+          <nz-form-item [ngClass]="{ borderB: see }">
+            <nz-form-label [nzRequired]="!see">{{ 'Follow up with customers' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="Please select customer">
+              <nz-select
+                nzShowSearch
+                [nzServerSearch]="'true'"
+                (nzOnSearch)="searchCus($event)"
+                nzAllowClear
+                nzPlaceHolder="Select a person"
+                nzSize="large"
+                formControlName="customerid"
+              >
+                <nz-option [nzCustomContent]="'true'" [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of cusList">
+                  <div class="cus-option-box">
+                    <p>{{ i.name }}</p>
+                    <p class="cus-item">
+                      <span>{{ i.LocalizationName ? i.LocalizationName : '' }}</span>
+                      <span>{{ i.tel ? i.tel : '' }}</span>
+                      <span>{{ i.fax ? i.fax : '' }}</span>
+                    </p>
+                  </div>
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
         </div>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>
+        <div nz-col [nzSpan]="showCusSelect ? 12 : 24">
+          <nz-form-item [ngClass]="{ borderB: see }">
+            <nz-form-label [nzRequired]="!see">{{ 'Duration' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="Please select date">
+              <nz-date-picker
+                *ngIf="!see"
+                [nzDisabledDate]="disabledStartDate(startDate, endDate)"
+                formControlName="followUpRecord"
+                nzSize="large"
+                [nzDisabled]="type !== 1"
+                class="w100"
+              ></nz-date-picker>
+              <span *ngIf="see">{{ baseData.followUpRecord | date: 'yyyy-MM-dd' }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-form-item [ngClass]="{ borderB: see }">
+        <nz-form-label [nzRequired]="!see">{{ 'Content' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="Please input the value">
+          <textarea
+            [readonly]="see"
+            class="textarea"
+            [ngClass]="{ readonlyE: see }"
+            *ngIf="!see"
+            nz-input
+            [placeholder]="'Please enter' | translate"
+            formControlName="content"
+            maxlength="500"
+            style="padding-bottom: 25px;"
+          ></textarea>
+          <span style="float: right;" *ngIf="!see"
+            >{{ !validateForm.value?.content?.length ? 0 : validateForm.value?.content?.length }} / 500</span
+          >
+          <span *ngIf="see">{{ validateForm?.value?.content }}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [ngClass]="{ paddingTop: see }">
+        <nz-form-label>{{ 'Image' | translate }}</nz-form-label>
+        <nz-form-control>
+          <div class="clearfix">
+            <nz-upload
+              [nzAction]="uploadUrl + '/Storage/File/Upload'"
+              nzListType="picture-card"
+              [(nzFileList)]="fileList"
+              [nzShowButton]="!see"
+              nzFileType="image/png,image/jpeg,image/gif,image/bmp,image/jpg"
+              [nzShowUploadList]="showUploadList"
+              [nzPreview]="handlePreview"
+              (nzChange)="handleChange($event)"
+              [nzRemove]="handleRemove"
+            >
+              <i nz-icon nzType="plus"></i>
+              <div class="ant-upload-text">{{ 'Upload photos' | translate }}</div>
+            </nz-upload>
+            <nz-modal
+              [nzVisible]="previewVisible"
+              [nzContent]="modalContent"
+              [nzFooter]="null"
+              nzWidth="fit-content"
+              (nzOnCancel)="previewVisible = false"
+            >
+              <ng-template #modalContent>
+                <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+              </ng-template>
+            </nz-modal>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+
+  <footer class="drawer_footer">
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="cusLoading">
+      {{ 'Save' | translate }}
+    </button>
+  </footer>
+
+  <nz-resize-handle nzDirection="left">
+    <div class="right-wrap">
+      <div class="triangle"></div>
+    </div>
+  </nz-resize-handle>
+</div>

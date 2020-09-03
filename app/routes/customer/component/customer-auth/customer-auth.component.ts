@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from
 import { isThisISOWeek } from 'date-fns';
 import { SSORoleService, PlatformEditionService } from '@co/cds';
 import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 @Component({
   selector: 'customer-customer-auth',
@@ -32,6 +33,9 @@ export class CustomerAuthComponent implements OnInit {
   loading = false;
   rolesList: any;
 
+  width = 600;
+  requestAnimationFrameId: number;
+
   checkKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
@@ -59,6 +63,13 @@ export class CustomerAuthComponent implements OnInit {
     this.onRolesList();
     this.onContactList();
     this.getDetial();
+  }
+
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
+    });
   }
 
   initData() {

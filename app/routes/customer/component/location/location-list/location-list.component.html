@@ -2,7 +2,7 @@
   <div class="table-title">
     <div class="card-title">
       <div class="gutter-box" *ngIf="i">
-        <i nz-icon nzType="arrow-left" nzTheme="outline" (click)="i = 0"></i>
+        <i nz-icon nzType="arrow-left" nzTheme="outline" (click)="i = 0; createLocations.isVisible = false"></i>
       </div>
     </div>
     <button nz-button nzType="primary" (click)="onCreateLocation()" [disabled]="!isOwner">
@@ -172,4 +172,9 @@
   </nz-select>
 </nz-modal>
 
-<create-location [customerId]="customerId" [partnerId]="partnerId" (datas)="onAddOrUpdateLocation($event)"></create-location>
+<create-location
+  style="display: block;"
+  [customerId]="customerId"
+  [partnerId]="partnerId"
+  (datas)="onAddOrUpdateLocation($event)"
+></create-location>

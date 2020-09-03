@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PUBDataDictionaryService } from '@co/cds';
 import { CRMTraceLogService, CRMCustomerService } from '../../../../services/crm';
 import { CoConfigManager } from '@co/core';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 @Component({
   selector: 'customer-record-edit',
   templateUrl: './record-edit.component.html',
@@ -18,11 +19,13 @@ export class RecordEditComponent implements OnInit {
   type: null;
   @Output() getList = new EventEmitter();
   @Input() showCusSelect: boolean = false;
+
   showUploadList = {
     showPreviewIcon: true,
     showRemoveIcon: true,
     hidePreviewIconInNonImage: true,
   };
+
   radioList: [];
   recordTitle = this.translate.instant('Add follow-up record');
   uploadUrl = CoConfigManager.getValue('serverUrl');
@@ -48,6 +51,9 @@ export class RecordEditComponent implements OnInit {
   endDate: any = null;
   cusList: any = null;
 
+  width = 600;
+  requestAnimationFrameId: number;
+  cusLoading = false;
   submitForm(): void {
     // tslint:disable-next-line:forin
     for (const i in this.validateForm.controls) {
@@ -94,6 +100,7 @@ export class RecordEditComponent implements OnInit {
       return differenceInCalendarDays(startValue, startDate) > 0 || differenceInCalendarDays(startValue, this.startDate) <= 0;
     };
   };
+
   showModal(type, dataDetail) {
     this.see = false;
     this.type = type;
@@ -146,6 +153,13 @@ export class RecordEditComponent implements OnInit {
     }
   }
 
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
+    });
+  }
+
   commitData() {
     this.obj = { ...this.validateForm.value };
     this.obj.traceLogItems = [];
@@ -154,18 +168,32 @@ export class RecordEditComponent implements OnInit {
       this.obj.traceLogItems.push({ fileId: element.response.result.fileId });
     });
     if (this.type === 1) {
-      this.crmTraceLogService.create(this.obj).subscribe((res: any) => {
-        this.getList.emit();
-        this.message.success(this.translate.instant('Added successfully!'));
-        this.defaultCancel();
-      });
+      this.cusLoading = true;
+      this.crmTraceLogService.create(this.obj).subscribe(
+        (res: any) => {
+          this.cusLoading = false;
+          this.getList.emit();
+          this.message.success(this.translate.instant('Added successfully!'));
+          this.defaultCancel();
+        },
+        (err) => {
+          this.cusLoading = false;
+        },
+      );
     } else {
+      this.cusLoading = true;
       this.obj.id = this.baseData.id;
-      this.crmTraceLogService.update(this.obj).subscribe((res: any) => {
-        this.getList.emit();
-        this.message.success(this.translate.instant('Modify success'));
-        this.defaultCancel();
-      });
+      this.crmTraceLogService.update(this.obj).subscribe(
+        (res: any) => {
+          this.cusLoading = false;
+          this.getList.emit();
+          this.message.success(this.translate.instant('Modify success'));
+          this.defaultCancel();
+        },
+        (err) => {
+          this.cusLoading = false;
+        },
+      );
     }
   }
   handleCancel(): void {
