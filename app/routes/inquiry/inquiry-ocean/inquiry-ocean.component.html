@@ -44,7 +44,8 @@
             </nz-select> -->
 
             <nz-select formControlName="delivery" nzPlaceHolder="{{ 'Delivery' | translate }}" nzShowSearch
-              nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)">
+              nzServerSearch nzAllowClear nzMode="multiple" [nzMaxTagCount]="1" (nzOnSearch)="getBasicPortList($event)"
+              class="selectIptNoPadding">
               <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id">
               </nz-option>
             </nz-select>
