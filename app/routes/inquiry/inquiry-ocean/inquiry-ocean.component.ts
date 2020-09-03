@@ -397,6 +397,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   listOfData: any;
+  totalCount: any;
   onGetAll() {
     let datas = this.searchForm.value;
     let num = this.skipCount - 1;
@@ -442,6 +443,7 @@ export class InquiryListOceanComponent implements OnInit {
           let tablestitle = [];
 
           this.listOfData = res.items;
+          this.totalCount = res.totalCount;
 
 
 

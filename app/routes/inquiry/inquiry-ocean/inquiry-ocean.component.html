@@ -317,8 +317,8 @@
     <!-- <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
       [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
     </nz-pagination> -->
-    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ listOfData?.totalCount }} </ng-template>
-    <span>{{ 'total' | translate }}:{{ dataOfList?.totalCount }}</span>
+    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ totalCount }} </ng-template>
+    <span>{{ 'total' | translate }}:{{ totalCount }}</span>
   </div>
 
   <!-- <nz-modal
@@ -868,4 +868,5 @@
   </ng-template>
 </nz-modal>
 
-<crm-inquiry-submit-dialog *ngIf="modalVisible" [id]="inquiryId" (close)="modalVisible = false;inquiryId = null;($event && onGetAll())"></crm-inquiry-submit-dialog>
+<crm-inquiry-submit-dialog *ngIf="modalVisible" [id]="inquiryId"
+  (close)="modalVisible = false;inquiryId = null;($event && onGetAll())"></crm-inquiry-submit-dialog>
