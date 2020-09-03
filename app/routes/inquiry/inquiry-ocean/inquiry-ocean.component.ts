@@ -499,10 +499,10 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          if (this.init) {
-            this.websort('40GP', 'ascend');
-            this.init = false;
-          }
+          // if (this.init) {
+          this.websort('40GP', 'ascend');
+          //   this.init = false;
+          // }
 
           console.log(this.tablestitle);
 
