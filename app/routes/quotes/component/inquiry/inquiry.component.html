@@ -80,200 +80,88 @@
       </div>
     </div>
     <div class="content-list">
-      <!-- y: height - 270 + 'px' -->
-      <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: auto;">
-        <nz-table
-          #rowSelectionTable
-          [nzShowPagination]="false"
-          [nzData]="quoteList"
-          [nzTotal]="quotetotal"
-          [nzPageSize]="quoteInputParams.nzPageSize"
-          disableCalcX
-          class="height-100"
-          calcScroll
-        >
-          <thead>
-            <tr>
-              <th>
-                {{ 'QuoteNo' | translate }}
-              </th>
-              <th>
-                {{ 'Inquiry customer' | translate }}
-              </th>
-              <th>
-                {{ 'Inquirer' | translate }}
-              </th>
-              <th>
-                {{ 'Freight Method' | translate }}
-              </th>
-              <th nzShowSort [(nzSort)]="mapOfSort.cargoReadyDate" (nzSortChange)="sort('cargoReadyDate', $event)">
-                {{ 'Cargo ready date' | translate }}
-              </th>
-              <th>
-                {{ 'Delivery date' | translate }}
-              </th>
-              <th>
-                {{ 'Departure' | translate }}
-              </th>
-              <th>
-                {{ 'Destination' | translate }}
-              </th>
-              <th nzWidth="120px">
-                {{ 'QuotesStatus' | translate }}
-              </th>
-              <th>
-                {{ 'Action' | translate }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-template ngFor let-data [ngForOf]="rowSelectionTable.data" let-index="index">
-              <tr (click)="getQuotesDetailInfo(data)" [ngClass]="{ ou: index % 2 == 0, ji: index % 2 != 0 }">
-                <td style="color: #1890ff;">
-                  {{ data.quoteNo }}
-                </td>
-                <td>
-                  {{ data.ownerCustomerName }}
-                </td>
-                <td>
-                  {{ data.ownerUserName }}
-                </td>
-                <td>
-                  <ng-container *ngIf="data.freightMethodType == freightMethodTypeValue.Ocean; else elsefreightMethodTypeTemplate">
-                    <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
-                  </ng-container>
+      <co-st
+        #st
+        style="height: 100%;"
+        [data]="'/CRM/QuoteEnquiry/GetAllForCRM'"
+        [req]="{
+          params: quoteInputParams,
+          method: 'get'
+        }"
+        [showCheckbox]="false"
+        [showFilters]="false"
+        [columns]="columns"
+        [scroll]="{ x: '1700px' }"
+        [total]="quotetotal"
+        [page]="{ front: false }"
+        calcScroll
+      >
+        <ng-template st-row="quoteNo" let-data>
+          <span class="colorBlue">{{ data.quoteNo }}</span>
+        </ng-template>
+        <ng-template st-row="fType" let-data>
+          <div *ngIf="data.freightMethodType === 1" class="colorBlue">
+            <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
+          </div>
+          <div *ngIf="data.freightMethodType === 2">
+            <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
+          </div>
+        </ng-template>
 
-                  <ng-template #elsefreightMethodTypeTemplate>
-                    <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
-                  </ng-template>
-                </td>
-                <td>
-                  {{ data.cargoReadyDate | date: 'yyy-MM-dd' }}
-                </td>
-                <td>
-                  <ng-container *ngIf="data.deliveryDate; else elseDeliveryDateTemplate">
-                    {{ data.deliveryDate | date: 'yyy-MM-dd' }}
-                  </ng-container>
-                  <ng-template #elseDeliveryDateTemplate>
-                    ---
-                  </ng-template>
-                </td>
-                <td>
-                  <div
-                    *ngIf="data.from.addressModel"
-                    style="width: 120px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-                  >
-                    <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
-                    <span *ngIf="data.from.addressModel?.streetAddress">{{ data.from.addressModel?.streetAddress }}</span>
-                    <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
-                    <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
-                    <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
-                  </div>
-                  <div style="width: 120px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                    <span> {{ data.from?.portModel?.name }} </span>
-                    <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
-                    <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
-                  </div>
-                  <!-- <ul>
-                      <li>
-                        <span> {{ data.from?.portModel?.name }} </span>
-                        <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
-                        <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
-                      </li>
-                      <li *ngIf="data.from.addressModel" style="width: 120px;">
-                        <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
-                        <span *ngIf="data.from.addressModel?.streetAddress">{{
-                          data.from.addressModel?.streetAddress
-                        }}</span>
-                        <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
-                        <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
-                        <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
-                      </li>
-                    </ul> -->
-                </td>
-                <td>
-                  <div
-                    *ngIf="data.to.addressModel"
-                    style="width: 120px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-                  >
-                    <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
-                    <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
-                    <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
-                    <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
-                    <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
-                  </div>
-                  <div style="width: 120px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                    <span> {{ data.to?.portModel?.name }} </span>
-                    <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
-                    <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
-                  </div>
-                  <!-- <ul>
-                      <li>
-                        <span> {{ data.to?.portModel?.name }} </span>
-                        <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
-                        <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
-                      </li>
-                      <li *ngIf="data.to.addressModel" style="width: 120px;">
-                        <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
-                        <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
-                        <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
-                        <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
-                        <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
-                      </li>
-                    </ul> -->
-                </td>
-                <td>
-                  <span *ngIf="data.status == 1">
-                    <span class="jy-ocean-StartingPlace" [ngClass]="{ zise: true }"> </span> {{ 'Active' | translate }}
-                  </span>
-                  <span *ngIf="data.status == 2">
-                    <span class="jy-ocean-StartingPlace" [ngClass]="{ accept: true }"> </span>
-                    {{ 'Accept' | translate }}
-                  </span>
-                  <span *ngIf="data.status == 3">
-                    <span class="jy-ocean-StartingPlace" [ngClass]="{ expired: true }"> </span>
-                    {{ 'Expired' | translate }}
-                  </span>
-                  <span *ngIf="data.status == 4">
-                    <span class="jy-ocean-StartingPlace" [ngClass]="{ reject: true }"> </span>
-                    {{ 'Reject' | translate }}
-                  </span>
-                </td>
-                <td data-no-title>
-                  <!-- <button
-                    nz-button
-                    nzType="primary"
-                    class="quotes-botton"
-                    *ngIf="!data.isQuoteReply"
-                    (click)="addQuote(data, $event)"
-                  >
-                    {{ 'Quotes' | translate }}
-                  </button> -->
-                  <!-- <button nz-button nzType="primary" (click)="viewQuote(data)" *ngIf="data.isQuoteReply">
-                    {{ 'View' | translate }}
-                  </button> -->
-                  <!-- <button
-                    nz-button
-                    nzType="primary"
-                    class="quotes-botton"
-                    *ngIf="data.isQuoteReply"
-                    (click)="share(data, $event)"
-                  >
-                    Share
-                  </button> -->
-                  <a *ngIf="!data.isQuoteReply" class="quotes-botton" (click)="addQuote(data, $event)">{{ 'Quotes' | translate }}</a>
-                  <a *ngIf="data.isQuoteReply" class="quotes-botton" (click)="viewQuote(data)"> {{ 'View' | translate }}</a>
-                  <a *ngIf="data.isQuoteReply && data.status != QuoteState.Expired" class="quotes-botton" (click)="share(data, $event)">{{
-                    'Share' | translate
-                  }}</a>
-                </td>
-              </tr>
-            </ng-template>
-          </tbody>
-        </nz-table>
-      </nz-spin>
+        <ng-template st-row="addressFromModel" let-data>
+          <div
+            *ngIf="data.from.addressModel"
+            style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+          >
+            <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
+            <span *ngIf="data.from.addressModel?.streetAddress">{{ data.from.addressModel?.streetAddress }}</span>
+            <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
+            <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
+            <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
+          </div>
+          <div style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            <span> {{ data.from?.portModel?.name }} </span>
+            <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
+            <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
+          </div>
+        </ng-template>
+        <ng-template st-row="addressToModel" let-data>
+          <div
+            *ngIf="data.to.addressModel"
+            style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+          >
+            <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
+            <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
+            <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
+            <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
+            <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
+          </div>
+          <div style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            <span> {{ data.to?.portModel?.name }} </span>
+            <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
+            <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
+          </div>
+        </ng-template>
+        <ng-template st-row="status" let-data>
+          <span *ngIf="data.status == 1">
+            <span class="jy-ocean-StartingPlace" [ngClass]="{ zise: true }"> </span> {{ 'Active' | translate }}
+          </span>
+          <span *ngIf="data.status == 2">
+            <span class="jy-ocean-StartingPlace" [ngClass]="{ accept: true }"> </span>
+            {{ 'Accept' | translate }}
+          </span>
+          <span *ngIf="data.status == 3">
+            <span class="jy-ocean-StartingPlace" [ngClass]="{ expired: true }"> </span>
+            {{ 'Expired' | translate }}
+          </span>
+          <span *ngIf="data.status == 4">
+            <span class="jy-ocean-StartingPlace" [ngClass]="{ reject: true }"> </span>
+            {{ 'Reject' | translate }}
+          </span>
+        </ng-template>
+      </co-st>
     </div>
-    <div class="d-flex justify-content-end">
+    <!-- <div class="d-flex justify-content-end">
       <nz-pagination
         style="text-align: right;"
         #nzpage
@@ -286,7 +174,7 @@
         [nzShowQuickJumper]="false"
       >
       </nz-pagination>
-    </div>
+    </div> -->
   </div>
 </div>
 <nz-modal
@@ -312,12 +200,12 @@
   </div>
 </nz-modal>
 
-<nz-modal
-  nzMaskClosable="false"
-  [(nzVisible)]="isShowcreatequotes"
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="isShowcreatequotes"
+  nzPlacement="right"
   [nzTitle]="'Add Quotes' | translate"
-  (nzOnCancel)="createquotesCancel()"
-  nzWidth="70%"
+  (nzOnClose)="createquotesCancel()"
 >
   <quotes-createquotes
     [quoteinfo]="quoteinfo"
@@ -327,13 +215,14 @@
     (isQuoteStatus)="isQuoteStatus = $event"
   >
   </quotes-createquotes>
+
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="createquotesCancel()">{{ 'Cancel' | translate }}</button>
     <button nz-button nzType="primary" type="submit" (click)="createquotesOk()" [nzLoading]="isQuoteStatus">
       {{ 'Add Quotes' | translate }}
     </button>
   </div>
-</nz-modal>
+</nz-drawer>
 
 <nz-modal nzMaskClosable="false" [(nzVisible)]="isShowcreaterecord" (nzOnCancel)="quotesrecordCancel()" nzWidth="70%">
   <quotes-quotesrecord

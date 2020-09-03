@@ -14,13 +14,14 @@ import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { CoConfigManager, CoPageBase } from '@co/core';
-
+import { STComponent, STColumn } from '@co/cbc/web/st';
 @Component({
   selector: 'quotes-inquiry',
   templateUrl: './inquiry.component.html',
   styleUrls: ['./inquiry.component.less'],
 })
 export class InquiryComponent extends CoPageBase {
+  @ViewChild('st', { static: false }) st: STComponent;
   constructor(
     private router: Router,
     public quoteService: QuotesService,
@@ -33,7 +34,6 @@ export class InquiryComponent extends CoPageBase {
     super(injector);
   }
   small: 'small';
-  loading = false;
   bordered = false;
   isShowcreatequotes: boolean = false;
   isShowinitiativecreatequotes: boolean = false;
@@ -82,13 +82,94 @@ export class InquiryComponent extends CoPageBase {
 
   userId = this.user.session.user.id;
   imgUrl = environment.SERVER_URL;
+  columns: STColumn[] = [
+    {
+      title: 'QuoteNo',
+      index: 'quoteNo',
+      indexI18n: true,
+      width: 120,
+      render: 'quoteNo',
+    },
+    {
+      title: 'Inquiry customer',
+      index: 'ownerCustomerName',
+      indexI18n: true,
+      width: 120,
+    },
+    { title: 'Inquirer', index: 'ownerUserName', width: 120 },
+    {
+      title: 'Freight Method',
+      index: 'freightMethodType',
+      render: 'fType',
+      width: 100,
+    },
+    {
+      title: 'Cargo ready date',
+      index: 'cargoReadyDate',
+      width: 120,
+      type: 'date',
+      filter: { type: 'date' },
+    },
+    {
+      title: 'Delivery date',
+      index: 'deliveryDate',
+      width: 120,
+      type: 'date',
+      filter: { type: 'date' },
+    },
+    { title: 'Departure', index: 'from.addressModel', render: 'addressFromModel', width: 200 },
+
+    {
+      title: 'Destination',
+      index: 'to.addressModel',
+      width: 200,
+      render: 'addressToModel',
+    },
+
+    { title: 'QuotesStatus', index: 'status', render: 'status', width: 130, filter: null },
+
+    {
+      title: 'Action',
+      width: 100,
+      fixed: 'right',
+      type: 'action',
+      buttons: [
+        {
+          text: 'Quotes',
+          type: 'none',
+          className: 'quotes-botton',
+          iif: (data) => !data.isQuoteReply,
+          click: (e) => {
+            this.addQuote(e, event);
+          },
+        },
+        {
+          text: 'View',
+          type: 'none',
+          className: 'quotes-botton',
+          iif: (data) => data.isQuoteReply,
+          click: (e) => {
+            this.viewQuote(e);
+          },
+        },
+        {
+          text: 'Share',
+          type: 'none',
+          className: 'quotes-botton',
+          iif: (data) => data.isQuoteReply && data.status != this.QuoteState.Expired,
+          click: (e) => {
+            this.share(e, event);
+          },
+        },
+      ],
+    },
+  ];
 
   coOnInit() {
     setTimeout(() => {
       this.onDivHeight();
     }, 500);
     this.quoteState = Object.keys(this.QuoteState).filter((f) => !isNaN(Number(f)));
-    this.GetAllForCRM(this.quoteInputParams);
     this.quoteService.getCRMCustomerAndUserHistorys().subscribe((res: any) => {
       this.customerAndUser = res.items;
     });
@@ -110,17 +191,19 @@ export class InquiryComponent extends CoPageBase {
     if (quoteParams.SortingValue) {
       quoteParams.Sorting = quoteParams.SortingValue + ' ' + this.sortValue;
     }
-    this.loading = true;
-    this.quoteService.GetAllForCRM(quoteParams).subscribe(
-      (res) => {
-        this.loading = false;
-        this.quoteList = res.items;
-        this.quotetotal = res.totalCount;
-      },
-      (error) => {
-        this.loading = true;
-      },
-    );
+    // this.loading = true;
+    // this.quoteService.GetAllForCRM(quoteParams).subscribe(
+    //   (res) => {
+    //     this.loading = false;
+    //     this.quoteList = res.items;
+    //     this.quotetotal = res.totalCount;
+    //   },
+    //   (error) => {
+    //     this.loading = true;
+    //   },
+    // );
+
+    this.st.resetColumns();
   }
 
   getQuoteDetail(id: string) {
@@ -386,7 +469,9 @@ export class InquiryComponent extends CoPageBase {
   copyLink() {
     const contentComponentInstance = this.shareModalRef.getContentComponent();
     this.clipboardService.copyFromContent(
-      `${CoConfigManager.getValue('appCityoceanUrl')}/share/#/redirect?redirectType=quote&quotesId=${contentComponentInstance.Id}&userId=${this.userId}&isForShare=true`,
+      `${CoConfigManager.getValue('appCityoceanUrl')}/share/#/redirect?redirectType=quote&quotesId=${contentComponentInstance.Id}&userId=${
+        this.userId
+      }&isForShare=true`,
     );
     this.message.info(this.translate.instant('Generated successfully'));
   }
