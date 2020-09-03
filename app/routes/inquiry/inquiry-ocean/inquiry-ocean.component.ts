@@ -152,6 +152,7 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'POL/From', index: 'pol', width: 120 },
     { title: 'Delivery/To', index: 'delivery', width: 120 },
     { title: 'POD', index: 'pod', width: 120 },
+    { title: 'Commodity', index: 'commodity', width: 120 },
 
     {
       title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
@@ -199,7 +200,7 @@ export class InquiryListOceanComponent implements OnInit {
         }
       },
     },
-    { title: 'Commodity', index: 'commodity', width: 120 },
+
     { title: 'Term', index: 'term', width: 120 },
     { title: 'SurCharge', index: 'surCharge', width: 120 },
     { title: 'CLS', index: 'cls', width: 120 },
@@ -542,11 +543,11 @@ export class InquiryListOceanComponent implements OnInit {
             });
           });
           console.log(titleItem);
-          titleItem.unshift(5, 0);
+          titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
           console.log(this.columns)
-
+          debugger
           this.st?.resetColumns();
         },
         (err) => {
@@ -684,7 +685,7 @@ export class InquiryListOceanComponent implements OnInit {
       { title: 'POL/From', index: 'pol', width: 120 },
       { title: 'Delivery/To', index: 'delivery', width: 120 },
       { title: 'POD', index: 'pod', width: 120 },
-
+      { title: 'Commodity', index: 'commodity', width: 120 },
 
       {
         title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
@@ -732,19 +733,19 @@ export class InquiryListOceanComponent implements OnInit {
           }
         },
       },
-      { title: 'Commodity', index: 'commodity', width: 120 },
+
       { title: 'Term', index: 'term', width: 120 },
       { title: 'SurCharge', index: 'surCharge', width: 120 },
       { title: 'CLS', index: 'cls', width: 120 },
       { title: 'T/T', index: 'tt', width: 120 },
       { title: 'Description', index: 'remarkBusiness', width: 120 },
       { title: 'Update by', index: 'updateBy', width: 120 },
-      { title: 'RejectRemark', index: 'rejectRemark', width: 120 },
+      { title: 'Reject reason', index: 'rejectRemark', width: 120 },
       {
         title: 'Action',
         type: 'action',
-        render: 'action',
         width: 80,
+        render: 'action',
         fixed: 'right',
         buttons: [
         ],
