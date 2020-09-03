@@ -126,6 +126,7 @@ export class InquirySubmitDialogComponent implements OnInit {
     this.getTransportClause();
     this.getRates();
     this.getOrganizationUnitUsers();
+    this.getCustomerList();
   }
 
   handleOk() {
@@ -266,6 +267,7 @@ export class InquirySubmitDialogComponent implements OnInit {
   }
 
   onCustomerListChange(id) {
+    debugger
     if (id) {
       this.customerUserList = null;
       this.validateForm.patchValue({
@@ -278,6 +280,16 @@ export class InquirySubmitDialogComponent implements OnInit {
         }
       });
     }
+  }
+
+  getCustomerList() {
+    this.crmCustomer
+      .getCurrentCustomerAndPartner({
+        includePartner: false,
+      })
+      .subscribe((res: any) => {
+        this.customerList = res.items;
+      });
   }
 
   getCarrierCustomerList() {
