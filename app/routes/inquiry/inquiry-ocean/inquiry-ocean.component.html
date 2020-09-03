@@ -352,12 +352,12 @@
         </ng-template>
       </co-st>
 
-      <div *ngIf="listOfData?.length == 0 && !loading">
+      <div *ngIf="listOfData?.length == 0 && !loading" style="text-align: center;padding-top: 12px;color:#40a9ff;">
         No Data
       </div>
 
-      <div *ngIf="loading">
-        loading...
+      <div *ngIf="loading" style="text-align: center;">
+        <nz-spin nzSimple></nz-spin>
       </div>
     </div>
   </div>
