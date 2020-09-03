@@ -618,7 +618,10 @@ export class InquiryListOceanComponent implements OnInit {
       const boxWidth = Number(this.drawerStyle.width.slice(0, this.drawerStyle.width.length - 2));
       if (boxWidth + (this.lastClientX - e.clientX) >= 680) {
         if (boxWidth + (this.lastClientX - e.clientX) <= document.body.clientWidth) {
-          this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
+          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX))
+          if (drawerPosition - 10 < e.clientX && e.clientX < drawerPosition + 30) {
+            this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
+          }
         }
       } else {
         this.drawerStyle.width = '680px';
