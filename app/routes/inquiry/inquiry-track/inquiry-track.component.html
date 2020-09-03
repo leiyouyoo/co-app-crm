@@ -145,7 +145,7 @@
       </div>
 
       <div class="from-button">
-        <button nz-button nzType="primary" (click)="onShowModal()">
+        <button nz-button nzType="primary" (click)="onShowModal()" *ngIf="showInquiryBtn">
           {{ 'Inquiry' | translate }}
         </button>
       </div>
@@ -407,7 +407,8 @@
   </div>
 </div>
 
-<crm-inquiry-truck-quote *ngIf="modalVisible" [id]="inquiryId" (close)="modalVisible = false;inquiryId = null;($event && onSearch())"></crm-inquiry-truck-quote>
+<crm-inquiry-truck-quote *ngIf="modalVisible" [id]="inquiryId"
+  (close)="modalVisible = false;inquiryId = null;($event && onSearch())"></crm-inquiry-truck-quote>
 
 <!-- <nz-modal
   nzMaskClosable="false"

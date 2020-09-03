@@ -546,7 +546,6 @@ export class InquiryListOceanComponent implements OnInit {
           Array.prototype.splice.apply(this.columns, titleItem);
 
           console.log(this.columns)
-          debugger
 
           this.st?.resetColumns();
         },
