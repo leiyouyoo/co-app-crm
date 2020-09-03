@@ -1,6 +1,6 @@
 <div class="content">
-  <div class="choose-title">
-    <div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
+  <div class="choose-title justify-content-end">
+    <!--<div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
       {{ 'Inquiry information' | translate }}
     </div>
 
@@ -10,7 +10,8 @@
 
     <div (click)="onGoDetial(3)" [ngClass]="i === 3 ? 'choosed' : 'choose'">{{ 'Origin cost' | translate }}</div>
     <div (click)="onGoDetial(4)" [ngClass]="i === 4 ? 'choosed' : 'choose'">{{ 'Destination cost' | translate }}</div>
-    <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>
+    <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>-->
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="ngSubmit()" style="margin-bottom: 10px;">{{ 'Add Quotes' | translate }}</button>
   </div>
   <div class="head_quote">
     <form nz-form #formData="ngForm">
@@ -36,12 +37,7 @@
                   nzOptionHeightPx="120"
                 >
                   <nz-option-group nzLabel="Recently used">
-                    <nz-option
-                      nzCustomContent
-                      [nzValue]="item.id"
-                      [nzLabel]="item.name"
-                      *ngFor="let item of customerlist; let i = index"
-                    >
+                    <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of customerlist; let i = index">
                       <div>
                         <!-- <div class="company-name" *ngIf="i == 0 && historylist.length > 0">最近使用过的公司</div> -->
                         <div class="company-name">{{ item.name }}</div>
@@ -80,7 +76,7 @@
             </div>
           </div>
           <div class="quote-info-freightMethodType">
-            <div class="quote-info-Customer-left">
+            <div class="quote-infoCustomer-left">
               <!-- <label class="label" nzRequired>{{ 'Freight Method' | translate }}<span class="red">*</span></label> -->
               <div>
                 <label class="label" nzRequired style="height: 25px;"></label>
@@ -105,7 +101,8 @@
                       <div style="display: flex; align-items: center; justify-content: center;">
                         <span
                           class="iconfont icon-Ocean"
-                          nz-icon nzIconfont="icon-ocean"
+                          nz-icon
+                          nzIconfont="icon-ocean"
                           [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Ocean }"
                         ></span>
                         <!-- <span
@@ -125,7 +122,8 @@
                       <div style="display: flex; align-items: center; justify-content: center;">
                         <span
                           class="iconfont icon-airplane"
-                          nz-icon nzIconfont="icon-airplane"
+                          nz-icon
+                          nzIconfont="icon-airplane"
                           [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Air }"
                         ></span>
                         <!-- <span
@@ -137,8 +135,7 @@
                       </div>
                     </label>
                   </nz-radio-group>
-                  <app-formvalidation requiredName="freightMethodType" [value]="freightMethodType">
-                  </app-formvalidation>
+                  <app-formvalidation requiredName="freightMethodType" [value]="freightMethodType"> </app-formvalidation>
                 </div>
               </div>
 
@@ -153,18 +150,10 @@
                     (ngModelChange)="handlequotesComponent.init()"
                     #shipmentType="ngModel"
                   >
-                    <label
-                      nz-radio-button
-                      [nzValue]="0"
-                      [ngClass]="{ 'shipmentType-Ocean-blue': quoteinfo.shipmentType == 0 }"
-                    >
+                    <label nz-radio-button [nzValue]="0" [ngClass]="{ 'shipmentType-Ocean-blue': quoteinfo.shipmentType == 0 }">
                       {{ 'FCL' | translate }}
                     </label>
-                    <label
-                      nz-radio-button
-                      [nzValue]="1"
-                      [ngClass]="{ 'shipmentType-Air-blue': quoteinfo.shipmentType == 1 }"
-                    >
+                    <label nz-radio-button [nzValue]="1" [ngClass]="{ 'shipmentType-Air-blue': quoteinfo.shipmentType == 1 }">
                       {{ 'LCL' | translate }}
                     </label>
                   </nz-radio-group>
@@ -182,13 +171,9 @@
                   class="tradeTypeGroup nz-radio-group-button-quote"
                   (ngModelChange)="tradeTypeChange($event); handlequotesComponent.init()"
                 >
-                  <label
-                    class="tradeTypeInfo"
-                    nz-radio-button
-                    *ngFor="let item of tradeTypeList"
-                    [nzValue]="item.value"
-                    >{{ item.key }}</label
-                  >
+                  <label class="tradeTypeInfo" nz-radio-button *ngFor="let item of tradeTypeList" [nzValue]="item.value">{{
+                    item.key
+                  }}</label>
                 </nz-radio-group>
                 <app-formvalidation requiredName="TradeType" [value]="tradeType"></app-formvalidation>
               </div>
@@ -234,12 +219,8 @@
                   [(ngModel)]="quoteinfo.originIsRequireTruck"
                   (ngModelChange)="selFreightType()"
                 >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false"
-                    >CY</label
-                  >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true"
-                    >Door</label
-                  >
+                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false">CY</label>
+                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true">Door</label>
                 </nz-radio-group>
               </div>
             </div>
@@ -276,9 +257,8 @@
                     <div (click)="selLocation($event, item.id, 'originLocation')">
                       <div>{{ item.name }}</div>
                       <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city
-                        }}<span *ngIf="item.city">,</span>{{ item.province }}<span *ngIf="item.province">,</span
-                        >{{ item.country }}
+                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city }}<span *ngIf="item.city">,</span
+                        >{{ item.province }}<span *ngIf="item.province">,</span>{{ item.country }}
                       </div>
                     </div>
                   </nz-option>
@@ -287,11 +267,9 @@
                   <div>
                     {{ selected.template._appExtra.name }}
                     <span
-                      >{{ selected.template._appExtra.streetAddress
-                      }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
                       >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province
-                      }}<span *ngIf="selected.template._appExtra.province">,</span
+                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
                       >{{ selected.template._appExtra.country }}</span
                     >
                   </div>
@@ -309,9 +287,7 @@
                   #originaSel
                   style="width: 100%;"
                   [required]="
-                    (quoteinfo.tradeType == 2 || quoteinfo.tradeType == 3) &&
-                    !quoteinfo.originAddressId &&
-                    !quoteinfo.originAddressName
+                    (quoteinfo.tradeType == 2 || quoteinfo.tradeType == 3) && !quoteinfo.originAddressId && !quoteinfo.originAddressName
                   "
                   name="originAddressId"
                   #originAddressId="ngModel"
@@ -334,9 +310,8 @@
                     <div (click)="selLocation($event, item.id, 'originLocation')">
                       <div>{{ item.name }}</div>
                       <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city
-                        }}<span *ngIf="item.city">,</span>{{ item.province }}<span *ngIf="item.province">,</span
-                        >{{ item.country }}
+                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city }}<span *ngIf="item.city">,</span
+                        >{{ item.province }}<span *ngIf="item.province">,</span>{{ item.country }}
                       </div>
                     </div>
                   </nz-option>
@@ -345,11 +320,9 @@
                   <div>
                     {{ selected.template._appExtra.name }}
                     <span
-                      >{{ selected.template._appExtra.streetAddress
-                      }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
                       >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province
-                      }}<span *ngIf="selected.template._appExtra.province">,</span
+                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
                       >{{ selected.template._appExtra.country }}</span
                     >
                   </div>
@@ -431,12 +404,8 @@
                   [(ngModel)]="quoteinfo.destinationIsRequireTruck"
                   (ngModelChange)="selFreightType()"
                 >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false"
-                    >CY</label
-                  >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true"
-                    >Door</label
-                  >
+                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false">CY</label>
+                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true">Door</label>
                 </nz-radio-group>
               </div>
             </div>
@@ -518,9 +487,8 @@
                     <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
                       <div>{{ item.name }}</div>
                       <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city
-                        }}<span *ngIf="item.province">,</span>{{ item.province }}<span *ngIf="item.country">,</span
-                        >{{ item.country }}
+                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city }}<span *ngIf="item.province">,</span
+                        >{{ item.province }}<span *ngIf="item.country">,</span>{{ item.country }}
                       </div>
                     </div>
                   </nz-option>
@@ -529,17 +497,14 @@
                   <div>
                     {{ selected.template._appExtra.name }}
                     <span
-                      >{{ selected.template._appExtra.streetAddress
-                      }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
                       >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province
-                      }}<span *ngIf="selected.template._appExtra.province">,</span
+                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
                       >{{ selected.template._appExtra.country }}</span
                     >
                   </div>
                 </ng-template>
-                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId">
-                </app-formvalidation>
+                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId"> </app-formvalidation>
                 <div class="red" *ngIf="!isLocationSame">
                   {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
                 </div>
@@ -578,9 +543,8 @@
                     <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
                       <div>{{ item.name }}</div>
                       <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city
-                        }}<span *ngIf="item.province">,</span>{{ item.province }}<span *ngIf="item.country">,</span
-                        >{{ item.country }}
+                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city }}<span *ngIf="item.province">,</span
+                        >{{ item.province }}<span *ngIf="item.country">,</span>{{ item.country }}
                       </div>
                     </div>
                   </nz-option>
@@ -589,17 +553,14 @@
                   <div>
                     {{ selected.template._appExtra.name }}
                     <span
-                      >{{ selected.template._appExtra.streetAddress
-                      }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
                       >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province
-                      }}<span *ngIf="selected.template._appExtra.province">,</span
+                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
                       >{{ selected.template._appExtra.country }}</span
                     >
                   </div>
                 </ng-template>
-                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId">
-                </app-formvalidation>
+                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId"> </app-formvalidation>
                 <div class="red" *ngIf="!isLocationSame">
                   {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
                 </div>
@@ -712,10 +673,7 @@
         </div>
         <div class="CargoSpecial">
           <div class="block-container">
-            <div
-              class="ContainerType"
-              *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && quoteinfo.shipmentType == 0"
-            >
+            <div class="ContainerType" *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && quoteinfo.shipmentType == 0">
               <h2 style="min-width: 120px; height: 35px; line-height: 35px;">
                 {{ 'Container Type' | translate }}<span class="red">*</span>
               </h2>
@@ -723,25 +681,15 @@
                 <div style="display: flex;">
                   <div class="containerTypeShow">
                     <div class="container" *ngFor="let item of containList">
-                      <span
-                        style="
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          height: 32px;
-                          line-height: 32px;
-                        "
-                      >
-                        <a style="color: #1890ff; height: 30px;" (click)="operationCount(item.name, 'add')">+ </a>
+                      <span style="display: flex; align-items: center; justify-content: center; height: 32px; line-height: 32px;">
+                        <a style="height: 30px; color: #1890ff;" (click)="operationCount(item.name, 'add')">+ </a>
                         <span
-                          style="color: rgba(0, 0, 0, 0.45); padding: 0px 8px; height: 30px;"
+                          style="height: 30px; padding: 0 8px; color: rgba(0, 0, 0, 0.45);"
                           [ngClass]="{ 'span-active': item.value > 0 }"
                           >{{ item.value }}</span
                         >
-                        <a (click)="operationCount(item.name, 'less')" style="color: rgba(0, 0, 0, 0.85); height: 30px;"
-                          >-
-                        </a>
-                        <span class="containerNum" style="padding: 0px 8px; height: 30px;"> {{ item.name }}</span>
+                        <a (click)="operationCount(item.name, 'less')" style="height: 30px; color: rgba(0, 0, 0, 0.85);">- </a>
+                        <span class="containerNum" style="height: 30px; padding: 0 8px;"> {{ item.name }}</span>
                         <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteContainer(item)"></span>
                       </span>
                     </div>
@@ -824,10 +772,7 @@
                 <div
                   class="red"
                   *ngIf="
-                    quoteinfo.freightMethodType == freightMethodTypeValue.Ocean &&
-                    quoteinfo.shipmentType == 0 &&
-                    !isContain &&
-                    isSubmitted
+                    quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && quoteinfo.shipmentType == 0 && !isContain && isSubmitted
                   "
                 >
                   {{ 'Container type is required for this freight method' | translate }}
@@ -837,7 +782,7 @@
             <div class="Cargo">
               <div id="Cargo" class="Cargo">
                 <div class="Units">
-                  <div style="width: 100%; display: flex;">
+                  <div style="display: flex; width: 100%;">
                     <h2 style="min-width: 120px; height: 35px; line-height: 35px;">
                       {{ 'Cargo' | translate }}<span *ngIf="quoteinfo.shipmentType == 1" class="red">*</span>
                     </h2>
@@ -847,8 +792,7 @@
                           <nz-input-number
                             style="width: 80%;"
                             [required]="
-                              (quoteinfo.shipmentType == 1 &&
-                                quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
+                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
                               (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
                             "
                             [nzPrecision]="3"
@@ -972,8 +916,7 @@
                         <div class="CargoInfo-Weight-title">
                           <nz-input-number
                             [required]="
-                              (quoteinfo.shipmentType == 1 &&
-                                quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
+                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
                               (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
                             "
                             style="width: 45%;"
@@ -1004,8 +947,7 @@
                         <div class="CargoInfo-Volume-title">
                           <nz-input-number
                             [required]="
-                              (quoteinfo.shipmentType == 1 &&
-                                quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
+                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
                               (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
                             "
                             style="width: 45%;"
