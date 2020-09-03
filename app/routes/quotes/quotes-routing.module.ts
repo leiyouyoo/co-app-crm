@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'create-quote',
     component: initiativeCreatequotesComponent,
     data: {
-      titleI18n: 'crm:createQuote',
+      titleI18n: 'crm:Add Quotes',
       reuse: true,
     },
   },

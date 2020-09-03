@@ -241,7 +241,7 @@ export class InquiryComponent extends CoPageBase {
     // setTimeout(() => {
     //   this.initiativeCreatequotesComponent.ngScroll();
     // }, 500);
-    this.$navigate(['/crm/quotes/create-quote'], )
+    this.$navigate(['/crm/quotes/create-quote'], { queryParams: { _title: `${this.$L('Add Quotes')}` } });
   }
   createinitiativequotesCancel() {
     this.initiativeCreatequotesComponent.clearDate();
