@@ -391,17 +391,17 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onSearch() {
-    // if (!this.searchForm.value.pol && !this.searchForm.value.pod && !this.searchForm.value.delivery) {
-    //   this.msg.info(this.translate.instant('Please select pol'), {
-    //     nzDuration: 1000,
-    //   });
-    //   return false;
-    // } else if (!this.searchForm.value.pod && !this.searchForm.value.delivery) {
-    //   this.msg.info(this.translate.instant('Please select pod or delivery'), {
-    //     nzDuration: 1000,
-    //   });
-    //   return false;
-    // }
+    if (!this.searchForm.value.pol && !this.searchForm.value.pod && !this.searchForm.value.delivery) {
+      this.msg.info(this.translate.instant('Please select pol'), {
+        nzDuration: 1000,
+      });
+      return false;
+    } else if (!this.searchForm.value.pod && !this.searchForm.value.delivery) {
+      this.msg.info(this.translate.instant('Please select pod or delivery'), {
+        nzDuration: 1000,
+      });
+      return false;
+    }
     this.shareDisabled = true;
     this.isFllow = false;
     this.id = null;
@@ -1293,6 +1293,7 @@ export class InquiryListOceanComponent implements OnInit {
       });
     } else {
       this.listOfData = data;
+      debugger;
     }
   }
 }
