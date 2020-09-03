@@ -16,6 +16,8 @@ import { RatesFavoriteRateServiceService } from '../../../services/rates/favorit
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn } from '@co/cbc';
+import { Observable } from 'rxjs';
+import { TruckingFromToComponent } from '../share/component/trucking-from-to/trucking-from-to.component';
 // import { debounce } from '@shared/utils/debounce';
 
 @Component({
@@ -51,6 +53,7 @@ export class InquiryTrackComponent implements OnInit {
   placeAndCountyToListType: any;
   placeAndCountyToList: any;
   carrierCustomerList: any;
+  inquiryId: string;
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -78,6 +81,8 @@ export class InquiryTrackComponent implements OnInit {
   id: any;
   //通知 类型
   notifationType = 0;
+  @ViewChild(TruckingFromToComponent)
+  truckingFromToComponent: TruckingFromToComponent;
   onStartChange() {
     this.validateForm.patchValue({ deliveryDate: null });
   }
@@ -135,20 +140,20 @@ export class InquiryTrackComponent implements OnInit {
 
 
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 60 },
+    { title: "Attention", index: '', render: "Attention", width: 40 },
     { title: 'From', index: '', render: "From", width: 120, },
     { title: 'To', index: '', render: "To", width: 120 },
-    { title: 'Zip code', index: 'zipCode', width: 120 },
+    { title: 'Zip code', index: 'zipCode', width: 60 },
     {
-      title: 'Rate', index: '', width: 120, render: 'Rate'
+      title: 'Rate', index: '', width: 80, render: 'Rate'
     },
     { title: 'Fuel', index: 'fuel', width: 70 },
     {
       title: 'Total', index: '', width: 70, render: "Total"
     },
-    { title: 'Currerncy', index: 'currency', width: 120 },
+    { title: 'Currerncy', index: 'currency', width: 70 },
     {
-      title: 'Status', index: 'account', width: 120,
+      title: 'Status', index: 'account', width: 80,
       format: (item) => {
         if (item.status == '0') {
           return 'effective'
@@ -157,7 +162,7 @@ export class InquiryTrackComponent implements OnInit {
         }
       }
     },
-    { title: 'Duration', index: '', width: 120, render: 'Duration' },
+    { title: 'Duration', index: '', width: 80, render: 'Duration' },
     { title: 'Trucker', index: 'carrier', width: 120 },
     {
       title: 'business type',
@@ -179,10 +184,12 @@ export class InquiryTrackComponent implements OnInit {
     },
     { title: 'NO', index: 'no', width: 120 },
     { title: 'Update By', index: 'users', width: 120 },
+    { title: 'Reject reason', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
       width: 80,
+      render: 'action',
       fixed: 'right',
       buttons: [
       ],
@@ -218,7 +225,7 @@ export class InquiryTrackComponent implements OnInit {
     });
 
     this.validateForm = this.fb.group({
-      truckType: ['2', [Validators.required]],
+      truckType: [2, [Validators.required]],
       truckPortId: [null, [Validators.required]],
       truckAddressId: [null, [Validators.required]],
       ownerCustomerId: [null],
@@ -237,8 +244,12 @@ export class InquiryTrackComponent implements OnInit {
       etod: [null],
       commodity: [null],
       carrierCustomerId: [null],
-      ReplyUserId: [null, [Validators.required]],
+      replyUserId: [null, [Validators.required]],
       FreightMethodType: [3],
+      id: [],
+    });
+    this.validateForm.controls.truckType.valueChanges.subscribe((res) => {
+      this.ngModelChangeYruckType();
     });
     // 单位公制英制统一切换
     const weightUnitCode = this.validateForm.get('weightUnitCode');
@@ -427,7 +438,9 @@ export class InquiryTrackComponent implements OnInit {
 
   onShowModal() {
     this.modalVisible = true;
-    this.onClearCreate();
+    this.validateForm.patchValue({
+      truckType: 2,
+    });
   }
 
   onFollowChange(data) {
@@ -475,10 +488,14 @@ export class InquiryTrackComponent implements OnInit {
     let truckAddressId = data.truckAddressId,
       truckPortId = data.truckPortId;
 
-    if (data.truckType == 1) {
-      data.truckPortId = truckAddressId;
-      data.truckAddressId = truckPortId;
-    }
+    // if (data.truckType == 1) {
+    //   data.truckAddressId = truckAddressId;
+    //   data.truckPortId = truckPortId;
+    // }
+    // if (data.truckType == 2) {
+    //   data.truckPortId = truckAddressId;
+    //   data.truckAddressId = truckPortId;
+    // }
     // let truckType;
     // // tslint:disable-next-line: one-variable-per-declaration
     // let truckPortId, truckAddressId;
@@ -514,17 +531,33 @@ export class InquiryTrackComponent implements OnInit {
       );
     }
 
-    this.ratesQuoteEnquiryService.create(data).subscribe(
-      (res: any) => {
-        this.msg.success('创建成功');
-        this.loading = false;
-        this.modalVisible = false;
-        this.onSearch();
-      },
-      (err) => {
-        this.loading = false;
-      },
-    );
+    if (!data.id) {
+      this.ratesQuoteEnquiryService.create(data).subscribe(
+        (res: any) => {
+          this.msg.success('创建成功');
+          this.validateForm.reset();
+          this.loading = false;
+          this.modalVisible = false;
+          this.onSearch();
+        },
+        (err) => {
+          this.loading = false;
+        },
+      );
+    } else {
+      this.ratesQuoteEnquiryService.updateForRejectAsync(data).subscribe(
+        (res: any) => {
+          this.msg.success('编辑成功');
+          this.validateForm.reset();
+          this.loading = false;
+          this.modalVisible = false;
+          this.onSearch();
+        },
+        (err) => {
+          this.loading = false;
+        },
+      );
+    }
   }
 
   onPageIndexChanged($event) {
@@ -547,12 +580,13 @@ export class InquiryTrackComponent implements OnInit {
     this.showMoreSearch = !this.showMoreSearch;
   }
 
-  ngModelChangeYruckType(e) {
+  ngModelChangeYruckType() {
     this.validateForm.patchValue({
       truckPortId: null,
       truckAddressId: null,
       zipCode: null,
     });
+    if (this.truckingFromToComponent) this.truckingFromToComponent.reverse();
   }
 
   onSelectTrailerTabs(data) {
@@ -567,7 +601,9 @@ export class InquiryTrackComponent implements OnInit {
     // tslint:disable-next-line: forin
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
+      if (i != 'truckType') {
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
       if (this.validateForm.controls[i].invalid) {
         console.log(i);
         console.log(this.validateForm.controls[i]);
@@ -579,7 +615,10 @@ export class InquiryTrackComponent implements OnInit {
   onClearCreate() {
     this.validateForm.reset();
     this.validateForm.patchValue({
-      truckType: '2',
+      truckType: 2,
+      quantityUnitCode: 'ctn',
+      weightUnitCode: WeightUnitCode.KGS,
+      volumeUnitCode: VolumeUnitCode.CBM,
     });
   }
 
@@ -653,19 +692,21 @@ export class InquiryTrackComponent implements OnInit {
 
   // 获取from/To列表--首页查询
   getAddress(searchText = null, type = null) {
-    this.ratesTruckServiceService.getAddressForTruckingFee({ searchText: searchText, type: type }).subscribe((res: any) => {
-      if (type) {
-        if (type === 0) {
-          this.countryLists = res.items;
+    if (/[\u4e00-\u9fa5]{2}/gi.test(searchText) || searchText.length > 2) {
+      this.ratesTruckServiceService.getAddressForTruckingFee({ searchText: searchText, type: type }).subscribe((res: any) => {
+        if (type) {
+          if (type === 0) {
+            this.countryLists = res.items;
+          } else {
+            this.portList = res.items;
+          }
         } else {
+          console.log(res);
           this.portList = res.items;
+          this.countryLists = res.items;
         }
-      } else {
-        console.log(res);
-        this.portList = res.items;
-        this.countryLists = res.items;
-      }
-    });
+      });
+    }
   }
   // /**
   //  * 前端排序
@@ -683,6 +724,31 @@ export class InquiryTrackComponent implements OnInit {
   //     this.dataOfList.items = data;
   //   }
   // }
+  onEdit(data, e) {
+    this.modalVisible = true;
+    this.inquiryId = data.id;
+    e.stopPropagation();
+  }
+
+  getEnquiryDetial(id) {
+    return new Observable((ob) => {
+      this.ratesQuoteEnquiryService.get({ id: id }).subscribe((res) => {
+        ob.next(res);
+        ob.complete();
+      });
+    });
+  }
+
+  getValue(obj, key, select: NzSelectComponent) {
+    const keye = key + 'Id';
+    if (select.listOfTopItem?.length > 0) {
+      if (this.validateForm.value[keye] === null) {
+        obj[key] = null;
+      } else {
+        obj[key] = select.listOfTopItem[0].nzLabel;
+      }
+    }
+  }
 }
 
 

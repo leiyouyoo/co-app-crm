@@ -26,6 +26,9 @@ import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.
 import { RatesOceanBaseItemExternalServiceService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn, STData, STComponent } from '@co/cbc';
+import { Observable } from 'rxjs';
+import { differenceInCalendarDays } from 'date-fns';
+import { ACLService } from '@co/acl';
 
 // import { debounce } from '@shared/utils/debounce';
 @Component({
@@ -34,7 +37,6 @@ import { STColumn, STData, STComponent } from '@co/cbc';
   styleUrls: ['./inquiry-ocean.component.less'],
 })
 export class InquiryListOceanComponent implements OnInit {
-  validateForm: FormGroup;
   searchForm: FormGroup;
   datas: any;
   isAll = false;
@@ -51,12 +53,13 @@ export class InquiryListOceanComponent implements OnInit {
   customerList: any;
   unitUsers: any;
   transportList: any;
-  dataOfList: any;
   tablestitle: any;
   maxResultCount = 1000;
   skipCount = 1;
   ratesList: any;
   detialVisible = false;
+  init: boolean = true;
+  inquiryId: string;
 
   drawerStyle: any = {
     width: '680px',
@@ -68,6 +71,8 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   isFllow = false;
+  dataOfList;
+  listTotal;
   // @ViewChild('detial', { static: true })
   // detial: any;
 
@@ -103,29 +108,20 @@ export class InquiryListOceanComponent implements OnInit {
   loadingSave = false;
   notcertified = false;
 
+  showShareBtn: boolean = true;
+  showInquiryBtn: boolean = true;
+
   //通知 类型
   notifationType = 0;
   disabledShareDate = (endValue: Date): boolean => {
     return endValue.getTime() <= new Date().getTime() - 1000 * 60 * 60 * 24;
   };
 
-  onStartChange() {
-    this.validateForm.patchValue({ deliveryDate: null });
-  }
-
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue) {
       return false;
     }
     return startValue.getTime() < new Date().getTime() - 24 * 60 * 60 * 1000;
-  };
-
-  disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.validateForm.get('cargoReadyDate').value) {
-      return false;
-    }
-
-    return endValue.getTime() <= this.validateForm.get('cargoReadyDate').value.getTime();
   };
 
   numValidator(): ValidatorFn {
@@ -147,15 +143,16 @@ export class InquiryListOceanComponent implements OnInit {
 
   columns: STColumn[] = [
     {
-      title: "index", index: '', width: 40, format: (item, col, index) => {
+      title: "index", index: '', fixed: 'left', width: 40, format: (item, col, index) => {
         return `${index + 1}`
       }
     },
-    { title: "Attention", index: '', render: "Attention", width: 40 },
-    { title: 'POL/From', index: 'pol', width: 120 },
-    { title: 'POD', index: 'pod', width: 120 },
-    { title: 'Delivery/To', index: 'delivery', width: 120 },
+    { title: "Attention", index: '', fixed: 'left', render: "Attention", width: 40 },
     { title: 'Carrier', index: 'shipCompany', width: 80 },
+    { title: 'POL/From', index: 'pol', width: 120 },
+    { title: 'Delivery/To', index: 'delivery', width: 120 },
+    { title: 'POD', index: 'pod', width: 120 },
+
     {
       title: 'Duration(From)', index: 'from', type: 'date', dateFormat: "yyyy-MM-dd", width: 120, sort: {
         compare: (a, b) => {
@@ -209,11 +206,12 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'T/T', index: 'tt', width: 120 },
     { title: 'Description', index: 'remarkBusiness', width: 120 },
     { title: 'Update by', index: 'updateBy', width: 120 },
-    { title: 'RejectRemark', index: 'rejectRemark', width: 120 },
+    { title: 'Reject reason', index: 'rejectRemark', width: 120 },
     {
       title: 'Action',
       type: 'action',
       width: 80,
+      render: 'action',
       fixed: 'right',
       buttons: [
       ],
@@ -240,6 +238,7 @@ export class InquiryListOceanComponent implements OnInit {
     private ratesOceanBaseItemExternalServiceService: RatesOceanBaseItemExternalServiceService,
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
+    private aCLService: ACLService
   ) { }
 
   ngOnInit() {
@@ -251,22 +250,28 @@ export class InquiryListOceanComponent implements OnInit {
       // setTimeout(() => {
       //   if (params?.type) {
       //     // this.notifationType = params?.type;
-      //     if (this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
+      //     if (this.dataOfList && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
       //   }
       // }, 100);
     });
+    console.log(this.aCLService.can('j:商务员'), '0000000000')
+    if (this.aCLService.can('j:商务员')) {
+      this.showInquiryBtn = false;
+      this.showShareBtn = false;
+    }
+
   }
 
   checkChange(e) {
     console.log(e);
     e.type === 'click' && this.showDetial(e.click.item, e.click.index);
     if (e.type === 'checkbox') {
-      this.dataOfList.items.forEach((e) => {
+      this.listOfData.forEach((e) => {
         e.choosed = false;
       });
       if (e?.checkbox?.length > 0) {
         e.checkbox.forEach((item) => {
-          this.dataOfList.items.forEach((i) => {
+          this.listOfData.forEach((i) => {
             i.id == item.id && (i.choosed = true);
           });
         });
@@ -274,11 +279,16 @@ export class InquiryListOceanComponent implements OnInit {
     }
     this.refreshStatus();
 
-    console.log(this.dataOfList);
   }
 
   GetNextMonthDay(date) {
     return new Date(date.setDate(date.getDate() + 15));
+  }
+
+  onEdit(data, e) {
+    this.modalVisible = true;
+    this.inquiryId = data.id;
+    e.stopPropagation();
   }
 
   initData() {
@@ -292,58 +302,12 @@ export class InquiryListOceanComponent implements OnInit {
       fromDate: [[new Date(), this.GetNextMonthDay(new Date())]],
       no: [null],
     });
-
-    this.validateForm = this.fb.group({
-      originPortId: [null, [Validators.required]],
-      destinationPortId: [null, [Validators.required]],
-      deliveryAddressId: [null],
-      transportClauseId: [null, [Validators.required]],
-      containerType: [null, [Validators.required]],
-      commodity: [null, [Validators.required]],
-      ownerCustomerId: [null],
-      ownerContactId: [null],
-      isShipper: ['false'],
-      cargoReadyDate: [null],
-      deliveryDate: [null],
-      quantity: [null, [this.numValidator()]],
-      quantityUnitCode: 'ctn',
-      weight: [null, [this.numValidator()]],
-      weightUnitId: [null],
-      weightUnitCode: [WeightUnitCode.KGS],
-      volume: [null, [this.numValidator()]],
-      volumeUnitId: [null],
-      volumeUnitCode: [VolumeUnitCode.CBM],
-      description: [null],
-      carrierCustomerId: [null],
-      freightMethodType: [1],
-      ReplyUserId: [null, [Validators.required]],
-    });
-    // 单位公制英制统一切换
-    const weightUnitCode = this.validateForm.get('weightUnitCode');
-    const volumeUnitCode = this.validateForm.get('volumeUnitCode');
-    const hashObj = {
-      [VolumeUnitCode.CBM]: WeightUnitCode.KGS,
-      [VolumeUnitCode.CFT]: WeightUnitCode.LBS,
-      [WeightUnitCode.KGS]: VolumeUnitCode.CBM,
-      [WeightUnitCode.LBS]: VolumeUnitCode.CFT,
-    };
-    weightUnitCode.valueChanges.subscribe((value) => {
-      volumeUnitCode.setValue(hashObj[value], { emitEvent: false });
-    });
-    volumeUnitCode.valueChanges.subscribe((value) => {
-      weightUnitCode.setValue(hashObj[value], { emitEvent: false });
-    });
   }
 
   bindData() {
-    this.getBasicPortList();
     this.getCRMCarrierList({ name: '', customerType: 1, sorting: 'code' });
     this.getAllShipLine();
-    this.getCarrierCustomerList();
     this.getCustomerList();
-    this.getTransportClause();
-    this.getRates();
-    this.getOrganizationUnitUsers();
     this.isFllow = true;
     this.onGetAll();
   }
@@ -359,90 +323,22 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
 
-  getOrganizationUnitUsers() {
-    this.OrganizationUnit.getOrganizationUnitUsers({
-      organizationUnitName: '商务部',
-    }).subscribe((res: any) => {
-      this.unitUsers = res.items;
-    });
-  }
-
   refreshStatus(): void {
-    this.isAll = this.dataOfList?.items.every((item) => item.choosed === true);
-    this.shareDisabled = !this.dataOfList?.items.some((item) => item.choosed === true);
+    this.isAll = this.listOfData.every((item) => item.choosed === true);
+    this.shareDisabled = !this.listOfData.some((item) => item.choosed === true);
   }
 
   checkAll(data) {
     if (data) {
-      this.dataOfList?.items.forEach((e) => {
+      this.listOfData.forEach((e) => {
         if (e.businessType === 0 || (e.status === 0 && e.businessType === 1)) {
           e.choosed = true;
         }
       });
     } else {
-      this.dataOfList?.items.forEach((e) => (e.choosed = false));
+      this.listOfData.forEach((e) => (e.choosed = false));
     }
     this.refreshStatus();
-  }
-
-  // GET rates
-  getRates() {
-    this.pubContainer.getAll({ maxResultCount: 100, skipCount: 0 }).subscribe((res: any) => {
-      this.ratesList = res.items;
-      this.ratesList.sort((a: any, b: any) => {
-        const aMatch = a.desc.match(/(\d+)([A-Z]+)/);
-        const bMatch = b.desc.match(/(\d+)([A-Z]+)/);
-        if (!aMatch) {
-          return 1;
-        }
-        if (!bMatch) {
-          return -1;
-        }
-        const aNumber = aMatch[1];
-        const bNumber = bMatch[1];
-        const aUnit = aMatch[2];
-        const bUnit = bMatch[2];
-        switch (true) {
-          case aUnit < bUnit:
-            return -1;
-          case aUnit > bUnit:
-            return 1;
-          default:
-        }
-        switch (true) {
-          case aNumber < bNumber:
-            return -1;
-          case aNumber > bNumber:
-            return 1;
-          default:
-            return 0;
-        }
-      });
-    });
-  }
-
-  // TransportClause
-  getTransportClause() {
-    this.pubTransportClause.getAll({}).subscribe((res: any) => {
-      this.transportList = res.items.filter((data) => {
-        if (
-          data.description === 'CY-CY' ||
-          data.description === 'CY-CFS' ||
-          data.description === 'CFS-CFS' ||
-          data.description === 'CFS-CY' ||
-          data.description === 'CFS-DOOR'
-        ) {
-          return res;
-        }
-      });
-    });
-  }
-
-  getCarrierCustomerList() {
-    this.crmCustomer.getCustomerByType({ customerType: 1 }).subscribe((res: any) => {
-      this.carrierCustomerList = res.items;
-      console.log(this.carrierCustomerList);
-    });
   }
 
   getCustomerList() {
@@ -455,30 +351,7 @@ export class InquiryListOceanComponent implements OnInit {
       });
   }
 
-  onCustomerListChange(id) {
-    if (id) {
-      this.customerUserList = null;
-      this.validateForm.patchValue({
-        ownerContactId: null,
-      });
-
-      this.customerList.forEach((e) => {
-        if (e.id === id) {
-          this.customerUserList = e.contacts;
-        }
-      });
-    }
-  }
-
   @debounce(1000)
-  // getBasicPortList(value = '') {
-  //   this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
-  //     this.basicPortList = res.items;
-  //   });
-  //   this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
-  //     this.deliveryList = res.items;
-  //   });
-  // }
   getBasicPortList(value = '') {
     if (/[\u4e00-\u9fa5]{2}/gi.test(value) || value.length > 2) {
       this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
@@ -523,6 +396,8 @@ export class InquiryListOceanComponent implements OnInit {
     this.onGetAll();
   }
 
+  listOfData: any;
+  totalCount: any;
   onGetAll() {
     let datas = this.searchForm.value;
     let num = this.skipCount - 1;
@@ -551,11 +426,12 @@ export class InquiryListOceanComponent implements OnInit {
       this.searchForm.value.ToDate = null;
     }
 
+
     this.loading = true;
     this.OceanBaseItemService.getBusinessRateList({ ...datas, ...data })
       .pipe(
         finalize(() => {
-          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
+          if (this.id && this.listOfData && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
           data.id = null;
           this.id = null;
         }),
@@ -563,15 +439,34 @@ export class InquiryListOceanComponent implements OnInit {
       .subscribe(
         (res) => {
           this.loading = false;
-          this.dataOfList = res;
+          // this.dataOfList = res;
           let tablestitle = [];
 
-          let arr = this.dataOfList.items.map((item) => item.ratePriceOutputs);
+          this.listOfData = res.items;
+          this.totalCount = res.totalCount;
+
+
+
+          let arr = this.listOfData.map((item) => item.ratePriceOutputs);
           arr.forEach((e) => {
             e.forEach((c) => {
               tablestitle.push(c.unit);
             });
           });
+
+          this.listOfData.forEach((res) => {
+            if (res.to) {
+              if (differenceInCalendarDays(new Date(res.to), new Date()) < 0) {
+                res.isValid = false;
+              } else {
+                res.isValid = true;
+              }
+            } else {
+              res.isValid = true;
+            }
+          });
+
+          console.log(this.listOfData)
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -604,7 +499,13 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
+          // if (this.init) {
+          this.websort('40GP', 'ascend');
+          //   this.init = false;
+          // }
+
           console.log(this.tablestitle);
+
 
           let titleItem = [];
 
@@ -641,8 +542,12 @@ export class InquiryListOceanComponent implements OnInit {
             });
           });
           console.log(titleItem);
-          titleItem.unshift(4, 0);
+          titleItem.unshift(5, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
+
+          console.log(this.columns)
+          debugger
+
           this.st?.resetColumns();
         },
         (err) => {
@@ -650,6 +555,7 @@ export class InquiryListOceanComponent implements OnInit {
         },
       );
   }
+
 
   onClear() {
     this.searchForm.reset();
@@ -677,39 +583,6 @@ export class InquiryListOceanComponent implements OnInit {
       );
   }
 
-  // 商务报价提交
-  handleOk() {
-    setTimeout(() => {
-      const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
-    }, 0);
-    if (!this.validate()) return;
-    let data = this.validateForm.value;
-    this.loading = true;
-    if (data.containerType) {
-      data.containerType = JSON.stringify(
-        data.containerType.map((res) => {
-          return {
-            name: res.code,
-            value: 1,
-          };
-        }),
-      );
-    }
-
-    this.ratesQuoteEnquiryService.create(data).subscribe(
-      (res: any) => {
-        this.msg.success('创建成功');
-        this.loading = false;
-        this.modalVisible = false;
-        this.onGetAll();
-      },
-      (err) => {
-        this.loading = false;
-      },
-    );
-  }
-
   onPageIndexChanged($event) {
     this.skipCount = $event;
     this.onGetAll();
@@ -720,29 +593,15 @@ export class InquiryListOceanComponent implements OnInit {
     this.busType = data;
     this.detialVisible = true;
 
-    this.dataOfList.items.forEach((element) => {
+    this.listOfData.forEach((element) => {
       element.selected = false;
     });
-    if (this.dataOfList && this.dataOfList.items.length > 0) data.selected = true;
+    if (this.listOfData && this.listOfData.length > 0) data.selected = true;
     this.detailComponent.showDetial(data);
   }
 
   onShowMoreSearch() {
     this.showMoreSearch = !this.showMoreSearch;
-  }
-
-  onClearCreate() {
-    this.validateForm.reset();
-  }
-
-  // 海运表单验证
-  validate() {
-    // tslint:disable-next-line: forin
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
-    return this.validateForm.valid;
   }
 
   // 抽屉拖拽
@@ -759,7 +618,10 @@ export class InquiryListOceanComponent implements OnInit {
       const boxWidth = Number(this.drawerStyle.width.slice(0, this.drawerStyle.width.length - 2));
       if (boxWidth + (this.lastClientX - e.clientX) >= 680) {
         if (boxWidth + (this.lastClientX - e.clientX) <= document.body.clientWidth) {
-          this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
+          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX))
+          if (drawerPosition - 10 < e.clientX && e.clientX < drawerPosition + 30) {
+            this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
+          }
         }
       } else {
         this.drawerStyle.width = '680px';
@@ -774,7 +636,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onShowShareModal() {
-    let item = this.dataOfList?.items.filter((data) => data.choosed === true);
+    let item = this.listOfData.filter((data) => data.choosed === true);
 
     if (item.every((r) => r.isTerms) || item.every((r) => !r.isTerms)) {
       this.shareModal = true;
@@ -880,6 +742,7 @@ export class InquiryListOceanComponent implements OnInit {
       {
         title: 'Action',
         type: 'action',
+        render: 'action',
         width: 80,
         fixed: 'right',
         buttons: [
@@ -957,7 +820,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   async initShareData(customerId) {
     this.shareFormLoading = true;
-    let item = this.dataOfList?.items.filter((data) => data.choosed === true);
+    let item = this.listOfData.filter((data) => data.choosed === true);
     let ids = item.map((e) => e.id);
     this.shareIds = ids;
 
@@ -978,7 +841,7 @@ export class InquiryListOceanComponent implements OnInit {
         id: [e.id],
         delivery: [e.delivery],
         deliveryId: [e.deliveryId],
-        tt: [e.tt, [Validators.required]],
+        tt: [e.tt],
         term: [e.term],
         durationFrom: [e.durationFrom ? new Date(e.durationFrom) : null, [Validators.required]],
         durationTo: [e.durationTo ? new Date(e.durationTo) : null, [Validators.required]],
@@ -1394,10 +1257,10 @@ export class InquiryListOceanComponent implements OnInit {
    * 前端排序
    */
   websort(sortName: string, value: string): void {
-    const data = [...this.dataOfList?.items];
+    const data = [...this.listOfData];
     if (sortName && value) {
       // tslint:disable-next-line: max-line-length
-      this.dataOfList.items = data.sort((a, b) => {
+      this.listOfData = data.sort((a, b) => {
         const adata = a.ratePriceOutputs.find((c) => c.unit == sortName);
         const bdata = b.ratePriceOutputs.find((c) => c.unit == sortName);
         const avalue = adata ? adata.rate : 0;
@@ -1405,7 +1268,7 @@ export class InquiryListOceanComponent implements OnInit {
         return value === 'ascend' ? (avalue > bvalue ? 1 : -1) : bvalue > avalue ? 1 : -1;
       });
     } else {
-      this.dataOfList.items = data;
+      this.listOfData = data;
     }
   }
 }

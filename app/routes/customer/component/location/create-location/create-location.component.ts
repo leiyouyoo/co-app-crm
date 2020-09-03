@@ -3,9 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { PUBPlaceService, PUBRegionService } from '@co/cds';
 import { debounce } from '@co/core';
-import { AmapService } from 'apps/crm/app/services/amap';
 import { CRMContactService, CRMCreateOrUpdateContactInput } from 'apps/crm/app/services/crm';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
+import { GoogleMapService } from '@co/common';
+
 @Component({
   selector: 'create-location',
   templateUrl: './create-location.component.html',
@@ -38,7 +39,7 @@ export class CreateLocationComponent implements OnInit {
   requestAnimationFrameId: number;
   constructor(
     private pubPlaceService: PUBPlaceService,
-    private aMapService: AmapService,
+    private googleMapService: GoogleMapService,
     private fb: FormBuilder,
     private translate: TranslateService,
     private pubRegionService: PUBRegionService,
@@ -170,7 +171,7 @@ export class CreateLocationComponent implements OnInit {
     let province = (this.provinces || []).filter((item) => item.id === form.province)[0] || { nameLocalization: '' };
     let city = (this.citys || []).filter((item) => item.id === form.city)[0] || { nameLocalization: '' };
     const address = `${country.nameLocalization}${province.nameLocalization}${city.nameLocalization}`;
-    this.aMapService.mapSearch(address + value.target.value, language).subscribe((res: any) => {
+    this.googleMapService.autocomplete(address + value.target.value, language).subscribe((res: any) => {
       this.placeList = res.predictions;
     });
   }
@@ -284,7 +285,7 @@ export class CreateLocationComponent implements OnInit {
   }
   @debounce(100)
   async bindGoogleMapData(input) {
-    let res = await this.aMapService.mapSearch(input, this.translate.currentLang).toPromise();
+    let res = await this.googleMapService.autocomplete(input, this.translate.currentLang).toPromise();
     let item = res?.predictions;
     if (item) {
       let choosed: any = item[0]?.terms;
@@ -364,7 +365,7 @@ export class CreateLocationComponent implements OnInit {
       patchProvinceIdValue && patchProvinceIdValue();
       patchCityIdValue && patchCityIdValue();
 
-      let detialMsg: any = await this.aMapService
+      let detialMsg: any = await this.googleMapService
         .getPlaceDetail(item[0].place_id, {
           language: 'zh-CN',
           fields: 'formatted_address',

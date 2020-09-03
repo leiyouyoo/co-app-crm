@@ -13,6 +13,7 @@
 
 .inquiry-right-footer {
   background: #fff;
+
   ::ng-deep .ant-tabs-tab-active {
     margin-left: 24px !important;
   }
@@ -107,23 +108,25 @@
   }
 
   .inquiry-table {
-    display        : flex;
-    flex-wrap: wrap;
-    margin-bottom  : 24px;
+    display      : flex;
+    flex-wrap    : wrap;
+    margin-bottom: 24px;
 
     .inquiry-table-border {
-      width  : 49.5%;
-      padding: 15px;
-      border : 1px solid #e5e5e5;
-      margin-bottom  : 10px;
+      width        : 49.5%;
+      padding      : 15px;
+      border       : 1px solid #e5e5e5;
+      margin-bottom: 10px;
 
       .inquiry-table-border-flex {
         display        : flex;
         justify-content: space-between;
         padding-bottom : 15px;
+
         span {
           flex: none;
         }
+
         strong {
           margin-left: 15px;
         }
@@ -148,22 +151,29 @@
 
 
 .drawer-bar {
-  position: relative;
-  width:16px;
+  position        : relative;
+  width           : 16px;
   background-color: #E6E6E6;
-  position: absolute;
-  top:0px;
-  left:0px;
-  height:100%
+  position        : absolute;
+  top             : 0px;
+  left            : 0px;
+  height          : 100%
 }
 
-.box-sj{
-  width: 0;
-  height: 0;
-  border-top: 9px solid transparent;
-  border-left: 13px solid #ACACAC;
+.drawer-bar:hover {
+  cursor: w-resize;
+}
+
+
+
+
+.box-sj {
+  width        : 0;
+  height       : 0;
+  border-top   : 9px solid transparent;
+  border-left  : 13px solid #ACACAC;
   border-bottom: 9px solid transparent;
-  position: absolute;
-  left:0px;
-  top:50vh;
-} 
+  position     : absolute;
+  left         : 0px;
+  top          : 50vh;
+}

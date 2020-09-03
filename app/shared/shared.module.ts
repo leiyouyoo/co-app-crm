@@ -48,6 +48,8 @@ import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divide
 import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
 import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
+import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hiddensharequotes.component';
+import { CopyDomToImageDirective } from './directives/copy-dom-to-image.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -66,6 +68,7 @@ const COMPONENTS = [
   SharequotesComponent,
   TicketDividerComponent,
   CurvedRouteComponent,
+  HiddensharequotesComponent,
 ];
 const DIRECTIVES = [
   debounceInputDirective,
@@ -76,6 +79,7 @@ const DIRECTIVES = [
   NzOptionExtraDirective,
   WrapChildrenHeightDirective,
   MouseMoveDirective,
+  CopyDomToImageDirective,
 ];
 // #endregion
 
