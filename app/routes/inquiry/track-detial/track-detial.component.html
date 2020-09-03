@@ -2,7 +2,7 @@
   <div class="drawer-bar">
     <div class="box-sj"></div>
   </div>
-  <nz-tabset [nzAnimated]="false">
+  <nz-tabset [nzAnimated]="false" style="margin-left: 24px;">
     <nz-tab nzTitle="{{ 'Basic' | translate }}">
       <div class="inquiry-detial">
         <!-- 商务报价 -->
@@ -17,7 +17,8 @@
         <div>
           <div>
             <strong>{{ 'Remark' | translate }}:</strong>
-            <div style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;" >
+            <div
+              style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;">
               {{ item.remark}}
             </div>
           </div>
@@ -85,7 +86,10 @@
 </div>
 
 <div class="inquiry-right-footer" *ngIf="trailerDetial">
-  <nz-tabset [nzAnimated]="false">
+  <div class="drawer-bar">
+    <div class="box-sj"></div>
+  </div>
+  <nz-tabset [nzAnimated]="false" style="margin-left: 24px;">
     <nz-tab nzTitle="{{ 'Basic' | translate }}">
       <div class="inquiry-detial">
         <!-- 商务报价 -->
@@ -100,7 +104,9 @@
         <div *ngIf="trailerDetial.quoteReply">
           <div>
             <strong>{{ 'Remark' | translate }}:</strong>
-            <div style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;" [innerHtml]="description">
+            <div
+              style="height: 150px; overflow: auto; border: 1px solid #e5e5e5; margin-bottom: 24px; padding: 10px;white-space: pre-line;"
+              [innerHtml]="description">
             </div>
           </div>
 
