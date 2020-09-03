@@ -22,7 +22,7 @@
         {{ 'Transfer' | translate }}
       </button>
 
-      <button class="button" nz-button [nzType]="'primary'" (click)="createModal()">
+      <button class="button" nz-button [nzType]="'primary'" (click)="showModal()">
         {{ 'New' | translate }}
       </button>
       <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
@@ -46,28 +46,26 @@
       calcScroll
       disableCalcX
     >
-      <ng-template st-row="CustomerTableName" let-data>
-        <a (click)="showDetial(data)">
-          {{ data.name || '--' }}
-
-          <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
-        >
-      </ng-template>
     </co-st>
   </div>
 </div>
 
-<nz-modal
-  nzMaskClosable="false"
-  [(nzVisible)]="isVisibleCreate"
-  nzTitle="{{ 'New customer' | translate }}"
-  [nzFooter]="cusFooter"
-  nzOkText="Save"
-  nzWidth="50%"
-  (nzOnCancel)="createCancel()"
+<div
+  class="review-shipment-dialog"
+  nz-resizable
+  (nzResize)="onResize($event)"
+  [style.width.px]="width"
+  [ngStyle]="{ display: isVisibleCreate == true ? 'flex' : 'none' }"
 >
-  <div #createCustomer></div>
-  <ng-template #cusFooter>
+  <header class="drawer_head">
+    <div>
+      <span style="font-weight: 600;">{{ 'New customer' | translate }}</span>
+    </div>
+    <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+  </header>
+
+  <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
+  <footer class="drawer_footer">
     <button nz-button (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
       {{ 'Application' | translate }}
     </button>
@@ -75,8 +73,14 @@
     <button nz-button nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
     </button>
-  </ng-template>
-</nz-modal>
+  </footer>
+
+  <nz-resize-handle nzDirection="left">
+    <div class="right-wrap">
+      <div class="triangle"></div>
+    </div>
+  </nz-resize-handle>
+</div>
 
 <nz-modal
   nzMaskClosable="false"

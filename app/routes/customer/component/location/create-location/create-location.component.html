@@ -1,11 +1,18 @@
-<nz-modal
+<div
+  class="review-shipment-dialog"
+  nz-resizable
+  (nzResize)="onResize($event)"
+  [style.width.px]="width"
+  [ngStyle]="{ display: isVisible == true ? 'flex' : 'none' }"
   nzMaskClosable="false"
-  [(nzVisible)]="isVisible"
-  [nzTitle]="title"
-  (nzOnCancel)="handleCancel()"
-  nzWidth="50%"
-  [nzFooter]="footer"
 >
+  <header class="drawer_head">
+    <div>
+      <span style="font-weight: 600;">{{ title }}</span>
+    </div>
+    <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+  </header>
+
   <div class="location">
     <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'" *ngIf="validateForm" [autocomplete]="false">
       <div nz-row [nzGutter]="24">
@@ -22,18 +29,8 @@
           <nz-form-item>
             <nz-form-label nzFor="contacts">{{ 'Choose contact' | translate }}</nz-form-label>
             <nz-form-control>
-              <nz-select
-                nzMode="multiple"
-                nzAllowClear
-                formControlName="contacts"
-                [nzDropdownRender]="render"
-                [nzMaxTagCount]="1"
-              >
-                <nz-option
-                  *ngFor="let o of contacts"
-                  [nzValue]="o.id"
-                  [nzLabel]="o.name + (o.surname ? o.surname : '')"
-                ></nz-option>
+              <nz-select nzMode="multiple" nzAllowClear formControlName="contacts" [nzDropdownRender]="render" [nzMaxTagCount]="1">
+                <nz-option *ngFor="let o of contacts" [nzValue]="o.id" [nzLabel]="o.name + (o.surname ? o.surname : '')"></nz-option>
               </nz-select>
               <ng-template #render>
                 <div
@@ -51,12 +48,7 @@
                         <nz-form-item>
                           <nz-form-label nzFor="name" nzRequired>{{ 'First name' | translate }}</nz-form-label>
                           <nz-form-control [nzErrorTip]="chinaNameError">
-                            <input
-                              type="text"
-                              nz-input
-                              formControlName="name"
-                              placeholder="{{ 'Please enter' | translate }}"
-                            />
+                            <input type="text" nz-input formControlName="name" placeholder="{{ 'Please enter' | translate }}" />
                             <ng-template #chinaNameError>
                               <ng-container *ngIf="validateContactForm.get('name').hasError('required')">
                                 {{ 'Please type in your name!' | translate }}
@@ -69,12 +61,7 @@
                         <nz-form-item>
                           <nz-form-label nzFor="surname" nzRequired>{{ 'Last name' | translate }}</nz-form-label>
                           <nz-form-control [nzErrorTip]="chinaNameError">
-                            <input
-                              type="text"
-                              nz-input
-                              formControlName="surname"
-                              placeholder="{{ 'Please enter' | translate }}"
-                            />
+                            <input type="text" nz-input formControlName="surname" placeholder="{{ 'Please enter' | translate }}" />
                             <ng-template #chinaNameError>
                               <ng-container *ngIf="validateContactForm.get('surname').hasError('required')">
                                 {{ 'Please type in your name!' | translate }}
@@ -87,12 +74,7 @@
                         <nz-form-item>
                           <nz-form-label>{{ 'Name' | translate }}({{ 'Local' | translate }})</nz-form-label>
                           <nz-form-control>
-                            <input
-                              type="text"
-                              nz-input
-                              formControlName="nameLocalization"
-                              placeholder="{{ 'Please enter' | translate }}"
-                            />
+                            <input type="text" nz-input formControlName="nameLocalization" placeholder="{{ 'Please enter' | translate }}" />
                           </nz-form-control>
                         </nz-form-item>
                       </div>
@@ -104,8 +86,7 @@
                             <ng-template #mailError>
                               <ng-container
                                 *ngIf="
-                                  validateContactForm.get('mail').hasError('required') ||
-                                  validateContactForm.get('mail').hasError('email')
+                                  validateContactForm.get('mail').hasError('required') || validateContactForm.get('mail').hasError('email')
                                 "
                               >
                                 {{ 'Please input the correct email address!' | translate }}
@@ -232,11 +213,7 @@
                   (input)="searchPlace($event)"
                 ></textarea>
                 <nz-autocomplete #auto>
-                  <nz-auto-option
-                    *ngFor="let item of placeList"
-                    [nzValue]="item.description"
-                    (click)="bindGoogleMapData(item.description)"
-                  >
+                  <nz-auto-option *ngFor="let item of placeList" [nzValue]="item.description" (click)="bindGoogleMapData(item.description)">
                     <span>{{ item.description }}</span>
                   </nz-auto-option>
                 </nz-autocomplete>
@@ -247,12 +224,7 @@
           <div nz-col [nzSpan]="24">
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please enter the address detial!' | translate }}">
-                <input
-                  type="text"
-                  nz-input
-                  formControlName="address2"
-                  placeholder="{{ 'Example: Aerospace Building, 22' | translate }}"
-                />
+                <input type="text" nz-input formControlName="address2" placeholder="{{ 'Example: Aerospace Building, 22' | translate }}" />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -277,8 +249,15 @@
         </div>
       </div>
     </form>
-    <ng-template #footer>
-      <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
-    </ng-template>
   </div>
-</nz-modal>
+
+  <footer class="drawer_footer">
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+  </footer>
+
+  <nz-resize-handle nzDirection="left">
+    <div class="right-wrap">
+      <div class="triangle"></div>
+    </div>
+  </nz-resize-handle>
+</div>

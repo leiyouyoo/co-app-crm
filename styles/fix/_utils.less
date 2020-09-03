@@ -40,631 +40,613 @@
 
 
 
-  html {
-    .ant-tabs-tab-active {
-      color: #1890ff !important;
+html {
+  .ant-tabs-tab-active {
+    color: #1890ff !important;
+  }
+
+  //输入框
+  .ant-input {
+    position             : relative;
+    display              : inline-block;
+    box-sizing           : border-box;
+    width                : 100%;
+    padding              : 4px 11px;
+    color                : #17191a;
+    font-size            : 14px;
+    font-variant         : tabular-nums;
+    list-style           : none;
+    background-color     : #fff;
+    background-image     : none;
+    border               : 1px solid @input-border-color;
+    border-radius        : 4px;
+    transition           : all 0.3s;
+    font-feature-settings: 'tnum';
+  }
+
+  .ant-input-number {
+    // border       : 1px solid rgba(240, 243, 247, 1);
+    border-radius   : 4px;
+    // box-shadow   : 0 2px 4px 0 rgba(239, 242, 247, 1);
+  }
+
+  //下拉框
+  .ant-select {
+    position             : relative;
+    display              : inline-block;
+    box-sizing           : border-box;
+    padding              : 0;
+    color                : #17191a;
+    font-size            : 14px;
+    font-variant         : tabular-nums;
+    line-height          : 1.5;
+    list-style           : none;
+    outline              : 0;
+    font-feature-settings: 'tnum';
+  }
+
+  //单选框
+  .ant-radio-group {
+    display              : inline-block;
+    box-sizing           : border-box;
+    padding              : 4px 0;
+    color                : #17191a;
+    font-size            : 14px;
+    font-variant         : tabular-nums;
+    list-style           : none;
+    font-feature-settings: 'tnum';
+  }
+
+  .ant-btn {
+    font-weight  : 400;
+    font-size    : 14px;
+    border-radius: 8px;
+  }
+
+  .ant-btn-primary {
+    font-size       : 14px;
+    background-color: @primary-color  !important;
+  }
+
+  .ant-select-selection {
+    border       : 1px solid @input-border-color;
+    border-radius: 4px;
+  }
+
+  .co-form {
+    .ant-form-item {
+      margin: 0 0 24px 0;
+
+      .ant-input,
+      .ant-select,
+      .ant-radio-group {
+        margin: 0;
+      }
     }
 
-    //输入框
+    .ant-form-item-control {
+      position   : relative;
+      line-height: 25px;
+      zoom       : 1;
+    }
+
     .ant-input {
-      position             : relative;
-      display              : inline-block;
-      box-sizing           : border-box;
-      width                : 100%;
-      padding              : 4px 11px;
-      color                : #17191a;
-      font-size            : 14px;
-      font-variant         : tabular-nums;
-      list-style           : none;
-      background-color     : #fff;
-      background-image     : none;
-      border               : 1px solid @input-border-color;
-      border-radius        : 4px;
-      transition           : all 0.3s;
-      font-feature-settings: 'tnum';
-    }
-
-    .ant-input-number {
-      // border       : 1px solid rgba(240, 243, 247, 1);
-      border-radius   : 4px;
-      // box-shadow   : 0 2px 4px 0 rgba(239, 242, 247, 1);
+      margin: 0 0 24px 0;
     }
 
     //下拉框
     .ant-select {
-      position             : relative;
-      display              : inline-block;
-      box-sizing           : border-box;
-      padding              : 0;
-      color                : #17191a;
-      font-size            : 14px;
-      font-variant         : tabular-nums;
-      line-height          : 1.5;
-      list-style           : none;
-      outline              : 0;
-      font-feature-settings: 'tnum';
+      .ant-select;
+
+      margin: 0 0 24px 0;
+    }
+
+    //label
+    .ant-form-item-label {
+      margin: 0 0 4px 0;
     }
 
     //单选框
     .ant-radio-group {
-      display              : inline-block;
-      box-sizing           : border-box;
-      padding              : 4px 0;
-      color                : #17191a;
-      font-size            : 14px;
-      font-variant         : tabular-nums;
-      list-style           : none;
-      font-feature-settings: 'tnum';
-    }
+      .ant-radio-group;
 
-    .ant-btn {
-      font-weight  : 400;
-      font-size    : 14px;
-      border-radius: 8px;
-    }
-
-    .ant-btn-primary {
-      font-size       : 14px;
-      background-color: @primary-color  !important;
-    }
-
-    .ant-select-selection {
-      border       : 1px solid @input-border-color;
-      border-radius: 4px;
-    }
-
-    .co-form {
-      .ant-form-item {
-        margin: 0 0 24px 0;
-
-        .ant-input,
-        .ant-select,
-        .ant-radio-group {
-          margin: 0;
-        }
-      }
-
-      .ant-form-item-control {
-        position   : relative;
-        line-height: 25px;
-        zoom       : 1;
-      }
-
-      .ant-input {
-        margin: 0 0 24px 0;
-      }
-
-      //下拉框
-      .ant-select {
-        .ant-select;
-
-        margin: 0 0 24px 0;
-      }
-
-      //label
-      .ant-form-item-label {
-        margin: 0 0 4px 0;
-      }
-
-      //单选框
-      .ant-radio-group {
-        .ant-radio-group;
-
-        margin: 0 0 24px 0;
-      }
-
-      //按钮样式(primary)
-      .ant-btn-primary {
-        .ant-btn-primary;
-
-        margin: 0 8px 8px 0;
-      }
-
-      //按钮禁用样式(primary)
-      .ant-btn-primary[disabled] {
-        .ant-btn-primary;
-
-        margin: 0 8px 8px 0;
-      }
+      margin: 0 0 24px 0;
     }
 
     //按钮样式(primary)
     .ant-btn-primary {
-      position        : relative;
-      font-size       : 14px;
-      background-color: @primary-color  !important;
+      .ant-btn-primary;
 
-      &::before {
-        position  : absolute;
-        top       : 0;
-        right     : 0;
-        bottom    : 0;
-        left      : 0;
-        display   : block;
-        background: @primary-color;
-        opacity   : 0;
-        content   : '';
-      }
-
-      &:not([disabled]):hover::before {
-        opacity: 0.5;
-      }
-
-      &:active::before {
-        opacity: 0.8;
-      }
-
-      &[disabled] {
-        color     : #fff;
-        background: rgba(24, 144, 255, 1);
-        box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2);
-        opacity   : 0.5;
-      }
+      margin: 0 8px 8px 0;
     }
 
-    .ant-btn-default,
-    .ant-btn-default:focus {
-      position: relative;
-      color   : rgba(0, 0, 0, 0.65);
-      border  : 1px solid rgba(0, 0, 0, 0.15);
+    //按钮禁用样式(primary)
+    .ant-btn-primary[disabled] {
+      .ant-btn-primary;
 
-      &::before {
-        position  : absolute;
-        top       : -1px;
-        right     : -1px;
-        bottom    : -1px;
-        left      : -1px;
-        display   : block;
-        background: @primary-color;
-        opacity   : 0;
-        content   : '';
-      }
-
-      &:hover,
-      &:active {
-        color : rgba(0, 0, 0, 0.65);
-        border: 1px solid rgba(0, 0, 0, 0.15);
-      }
-
-      &:not([disabled]):hover::before {
-        opacity: 0.3;
-      }
-
-      &:active::before {
-        opacity: 0.8;
-      }
-
-      &[disabled] {
-        background: rgba(0, 0, 0, 0.04);
-        border    : 1px solid rgba(0, 0, 0, 0.15);
-      }
-    }
-
-    a.ant-btn {
-      position     : relative;
-      height       : initial;
-      padding      : 0;
-      color        : @primary-color;
-      line-height  : initial;
-      border-radius: 0;
-
-      &:hover span {
-        color          : @primary-color;
-        text-decoration: underline !important;
-      }
-
-      &:active span {
-        color          : @primary-color;
-        text-decoration: underline !important;
-      }
-
-      &::before {
-        position  : absolute;
-        display   : block;
-        background: @primary-color;
-        opacity   : 0;
-        content   : '';
-      }
-
-      &:not([disabled]):hover::before {
-        opacity: 0;
-      }
-
-      &:active::before {
-        opacity: 0.2;
-      }
-
-      &[disabled] {
-        color  : @primary-color  !important;
-        opacity: 0.4;
-      }
-    }
-
-    //幽灵按钮样式
-    .ghostButton {
-      margin-right    : 8px;
-      margin-left     : 8px;
-      color           : @primary-color;
-      background-color: #fff;
-      border-color    : #9cb2cd;
-    }
-
-    .ghostButton:hover {
-      color           : @primary-color;
-      background-color: #fff;
-      border-color    : #d8e5f4;
-    }
-
-    .ghostButton:active {
-      color           : @primary-color;
-      background-color: #fff;
-      border-color    : #8396ad;
-    }
-
-    //下拉框选中鼠标悬浮样式
-    .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
-      color           : @text-color;
-      font-weight     : 600;
-      background-color: @Interaction-color;
-    }
-
-    //下拉框组得样式
-    .ant-select-dropdown-menu-item-group-title {
-      height     : 32px;
-      padding    : 0 12px;
-      color      : rgba(0, 0, 0, 0.45);
-      color      : @SubtitleColor;
-      font-weight: bold;
-      font-size  : 14px;
-      line-height: 32px;
-    }
-
-    //日期选中悬浮背景颜色
-    .ant-calendar-date:hover {
-      background-color: @Interaction-color;
-    }
-
-    //进度条
-    .ant-progress-success-bg,
-    .ant-progress-bg {
-      background-color: @progress-default-color;
-    }
-
-    //下拉框指标
-    .ant-select-arrow svg {
-      display: inline-block;
-      color  : #17191a;
-    }
-
-    //table
-    .ant-table-small {
-      border: none;
-    }
-
-    // .ant-table-thead>tr>th {
-    //   padding         : 15px 12px !important;
-    //   font-weight     : 600;
-    //   font-size       : 14px;
-    //   text-align      : left;
-    //   background-color: #f5f5f5ff;
-    //   border          : 0;
-    // }
-
-    .ant-table-tbody>tr {
-      border: 0;
-    }
-
-    .ant-table-tbody>tr>td {
-      margin: 0;
-
-      text-align: left;
-
-      ul {
-        height     : 35px;
-        height     : 100%;
-        margin     : 0;
-        padding    : 0;
-        line-height: 35px;
-        list-style : none;
-
-        li {
-          max-width    : 100%;
-          height       : 20px;
-          margin       : 0;
-          padding      : 0;
-          overflow     : hidden;
-          line-height  : 20px;
-          white-space  : nowrap;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
-    .ant-table-thead>tr>th .ant-table-header-column .ant-table-column-sorters:hover::before {
-      background: #f5f5f5ff !important;
-    }
-
-    .ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
-      background: #f5f5f5ff !important;
-    }
-
-    .ant-table-thead>tr>th.ant-table-column-sort {
-      background: #f5f5f5ff !important;
-    }
-
-    .ant-table-wrapper {
-      .ant-table-placeholder {
-        border: none;
-      }
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr {
-      &:hover {
-        background: #e6f7ff !important;
-
-        >td {
-          background: #e6f7ff !important;
-        }
-      }
-
-      >td :hover {
-        cursor: pointer;
-      }
-    }
-
-    .ant-tabs-nav {
-      font-weight: 400;
-
-      .ant-tabs-tab-active {
-        color: #17191a;
-      }
-    }
-
-    .ant-btn {
-      font-weight: 600;
-      font-size  : 12px;
-    }
-
-    .ant-form-explain {
-      color: #f5222d;
-    }
-
-    .page_footer {
-      display       : flex;
-      flex-direction: row-reverse;
-    }
-
-    .schdules .ant-tabs-tab-active {
-      color: #8ab7ff !important;
-    }
-
-    .schdules {
-      .ant-modal-body {
-        padding: 0;
-      }
-
-      nz-table thead tr th:first-child {
-        color     : #6198ff !important;
-        text-align: left !important;
-      }
-
-      nz-table thead tr th {
-        background: #eff6ff !important;
-      }
-
-      nz-table tbody tr td:first-child {
-        text-align: left !important;
-      }
-
-      nz-table tbody tr td {
-        font-weight: bold;
-      }
-
-      .ant-tabs-bar {
-        margin-bottom: 23px !important;
-        border-bottom: none !important;
-      }
-    }
-
-    .rate-table-edit {
-      .ant-btn {
-        color       : #6198ff;
-        border-color: #6198ff;
-      }
-    }
-
-    rate-filter-panel {
-      .ant-card {
-        margin-bottom: 16px;
-        box-shadow   : 0 0 5px 2px #ebedef;
-      }
-
-      .ant-card-head {
-        border-bottom: none !important;
-      }
-
-      .ant-card-actions {
-        background: #fff;
-      }
-    }
-
-    .inner-content {
-      height  : 100%;
-      overflow: auto;
-
-      .main-container {
-        background   : rgba(255, 255, 255, 1);
-        border-radius: 10px;
-        box-shadow   : 0 0 10px 0 rgba(230, 233, 243, 0.5);
-      }
-
-      .bg-double-circle {
-        background-image   : url(../../assets/images/double-circle.png);
-        background-repeat  : no-repeat;
-        background-position: left top;
-      }
-    }
-
-    .ant-timeline-no-min-height {
-      .ant-timeline-item-last {
-        .ant-timeline-item-content {
-          min-height: initial;
-        }
-      }
-    }
-
-    .csp-header {
-      .ant-badge-count {
-        font-size : 12px;
-        background: #fc5a5a !important;
-        box-shadow: none;
-
-        p {
-          color: #fff;
-        }
-      }
-    }
-
-    .csp-header-menu {
-      padding      : 12px 12px;
-      border-radius: 0 !important;
-
-      .ant-dropdown-menu-item {
-        padding: 5px 30px 5px 5px;
-      }
-    }
-
-    .notifications-menu,
-    .csp-header-menu {
-      box-shadow: 0 0 5px #e4e4e4;
-    }
-
-    .error {
-      color: #e55354;
-
-      .ant-select-selection {
-        border: 1px solid #e55354;
-      }
-    }
-
-    .ql-container.ql-snow {
-      border: none !important;
-    }
-
-    .ql-toolbar {
-      border-top         : none !important;
-      border-right       : none !important;
-      border-bottom-color: #e4e4e4 !important;
-      border-left        : none !important;
+      margin: 0 8px 8px 0;
     }
   }
 
-  .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
-    height: initial;
-  }
+  //按钮样式(primary)
+  .ant-btn-primary {
+    position        : relative;
+    font-size       : 14px;
+    background-color: @primary-color  !important;
 
-  .red {
-    color: #e55354;
-  }
-
-  .ant-select-dropdown {
-    &.hide-nz-group {
-      .ant-select-dropdown-menu-item-group-title {
-        display: none;
-      }
-
-      .ant-select-dropdown-menu-item {
-        padding-left: 12px;
-      }
-    }
-  }
-
-  .ant-select-dropdown-menu-item {
-    div {
-      font-weight: 400 !important;
-      opacity    : 0.85 !important;
-    }
-  }
-
-  .ant-select-dropdown {
-    &.hide-nz-group {
-      .ant-select-dropdown-menu-item-group-title {
-        display: none;
-      }
-
-      .ant-select-dropdown-menu-item {
-        padding-left: 12px;
-      }
-    }
-  }
-
-  .nz-radio-group-normal {
-    padding   : 0;
-    box-shadow: 0px 2px 4px 0px rgba(239, 242, 247, 1);
-
-    .ant-radio-button-wrapper {
-      height: 30px;
-      border: none;
-
-      &:first-child {
-        border-radius: 4px 0 0 4px;
-      }
-
-      &:last-child {
-        border-radius: 0 4px 4px 0;
-      }
+    &::before {
+      position  : absolute;
+      top       : 0;
+      right     : 0;
+      bottom    : 0;
+      left      : 0;
+      display   : block;
+      background: @primary-color;
+      opacity   : 0;
+      content   : '';
     }
 
-    .ant-radio-button-wrapper:not(:first-child):before {
-      display: none;
+    &:not([disabled]):hover::before {
+      opacity: 0.5;
     }
 
-    .ant-radio-button-wrapper-checked {
-      background: rgba(0, 0, 0, 0.04);
+    &:active::before {
+      opacity: 0.8;
     }
 
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-      box-shadow: none;
-    }
-  }
-
-  .nz-radio-group-pill {
-    padding      : 0;
-    border-radius: 8px;
-    box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
-
-    .ant-radio-button-wrapper {
-      min-width    : 60px;
-      height       : 22px;
-      color        : rgba(24, 144, 255, 1);
-      line-height  : 22px;
-      text-align   : center;
-      border       : none;
-      border-radius: 8px;
-    }
-
-    .ant-radio-button-wrapper-checked {
-      color     : #fff !important;
+    &[disabled] {
+      color     : #fff;
       background: rgba(24, 144, 255, 1);
+      box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2);
+      opacity   : 0.5;
+    }
+  }
+
+  .ant-btn-default,
+  .ant-btn-default:focus {
+    position: relative;
+    color   : rgba(0, 0, 0, 0.65);
+    border  : 1px solid rgba(0, 0, 0, 0.15);
+
+    &::before {
+      position  : absolute;
+      top       : -1px;
+      right     : -1px;
+      bottom    : -1px;
+      left      : -1px;
+      display   : block;
+      background: @primary-color;
+      opacity   : 0;
+      content   : '';
     }
 
-    .ant-radio-button-wrapper:not(:first-child)::before {
-      display: none;
+    &:hover,
+    &:active {
+      color : rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-      box-shadow: none;
+    &:not([disabled]):hover::before {
+      opacity: 0.3;
     }
+
+    &:active::before {
+      opacity: 0.8;
+    }
+
+    &[disabled] {
+      background: rgba(0, 0, 0, 0.04);
+      border    : 1px solid rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  a.ant-btn {
+    position     : relative;
+    height       : initial;
+    padding      : 0;
+    color        : @primary-color;
+    line-height  : initial;
+    border-radius: 0;
+
+    &:hover span {
+      color          : @primary-color;
+      text-decoration: underline !important;
+    }
+
+    &:active span {
+      color          : @primary-color;
+      text-decoration: underline !important;
+    }
+
+    &::before {
+      position  : absolute;
+      display   : block;
+      background: @primary-color;
+      opacity   : 0;
+      content   : '';
+    }
+
+    &:not([disabled]):hover::before {
+      opacity: 0;
+    }
+
+    &:active::before {
+      opacity: 0.2;
+    }
+
+    &[disabled] {
+      color  : @primary-color  !important;
+      opacity: 0.4;
+    }
+  }
+
+  //幽灵按钮样式
+  .ghostButton {
+    margin-right    : 8px;
+    margin-left     : 8px;
+    color           : @primary-color;
+    background-color: #fff;
+    border-color    : #9cb2cd;
+  }
+
+  .ghostButton:hover {
+    color           : @primary-color;
+    background-color: #fff;
+    border-color    : #d8e5f4;
+  }
+
+  .ghostButton:active {
+    color           : @primary-color;
+    background-color: #fff;
+    border-color    : #8396ad;
+  }
+
+  //下拉框选中鼠标悬浮样式
+  .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
+    color           : @text-color;
+    font-weight     : 600;
+    background-color: @Interaction-color;
+  }
+
+  //下拉框组得样式
+  .ant-select-dropdown-menu-item-group-title {
+    height     : 32px;
+    padding    : 0 12px;
+    color      : rgba(0, 0, 0, 0.45);
+    color      : @SubtitleColor;
+    font-weight: bold;
+    font-size  : 14px;
+    line-height: 32px;
+  }
+
+  //日期选中悬浮背景颜色
+  .ant-calendar-date:hover {
+    background-color: @Interaction-color;
+  }
+
+  //进度条
+  .ant-progress-success-bg,
+  .ant-progress-bg {
+    background-color: @progress-default-color;
+  }
+
+  //下拉框指标
+  .ant-select-arrow svg {
+    display: inline-block;
+    color  : #17191a;
   }
 
   //table
-  .ji {
-    background-color: #fafafaff;
+  .ant-table-small {
+    border: none;
   }
 
-  .ou {
-    background-color: #fff;
+  // .ant-table-thead>tr>th {
+  //   padding         : 15px 12px !important;
+  //   font-weight     : 600;
+  //   font-size       : 14px;
+  //   text-align      : left;
+  //   background-color: #f5f5f5ff;
+  //   border          : 0;
+  // }
+
+  .ant-table-tbody>tr {
+    border: 0;
+  }
+
+  .ant-table-tbody>tr>td {
+    margin: 0;
+
+    text-align: left;
+
+    ul {
+      height     : 35px;
+      height     : 100%;
+      margin     : 0;
+      padding    : 0;
+      line-height: 35px;
+      list-style : none;
+
+      li {
+        max-width    : 100%;
+        height       : 20px;
+        margin       : 0;
+        padding      : 0;
+        overflow     : hidden;
+        line-height  : 20px;
+        white-space  : nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .ant-table-thead>tr>th .ant-table-header-column .ant-table-column-sorters:hover::before {
+    background: #f5f5f5ff !important;
+  }
+
+  .ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
+    background: #f5f5f5ff !important;
+  }
+
+  .ant-table-thead>tr>th.ant-table-column-sort {
+    background: #f5f5f5ff !important;
+  }
+
+  .ant-table-wrapper {
+    .ant-table-placeholder {
+      border: none;
+    }
+  }
+
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr {
+    &:hover {
+      background: #e6f7ff !important;
+
+      >td {
+        background: #e6f7ff !important;
+      }
+    }
+
+    >td :hover {
+      cursor: pointer;
+    }
+  }
+
+  .ant-tabs-nav {
+    font-weight: 400;
+
+    .ant-tabs-tab-active {
+      color: #17191a;
+    }
+  }
+
+  .ant-btn {
+    font-weight: 600;
+    font-size  : 12px;
+  }
+
+  .ant-form-explain {
+    color: #f5222d;
+  }
+
+  .page_footer {
+    display       : flex;
+    flex-direction: row-reverse;
+  }
+
+  .schdules .ant-tabs-tab-active {
+    color: #8ab7ff !important;
+  }
+
+  .schdules {
+    .ant-modal-body {
+      padding: 0;
+    }
+
+    nz-table thead tr th:first-child {
+      color     : #6198ff !important;
+      text-align: left !important;
+    }
+
+    nz-table thead tr th {
+      background: #eff6ff !important;
+    }
+
+    nz-table tbody tr td:first-child {
+      text-align: left !important;
+    }
+
+    nz-table tbody tr td {
+      font-weight: bold;
+    }
+
+    .ant-tabs-bar {
+      margin-bottom: 23px !important;
+      border-bottom: none !important;
+    }
+  }
+
+  .rate-table-edit {
+    .ant-btn {
+      color       : #6198ff;
+      border-color: #6198ff;
+    }
+  }
+
+  rate-filter-panel {
+    .ant-card {
+      margin-bottom: 16px;
+      box-shadow   : 0 0 5px 2px #ebedef;
+    }
+
+    .ant-card-head {
+      border-bottom: none !important;
+    }
+
+    .ant-card-actions {
+      background: #fff;
+    }
+  }
+
+  .inner-content {
+    height  : 100%;
+    overflow: auto;
+
+    .main-container {
+      background   : rgba(255, 255, 255, 1);
+      border-radius: 10px;
+      box-shadow   : 0 0 10px 0 rgba(230, 233, 243, 0.5);
+    }
+
+    .bg-double-circle {
+      background-image   : url(../../assets/images/double-circle.png);
+      background-repeat  : no-repeat;
+      background-position: left top;
+    }
+  }
+
+  .ant-timeline-no-min-height {
+    .ant-timeline-item-last {
+      .ant-timeline-item-content {
+        min-height: initial;
+      }
+    }
+  }
+
+  .csp-header {
+    .ant-badge-count {
+      font-size : 12px;
+      background: #fc5a5a !important;
+      box-shadow: none;
+
+      p {
+        color: #fff;
+      }
+    }
+  }
+
+  .csp-header-menu {
+    padding      : 12px 12px;
+    border-radius: 0 !important;
+
+    .ant-dropdown-menu-item {
+      padding: 5px 30px 5px 5px;
+    }
+  }
+
+  .notifications-menu,
+  .csp-header-menu {
+    box-shadow: 0 0 5px #e4e4e4;
+  }
+
+  .error {
+    color: #e55354;
+
+    .ant-select-selection {
+      border: 1px solid #e55354;
+    }
+  }
+
+  .ql-container.ql-snow {
+    border: none !important;
+  }
+
+  .ql-toolbar {
+    border-top         : none !important;
+    border-right       : none !important;
+    border-bottom-color: #e4e4e4 !important;
+    border-left        : none !important;
+  }
+}
+
+.ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
+  height: initial;
+}
+
+.red {
+  color: #e55354;
+}
+
+.ant-select-dropdown {
+  &.hide-nz-group {
+    .ant-select-dropdown-menu-item-group-title {
+      display: none;
+    }
+
+    .ant-select-dropdown-menu-item {
+      padding-left: 12px;
+    }
+  }
+}
+
+.ant-select-dropdown-menu-item {
+  div {
+    font-weight: 400 !important;
+    opacity    : 0.85 !important;
+  }
+}
+
+.ant-select-dropdown {
+  &.hide-nz-group {
+    .ant-select-dropdown-menu-item-group-title {
+      display: none;
+    }
+
+    .ant-select-dropdown-menu-item {
+      padding-left: 12px;
+    }
+  }
+}
+
+.nz-radio-group-normal {
+  padding   : 0;
+  box-shadow: 0px 2px 4px 0px rgba(239, 242, 247, 1);
+
+  .ant-radio-button-wrapper {
+    height: 30px;
+    border: none;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  .ant-radio-button-wrapper:not(:first-child):before {
+    display: none;
+  }
+
+  .ant-radio-button-wrapper-checked {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    box-shadow: none;
+  }
+}
+
+.nz-radio-group-pill {
+  padding      : 0;
+  border-radius: 8px;
+  box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
+
+  .ant-radio-button-wrapper {
+    min-width    : 60px;
+    height       : 22px;
+    color        : rgba(24, 144, 255, 1);
+    line-height  : 22px;
+    text-align   : center;
+    border       : none;
+    border-radius: 8px;
+  }
+
+  .ant-radio-button-wrapper-checked {
+    color     : #fff !important;
+    background: rgba(24, 144, 255, 1);
   }
 
   .ant-radio-button-wrapper:not(:first-child)::before {
@@ -674,1750 +656,1768 @@
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
     box-shadow: none;
   }
+}
 
-  .nz-radio-group-button {
-    display      : inline-flex;
-    padding      : 2px;
-    color        : rgba(0, 0, 0, 0.25);
-    font-size    : 14px;
+//table
+.ji {
+  background-color: #fafafaff;
+}
+
+.ou {
+  background-color: #fff;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+  display: none;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  box-shadow: none;
+}
+
+.nz-radio-group-button {
+  display      : inline-flex;
+  padding      : 2px;
+  color        : rgba(0, 0, 0, 0.25);
+  font-size    : 14px;
+  border-radius: 8px;
+  box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
+
+  .ant-radio-button-wrapper {
+    flex         : 1;
+    height       : 28px;
+    color        : rgba(191, 191, 191, 1);
+    text-align   : center;
+    border       : none;
     border-radius: 8px;
-    box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
+  }
 
-    .ant-radio-button-wrapper {
-      flex         : 1;
-      height       : 28px;
-      color        : rgba(191, 191, 191, 1);
-      text-align   : center;
-      border       : none;
-      border-radius: 8px;
-    }
+  .ant-radio-button-wrapper-checked {
+    color     : #fff !important;
+    background: @primary-color  !important;
+    box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
+  }
 
-    .ant-radio-button-wrapper-checked {
-      color     : #fff !important;
-      background: @primary-color  !important;
-      box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
-    }
+  .ant-radio-button-wrapper:not(:first-child)::before {
+    display: none;
+  }
 
-    .ant-radio-button-wrapper:not(:first-child)::before {
-      display: none;
-    }
+  /* select */
+  nz-select {
+    height: 28px;
 
-    /* select */
-    nz-select {
+    &>div {
       height: 28px;
-
-      &>div {
-        height: 28px;
-        border: none;
-      }
-
-      .ant-select-selection__clear,
-      .ant-select-arrow {
-        color: #fff;
-
-        &::before {
-          color: #fff;
-        }
-      }
-    }
-
-    .select-checked .ant-select-selection {
-      color     : #fff;
-      background: @primary-color;
-
-      & .ant-select-selection__clear {
-        background: @primary-color;
-      }
-
-      & .ant-select-arrow-icon {
-        color: rgba(0, 0, 0, 0.25);
-      }
-
-      & .ant-select-selection__placeholder {
-        color: rgba(0, 0, 0, 0.25);
-      }
-    }
-  }
-
-  .nz-radio-group-button-quote {
-    display      : inline-flex;
-    padding      : 2px;
-    color        : rgba(0, 0, 0, 0.25);
-    font-size    : 14px;
-    border-radius: 0px;
-    border       : 1px solid #d9d9d9;
-
-    .ant-radio-button-wrapper {
-      flex         : 1;
-      height       : 28px;
-      color        : rgba(191, 191, 191, 1);
-      text-align   : center;
-      border       : none;
-      border-radius: 0px;
-    }
-
-    .ant-radio-button-wrapper-checked {
-      color     : #fff !important;
-      background: @primary-color  !important;
-      box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
-    }
-
-    .ant-radio-button-wrapper:not(:first-child)::before {
-      display: none;
-    }
-
-    /* select */
-    nz-select {
-      height: 28px;
-
-      &>div {
-        height: 28px;
-        border: none;
-      }
-
-      .ant-select-selection__clear,
-      .ant-select-arrow {
-        color: #fff;
-
-        &::before {
-          color: #fff;
-        }
-      }
-    }
-
-    .select-checked .ant-select-selection {
-      color     : #fff;
-      background: @primary-color;
-
-      & .ant-select-selection__clear {
-        background: @primary-color;
-      }
-
-      & .ant-select-arrow-icon {
-        color: rgba(0, 0, 0, 0.25);
-      }
-
-      & .ant-select-selection__placeholder {
-        color: rgba(0, 0, 0, 0.25);
-      }
-    }
-  }
-
-  .ant-calendar-picker {
-    width: 100%;
-
-    &>nz-picker {
-      width: 100%;
-    }
-  }
-
-  .nz-collapse-form {
-    .ant-collapse {
-      background: transparent;
-    }
-
-    .ant-collapse-borderless .ant-collapse-item {
       border: none;
     }
 
-    .ant-collapse-header {
-      padding-left: 18px !important;
-    }
+    .ant-select-selection__clear,
+    .ant-select-arrow {
+      color: #fff;
 
-    .ant-collapse-arrow {
-      left: 0 !important;
-    }
-
-    .ant-collapse-content-box {
-      padding: 0;
-    }
-  }
-
-  //  进度条组件实线改为虚线
-  .route-time-line-content {
-    .ant-timeline-item-tail {
-      border-left: 2px dashed #e8e8e8 !important;
-    }
-  }
-
-  .nz-table-radius {
-    overflow     : hidden;
-    border       : 1px solid rgba(240, 243, 247, 1);
-    border-radius: 10px;
-
-    th,
-    td {
-      padding-top   : 0 !important;
-      padding-bottom: 0 !important;
-      color         : rgba(0, 0, 0, 0.65) !important;
-      font-weight   : 400 !important;
-      line-height   : 36px !important;
-    }
-
-    td {
-      background: #fff;
-    }
-  }
-
-  .ant-breadcrumb {
-    padding: 8px 20px;
-  }
-
-  .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner:hover {
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item-description {
-    min-width: 180px;
-  }
-
-  .ant-tabs-bar {
-    // border-bottom: none;
-  }
-
-  .ant-modal {
-    top       : 10% !important;
-    display   : flex;
-    max-width : 90% !important;
-    max-height: 80% !important;
-
-    @media all and (-ms-high-contrast: none),
-    (-ms-high-contrast: active) {
-      height: 100%;
-    }
-
-    overflow: hidden !important;
-
-    .ant-modal-content {
-      display       : flex;
-      flex-direction: column;
-      width         : 100%;
-      overflow      : hidden;
-
-      .ant-modal-body {
-        flex     : 1;
-        flex-grow: 1;
-        overflow : auto;
+      &::before {
+        color: #fff;
       }
     }
   }
 
-  .ant-modal-header {
+  .select-checked .ant-select-selection {
+    color     : #fff;
+    background: @primary-color;
+
+    & .ant-select-selection__clear {
+      background: @primary-color;
+    }
+
+    & .ant-select-arrow-icon {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    & .ant-select-selection__placeholder {
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.nz-radio-group-button-quote {
+  display      : inline-flex;
+  padding      : 2px;
+  color        : rgba(0, 0, 0, 0.25);
+  font-size    : 14px;
+  border-radius: 0px;
+  border       : 1px solid #d9d9d9;
+
+  .ant-radio-button-wrapper {
+    flex         : 1;
+    height       : 28px;
+    color        : rgba(191, 191, 191, 1);
+    text-align   : center;
+    border       : none;
+    border-radius: 0px;
+  }
+
+  .ant-radio-button-wrapper-checked {
+    color     : #fff !important;
+    background: @primary-color  !important;
+    box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
+  }
+
+  .ant-radio-button-wrapper:not(:first-child)::before {
+    display: none;
+  }
+
+  /* select */
+  nz-select {
+    height: 28px;
+
+    &>div {
+      height: 28px;
+      border: none;
+    }
+
+    .ant-select-selection__clear,
+    .ant-select-arrow {
+      color: #fff;
+
+      &::before {
+        color: #fff;
+      }
+    }
+  }
+
+  .select-checked .ant-select-selection {
+    color     : #fff;
+    background: @primary-color;
+
+    & .ant-select-selection__clear {
+      background: @primary-color;
+    }
+
+    & .ant-select-arrow-icon {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    & .ant-select-selection__placeholder {
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.ant-calendar-picker {
+  width: 100%;
+
+  &>nz-picker {
+    width: 100%;
+  }
+}
+
+.nz-collapse-form {
+  .ant-collapse {
+    background: transparent;
+  }
+
+  .ant-collapse-borderless .ant-collapse-item {
+    border: none;
+  }
+
+  .ant-collapse-header {
+    padding-left: 18px !important;
+  }
+
+  .ant-collapse-arrow {
+    left: 0 !important;
+  }
+
+  .ant-collapse-content-box {
+    padding: 0;
+  }
+}
+
+//  进度条组件实线改为虚线
+.route-time-line-content {
+  .ant-timeline-item-tail {
+    border-left: 2px dashed #e8e8e8 !important;
+  }
+}
+
+.nz-table-radius {
+  overflow     : hidden;
+  border       : 1px solid rgba(240, 243, 247, 1);
+  border-radius: 10px;
+
+  th,
+  td {
+    padding-top   : 0 !important;
+    padding-bottom: 0 !important;
+    color         : rgba(0, 0, 0, 0.65) !important;
+    font-weight   : 400 !important;
+    line-height   : 36px !important;
+  }
+
+  td {
+    background: #fff;
+  }
+}
+
+.ant-breadcrumb {
+  padding: 8px 20px;
+}
+
+.ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner:hover {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item-description {
+  min-width: 180px;
+}
+
+.ant-tabs-bar {
+  // border-bottom: none;
+}
+
+.ant-modal {
+  top       : 10% !important;
+  display   : flex;
+  max-width : 90% !important;
+  max-height: 80% !important;
+
+  @media all and (-ms-high-contrast: none),
+  (-ms-high-contrast: active) {
+    height: 100%;
+  }
+
+  overflow: hidden !important;
+
+  .ant-modal-content {
+    display       : flex;
+    flex-direction: column;
+    width         : 100%;
+    overflow      : hidden;
+
+    .ant-modal-body {
+      flex     : 1;
+      flex-grow: 1;
+      overflow : auto;
+    }
+  }
+}
+
+.ant-modal-header {
+  position: relative;
+
+  &::before {
+    position  : absolute;
+    top       : 0;
+    bottom    : 0;
+    left      : 0;
+    display   : flex;
+    width     : 4px;
+    height    : 28px;
+    margin    : auto;
+    background: rgba(24, 144, 255, 1);
+    content   : '';
+  }
+}
+
+.ant-btn {
+  min-width: 50px;
+}
+
+nz-table-title-footer {
+  padding-left : 0 !important;
+  padding-right: 0 !important;
+}
+
+nz-table-inner-scroll {
+  box-shadow: none !important;
+}
+
+.ant-table-container::after {
+  box-shadow: none !important;
+}
+
+.nz-table-hide-scrollbar::-webkit-scrollbar {
+  background: #fafafa;
+}
+
+.ant-checkbox-inner,
+.ant-picker,
+.ant-select-selector,
+.ant-input-affix-wrapper,
+.ant-btn {
+  border-radius: 4px !important;
+}
+
+.flexTableset .ant-tabs-nav-scroll {
+  padding: 0 20px;
+}
+
+.system {
+  margin-right: 20px;
+
+  .ant-select-selector {
+    border-radius: 8px !important;
+  }
+}
+
+.ant-btn-primary[disabled]:hover {
+  color: #fff !important;
+}
+
+.ant-btn+.ant-btn:not(.ant-btn-link) {
+  margin-left: 8px;
+}
+
+.search__form {
+  .ant-select {
+    width: 100%;
+  }
+}
+
+.attachment {
+  display      : flex;
+  align-items  : center;
+  margin-bottom: 8px;
+  padding      : 4px;
+  border       : 1px solid @grey-4;
+
+  &-icon {
+    padding  : 2px;
+    font-size: 40px;
+  }
+
+  &-img {
+    width              : 64px;
+    height             : 64px;
+    background-color   : transparent;
+    background-position: center center;
+    background-size    : cover;
+  }
+}
+
+.feed {
+  &__icon {
     position: relative;
 
-    &::before {
-      position  : absolute;
-      top       : 0;
-      bottom    : 0;
-      left      : 0;
-      display   : flex;
-      width     : 4px;
-      height    : 28px;
-      margin    : auto;
-      background: rgba(24, 144, 255, 1);
-      content   : '';
+    &-tag {
+      position: absolute;
+      top     : -6px;
+      right   : -2px;
     }
   }
+}
 
-  .ant-btn {
-    min-width: 50px;
-  }
+.img {
+  &-thm {
+    position        : relative;
+    display         : block;
+    max-width       : 100%;
+    height          : auto;
+    background-color: transparent;
 
-  nz-table-title-footer {
-    padding-left : 0 !important;
-    padding-right: 0 !important;
-  }
-
-  nz-table-inner-scroll {
-    box-shadow: none !important;
-  }
-
-  .ant-table-container::after {
-    box-shadow: none !important;
-  }
-
-  .nz-table-hide-scrollbar::-webkit-scrollbar {
-    background: #fafafa;
-  }
-
-  .ant-checkbox-inner,
-  .ant-picker,
-  .ant-select-selector,
-  .ant-input-affix-wrapper,
-  .ant-btn {
-    border-radius: 4px !important;
-  }
-
-  .flexTableset .ant-tabs-nav-scroll {
-    padding: 0 20px;
-  }
-
-  .system {
-    margin-right: 20px;
-
-    .ant-select-selector {
-      border-radius: 8px !important;
-    }
-  }
-
-  .ant-btn-primary[disabled]:hover {
-    color: #fff !important;
-  }
-
-  .ant-btn+.ant-btn:not(.ant-btn-link) {
-    margin-left: 8px;
-  }
-
-  .search__form {
-    .ant-select {
-      width: 100%;
-    }
-  }
-
-  .attachment {
-    display      : flex;
-    align-items  : center;
-    margin-bottom: 8px;
-    padding      : 4px;
-    border       : 1px solid @grey-4;
-
-    &-icon {
-      padding  : 2px;
-      font-size: 40px;
-    }
-
-    &-img {
-      width              : 64px;
-      height             : 64px;
-      background-color   : transparent;
-      background-position: center center;
-      background-size    : cover;
-    }
-  }
-
-  .feed {
-    &__icon {
-      position: relative;
-
-      &-tag {
-        position: absolute;
-        top     : -6px;
-        right   : -2px;
+    &:hover {
+      .img-thm__icon {
+        opacity: 1;
       }
     }
-  }
 
-  .img {
-    &-thm {
-      position        : relative;
+    &__mask {
+      position        : absolute;
+      top             : 0;
+      right           : 0;
+      bottom          : 0;
+      left            : 0;
+      z-index         : 2;
       display         : block;
-      max-width       : 100%;
-      height          : auto;
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.3);
+      transition      : all 0.2s ease-in-out;
+    }
+
+    &__icon {
+      position  : absolute;
+      top       : 50%;
+      left      : 50%;
+      z-index   : 3;
+      display   : block;
+      color     : #fff;
+      font-size : 32px;
+      opacity   : 0;
+      transition: all 0.2s ease-in-out;
+    }
+
+    &__img {
+      z-index  : 1;
+      max-width: 100%;
+      height   : auto;
+    }
+
+    &__zoom-in {
+      overflow: hidden;
+
+      .img-thm__icon {
+        transform: translate(-50%, -50%) scale(0.6);
+      }
+
+      .img-thm__img {
+        transition: all 0.3s ease-in-out;
+      }
 
       &:hover {
         .img-thm__icon {
-          opacity: 1;
-        }
-      }
-
-      &__mask {
-        position        : absolute;
-        top             : 0;
-        right           : 0;
-        bottom          : 0;
-        left            : 0;
-        z-index         : 2;
-        display         : block;
-        background-color: rgba(0, 0, 0, 0.3);
-        transition      : all 0.2s ease-in-out;
-      }
-
-      &__icon {
-        position  : absolute;
-        top       : 50%;
-        left      : 50%;
-        z-index   : 3;
-        display   : block;
-        color     : #fff;
-        font-size : 32px;
-        opacity   : 0;
-        transition: all 0.2s ease-in-out;
-      }
-
-      &__img {
-        z-index  : 1;
-        max-width: 100%;
-        height   : auto;
-      }
-
-      &__zoom-in {
-        overflow: hidden;
-
-        .img-thm__icon {
-          transform: translate(-50%, -50%) scale(0.6);
+          transform: translate(-50%, -50%) scale(1);
         }
 
         .img-thm__img {
-          transition: all 0.3s ease-in-out;
-        }
-
-        &:hover {
-          .img-thm__icon {
-            transform: translate(-50%, -50%) scale(1);
-          }
-
-          .img-thm__img {
-            transform: scale(1.1);
-          }
-        }
-      }
-
-      &:not(:hover):not(:focus) {
-        .img-thm__mask {
-          opacity: 0;
+          transform: scale(1.1);
         }
       }
     }
-  }
 
-  // #endregion
-
-  .add {
-    height    : 48px;
-    margin-top: 14px;
-    padding   : 15px 0 15px 0;
-    text-align: center;
-    border    : 1px dashed rgba(94, 131, 255, 1);
-    cursor    : pointer;
-
-    >span {
-      display: inline-block;
-
-      &:first-child {
-        box-sizing   : content-box;
-        padding-right: 5px;
-        color        : rgba(111, 144, 255, 1);
-        font-weight  : 400;
-        font-size    : 14px;
-        font-family  : PingFangSC-Regular, PingFang SC;
-        line-height  : 20px;
-        border-right : 1px solid rgba(94, 131, 255, 1);
-        cursor       : pointer;
-      }
-
-      &:last-child {
-        box-sizing  : content-box;
-        padding-left: 5px;
-        color       : rgba(153, 153, 153, 1);
-        font-weight : 400;
-        font-family : PingFangSC-Regular, PingFang SC;
-        line-height : 20px;
-        cursor      : pointer;
+    &:not(:hover):not(:focus) {
+      .img-thm__mask {
+        opacity: 0;
       }
     }
   }
+}
 
-  .ant-table-placeholder {
-    border-top   : none !important;
-    border-bottom: none !important;
+// #endregion
+
+.add {
+  height    : 48px;
+  margin-top: 14px;
+  padding   : 15px 0 15px 0;
+  text-align: center;
+  border    : 1px dashed rgba(94, 131, 255, 1);
+  cursor    : pointer;
+
+  >span {
+    display: inline-block;
+
+    &:first-child {
+      box-sizing   : content-box;
+      padding-right: 5px;
+      color        : rgba(111, 144, 255, 1);
+      font-weight  : 400;
+      font-size    : 14px;
+      font-family  : PingFangSC-Regular, PingFang SC;
+      line-height  : 20px;
+      border-right : 1px solid rgba(94, 131, 255, 1);
+      cursor       : pointer;
+    }
+
+    &:last-child {
+      box-sizing  : content-box;
+      padding-left: 5px;
+      color       : rgba(153, 153, 153, 1);
+      font-weight : 400;
+      font-family : PingFangSC-Regular, PingFang SC;
+      line-height : 20px;
+      cursor      : pointer;
+    }
   }
+}
 
-  nz-table {
-    tbody {
-      tr {
-        td {
-          ul {
-            margin-bottom: 0;
-            padding-left : 0;
+.ant-table-placeholder {
+  border-top   : none !important;
+  border-bottom: none !important;
+}
 
-            li {
-              list-style: none;
-            }
+nz-table {
+  tbody {
+    tr {
+      td {
+        ul {
+          margin-bottom: 0;
+          padding-left : 0;
+
+          li {
+            list-style: none;
           }
         }
       }
     }
   }
+}
 
-  .cust-head {
-    width         : 100%;
-    margin-bottom : 24px;
-    padding-bottom: 24px;
-    background    : #fff;
+.cust-head {
+  width         : 100%;
+  margin-bottom : 24px;
+  padding-bottom: 24px;
+  background    : #fff;
+}
+
+.cust-head-input input {
+  width        : 250px;
+  height       : 32px;
+  background   : rgba(255, 255, 255, 1);
+  border       : 1px solid rgba(215, 227, 241, 1);
+  border-radius: 4px;
+}
+
+.cust-head-input {
+  display  : flex;
+  flex-wrap: wrap;
+
+  .font-size {
+    width      : 24px;
+    height     : 17px;
+    color      : rgba(23, 25, 26, 0.85);
+    font-weight: 400;
+    font-size  : 12px;
+    font-family: PingFang-SC-Regular, PingFang-SC;
+    line-height: 17px;
   }
 
-  .cust-head-input input {
-    width        : 250px;
-    height       : 32px;
-    background   : rgba(255, 255, 255, 1);
-    border       : 1px solid rgba(215, 227, 241, 1);
-    border-radius: 4px;
+  .search-button {
+    width      : 20px;
+    height     : 22px;
+    color      : rgba(255, 255, 255, 1);
+    font-weight: 400;
+    font-size  : 14px;
+    line-height: 22px;
+  }
+}
+
+// 样式改版
+
+
+.ant-pagination-item-active {
+  background: #1890FF;
+
+  a {
+    color: #fff !important;
+  }
+}
+
+.customer-user {
+  transition: none !important;
+
+  .ant-tabs-bar {
+    margin-bottom: 0 !important;
+  }
+}
+
+.userMsg {
+  .ant-card-body {
+    padding: 16px 16px 0 16px !important;
+  }
+}
+
+.user-info-wrap {
+  .ant-timeline-item-content {
+    background   : #F8F8FF;
+    border-radius: 10px;
+    padding      : 10px 5px;
+    margin       : 0 !important;
+    padding-left : 40px;
   }
 
-  .cust-head-input {
-    display  : flex;
-    flex-wrap: wrap;
-
-    .font-size {
-      width      : 24px;
-      height     : 17px;
-      color      : rgba(23, 25, 26, 0.85);
-      font-weight: 400;
-      font-size  : 12px;
-      font-family: PingFang-SC-Regular, PingFang-SC;
-      line-height: 17px;
-    }
-
-    .search-button {
-      width      : 20px;
-      height     : 22px;
-      color      : rgba(255, 255, 255, 1);
-      font-weight: 400;
-      font-size  : 14px;
-      line-height: 22px;
-    }
+  .ant-timeline-item-tail {
+    left: 20px;
   }
 
-  // 样式改版
+  .ant-timeline-item-head {
+    z-index: 999;
+    top    : 10px;
+    left   : 16px;
+  }
+}
 
+// .ant-form-item {
+//   margin-bottom: 0 !important;
+// }
 
-  .ant-pagination-item-active {
-    background: #1890FF;
-
-    a {
-      color: #fff !important;
-    }
+.tabs {
+  nz-table thead tr th:first-child {
+    text-align: left !important;
   }
 
-  .customer-user {
-    transition: none !important;
-
-    .ant-tabs-bar {
-      margin-bottom: 0 !important;
-    }
+  nz-table tbody tr td:first-child {
+    text-align: left !important;
   }
 
-  .userMsg {
-    .ant-card-body {
-      padding: 16px 16px 0 16px !important;
+  background    : #fff;
+  height        : 100%;
+  display       : flex;
+  flex-direction: column;
+
+
+
+  nz-tabset {
+    height        : 100%;
+    display       : flex;
+    flex-direction: column;
+
+    nz-tabs-nav {
+      padding: 0 20px;
+    }
+
+    .ant-tabs-content {
+      flex    : 1;
+      overflow: hidden;
+
+      .ant-tabs-tabpane-active {
+        overflow: hidden;
+        height  : 100%;
+      }
     }
   }
+}
 
-  .user-info-wrap {
-    .ant-timeline-item-content {
-      background   : #F8F8FF;
-      border-radius: 10px;
-      padding      : 10px 5px;
-      margin       : 0 !important;
-      padding-left : 40px;
-    }
+.flexTableset {
+  background: #fff;
+  height    : 100%;
+  overflow  : hidden;
 
-    .ant-timeline-item-tail {
-      left: 20px;
-    }
-
-    .ant-timeline-item-head {
-      z-index: 999;
-      top    : 10px;
-      left   : 16px;
-    }
-  }
-
-  // .ant-form-item {
-  //   margin-bottom: 0 !important;
-  // }
-
-  .tabs {
-    nz-table thead tr th:first-child {
-      text-align: left !important;
-    }
-
-    nz-table tbody tr td:first-child {
-      text-align: left !important;
-    }
-
-    background    : #fff;
+  nz-tabset {
     height        : 100%;
     display       : flex;
     flex-direction: column;
 
 
+    .ant-tabs-content {
+      flex    : 1;
+      overflow: hidden;
 
-    nz-tabset {
-      height        : 100%;
-      display       : flex;
-      flex-direction: column;
-
-      nz-tabs-nav {
-        padding: 0 20px;
-      }
-
-      .ant-tabs-content {
-        flex    : 1;
+      .ant-tabs-tabpane-active {
         overflow: hidden;
-
-        .ant-tabs-tabpane-active {
-          overflow: hidden;
-          height  : 100%;
-        }
+        height  : 100%;
       }
     }
   }
+}
 
-  .flexTableset {
-    background: #fff;
-    height    : 100%;
-    overflow  : hidden;
+.crm-body {
+  height        : 100%;
+  flex-direction: column;
+  display       : flex;
 
-    nz-tabset {
-      height        : 100%;
-      display       : flex;
-      flex-direction: column;
-
-
-      .ant-tabs-content {
-        flex    : 1;
-        overflow: hidden;
-
-        .ant-tabs-tabpane-active {
-          overflow: hidden;
-          height  : 100%;
-        }
-      }
-    }
-  }
-
-  .crm-body {
-    height        : 100%;
-    flex-direction: column;
-    display       : flex;
-
-    .search {
-      display        : flex;
-      justify-content: space-between;
-      align-items    : center;
-      padding        : 0 20px;
-      margin         : 20px 0;
-
-      i {
-        color: #D9D9D9;
-      }
-
-      div {
-        display: flex;
-      }
-
-    }
-
-    .body-list {
-      flex          : 1;
-      padding       : 0 20px;
-      height        : 100%;
-      overflow      : hidden;
-      display       : flex;
-      flex-direction: column;
-
-      .button-head {
-        padding      : 20px;
-        border-bottom: 1px solid #E8E8E8;
-      }
-
-      nz-table {
-        height  : auto;
-        overflow: hidden;
-        flex    : 1;
-      }
-    }
-
-    .pagination {
-      text-align: right;
-      padding   : 20px;
-    }
-
-
-  }
-
-
-  //客户详情
-  .customer-detial {
-    height         : 100%;
-    padding        : 0px;
+  .search {
     display        : flex;
     justify-content: space-between;
+    align-items    : center;
+    padding        : 0 20px;
+    margin         : 20px 0;
 
-    .left {
-      border-radius: 8px;
-      background   : #fff;
-      flex         : 1;
-      padding      : 0 26px 16px 26px;
-      margin-right : 12px;
-      width        : 70%;
-      overflow     : hidden;
+    i {
+      color: #D9D9D9;
+    }
 
-      nz-tabset {
-        height        : 100%;
-        display       : flex;
-        flex-direction: column;
+    div {
+      display: flex;
+    }
+
+  }
+
+  .body-list {
+    flex          : 1;
+    padding       : 0 20px;
+    height        : 100%;
+    overflow      : hidden;
+    display       : flex;
+    flex-direction: column;
+
+    .button-head {
+      padding      : 20px;
+      border-bottom: 1px solid #E8E8E8;
+    }
+
+    nz-table {
+      height  : auto;
+      overflow: hidden;
+      flex    : 1;
+    }
+  }
+
+  .pagination {
+    text-align: right;
+    padding   : 20px;
+  }
 
 
-        .ant-tabs-content {
-          flex    : 1;
+}
+
+
+//客户详情
+.customer-detial {
+  height         : 100%;
+  padding        : 0px;
+  display        : flex;
+  justify-content: space-between;
+
+  .left {
+    border-radius: 8px;
+    background   : #fff;
+    flex         : 1;
+    padding      : 0 26px 16px 26px;
+    margin-right : 12px;
+    width        : 70%;
+    overflow     : hidden;
+
+    nz-tabset {
+      height        : 100%;
+      display       : flex;
+      flex-direction: column;
+
+
+      .ant-tabs-content {
+        flex    : 1;
+        overflow: hidden;
+
+        .ant-tabs-tabpane-active {
           overflow: hidden;
-
-          .ant-tabs-tabpane-active {
-            overflow: hidden;
-            height  : 100%;
-          }
+          height  : 100%;
         }
       }
     }
-
-    .right {
-      width        : 270px;
-      background   : #fff;
-      border-radius: 8px;
-
-      .ant-timeline-item-content {
-        background: #F6FAFF;
-      }
-
-    }
-
-    .cust-detail-head {
-      display        : flex;
-      justify-content: space-between;
-      flex-direction : column;
-      height         : 100%;
-      overflow-y     : auto;
-      overflow-x     : hidden;
-
-      .head-customer-name {
-        border-radius: 5px;
-        background   : #F5F5F5;
-        align-items  : center;
-        padding      : 26px;
-        margin       : 15px 0;
-
-        img {
-          width         : 25px;
-          height        : 25px;
-          vertical-align: middle;
-          margin-left   : 5px;
-        }
-
-
-      }
-
-    }
-
   }
 
-  .im-globel-search {
-    .ant-popover-inner-content {
-      padding: 0;
-    }
-  }
+  .right {
+    width        : 270px;
+    background   : #fff;
+    border-radius: 8px;
 
-
-  //运价列表
-  .table-detail-table-line {
-    .ant-timeline-item {
-      padding-bottom: 0px !important;
-    }
-  }
-
-  .inquiry-right-footer {
-    .ant-tabs-nav .ant-tabs-tab-active {
-      background   : rgba(24, 144, 255, 1);
-      border-radius: 4px;
-      color        : #fff !important;
-      padding      : 0px 15px;
-      line-height  : 22px;
-      height       : 22px;
-    }
-
-    .ant-tabs-ink-bar {
-      background: transparent;
-    }
-
-    .ant-tabs-nav-scroll {
-      padding-bottom: 10px;
-    }
-
-    .ant-tabs-bar {
-      border-bottom: 1px dashed #F0F0F0 !important;
-    }
-  }
-
-  .inquiry-ocean-content {
-
-    .ant-drawer-header,
-    .ant-drawer-body {
-      padding-left: 34px !important;
-    }
-  }
-
-  // 首页我的账号导航栏
-  .myAcc-content {
-    .ant-tabs-bar {
-      border-bottom: none !important;
-    }
-  }
-
-
-  .no-padding-tr {
-    .nz-disable-td {
-      padding   : 0px 16px;
-      height    : 25px;
-      background: #F0F0F0 !important;
-      position  : relative;
-    }
-  }
-
-  .table-detial {
-    .ant-timeline-item-content {
-      padding-top: 0px !important;
-    }
-  }
-
-  .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
-    box-shadow: none !important;
-  }
-
-  .cdk-virtual-scroll-viewport {
-    //自定义下拉框，内容只有一项时高度塌陷
-    min-height: 90px;
-  }
-
-
-
-  // .cdk-virtual-scroll-orientation-vertical {  //自定义下拉框，内容只有一项时高度塌陷
-  //   min-height: 58px;
-  // }
-
-
-
-
-  .share-view-table {
-    .ant-table-cell {
-      font-size: 12px !important;
-    }
-
-    .ant-table-thead {
-      background: #1890FF04 !important;
-      ;
-    }
-  }
-
-  .table-no-nodatabox {
-    .ant-table-placeholder {
-      display: none;
-    }
-  }
-
-  // 运价详情时间轴
-  .inquiry-right-footer {
-    .ant-timeline-item-head {
-      width      : 15px;
-      height     : 15px;
-      border     : 5px solid transparent;
-      margin-left: -2px;
-    }
-
-    .ant-timeline-item-head-blue {
-      color       : #8BCBF3;
-      border-color: #8BCBF3;
-    }
-  }
-
-  .ant-form-item-label>label.ant-form-item-required::before {
-    content: '' !important;
-  }
-
-  .ant-form-item-label>label.ant-form-item-required::after {
-    display     : inline-block !important;
-    margin-right: 4px;
-    color       : #ff4d4f;
-    font-size   : 14px;
-    font-family : SimSun, sans-serif;
-    line-height : 1;
-    content     : '*'
-  }
-
-  .share-resources-modal {
     .ant-timeline-item-content {
       background: #F6FAFF;
     }
+
   }
 
-  .ant-modal-mask {
-    z-index: 998 !important;
-  }
+  .cust-detail-head {
+    display        : flex;
+    justify-content: space-between;
+    flex-direction : column;
+    height         : 100%;
+    overflow-y     : auto;
+    overflow-x     : hidden;
 
-  .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
-    transition: none !important;
-  }
+    .head-customer-name {
+      border-radius: 5px;
+      background   : #F5F5F5;
+      align-items  : center;
+      padding      : 26px;
+      margin       : 15px 0;
+
+      img {
+        width         : 25px;
+        height        : 25px;
+        vertical-align: middle;
+        margin-left   : 5px;
+      }
 
 
-  // 迁移的样式
-
-  /* You can add global styles to this file, and also import other style files */
-
-  .ant-layout-footer {
-    background: white;
-  }
-
-  body {
-    background: #f5f7fb;
-
-    h1 {
-      margin-bottom: 0 !important;
     }
+
   }
 
-  //列表页面
-  .index-header-title {
-    min-height: 40px;
-    padding   : 8px 32px;
-    background: #fff;
+}
 
-    h1 {
-      font-weight: bold;
-      font-size  : 32px !important;
-    }
+.im-globel-search {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}
+
+
+//运价列表
+.table-detail-table-line {
+  .ant-timeline-item {
+    padding-bottom: 0px !important;
+  }
+}
+
+.inquiry-right-footer {
+  .ant-tabs-nav .ant-tabs-tab-active {
+    background   : rgba(24, 144, 255, 1);
+    border-radius: 4px;
+    color        : #fff !important;
+    padding      : 0px 15px;
+    line-height  : 22px;
+    height       : 22px;
   }
 
-  .list-content {
-    padding   : 15px;
-    background: #fff;
+  .ant-tabs-ink-bar {
+    background: transparent;
   }
 
-  .opeartion-content {
-    padding: 16px 240px;
+  .ant-tabs-nav-scroll {
+    padding-bottom: 10px;
   }
 
-  //步骤
-  // .ant-steps-item-icon {
-  //   width: 30px;
-  //   height: 30px;
-  //   margin-right: 8px;
-  //   font-size: 16px;
-  //   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-  //     'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  //   line-height: 20px;
+  .ant-tabs-bar {
+    border-bottom: 1px dashed #F0F0F0 !important;
+  }
+}
+
+.inquiry-ocean-content {
+
+  .ant-drawer-header,
+  .ant-drawer-body {
+    padding-left: 34px !important;
+  }
+}
+
+// 首页我的账号导航栏
+.myAcc-content {
+  .ant-tabs-bar {
+    border-bottom: none !important;
+  }
+}
+
+
+.no-padding-tr {
+  .nz-disable-td {
+    padding   : 0px 16px;
+    height    : 25px;
+    background: #F0F0F0 !important;
+    position  : relative;
+  }
+}
+
+.table-detial {
+  .ant-timeline-item-content {
+    padding-top: 0px !important;
+  }
+}
+
+.ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
+  box-shadow: none !important;
+}
+
+.cdk-virtual-scroll-viewport {
+  //自定义下拉框，内容只有一项时高度塌陷
+  min-height: 90px;
+}
+
+
+
+// .cdk-virtual-scroll-orientation-vertical {  //自定义下拉框，内容只有一项时高度塌陷
+//   min-height: 58px;
+// }
+
+
+
+
+.share-view-table {
+  .ant-table-cell {
+    font-size: 12px !important;
+  }
+
+  .ant-table-thead {
+    background: #1890FF04 !important;
+    ;
+  }
+}
+
+.table-no-nodatabox {
+  .ant-table-placeholder {
+    display: none;
+  }
+}
+
+// 运价详情时间轴
+.inquiry-right-footer {
+  .ant-timeline-item-head {
+    width      : 15px;
+    height     : 15px;
+    border     : 5px solid transparent;
+    margin-left: -2px;
+  }
+
+  .ant-timeline-item-head-blue {
+    color       : #8BCBF3;
+    border-color: #8BCBF3;
+  }
+}
+
+.ant-form-item-label>label.ant-form-item-required::before {
+  content: '' !important;
+}
+
+.ant-form-item-label>label.ant-form-item-required::after {
+  display     : inline-block !important;
+  margin-right: 4px;
+  color       : #ff4d4f;
+  font-size   : 14px;
+  font-family : SimSun, sans-serif;
+  line-height : 1;
+  content     : '*'
+}
+
+.share-resources-modal {
+  .ant-timeline-item-content {
+    background: #F6FAFF;
+  }
+}
+
+.ant-modal-mask {
+  z-index: 998 !important;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+  transition: none !important;
+}
+
+
+// 迁移的样式
+
+/* You can add global styles to this file, and also import other style files */
+
+.ant-layout-footer {
+  background: white;
+}
+
+body {
+  background: #f5f7fb;
+
+  h1 {
+    margin-bottom: 0 !important;
+  }
+}
+
+//列表页面
+.index-header-title {
+  min-height: 40px;
+  padding   : 8px 32px;
+  background: #fff;
+
+  h1 {
+    font-weight: bold;
+    font-size  : 32px !important;
+  }
+}
+
+.list-content {
+  padding   : 15px;
+  background: #fff;
+}
+
+.opeartion-content {
+  padding: 16px 240px;
+}
+
+//步骤
+// .ant-steps-item-icon {
+//   width: 30px;
+//   height: 30px;
+//   margin-right: 8px;
+//   font-size: 16px;
+//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+//     'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+//   line-height: 20px;
+//   text-align: center;
+//   // border       : 1.5px solid rgba(0, 0, 0, 0.25);
+//   border: 0 solid rgba(0, 0, 0, 0.25);
+//   border-radius: 25px;
+//   transition: background-color 0.3s, border-color 0.3s;
+// }
+
+// .ant-steps-vertical > .ant-steps-item > .ant-steps-item-container > .ant-steps-item-tail {
+//   position: absolute;
+//   top: 0;
+//   left: 14px;
+//   width: 1px;
+//   height: 100%;
+//   padding: 35px 0 6px;
+// }
+
+// .ant-steps-vertical .ant-steps-item-icon {
+//   float: left;
+//   margin-right: 10px !important;
+// }
+
+// .ant-steps-item-wait .ant-steps-item-icon {
+//   background: url(../assets/images/icon_un-choose.png);
+//   background-repeat: no-repeat;
+//   background-position-x: 1.5px;
+//   background-position-y: 2px;
+//   background-size: 25px 25px;
+// }
+
+// .ant-steps-item-container {
+//   min-height: 75px;
+// }
+
+// .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {
+//   background-color: #7297ff;
+// }
+
+// .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after {
+//   background-color: #7297ff;
+// }
+
+// .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+//   background-color: #7297ff;
+// }
+
+// .ant-steps-item-process .ant-steps-item-icon,
+// .ant-steps-item-finish .ant-steps-item-icon {
+//   background: url(../assets/images/icon_choose.png);
+//   background-repeat: no-repeat;
+//   background-position-x: 1.5px;
+//   background-position-y: 2px;
+//   background-size: 25px 25px;
+// }
+
+// .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+//   display: none;
+//   color: @text-color;
+// }
+
+// .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+//   display: none;
+//   color: @text-color;
+// }
+
+// .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after,
+// .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after,
+// .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {
+//   background-color: #6198ff;
+// }
+
+// .content-submitting-step {
+//   .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+//     display: none;
+//   }
+
+//   .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+//     display: none;
+//   }
+
+//   .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+//     display: none;
+//   }
+// }
+
+.cargoDate {
+  .ant-calendar-date {
+    color: #17191a;
+  }
+}
+
+//下拉框选中 边框变色
+.selectOther-active {
+  color: @primary-color;
+
+  .ant-select-selection {
+    border: 1px solid @primary-color;
+  }
+}
+
+.unit-sel {
+  .ant-select-selection {
+    // border-left     : 0px;
+    background-color: #fff;
+  }
+}
+
+.usermanagement .ant-tabs-nav {
+  font-weight: 400 !important;
+}
+
+.usermanagement .ant-table-row:hover {
+  background-color: #fff;
+}
+
+.invioce-table {
+  .ant-input {
+    position             : relative;
+    display              : inline-block;
+    display              : -webkit-box;
+    box-sizing           : border-box;
+    width                : 100%;
+    padding              : 4px 11px;
+    overflow             : hidden;
+    color                : #17191a;
+    font-size            : 14px;
+    font-variant         : tabular-nums;
+    white-space          : normal !important;
+    text-overflow        : ellipsis;
+    word-wrap            : break-word;
+    list-style           : none;
+    background-color     : #fff;
+    background-image     : none;
+    border               : 1px solid #d9d9d9;
+    border               : 0;
+    border-radius        : 4px !important;
+    transition           : all 0.3s;
+    font-feature-settings: 'tnum';
+    -webkit-line-clamp   : 1;
+    -webkit-box-orient   : vertical;
+  }
+
+  .ant-input-number {
+    position             : relative;
+    display              : inline-block;
+    box-sizing           : border-box;
+    width                : 100%;
+    width                : 90px;
+    height               : 32px;
+    margin               : 0;
+    padding              : 4px 11px;
+    padding              : 0;
+    color                : #17191a;
+    font-size            : 14px;
+    font-variant         : tabular-nums;
+    line-height          : 1.5;
+    line-height          : 32px;
+    line-height          : 1.5 \9;
+    list-style           : none;
+    background-color     : #fff;
+    background-image     : none;
+    border               : 1px solid #d9d9d9;
+    border               : 0;
+    border-radius        : 4px;
+    transition           : all 0.3s;
+    font-feature-settings: 'tnum';
+  }
+}
+
+//bookinglist
+.incoterms {
+  .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
+    width        : 100%;
+    margin-left  : 11px;
+    padding-right: 16px;
+    text-align   : center;
+  }
+}
+
+.sel-size {
+  .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
+    height       : 24px;
+    padding-right: 16px;
+    line-height  : 24px;
+  }
+
+  .ant-select-selection--single {
+    position   : relative;
+    height     : 24px;
+    line-height: 24px;
+    cursor     : pointer;
+  }
+
+  .ant-select-selection__rendered {
+    position    : relative;
+    display     : block;
+    margin-right: 11px;
+    margin-left : 11px;
+    line-height : 24px;
+  }
+
+  .ant-select-selection__placeholder,
+  .ant-select-search__field__placeholder {
+    position     : absolute;
+    top          : 50%;
+    right        : 9px;
+    left         : 0;
+    max-width    : 100%;
+    height       : 20px;
+    overflow     : hidden;
+    color        : #bfbfbf;
+    line-height  : 20px;
+    white-space  : nowrap;
+    text-align   : left;
+    text-overflow: ellipsis;
+  }
+}
+
+//FBA
+.clearance-invioce {
+  .red {
+    color: red;
+  }
+
+  // .ant-table-thead > tr > th {
+  //   font-size: 12px;
+  //   font-weight: 600;
   //   text-align: center;
-  //   // border       : 1.5px solid rgba(0, 0, 0, 0.25);
-  //   border: 0 solid rgba(0, 0, 0, 0.25);
-  //   border-radius: 25px;
-  //   transition: background-color 0.3s, border-color 0.3s;
+  //   border-bottom: 1px solid #e4e4e4;
+  //   background-color: #f5f7fa;
+  //   min-width: 120px;
+  //   height: 55px;
+  //   color: #717a83;
   // }
 
-  // .ant-steps-vertical > .ant-steps-item > .ant-steps-item-container > .ant-steps-item-tail {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 14px;
-  //   width: 1px;
-  //   height: 100%;
-  //   padding: 35px 0 6px;
-  // }
-
-  // .ant-steps-vertical .ant-steps-item-icon {
-  //   float: left;
-  //   margin-right: 10px !important;
-  // }
-
-  // .ant-steps-item-wait .ant-steps-item-icon {
-  //   background: url(../assets/images/icon_un-choose.png);
-  //   background-repeat: no-repeat;
-  //   background-position-x: 1.5px;
-  //   background-position-y: 2px;
-  //   background-size: 25px 25px;
-  // }
-
-  // .ant-steps-item-container {
-  //   min-height: 75px;
-  // }
-
-  // .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {
-  //   background-color: #7297ff;
-  // }
-
-  // .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after {
-  //   background-color: #7297ff;
-  // }
-
-  // .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
-  //   background-color: #7297ff;
-  // }
-
-  // .ant-steps-item-process .ant-steps-item-icon,
-  // .ant-steps-item-finish .ant-steps-item-icon {
-  //   background: url(../assets/images/icon_choose.png);
-  //   background-repeat: no-repeat;
-  //   background-position-x: 1.5px;
-  //   background-position-y: 2px;
-  //   background-size: 25px 25px;
-  // }
-
-  // .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
-  //   display: none;
-  //   color: @text-color;
-  // }
-
-  // .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-  //   display: none;
-  //   color: @text-color;
-  // }
-
-  // .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after,
-  // .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after,
-  // .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {
-  //   background-color: #6198ff;
-  // }
-
-  // .content-submitting-step {
-  //   .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
-  //     display: none;
-  //   }
-
-  //   .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-  //     display: none;
-  //   }
-
-  //   .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
-  //     display: none;
-  //   }
-  // }
-
-  .cargoDate {
-    .ant-calendar-date {
-      color: #17191a;
-    }
+  .ant-table-tbody>tr>td {
+    min-width    : 120px;
+    height       : 25px;
+    margin       : 0;
+    padding      : 0 10px 0 10px;
+    overflow     : hidden;
+    white-space  : nowrap;
+    text-align   : center;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #e4e4e4;
   }
 
-  //下拉框选中 边框变色
-  .selectOther-active {
-    color: @primary-color;
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr>td:hover {
+    cursor: pointer;
+  }
+}
 
-    .ant-select-selection {
-      border: 1px solid @primary-color;
-    }
+.packlist {
+  .red {
+    color: red;
   }
 
-  .unit-sel {
-    .ant-select-selection {
-      // border-left     : 0px;
-      background-color: #fff;
-    }
+  .ant-table-thead>tr>th {
+    width           : 150px;
+    height          : 55px;
+    padding         : 1px;
+    padding         : 0;
+    color           : #717a83;
+    font-weight     : 600;
+    font-size       : 12px;
+    text-align      : center;
+    background-color: #f5f7fa;
+    border-bottom   : 1px solid #e4e4e4;
   }
 
-  .usermanagement .ant-tabs-nav {
+  .ant-table-tbody>tr>td {
+    width        : 150px;
+    height       : 25px;
+    margin       : 0;
+    padding      : 0;
+    overflow     : hidden;
+    line-height  : 25px;
+    white-space  : nowrap;
+    text-align   : center;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #e4e4e4;
+  }
+
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr>td:hover {
+    cursor: pointer;
+  }
+}
+
+.grey-backdrop.cdk-overlay-backdrop-showing {
+  position        : fixed;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  opacity         : 1 !important;
+}
+
+.header-input-cdk-pane {
+  width: calc(100% - 200px);
+}
+
+.cdk-global-overlay-wrapper {
+  position: absolute;
+  z-index : 1000;
+  display : flex;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  top           : 0;
+  left          : 0;
+  width         : 100%;
+  height        : 100%;
+  pointer-events: none;
+}
+
+.ant-layout-header {
+  line-height: normal;
+}
+
+.csp-header {
+  .ant-tabs-tab-arrow-show {
+    color: #fff;
+  }
+
+  .ant-tabs-nav .ant-tabs-tab {
+    color      : #fff;
     font-weight: 400 !important;
   }
 
-  .usermanagement .ant-table-row:hover {
-    background-color: #fff;
+  .ant-tabs-bar {
+    margin       : 0 !important;
+    border-bottom: none;
   }
 
-  .invioce-table {
-    .ant-input {
-      position             : relative;
-      display              : inline-block;
-      display              : -webkit-box;
-      box-sizing           : border-box;
-      width                : 100%;
-      padding              : 4px 11px;
-      overflow             : hidden;
-      color                : #17191a;
-      font-size            : 14px;
-      font-variant         : tabular-nums;
-      white-space          : normal !important;
-      text-overflow        : ellipsis;
-      word-wrap            : break-word;
-      list-style           : none;
-      background-color     : #fff;
-      background-image     : none;
-      border               : 1px solid #d9d9d9;
-      border               : 0;
-      border-radius        : 4px !important;
-      transition           : all 0.3s;
-      font-feature-settings: 'tnum';
-      -webkit-line-clamp   : 1;
-      -webkit-box-orient   : vertical;
-    }
-
-    .ant-input-number {
-      position             : relative;
-      display              : inline-block;
-      box-sizing           : border-box;
-      width                : 100%;
-      width                : 90px;
-      height               : 32px;
-      margin               : 0;
-      padding              : 4px 11px;
-      padding              : 0;
-      color                : #17191a;
-      font-size            : 14px;
-      font-variant         : tabular-nums;
-      line-height          : 1.5;
-      line-height          : 32px;
-      line-height          : 1.5 \9;
-      list-style           : none;
-      background-color     : #fff;
-      background-image     : none;
-      border               : 1px solid #d9d9d9;
-      border               : 0;
-      border-radius        : 4px;
-      transition           : all 0.3s;
-      font-feature-settings: 'tnum';
-    }
+  .ant-tabs-top-content {
+    display: none !important;
   }
+}
 
-  //bookinglist
-  .incoterms {
-    .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
-      width        : 100%;
-      margin-left  : 11px;
-      padding-right: 16px;
-      text-align   : center;
-    }
+.no-margin {
+  margin: 0 !important;
+}
+
+.amapicon {
+  color        : #54a7af;
+  background   : white;
+  border-radius: 50%;
+
+  &::before {
+    font-size: 30px;
   }
+}
 
-  .sel-size {
-    .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
-      height       : 24px;
-      padding-right: 16px;
-      line-height  : 24px;
-    }
+.odd {}
 
-    .ant-select-selection--single {
-      position   : relative;
-      height     : 24px;
-      line-height: 24px;
-      cursor     : pointer;
-    }
+.even {
+  @bg: rgba(250, 251, 252, 1);
 
-    .ant-select-selection__rendered {
-      position    : relative;
-      display     : block;
-      margin-right: 11px;
-      margin-left : 11px;
-      line-height : 24px;
-    }
+  background: @bg;
+}
 
-    .ant-select-selection__placeholder,
-    .ant-select-search__field__placeholder {
-      position     : absolute;
-      top          : 50%;
-      right        : 9px;
-      left         : 0;
-      max-width    : 100%;
-      height       : 20px;
-      overflow     : hidden;
-      color        : #bfbfbf;
-      line-height  : 20px;
-      white-space  : nowrap;
-      text-align   : left;
-      text-overflow: ellipsis;
-    }
-  }
+shipment-list-item.even {
+  @bg: rgba(250, 251, 252, 1);
 
-  //FBA
-  .clearance-invioce {
-    .red {
-      color: red;
-    }
-
-    // .ant-table-thead > tr > th {
-    //   font-size: 12px;
-    //   font-weight: 600;
-    //   text-align: center;
-    //   border-bottom: 1px solid #e4e4e4;
-    //   background-color: #f5f7fa;
-    //   min-width: 120px;
-    //   height: 55px;
-    //   color: #717a83;
-    // }
-
-    .ant-table-tbody>tr>td {
-      min-width    : 120px;
-      height       : 25px;
-      margin       : 0;
-      padding      : 0 10px 0 10px;
-      overflow     : hidden;
-      white-space  : nowrap;
-      text-align   : center;
-      text-overflow: ellipsis;
-      border-bottom: 1px solid #e4e4e4;
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr>td:hover {
-      cursor: pointer;
-    }
-  }
-
-  .packlist {
-    .red {
-      color: red;
-    }
-
-    .ant-table-thead>tr>th {
-      width           : 150px;
-      height          : 55px;
-      padding         : 1px;
-      padding         : 0;
-      color           : #717a83;
-      font-weight     : 600;
-      font-size       : 12px;
-      text-align      : center;
-      background-color: #f5f7fa;
-      border-bottom   : 1px solid #e4e4e4;
-    }
-
-    .ant-table-tbody>tr>td {
-      width        : 150px;
-      height       : 25px;
-      margin       : 0;
-      padding      : 0;
-      overflow     : hidden;
-      line-height  : 25px;
-      white-space  : nowrap;
-      text-align   : center;
-      text-overflow: ellipsis;
-      border-bottom: 1px solid #e4e4e4;
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr>td:hover {
-      cursor: pointer;
-    }
-  }
-
-  .grey-backdrop.cdk-overlay-backdrop-showing {
-    position        : fixed;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    opacity         : 1 !important;
-  }
-
-  .header-input-cdk-pane {
-    width: calc(100% - 200px);
-  }
-
-  .cdk-global-overlay-wrapper {
-    position: absolute;
-    z-index : 1000;
-    display : flex;
-  }
-
-  .cdk-global-overlay-wrapper,
-  .cdk-overlay-container {
-    top           : 0;
-    left          : 0;
-    width         : 100%;
-    height        : 100%;
-    pointer-events: none;
-  }
-
-  .ant-layout-header {
-    line-height: normal;
-  }
-
-  .csp-header {
-    .ant-tabs-tab-arrow-show {
-      color: #fff;
-    }
-
-    .ant-tabs-nav .ant-tabs-tab {
-      color      : #fff;
-      font-weight: 400 !important;
-    }
-
-    .ant-tabs-bar {
-      margin       : 0 !important;
-      border-bottom: none;
-    }
-
-    .ant-tabs-top-content {
-      display: none !important;
-    }
-  }
-
-  .no-margin {
-    margin: 0 !important;
-  }
-
-  .amapicon {
-    color        : #54a7af;
-    background   : white;
-    border-radius: 50%;
-
-    &::before {
-      font-size: 30px;
-    }
-  }
-
-  .odd {}
-
-  .even {
-    @bg: rgba(250, 251, 252, 1);
-
+  &>.list-item {
     background: @bg;
   }
+}
 
-  shipment-list-item.even {
-    @bg: rgba(250, 251, 252, 1);
+//CRM询报价页面
+.containerTypeShow {
+  .ant-btn {
+    min-width: 40px !important;
+  }
+}
 
-    &>.list-item {
-      background: @bg;
-    }
+.createQuotes {
+  // .ant-btn {
+  //   min-width: 90px;
+  // }
+
+  .ant-modal-footer {
+    padding      : 10px 16px;
+    text-align   : center !important;
+    background   : transparent;
+    border-top   : 1px solid #e8e8e8;
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+.originLocation {
+  .ant-table table {
+    width: 100% !important;
   }
 
-  //CRM询报价页面
-  .containerTypeShow {
-    .ant-btn {
-      min-width: 40px !important;
-    }
+  .ant-table-fixed {
+    table-layout: fixed;
+    border      : 0 !important;
   }
 
-  .createQuotes {
-    // .ant-btn {
-    //   min-width: 90px;
-    // }
-
-    .ant-modal-footer {
-      padding      : 10px 16px;
-      text-align   : center !important;
-      background   : transparent;
-      border-top   : 1px solid #e8e8e8;
-      border-radius: 0 0 4px 4px;
-    }
+  .ant-table-thead>tr>th {
+    width           : 120px;
+    height          : 30px;
+    padding         : 16px 0 0 16px !important;
+    color           : rgba(0, 0, 0, 0.85);
+    font-weight     : 600;
+    font-size       : 12px;
+    text-align      : left !important;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-bottom   : 0px !important;
   }
 
-  .originLocation {
-    .ant-table table {
-      width: 100% !important;
-    }
-
-    .ant-table-fixed {
-      table-layout: fixed;
-      border      : 0 !important;
-    }
-
-    .ant-table-thead>tr>th {
-      width           : 120px;
-      height          : 30px;
-      padding         : 16px 0 0 16px !important;
-      color           : rgba(0, 0, 0, 0.85);
-      font-weight     : 600;
-      font-size       : 12px;
-      text-align      : left !important;
-      background-color: rgba(0, 0, 0, 0.04);
-      border-bottom   : 0px !important;
-    }
-
-    .ant-table-thead>tr:first-child>th:last-child {
-      text-align: left !important;
-    }
-
-    .ant-table-tbody>tr>td:last-child {
-      text-align: left !important;
-    }
-
-    .ant-table-tbody>tr>td {
-      width           : 120px;
-      height          : 64px;
-      margin          : 0;
-      padding         : 0 0 0 16px !important;
-      overflow        : hidden;
-      white-space     : nowrap;
-      text-align      : left;
-      text-overflow   : ellipsis;
-      border          : 0 !important;
-      background-color: rgba(0, 0, 0, 0.04);
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr>td:hover {
-      cursor: pointer;
-    }
-
-    .ant-input {
-      width: 80% !important;
-    }
-
-    .ant-select {
-      width: 80% !important;
-    }
-
-    .ant-input-number-input {
-      width: 80% !important;
-    }
+  .ant-table-thead>tr:first-child>th:last-child {
+    text-align: left !important;
   }
 
-  .quoteTable {
-    .ant-table-thead>tr>th {
-      height          : 30px !important;
-      padding         : 0 16px 0 16px !important;
-      background-color: rgba(24, 144, 255, 0.04) !important;
-    }
-
-    .ant-table-tbody>tr>td {
-      height       : 50px;
-      width        : 120px;
-      padding      : 0px 0px 0px 16px !important;
-      text-align   : left;
-      border-bottom: 1px solid #e4e4e4 !important;
-      white-space  : nowrap;
-      text-overflow: ellipsis;
-      overflow     : hidden;
-      word-break   : break-all;
-    }
+  .ant-table-tbody>tr>td:last-child {
+    text-align: left !important;
   }
 
-  .freightOcean {
-    .ant-table table {
-      width: 90% !important;
-    }
-
-    .ant-table-fixed {
-      table-layout: fixed;
-      border      : 0 !important;
-    }
-
-    .ant-table-thead>tr>th {
-      width           : 120px;
-      height          : 30px !important;
-      padding         : 0 16px 0 16px !important;
-      color           : rgba(0, 0, 0, 0.85) !important;
-      font-weight     : 600 !important;
-      text-align      : left;
-      background-color: rgba(24, 144, 255, 0.04) !important;
-      border          : 0 !important;
-    }
-
-    .ant-table-tbody>tr>td {
-      height       : 50px;
-      width        : 120px;
-      padding      : 0px 0px 0px 16px !important;
-      text-align   : left;
-      border-bottom: 1px solid #e4e4e4 !important;
-      white-space  : nowrap;
-      text-overflow: ellipsis;
-      overflow     : hidden;
-      word-break   : break-all;
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr>td:hover {
-      cursor: pointer;
-    }
-
-    .ant-input {
-      width: 80% !important;
-    }
-
-    .ant-select {
-      width: 80% !important;
-    }
-
-    .ant-input-number-input {
-      width: 80% !important;
-    }
+  .ant-table-tbody>tr>td {
+    width           : 120px;
+    height          : 64px;
+    margin          : 0;
+    padding         : 0 0 0 16px !important;
+    overflow        : hidden;
+    white-space     : nowrap;
+    text-align      : left;
+    text-overflow   : ellipsis;
+    border          : 0 !important;
+    background-color: rgba(0, 0, 0, 0.04);
   }
 
-  .freightOcean-basic {
-    .ant-table table {
-      width: 90% !important;
-    }
-
-    .ant-table-fixed {
-      table-layout: fixed;
-      border      : 0 !important;
-    }
-
-    .ant-table-thead>tr>th {
-      width     : 120px;
-      height    : 36px !important;
-      padding   : 0 16px 0 16px !important;
-      color     : rgba(0, 0, 0, 0.85) !important;
-      text-align: left;
-      border    : 0px !important;
-    }
-
-    .ant-table-tbody>tr>td {
-      width           : 120px;
-      height          : 64px;
-      padding         : 0px 0px 0px 16px !important;
-      text-align      : left;
-      border-bottom   : 1px solid #e4e4e4 !important;
-      background-color: rgba(0, 0, 0, 0.04) !important;
-    }
-
-    .ant-table-tbody {
-      background-color: rgba(0, 0, 0, 0.04) !important;
-    }
-
-    //鼠标移上去小手样式
-    .ant-table-tbody>tr>td:hover {
-      cursor: pointer;
-    }
-
-    .ant-input {
-      width: 80% !important;
-    }
-
-    .ant-select {
-      width: 80% !important;
-    }
-
-    .ant-input-number-input {
-      width: 80% !important;
-    }
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr>td:hover {
+    cursor: pointer;
   }
 
-  .backcolor {
-    .ant-table-thead>tr>th {
-      height          : 36px !important;
-      padding         : 0 16px 0 16px !important;
-      color           : rgba(0, 0, 0, 0.65);
-      background-color: rgba(0, 0, 0, 0.06);
-    }
-
-    .ant-table-thead>tr:first-child>th:first-child {
-      border-top-left-radius: 10px;
-    }
-
-    .ant-table-thead>tr:last-child>th:last-child {
-      border-top-right-radius: 10px;
-    }
-
-    .ant-table-tbody>tr>td {
-      width        : 150px;
-      height       : 30px;
-      margin       : 0;
-      padding      : 8px 16px 8px 16px !important;
-      overflow     : hidden;
-      line-height  : 30px;
-      white-space  : nowrap;
-      text-align   : left;
-      text-overflow: ellipsis;
-    }
+  .ant-input {
+    width: 80% !important;
   }
 
-  .sharetable {
-    .ant-table-thead>tr>th {
-      height    : 36px !important;
-      padding   : 0 16px 0 16px !important;
-      color     : rgba(0, 0, 0, 0.65);
-      background: rgba(0, 0, 0, 0.04);
-    }
-
-    .ant-table-tbody>tr>td {
-      width        : 150px;
-      height       : 30px;
-      margin       : 0;
-      padding      : 8px 16px 8px 16px !important;
-      overflow     : hidden;
-      line-height  : 30px;
-      white-space  : nowrap;
-      text-align   : left;
-      text-overflow: ellipsis;
-    }
+  .ant-select {
+    width: 80% !important;
   }
 
-  .quote-record {
-    .ant-tabs-bar {
-      margin: 0 !important;
-    }
+  .ant-input-number-input {
+    width: 80% !important;
+  }
+}
 
-    .ant-tabs {
-      border: 0 !important;
-    }
+.quoteTable {
+  .ant-table-thead>tr>th {
+    height          : 30px !important;
+    padding         : 0 16px 0 16px !important;
+    background-color: rgba(24, 144, 255, 0.04) !important;
   }
 
-  .quote-simpleInfo {
-    .carrier-type {
-      width           : 25% !important;
-      background-color: #fff !important;
-    }
+  .ant-table-tbody>tr>td {
+    height       : 50px;
+    width        : 120px;
+    padding      : 0px 0px 0px 16px !important;
+    text-align   : left;
+    border-bottom: 1px solid #e4e4e4 !important;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    overflow     : hidden;
+    word-break   : break-all;
+  }
+}
 
-    .data-table {
-      padding: 16px !important;
-    }
-
-    .quote-date {
-      padding: 0 0 0 16px !important;
-    }
+.freightOcean {
+  .ant-table table {
+    width: 90% !important;
   }
 
-  .danwei .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
-    text-align: center !important;
+  .ant-table-fixed {
+    table-layout: fixed;
+    border      : 0 !important;
   }
 
-  .card-container {
-
-    .ant-tabs.ant-tabs-card .ant-tabs-card-content>.ant-tabs-tabpane,
-    .ant-tabs.ant-tabs-editable-card .ant-tabs-card-content>.ant-tabs-tabpane {
-      margin-top: 16px;
-      transition: none !important;
-    }
-
-    .ant-tabs {
-      margin-top: 20px !important;
-    }
+  .ant-table-thead>tr>th {
+    width           : 120px;
+    height          : 30px !important;
+    padding         : 0 16px 0 16px !important;
+    color           : rgba(0, 0, 0, 0.85) !important;
+    font-weight     : 600 !important;
+    text-align      : left;
+    background-color: rgba(24, 144, 255, 0.04) !important;
+    border          : 0 !important;
   }
 
-  //table
-  .ji {
-    background-color: #fff;
+  .ant-table-tbody>tr>td {
+    height       : 50px;
+    width        : 120px;
+    padding      : 0px 0px 0px 16px !important;
+    text-align   : left;
+    border-bottom: 1px solid #e4e4e4 !important;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    overflow     : hidden;
+    word-break   : break-all;
   }
 
-  .ou {
-    background-color: #fafbfc;
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr>td:hover {
+    cursor: pointer;
   }
 
-  .ql-im-file {
-    line-height: 15px;
-
-    i::before {
-      font-weight: bold;
-      font-size  : 15px;
-    }
+  .ant-input {
+    width: 80% !important;
   }
 
-  .mb-24 {
-    margin-bottom: 24px;
+  .ant-select {
+    width: 80% !important;
   }
 
-  .quoteDetail-check {
-    .ant-checkbox-checked .ant-checkbox-inner {
-      background-color: #eceef0 !important;
-      border-color    : #eceef0 !important;
-    }
+  .ant-input-number-input {
+    width: 80% !important;
+  }
+}
 
-    .ant-checkbox-checked .ant-checkbox-inner::after {
-      position   : absolute;
-      display    : table;
-      color      : black;
-      border     : 1px solid #d8d8d8;
-      border-top : 0;
-      border-left: 0;
-      transform  : rotate(45deg) scale(1) translate(-50%, -50%);
-      opacity    : 1;
-      transition : all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
-      content    : ' ';
-    }
+.freightOcean-basic {
+  .ant-table table {
+    width: 90% !important;
   }
 
-  html .ant-btn-default::before,
-  html .ant-btn-default:focus::before {
-    background: #fff !important;
+  .ant-table-fixed {
+    table-layout: fixed;
+    border      : 0 !important;
   }
 
-  html {
-    --antd-wave-shadow-color: #fff;
+  .ant-table-thead>tr>th {
+    width     : 120px;
+    height    : 36px !important;
+    padding   : 0 16px 0 16px !important;
+    color     : rgba(0, 0, 0, 0.85) !important;
+    text-align: left;
+    border    : 0px !important;
   }
 
-  .route-time-line-content {
-    .ant-timeline-item-head {
-      background-color: rgb(249, 250, 252) !important;
-    }
+  .ant-table-tbody>tr>td {
+    width           : 120px;
+    height          : 64px;
+    padding         : 0px 0px 0px 16px !important;
+    text-align      : left;
+    border-bottom   : 1px solid #e4e4e4 !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
   }
 
-  .quote-info-row-right {
-    html .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
-      background-color: #eff6ff !important;
-    }
+  .ant-table-tbody {
+    background-color: rgba(0, 0, 0, 0.04) !important;
   }
 
-  .content-left-Details {
-    .ant-tabs {
-      border       : 1px solid rgba(240, 243, 247, 1);
-      border-radius: 4px;
-
-      &.ant-tabs-padding {
-        .ant-tabs-tabpane {
-          padding: 20px;
-        }
-      }
-
-      .ant-tabs-bar {
-        margin-bottom: 0;
-      }
-    }
+  //鼠标移上去小手样式
+  .ant-table-tbody>tr>td:hover {
+    cursor: pointer;
   }
 
-  .ant-tabs-tab {
-    transition: none !important;
+  .ant-input {
+    width: 80% !important;
   }
 
-  .ant-timeline-item-content {
-    padding: 10px;
+  .ant-select {
+    width: 80% !important;
   }
 
+  .ant-input-number-input {
+    width: 80% !important;
+  }
+}
+
+.backcolor {
+  .ant-table-thead>tr>th {
+    height          : 36px !important;
+    padding         : 0 16px 0 16px !important;
+    color           : rgba(0, 0, 0, 0.65);
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .ant-table-thead>tr:first-child>th:first-child {
+    border-top-left-radius: 10px;
+  }
+
+  .ant-table-thead>tr:last-child>th:last-child {
+    border-top-right-radius: 10px;
+  }
+
+  .ant-table-tbody>tr>td {
+    width        : 150px;
+    height       : 30px;
+    margin       : 0;
+    padding      : 8px 16px 8px 16px !important;
+    overflow     : hidden;
+    line-height  : 30px;
+    white-space  : nowrap;
+    text-align   : left;
+    text-overflow: ellipsis;
+  }
+}
+
+.sharetable {
+  .ant-table-thead>tr>th {
+    height    : 36px !important;
+    padding   : 0 16px 0 16px !important;
+    color     : rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .ant-table-tbody>tr>td {
+    width        : 150px;
+    height       : 30px;
+    margin       : 0;
+    padding      : 8px 16px 8px 16px !important;
+    overflow     : hidden;
+    line-height  : 30px;
+    white-space  : nowrap;
+    text-align   : left;
+    text-overflow: ellipsis;
+  }
+}
+
+.quote-record {
   .ant-tabs-bar {
     margin: 0 !important;
   }
 
-  .othercontainerShow {
-    .ant-popover-inner-content {
-      padding: 16px 0px 0px 0px !important;
-    }
+  .ant-tabs {
+    border: 0 !important;
+  }
+}
+
+.quote-simpleInfo {
+  .carrier-type {
+    width           : 25% !important;
+    background-color: #fff !important;
   }
 
-  .CargoInfo-Weight-title,
-  .CargoInfo-Volume-title {
-    .ant-input-affix-wrapper {
-      padding    : 0px !important;
-      display    : flex !important;
-      align-items: center;
-    }
-
-    // .ant-input-number{
-    //     border: 0px !important;
-    // }
-    // .ant-input-number-handler-wrap{
-    //   display: none !important;
-    // }
-    .ant-input-number:focus,
-    .ant-input-number-focused {
-      box-shadow: 0 0 0 0px !important;
-    }
+  .data-table {
+    padding: 16px !important;
   }
 
-  .quote-info-row-right {
-    .ant-input-number {
-      border-right : 0px !important;
-      border-left  : 1px solid #d9d9d9 !important;
-      border-top   : 1px solid #d9d9d9 !important;
-      border-bottom: 1px solid #d9d9d9 !important;
-    }
+  .quote-date {
+    padding: 0 0 0 16px !important;
+  }
+}
 
-    .ant-input-group.ant-input-group-compact>*:last-child,
-    .ant-input-group.ant-input-group-compact>.ant-select:last-child>.ant-select-selector,
-    .ant-input-group.ant-input-group-compact>.ant-calendar-picker:last-child .ant-input,
-    .ant-input-group.ant-input-group-compact>.ant-select-auto-complete:last-child .ant-input,
-    .ant-input-group.ant-input-group-compact>.ant-cascader-picker:last-child .ant-input,
-    .ant-input-group.ant-input-group-compact>.ant-cascader-picker-focused:last-child .ant-input,
-    .ant-input-group.ant-input-group-compact>.ant-mention-wrapper:last-child .ant-mention-editor,
-    .ant-input-group.ant-input-group-compact>.ant-time-picker:last-child .ant-time-picker-input {
-      border-bottom-left-radius: 0px !important;
-      border-top-left-radius   : 0px !important;
-    }
+.danwei .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
+  text-align: center !important;
+}
 
-    .ant-input-number-handler-wrap {
-      display: none !important;
-    }
+.card-container {
 
-    .ant-input-number:focus,
-    .ant-input-number-focused {
-      box-shadow: 0 0 0 0px !important;
-    }
+  .ant-tabs.ant-tabs-card .ant-tabs-card-content>.ant-tabs-tabpane,
+  .ant-tabs.ant-tabs-editable-card .ant-tabs-card-content>.ant-tabs-tabpane {
+    margin-top: 16px;
+    transition: none !important;
   }
 
-  .originRemark {
-    width      : 60% !important;
-    margin-left: 550px !important;
+  .ant-tabs {
+    margin-top: 20px !important;
   }
+}
+
+//table
+.ji {
+  background-color: #fff;
+}
+
+.ou {
+  background-color: #fafbfc;
+}
+
+.ql-im-file {
+  line-height: 15px;
+
+  i::before {
+    font-weight: bold;
+    font-size  : 15px;
+  }
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.quoteDetail-check {
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #eceef0 !important;
+    border-color    : #eceef0 !important;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    position   : absolute;
+    display    : table;
+    color      : black;
+    border     : 1px solid #d8d8d8;
+    border-top : 0;
+    border-left: 0;
+    transform  : rotate(45deg) scale(1) translate(-50%, -50%);
+    opacity    : 1;
+    transition : all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    content    : ' ';
+  }
+}
+
+html .ant-btn-default::before,
+html .ant-btn-default:focus::before {
+  background: #fff !important;
+}
+
+html {
+  --antd-wave-shadow-color: #fff;
+}
+
+.route-time-line-content {
+  .ant-timeline-item-head {
+    background-color: rgb(249, 250, 252) !important;
+  }
+}
+
+.quote-info-row-right {
+  html .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
+    background-color: #eff6ff !important;
+  }
+}
+
+.content-left-Details {
+  .ant-tabs {
+    border       : 1px solid rgba(240, 243, 247, 1);
+    border-radius: 4px;
+
+    &.ant-tabs-padding {
+      .ant-tabs-tabpane {
+        padding: 20px;
+      }
+    }
+
+    .ant-tabs-bar {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.ant-tabs-tab {
+  transition: none !important;
+}
+
+.ant-timeline-item-content {
+  padding: 10px;
+}
+
+.ant-tabs-bar {
+  margin: 0 !important;
+}
+
+.othercontainerShow {
+  .ant-popover-inner-content {
+    padding: 16px 0px 0px 0px !important;
+  }
+}
+
+.CargoInfo-Weight-title,
+.CargoInfo-Volume-title {
+  .ant-input-affix-wrapper {
+    padding    : 0px !important;
+    display    : flex !important;
+    align-items: center;
+  }
+
+  // .ant-input-number{
+  //     border: 0px !important;
+  // }
+  // .ant-input-number-handler-wrap{
+  //   display: none !important;
+  // }
+  .ant-input-number:focus,
+  .ant-input-number-focused {
+    box-shadow: 0 0 0 0px !important;
+  }
+}
+
+.quote-info-row-right {
+  .ant-input-number {
+    border-right : 0px !important;
+    border-left  : 1px solid #d9d9d9 !important;
+    border-top   : 1px solid #d9d9d9 !important;
+    border-bottom: 1px solid #d9d9d9 !important;
+  }
+
+  .ant-input-group.ant-input-group-compact>*:last-child,
+  .ant-input-group.ant-input-group-compact>.ant-select:last-child>.ant-select-selector,
+  .ant-input-group.ant-input-group-compact>.ant-calendar-picker:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact>.ant-select-auto-complete:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact>.ant-cascader-picker:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact>.ant-cascader-picker-focused:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact>.ant-mention-wrapper:last-child .ant-mention-editor,
+  .ant-input-group.ant-input-group-compact>.ant-time-picker:last-child .ant-time-picker-input {
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius   : 0px !important;
+  }
+
+  .ant-input-number-handler-wrap {
+    display: none !important;
+  }
+
+  .ant-input-number:focus,
+  .ant-input-number-focused {
+    box-shadow: 0 0 0 0px !important;
+  }
+}
+
+.originRemark {
+  width      : 60% !important;
+  margin-left: 550px !important;
+}

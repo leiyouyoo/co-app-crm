@@ -347,5 +347,11 @@
   </div>
 </nz-modal>
 
-<create-contacts [customerId]="customerId" [partnerId]="partnerId" (datas)="onAddOrUpdateContacts($event)" (resfush)="getContactInfo()">
+<create-contacts
+  style="display: block;"
+  [customerId]="customerId"
+  [partnerId]="partnerId"
+  (datas)="onAddOrUpdateContacts($event)"
+  (resfush)="getContactInfo()"
+>
 </create-contacts>

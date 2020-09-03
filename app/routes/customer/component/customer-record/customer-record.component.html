@@ -33,7 +33,7 @@
         <td class="imgWidth" width="50px">
           <img
             *ngIf="data.traceLogItems.length > 0"
-            [src]="url + '/Storage/File/GetDownLoadFile?FileId=' + data.traceLogItems[0].fileId + '&Handler=image'"
+            [src]="url + '/Storage/File/GetDownLoadFile?FileId=' + (data?.traceLogItems)[0]?.fileId + '&Handler=image'"
             (click)="showImgModal(i)"
           />
         </td>
@@ -69,4 +69,4 @@
   </nz-table>
 </div>
 <customer-show-image></customer-show-image>
-<customer-record-edit (getList)="getList()"></customer-record-edit>
+<customer-record-edit (getList)="getList()" style="display: block;"></customer-record-edit>

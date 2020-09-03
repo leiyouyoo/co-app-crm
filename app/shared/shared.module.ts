@@ -47,6 +47,7 @@ import { SharequotesComponent } from './compoents/sharequotes/sharequotes.compon
 import { TicketDividerComponent } from './compoents/ticket-divider/ticket-divider.component';
 import { CurvedRouteComponent } from './compoents/curved-route/curved-route.component';
 import { WrapChildrenHeightDirective } from './directives/wrap-children-height.directive';
+import { NzResizableModule } from 'ng-zorro-antd/resizable';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -74,7 +75,7 @@ const DIRECTIVES = [
   OptionsGroupValueDirective,
   NzOptionExtraDirective,
   WrapChildrenHeightDirective,
-  MouseMoveDirective
+  MouseMoveDirective,
 ];
 // #endregion
 
@@ -84,6 +85,7 @@ const DIRECTIVES = [
     CommonModule,
     FormsModule,
     OverlayModule,
+    NzResizableModule,
     RouterModule,
     ReactiveFormsModule,
     CoACLModule.forRoot(),
@@ -121,4 +123,4 @@ const DIRECTIVES = [
     ...DIRECTIVES,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

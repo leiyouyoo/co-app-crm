@@ -5,6 +5,7 @@ import { PUBPlaceService, PUBRegionService } from '@co/cds';
 import { debounce } from '@co/core';
 import { AmapService } from 'apps/crm/app/services/amap';
 import { CRMContactService, CRMCreateOrUpdateContactInput } from 'apps/crm/app/services/crm';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 @Component({
   selector: 'create-location',
   templateUrl: './create-location.component.html',
@@ -32,6 +33,9 @@ export class CreateLocationComponent implements OnInit {
   edit = false;
   loading = false;
   title = this.translate.instant('Add Location');
+
+  width = 600;
+  requestAnimationFrameId: number;
   constructor(
     private pubPlaceService: PUBPlaceService,
     private aMapService: AmapService,
@@ -45,6 +49,13 @@ export class CreateLocationComponent implements OnInit {
     this.initData();
     this.get('').subscribe((res) => {
       this.regions = res.items;
+    });
+  }
+
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
     });
   }
 

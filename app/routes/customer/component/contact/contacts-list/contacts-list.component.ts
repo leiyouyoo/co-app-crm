@@ -23,6 +23,7 @@ export class ContactsListComponent implements OnInit {
   @Input() editionRoleId: any;
   @Input() isOwner: any;
   @Output() refushData = new EventEmitter<any>();
+  @Output() closeModal = new EventEmitter<any>();
 
   @ViewChild(CreateContactsComponent, { static: true })
   createContacts: CreateContactsComponent;
@@ -118,11 +119,13 @@ export class ContactsListComponent implements OnInit {
 
   onBackList() {
     this.i = null;
+    this.createContacts.isVisible = false;
     this.getCustomerByPageList();
   }
 
   onContactsDetails(id) {
     this.i = id;
+    this.closeModal.emit();
     this.getContactInfo();
     this.bindLocation();
   }
