@@ -45,10 +45,10 @@ export class InquiryTruckQuoteComponent implements OnInit {
   readonly WeightUnitCode = WeightUnitCode;
 
   constructor(private fb: FormBuilder,
-              private OrganizationUnit: PlatformOrganizationUnitService,
-              private crmCustomer: CRMCustomerService,
-              private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
-              private msg: NzMessageService,
+    private OrganizationUnit: PlatformOrganizationUnitService,
+    private crmCustomer: CRMCustomerService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    private msg: NzMessageService,
   ) { }
 
   ngOnInit(): void {
@@ -109,6 +109,17 @@ export class InquiryTruckQuoteComponent implements OnInit {
   bindData() {
     this.getCarrierCustomerList();
     this.getOrganizationUnitUsers();
+    this.getCustomerList();
+  }
+
+  getCustomerList() {
+    this.crmCustomer
+      .getCurrentCustomerAndPartner({
+        includePartner: false,
+      })
+      .subscribe((res: any) => {
+        this.customerList = res.items;
+      });
   }
 
   getEnquiryDetial(id) {
