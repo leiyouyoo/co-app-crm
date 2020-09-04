@@ -1671,7 +1671,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
         }
       },
       (error) => {
-        console.log('File error', error);
+        console.error('File error', error);
       },
     );
   }

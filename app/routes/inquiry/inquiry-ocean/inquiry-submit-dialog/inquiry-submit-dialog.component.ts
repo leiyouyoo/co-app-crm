@@ -111,7 +111,7 @@ export class InquirySubmitDialogComponent implements OnInit {
           codes = code.map((c) => c.name);
           res.containerType = codes;
         }
-        console.log(res)
+        // console.log(res)
         this.validateForm.patchValue(res, { emitEvent: false });
         const ids = [res.originPortId, res.destinationPortId];
         this.getPortByIds(ids);
@@ -294,7 +294,7 @@ export class InquirySubmitDialogComponent implements OnInit {
   getCarrierCustomerList() {
     this.crmCustomer.getCustomerByType({ customerType: 1 }).subscribe((res: any) => {
       this.carrierCustomerList = res.items;
-      console.log(this.carrierCustomerList);
+      // console.log(this.carrierCustomerList);
     });
   }
 

@@ -30,7 +30,7 @@ export class InquiryDetialComponent {
 
 
   constructor(
-    // private customerService: CustomerService, 
+    // private customerService: CustomerService,
     private msg: NzMessageService,
     private OceanBaseItemService: RatesOceanBaseItemServiceService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
@@ -177,7 +177,7 @@ export class InquiryDetialComponent {
         if (this.locChargeLists && this.locChargeLists.length > 0) {
           this.locChargeLists.forEach(item => {
             item?.localUnitRateByPortOutputs.forEach((e, index, arr) => {
-              console.log(e.cost ? e.cost : item.totalPrice, "eeeee")
+              // console.log(e.cost ? e.cost : item.totalPrice, "eeeee")
               if (item.currencyCode.toUpperCase() == 'USD') {
                 this.locTotalList[this.locChargeItem[index]] += e.cost ? e.cost : item.totalPrice;
               } else {

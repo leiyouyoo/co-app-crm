@@ -52,7 +52,7 @@ export class ApplyCusCodeComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.validateForm.value);
+    // console.log(this.validateForm.value);
   }
 
   // 获取客户列表

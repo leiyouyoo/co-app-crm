@@ -18,7 +18,7 @@ export class debounceInputDirective implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     const value = event.srcElement['value'];
-    console.log(value);
+    // console.log(value);
     this.inputs.next(value);
   }
 

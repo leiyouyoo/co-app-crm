@@ -37,7 +37,7 @@ export class CopyDomToImageDirective {
       }).finally(() => {
         this.nzLoading = false;
       }).catch(e => {
-        console.log(e, "error Info")
+        console.error(e, "error Info")
       })
     }
     if (this.domGenerator) {

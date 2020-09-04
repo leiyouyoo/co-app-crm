@@ -126,7 +126,7 @@ export class DocumentListPanelComponent implements OnInit, DoCheck {
         this.fileListEmitter.emit(this.files);
       },
       (error) => {
-        console.log('File error', error);
+        console.error('File error', error);
       },
     );
   }

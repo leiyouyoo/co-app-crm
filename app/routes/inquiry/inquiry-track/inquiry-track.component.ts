@@ -615,8 +615,8 @@ export class InquiryTrackComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
       if (this.validateForm.controls[i].invalid) {
-        console.log(i);
-        console.log(this.validateForm.controls[i]);
+        // console.log(i);
+        // console.log(this.validateForm.controls[i]);
       }
     }
     return this.validateForm.valid;
@@ -714,7 +714,7 @@ export class InquiryTrackComponent implements OnInit {
             this.portList = res.items;
           }
         } else {
-          console.log(res);
+          // console.log(res);
           this.portList = res.items;
           this.countryLists = res.items;
         }
