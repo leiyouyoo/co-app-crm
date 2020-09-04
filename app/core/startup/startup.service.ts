@@ -4,8 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { CoConfigManager, CO_LOGGER_TOKEN, ILogger } from '@co/core';
+import { ACLService, ACLType } from '@co/acl';
+
+declare var window;
 
 /**
  * 用于应用启动时
@@ -16,12 +18,15 @@ export class StartupService {
   constructor(
     private iconSrv: NzIconService,
     private translate: TranslateService,
+    private aclService: ACLService,
     private httpClient: HttpClient,
     @Inject(CO_LOGGER_TOKEN) private logger: ILogger,
   ) {
     this.iconSrv.fetchFromIconfont({
       scriptUrl: CoConfigManager.getValue('iconSrv'),
     });
+
+    this.aclService.set(window.planet.portalApplication.data.aclService.data);
   }
 
   load(): Promise<any> {
