@@ -267,7 +267,6 @@ export class InquirySubmitDialogComponent implements OnInit {
   }
 
   onCustomerListChange(id) {
-    debugger
     if (id) {
       this.customerUserList = null;
       this.validateForm.patchValue({

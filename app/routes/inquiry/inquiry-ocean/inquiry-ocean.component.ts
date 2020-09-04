@@ -1300,7 +1300,6 @@ export class InquiryListOceanComponent implements OnInit {
       });
     } else {
       this.listOfData = data;
-      debugger;
     }
   }
 }
