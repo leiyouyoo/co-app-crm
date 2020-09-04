@@ -30,7 +30,7 @@ export class CustomerComponent extends CoPageBase {
   columns: STColumn[] = [
     {
       width: '80px',
-      title: 'NO',
+      title: 'NO_table',
       type: 'no',
     },
     {

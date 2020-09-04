@@ -55,7 +55,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   columns: STColumn[] = [
     {
       width: '80px',
-      title: 'NO',
+      title: 'NO_table',
       type: 'no',
     },
     {
