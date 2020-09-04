@@ -330,9 +330,13 @@
       </tbody>
     </nz-table> -->
 
-    <co-st #st virtualScroll [loading]="loading" [data]="dataOfList?.items" [columns]="columns"
-      [scroll]="{ x: '2000px', y: '500px' }" [showFilters]="false" [total]="listTotal" [page]="{ front: false }"
-      (change)="checkChange($event)" calcScroll>
+
+    <!-- <co-st class="list-table" [columns]="columns" [data]="bookingList" [showCheckbox]="false" [showFilters]="false"
+      calcScroll disableCalcX style="height: 100%;"> -->
+
+
+    <co-st #st style="height:100%;" [loading]="loading" [data]="dataOfList?.items" [columns]="columns"
+      [scroll]="{ x: '2000px' }" [showFilters]="false" disableCalcX (change)="checkChange($event)" calcScroll>
 
       <ng-template st-row="Attention" let-data>
         <div class="detial_msg" style="width: 75px;">
@@ -399,10 +403,10 @@
   </div>
 
   <div style="text-align: right; padding: 0 24px 24px 24px;">
-    <!-- <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
+    <nz-pagination [nzPageIndex]="skipCount" [nzPageSize]="maxResultCount" [nzTotal]="dataOfList?.totalCount"
       [nzShowTotal]="totalTemplate" (nzPageIndexChange)="onPageIndexChanged($event)">
-    </nz-pagination> -->
-    <span>{{ 'Total' | translate }}:{{ dataOfList?.totalCount }}</span>
+    </nz-pagination>
+    <!-- <span>{{ 'Total' | translate }}:{{ dataOfList?.totalCount }}</span> -->
     <ng-template #totalTemplate let-total> {{ 'Total' | translate }}:{{ dataOfList?.totalCount }} </ng-template>
   </div>
 </div>
