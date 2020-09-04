@@ -2,7 +2,7 @@
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { default as ngLang } from '@angular/common/locales/zh';
 import { registerLocaleData } from '@angular/common';
 
@@ -96,7 +96,7 @@ const APPINIT_PROVIDES = [
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    NoopAnimationsModule,
     HttpClientModule,
     GlobalConfigModule.forRoot(),
     CoAuthModule,

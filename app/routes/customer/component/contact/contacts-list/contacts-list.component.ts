@@ -433,7 +433,7 @@ export class ContactsListComponent implements OnInit {
       this.modalService.warning({
         nzTitle: this.translate.instant('Warning'),
         nzContent: this.translate.instant('Please open the main account first'),
-        nzOnOk: () => console.log('OK'),
+        nzOnOk: () => {},
       });
       return;
     }

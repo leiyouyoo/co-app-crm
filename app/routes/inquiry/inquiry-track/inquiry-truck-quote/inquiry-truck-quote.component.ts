@@ -238,8 +238,8 @@ export class InquiryTruckQuoteComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
       if (this.validateForm.controls[i].invalid) {
-        console.log(i);
-        console.log(this.validateForm.controls[i]);
+        // console.log(i);
+        // console.log(this.validateForm.controls[i]);
       }
     }
     return this.validateForm.valid;

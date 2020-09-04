@@ -268,7 +268,7 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
-    console.log(this.aCLService.can('j:商务员'), '0000000000');
+    // console.log(this.aCLService.can('j:商务员'), '0000000000');
     if (this.aCLService.can('j:商务员')) {
       this.showInquiryBtn = false;
       this.showShareBtn = false;
@@ -276,7 +276,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   checkChange(e) {
-    console.log(e);
+    // console.log(e);
     e.type === 'click' && this.showDetial(e.click.item, e.click.index);
     if (e.type === 'checkbox') {
       this.listOfData.forEach((e) => {
@@ -475,7 +475,7 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          console.log(this.listOfData);
+          // console.log(this.listOfData);
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -513,7 +513,7 @@ export class InquiryListOceanComponent implements OnInit {
           //   this.init = false;
           // }
 
-          console.log(this.tablestitle);
+          // console.log(this.tablestitle);
 
           let titleItem = [];
 
@@ -527,8 +527,8 @@ export class InquiryListOceanComponent implements OnInit {
               width: 70,
               sort: {
                 compare: (a, b) => {
-                  console.log(a);
-                  console.log(b);
+                  // console.log(a);
+                  // console.log(b);
                   let aItem;
                   let bItem;
                   a?.ratePriceOutputs.forEach((item) => {
@@ -552,12 +552,19 @@ export class InquiryListOceanComponent implements OnInit {
               },
             });
           });
-          console.log(titleItem);
+          // console.log(titleItem);
           titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
-          console.log(this.columns);
-          debugger;
+          if (!this.listOfData[0]?.isSuperPermission) {
+            this.columns.forEach((e, idx) => {
+              if (e.title == 'NameAccount') {
+                this.columns.splice(idx, 1);
+              }
+            })
+          }
+
+          // console.log(this.columns);
           this.st?.resetColumns();
         },
         (err) => {
@@ -640,7 +647,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   up() {
-    console.log(1);
+    // console.log(1);
     this.canMove = false;
   }
 
@@ -1293,7 +1300,6 @@ export class InquiryListOceanComponent implements OnInit {
       });
     } else {
       this.listOfData = data;
-      debugger;
     }
   }
 }

@@ -63,7 +63,6 @@ export class DomToImageService {
         const res: any = await this.upload(dataURItoFile(data))
           .toPromise();
         let img = document.createElement('img');
-        debugger
         img.src = this.getDownloadFileUrl({ idOrUrl: res.fileId, handle: 'image' });
         return new Promise<HTMLElement>(resolve => {
           img.onload = () => {

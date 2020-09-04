@@ -571,7 +571,7 @@ export class PackingListComponent implements OnInit {
       sum = sum + sumBy(packingListItems, 'quantities');
     });
     data.remainder = data.totalQuantities - data.quantities;
-    console.log(data.remainder);
+    // console.log(data.remainder);
     if (data.remainder < 0) {
       data.quantities = null;
       data.remainder = null;
@@ -658,7 +658,7 @@ export class PackingListComponent implements OnInit {
           this.verificationPassed.emit(true);
         },
         (error) => {
-          console.log('excel File Insert DB Error', error);
+          console.error('excel File Insert DB Error', error);
         },
       );
   };
@@ -721,7 +721,7 @@ export class PackingListComponent implements OnInit {
           }
         },
         (error) => {
-          console.log('excel File Insert DB Error', error);
+          console.error('excel File Insert DB Error', error);
         },
       );
   }
