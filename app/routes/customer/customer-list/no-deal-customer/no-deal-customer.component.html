@@ -46,6 +46,13 @@
       calcScroll
       disableCalcX
     >
+      <ng-template st-row="CustomerTableName" let-data>
+        <a (click)="showDetial(data)">
+          {{ data.name || '--' }}
+
+          <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
+        >
+      </ng-template>
     </co-st>
   </div>
 </div>

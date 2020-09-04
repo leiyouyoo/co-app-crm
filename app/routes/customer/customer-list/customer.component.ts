@@ -29,6 +29,11 @@ export class CustomerComponent extends CoPageBase {
 
   columns: STColumn[] = [
     {
+      width: '80px',
+      title: 'NO',
+      type: 'no',
+    },
+    {
       width: '250px',
       title: 'CustomerTableName',
       index: 'name',
