@@ -556,8 +556,15 @@ export class InquiryListOceanComponent implements OnInit {
           titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
+          if (!this.listOfData[0]?.isSuperPermission) {
+            this.columns.forEach((e, idx) => {
+              if (e.title == 'NameAccount') {
+                this.columns.splice(idx, 1);
+              }
+            })
+          }
+
           console.log(this.columns);
-          debugger;
           this.st?.resetColumns();
         },
         (err) => {

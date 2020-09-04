@@ -37,7 +37,7 @@
 
           <div class="contract-line"></div>
 
-          <div class="contract-msg">
+          <div class="contract-msg" *ngIf="item.isSuperPermission">
             <div>
               <span>{{ 'Contract NO' | translate }}</span> <span>{{ item.contractNO || '--' }}</span>
             </div>
