@@ -92,7 +92,7 @@ const DIRECTIVES = [
     NzResizableModule,
     RouterModule,
     ReactiveFormsModule,
-    CoACLModule.forRoot(),
+    CoACLModule,
     CoFormModule.forRoot(),
     CoCommonModule.forRoot({ environment }),
     DragulaModule.forRoot(),
@@ -127,4 +127,4 @@ const DIRECTIVES = [
     ...DIRECTIVES,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
