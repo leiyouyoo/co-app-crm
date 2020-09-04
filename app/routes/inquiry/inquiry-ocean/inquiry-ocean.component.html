@@ -308,7 +308,10 @@
       </co-st>
 
       <div *ngIf="listOfData?.length == 0 && !loading">
-        <nz-empty nzNotFoundImage="simple"></nz-empty>
+        <co-st #st virtualScroll [loading]="loading" [data]="" [columns]="columns" [showFilters]="false"
+          [total]="listTotal" [page]="{ front: false }" (change)="checkChange($event)" calcScroll style="height: 100%;">
+        </co-st>
+        <!-- <nz-empty nzNotFoundImage="simple"></nz-empty> -->
       </div>
 
       <div *ngIf="loading" style="text-align: center;">
