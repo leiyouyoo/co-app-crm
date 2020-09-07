@@ -80,11 +80,13 @@ export class I18NService implements CoI18NService {
   }
 
   private updateLangData(lang: string) {
-    const item = LANGS[lang];
-    registerLocaleData(item.ng);
-    this.nzI18nService.setLocale(item.zorro);
-    this.nzI18nService.setDateLocale(item.date);
-    this.coLocaleService.setLocale(item.co);
+    if (lang) {
+      const item = LANGS[lang];
+      registerLocaleData(item.ng);
+      this.nzI18nService.setLocale(item.zorro);
+      this.nzI18nService.setDateLocale(item.date);
+      this.coLocaleService.setLocale(item.co);
+    }
   }
 
   get change(): Observable<string> {
