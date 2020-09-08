@@ -173,7 +173,7 @@
         <h1>{{ 'Addtional Fees' | translate }}</h1>
         <div class="freight_addtionalFees_tab">
           <nz-tabset>
-            <nz-tab [nzTitle]="Origin | translate">
+            <nz-tab [nzTitle]="'Origin' | translate">
               <ng-container
                 *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elseoriginTemplate"
               >
@@ -268,7 +268,7 @@
                 </nz-list>
               </ng-template>
             </nz-tab>
-            <nz-tab [nzTitle]="Destination | translate">
+            <nz-tab [nzTitle]="'Destination' | translate">
               <ng-container
                 *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elsedestinaTemplate"
               >
