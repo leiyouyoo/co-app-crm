@@ -82,9 +82,6 @@ export class InquiryListOceanComponent implements OnInit {
   @ViewChild('detial', { static: false })
   public detailComponent: InquiryDetialComponent;
 
-  @ViewChild('scrollComponent')
-  private _scrollViewport: CdkVirtualScrollViewport;
-
   @ViewChild('st', { static: false }) st: STComponent;
 
   id: any;
@@ -253,7 +250,7 @@ export class InquiryListOceanComponent implements OnInit {
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
     private aCLService: ACLService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.id = null;
@@ -456,26 +453,21 @@ export class InquiryListOceanComponent implements OnInit {
           this.listOfData = res.items;
           this.totalCount = res.totalCount;
 
-          let arr = this.listOfData.map((item) => item.ratePriceOutputs);
-          arr.forEach((e) => {
-            e.forEach((c) => {
+          this.listOfData.forEach((e) => {
+            if (e.to) {
+              if (differenceInCalendarDays(new Date(e.to), new Date()) < 0) {
+                e.isValid = false;
+              } else {
+                e.isValid = true;
+              }
+            } else {
+              e.isValid = true;
+            }
+
+            e.ratePriceOutputs.forEach((c) => {
               tablestitle.push(c.unit);
             });
           });
-
-          this.listOfData.forEach((res) => {
-            if (res.to) {
-              if (differenceInCalendarDays(new Date(res.to), new Date()) < 0) {
-                res.isValid = false;
-              } else {
-                res.isValid = true;
-              }
-            } else {
-              res.isValid = true;
-            }
-          });
-
-          // console.log(this.listOfData);
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -508,23 +500,15 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          // if (this.init) {
           this.websort('40GP', 'ascend');
-          //   this.init = false;
-          // }
-
-          // console.log(this.tablestitle);
-
           let titleItem = [];
-
           this.initColumn();
-
           this.tablestitle.forEach((e) => {
             titleItem.push({
               title: e,
               index: '',
               render: e,
-              width: 70,
+              width: 90,
               sort: {
                 compare: (a, b) => {
                   // console.log(a);
@@ -552,7 +536,7 @@ export class InquiryListOceanComponent implements OnInit {
               },
             });
           });
-          // console.log(titleItem);
+
           titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
@@ -561,11 +545,12 @@ export class InquiryListOceanComponent implements OnInit {
               if (e.title == 'NameAccount') {
                 this.columns.splice(idx, 1);
               }
-            })
+            });
           }
 
-          // console.log(this.columns);
-          this.st?.resetColumns();
+          setTimeout(() => {
+            this.st.resetColumns();
+          }, 0);
         },
         (err) => {
           this.loading = false;
