@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { HandlequotesComponent } from '../handlequotes/handlequotes.component';
 import { TranslateService } from '@ngx-translate/core';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 @Component({
   selector: 'quotes-createquotes',
@@ -20,6 +21,12 @@ export class CreatequotesComponent implements OnInit {
       this.containHavedataList = list.filter((c) => c.value > 0);
     }
   }
+  @Input() id: string;
+  @Output() close = new EventEmitter();
+  @Output() update = new EventEmitter();
+  okLoading = false;
+  requestAnimationFrameId: number;
+  width: number = 600;
 
   constructor(public quotesService: QuotesService, private message: NzMessageService, private translate: TranslateService) {}
   today = new Date();
@@ -306,5 +313,16 @@ export class CreatequotesComponent implements OnInit {
         this.isQuoteStatus.emit(false);
       },
     );
+  }
+
+  onResize({ width }: NzResizeEvent): void {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.requestAnimationFrameId = requestAnimationFrame(() => {
+      this.width = width > 600 ? width : 600;
+    });
+  }
+
+  closeView() {
+    this.close.emit();
   }
 }

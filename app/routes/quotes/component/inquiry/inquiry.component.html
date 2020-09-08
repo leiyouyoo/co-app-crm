@@ -178,29 +178,14 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzClosable]="false"
-  [nzVisible]="isShowcreatequotes"
-  nzPlacement="right"
-  [nzTitle]="'Add Quotes' | translate"
-  (nzOnClose)="createquotesCancel()"
+<quotes-createquotes
+  [quoteinfo]="quoteinfo"
+  *ngIf="isShowcreatequotes"
+  (isClosed)="isClosed = $event"
+  (isQuoteStatus)="isQuoteStatus = $event"
+  (close)="isSuccessfully($event)"
 >
-  <quotes-createquotes
-    [quoteinfo]="quoteinfo"
-    *ngIf="isShowcreatequotes"
-    (isSuccessfully)="isSuccessfully($event)"
-    (isClosed)="isClosed = $event"
-    (isQuoteStatus)="isQuoteStatus = $event"
-  >
-  </quotes-createquotes>
-
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="createquotesCancel()">{{ 'Cancel' | translate }}</button>
-    <button nz-button nzType="primary" type="submit" (click)="createquotesOk()" [nzLoading]="isQuoteStatus">
-      {{ 'Add Quotes' | translate }}
-    </button>
-  </div>
-</nz-drawer>
+</quotes-createquotes>
 
 <nz-modal nzMaskClosable="false" [(nzVisible)]="isShowcreaterecord" (nzOnCancel)="quotesrecordCancel()" nzWidth="70%">
   <quotes-quotesrecord

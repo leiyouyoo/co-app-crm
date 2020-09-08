@@ -284,15 +284,11 @@ export class InquiryComponent extends CoPageBase {
   }
 
   isSuccessfully(event: boolean) {
-    if (event) {
-      if (this.isClosed) {
-        this.isShowcreatequotes = false;
+      if (event) {
         this.message.info(this.translate.instant('Added successfully!'));
         this.GetAllForCRM(this.quoteInputParams);
       }
-    } else {
-      this.message.info(this.translate.instant('Create filed!'));
-    }
+    this.isShowcreatequotes = false;
   }
 
   //报价记录
