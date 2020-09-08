@@ -30,7 +30,7 @@
       <div>
         {{ 'Customer configuration level' | translate }}:
         <span *ngIf="clientMsg?.customerConfigure.customerLevel == 0">
-          自定义
+          {{ 'Customize' | translate }}
         </span>
         <span *ngIf="clientMsg?.customerConfigure.customerLevel == 1">
           T1 {{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)

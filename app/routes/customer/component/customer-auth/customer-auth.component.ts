@@ -21,6 +21,7 @@ export class CustomerAuthComponent implements OnInit {
   @Input() isOwner: false;
   @Input() partnerIsOwner: false;
   @Output() refushData = new EventEmitter<any>();
+  @Output() closeModal = new EventEmitter<any>();
 
   clientMsg: any;
   validateForm: FormGroup;
@@ -184,6 +185,7 @@ export class CustomerAuthComponent implements OnInit {
 
   noRZModal: boolean = false;
   onCertification() {
+    this.closeModal.emit();
     this.validateForm.reset();
     if (this.customerState != 3) {
       this.noRZModal = true;
