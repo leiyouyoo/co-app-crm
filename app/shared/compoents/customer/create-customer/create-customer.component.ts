@@ -408,7 +408,7 @@ export class CreateCustomerComponent {
       });
 
     if (data) {
-      debugger;
+      
       this.setData(data);
     }
   }
