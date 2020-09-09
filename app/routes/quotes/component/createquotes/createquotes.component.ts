@@ -304,9 +304,10 @@ export class CreatequotesComponent implements OnInit {
     }
     this.quotesService.create(this.quoteReplys).subscribe(
       (c) => {
-        this.translate.instant('Create success!');
+        this.message.success(this.translate.instant('Create success!'));
         this.isSuccessfully.emit(true);
         this.isQuoteStatus.emit(false);
+        this.close.emit(true);
       },
       (error) => {
         this.isSuccessfully.emit(false);

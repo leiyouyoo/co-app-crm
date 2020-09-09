@@ -285,7 +285,6 @@ export class InquiryComponent extends CoPageBase {
 
   isSuccessfully(event: boolean) {
       if (event) {
-        this.message.info(this.translate.instant('Added successfully!'));
         this.GetAllForCRM(this.quoteInputParams);
       }
     this.isShowcreatequotes = false;
