@@ -141,29 +141,36 @@ export class InquiryTrackComponent implements OnInit {
     rate: null,
   };
 
-
   columns: STColumn[] = [
-    { title: "Attention", index: '', render: "Attention", width: 40 },
-    { title: 'From', index: '', render: "From", width: 120, },
-    { title: 'To', index: '', render: "To", width: 120 },
+    { title: 'Attention', index: '', render: 'Attention', width: 40 },
+    { title: 'From', index: '', render: 'From', width: 120 },
+    { title: 'To', index: '', render: 'To', width: 120 },
     { title: 'Zip code', index: 'zipCode', width: 60 },
     {
-      title: 'Rate', index: '', width: 80, render: 'Rate'
+      title: 'Rate',
+      index: '',
+      width: 80,
+      render: 'Rate',
     },
-    { title: 'Fuel', index: 'fuel', width: 70, format: (data) => `${data.fuel}%`, },
+    { title: 'Fuel', index: 'fuel', width: 70, format: (data) => `${data.fuel}%` },
     {
-      title: 'Total', index: '', width: 70, render: "Total"
+      title: 'Total',
+      index: '',
+      width: 70,
+      render: 'Total',
     },
     { title: 'Currerncy', index: 'currency', width: 70 },
     {
-      title: 'Status', index: 'account', width: 80,
+      title: 'Status',
+      index: 'account',
+      width: 80,
       format: (item) => {
         if (item.status == '0') {
-          return 'effective'
+          return 'effective';
         } else if (item.status == 1) {
-          return 'invalid'
+          return 'invalid';
         }
-      }
+      },
     },
     { title: 'Duration', index: '', width: 80, render: 'Duration' },
     { title: 'Trucker', index: 'carrier', width: 120 },
@@ -194,11 +201,9 @@ export class InquiryTrackComponent implements OnInit {
       width: 80,
       render: 'action',
       fixed: 'right',
-      buttons: [
-      ],
+      buttons: [],
     },
   ];
-
 
   constructor(
     // private customerService: CustomerService,
@@ -212,8 +217,8 @@ export class InquiryTrackComponent implements OnInit {
     private ratesTruckServiceService: RatesTruckServiceService,
     private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
-    private aCLService: ACLService
-  ) { }
+    private aCLService: ACLService,
+  ) {}
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -279,11 +284,9 @@ export class InquiryTrackComponent implements OnInit {
     });
     this.bindData();
 
-
     if (this.aCLService.can('j:商务员')) {
       this.showInquiryBtn = false;
     }
-
   }
 
   getCustomerList() {
@@ -309,13 +312,11 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getOrganizationUnitUsers() {
-    this.OrganizationUnit
-      .getOrganizationUnitUsers({
-        organizationUnitName: '商务部',
-      })
-      .subscribe((res: any) => {
-        this.unitUsers = res.items;
-      });
+    this.OrganizationUnit.getOrganizationUnitUsers({
+      organizationUnitName: '商务部',
+    }).subscribe((res: any) => {
+      this.unitUsers = res.items;
+    });
   }
 
   getPlaceAndCounty(name: string = null) {
@@ -378,11 +379,9 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   getToPlaceAndCounty(name: string = null) {
-    this.pubPlace
-      .getPlaceAndCounty({ name: name, type: this.placeAndCountyToListType })
-      .subscribe((res: any) => {
-        this.placeAndCountyToList = res.items;
-      });
+    this.pubPlace.getPlaceAndCounty({ name: name, type: this.placeAndCountyToListType }).subscribe((res: any) => {
+      this.placeAndCountyToList = res.items;
+    });
   }
 
   getCarrierCustomerList() {
@@ -416,8 +415,7 @@ export class InquiryTrackComponent implements OnInit {
       .getCrmGetAll({ ...data, ...datas })
       .pipe(
         finalize(() => {
-          if (this.id && this.dataOfList && this.dataOfList.items.length > 0)
-            this.showDetial(this.dataOfList?.items[0], 0);
+          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
           data.id = null;
           this.id = null;
         }),
@@ -646,7 +644,7 @@ export class InquiryTrackComponent implements OnInit {
       const boxWidth = Number(this.drawerStyle.width.slice(0, this.drawerStyle.width.length - 2));
       if (boxWidth + (this.lastClientX - e.clientX) >= 680) {
         if (boxWidth + (this.lastClientX - e.clientX) <= document.body.clientWidth) {
-          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX))
+          let drawerPosition: any = document.body.clientWidth - (boxWidth + (this.lastClientX - e.clientX));
           if (drawerPosition - 10 < e.clientX && e.clientX < drawerPosition + 30) {
             this.drawerStyle.width = boxWidth + (this.lastClientX - e.clientX) + 'px';
           }
@@ -698,10 +696,8 @@ export class InquiryTrackComponent implements OnInit {
     }
   }
 
-
   countryLists = [];
   portList = [];
-
 
   // 获取from/To列表--首页查询
   getAddress(searchText = null, type = null) {
@@ -764,14 +760,12 @@ export class InquiryTrackComponent implements OnInit {
   }
 }
 
-
 export enum VolumeUnitCode {
-  CBM = "TJDWCBM",
-  CFT = "TJDWCFT"
+  CBM = 'TJDWCBM',
+  CFT = 'TJDWCFT',
 }
 export enum WeightUnitCode {
-  KGS = "ZLDWKGS",
-  LBS = "ZLDWLBS",
-  MT = "ZLDWMT"
+  KGS = 'ZLDWKGS',
+  LBS = 'ZLDWLBS',
+  MT = 'ZLDWMT',
 }
-
