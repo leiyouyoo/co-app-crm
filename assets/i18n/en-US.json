@@ -16,9 +16,11 @@
   "Input location/port": "Input location/port",
   "CustomerTableName": "Customer Name",
   "createBooking": "New booking",
+  "Customize":"Customize",
   "Quotes Detail": "Quotes Detail",
   "Add": "Add",
   "Follow-up method": "Follow-up method",
+  "NO_table": "NO.",
   "booking": {
     "Name": "Name",
     "Yes": "Yes",

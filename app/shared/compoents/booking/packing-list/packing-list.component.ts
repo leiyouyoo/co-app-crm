@@ -698,7 +698,7 @@ export class PackingListComponent implements OnInit {
         this.verificationPassed.emit(true);
       },
       (error) => {
-        console.log('excel File Insert DB Error', error);
+        console.error('excel File Insert DB Error', error);
       },
     );
   };
@@ -759,7 +759,7 @@ export class PackingListComponent implements OnInit {
         }
       },
       (error) => {
-        console.log('excel File Insert DB Error', error);
+        console.error('excel File Insert DB Error', error);
       },
     );
   }

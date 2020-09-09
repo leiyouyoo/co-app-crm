@@ -47,6 +47,11 @@ export class SharedCustomersComponent extends CoPageBase {
   choosedData = [];
   columns: STColumn[] = [
     {
+      width: '80px',
+      title: 'NO_table',
+      type: 'no',
+    },
+    {
       width: 250,
       title: 'CustomerTableName',
       index: 'name',

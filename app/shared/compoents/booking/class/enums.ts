@@ -1,12 +1,12 @@
 export enum VolumeUnitCode {
   CBM = 'TJDWCBM',
-  CFT = 'TJDWCFT'
+  CFT = 'TJDWCFT',
 }
 
 export enum WeightUnitCode {
   KGS = 'ZLDWKGS',
   LBS = 'ZLDWLBS',
-  MT  = 'ZLDWMT',
+  MT = 'ZLDWMT',
 }
 
 export enum FbaFreightMethod {
@@ -41,3 +41,21 @@ export enum DictionaryType {
   ContactJobs = '099',
 }
 
+export enum OriginalOrTelex {
+  NotSet = 0,
+
+  /// <summary>
+  /// 正本提单
+  /// </summary>
+  Original = 1,
+
+  /// <summary>
+  /// 电放提单
+  /// </summary>
+  Telex = 2,
+
+  /// <summary>
+  /// 海运提单
+  /// </summary>
+  SeaWay = 3,
+}

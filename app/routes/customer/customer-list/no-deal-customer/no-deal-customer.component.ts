@@ -54,6 +54,11 @@ export class NoDealCustomerComponent extends CoPageBase {
   choosedData = [];
   columns: STColumn[] = [
     {
+      width: '80px',
+      title: 'NO_table',
+      type: 'no',
+    },
+    {
       width: '250px',
       title: 'CustomerTableName',
       index: 'name',
@@ -111,7 +116,6 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   checkChange(e): void {
-    debugger;
     e.type === 'pi' && this.pageIndexChange(e.pi);
     e.type === 'ps' && this.pageSizeChange(e.ps);
     e.type === 'dblClick' && this.showDetial(e.dblClick.item);

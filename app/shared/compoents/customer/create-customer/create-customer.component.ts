@@ -408,6 +408,7 @@ export class CreateCustomerComponent {
       });
 
     if (data) {
+      
       this.setData(data);
     }
   }
@@ -431,7 +432,7 @@ export class CreateCustomerComponent {
         incoterms: null || data.incoterms,
         isSalesCustomer: false || data.isSalesCustomer,
         description: null || data.description,
-        state: '0' || data.status.toString(),
+        state: data?.status.toString() || '0',
         countryId: data.countryId || null,
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,

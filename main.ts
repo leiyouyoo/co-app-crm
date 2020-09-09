@@ -2,7 +2,7 @@ import { enableProdMode, ViewEncapsulation } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { defineApplication, PlanetPortalApplication, ReuseTabService } from '@co/cms';
-
+import { ACLService } from '@co/acl';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -22,6 +22,15 @@ defineApplication(
       {
         provide: ReuseTabService,
         useValue: portalApp.data.data,
+      },
+      {
+        provide: ReuseTabService,
+        useValue: portalApp.data.reuseTabService,
+      },
+      {
+        provide: ACLService,
+        useValue: portalApp.data.aclService,
+        multi: true,
       },
     ])
       .bootstrapModule(AppModule)

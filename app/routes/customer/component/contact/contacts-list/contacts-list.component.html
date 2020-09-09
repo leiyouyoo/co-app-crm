@@ -140,7 +140,7 @@
             <th nzWidth="150px">
               {{ 'Job Capacity' | translate }}
             </th>
-            <th nzWidth="150px">
+            <th nzWidth="250px">
               {{ 'Phone' | translate }}
             </th>
             <th nzWidth="150px">
@@ -182,7 +182,7 @@
               {{ data.position }}
             </td>
             <td nzEllipsis>
-              {{ data.phone }}
+              {{ data.phone }}<span *ngIf="data.tel" style="color: #1890ff;">({{ data.tel }})</span>
             </td>
             <td nzEllipsis>
               {{ data.email }}

@@ -2,7 +2,7 @@
   <div class="list-content main-container bg-double-circle">
     <div class="content-header">
       <div class="d-flex align-items-center">
-        <i class="iconfont  icon-booking-no" nz-icon [nzIconfont]="'icon-booking-no'"></i>
+        <i class="iconfont icon-booking-no" nz-icon [nzIconfont]="'icon-booking-no'"></i>
         <span style="margin-left: 16px; font-size: 16px;">{{ bookingDetailInfo?.bookingNo }}</span>
         <span style="font-size: 24px; font-weight: 500; margin-left: 16px;">
           <span *ngIf="status == 0">
@@ -31,7 +31,13 @@
           </span>
         </span>
         <div style="margin-left: 16px;" *ngIf="bookingDetailInfo.status == 1 || bookingDetailInfo.status == 7">
-          <span class="iconfont icon-icon_dangerous" nz-icon nzIconfont="icon-dangerous" [title]="bookingCancel[bookingDetailInfo.cancelReason]"> </span>
+          <span
+            class="iconfont icon-icon_dangerous"
+            nz-icon
+            nzIconfont="icon-dangerous"
+            [title]="bookingCancel[bookingDetailInfo.cancelReason]"
+          >
+          </span>
           <span
             class="iconfont icon-beizhu"
             nz-icon
@@ -44,9 +50,7 @@
         <div class="content-header-fba" *ngIf="bookingDetailInfo.tradeType != 1">
           <div class="content-header-pick">
             <span *ngIf="bookingDetailInfo.deliveryMethodType == 1">{{ 'Home Delivery' | translate }}</span>
-            <span *ngIf="bookingDetailInfo.deliveryMethodType == 0">{{
-              'Customer automatic delivery' | translate
-            }}</span>
+            <span *ngIf="bookingDetailInfo.deliveryMethodType == 0">{{ 'Customer automatic delivery' | translate }}</span>
           </div>
           <div class="content-header-pickTime">
             <span *ngIf="bookingDetailInfo.deliveryMethodType == 1"> {{ 'Pick up Time' | translate }}</span
@@ -76,7 +80,8 @@
             </ng-template>
           </div>
           <div>
-            <span class="iconfont icon-user-login" nz-icon nzIconfont="icon-user-login" nz-popover [nzPopoverContent]="userTemplate"> </span>
+            <span class="iconfont icon-user-login" nz-icon nzIconfont="icon-user-login" nz-popover [nzPopoverContent]="userTemplate">
+            </span>
             <ng-template #userTemplate>
               <div style="width: 80%;" class="content-header-fba-bottom-left-right">
                 <span
@@ -121,12 +126,7 @@
       </div>
 
       <div *ngIf="!bookingDetailInfo.isQuoteConfirmed">
-        <nz-steps
-          [nzCurrent]="statusStep"
-          nzSize="default"
-          [nzStartIndex]="0"
-          *ngIf="status != 4 && status != 5 && status != 6"
-        >
+        <nz-steps [nzCurrent]="statusStep" nzSize="default" [nzStartIndex]="0" *ngIf="status != 4 && status != 5 && status != 6">
           <nz-step
             *ngFor="
               let item of [
@@ -651,10 +651,7 @@
               <document-layout [BusinessId]="BusinessId" [BusinessType]="BusinessType"> </document-layout>
             </nz-tab>
             <nz-tab [nzTitle]="'Quotes' | translate">
-              <div
-                *ngIf="!bookingDetailInfo.quoteEnquiryId && relateQuoteCount <= 0"
-                style="text-align: center; margin-top: 100px;"
-              >
+              <div *ngIf="!bookingDetailInfo.quoteEnquiryId && relateQuoteCount <= 0" style="text-align: center; margin-top: 100px;">
                 <div style="color: #717a83; height: 30px;">
                   {{ 'No quotation, please add a quotation and send it to the customer' | translate }}
                 </div>
@@ -675,15 +672,11 @@
                   [Id]="bookingDetailInfo.quoteEnquiryId"
                 ></quote-quote-simple-info>
               </div>
-              <div
-                *ngIf="relateQuoteCount > 0 && !bookingDetailInfo.quoteEnquiryId"
-                style="text-align: center; margin-top: 100px;"
-              >
+              <div *ngIf="relateQuoteCount > 0 && !bookingDetailInfo.quoteEnquiryId" style="text-align: center; margin-top: 100px;">
                 <div style="color: #717a83; height: 30px;">
                   {{ 'Match to' | translate }}<span>{{ relateQuoteCount }}</span
                   >{{
-                    'Quotation for similar routes, please confirm the selection to be linked to the data of the current booking'
-                      | translate
+                    'Quotation for similar routes, please confirm the selection to be linked to the data of the current booking' | translate
                   }}
                 </div>
                 <div>
@@ -706,10 +699,7 @@
 
           <div class="Booking-detail-line">
             <nz-list style="margin-bottom: 0;">
-              <nz-list-item
-                class="list-item-header"
-                style="border: none; display: flex; justify-content: space-between;"
-              >
+              <nz-list-item class="list-item-header" style="border: none; display: flex; justify-content: space-between;">
                 <span
                   ><label>{{ 'Route' | translate }}</label></span
                 >
@@ -719,22 +709,17 @@
                   </button>
                 </span>
               </nz-list-item>
-              <nz-list-item
-                style="height: initial; margin-top: 14px; padding-bottom: 0; margin-bottom: 0px;"
-                class="timeline"
-              >
+              <nz-list-item style="height: initial; margin-top: 14px; padding-bottom: 0; margin-bottom: 0px;" class="timeline">
                 <route-time-line
                   class="timeline-icon-bg-1"
                   [originAddress]="
-                    (bookingDetailInfo.tradeType === 1
-                      ? bookingDetailInfo.originAddress
-                      : bookingDetailInfo.deliveryWarehouse) || { name: bookingDetailInfo.shipperCustomerName }
+                    (bookingDetailInfo.tradeType === 1 ? bookingDetailInfo.originAddress : bookingDetailInfo.deliveryWarehouse) || {
+                      name: bookingDetailInfo.shipperCustomerName
+                    }
                   "
                   [originPort]="bookingDetailInfo.originPort"
                   [destinationPort]="bookingDetailInfo.destinationPort"
-                  [destinationAddress]="
-                    bookingDetailInfo.destinationAddress || { name: bookingDetailInfo.consigneeCustomerName }
-                  "
+                  [destinationAddress]="bookingDetailInfo.destinationAddress || { name: bookingDetailInfo.consigneeCustomerName }"
                   [freightMethodType]="bookingDetailInfo.freightMethodType"
                   [subOriginAddress]="lastData.originAddress"
                   [subDestinationAddress]="lastData.destinationAddress"
@@ -917,9 +902,7 @@
                 >
                 <span class="bookingDetail-word"
                   ><label for="">
-                    <ng-container
-                      *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean; else elseTemplate"
-                    >
+                    <ng-container *ngIf="bookingDetailInfo.freightMethodType == freightMethodTypeValue.Ocean; else elseTemplate">
                       ocean
                     </ng-container>
                     <ng-template #elseTemplate>
@@ -975,9 +958,7 @@
             <nz-list *ngIf="bookingDetailInfo.quantity && bookingDetailInfo.weight && bookingDetailInfo.volume">
               <nz-list-item class="list-item-header">
                 <span
-                  ><label for="" style="font-size: 14px; font-weight: bold;">{{
-                    'Cargo Detail' | translate
-                  }}</label></span
+                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Cargo Detail' | translate }}</label></span
                 >
               </nz-list-item>
               <nz-list-item>
@@ -986,8 +967,7 @@
                 >
                 <span class="bookingDetail-word"
                   ><label for=""
-                    >{{ bookingDetailInfo.quantity
-                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.quantityUnitString }}</span>
+                    >{{ bookingDetailInfo.quantity }}<span style="margin-left: 5px;">{{ bookingDetailInfo.quantityUnitString }}</span>
                     <span
                       id="gengxin"
                       *ngIf="lastData.quantity"
@@ -1026,8 +1006,7 @@
                 >
                 <span class="bookingDetail-word"
                   ><label for=""
-                    >{{ bookingDetailInfo.weight
-                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.weightUnitString }}</span>
+                    >{{ bookingDetailInfo.weight }}<span style="margin-left: 5px;">{{ bookingDetailInfo.weightUnitString }}</span>
                     <span
                       id="gengxin"
                       *ngIf="lastData.weight"
@@ -1066,8 +1045,7 @@
                 >
                 <span class="bookingDetail-word"
                   ><label for=""
-                    >{{ bookingDetailInfo.volume
-                    }}<span style="margin-left: 5px;">{{ bookingDetailInfo.volumeUnitString }}</span>
+                    >{{ bookingDetailInfo.volume }}<span style="margin-left: 5px;">{{ bookingDetailInfo.volumeUnitString }}</span>
                     <span
                       id="gengxin"
                       *ngIf="lastData.volume"
@@ -1101,11 +1079,7 @@
                 >
               </nz-list-item>
             </nz-list>
-            <nz-list
-              *ngIf="
-                bookingDetailInfo.description || specialgoodsList.length > 0 || bookingDetailInfo.specialInstructions
-              "
-            >
+            <nz-list *ngIf="bookingDetailInfo.description || specialgoodsList.length > 0 || bookingDetailInfo.specialInstructions">
               <nz-list-item class="list-item-header">
                 <span
                   ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Detail' | translate }}</label></span
@@ -1171,6 +1145,123 @@
                 </div>
               </div>
             </nz-list>
+
+            <nz-collapse [nzBordered]="false">
+              <nz-collapse-panel [nzActive]="false" [nzHeader]="'Other' | translate">
+                <nz-list>
+                  <nz-list-item>
+                    <span
+                      ><label for="">{{ 'HsCode' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.hsCode }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.originalOrTelex">
+                    <span
+                      ><label for="">{{ 'Original/Telex' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ OriginalOrTelex[bookingDetailInfo.originalOrTelex] | translate }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.airOwnerName">
+                    <span
+                      ><label for="">{{ 'AirOwner' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.airOwnerName }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.shipOwnerName">
+                    <span
+                      ><label for="">{{ 'ShipOwner' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.shipOwnerName | translate }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.flightNo">
+                    <span
+                      ><label for="">{{ 'Flight NO' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.flightNo }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.ContractNo">
+                    <span
+                      ><label for="">{{ 'ContractNo' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.contractNo }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.quoteNo">
+                    <span
+                      ><label for="">{{ 'QuoteNo' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.quoteNo }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.estDelivery">
+                    <span
+                      ><label for="">{{ 'Est.Delivery' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.estDelivery | date: 'yyyy-MM-dd' }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.requestHBL">
+                    <span
+                      ><label for="">{{ 'Request for HBL' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.requestHBL }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.requestMBL">
+                    <span
+                      ><label for="">{{ 'Request for MBL' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.requestMBL }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.remark">
+                    <span
+                      ><label for="">{{ 'Remark' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.remark }}
+                      </label></span
+                    >
+                  </nz-list-item>
+                </nz-list>
+              </nz-collapse-panel>
+            </nz-collapse>
           </div>
         </div>
       </div>
@@ -1194,18 +1285,10 @@
   <div class="RoutelDetail">
     <div class="RoutelDetail-top">
       <span class="iconfont icon-locationnew" nz-icon nzIconfont="icon-location-outline"></span>
-      <nz-select
-        style="width: 70%; margin-left: 24px;"
-        [(ngModel)]="bookingObj.deliveryWarehouseId"
-        nzAllowClear
-        nzPlaceHolder="Choose"
-      >
+      <nz-select style="width: 70%; margin-left: 24px;" [(ngModel)]="bookingObj.deliveryWarehouseId" nzAllowClear nzPlaceHolder="Choose">
         <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of cityoceanList">
           <div>{{ item.name }}</div>
-          <div>
-            {{ item.streetAddress }}<span>,</span>{{ item.city }}<span>,</span>{{ item.province }}<span>,</span
-            >{{ item.country }}
-          </div>
+          <div>{{ item.streetAddress }}<span>,</span>{{ item.city }}<span>,</span>{{ item.province }}<span>,</span>{{ item.country }}</div>
         </nz-option>
       </nz-select>
     </div>
@@ -1242,12 +1325,7 @@
         nzAllowClear
         nzPlaceHolder="Choose"
       >
-        <nz-option
-          nzCustomContent
-          [nzValue]="item.id"
-          [nzLabel]="item.name + ',' + item.regionName"
-          *ngFor="let item of OriginPortList"
-        >
+        <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name + ',' + item.regionName" *ngFor="let item of OriginPortList">
           <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
             <div class="port-name">
               <span>{{ item.name }}</span>
@@ -1345,22 +1423,14 @@
         nzPlaceHolder="Choose"
         [nzCustomTemplate]="destinationAddresscustom"
       >
-        <nz-option
-          nzCustomContent
-          [nzValue]="item.id"
-          [nzLabel]="item.name"
-          [appNzOptionExtra]="item"
-          *ngFor="let item of amazonList"
-        >
+        <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" [appNzOptionExtra]="item" *ngFor="let item of amazonList">
           <div>{{ item.name }}<span>,</span>{{ item.streetAddress }}<span>,</span>{{ item.code }}</div>
         </nz-option>
       </nz-select>
       <ng-template #destinationAddresscustom let-selected>
         <div>
           <span *ngIf="selected.template._appExtra.name">{{ selected.template._appExtra.name }},</span>
-          <span *ngIf="selected.template._appExtra.streetAddress"
-            >{{ selected.template._appExtra.streetAddress }},</span
-          >
+          <span *ngIf="selected.template._appExtra.streetAddress">{{ selected.template._appExtra.streetAddress }},</span>
           {{ selected.template._appExtra.code }}
         </div>
       </ng-template>
@@ -1399,10 +1469,9 @@
           <span
             >{{ selected.template._appExtra.name }}<span>-</span>{{ selected.template._appExtra.tenantName }}
             <span
-              >{{ selected.template._appExtra.streetAddress
-              }}<span *ngIf="selected.template._appExtra.streetAddress">,</span>{{ selected.template._appExtra.city
-              }}<span *ngIf="selected.template._appExtra.city">,</span>{{ selected.template._appExtra.province
-              }}<span *ngIf="selected.template._appExtra.province">,</span
+              >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+              >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
+              >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
               >{{ selected.template._appExtra.country }}</span
             >
           </span>
@@ -1450,16 +1519,10 @@
   </div>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isShowUpdateTab"
-  (nzOnCancel)="isShowUpdateTab = false"
-  (nzOnOk)="updateQuoteOk()"
-  nzWidth="25%"
->
+<nz-modal [(nzVisible)]="isShowUpdateTab" (nzOnCancel)="isShowUpdateTab = false" (nzOnOk)="updateQuoteOk()" nzWidth="25%">
   <p>
     {{
-      'If you update the quotation, you need to wait for the customer to reconfirm the price, whether to continue to update?'
-        | translate
+      'If you update the quotation, you need to wait for the customer to reconfirm the price, whether to continue to update?' | translate
     }}
   </p>
   <div *nzModalFooter>
@@ -1489,14 +1552,7 @@
     <button nz-button nzType="default" (click)="quotesRecordCancel()">
       {{ 'Cancel' | translate }}
     </button>
-    <button
-      nz-button
-      nzType="primary"
-      type="submit"
-      (click)="quotesRecordOk()"
-      *ngIf="selIndex == 1"
-      [nzLoading]="isQuoteRecordStatus"
-    >
+    <button nz-button nzType="primary" type="submit" (click)="quotesRecordOk()" *ngIf="selIndex == 1" [nzLoading]="isQuoteRecordStatus">
       {{ 'Add Quotes' | translate }}
     </button>
   </div>

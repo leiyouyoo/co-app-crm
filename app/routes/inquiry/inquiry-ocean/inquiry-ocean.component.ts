@@ -82,9 +82,6 @@ export class InquiryListOceanComponent implements OnInit {
   @ViewChild('detial', { static: false })
   public detailComponent: InquiryDetialComponent;
 
-  @ViewChild('scrollComponent')
-  private _scrollViewport: CdkVirtualScrollViewport;
-
   @ViewChild('st', { static: false }) st: STComponent;
 
   id: any;
@@ -268,7 +265,7 @@ export class InquiryListOceanComponent implements OnInit {
       //   }
       // }, 100);
     });
-    console.log(this.aCLService.can('j:商务员'), '0000000000');
+    // console.log(this.aCLService.can('j:商务员'), '0000000000');
     if (this.aCLService.can('j:商务员')) {
       this.showInquiryBtn = false;
       this.showShareBtn = false;
@@ -276,7 +273,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   checkChange(e) {
-    console.log(e);
+    // console.log(e);
     e.type === 'click' && this.showDetial(e.click.item, e.click.index);
     if (e.type === 'checkbox') {
       this.listOfData.forEach((e) => {
@@ -456,26 +453,21 @@ export class InquiryListOceanComponent implements OnInit {
           this.listOfData = res.items;
           this.totalCount = res.totalCount;
 
-          let arr = this.listOfData.map((item) => item.ratePriceOutputs);
-          arr.forEach((e) => {
-            e.forEach((c) => {
+          this.listOfData.forEach((e) => {
+            if (e.to) {
+              if (differenceInCalendarDays(new Date(e.to), new Date()) < 0) {
+                e.isValid = false;
+              } else {
+                e.isValid = true;
+              }
+            } else {
+              e.isValid = true;
+            }
+
+            e.ratePriceOutputs.forEach((c) => {
               tablestitle.push(c.unit);
             });
           });
-
-          this.listOfData.forEach((res) => {
-            if (res.to) {
-              if (differenceInCalendarDays(new Date(res.to), new Date()) < 0) {
-                res.isValid = false;
-              } else {
-                res.isValid = true;
-              }
-            } else {
-              res.isValid = true;
-            }
-          });
-
-          console.log(this.listOfData);
 
           this.tablestitle = Array.from(new Set(tablestitle));
           this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
@@ -508,27 +500,19 @@ export class InquiryListOceanComponent implements OnInit {
             }
           });
 
-          // if (this.init) {
           this.websort('40GP', 'ascend');
-          //   this.init = false;
-          // }
-
-          console.log(this.tablestitle);
-
           let titleItem = [];
-
           this.initColumn();
-
           this.tablestitle.forEach((e) => {
             titleItem.push({
               title: e,
               index: '',
               render: e,
-              width: 70,
+              width: 90,
               sort: {
                 compare: (a, b) => {
-                  console.log(a);
-                  console.log(b);
+                  // console.log(a);
+                  // console.log(b);
                   let aItem;
                   let bItem;
                   a?.ratePriceOutputs.forEach((item) => {
@@ -552,13 +536,21 @@ export class InquiryListOceanComponent implements OnInit {
               },
             });
           });
-          console.log(titleItem);
+
           titleItem.unshift(6, 0);
           Array.prototype.splice.apply(this.columns, titleItem);
 
-          console.log(this.columns);
-          debugger;
-          this.st?.resetColumns();
+          if (!this.listOfData[0]?.isSuperPermission) {
+            this.columns.forEach((e, idx) => {
+              if (e.title == 'NameAccount') {
+                this.columns.splice(idx, 1);
+              }
+            });
+          }
+
+          setTimeout(() => {
+            this.st.resetColumns();
+          }, 0);
         },
         (err) => {
           this.loading = false;
@@ -640,7 +632,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   up() {
-    console.log(1);
+    // console.log(1);
     this.canMove = false;
   }
 
@@ -1293,7 +1285,6 @@ export class InquiryListOceanComponent implements OnInit {
       });
     } else {
       this.listOfData = data;
-      debugger;
     }
   }
 }

@@ -29,6 +29,11 @@ export class CustomerComponent extends CoPageBase {
 
   columns: STColumn[] = [
     {
+      width: '80px',
+      title: 'NO_table',
+      type: 'no',
+    },
+    {
       width: '250px',
       title: 'CustomerTableName',
       index: 'name',
@@ -158,7 +163,6 @@ export class CustomerComponent extends CoPageBase {
   }
 
   transferCustomer(customerIds: any[], userId: any) {
-    debugger;
 
     this.tranLoading = true;
     this.crmCustomerService
@@ -188,7 +192,6 @@ export class CustomerComponent extends CoPageBase {
   }
 
   showMerge() {
-    debugger;
     this.customerMerge.dataSet = [];
     let isShow = true;
     this.choosedData.forEach((data) => {
