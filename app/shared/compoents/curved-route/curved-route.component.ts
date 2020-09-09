@@ -36,7 +36,7 @@ export class CurvedRouteComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  @debounce(100)
+  @debounce(200)
   drawRoute() {
     this.plumbInstance?.deleteEveryConnection()
     setTimeout(() => {

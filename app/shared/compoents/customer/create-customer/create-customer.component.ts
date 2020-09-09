@@ -205,7 +205,7 @@ export class CreateCustomerComponent {
     };
   }
 
-  @debounce(500)
+  @debounce(200)
   searchPlace(value, language = this.translate.currentLang) {
     const form = this.validateForm.value;
     let country = this.regions.filter((item) => item.id === form.countryId)[0] || { nameLocalization: '' };
@@ -601,7 +601,7 @@ export class CreateCustomerComponent {
     }
   }
 
-  @debounce(1000)
+  @debounce(200)
   async bindGoogleMapData(input) {
     let res = await this.googleMapService.autocomplete(input, this.translate.currentLang).toPromise();
     let item = res?.predictions;

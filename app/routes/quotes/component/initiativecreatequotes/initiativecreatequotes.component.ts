@@ -674,7 +674,7 @@ export class initiativeCreatequotesComponent extends CoPageBase implements OnIni
   }
   //地图搜索地址
   mapList: any[] = [];
-  @debounce(500)
+  @debounce(200)
   mapSearch(input: any) {
     this.googleMapService.autocomplete(input).subscribe((res) => {
       this.mapList = res.predictions;
