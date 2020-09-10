@@ -39,7 +39,7 @@ export class BookingComponent extends CoPageBase {
   height = 500;
 
   user = JSON.parse(window.localStorage.getItem('co.session'));
-  userId = this.user.session.user.icpUserId;
+  userId = this.user.session.user.id;
   columns: STColumn[] = [
     { title: 'BookNo', index: 'bookingNo', render: 'no' },
     { title: 'BookName', index: 'name', render: '' },
