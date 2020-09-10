@@ -135,9 +135,14 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
   GetForCRM(id: string) {
     this.bookingService.getForCRM({ id: id }).subscribe((res) => {
       this.bookingDetailInfo = res;
-      this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.flightNo] }).subscribe((c: any) => {
-        this.bookingDetailInfo.flightNo = c.items[0].no;
-      });
+      this.bookingDetailInfo.flightNo &&
+        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.flightNo] }).subscribe((c: any) => {
+          this.bookingDetailInfo.flightNo = c.items[0].no;
+        });
+      this.bookingDetailInfo.velAndVoy &&
+        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.velAndVoy] }).subscribe((c: any) => {
+          this.bookingDetailInfo.velAndVoy = c.items[0].no;
+        });
       this.status = res.status;
       if (res.lastData) this.lastData = res.lastData;
       switch (this.status) {

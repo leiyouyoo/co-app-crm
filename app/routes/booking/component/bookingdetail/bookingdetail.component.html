@@ -1189,6 +1189,16 @@
                       </label></span
                     >
                   </nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.velAndVoy">
+                    <span
+                      ><label for="">{{ 'Vel&Voy' | translate }}</label></span
+                    >
+                    <span class="bookingDetail-word"
+                      ><label for="">
+                        {{ bookingDetailInfo.velAndVoy | translate }}
+                      </label></span
+                    >
+                  </nz-list-item>
                   <nz-list-item *ngIf="bookingDetailInfo.flightNo">
                     <span
                       ><label for="">{{ 'Flight NO' | translate }}</label></span
