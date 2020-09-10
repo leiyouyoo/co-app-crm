@@ -194,7 +194,7 @@ export class InquiryListOceanComponent implements OnInit {
     { title: 'Term', index: 'term', width: 120 },
     { title: 'SurCharge', index: 'surCharge', width: 120 },
     { title: 'CLS', index: 'cls', width: 120 },
-    { title: 'T/T', index: 'tt', width: 120 },
+    { title: 'D/D', index: 'dd', width: 120 },
     { title: 'Description', index: 'remarkBusiness', width: 120 },
     { title: 'ItemCode', index: 'itemCode', width: 120 },
     { title: 'NameAccount', index: 'account', width: 120 },
@@ -506,7 +506,7 @@ export class InquiryListOceanComponent implements OnInit {
           this.tablestitle.forEach((e) => {
             titleItem.push({
               title: e,
-              index: '',
+              index: e,
               render: e,
               width: 90,
               sort: {
