@@ -244,7 +244,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   ngOnInit() {
     super.ngOnInit();
     const id = this.activeRoute.snapshot.params.id;
-    if (typeof +id !== 'number') {
+    if (isNaN(+id)) {
       this.BookingId = id;
       this.BusinessId = this.BookingId;
     }
@@ -312,7 +312,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       case !!queryParams.DetailId:
         initialDataRequestList.push(this.GetBookingForUpdate(this.DetailId));
         break;
-      case !!queryParams.BookingId:
+      case !!this.BookingId:
         initialDataRequestList.push(this.GetBookingForUpdate(this.BookingId));
         break;
       case !!this.orderParam:
