@@ -76,6 +76,22 @@ export interface BookingEntity {
   isShowQuote?: boolean;
   shipperPartnerId?: string;
   consigneePartnerId?: string;
+  airOwner?: string; // 航空公司
+  airOwnerName?: string; // 航空公司名
+  contractNo?: string; // 合约号
+  estDelivery?: string; // 期望出运日
+  flightNo?: string; // 航班号
+  HSCode?: string; // 货物海关编码
+  needHBL?: boolean; // 只出HBL
+  requestHBL?: string; // HBL文件要求
+  needMBL?: boolean; // 只出MBL
+  requestMBL?: string; // MBL文件要求
+  originalOrTelex?: string; // 放单类型
+  quoteNo?: string; // 报价号
+  reMark?: string; // 备注
+  shipOwner?: string; // 船公司
+  shipOwnerName?: string; // 船公司名
+  velAndVoy?: string; // 船名航次
 }
 
 export interface packingLists {

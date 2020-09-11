@@ -21,9 +21,17 @@ import {
   VolumeUnitCode,
   WeightUnitCode,
   DictionaryType,
+  OriginalOrTelex,
 } from '../class';
 
-import { CSPAttachmentService, CSPBookingService, CSPBookingTemplateService, CSPPurchaseOrderService } from '../../../../services/csp';
+import {
+  CSPAttachmentService,
+  CSPBookingService,
+  CSPBookingTemplateService,
+  CSPPurchaseOrderService,
+  CSPPubService,
+  CSPCityOceanService,
+} from '../../../../services/csp';
 import {
   CRMPartnerExternalService,
   CRMContactService,
@@ -37,6 +45,7 @@ import {
 import { _HttpClient } from '@co/common';
 import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
+import { RatesOceanServiceService, RatesQuoteEnquiryService } from 'apps/crm/app/services/rates';
 
 const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
@@ -87,6 +96,22 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     isContainsSpecialGoods: null,
     consigneePartnerId: null,
     shipperPartnerId: null,
+    airOwner: '', // 航空公司
+    airOwnerName: '', // 航空公司名
+    contractNo: '', // 合约号
+    estDelivery: '', // 期望出运日
+    flightNo: '', // 航班号
+    HSCode: '', // 货物海关编码
+    needHBL: false, // 只出HBL
+    requestHBL: '', // HBL文件要求
+    needMBL: false, // 只出MBL
+    requestMBL: '', // MBL文件要求
+    originalOrTelex: '', // 放单类型
+    quoteNo: '', // 报价号
+    reMark: '', // 备注
+    shipOwner: '', // 船公司
+    shipOwnerName: '', // 船公司名
+    velAndVoy: '', // 船名航次
   };
   cusClearanceInvoicesGroup: Array<any> = new Array<any>();
   //bookingOrderNo
@@ -138,6 +163,8 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   cannotDeactivate = true;
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
+  readonly OriginalOrTelex = OriginalOrTelex;
+
   @ViewChild(PackingListComponent) PackingListComponent: PackingListComponent;
   @ViewChild(LocationFormModalComponent, { static: true }) LocationFormModalComponent: LocationFormModalComponent;
   @ViewChild(UserFormModalComponent, { static: true }) UserFormModalComponent: UserFormModalComponent;
@@ -154,6 +181,12 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     LCL: 1,
   };
   isCRM = false; //是否从CRM进来
+  velAndVoyList: any[] = []; //船名航次
+  airOwnerList: any[] = []; //航空公司
+  shippeOwnerList: any[] = []; //船公司
+  flightNoList: any[] = []; //航班
+  contractNoList: any[] = []; //合约号
+  quoteNoList: any[] = []; //报价号
   constructor(
     public activeRoute: ActivatedRoute,
     public location: Location,
@@ -164,6 +197,10 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     public cspBookingService: CSPBookingService,
     public cspPurchaseOrderService: CSPPurchaseOrderService,
     public cspAttachmentService: CSPAttachmentService,
+    public cspPubService: CSPPubService,
+    public ratesOceanServiceService: RatesOceanServiceService,
+    public ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+    public cspCityOceanService: CSPCityOceanService,
     public modalService: NzModalService,
     // todo I18nMessageService
     private message: NzMessageService,
@@ -207,7 +244,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   ngOnInit() {
     super.ngOnInit();
     const id = this.activeRoute.snapshot.params.id;
-    if (typeof +id !== 'number') {
+    if (isNaN(+id)) {
       this.BookingId = id;
       this.BusinessId = this.BookingId;
     }
@@ -275,7 +312,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       case !!queryParams.DetailId:
         initialDataRequestList.push(this.GetBookingForUpdate(this.DetailId));
         break;
-      case !!queryParams.BookingId:
+      case !!this.BookingId:
         initialDataRequestList.push(this.GetBookingForUpdate(this.BookingId));
         break;
       case !!this.orderParam:
@@ -298,8 +335,44 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     this.getChannel();
     this.getCurrentCustomer();
     this.getByPlaceOrLocation();
+    this.getAllForUiPicker();
+    this.getCrmAllForUiPicker(1);
+    this.getCrmAllForUiPicker(2);
+    this.getVoyagesList();
+    this.getContractNo();
+    this.getQuoteNo();
+  }
+  // 获取合约号
+  getContractNo(searchText?: string) {
+    this.ratesOceanServiceService.getContractNo({ searchText }).subscribe((c: any) => {
+      this.contractNoList = c;
+    });
+  }
+  // 获取报价号
+  getQuoteNo(searchText?: string) {
+    this.ratesQuoteEnquiryService.getQuoteNo({ searchText }).subscribe((c: any) => {
+      this.quoteNoList = c;
+    });
+  }
+  // 获取航班
+  getAllForUiPicker(searchText?: string) {
+    this.cspPubService.getAllForUiPicker({ searchText }).subscribe((c: any) => {
+      this.flightNoList = c.items;
+    });
+  }
+  // 获取船名航次
+  getVoyagesList(VesselName?: string) {
+    this.cspCityOceanService.getVoyagesList({ VesselName, IsOneMonth: false }).subscribe((c: any) => {
+      this.velAndVoyList = c;
+    });
   }
 
+  // 获取船名航次
+  getCrmAllForUiPicker(customerType?: number, searchText?: string) {
+    this.crmCustomerService.getAllForUiPicker({ searchText, customerType, sorting: 'code' }).subscribe((c: any) => {
+      customerType === 1 ? (this.shippeOwnerList = c.items) : (this.airOwnerList = c.items);
+    });
+  }
   //关联订单搜索
   getOrder(searchKey?: string) {
     this.cspPurchaseOrderService.bookingSearch({ searchKeyword: searchKey }).subscribe((c: any) => {
@@ -614,22 +687,20 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     };
     if (!param.isOcean) delete param.isOcean;
     if (!param.isAir) delete param.isAir;
-    this.pubPlaceService
-      .getAll(param)
-      .subscribe(
-        (res: any) => {
-          this.OriginPortList = res.items;
-          if (id) {
-            setTimeout(() => {
-              this.portOriginsearch('');
-            });
-          }
-          this.addFormRatesOrginalPort();
-        },
-        (error) => {
-          this.message.info('Data loading failed');
-        },
-      );
+    this.pubPlaceService.getAll(param).subscribe(
+      (res: any) => {
+        this.OriginPortList = res.items;
+        if (id) {
+          setTimeout(() => {
+            this.portOriginsearch('');
+          });
+        }
+        this.addFormRatesOrginalPort();
+      },
+      (error) => {
+        this.message.info('Data loading failed');
+      },
+    );
   }
 
   //获取目的port
@@ -643,22 +714,20 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     };
     if (!param.isOcean) delete param.isOcean;
     if (!param.isAir) delete param.isAir;
-    this.pubPlaceService
-      .getAll(param)
-      .subscribe(
-        (res: any) => {
-          this.DesinationPortList = res.items;
-          if (id) {
-            setTimeout(() => {
-              this.portDesinationsearch('');
-            });
-          }
-          this.addFormRatesDesitinaPort();
-        },
-        (error) => {
-          this.message.info('Data loading failed');
-        },
-      );
+    this.pubPlaceService.getAll(param).subscribe(
+      (res: any) => {
+        this.DesinationPortList = res.items;
+        if (id) {
+          setTimeout(() => {
+            this.portDesinationsearch('');
+          });
+        }
+        this.addFormRatesDesitinaPort();
+      },
+      (error) => {
+        this.message.info('Data loading failed');
+      },
+    );
   }
 
   // 添加从rates传过来的数据

@@ -1,4 +1,4 @@
-<div style="height: 100%; overflow: hidden; display: flex; flex-direction: column; background: #fff;">
+<div style="display: flex; flex-direction: column; height: 100%; overflow: hidden; background: #fff;">
   <form nz-form [formGroup]="searchForm" nzLayout="inline">
     <div class="login-form">
       <div class="track">
@@ -102,9 +102,15 @@
         <nz-form-item class="search-item">
           <nz-form-label>{{ 'From' | translate }}</nz-form-label>
           <nz-form-control>
-            <nz-select style="width: 200px;" nzAllowClear nzShowSearch nzServerSearch
-              (nzOnSearch)="getAddress($event, 0)" [nzPlaceHolder]="'Input location/port' | translate"
-              formControlName="From">
+            <nz-select
+              style="width: 200px;"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              (nzOnSearch)="getAddress($event, 0)"
+              [nzPlaceHolder]="'Input location/port' | translate"
+              formControlName="From"
+            >
               <nz-option *ngFor="let item of countryLists" origin [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -113,9 +119,16 @@
         <nz-form-item class="search-item">
           <nz-form-label>{{ 'To' | translate }}</nz-form-label>
           <nz-form-control>
-            <nz-select style="width: 200px;" nzAllowClear nzShowSearch nzServerSearch
-              [nzPlaceHolder]="'Input location/port' | translate" (nzOnSearch)="getAddress($event, 1)"
-              formControlName="To" class="select">
+            <nz-select
+              style="width: 200px;"
+              nzAllowClear
+              nzShowSearch
+              nzServerSearch
+              [nzPlaceHolder]="'Input location/port' | translate"
+              (nzOnSearch)="getAddress($event, 1)"
+              formControlName="To"
+              class="select"
+            >
               <nz-option *ngFor="let item of portList" [nzValue]="item.id" [nzLabel]="item.name"> </nz-option>
             </nz-select>
           </nz-form-control>
@@ -163,11 +176,9 @@
         <nz-form-item>
           <nz-form-label>{{ 'Trucker' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please select Trucker' | translate }}">
-            <nz-select formControlName="Carrier" nzPlaceHolder="{{ 'Please select Trucker' | translate }}" nzShowSearch
-              nzAllowClear>
+            <nz-select formControlName="Carrier" nzPlaceHolder="{{ 'Please select Trucker' | translate }}" nzShowSearch nzAllowClear>
               <!-- (nzOnSearch)="getCRMCarrierList($event)" -->
-              <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.name" [nzValue]="option.id">
-              </nz-option>
+              <nz-option *ngFor="let option of carrierCustomerList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -185,8 +196,7 @@
         <nz-form-item>
           <nz-form-label>{{ 'NO' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please input your NO' | translate }}">
-            <input type="text" nz-input formControlName="No"
-              placeholder="{{ 'Please enter the quote number' | translate }}" />
+            <input type="text" nz-input formControlName="No" placeholder="{{ 'Please enter the quote number' | translate }}" />
           </nz-form-control>
         </nz-form-item>
 
@@ -340,12 +350,9 @@
 
       <ng-template st-row="Attention" let-data>
         <div class="detial_msg" style="width: 75px;">
+          <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)" *ngIf="!data.isFavorite"></i>
 
-          <i nz-icon nzType="star" nzTheme="outline" (click)="$event.stopPropagation(); onFollowChange(data)"
-            *ngIf="!data.isFavorite"></i>
-
-          <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)"
-            *ngIf="data.isFavorite"></i>
+          <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)" *ngIf="data.isFavorite"></i>
         </div>
       </ng-template>
 
@@ -356,7 +363,6 @@
       <ng-template st-row="Total" let-data>
         {{ ((data.rate * data.fuel) / 100 + data.rate).toFixed(2) }}
       </ng-template>
-
 
       <ng-template st-row="From" let-data>
         <div *ngIf="data.businessType == 2">
@@ -396,10 +402,7 @@
           {{ 'Edit' | translate }}
         </a>
       </ng-template>
-
-
     </co-st>
-
   </div>
 
   <div style="text-align: right; padding: 0 24px 24px 24px;">
@@ -411,8 +414,11 @@
   </div>
 </div>
 
-<crm-inquiry-truck-quote *ngIf="modalVisible" [id]="inquiryId"
-  (close)="modalVisible = false;inquiryId = null;($event && onSearch())"></crm-inquiry-truck-quote>
+<crm-inquiry-truck-quote
+  *ngIf="modalVisible"
+  [id]="inquiryId"
+  (close)="modalVisible = false; inquiryId = null; $event && onSearch()"
+></crm-inquiry-truck-quote>
 
 <!-- <nz-modal
   nzMaskClosable="false"
@@ -425,10 +431,17 @@
   <app-track-detial #detial></app-track-detial>
 </nz-modal> -->
 
-<nz-drawer [nzClosable]="false" [nzWidth]="'1'" [nzBodyStyle]="drawerStyle" [nzVisible]="detialVisible"
-  nzPlacement="right" [nzTitle]="drawerTitle" (nzOnClose)="closeDrawerModal()" [nzMaskStyle]="maskStyle">
-  <app-track-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()">
-  </app-track-detial>
+<nz-drawer
+  [nzClosable]="false"
+  [nzWidth]="'1'"
+  [nzBodyStyle]="drawerStyle"
+  [nzVisible]="detialVisible"
+  nzPlacement="right"
+  [nzTitle]="drawerTitle"
+  (nzOnClose)="closeDrawerModal()"
+  [nzMaskStyle]="maskStyle"
+>
+  <app-track-detial #detial mouseMoveEvent (mousedown)="down($event)" (mousemove)="move($event)" (mouseUp)="up()"> </app-track-detial>
 </nz-drawer>
 
 <ng-template #drawerTitle>

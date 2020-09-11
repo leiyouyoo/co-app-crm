@@ -13,10 +13,11 @@ import { QuoteRecorddetailComponent } from '../quote-recorddetail/quote-recordde
 import { UpdatequotesComponent } from '../updatequotes/updatequotes.component';
 import { PackingListComponent } from '../packing-list/packing-list.component';
 import { TranslateService } from '@ngx-translate/core';
-import { CSPBookingService, CSPBookingDto, CSPBookingOldData } from '../../../../services/csp';
+import { CSPBookingService, CSPBookingDto, CSPBookingOldData, CSPPubService } from '../../../../services/csp';
 import { PUBPlaceService } from '@co/cds';
 import { CRMLocationExternalService, CRMQuoteEnquiryService } from '../../../../services/crm';
 import { QuoteSimpleInfoComponent } from '../../../quotes/component/quote-simple-info/quote-simple-info.component';
+import { OriginalOrTelex } from 'apps/crm/app/shared/compoents/booking/class';
 
 @Component({
   selector: 'booking-bookingdetail',
@@ -39,6 +40,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
     airExpress: 294,
     express: 295,
   };
+  readonly OriginalOrTelex = OriginalOrTelex;
   quoteinfo: QuoteEnquiry = {
     originAddressId: '',
     originAddress: null,
@@ -105,6 +107,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
     public modalService: NzModalService,
     private translate: TranslateService,
     private crmQuoteEnquiryService: CRMQuoteEnquiryService,
+    private cspPubService: CSPPubService,
   ) {
     super();
   }
@@ -119,7 +122,6 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
       this.GetForCRM(this.bookingId);
     }
   }
-
   //获取详情方法
   status: number; //状态
   statusStep: number;
@@ -133,6 +135,14 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
   GetForCRM(id: string) {
     this.bookingService.getForCRM({ id: id }).subscribe((res) => {
       this.bookingDetailInfo = res;
+      this.bookingDetailInfo.flightNo &&
+        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.flightNo] }).subscribe((c: any) => {
+          this.bookingDetailInfo.flightNo = c.items[0].no;
+        });
+      this.bookingDetailInfo.velAndVoy &&
+        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.velAndVoy] }).subscribe((c: any) => {
+          this.bookingDetailInfo.velAndVoy = c.items[0].no;
+        });
       this.status = res.status;
       if (res.lastData) this.lastData = res.lastData;
       switch (this.status) {

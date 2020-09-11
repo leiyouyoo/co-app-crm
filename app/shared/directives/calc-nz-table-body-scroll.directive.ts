@@ -25,7 +25,7 @@ export class CalcNzTableBodyScrollDirective implements AfterContentInit, AfterVi
 
   // todo performance
   @HostListener('window:resize')
-  @debounce()
+  @debounce(200)
   calc() {
     setTimeout(() => {
       const thead = this.el.querySelector('.ant-table-thead');

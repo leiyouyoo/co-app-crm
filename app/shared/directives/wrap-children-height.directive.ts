@@ -14,7 +14,7 @@ export class WrapChildrenHeightDirective {
               ) { }
 
   @HostListener('window:resize', ['$event'])
-  @debounce()
+  @debounce(200)
   calc(e) {
     const el = this.elementRef.nativeElement as HTMLElement;
     const height = Array.from(el.children || [])

@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared';
 import { BookingSharedModule } from '../../shared/compoents/booking-shared.module';
 import { QuoteCommmonModule } from '../quotes/quote-commmon.module';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 const component = [
   BookingComponent,
@@ -26,7 +27,16 @@ const component = [
 
 @NgModule({
   declarations: [...component],
-  imports: [SharedModule, BookingRoutingModule, QuoteCommmonModule, CommonModule, FormsModule, TranslateModule, BookingSharedModule],
+  imports: [
+    SharedModule,
+    BookingRoutingModule,
+    QuoteCommmonModule,
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    BookingSharedModule,
+    NzCollapseModule,
+  ],
   exports: [...component],
 })
 export class BookingModule {}
