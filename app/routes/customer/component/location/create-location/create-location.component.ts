@@ -164,7 +164,7 @@ export class CreateLocationComponent implements OnInit {
     this.citys = res.items;
   }
 
-  @debounce(1000)
+  @debounce(200)
   searchPlace(value, language = this.translate.currentLang) {
     const form = this.validateForm.value;
     let country = this.regions.filter((item) => item.id === form.country)[0] || { nameLocalization: '' };
@@ -283,7 +283,7 @@ export class CreateLocationComponent implements OnInit {
   show() {
     this.isVisible = true;
   }
-  @debounce(100)
+  @debounce(200)
   async bindGoogleMapData(input) {
     let res = await this.googleMapService.autocomplete(input, this.translate.currentLang).toPromise();
     let item = res?.predictions;

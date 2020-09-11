@@ -360,7 +360,7 @@ export class InquiryListOceanComponent implements OnInit {
       });
   }
 
-  @debounce(1000)
+  @debounce(200)
   getBasicPortList(value = '') {
     if (/[\u4e00-\u9fa5]{2}/gi.test(value) || value.length > 2) {
       this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
