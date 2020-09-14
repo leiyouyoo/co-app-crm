@@ -13,7 +13,7 @@ import { QuoteRecorddetailComponent } from '../quote-recorddetail/quote-recordde
 import { UpdatequotesComponent } from '../updatequotes/updatequotes.component';
 import { PackingListComponent } from '../packing-list/packing-list.component';
 import { TranslateService } from '@ngx-translate/core';
-import { CSPBookingService, CSPBookingDto, CSPBookingOldData, CSPPubService } from '../../../../services/csp';
+import { CSPBookingService, CSPBookingDto, CSPBookingOldData, CSPPubService, CSPCityOceanService } from '../../../../services/csp';
 import { PUBPlaceService } from '@co/cds';
 import { CRMLocationExternalService, CRMQuoteEnquiryService } from '../../../../services/crm';
 import { QuoteSimpleInfoComponent } from '../../../quotes/component/quote-simple-info/quote-simple-info.component';
@@ -108,6 +108,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
     private translate: TranslateService,
     private crmQuoteEnquiryService: CRMQuoteEnquiryService,
     private cspPubService: CSPPubService,
+    private cspCityOceanService: CSPCityOceanService,
   ) {
     super();
   }
@@ -140,8 +141,8 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
           this.bookingDetailInfo.flightNo = c.items[0].no;
         });
       this.bookingDetailInfo.velAndVoy &&
-        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.velAndVoy] }).subscribe((c: any) => {
-          this.bookingDetailInfo.velAndVoy = c.items[0].no;
+        this.cspCityOceanService.getVoyagesList({ VesselName: this.bookingDetailInfo.velAndVoy }).subscribe((c: any) => {
+          this.bookingDetailInfo.velAndVoy = c.items[0].VesselName;
         });
       this.status = res.status;
       if (res.lastData) this.lastData = res.lastData;
