@@ -337,7 +337,8 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
         name: name,
         isAir: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Air,
         isOcean: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Ocean,
-      })
+        IsAirOrOcean: false
+      } as any)
       .subscribe(
         (res) => {
           this.OriginPortList = res.items;
@@ -355,7 +356,8 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
         name: name,
         isAir: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Air,
         isOcean: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Ocean,
-      })
+        IsAirOrOcean: false
+      } as any)
       .subscribe(
         (res) => {
           this.DesinationPortList = res.items;
