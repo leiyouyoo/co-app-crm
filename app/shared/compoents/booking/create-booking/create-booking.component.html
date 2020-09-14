@@ -1419,9 +1419,9 @@
           <span class="tip">*</span>
           <h4>{{ 'HsCode' | translate }}</h4>
           <div>
-            <input class="HScode" nz-input [placeholder]="'HsCode' | translate" [(ngModel)]="bookingObj.HSCode" />
+            <input class="HScode" nz-input [placeholder]="'HsCode' | translate" [(ngModel)]="bookingObj.hsCode" />
           </div>
-          <div class="red" *ngIf="!bookingObj.HSCode && isSubmitted">
+          <div class="red" *ngIf="!bookingObj.hsCode && isSubmitted">
             {{ 'HsCode is Required' | translate }}
           </div>
         </div>
@@ -1578,7 +1578,7 @@
           <div class="new-crm-item__remark">
             <h4>{{ 'Remark' | translate }}</h4>
             <div>
-              <textarea rows="4" nz-input [placeholder]="'Remark' | translate" [(ngModel)]="bookingObj.reMark"></textarea>
+              <textarea rows="4" nz-input [placeholder]="'Remark' | translate" [(ngModel)]="bookingObj.remark"></textarea>
             </div>
           </div>
         </div>
