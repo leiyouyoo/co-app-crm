@@ -216,7 +216,7 @@ export class BookingComponent extends CoPageBase {
   //编辑
   editRouter(data: any, edit: string) {
     this.$navigate(['/crm/bookings/createBooking', data.id], {
-      queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking') },
+      queryParams: { isEdit: true, CRM: true, _title: this.$L('Edit booking') },
     });
   }
 }

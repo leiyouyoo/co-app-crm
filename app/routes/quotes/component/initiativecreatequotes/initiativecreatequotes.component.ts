@@ -965,7 +965,7 @@ export class initiativeCreatequotesComponent extends CoPageBase implements OnIni
       (c) => {
         this.isSuccessfully.emit(true);
         this.loading = false;
-        this.message.success('Success')
+        this.message.success('Success');
         this.$close();
         this.$navigate(['/crm/quotes']);
       },

@@ -408,7 +408,6 @@ export class CreateCustomerComponent {
       });
 
     if (data) {
-      
       this.setData(data);
     }
   }
