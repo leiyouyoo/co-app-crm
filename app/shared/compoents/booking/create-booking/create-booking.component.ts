@@ -1360,6 +1360,9 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     } else if (this.isRepeat) {
       this.message.info('shipName is used');
       isTrue = false;
+    } else if (!this.bookingObj.hsCode) {
+      this.message.info('Please complete the data');
+      return;
     } else if (this.isCRM) {
       if (!this.bookingObj.serviceCompanyId) {
         this.message.info('Please complete the data');
@@ -1761,7 +1764,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
   deleteAllFiles() {
     this.files.forEach((file) => {
-      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => { });
+      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => {});
     });
     this.files = [];
   }
@@ -1883,11 +1886,9 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       this.modalService.confirm({
         nzContent: 'Whether to leave or not',
         nzOnOk: () => {
-          resolve(true)
-        }
-      })
-    })
+          resolve(true);
+        },
+      });
+    });
   }
-
 }
-
