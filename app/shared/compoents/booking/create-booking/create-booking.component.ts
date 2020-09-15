@@ -1362,6 +1362,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       isTrue = false;
     } else if (!this.bookingObj.hsCode) {
       this.message.info('Please complete the data');
+      isTrue = false;
       return;
     } else if (this.isCRM) {
       if (!this.bookingObj.serviceCompanyId) {
