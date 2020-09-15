@@ -1421,7 +1421,7 @@
           <div>
             <input class="HScode" nz-input [placeholder]="'HsCode' | translate" [(ngModel)]="bookingObj.hsCode" />
           </div>
-          <div class="red" *ngIf="!bookingObj.hsCode && isSubmitted">
+          <div class="red" *ngIf="!bookingObj.hsCode && (isSubmitted || isDraft)">
             {{ 'HsCode is Required' | translate }}
           </div>
         </div>
