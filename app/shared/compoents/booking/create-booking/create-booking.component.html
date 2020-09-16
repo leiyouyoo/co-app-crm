@@ -1301,6 +1301,12 @@
               </div>
             </div>
           </div>
+          <div class="HScode left_right">
+            <h4>{{ 'HsCode' | translate }}</h4>
+            <div>
+              <input nz-input [placeholder]="'HsCode' | translate" [(ngModel)]="bookingObj.hsCode" />
+            </div>
+          </div>
         </div>
         <div class="Special mb-12">
           <div class="mb-lg">
@@ -1416,16 +1422,6 @@
     <div class="new-crm CargoSpecial">
       <div class="block-container">
         <div class="new-crm-item">
-          <span class="tip">*</span>
-          <h4>{{ 'HsCode' | translate }}</h4>
-          <div>
-            <input class="HScode" nz-input [placeholder]="'HsCode' | translate" [(ngModel)]="bookingObj.hsCode" />
-          </div>
-          <div class="red" *ngIf="!bookingObj.hsCode && (isSubmitted || isDraft)">
-            {{ 'HsCode is Required' | translate }}
-          </div>
-        </div>
-        <div class="new-crm-item">
           <h4>{{ 'Original/Telex' | translate }}</h4>
           <div>
             <nz-select
@@ -1456,21 +1452,6 @@
             </nz-select>
           </div>
         </div>
-        <div *ngIf="bookingObj.freightMethodType == FreightMethodType.Air" class="new-crm-item">
-          <h4>{{ 'Flight NO' | translate }}</h4>
-          <div>
-            <nz-select
-              class="main-interactive-element-width"
-              nzAllowClear
-              [nzPlaceHolder]="'Choose' | translate"
-              nzShowSearch
-              (nzOnSearch)="getAllForUiPicker($event)"
-              [(ngModel)]="bookingObj.flightNo"
-            >
-              <nz-option [nzLabel]="item.no" [nzValue]="item.id" *ngFor="let item of flightNoList"> </nz-option>
-            </nz-select>
-          </div>
-        </div>
         <div *ngIf="bookingObj.freightMethodType == FreightMethodType.Ocean" class="new-crm-item">
           <h4>{{ 'ShipOwner' | translate }}</h4>
           <div>
@@ -1486,34 +1467,16 @@
             </nz-select>
           </div>
         </div>
-        <div *ngIf="bookingObj.freightMethodType == FreightMethodType.Ocean" class="new-crm-item">
-          <h4>{{ 'Vel&Voy' | translate }}</h4>
+        <div class="new-crm-item new-crm-estDelivery">
+          <h4>{{ 'Cut-off Date' | translate }}</h4>
           <div>
-            <nz-select
+            <nz-date-picker
+              nzFormat="yyyy-MM-dd HH:mm"
+              [nzDisabledDate]="disabledDate"
               class="main-interactive-element-width"
-              nzAllowClear
-              [nzPlaceHolder]="'Choose' | translate"
-              nzShowSearch
-              (nzOnSearch)="getVoyagesList($event)"
-              [(ngModel)]="bookingObj.velAndVoy"
+              [(ngModel)]="bookingObj.estDelivery"
             >
-              <nz-option [nzLabel]="item.VesselName" [nzValue]="item.VesselName" *ngFor="let item of velAndVoyList"> </nz-option>
-            </nz-select>
-          </div>
-        </div>
-        <div class="new-crm-item">
-          <h4>{{ 'ContractNo' | translate }}</h4>
-          <div>
-            <nz-select
-              class="main-interactive-element-width"
-              nzAllowClear
-              [nzPlaceHolder]="'Choose' | translate"
-              nzShowSearch
-              (nzOnSearch)="getContractNo($event)"
-              [(ngModel)]="bookingObj.contractNo"
-            >
-              <nz-option [nzLabel]="item" [nzValue]="item" *ngFor="let item of contractNoList"> </nz-option>
-            </nz-select>
+            </nz-date-picker>
           </div>
         </div>
         <div class="new-crm-item">
@@ -1531,34 +1494,8 @@
             </nz-select>
           </div>
         </div>
-        <div class="new-crm-item new-crm-estDelivery">
-          <h4>{{ 'Est.Delivery' | translate }}</h4>
-          <div>
-            <nz-date-picker
-              nzFormat="yyyy-MM-dd HH:mm"
-              [nzDisabledDate]="disabledDate"
-              class="main-interactive-element-width"
-              [(ngModel)]="bookingObj.estDelivery"
-            >
-            </nz-date-picker>
-          </div>
-        </div>
 
         <div class="new-crm-item">
-          <div class="new-crm-item__HBL">
-            <label nz-checkbox (ngModelChange)="bookingObj.requestHBL = ''" [(ngModel)]="bookingObj.needHBL">{{
-              'Need HBL' | translate
-            }}</label>
-            <div>
-              <textarea
-                rows="4"
-                nz-input
-                [placeholder]="'Request for HBL' | translate"
-                [(ngModel)]="bookingObj.requestHBL"
-                [disabled]="!bookingObj.needHBL"
-              ></textarea>
-            </div>
-          </div>
           <div class="new-crm-item__MBL">
             <label nz-checkbox (ngModelChange)="bookingObj.requestMBL = ''" [(ngModel)]="bookingObj.needMBL">{{
               'Need MBL' | translate
@@ -1576,7 +1513,7 @@
         </div>
         <div class="new-crm-item">
           <div class="new-crm-item__remark">
-            <h4>{{ 'Remark' | translate }}</h4>
+            <h4>{{ 'Operation Instructions' | translate }}</h4>
             <div>
               <textarea rows="4" nz-input [placeholder]="'Remark' | translate" [(ngModel)]="bookingObj.remark"></textarea>
             </div>
