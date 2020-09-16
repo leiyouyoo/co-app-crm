@@ -912,5 +912,7 @@
   "Shipper is Required": "“承运人”是必填项",
   "Please indicate whether or not your shipment contains any of the goods listed": "请指出您的货物中是否包含列出的任何商品",
   "FBM Address is required": "必须提供FBM地址",
-  "FBA Address is required": "必须提供FBA地址"
+  "FBA Address is required": "必须提供FBA地址",
+  "Cut-off Date":"截关日",
+  "Operation Instructions":"操作指示"
 }
