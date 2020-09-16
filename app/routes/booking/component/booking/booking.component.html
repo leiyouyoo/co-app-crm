@@ -24,7 +24,7 @@
         <div class="icon-all">
           <!-- <label>{{ 'Company' | translate }}：</label> -->
           <nz-radio-group [nzButtonStyle]="'solid'" class="tradeTypeGroup nz-radio-group-button"
-            [(ngModel)]="bookingInputParams.IsDistributeServiceCompany">
+            [(ngModel)]="bookingInputParams.IsDistributeServiceCompany" (ngModelChange)="search()">
             <label class="tradeTypeInfo" nz-radio-button [nzValue]="false">{{ 'Pending assign' | translate }}</label>
             <label class="tradeTypeInfo" nz-radio-button [nzValue]="true">{{ 'Assigned' | translate }}</label>
           </nz-radio-group>
@@ -45,25 +45,18 @@
     </div>
     <div class="content-list">
       <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: hidden">
-        <co-st class="list-table"
-          [columns]="columns"
-               [data]="bookingList"
-               [showCheckbox]="false"
-               [showFilters]="false"
-               calcScroll
-               disableCalcX
-               style="height: 100%;"
-        >
+        <co-st class="list-table" [columns]="columns" [data]="bookingList" [showCheckbox]="false" [showFilters]="false"
+          calcScroll disableCalcX style="height: 100%;">
           <ng-template st-row="no" let-data>
             <span style="display: inline-block; min-width: 30px;">
-                  <i *ngIf="data.isCustomerUpdate" [title]="'客户修改了订舱申请,详见详情页'" class="iconfont icon-gengxin" nz-icon [nzIconfont]="'icon-gengxin'"></i>
-                </span>
+              <i *ngIf="data.isCustomerUpdate" [title]="'客户修改了订舱申请,详见详情页'" class="iconfont icon-gengxin" nz-icon
+                [nzIconfont]="'icon-gengxin'"></i>
+            </span>
             {{ data.bookingNo }}
           </ng-template>
           <!-- 运输方式 -->
           <ng-template st-row="freightMethodType" let-data>
-            <ng-container
-              *ngIf="data.freightMethodType == freightMethodTypeValue.Ocean; else freighttypeElseTemplate">
+            <ng-container *ngIf="data.freightMethodType == freightMethodTypeValue.Ocean; else freighttypeElseTemplate">
               {{ 'ocean' | translate }}
             </ng-container>
             <ng-template #freighttypeElseTemplate>
@@ -81,11 +74,13 @@
           </ng-template>
           <!-- 发货人 -->
           <ng-template st-row="originAddress" let-data>
-            <ng-template [ngTemplateOutlet]="addressTemplate" [ngTemplateOutletContext]="{ $implicit: data.originAddress }"></ng-template>
+            <ng-template [ngTemplateOutlet]="addressTemplate"
+              [ngTemplateOutletContext]="{ $implicit: data.originAddress }"></ng-template>
           </ng-template>
           <!-- 收货人 -->
           <ng-template st-row="destinationAddress" let-data>
-            <ng-template [ngTemplateOutlet]="addressTemplate" [ngTemplateOutletContext]="{ $implicit: data.destinationAddress }"></ng-template>
+            <ng-template [ngTemplateOutlet]="addressTemplate"
+              [ngTemplateOutletContext]="{ $implicit: data.destinationAddress }"></ng-template>
           </ng-template>
           <!-- 货物信息 -->
           <ng-template st-row="totalWeightDisplay" let-data>
@@ -101,43 +96,43 @@
           </ng-template>
           <!-- 状态 -->
           <ng-template st-row="status" let-data>
-<span *ngIf="data.status == 0">
-                  {{ 'Dreft' | translate }}
-                </span>
+            <span *ngIf="data.status == 0">
+              {{ 'Dreft' | translate }}
+            </span>
             <span *ngIf="data.status == 1">
-                  {{ 'Pending cancel' | translate }}
-                </span>
+              {{ 'Pending cancel' | translate }}
+            </span>
             <span *ngIf="data.status == 7">
-                  {{ 'Cancelled' | translate }}
-                </span>
+              {{ 'Cancelled' | translate }}
+            </span>
             <span *ngIf="data.status == 2">
-                  {{ 'BookingSubmitted' | translate }}
-                </span>
+              {{ 'BookingSubmitted' | translate }}
+            </span>
             <span *ngIf="data.status == 3">
-                  {{ 'Booked' | translate }}
-                </span>
+              {{ 'Booked' | translate }}
+            </span>
             <span *ngIf="data.status == 4">
-                  {{ 'Waiting for price' | translate }}
-                </span>
+              {{ 'Waiting for price' | translate }}
+            </span>
             <span *ngIf="data.status == 5">
-                  {{ 'Waiting for the customer to confirm the price' | translate }}
-                </span>
+              {{ 'Waiting for the customer to confirm the price' | translate }}
+            </span>
             <span *ngIf="data.status == 6">
-                  {{ 'Waiting for the customer to confirm the price' | translate }}
-                </span>
+              {{ 'Waiting for the customer to confirm the price' | translate }}
+            </span>
           </ng-template>
           <!-- 出货口岸 -->
           <ng-template st-row="serviceCompanyDisplay" let-data>
             <span *ngIf="data.serviceCompanyId">
-                  {{ data.serviceCompanyDisplay }}
-                </span>
+              {{ data.serviceCompanyDisplay }}
+            </span>
             <div *ngIf="!data.serviceCompanyId" style="min-width: 80px;">
               <nz-select style="width: 80%;" [(ngModel)]="data.serviceCompanyId" nzAllowClear nzShowSearch
-                         [appSearchByExtraKey]="['displayNameLocalization','displayName']" [nzCustomTemplate]="companyCustom"
-                         nzPlaceHolder="{{ 'Choose' | translate }}" (nzOpenChange)="getServiceCompany(data)"
-                         (ngModelChange)="SureServiceCompany(data)">
+                [appSearchByExtraKey]="['displayNameLocalization','displayName']" [nzCustomTemplate]="companyCustom"
+                nzPlaceHolder="{{ 'Choose' | translate }}" (nzOpenChange)="getServiceCompany(data)"
+                (ngModelChange)="SureServiceCompany(data)">
                 <nz-option [appNzOptionExtra]="item" [nzValue]="item.id" [nzLabel]="item.displayNameLocalization"
-                           *ngFor="let item of companylist"></nz-option>
+                  *ngFor="let item of companylist"></nz-option>
               </nz-select>
               <ng-template #companyCustom let-selected>
                 <div>
@@ -159,12 +154,12 @@
                   </ng-template>
                 </li>
                 <li [title]="[address?.streetAddress, address?.city, address?.country] | arrayJoin">
-                      <span *ngIf="address">
-                        {{ address?.streetAddress }}
+                  <span *ngIf="address">
+                    {{ address?.streetAddress }}
 
-                        {{ address?.city }}
-                        <span *ngIf="address.city">,</span>{{ address?.country }}
-                      </span>
+                    {{ address?.city }}
+                    <span *ngIf="address.city">,</span>{{ address?.country }}
+                  </span>
                 </li>
               </ul>
             </ng-container>
