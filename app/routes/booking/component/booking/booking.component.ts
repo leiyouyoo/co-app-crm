@@ -39,7 +39,7 @@ export class BookingComponent extends CoPageBase {
   height = 500;
 
   user = JSON.parse(window.localStorage.getItem('co.session'));
-  userId = this.user.session.user.icpUserId;
+  userId = this.user.session.user.id;
   columns: STColumn[] = [
     { title: 'BookNo', index: 'bookingNo', render: 'no' },
     { title: 'BookName', index: 'name', render: '' },
@@ -216,7 +216,7 @@ export class BookingComponent extends CoPageBase {
   //编辑
   editRouter(data: any, edit: string) {
     this.$navigate(['/crm/bookings/createBooking', data.id], {
-      queryParams: { isEdit: true, CRM: true, _title: this.$L('Create booking') },
+      queryParams: { isEdit: true, CRM: true, _title: this.$L('Edit booking') },
     });
   }
 }

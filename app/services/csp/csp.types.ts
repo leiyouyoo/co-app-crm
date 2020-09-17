@@ -1680,7 +1680,6 @@ export class CSPBookingDto {
   isDeleted?: boolean;
 
   flightNo?: string;
-
   hsCode?: string;
   originalOrTelex?: string;
   airOwnerName?: string;
@@ -1691,6 +1690,7 @@ export class CSPBookingDto {
   requestHBL?: string;
   requestMBL?: string;
   remark?: string;
+  velAndVoy?: string;
 }
 
 /**

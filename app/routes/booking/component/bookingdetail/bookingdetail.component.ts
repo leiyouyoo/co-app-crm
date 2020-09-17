@@ -13,7 +13,7 @@ import { QuoteRecorddetailComponent } from '../quote-recorddetail/quote-recordde
 import { UpdatequotesComponent } from '../updatequotes/updatequotes.component';
 import { PackingListComponent } from '../packing-list/packing-list.component';
 import { TranslateService } from '@ngx-translate/core';
-import { CSPBookingService, CSPBookingDto, CSPBookingOldData, CSPPubService } from '../../../../services/csp';
+import { CSPBookingService, CSPBookingDto, CSPBookingOldData, CSPPubService, CSPCityOceanService } from '../../../../services/csp';
 import { PUBPlaceService } from '@co/cds';
 import { CRMLocationExternalService, CRMQuoteEnquiryService } from '../../../../services/crm';
 import { QuoteSimpleInfoComponent } from '../../../quotes/component/quote-simple-info/quote-simple-info.component';
@@ -108,6 +108,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
     private translate: TranslateService,
     private crmQuoteEnquiryService: CRMQuoteEnquiryService,
     private cspPubService: CSPPubService,
+    private cspCityOceanService: CSPCityOceanService,
   ) {
     super();
   }
@@ -135,9 +136,14 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
   GetForCRM(id: string) {
     this.bookingService.getForCRM({ id: id }).subscribe((res) => {
       this.bookingDetailInfo = res;
-      this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.flightNo] }).subscribe((c: any) => {
-        this.bookingDetailInfo.flightNo = c.items[0].no;
-      });
+      this.bookingDetailInfo.flightNo &&
+        this.cspPubService.getAllForUiPicker({ ids: [this.bookingDetailInfo.flightNo] }).subscribe((c: any) => {
+          this.bookingDetailInfo.flightNo = c.items[0].no;
+        });
+      this.bookingDetailInfo.velAndVoy &&
+        this.cspCityOceanService.getVoyagesList({ VesselName: this.bookingDetailInfo.velAndVoy }).subscribe((c: any) => {
+          this.bookingDetailInfo.velAndVoy = c.items[0].VesselName;
+        });
       this.status = res.status;
       if (res.lastData) this.lastData = res.lastData;
       switch (this.status) {
@@ -332,7 +338,8 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
         name: name,
         isAir: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Air,
         isOcean: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Ocean,
-      })
+        IsAirOrOcean: false
+      } as any)
       .subscribe(
         (res) => {
           this.OriginPortList = res.items;
@@ -350,7 +357,8 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
         name: name,
         isAir: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Air,
         isOcean: this.bookingDetailInfo.freightMethodType === this.freightMethodTypeValue.Ocean,
-      })
+        IsAirOrOcean: false
+      } as any)
       .subscribe(
         (res) => {
           this.DesinationPortList = res.items;

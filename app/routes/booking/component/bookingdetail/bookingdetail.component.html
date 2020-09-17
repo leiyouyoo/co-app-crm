@@ -1149,7 +1149,7 @@
             <nz-collapse [nzBordered]="false">
               <nz-collapse-panel [nzActive]="false" [nzHeader]="'Other' | translate">
                 <nz-list>
-                  <nz-list-item>
+                  <nz-list-item *ngIf="bookingDetailInfo.hsCode">
                     <span
                       ><label for="">{{ 'HsCode' | translate }}</label></span
                     >
@@ -1189,26 +1189,6 @@
                       </label></span
                     >
                   </nz-list-item>
-                  <nz-list-item *ngIf="bookingDetailInfo.flightNo">
-                    <span
-                      ><label for="">{{ 'Flight NO' | translate }}</label></span
-                    >
-                    <span class="bookingDetail-word"
-                      ><label for="">
-                        {{ bookingDetailInfo.flightNo }}
-                      </label></span
-                    >
-                  </nz-list-item>
-                  <nz-list-item *ngIf="bookingDetailInfo.ContractNo">
-                    <span
-                      ><label for="">{{ 'ContractNo' | translate }}</label></span
-                    >
-                    <span class="bookingDetail-word"
-                      ><label for="">
-                        {{ bookingDetailInfo.contractNo }}
-                      </label></span
-                    >
-                  </nz-list-item>
                   <nz-list-item *ngIf="bookingDetailInfo.quoteNo">
                     <span
                       ><label for="">{{ 'QuoteNo' | translate }}</label></span
@@ -1221,7 +1201,7 @@
                   </nz-list-item>
                   <nz-list-item *ngIf="bookingDetailInfo.estDelivery">
                     <span
-                      ><label for="">{{ 'Est.Delivery' | translate }}</label></span
+                      ><label for="">{{ 'Cut-off Date' | translate }}</label></span
                     >
                     <span class="bookingDetail-word"
                       ><label for="">
@@ -1229,16 +1209,7 @@
                       </label></span
                     >
                   </nz-list-item>
-                  <nz-list-item *ngIf="bookingDetailInfo.requestHBL">
-                    <span
-                      ><label for="">{{ 'Request for HBL' | translate }}</label></span
-                    >
-                    <span class="bookingDetail-word"
-                      ><label for="">
-                        {{ bookingDetailInfo.requestHBL }}
-                      </label></span
-                    >
-                  </nz-list-item>
+
                   <nz-list-item *ngIf="bookingDetailInfo.requestMBL">
                     <span
                       ><label for="">{{ 'Request for MBL' | translate }}</label></span
@@ -1251,7 +1222,7 @@
                   </nz-list-item>
                   <nz-list-item *ngIf="bookingDetailInfo.remark">
                     <span
-                      ><label for="">{{ 'Remark' | translate }}</label></span
+                      ><label for="">{{ 'Operation Instructions' | translate }}</label></span
                     >
                     <span class="bookingDetail-word"
                       ><label for="">

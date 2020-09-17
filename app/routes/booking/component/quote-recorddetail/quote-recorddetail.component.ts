@@ -105,7 +105,7 @@ export class QuoteRecorddetailComponent implements OnInit {
   //最终有数据的箱型
   containHavedataList: Array<any> = [];
   copy(data) {
-    this.crmQuoteEnquiryService.getForCRM(data.id).subscribe((res) => {
+    this.crmQuoteEnquiryService.getForCRM({ id: data.id }).subscribe((res) => {
       //获取详情
       this.quote_copy = res;
       if (this.quote_copy.containerType) this.containHavedataList = JSON.parse(this.quote_copy.containerType);
