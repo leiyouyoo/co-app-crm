@@ -915,5 +915,6 @@
   "FBA Address is required": "必须提供FBA地址",
   "Cut-off Date": "截关日",
   "Operation Instructions": "操作指示",
-  "If there is no follow information, please click the search button to load all the data": "无关注信息请点击搜索按钮加载所有数据"
+  "If there is no follow information, please click the search button to load all the data": "无关注信息请点击搜索按钮加载所有数据",
+  "Whether to leave or not": "是否要离开?"
 }

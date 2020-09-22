@@ -54,7 +54,7 @@ export class CustomerDetailsComponent implements OnInit {
     public router: Router,
     public crmCustomerService: CRMCustomerService,
     public translate: TranslateService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCustomerById();
@@ -168,7 +168,7 @@ export class CustomerDetailsComponent implements OnInit {
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
       address: value.address,
-      addressLocalization: value.address,
+      addressLocalization: value.addressLocalization,
       tel: tel.toString(),
       fax: value.fax,
       keyWord: value.keyWord,

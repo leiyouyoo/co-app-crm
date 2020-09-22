@@ -1729,7 +1729,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
   deleteAllFiles() {
     this.files.forEach((file) => {
-      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => {});
+      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => { });
     });
     this.files = [];
   }
@@ -1849,7 +1849,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   coOnClosing() {
     return new Promise((resolve) => {
       this.modalService.confirm({
-        nzContent: 'Whether to leave or not',
+        nzContent: this.$L('Whether to leave or not'),
         nzOnOk: () => {
           resolve(true);
         },
