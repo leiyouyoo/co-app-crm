@@ -353,6 +353,7 @@
       [showFilters]="false"
       disableCalcX
       (change)="checkChange($event)"
+      [noResult]="noresult"
       calcScroll
     >
       <ng-template st-row="Attention" let-data>
@@ -410,6 +411,20 @@
         </a>
       </ng-template>
     </co-st>
+
+    <ng-template #noresult>
+      <div style="text-align: center; text-align: center;">
+        <div>
+          <img src="apps/crm/assets/images/nodata.png" style="display: block; width: 60px; margin: 0 auto; padding: 10px 0;" />
+        </div>
+        <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="isFllow">
+          {{ 'If there is no follow information, please click the search button to load all the data' | translate }}
+        </div>
+        <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!isFllow">
+          {{ 'No Data' | translate }}
+        </div>
+      </div>
+    </ng-template>
   </div>
 
   <div style="padding: 0 24px 24px 24px; text-align: right;">
