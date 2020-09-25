@@ -166,9 +166,9 @@ export class InquiryTrackComponent implements OnInit {
       width: 80,
       format: (item) => {
         if (item.status == '0') {
-          return 'effective';
+          return this.translate.instant('effective');
         } else if (item.status == 1) {
-          return 'invalid';
+          return this.translate.instant('invalid');
         }
       },
     },
