@@ -56,7 +56,7 @@ export class InquiryTrackComponent implements OnInit {
   carrierCustomerList: any;
   inquiryId: string;
 
-  showInquiryBtn: boolean = true;
+  showInquiryBtn: boolean = false;
 
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
@@ -166,9 +166,9 @@ export class InquiryTrackComponent implements OnInit {
       width: 80,
       format: (item) => {
         if (item.status == '0') {
-          return 'effective';
+          return this.translate.instant('effective');
         } else if (item.status == 1) {
-          return 'invalid';
+          return this.translate.instant('invalid');
         }
       },
     },
@@ -284,8 +284,8 @@ export class InquiryTrackComponent implements OnInit {
     });
     this.bindData();
 
-    if (this.aCLService.can('j:商务员')) {
-      this.showInquiryBtn = false;
+    if (this.aCLService.can(['j:销售代表', 'j:海外拓展', 'j:拓展员', 'j: 电商顾问'])) {
+      this.showInquiryBtn = true;
     }
   }
 

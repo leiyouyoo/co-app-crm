@@ -98,20 +98,15 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     shipperPartnerId: null,
     airOwner: '', // 航空公司
     airOwnerName: '', // 航空公司名
-    contractNo: '', // 合约号
-    estDelivery: '', // 期望出运日
-    flightNo: '', // 航班号
     hsCode: '', // 货物海关编码
-    needHBL: false, // 只出HBL
-    requestHBL: '', // HBL文件要求
     needMBL: false, // 只出MBL
     requestMBL: '', // MBL文件要求
     originalOrTelex: '', // 放单类型
     quoteNo: '', // 报价号
-    remark: '', // 备注
+    remark: '', // 操作指示
     shipOwner: '', // 船公司
     shipOwnerName: '', // 船公司名
-    velAndVoy: '', // 船名航次
+    estDelivery: '', //截关日
   };
   cusClearanceInvoicesGroup: Array<any> = new Array<any>();
   //bookingOrderNo
@@ -181,11 +176,8 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     LCL: 1,
   };
   isCRM = false; //是否从CRM进来
-  velAndVoyList: any[] = []; //船名航次
   airOwnerList: any[] = []; //航空公司
   shippeOwnerList: any[] = []; //船公司
-  flightNoList: any[] = []; //航班
-  contractNoList: any[] = []; //合约号
   quoteNoList: any[] = []; //报价号
   constructor(
     public activeRoute: ActivatedRoute,
@@ -335,36 +327,18 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     this.getChannel();
     this.getCurrentCustomer();
     this.getByPlaceOrLocation();
-    this.getAllForUiPicker();
     this.getCrmAllForUiPicker(1);
     this.getCrmAllForUiPicker(2);
   }
-  // 获取合约号
-  getContractNo(searchText?: string) {
-    this.ratesOceanServiceService.getContractNo({ searchText }).subscribe((c: any) => {
-      this.contractNoList = c;
-    });
-  }
+
   // 获取报价号
   getQuoteNo(searchText?: string) {
     this.ratesQuoteEnquiryService.getQuoteNo({ searchText }).subscribe((c: any) => {
       this.quoteNoList = c;
     });
   }
-  // 获取航班
-  getAllForUiPicker(searchText?: string) {
-    this.cspPubService.getAllForUiPicker({ searchText }).subscribe((c: any) => {
-      this.flightNoList = c.items;
-    });
-  }
-  // 获取船名航次
-  getVoyagesList(VesselName?: string) {
-    this.cspCityOceanService.getVoyagesList({ VesselName, IsOneMonth: false }).subscribe((c: any) => {
-      this.velAndVoyList = c;
-    });
-  }
 
-  // 获取船名航次
+  // 获取客户列表
   getCrmAllForUiPicker(customerType?: number, searchText?: string) {
     this.crmCustomerService.getAllForUiPicker({ searchText, customerType, sorting: 'code' }).subscribe((c: any) => {
       customerType === 1 ? (this.shippeOwnerList = c.items) : (this.airOwnerList = c.items);
@@ -1401,10 +1375,6 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
           return;
         }
       }
-      if (!this.bookingObj.hsCode) {
-        this.message.info('Please complete the data');
-        return;
-      }
     } else {
       if (!isDraft && !this.yanZheng()) {
         this.isSubmitted = true;
@@ -1604,9 +1574,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     return this.cspBookingService.get({ id }).pipe(
       tap((res: any) => {
         this.bookingObj = res;
-        this.getVoyagesList(this.bookingObj.velAndVoy);
         this.getQuoteNo(this.bookingObj.quoteNo);
-        this.getContractNo(this.bookingObj.contractNo);
         this.defaultShipperId = this.bookingObj.shipperPartnerId || this.bookingObj.shipperCustomerId;
         this.defaultConsigneeId = this.bookingObj.consigneePartnerId || this.bookingObj.consigneeCustomerId;
         if (this.DetailId) {
@@ -1881,13 +1849,11 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   coOnClosing() {
     return new Promise((resolve) => {
       this.modalService.confirm({
-        nzContent: 'Whether to leave or not',
+        nzContent: this.$L('Whether to leave or not'),
         nzOnOk: () => {
-          resolve(true)
-        }
-      })
-    })
+          resolve(true);
+        },
+      });
+    });
   }
-
 }
-

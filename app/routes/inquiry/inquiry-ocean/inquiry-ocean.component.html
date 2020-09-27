@@ -1,4 +1,4 @@
-<div class="inquiry-ocean-content" style="background: #fff; padding: 24px; height: 100%; display: flex; flex-direction: column;">
+<div class="inquiry-ocean-content" style="display: flex; flex-direction: column; height: 100%; padding: 24px; background: #fff;">
   <form nz-form [formGroup]="searchForm">
     <div class="login-form">
       <div>
@@ -153,6 +153,7 @@
         [page]="{ front: false }"
         (change)="checkChange($event)"
         calcScroll
+        [noResult]="noresult"
         style="height: 100%;"
       >
         <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
@@ -188,6 +189,19 @@
           </a>
         </ng-template>
       </co-st>
+      <ng-template #noresult>
+        <div style="text-align: center; text-align: center;">
+          <div>
+            <img src="apps/crm/assets/images/nodata.png" style="display: block; width: 60px; margin: 0 auto; padding: 10px 0;" />
+          </div>
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="isFllow">
+            {{ 'If there is no follow information, please click the search button to load all the data' | translate }}
+          </div>
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!isFllow">
+            {{ 'No Data' | translate }}
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 
@@ -231,7 +245,7 @@
   nzMaskClosable="false"
 >
   <div *ngIf="validateShareForm && !showShareDtail">
-    <form nzLayout="vertical" nz-form [formGroup]="validateShareForm" style="height: 100%; display: flex; flex-direction: column;">
+    <form nzLayout="vertical" nz-form [formGroup]="validateShareForm" style="display: flex; flex-direction: column; height: 100%;">
       <div nz-row [nzGutter]="24">
         <div nz-col [nzSpan]="8">
           <nz-form-item>
