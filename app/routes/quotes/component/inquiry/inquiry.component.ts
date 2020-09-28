@@ -48,15 +48,9 @@ export class InquiryComponent extends CoPageBase {
   quoteList: any = new Array();
   //询价查询参数
   quoteInputParams: any = {
-    SortingValue: 'CreationTime',
-    Id: 0,
-    isGeneral: false,
-    isFba: false,
-    QuoteNo: '',
-    nzPageSize: 10,
-    pageIndex: 1,
-    SkipCount: 0,
-    Status: '',
+    dynamicQuery: {},
+    maxResultCount: 10,
+    skipCount: 0,
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
@@ -93,11 +87,11 @@ export class InquiryComponent extends CoPageBase {
     },
     {
       title: 'Inquiry customer',
-      index: 'ownerCustomerName',
+      index: 'ownerCustomer.displayName',
       indexI18n: true,
       width: 120,
     },
-    { title: 'Inquirer', index: 'ownerUserName', width: 120 },
+    { title: 'Inquirer', index: 'ownerUser.displayName', width: 120 },
     {
       title: 'Freight Method',
       index: 'freightMethodType',
@@ -118,14 +112,9 @@ export class InquiryComponent extends CoPageBase {
       type: 'date',
       filter: { type: 'date' },
     },
-    { title: 'Departure', index: 'from.addressModel', render: 'addressFromModel', width: 200 },
+    { title: 'Departure', index: 'from', width: 200 },
 
-    {
-      title: 'Destination',
-      index: 'to.addressModel',
-      width: 200,
-      render: 'addressToModel',
-    },
+    { title: 'Destination', index: 'to', width: 200, },
 
     { title: 'QuotesStatus', index: 'status', render: 'status', width: 130, filter: null },
 
@@ -188,22 +177,7 @@ export class InquiryComponent extends CoPageBase {
     this.selIndex = event;
   }
 
-  GetAllForCRM(quoteParams: any) {
-    if (quoteParams.SortingValue) {
-      quoteParams.Sorting = quoteParams.SortingValue + ' ' + this.sortValue;
-    }
-    // this.loading = true;
-    // this.quoteService.GetAllForCRM(quoteParams).subscribe(
-    //   (res) => {
-    //     this.loading = false;
-    //     this.quoteList = res.items;
-    //     this.quotetotal = res.totalCount;
-    //   },
-    //   (error) => {
-    //     this.loading = true;
-    //   },
-    // );
-
+  GetAllForCRM() {
     this.st.resetColumns();
   }
 
@@ -258,7 +232,7 @@ export class InquiryComponent extends CoPageBase {
         this.isShowinitiativecreatequotes = false;
         this.message.info(this.translate.instant('Added successfully!'));
       }
-      this.GetAllForCRM(this.quoteInputParams);
+      this.GetAllForCRM();
     } else {
       this.message.info(this.translate.instant('Create filed!'));
     }
@@ -279,13 +253,13 @@ export class InquiryComponent extends CoPageBase {
       if (this.isClosed) {
         this.isShowcreaterecord = false;
       }
-      this.GetAllForCRM(this.quoteInputParams);
+      this.GetAllForCRM();
     }
   }
 
   isSuccessfully(event: boolean) {
       if (event) {
-        this.GetAllForCRM(this.quoteInputParams);
+        this.GetAllForCRM();
       }
     this.isShowcreatequotes = false;
   }
@@ -300,72 +274,44 @@ export class InquiryComponent extends CoPageBase {
   }
 
   pageIndexChange(event: number): void {
-    if (event > 1) this.quoteInputParams.SkipCount = this.quoteInputParams.nzPageSize * (event - 1);
-    else this.quoteInputParams.SkipCount = 0;
-    this.GetAllForCRM(this.quoteInputParams);
+    if (event > 1) this.quoteInputParams.skipCount = this.quoteInputParams.maxResultCount * (event - 1);
+    else this.quoteInputParams.skipCount = 0;
+    this.GetAllForCRM();
   }
 
   currentPageSizeChange($event: any) {
-    this.quoteInputParams.nzPageSize = $event;
-    this.quoteInputParams.MaxResultCount = this.quoteInputParams.nzPageSize;
-    this.quoteInputParams.SkipCount = 0;
-    this.GetAllForCRM(this.quoteInputParams);
+    this.quoteInputParams.maxResultCount = $event;
+    this.quoteInputParams.skipCount = 0;
+    this.GetAllForCRM();
   }
-  searchByTradeType(event: any) {
-    const result = [];
-    if (event == 0) {
-      result.push(1, 2, 3);
-    } else if (event == 1) {
-      result.push(1);
-    } else if (event == 2) {
-      result.push(2, 3);
-    }
-    this.quoteInputParams.TradeTypes = result.join(',');
+  searchByTradeType() {
     this.search();
   }
   search() {
-    if (this.quoteInputParams.Id) {
-      this.quoteInputParams.HistoryDataType = this.customerAndUser.find(
-        (c) => c.customerId == this.quoteInputParams.Id || c.userId == this.quoteInputParams.Id,
-      ).historyDataType;
+    if (this.quoteInputParams.dynamicQuery.id) {
+      this.quoteInputParams.dynamicQuery.historyDataType = this.customerAndUser.find(
+        (c) => c.customerId == this.quoteInputParams.dynamicQuery.Id || c.userId == this.quoteInputParams.dynamicQuery.id,
+      )?.historyDataType;
     }
-    if (this.quoteInputParams.HistoryDataType && this.quoteInputParams.Id) {
-      if (this.quoteInputParams.HistoryDataType == 1) {
-        this.quoteInputParams.UserId = this.quoteInputParams.Id;
-        this.quoteInputParams.CustomerId = null;
+    if (this.quoteInputParams.dynamicQuery.historyDataType && this.quoteInputParams.dynamicQuery.id) {
+      if (this.quoteInputParams.dynamicQuery.historyDataType == 1) {
+        this.quoteInputParams.dynamicQuery.userId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.customerId = null;
       } else {
-        this.quoteInputParams.CustomerId = this.quoteInputParams.Id;
-        this.quoteInputParams.UserId = null;
+        this.quoteInputParams.dynamicQuery.customerId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.userId = null;
       }
     } else {
-      this.quoteInputParams.UserId = null;
-      this.quoteInputParams.CustomerId = null;
-      this.quoteInputParams.HistoryDataType = null;
+      this.quoteInputParams.dynamicQuery.userId = null;
+      this.quoteInputParams.dynamicQuery.customerId = null;
+      this.quoteInputParams.dynamicQuery.historyDataType = null;
     }
-    // this.addFreightMethodTypes(this.quoteInputParams);
-    this.GetAllForCRM(this.quoteInputParams);
+    this.GetAllForCRM();
   }
 
   clearSearch() {
-    this.quoteInputParams.TradeTypes = null;
-    this.quoteInputParams.Id = null;
-    this.quoteInputParams.CustomerId = null;
-    this.quoteInputParams.Status = '';
-    this.quoteInputParams.HistoryDataType = null;
-    this.quoteInputParams.UserId = null;
-    this.quoteInputParams.maoyiType = null;
+    this.quoteInputParams.dynamicQuery = {};
     this.search();
-  }
-
-  addFreightMethodTypes(quoteParams) {
-    const result = [];
-    if (this.quoteInputParams.isGeneral) {
-      result.push(1);
-    }
-    if (this.quoteInputParams.isFba) {
-      result.push(2, 3);
-    }
-    quoteParams.TradeTypes = result.join(',');
   }
 
   //排序
@@ -382,7 +328,7 @@ export class InquiryComponent extends CoPageBase {
       if (this.sortValue.startsWith('asc')) {
         this.sortValue = 'asc';
       }
-      this.quoteInputParams.Sorting = this.sortName + ' ' + this.sortValue;
+      this.quoteInputParams.orderBy = {[this.sortName]: this.sortValue === 'desc' ? 0 : 1};
       this.search();
     }
   }
