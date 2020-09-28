@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, Inject, Injector } from '@angular/core';
+import { Component, Injector, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuotesService } from '../../service/quotes.service';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
@@ -14,7 +14,8 @@ import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { CoConfigManager, CoPageBase } from '@co/core';
-import { STComponent, STColumn } from '@co/cbc/web/st';
+import { STColumn, STComponent } from '@co/cbc/web/st';
+
 @Component({
   selector: 'quotes-inquiry',
   templateUrl: './inquiry.component.html',
@@ -58,9 +59,6 @@ export class InquiryComponent extends CoPageBase {
   customerAndUser: any[];
   //分页
   quotetotal: number;
-  mapOfSort: { [key: string]: any } = {};
-  sortName: string | null = 'CreationTime';
-  sortValue: string | null = 'desc';
   @ViewChild(CreatequotesComponent) CreatequotesComponent: CreatequotesComponent;
   @ViewChild(initiativeCreatequotesComponent)
   initiativeCreatequotesComponent: initiativeCreatequotesComponent;
@@ -178,6 +176,7 @@ export class InquiryComponent extends CoPageBase {
   }
 
   GetAllForCRM() {
+    delete this.quoteInputParams.dynamicQuery.id;
     this.st.resetColumns();
   }
 
@@ -288,23 +287,23 @@ export class InquiryComponent extends CoPageBase {
     this.search();
   }
   search() {
+    let historyDataType;
     if (this.quoteInputParams.dynamicQuery.id) {
-      this.quoteInputParams.dynamicQuery.historyDataType = this.customerAndUser.find(
-        (c) => c.customerId == this.quoteInputParams.dynamicQuery.Id || c.userId == this.quoteInputParams.dynamicQuery.id,
+      historyDataType = this.customerAndUser.find(
+        (c) => c.customerId == this.quoteInputParams.dynamicQuery.id || c.userId == this.quoteInputParams.dynamicQuery.id,
       )?.historyDataType;
     }
-    if (this.quoteInputParams.dynamicQuery.historyDataType && this.quoteInputParams.dynamicQuery.id) {
-      if (this.quoteInputParams.dynamicQuery.historyDataType == 1) {
-        this.quoteInputParams.dynamicQuery.userId = this.quoteInputParams.dynamicQuery.id;
-        this.quoteInputParams.dynamicQuery.customerId = null;
+    if (historyDataType && this.quoteInputParams.dynamicQuery.id) {
+      if (historyDataType == 1) {
+        this.quoteInputParams.dynamicQuery.ownerUserId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.ownerCustomerId = null;
       } else {
-        this.quoteInputParams.dynamicQuery.customerId = this.quoteInputParams.dynamicQuery.id;
-        this.quoteInputParams.dynamicQuery.userId = null;
+        this.quoteInputParams.dynamicQuery.ownerCustomerId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.ownerUserId = null;
       }
     } else {
-      this.quoteInputParams.dynamicQuery.userId = null;
-      this.quoteInputParams.dynamicQuery.customerId = null;
-      this.quoteInputParams.dynamicQuery.historyDataType = null;
+      this.quoteInputParams.dynamicQuery.ownerUserId = null;
+      this.quoteInputParams.dynamicQuery.ownerCustomerId = null;
     }
     this.GetAllForCRM();
   }
@@ -312,25 +311,6 @@ export class InquiryComponent extends CoPageBase {
   clearSearch() {
     this.quoteInputParams.dynamicQuery = {};
     this.search();
-  }
-
-  //排序
-  sort(sortName: string, value: string): void {
-    this.sortName = sortName;
-    this.sortValue = value;
-    for (const key in this.mapOfSort) {
-      this.mapOfSort[key] = key === sortName ? value : null;
-    }
-    if (this.sortValue) {
-      if (this.sortValue.startsWith('desc')) {
-        this.sortValue = 'desc';
-      }
-      if (this.sortValue.startsWith('asc')) {
-        this.sortValue = 'asc';
-      }
-      this.quoteInputParams.orderBy = {[this.sortName]: this.sortValue === 'desc' ? 0 : 1};
-      this.search();
-    }
   }
 
   share(data: any, event: any) {
