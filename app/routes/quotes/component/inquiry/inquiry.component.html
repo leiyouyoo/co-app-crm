@@ -32,7 +32,7 @@
             nzPlaceHolder="{{ 'Trade Type' | translate }}"
             class="index-header-title-filter-status"
             [(ngModel)]="quoteInputParams.dynamicQuery.tradeTypes"
-            (ngModelChange)="searchByTradeType($event)"
+            (ngModelChange)="searchByTradeType()"
           >
             <nz-option nzValue="1,2,3" nzLabel="{{ 'All' | translate }}"></nz-option>
             <nz-option nzValue="1" nzLabel="{{ 'General' | translate }}"></nz-option>
