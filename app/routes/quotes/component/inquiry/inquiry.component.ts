@@ -50,8 +50,6 @@ export class InquiryComponent extends CoPageBase {
   //询价查询参数
   quoteInputParams: any = {
     dynamicQuery: {},
-    maxResultCount: 10,
-    skipCount: 0,
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
@@ -112,7 +110,7 @@ export class InquiryComponent extends CoPageBase {
     },
     { title: 'Departure', index: 'from', width: 200 },
 
-    { title: 'Destination', index: 'to', width: 200, },
+    { title: 'Destination', index: 'to', width: 200 },
 
     { title: 'QuotesStatus', index: 'status', render: 'status', width: 130, filter: null },
 
@@ -257,9 +255,9 @@ export class InquiryComponent extends CoPageBase {
   }
 
   isSuccessfully(event: boolean) {
-      if (event) {
-        this.GetAllForCRM();
-      }
+    if (event) {
+      this.GetAllForCRM();
+    }
     this.isShowcreatequotes = false;
   }
 
@@ -271,15 +269,25 @@ export class InquiryComponent extends CoPageBase {
   quotesrecordOk() {
     this.QuotesrecordComponent.ngSubmit();
   }
+  change(event) {
+    console.log(event);
+    switch (event.type) {
+      case 'dblClick':
+        this.getQuotesDetailInfo(event.dblClick.item);
+        break;
 
-  pageIndexChange(event: number): void {
-    if (event > 1) this.quoteInputParams.skipCount = this.quoteInputParams.maxResultCount * (event - 1);
+      default:
+        break;
+    }
+  }
+  pageIndexChange(event): void {
+    if (event.pi > 1) this.quoteInputParams.skipCount = this.quoteInputParams.maxResultCount * (event - 1);
     else this.quoteInputParams.skipCount = 0;
     this.GetAllForCRM();
   }
 
   currentPageSizeChange($event: any) {
-    this.quoteInputParams.maxResultCount = $event;
+    this.quoteInputParams.maxResultCount = $event.ps;
     this.quoteInputParams.skipCount = 0;
     this.GetAllForCRM();
   }

@@ -80,6 +80,7 @@
         [total]="quotetotal"
         [page]="{ front: false }"
         calcScroll
+        (change)="change($event)"
       >
         <ng-template st-row="quoteNo" let-data>
           <span class="colorBlue">{{ data.quoteNo }}</span>
