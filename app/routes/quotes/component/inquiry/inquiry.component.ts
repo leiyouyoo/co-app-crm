@@ -75,6 +75,11 @@ export class InquiryComponent extends CoPageBase {
   imgUrl = environment.SERVER_URL;
   columns: STColumn[] = [
     {
+      title: 'NO_table',
+      type: 'no',
+      width: 50,
+    },
+    {
       title: 'QuoteNo',
       index: 'quoteNo',
       indexI18n: true,
