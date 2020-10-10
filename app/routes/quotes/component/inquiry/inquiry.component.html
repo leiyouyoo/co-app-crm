@@ -7,8 +7,8 @@
           nzAllowClear
           nzPlaceHolder="{{ 'Please select the customer name, the inquiry person' | translate }}"
           class="index-header-title-filter-perple"
-          [(ngModel)]="quoteInputParams.Id"
-          (ngModelChange)="(quoteInputParams.SkipCount == 0); search()"
+          [(ngModel)]="quoteInputParams.dynamicQuery.id"
+          (ngModelChange)="(quoteInputParams.skipCount == 0); search()"
         >
           <nz-option
             *ngFor="let item of customerAndUser"
@@ -20,10 +20,10 @@
           nzAllowClear
           nzPlaceHolder="{{ 'QuotesStatus' | translate }}"
           class="index-header-title-filter-status"
-          [(ngModel)]="quoteInputParams.Status"
-          (ngModelChange)="(quoteInputParams.SkipCount == 0); search()"
+          [(ngModel)]="quoteInputParams.dynamicQuery.status"
+          (ngModelChange)="(quoteInputParams.skipCount == 0); search()"
         >
-          <nz-option nzValue="" nzLabel="{{ 'All' | translate }}"></nz-option>
+          <nz-option [nzValue]="null" nzLabel="{{ 'All' | translate }}"></nz-option>
           <nz-option *ngFor="let item of quoteState" [nzValue]="item" [nzLabel]="QuoteState[item] | translate"> </nz-option>
         </nz-select>
         <div class="icon-all">
@@ -31,12 +31,12 @@
             nzAllowClear
             nzPlaceHolder="{{ 'Trade Type' | translate }}"
             class="index-header-title-filter-status"
-            [(ngModel)]="quoteInputParams.maoyiType"
-            (ngModelChange)="searchByTradeType($event)"
+            [(ngModel)]="quoteInputParams.dynamicQuery.tradeTypes"
+            (ngModelChange)="searchByTradeType()"
           >
-            <nz-option nzValue="0" nzLabel="{{ 'All' | translate }}"></nz-option>
+            <nz-option nzValue="1,2,3" nzLabel="{{ 'All' | translate }}"></nz-option>
             <nz-option nzValue="1" nzLabel="{{ 'General' | translate }}"></nz-option>
-            <nz-option nzValue="2" nzLabel="{{ 'FBA/FBM' | translate }}"></nz-option>
+            <nz-option nzValue="2,3" nzLabel="{{ 'FBA/FBM' | translate }}"></nz-option>
           </nz-select>
           <nz-input-group class="index-header-title-filter-status" [nzSuffix]="suffixIconSearch">
             <input
@@ -45,33 +45,19 @@
               [placeholder]="'Quote No' | translate"
               appDebounceInput="300"
               (debounceInput)="search()"
-              [(ngModel)]="quoteInputParams.QuoteNo"
+              [(ngModel)]="quoteInputParams.dynamicQuery.quoteNo"
             />
           </nz-input-group>
           <ng-template #suffixIconSearch>
             <i
-              *ngIf="quoteInputParams.QuoteNo"
+              *ngIf="quoteInputParams.dynamicQuery.quoteNo"
               nz-icon
               nzType="close-circle"
-              (click)="quoteInputParams.QuoteNo = ''; search()"
+              (click)="quoteInputParams.dynamicQuery.quoteNo = ''; search()"
               style="color: #aaa; cursor: pointer;"
             ></i>
           </ng-template>
           <button nz-button nzType="default" (click)="clearSearch()">{{ 'Clear' | translate }}</button>
-          <!-- <div
-            class="icon-air"
-            (click)="quoteInputParams.isGeneral = !quoteInputParams.isGeneral; search()"
-            [ngClass]="{ 'border-left': quoteInputParams.isGeneral }"
-          >
-            {{ 'General' | translate }}
-          </div>
-          <div
-            class="icon-ocean"
-            (click)="quoteInputParams.isFba = !quoteInputParams.isFba; search()"
-            [ngClass]="{ 'border-right': quoteInputParams.isFba }"
-          >
-            {{ 'FBA/FBM' | translate }}
-          </div> -->
         </div>
 
         <div class="list-content-action">
@@ -83,7 +69,7 @@
       <co-st
         #st
         style="height: 100%;"
-        [data]="'/CRM/QuoteEnquiry/GetAllForES'"
+        [data]="'/CRM/EsQuery/GetAllForES'"
         [req]="{
           params: quoteInputParams
         }"
@@ -94,6 +80,7 @@
         [total]="quotetotal"
         [page]="{ front: false }"
         calcScroll
+        (change)="change($event)"
       >
         <ng-template st-row="quoteNo" let-data>
           <span class="colorBlue">{{ data.quoteNo }}</span>
@@ -104,41 +91,6 @@
           </div>
           <div *ngIf="data.freightMethodType === 2">
             <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
-          </div>
-        </ng-template>
-
-        <ng-template st-row="addressFromModel" let-data>
-          <div
-            *ngIf="data.from.addressModel"
-            style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-          >
-            <span *ngIf="data.from.addressModel?.name"> {{ data.from?.addressModel?.name }} </span>
-            <span *ngIf="data.from.addressModel?.streetAddress">{{ data.from.addressModel?.streetAddress }}</span>
-            <span *ngIf="data.from.addressModel?.city">{{ data.from.addressModel?.city }} </span>
-            <span *ngIf="data.from.addressModel?.province">{{ data.from.addressModel?.province }} </span>
-            <span *ngIf="data.from.addressModel?.country">{{ data.from.addressModel?.country }}</span>
-          </div>
-          <div style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-            <span> {{ data.from?.portModel?.name }} </span>
-            <span *ngIf="data.from?.portModel?.regionName">{{ data.from?.portModel?.regionName }} </span>
-            <span *ngIf="data.form?.countryName"> {{ data.from?.portModel?.countryName }} </span>
-          </div>
-        </ng-template>
-        <ng-template st-row="addressToModel" let-data>
-          <div
-            *ngIf="data.to.addressModel"
-            style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-          >
-            <span *ngIf="data.to.addressModel?.name"> {{ data.to?.addressModel?.name }} </span>
-            <span *ngIf="data.to.addressModel?.streetAddress">{{ data.to.addressModel?.streetAddress }}</span>
-            <span *ngIf="data.to.addressModel?.city">{{ data.to.addressModel?.city }} </span>
-            <span *ngIf="data.to.addressModel?.province">{{ data.to.addressModel?.province }} </span>
-            <span *ngIf="data.to.addressModel?.country">{{ data.to.addressModel?.country }}</span>
-          </div>
-          <div style="width: 200px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-            <span> {{ data.to?.portModel?.name }} </span>
-            <span *ngIf="data.to?.portModel?.regionName">{{ data.to?.portModel?.regionName }} </span>
-            <span *ngIf="data.to?.countryName"> {{ data.to?.portModel?.countryName }} </span>
           </div>
         </ng-template>
         <ng-template st-row="status" let-data>

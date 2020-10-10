@@ -29,6 +29,7 @@ export class InquirydetailComponent implements OnInit {
   disabledIm = false;
   isQuoteStatus: boolean = false;
   @ViewChild('imlayout') ImLayout: any;
+  loading: boolean = false;
 
   constructor(
     public route: Router,
@@ -49,10 +50,14 @@ export class InquirydetailComponent implements OnInit {
 
   //获取询价详情
   getQuoteDetail(id: string) {
+    this.loading = true;
     this.quoteService.getQuoteDetail(id).subscribe((res) => {
+      this.loading = false;
       this.quotesObj = res;
       this.handleDetail(this.quotesObj);
       if (this.quotesObj.id && this.QuoteSimpleInfoComponent) this.QuoteSimpleInfoComponent.initData();
+    },error=>{
+      this.loading = false;
     });
   }
 
