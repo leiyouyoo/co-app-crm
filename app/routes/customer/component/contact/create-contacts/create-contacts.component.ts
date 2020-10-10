@@ -322,18 +322,22 @@ export class CreateContactsComponent implements OnInit {
         nzOnCancel: () => (this.isVisible = true),
       });
     } else {
-      this.crmContactService.unbindOrDeleteUser(this.data.id).subscribe(
-        (res) => {
-          this.message.success(this.translate.instant('Logout successful'));
-          this.validateForm.patchValue({
-            isCspAccountOpen: false,
-          });
-          this.resfush.emit();
-        },
-        (err) => {
-          this.message.success(this.translate.instant('Logout failed'));
-        },
-      );
+      this.crmContactService
+        .unbindOrDeleteUser({
+          id: this.data.id,
+        })
+        .subscribe(
+          (res) => {
+            this.message.success(this.translate.instant('Logout successful'));
+            this.validateForm.patchValue({
+              isCspAccountOpen: false,
+            });
+            this.resfush.emit();
+          },
+          (err) => {
+            this.message.success(this.translate.instant('Logout failed'));
+          },
+        );
     }
   }
 }
