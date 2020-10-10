@@ -204,8 +204,9 @@ export class InquiryComponent extends CoPageBase {
     event.stopPropagation();
   }
 
-  //主动报价
+  //报价
   addQuote(data: any, event: any) {
+    this.quoteinfo = {}; //打开报价的抽屉之前先清空报价实体在重新获取新的报价信息
     this.getQuoteDetail(data.id);
     event.stopPropagation();
     this.isShowcreatequotes = true;

@@ -15,31 +15,21 @@
               >
             </span>
           </div>
-          <div class="content-tabel" id="content-tabel">
-            <div class="btn-group">
-              <button nz-button nzType="primary" (click)="createQuote()">
-                {{ 'Quote' | translate }}
-              </button>
-              <!-- <button nz-button nzType="primary" (click)="fenxiang()">分享</button> -->
-            </div>
-            <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+          <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+            <div class="content-tabel" id="content-tabel">
+              <div class="btn-group">
+                <button nz-button nzType="primary" (click)="createQuote()">
+                  {{ 'Quote' | translate }}
+                </button>
+              </div>
               <quote-quote-simple-info *ngIf="quotesObj.id" [Id]="quotesObj.id" [isRecord]="false"> </quote-quote-simple-info>
-            </nz-spin>
-          </div>
+            </div>
+          </nz-spin>
         </div>
       </div>
       <div class="content-left-ActivityDetails">
         <div class="content-left-Details">
           <nz-tabset [nzAnimated]="false" class="ant-tabs-padding">
-            <!-- <nz-tab nzTitle="Activity">
-              <im-layout-share
-                [disabledIm]="disabledIm"
-                [businessType]="_BusinessType.Quote"
-                [businessId]="BusinessId"
-                [imTitle]="groupName"
-                #imlayout
-              ></im-layout-share>
-            </nz-tab> -->
             <nz-tab nzTitle="Documents">
               <document-layout [BusinessId]="BusinessId" [BusinessType]="_BusinessType.Quote"> </document-layout>
             </nz-tab>
