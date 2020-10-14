@@ -79,6 +79,7 @@ export class InquiryComponent extends CoPageBase {
       title: 'NO_table',
       type: 'no',
       width: 50,
+      format: (item, col, index) => `${(this.st.pi - 1) * 10 + (index + 1)}`
     },
     {
       title: 'QuoteNo',
