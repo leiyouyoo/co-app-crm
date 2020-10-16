@@ -1,16 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { RatesGetFreightRatesInput, RatesQueryFreightRateOutput, RatesPagedResultDto, RatesCrmBusinessRateListInput, RatesCrmBusinessRateListOutput, RatesCrmOceanRateDetails, } from './rates.types';
+import { RatesGetFreightRatesInput,RatesQueryFreightRateOutput,RatesPagedResultDto,RatesCrmBusinessRateListInput,RatesCrmBusinessRateListOutput,RatesCrmOceanRateDetails, } from './rates.types';
 
 @BaseUrl('/rates/OceanBaseItemService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanBaseItemServiceService extends BaseApi {
-    constructor(injector: Injector) {
-        super(injector);
-    }
+export class RatesOceanBaseItemService extends BaseApi {
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
-
+  
     /**
      * @param url /Rates/OceanBaseItemService/Create
      * 生成运价
@@ -19,7 +19,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @POST('create')
     create(
         @Payload
-        _req: { oceanId?: string }
+        _req: {oceanId?:string} 
 
     ): Observable<any> {
         return null as any
@@ -34,7 +34,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @POST('queryFreightRates')
     queryFreightRates(
         @Payload
-        _req: RatesGetFreightRatesInput
+        _req:RatesGetFreightRatesInput
 
     ): Observable<RatesQueryFreightRateOutput> {
         return null as any
@@ -49,7 +49,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @POST('getBusinessRateList')
     getBusinessRateList(
         @Payload
-        _req: RatesCrmBusinessRateListInput
+        _req:RatesCrmBusinessRateListInput
 
     ): Observable<RatesPagedResultDto<RatesCrmBusinessRateListOutput>> {
         return null as any
@@ -64,7 +64,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @GET('getBusinessRateDetails')
     getBusinessRateDetails(
         @Payload
-        _req: { baseItemId?: string }
+        _req: {baseItemId?:string} 
 
     ): Observable<RatesCrmOceanRateDetails> {
         return null as any
@@ -79,7 +79,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @GET('getIcpOceanBaseItemList')
     getIcpOceanBaseItemList(
         @Payload
-        _req: { contractNo?: string, carrierId?: string, placeOfReceiptId?: string, pOLId?: string, pODId?: string, finalDestinationId?: string, comm?: string, fromDate?: string, toDate?: string, freightId?: string, onlyFreightId?: boolean }
+        _req: {contractNo?:string,carrierId?:string,placeOfReceiptId?:string,pOLId?:string,pODId?:string,finalDestinationId?:string,comm?:string,fromDate?:string,toDate?:string,freightId?:string,onlyFreightId?:boolean} 
 
     ): Observable<any> {
         return null as any
@@ -94,7 +94,7 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
     @GET('getIcpOceanBaseItemDetails')
     getIcpOceanBaseItemDetails(
         @Payload
-        _req: { id?: string }
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any
@@ -103,13 +103,13 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBaseItemService/IcpGetOceanOriginInfoAsync
-     * 
+     * ICP查询运价原始明细
      */
 
     @GET('icpGetOceanOriginInfoAsync')
     icpGetOceanOriginInfoAsync(
         @Payload
-        _req: { id?: string }
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any
@@ -117,4 +117,4 @@ export class RatesOceanBaseItemServiceService extends BaseApi {
 
 
 
-}
+  }

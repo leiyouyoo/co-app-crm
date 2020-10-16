@@ -13,7 +13,7 @@ export class RatesQuoteReplyService extends BaseApi {
   
     /**
      * @param url /Rates/QuoteReply/GetForUpdate
-     * 
+     * 获取报价用于编辑\新增
      */
 
     @GET('getForUpdate')

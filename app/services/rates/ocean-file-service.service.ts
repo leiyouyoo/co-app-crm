@@ -5,7 +5,7 @@ import { RatesOceanFileDto, } from './rates.types';
 
 @BaseUrl('/rates/OceanFileService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanFileServiceService extends BaseApi {
+export class RatesOceanFileService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }

@@ -12,9 +12,9 @@ import {
 import { NzMessageService } from 'ng-zorro-antd';
 // import { CustomerService } from '../../customer/service/customer.service';
 import { FooterCopyrightComponent } from './footer-copyright/footer-copyright.component';
-import { RatesOceanBaseItemServiceService } from '../../../services/rates/ocean-base-item-service.service';
+import { RatesOceanBaseItemService } from '../../../services/rates/ocean-base-item-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
-import { RatesLocalBaseRateExternalServiceService } from '../../../services/rates/local-base-rate-external-service.service';
+import { RatesLocalBaseRateExternalService } from '../../../services/rates/local-base-rate-external-service.service';
 import { PUBCurrencyService } from '@co/cds';
 
 @Component({
@@ -41,9 +41,9 @@ export class InquiryDetialComponent {
   constructor(
     // private customerService: CustomerService,
     private msg: NzMessageService,
-    private OceanBaseItemService: RatesOceanBaseItemServiceService,
+    private OceanBaseItemService: RatesOceanBaseItemService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
-    private ratesLocalBaseRateExternalServiceService: RatesLocalBaseRateExternalServiceService,
+    private ratesLocalBaseRateExternalServiceService: RatesLocalBaseRateExternalService,
     private pubCurrency: PUBCurrencyService,
   ) {}
 

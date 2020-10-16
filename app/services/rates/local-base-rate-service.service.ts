@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { RatesLocalBaseRateOutput,RatesPagedResultDto,RatesLocalDetailOutput,RatesLocalBaseRateDto,RatesLocalPortRateDto, } from './rates.types';
+import { RatesLocalBaseRateOutput,RatesPagedResultDto,RatesLocalDetailOutput,RatesLocalBaseRateDto,RatesBulkCommonInput,RatesPublishInput, } from './rates.types';
 
 @BaseUrl('/rates/LocalBaseRateService')
 @Injectable({ providedIn: 'root' })
-export class RatesLocalBaseRateServiceService extends BaseApi {
+export class RatesLocalBaseRateService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -19,7 +19,7 @@ export class RatesLocalBaseRateServiceService extends BaseApi {
     @GET('getAll')
     getAll(
         @Payload
-        _req: {carrierId?:string,shiplineId?:string,areaId?:string,provinceId?:string,portId?:string,updatebyId?:number,chargingCodeId?:string,updateDateStart?:string,updateDateEnd?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {carrierIds?:string,shiplineIds?:string,provinceIds?:string,portIds?:string,updatebyId?:number,chargingCodeId?:string,updateDateStart?:string,updateDateEnd?:string,isPublish?:boolean,isNormalize?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<RatesPagedResultDto<RatesLocalBaseRateOutput>> {
         return null as any
@@ -42,29 +42,44 @@ export class RatesLocalBaseRateServiceService extends BaseApi {
 
 
     /**
-     * @param url /Rates/LocalBaseRateService/BulkAddOrUpdate
-     * 批量新增编辑单条和多条
+     * @param url /Rates/LocalBaseRateService/CreateOrUpdate
+     * 新增编辑本地费
      */
 
-    @POST('bulkAddOrUpdate')
-    bulkAddOrUpdate(
+    @POST('createOrUpdate')
+    createOrUpdate(
         @Payload
         _req:RatesLocalBaseRateDto
 
+    ): Observable<RatesLocalBaseRateDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /Rates/LocalBaseRateService/Cancel
+     * 取消发布
+     */
+
+    @POST('cancel')
+    cancel(
+        @Payload
+        _req:RatesBulkCommonInput
+
     ): Observable<any> {
         return null as any
     }
 
 
     /**
-     * @param url /Rates/LocalBaseRateService/BulkDelete
-     * 单条删除或批量删除本地费
+     * @param url /Rates/LocalBaseRateService/Publish
+     * 发布
      */
 
-    @POST('bulkDelete')
-    bulkDelete(
+    @POST('publish')
+    publish(
         @Payload
-        _req: {} 
+        _req:RatesPublishInput
 
     ): Observable<any> {
         return null as any
@@ -72,14 +87,14 @@ export class RatesLocalBaseRateServiceService extends BaseApi {
 
 
     /**
-     * @param url /Rates/LocalBaseRateService/UpdateLocalPortItem
-     * 对某个港口的费用编辑需要传Id
+     * @param url /Rates/LocalBaseRateService/Delete
+     * 删除本地费
      */
 
-    @PUT('updateLocalPortItem')
-    updateLocalPortItem(
+    @DELETE('delete')
+    delete(
         @Payload
-        _req:RatesLocalPortRateDto
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any
@@ -95,81 +110,6 @@ export class RatesLocalBaseRateServiceService extends BaseApi {
     getMinistryOfCommerces(
         @Payload
         _req: {} 
-
-    ): Observable<any> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /Rates/LocalBaseRateService/IsUpdateLocalItemRate
-     * 编辑的时候判断是否可以编辑费用
-     */
-
-    @POST('isUpdateLocalItemRate')
-    isUpdateLocalItemRate(
-        @Payload
-        _req: {id?:string} 
-
-    ): Observable<any> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /Rates/LocalBaseRateService/GetPortByIdItemRate
-     * 根据某个港口统计 费用箱型的总额
-     */
-
-    @GET('getPortByIdItemRate')
-    getPortByIdItemRate(
-        @Payload
-        _req: {portId?:string} 
-
-    ): Observable<any> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /Rates/LocalBaseRateService/DeleteLocalPortRate
-     * 
-     */
-
-    @DELETE('deleteLocalPortRate')
-    deleteLocalPortRate(
-        @Payload
-        _req: {localPortRateId?:string} 
-
-    ): Observable<any> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /Rates/LocalBaseRateService/BatchUpdateLocalRate
-     * 
-     */
-
-    @POST('batchUpdateLocalRate')
-    batchUpdateLocalRate(
-        @Payload
-        _req: {} 
-
-    ): Observable<any> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /Rates/LocalBaseRateService/BatchUpdate
-     * 
-     */
-
-    @POST('batchUpdate')
-    batchUpdate(
-        @Payload
-        _req:RatesLocalBaseRateDto
 
     ): Observable<any> {
         return null as any

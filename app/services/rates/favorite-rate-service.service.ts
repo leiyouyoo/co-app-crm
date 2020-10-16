@@ -5,7 +5,7 @@ import { RatesFavoriteInput, } from './rates.types';
 
 @BaseUrl('/rates/FavoriteRateService')
 @Injectable({ providedIn: 'root' })
-export class RatesFavoriteRateServiceService extends BaseApi {
+export class RatesFavoriteRateService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }

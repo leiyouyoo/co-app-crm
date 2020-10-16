@@ -11,8 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CRMCustomerService } from 'apps/crm/app/services/crm/customer.service';
 import { PlatformOrganizationUnitService, PUBPlaceService } from '@co/cds';
-import { RatesTruckServiceService } from '../../../services/rates/truck-service.service';
-import { RatesFavoriteRateServiceService } from '../../../services/rates/favorite-rate-service.service';
+import { RatesTruckService } from '../../../services/rates/truck-service.service';
+import { RatesFavoriteRateService } from '../../../services/rates/favorite-rate-service.service';
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { debounce } from 'apps/crm/app/shared/utils';
 import { STColumn } from '@co/cbc';
@@ -214,8 +214,8 @@ export class InquiryTrackComponent implements OnInit {
     private crmCustomer: CRMCustomerService,
     private OrganizationUnit: PlatformOrganizationUnitService,
     private pubPlace: PUBPlaceService,
-    private ratesTruckServiceService: RatesTruckServiceService,
-    private ratesFavoriteRateServiceService: RatesFavoriteRateServiceService,
+    private ratesTruckServiceService: RatesTruckService,
+    private ratesFavoriteRateServiceService: RatesFavoriteRateService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
     private aCLService: ACLService,
   ) {}

@@ -5,7 +5,7 @@ import { RatesOceanArbitraryBulkDto,RatesOceanArbitraryBulkAllDto,RatesOceanArbi
 
 @BaseUrl('/rates/OceanArbitraryService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanArbitraryServiceService extends BaseApi {
+export class RatesOceanArbitraryService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }

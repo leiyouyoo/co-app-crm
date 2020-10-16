@@ -5,7 +5,7 @@ import { RatesOceanBasePortBulkDto,RatesDeleteErrorMessageInputDto,RatesOceanBas
 
 @BaseUrl('/rates/OceanBasePortService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanBasePortServiceService extends BaseApi {
+export class RatesOceanBasePortService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -19,7 +19,7 @@ export class RatesOceanBasePortServiceService extends BaseApi {
     @GET('getByOceanId')
     getByOceanId(
         @Payload
-        _req: {oceanId:string,account?:string,accountExcl?:boolean,pOL?:string,pOLExcl?:boolean,vIA?:string,vIAExcl?:boolean,pOD?:string,pODExcl?:boolean,delivery?:string,deliveryExcl?:boolean,itemCode?:string,itemCodeExcl?:boolean,comm?:string,commExcl?:boolean,term?:any[],termExcl?:boolean,surCharge?:string,surChargeExcl?:boolean,description?:string,descriptionExcl?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {oceanId:string,account?:string,accountExcl?:boolean,pOL?:string,pOLExcl?:boolean,vIA?:string,vIAExcl?:boolean,pOD?:string,pODExcl?:boolean,delivery?:string,deliveryExcl?:boolean,itemCode?:string,itemCodeExcl?:boolean,comm?:string,commExcl?:boolean,term?:any[],termExcl?:boolean,surCharge?:string,surChargeExcl?:boolean,description?:string,descriptionExcl?:boolean,dD?:string,dDExcl?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<any> {
         return null as any
@@ -43,7 +43,7 @@ export class RatesOceanBasePortServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBasePortService/GetErrorMessage
-     * 
+     * 获取导入异常记录
      */
 
     @GET('getErrorMessage')
@@ -58,7 +58,7 @@ export class RatesOceanBasePortServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBasePortService/DelErrorMessageRecord
-     * 
+     * 删除异常记录
      */
 
     @POST('delErrorMessageRecord')
