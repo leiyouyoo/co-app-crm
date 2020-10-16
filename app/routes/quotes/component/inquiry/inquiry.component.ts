@@ -50,6 +50,7 @@ export class InquiryComponent extends CoPageBase {
   //询价查询参数
   quoteInputParams: any = {
     dynamicQuery: {},
+    orderBy: {CreationTime: 0},
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
@@ -78,6 +79,7 @@ export class InquiryComponent extends CoPageBase {
       title: 'NO_table',
       type: 'no',
       width: 50,
+      format: (item, col, index) => `${(this.st.pi - 1) * 10 + (index + 1)}`
     },
     {
       title: 'QuoteNo',
