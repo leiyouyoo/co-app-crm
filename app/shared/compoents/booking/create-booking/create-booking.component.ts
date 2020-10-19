@@ -46,6 +46,7 @@ import { _HttpClient } from '@co/common';
 import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
 import { RatesOceanServiceService, RatesQuoteEnquiryService } from 'apps/crm/app/services/rates';
+import { NewPackingListComponent } from '../../new-packing-list/new-packing-list.component';
 
 const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
@@ -159,7 +160,8 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
   readonly OriginalOrTelex = OriginalOrTelex;
-
+  
+  @ViewChild(NewPackingListComponent) newPackingListComponent: NewPackingListComponent;
   @ViewChild(PackingListComponent) PackingListComponent: PackingListComponent;
   @ViewChild(LocationFormModalComponent, { static: true }) LocationFormModalComponent: LocationFormModalComponent;
   @ViewChild(UserFormModalComponent, { static: true }) UserFormModalComponent: UserFormModalComponent;
@@ -986,7 +988,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   //创建成功之后 成功与否判断
   modalClose(event: any, type, originType?) {
     if (event) {
-      this.message.info('create Sussess');
+      this.message.success('create Sussess');
       if (type === 1) {
         if (originType === 1) {
           this.getAllCompanyContact({ customerId: this.bookingObj.shipperCustomerId }, originType);
@@ -996,7 +998,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       } else {
         this.getAllCompanyContact({ customerId: this.bookingObj.shipperCustomerId }, 1);
       }
-    } else this.message.info('create failed');
+    } else this.message.error('create failed');
   }
 
   //联系人编辑添加
@@ -1391,14 +1393,14 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
       this.bookingObj.bookingTemplateId = this.TemplateId;
     }
     //验证装箱单数据是否完整
-    if (this.bookingObj.tradeType != 1) this.PackingListComponent.submitverificationForm();
-    if (!this.verificationPassed && this.bookingObj.tradeType != 1) {
-      this.isSubmitted = true;
-      setTimeout(() => {
-        (document.querySelector('.table-red') as any).scrollIntoView({ block: 'end', mode: 'smooth' });
-      }, 0);
-      return;
-    }
+    // if (this.bookingObj.tradeType != 1) this.PackingListComponent.submitverificationForm();
+    // if (!this.verificationPassed && this.bookingObj.tradeType != 1) {
+    //   this.isSubmitted = true;
+    //   setTimeout(() => {
+    //     (document.querySelector('.table-red') as any).scrollIntoView({ block: 'end', mode: 'smooth' });
+    //   }, 0);
+    //   return;
+    // }
     //处理装箱单
     this.bookingObj.packingLists = [];
     this.cusClearanceInvoicesGroup.forEach((c) => {
@@ -1432,7 +1434,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
             )
             .subscribe(
               (res) => {
-                this.message.info(this.translate.instant('Successful operation'));
+                this.message.success(this.translate.instant('Successful operation'));
                 this.$close();
                 this.router.navigate(['/crm/bookings']);
               },
@@ -1458,7 +1460,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
             )
             .subscribe(
               (res) => {
-                this.message.info(this.translate.instant('Successful operation'));
+                this.message.success(this.translate.instant('Successful operation'));
                 if (this.isCRM) {
                   this.router.navigate(['/crm/bookings']);
                 } else {
@@ -1564,7 +1566,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
         this.channelList = res.items;
       },
       (error) => {
-        this.message.info('Data loading failed');
+        this.message.error('Data loading failed');
       },
     );
   }

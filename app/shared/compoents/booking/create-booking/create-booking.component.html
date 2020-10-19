@@ -1398,22 +1398,12 @@
                   </div>
                 </div>
               </div>
-              <booking-packing-list
+              <fcm-new-packing-list
+                [bindData]="bookingObj.id"
                 *ngIf="bookingObj.tradeType"
-                [bookingId]="bookingObj.id"
-                [isEdit]="isEdit"
-                [tradeType]="bookingObj.tradeType"
-                [isPackSubmitted]="isSubmitted"
-                [pageList]="bookingObj.packingLists"
-                [listOfData]="bookingObj.cusClearanceInvoices"
-                (declareCurrency)="(bookingObj.declareCurrencyId)"
-                (verificationPassed)="verificationPassed = $event"
-                (packingLists)="bookingObj.packingLists = $event"
-                (cusClearanceInvoices)="bookingObj.cusClearanceInvoices = $event"
-                (cusClearanceInvoicesGroup)="cusClearanceInvoicesGroup = $event"
+                [ngStyle]="{ display: bookingObj.tradeType ? 'block' : 'none' }"
               >
-                <!-- (packingLists)="setpacklists($event); "  [pageList]="bookingObj.packingLists" -->
-              </booking-packing-list>
+              </fcm-new-packing-list>
             </nz-collapse-panel>
           </nz-collapse>
         </div>
