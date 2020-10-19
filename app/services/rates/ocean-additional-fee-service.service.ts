@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { RatesOceanAdditionalFeeDto,RatesOceanBindAdditionalFeeInput, } from './rates.types';
+import { RatesOceanAdditionalFeeDto,RatesBulkDeleteInput,RatesOceanBindAdditionalFeeInput, } from './rates.types';
 
 @BaseUrl('/rates/OceanAdditionalFeeService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanAdditionalFeeServiceService extends BaseApi {
+export class RatesOceanAdditionalFeeService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -42,6 +42,21 @@ export class RatesOceanAdditionalFeeServiceService extends BaseApi {
 
 
     /**
+     * @param url /Rates/OceanAdditionalFeeService/BatchCreateOrUpdate
+     * 批量新增附加费
+     */
+
+    @POST('batchCreateOrUpdate')
+    batchCreateOrUpdate(
+        @Payload
+        _req: {} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /Rates/OceanAdditionalFeeService/BulkDelete
      * 删除附加费
      */
@@ -49,7 +64,7 @@ export class RatesOceanAdditionalFeeServiceService extends BaseApi {
     @POST('bulkDelete')
     bulkDelete(
         @Payload
-        _req: {} 
+        _req:RatesBulkDeleteInput
 
     ): Observable<any> {
         return null as any

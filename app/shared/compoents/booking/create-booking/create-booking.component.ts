@@ -45,8 +45,7 @@ import {
 import { _HttpClient } from '@co/common';
 import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
-import { RatesOceanServiceService, RatesQuoteEnquiryService } from 'apps/crm/app/services/rates';
-import { NewPackingListComponent } from '../../new-packing-list/new-packing-list.component';
+import { RatesOceanService, RatesQuoteEnquiryService } from 'apps/crm/app/services/rates';
 
 const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
@@ -192,7 +191,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     public cspPurchaseOrderService: CSPPurchaseOrderService,
     public cspAttachmentService: CSPAttachmentService,
     public cspPubService: CSPPubService,
-    public ratesOceanServiceService: RatesOceanServiceService,
+    public ratesOceanServiceService: RatesOceanService,
     public ratesQuoteEnquiryService: RatesQuoteEnquiryService,
     public cspCityOceanService: CSPCityOceanService,
     public modalService: NzModalService,
@@ -1731,7 +1730,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
   deleteAllFiles() {
     this.files.forEach((file) => {
-      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => { });
+      this.cspAttachmentService.delete({ id: file.id }).subscribe((res) => {});
     });
     this.files = [];
   }

@@ -88,7 +88,6 @@ export class InquirydetailComponent implements OnInit {
   //新增报价
   isShowcreatequotes: boolean = false;
   createQuote() {
-    event.stopPropagation();
     this.isShowcreatequotes = true;
   }
 

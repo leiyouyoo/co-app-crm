@@ -5,7 +5,7 @@ import { RatesTruckOuput,RatesPagedResultDto,RatesCrmTruckOuput,RatesTruckDropDo
 
 @BaseUrl('/rates/TruckService')
 @Injectable({ providedIn: 'root' })
-export class RatesTruckServiceService extends BaseApi {
+export class RatesTruckService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -43,13 +43,13 @@ export class RatesTruckServiceService extends BaseApi {
 
     /**
      * @param url /Rates/TruckService/GetAddressForTruckingFee
-     * 
+     * 拖车费获取数据地址
      */
 
     @GET('getAddressForTruckingFee')
     getAddressForTruckingFee(
         @Payload
-        _req: {searchText?:string,type?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,type?:number,id?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<RatesPagedResultDto<RatesTruckDropDownListOutput>> {
         return null as any
@@ -163,13 +163,13 @@ export class RatesTruckServiceService extends BaseApi {
 
     /**
      * @param url /Rates/TruckService/GetAddress
-     * 
+     * 地点下拉数据
      */
 
     @GET('getAddress')
     getAddress(
         @Payload
-        _req: {searchText?:string,type?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,type?:number,id?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<RatesPagedResultDto<RatesTruckDropDownListOutput>> {
         return null as any
@@ -208,7 +208,7 @@ export class RatesTruckServiceService extends BaseApi {
 
     /**
      * @param url /Rates/TruckService/AddOrUpdateTruckRate
-     * 
+     * 新增或者更新拖车价格
      */
 
     @POST('addOrUpdateTruckRate')

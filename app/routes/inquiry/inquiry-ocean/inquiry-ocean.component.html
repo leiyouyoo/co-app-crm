@@ -15,7 +15,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
             <nz-select
-              formControlName="pol"
+              formControlName="pols"
               class="selectIptNoPadding"
               nzPlaceHolder="{{ 'POL' | translate }}"
               nzShowSearch
@@ -33,7 +33,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
             <nz-select
-              formControlName="pod"
+              formControlName="pods"
               class="selectIptNoPadding"
               nzPlaceHolder="{{ 'POD' | translate }}"
               nzShowSearch
@@ -57,7 +57,7 @@
             </nz-select> -->
 
             <nz-select
-              formControlName="delivery"
+              formControlName="deliverys"
               nzPlaceHolder="{{ 'Delivery' | translate }}"
               nzShowSearch
               nzServerSearch
@@ -71,7 +71,22 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              nzMode="multiple"
+              style="width: 200px;"
+              formControlName="shipCompanys"
+              nzPlaceHolder="{{ 'Carrier' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
+            >
+              <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"> </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
         <button nz-button [nzType]="'primary'" (click)="onSearch()">
           {{ 'Search' | translate }}
         </button>
@@ -94,27 +109,10 @@
       </div>
     </div>
 
-    <div class="login-form2" *ngIf="showMoreSearch">
+    <div class="login-form2" *ngIf="showMoreSearch" formGroupName="dynamicQuery">
       <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-select
-            nzMode="multiple"
-            style="width: 200px;"
-            formControlName="carrier"
-            nzPlaceHolder="{{ 'Carrier' | translate }}"
-            nzShowSearch
-            nzServerSearch
-            nzAllowClear
-            (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
-          >
-            <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"> </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-select style="width: 200px;" formControlName="shipline" nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
+          <nz-select style="width: 200px;" formControlName="shippingLineId" nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
             <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
           </nz-select>
         </nz-form-control>
@@ -128,7 +126,7 @@
 
       <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-range-picker formControlName="fromDate" style="width: 250px;"></nz-range-picker>
+          <nz-range-picker formControlName="timeranges" style="width: 250px;"></nz-range-picker>
         </nz-form-control>
       </nz-form-item>
 
@@ -157,7 +155,7 @@
         style="height: 100%;"
       >
         <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
-          <span *ngFor="let ratePrice of data.ratePriceOutputs">
+          <span *ngFor="let ratePrice of data.containerPriceList">
             <span
               *ngIf="ratePrice.unit === tata"
               class="col-green"
@@ -181,6 +179,19 @@
 
             <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)" *ngIf="data.isFavorite"></i>
           </div>
+        </ng-template>
+        <ng-template st-row="shipCompany" let-data>
+          {{ data.shipCompany.displayName }}
+        </ng-template>
+        <ng-template st-row="pol" let-data> {{ data.pol.displayName }} </ng-template>
+
+        <ng-template st-row="delivery" let-data> {{ data.delivery.displayName }} </ng-template>
+        <ng-template st-row="pod" let-data>
+          {{ data.pod.displayName }}
+        </ng-template>
+
+        <ng-template st-row="updateBy" let-data>
+          {{ data.updateBy.displayName }}
         </ng-template>
 
         <ng-template st-row="action" let-data>

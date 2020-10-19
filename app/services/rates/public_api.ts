@@ -1,3 +1,4 @@
+export * from './es-query.service';
 export * from './favorite-rate-service.service';
 export * from './local-base-rate-external-service.service';
 export * from './local-base-rate-service.service';

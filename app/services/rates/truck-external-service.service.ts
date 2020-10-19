@@ -5,7 +5,7 @@ import { RatesCspTruckListInput,RatesCspTruckOutput,RatesPagedResultDto, } from 
 
 @BaseUrl('/rates/TruckExternalService')
 @Injectable({ providedIn: 'root' })
-export class RatesTruckExternalServiceService extends BaseApi {
+export class RatesTruckExternalService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -13,7 +13,7 @@ export class RatesTruckExternalServiceService extends BaseApi {
   
     /**
      * @param url /Rates/TruckExternalService/GetQuoteTruckRates
-     * 
+     * 提供给csp拖车接口
      */
 
     @POST('getQuoteTruckRates')

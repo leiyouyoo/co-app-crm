@@ -5,7 +5,7 @@ import { RatesGetCrmFreightRateAndQuoteInput,RatesCrmSaveFreightAndQuoteInput,Ra
 
 @BaseUrl('/rates/OceanBaseItemExternalService')
 @Injectable({ providedIn: 'root' })
-export class RatesOceanBaseItemExternalServiceService extends BaseApi {
+export class RatesOceanBaseItemExternalService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -13,7 +13,7 @@ export class RatesOceanBaseItemExternalServiceService extends BaseApi {
   
     /**
      * @param url /Rates/OceanBaseItemExternalService/GetQuoteFreightRates
-     * 
+     * 根据报价的搜索返回需要的运价
      */
 
     @GET('getQuoteFreightRates')
@@ -28,7 +28,7 @@ export class RatesOceanBaseItemExternalServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBaseItemExternalService/GetCrmFreightAndQuoteRates
-     * 
+     * 分享运价获取要分享的数据
      */
 
     @POST('getCrmFreightAndQuoteRates')
@@ -43,7 +43,7 @@ export class RatesOceanBaseItemExternalServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBaseItemExternalService/SaveFreightAndQuoteRates
-     * 
+     * 保存Crm分享运价数据
      */
 
     @POST('saveFreightAndQuoteRates')
@@ -58,7 +58,7 @@ export class RatesOceanBaseItemExternalServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBaseItemExternalService/GetCrmCacheFreightAndQuoteRates
-     * 
+     * 获取Crm分享运价数据
      */
 
     @GET('getCrmCacheFreightAndQuoteRates')
@@ -73,7 +73,7 @@ export class RatesOceanBaseItemExternalServiceService extends BaseApi {
 
     /**
      * @param url /Rates/OceanBaseItemExternalService/SaveSendCustomer
-     * 
+     * 发送给客户
      */
 
     @POST('saveSendCustomer')

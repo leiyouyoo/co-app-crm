@@ -8,11 +8,7 @@ import {
 import { RatesCspTruckListInput } from '../../../services/rates/rates.types';
 import { PUBDataDictionaryService, PUBPlaceService, PUBCurrencyService, SSOUserService, PUBChargingCodeService } from '@co/cds';
 import { CRMQuoteEnquiryService, CRMQuoteReplyService, CRMCustomerService, CRMLocationExternalService } from '../../../services/crm';
-import {
-  RatesLocalBaseRateExternalServiceService,
-  RatesTruckExternalServiceService,
-  RatesOceanBaseItemExternalServiceService,
-} from '../../../services/rates';
+import { RatesLocalBaseRateExternalService, RatesTruckExternalService, RatesOceanBaseItemExternalService } from '../../../services/rates';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,9 +25,9 @@ export class QuotesService {
     public crmQuoteReplyService: CRMQuoteReplyService,
     public crmCustomerService: CRMCustomerService,
     public crmLocationExternalService: CRMLocationExternalService,
-    public RatesExternalService: RatesLocalBaseRateExternalServiceService,
-    public RatesTruckExternalService: RatesTruckExternalServiceService,
-    public ratesOceanBaseItemExternalService: RatesOceanBaseItemExternalServiceService,
+    public RatesExternalService: RatesLocalBaseRateExternalService,
+    public RatesTruckExternalService: RatesTruckExternalService,
+    public ratesOceanBaseItemExternalService: RatesOceanBaseItemExternalService,
   ) {}
 
   //获取字典信息
