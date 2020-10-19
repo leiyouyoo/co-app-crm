@@ -46,6 +46,7 @@ import { _HttpClient } from '@co/common';
 import { CO_SESSIONSERVICE_TOKEN, CoConfigManager, CoPageBase, ISessionService } from '@co/core';
 import { PlatformCompanyConfigureService, PUBDataDictionaryService, PUBPlaceService } from '@co/cds';
 import { RatesOceanService, RatesQuoteEnquiryService } from 'apps/crm/app/services/rates';
+import { NewPackingListComponent } from '../../new-packing-list/new-packing-list.component';
 
 const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
