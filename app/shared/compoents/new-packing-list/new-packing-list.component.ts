@@ -7,7 +7,7 @@ import { CoPageBase, CoConfigManager } from '@co/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { AddressDetailModalComponent } from './address-detail-modal/address-detail-modal.component';
-import { CSPBookingService } from 'apps/fcm/app/services/csp';
+import { CSPBookingService } from 'apps/crm/app/services/csp';
 
 @Component({
   selector: 'fcm-new-packing-list',
