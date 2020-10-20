@@ -96,7 +96,7 @@ export class LegalEntityComponent {
       incoterms: value.incoterms,
       industry: value.industry,
       description: value.description,
-      customerTaxes: value.customerTaxes[0]?.taxType ? value.customerTaxes : null,
+      customerTaxes: value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null,
     };
 
     if (application) {

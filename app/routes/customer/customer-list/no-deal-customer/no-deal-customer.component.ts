@@ -213,7 +213,7 @@ export class NoDealCustomerComponent extends CoPageBase {
       industry: value.industry,
       description: value.description,
       incoterms: value.incoterms,
-      customerTaxes: value.customerTaxes[0]?.taxType ? value.customerTaxes : null,
+      customerTaxes: value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null,
     };
 
     if (application) {
