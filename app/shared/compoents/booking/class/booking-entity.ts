@@ -1,4 +1,6 @@
 export interface BookingEntity {
+  packingProducts?: any;
+  packingCartons?: any;
   id?: string;
   freightMethodType?: number;
   shipmentType?: number;
@@ -116,6 +118,7 @@ export interface packingLists {
   long?: number;
   width?: number;
   height?: number;
+
 }
 
 export interface packingListItems {

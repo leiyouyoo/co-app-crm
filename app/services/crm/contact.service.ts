@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMContactDto,CRMListResultDto,CRMContactListDto,CRMPagedResultDto,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMResetUserPasswordInput, } from './crm.types';
+import { CRMContactDto,CRMListResultDto,CRMContactListDto,CRMPagedResultDto,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMCreateOrUpdateContactOutput,CRMCoEntityDto,CRMResetUserPasswordInput, } from './crm.types';
 
 @BaseUrl('/crm/Contact')
 @Injectable({ providedIn: 'root' })
@@ -72,6 +72,21 @@ export class CRMContactService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Contact/GetAllCustomerAndPartnerContacts
+     * 分页获取客户跟合作伙伴的联系人
+     */
+
+    @GET('getAllCustomerAndPartnerContacts')
+    getAllCustomerAndPartnerContacts(
+        @Payload
+        _req: {searchText?:string,isRegistered?:boolean,ids?:any[],sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto<CRMContactListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Contact/GetByLocationId
      * 获取地点下的联系人
      */
@@ -88,7 +103,7 @@ export class CRMContactService extends BaseApi {
 
     /**
      * @param url /CRM/Contact/GetByNameOrTel
-     * 根据联系人名称或电话搜索当前登录人的
+     * 根据联系人名称或电话搜索
      */
 
     @GET('getByNameOrTel')
@@ -141,7 +156,7 @@ export class CRMContactService extends BaseApi {
         @Payload
         _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<any> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -171,7 +186,7 @@ export class CRMContactService extends BaseApi {
         @Payload
         _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<any> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -199,7 +214,7 @@ export class CRMContactService extends BaseApi {
     @POST('unbindOrDeleteUser')
     unbindOrDeleteUser(
         @Payload
-        _req: {id?:string} 
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any

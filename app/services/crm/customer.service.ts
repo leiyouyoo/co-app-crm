@@ -34,7 +34,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getAll')
     getAll(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
         return null as any
@@ -109,7 +109,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getShares')
     getShares(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
         return null as any
@@ -124,7 +124,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getShareSources')
     getShareSources(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
         return null as any
@@ -139,7 +139,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getOwnerlessCustomer')
     getOwnerlessCustomer(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMOwnerLessPagedResultDto<CRMCustomerListDto>> {
         return null as any
@@ -184,7 +184,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getAllBySearch')
     getAllBySearch(
         @Payload
-        _req: {name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
         return null as any
@@ -199,7 +199,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getPeerAndDirectClient')
     getPeerAndDirectClient(
         @Payload
-        _req: {customerType?:number,name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerType?:number,ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
         return null as any

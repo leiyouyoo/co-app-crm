@@ -2,12 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { StorageCSPExcelService } from '@co/cds';
 import { UploadXHRArgs } from 'ng-zorro-antd/upload';
 import { CoSessionService, _HttpClient } from '@co/common';
-import { CRMLocationExternalService } from 'apps/fcm/app/services/crm';
+import { CRMLocationExternalService } from '../../../../services/crm';
 import { CoPageBase, CoConfigManager } from '@co/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { AddressDetailModalComponent } from './address-detail-modal/address-detail-modal.component';
-import { CSPBookingService } from 'apps/fcm/app/services/csp';
+import { CSPBookingService } from '../../../../services/csp';
 
 @Component({
   selector: 'fcm-new-packing-list',

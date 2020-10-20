@@ -6,12 +6,12 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NetworkSharedModule, CoNzSelectExtraModule, CoDatetimeRangePickerModule } from '@co/cbc';
-import { NewPackingListComponent } from './new-packing-list/new-packing-list.component';
-import { AddressDetailModalComponent } from './new-packing-list/address-detail-modal/address-detail-modal.component';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
-  declarations: [AddressDetailModalComponent, NewPackingListComponent, CreateBookingComponent, PackingListComponent],
+  declarations: [CreateBookingComponent, PackingListComponent],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     NgZorroAntdModule,

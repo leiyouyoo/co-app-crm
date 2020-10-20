@@ -924,5 +924,11 @@
   "Cut-off Date": "截关日",
   "Operation Instructions": "操作指示",
   "If there is no follow information, please click the search button to load all the data": "无关注信息请点击搜索按钮加载所有数据",
-  "Whether to leave or not": "是否要离开?"
+  "Whether to leave or not": "是否要离开?",
+  "Gross Weight(kg) /Carton": "毛重（公斤）/箱",
+  "Net Weight(kg) /Carton": "净重（公斤）/箱",
+  "Choose Address":"选择地址",
+  "Expected delivery time": "期望派送时间",
+  "Quantities in the packge": "装入数量",
+  "Delivery address":"送货地址"
 }

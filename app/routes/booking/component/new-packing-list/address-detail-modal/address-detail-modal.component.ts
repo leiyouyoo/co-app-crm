@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CRMLocationExternalService } from 'apps/fcm/app/services/crm';
-import { debounce } from 'rxjs/operators';
-
+import { CRMLocationExternalService } from '../../../../../services/crm';
 @Component({
   selector: 'fcm-address-detail-modal',
   templateUrl: './address-detail-modal.component.html',

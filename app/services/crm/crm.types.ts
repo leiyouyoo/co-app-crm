@@ -119,6 +119,9 @@
             /* 是否主账号联系人 */ 
             isMainAccount?: boolean;
          
+            /* 头像id */ 
+            profilePictureId?: string;
+         
             /* 用户信息 */ 
             userInfo?: CRMCustomerBindCoUserDto;
          
@@ -135,7 +138,7 @@
         
          
             
-            items: T[];
+            items: any;
         
         
     }
@@ -255,10 +258,10 @@
         
          
             
-            totalCount: number;
+            totalCount: any;
          
             
-            items: T[];
+            items: any;
         
         
     }
@@ -406,6 +409,33 @@
          
             /* 是否发送邮件通知 */ 
             isSendEmail?: boolean;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCreateOrUpdateContactOutput {
+        
+         
+            
+            id?: string;
+         
+            
+            link?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCoEntityDto {
+        
          
             
             id?: string;
@@ -594,16 +624,10 @@
             isActive?: boolean;
          
             
-            shouldChangePasswordOnNextLogin?: boolean;
-         
-            
-            isTwoFactorEnabled?: boolean;
-         
-            
-            isLockoutEnabled?: boolean;
-         
-            
             parentId?: number;
+         
+            
+            link?: string;
         
         
     }
@@ -767,7 +791,8 @@
             /* 客户状态
 0 = NoneCooperation
 1 = Cooperation
-2 = Share */ 
+2 = Share
+3 = Ownerless */ 
             status?: number;
          
             /* 审核状态
@@ -904,7 +929,8 @@
             /* 客户状态
 0 = NoneCooperation
 1 = Cooperation
-2 = Share */ 
+2 = Share
+3 = Ownerless */ 
             status?: number;
          
             /* 审核状态
@@ -987,13 +1013,13 @@
             /* 排除的客户id(假如合并的就需要排除) */ 
             excludeCustomerIds?: any[];
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1020,12 +1046,23 @@
 12 = Other */ 
             customerType?: number;
          
+            /* 客户状态
+0 = NoneCooperation
+1 = Cooperation
+2 = Share
+3 = Ownerless */ 
+            status?: number;
+         
             /* 客户搜索范围
 0 = User
 1 = Department
 2 = Company
-3 = All */ 
+3 = AgentCustomer
+4 = All */ 
             scope?: number;
+         
+            /* 国家id */ 
+            countryId?: string;
          
             
             ids?: any[];
@@ -1042,10 +1079,10 @@
             
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1079,13 +1116,13 @@
         
          
             /* 是否是上司 */ 
-            isSuperior: boolean;
+            isSuperior: any;
          
             
-            totalCount: number;
+            totalCount: any;
          
             
-            items: T[];
+            items: any;
         
         
     }
@@ -1270,7 +1307,8 @@
             /* 客户状态
 0 = NoneCooperation
 1 = Cooperation
-2 = Share */ 
+2 = Share
+3 = Ownerless */ 
             status?: number;
          
             /* 地址 */ 
@@ -1303,13 +1341,13 @@
             /* 不传则取当前登录客户 */ 
             customerId?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1712,6 +1750,9 @@
             mergerId?: string;
          
             
+            icpUserId?: string;
+         
+            
             id?: string;
         
         
@@ -1735,7 +1776,246 @@
             state?: number;
          
             
+            icpUserId?: string;
+         
+            
             id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMEsPageQueryInput {
+        
+         
+            
+            searchText?: string;
+         
+            
+            orderBy?: object;
+         
+            
+            dynamicQuery?: object;
+         
+            
+            incluedFields?: any[];
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMLocalizationText {
+        
+         
+            
+            zh?: string;
+         
+            
+            en?: string;
+         
+            
+            display?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCompanyOrOrganizationModel {
+        
+         
+            
+            id?: string;
+         
+            
+            name?: CRMLocalizationText;
+         
+            
+            displayName?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMUserModel {
+        
+         
+            
+            id?: number;
+         
+            
+            name?: CRMLocalizationText;
+         
+            
+            displayName?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMPortModel {
+        
+         
+            
+            id?: string;
+         
+            
+            code?: string;
+         
+            
+            fullName?: CRMLocalizationText;
+         
+            
+            displayFullName?: string;
+         
+            
+            isOcean?: boolean;
+         
+            
+            isAir?: boolean;
+         
+            
+            isOther?: boolean;
+         
+            
+            name?: CRMLocalizationText;
+         
+            
+            displayName?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCrmEnquiryModel {
+        
+         
+            
+            id?: string;
+         
+            
+            quoteNo?: string;
+         
+            
+            ownerCustomerId?: string;
+         
+            
+            ownerUserId?: number;
+         
+            
+            ownerCustomer?: CRMCompanyOrOrganizationModel;
+         
+            
+            ownerUser?: CRMUserModel;
+         
+            /* 
+0 = NotSet
+1 = Ocean
+2 = Air */ 
+            freightMethodType?: number;
+         
+            
+            cargoReadyDate?: string;
+         
+            
+            deliveryDate?: string;
+         
+            /* 
+0 = NoSet
+1 = Active
+2 = Accepted
+3 = Expired
+4 = Rejected */ 
+            status?: number;
+         
+            
+            fromAddressModel?: CRMPortModel;
+         
+            
+            fromPortModel?: CRMPortModel;
+         
+            
+            truckOriginAddressName?: string;
+         
+            
+            toAddressModel?: CRMPortModel;
+         
+            
+            toPortModel?: CRMPortModel;
+         
+            
+            truckDestinationAddressName?: string;
+         
+            /* 
+0 = NotSet
+1 = General
+2 = FBA
+3 = FBM */ 
+            tradeType?: number;
+         
+            
+            creationTime?: string;
+         
+            
+            carrierId?: string;
+         
+            
+            carrierCode?: string;
+         
+            
+            currencyId?: string;
+         
+            
+            currencyName?: string;
+         
+            
+            carrierLogo?: string;
+         
+            
+            containerPrice?: object;
+         
+            /* 
+0 = NotSet
+1 = Container
+2 = Ticket
+3 = Weight
+4 = Volume */ 
+            unitType?: number;
+         
+            
+            notContainerPrice?: object;
+         
+            
+            fromDate?: string;
+         
+            
+            endDate?: string;
+         
+            
+            isQuoteReply?: boolean;
+         
+            
+            from?: string;
+         
+            
+            to?: string;
         
         
     }
@@ -1860,6 +2140,9 @@
             /* 国家 */ 
             country?: string;
          
+            /* 国家Id */ 
+            countryId?: string;
+         
             /* 省/洲 */ 
             province?: string;
          
@@ -1871,6 +2154,9 @@
          
             /* 修改人 */ 
             lastModifier?: string;
+         
+            /* 是否海外仓 */ 
+            isForeign?: boolean;
          
             /* 查看权限
 0 = OnlyMyOrganization
@@ -2119,6 +2405,48 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMGetLocationsForUiPickerInput {
+        
+         
+            /* 地点所在国家 */ 
+            countryId?: string;
+         
+            /* 
+0 = Normal
+1 = FBA
+2 = Terminal */ 
+            locationType?: number;
+         
+            /* 客户id */ 
+            customerId?: string;
+         
+            
+            ids?: any[];
+         
+            
+            keyName?: string;
+         
+            
+            searchText?: string;
+         
+            
+            includeDeleted?: boolean;
+         
+            
+            sorting?: string;
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
      * 创建或更新地点Dto
      */
     export class CRMCreateOrUpdateLocationExternalInput {
@@ -2165,6 +2493,9 @@
          
             /* 联系人Id集合 */ 
             contactIds?: any[];
+         
+            /* 分布式事务id */ 
+            txId?: string;
          
             
             id?: string;
@@ -2231,6 +2562,51 @@
          
             /* 0是地点，1是合作伙伴 ，3是联系人 */ 
             type?: number;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 邮寄地点
+     */
+    export class CRMMailLocationDto {
+        
+         
+            /* 联系人 */ 
+            contactName: string;
+         
+            /* 联系电话 */ 
+            contactPhone: string;
+         
+            /* 联系邮箱 */ 
+            contactEmail: string;
+         
+            /* 街道地址 */ 
+            streetAddress: string;
+         
+            /* 国家Id */ 
+            countryId?: string;
+         
+            /* 国家（显示） */ 
+            country?: string;
+         
+            /* 省/洲 Id */ 
+            provinceId?: string;
+         
+            /* 省、洲（显示） */ 
+            province?: string;
+         
+            /* 城市Id */ 
+            cityId?: string;
+         
+            /* 城市（显示） */ 
+            city?: string;
+         
+            /* 在分布式事务中，该字段会自动设置为本地事务ID */ 
+            txId?: string;
          
             
             id?: string;
@@ -2449,42 +2825,6 @@
     }
  
     /**
-     *  No Remark 
-     */
-    export class CRMPortModel {
-        
-         
-            
-            id?: string;
-         
-            
-            code?: string;
-         
-            
-            name?: string;
-         
-            
-            fullName?: string;
-         
-            
-            regionId?: string;
-         
-            
-            regionName?: string;
-         
-            
-            countryName?: string;
-         
-            
-            isOcean?: boolean;
-         
-            
-            isAir?: boolean;
-        
-        
-    }
- 
-    /**
      * 询价Dto
      */
     export class CRMQuoteEnquiryDto {
@@ -2630,6 +2970,12 @@
          
             /* 创建时间 */ 
             creationTime?: string;
+         
+            /* 询价归属客户名称 */ 
+            ownerCustomerName?: string;
+         
+            /* 询价归属用户名称 */ 
+            ownerUserName?: string;
          
             /* 起始地 */ 
             originAddress?: CRMAddressModel;
@@ -2781,13 +3127,13 @@
             /* 用户名或客户名 */ 
             name?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -2872,7 +3218,7 @@
 4 = Rejected */ 
             status?: number;
          
-            /* 主键 */ 
+            
             id?: string;
         
         
@@ -2939,13 +3285,13 @@
             /* 模糊匹配 */ 
             searchKey?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -3080,18 +3426,6 @@
          
             /* 费用总价(统一币种的全部费用) */ 
             unifiedTotalCharge?: number;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     * 主键类型默认为整形的数据传输对象基类
-     */
-    export class CRMCoEntityDto {
-        
          
             
             id?: string;

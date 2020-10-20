@@ -56,5 +56,20 @@ export class CRMCustomerIcpService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/CustomerIcp/SyncCustomerToLocation
+     * 
+     */
+
+    @POST('syncCustomerToLocation')
+    syncCustomerToLocation(
+        @Payload
+        _req: {} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
 
   }

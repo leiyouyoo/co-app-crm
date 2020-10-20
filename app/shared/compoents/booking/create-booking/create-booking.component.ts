@@ -160,7 +160,7 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
   readonly OriginalOrTelex = OriginalOrTelex;
-  
+
   @ViewChild(NewPackingListComponent) newPackingListComponent: NewPackingListComponent;
   @ViewChild(PackingListComponent) PackingListComponent: PackingListComponent;
   @ViewChild(LocationFormModalComponent, { static: true }) LocationFormModalComponent: LocationFormModalComponent;
@@ -1421,6 +1421,10 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
     if (this.bookingObj.tradeType != 1) {
       this.bookingObj.consigneeCustomerId = null;
     }
+
+    this.bookingObj.packingProducts = this.newPackingListComponent.datas?.products;
+    this.bookingObj.packingCartons = this.newPackingListComponent.datas?.cartons;
+
     this.bookingCheck().then((d) => {
       if (!this.isRepeat) {
         if (!this.bookingObj.id) {
