@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CRMLocationExternalService } from 'apps/fcm/app/services/crm';
+import { CRMLocationExternalService } from 'apps/crm/app/services/crm';
 import { debounce } from 'rxjs/operators';
 
 @Component({
