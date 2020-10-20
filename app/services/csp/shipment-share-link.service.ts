@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPShipmentShareLinkDto,CSPPagedResultDto,CSPCoEntityDto,CSPShipmentShareLinkDetailOutput, } from './csp.types';
 
-@BaseUrl('/csp/ShipmentShareLink')
+@BaseUrl('/CSP/ShipmentShareLink')
 @Injectable({ providedIn: 'root' })
 export class CSPShipmentShareLinkService extends BaseApi {
   constructor(injector: Injector) {

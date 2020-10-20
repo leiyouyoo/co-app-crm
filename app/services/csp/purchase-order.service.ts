@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CSPPurchaseOrderDetailOutput,CSPGetPurchaseOrderListInput,CSPPurchaseOrderListDto,CSPPagedResultDto,CSPPurchaseOrderListToProductDto,CSPProductDto,CSPPurchaseOrderListDetailOutput,CSPListResultDto,CSPPurchaseOrderChangeDetailOutput,CSPViewChangeInput,CSPPurchaseOrderDto,CSPPurchaseOrderConfirmInput,CSPPurchaseOrderRejectInput,CSPPurchaseOrderBookingInput,CSPPurchaseOrderBookingOutput,CSPPurchaseOrderBookingSearchInput,CSPPurchaseOrderBookingSearchOutput,CSPPurchaseOrderImportInput,CSPImportResult,CSPPurchaseOrderExportInput,CSPConditionItemAttribute,CSPPurchaseOrderFilterDto,CSPDeleteByItemIdInput, } from './csp.types';
+import { CSPPurchaseOrderDetailOutput,CSPGetPurchaseOrderListInput,CSPPurchaseOrderListDto,CSPPagedResultDto,CSPPurchaseOrderListToProductDto,CSPProductDto,CSPPurchaseOrderListDetailOutput,CSPListResultDto,CSPPurchaseOrderChangeDetailOutput,CSPViewChangeInput,CSPPurchaseOrderDto,CSPPurchaseOrderConfirmInput,CSPPurchaseOrderRejectInput,CSPPurchaseOrderBookingInput,CSPPurchaseOrderBookingOutput,CSPPurchaseOrderBookingSearchInput,CSPPurchaseOrderBookingSearchOutput,CSPPurchaseOrderImportInput,CSPImportResultDto,CSPPurchaseOrderExportInput,CSPConditionItemAttribute,CSPPurchaseOrderFilterDto,CSPDeleteByItemIdInput, } from './csp.types';
 
-@BaseUrl('/csp/PurchaseOrder')
+@BaseUrl('/CSP/PurchaseOrder')
 @Injectable({ providedIn: 'root' })
 export class CSPPurchaseOrderService extends BaseApi {
   constructor(injector: Injector) {
@@ -246,7 +246,7 @@ export class CSPPurchaseOrderService extends BaseApi {
         @Payload
         _req:CSPPurchaseOrderImportInput
 
-    ): Observable<CSPImportResult> {
+    ): Observable<any> {
         return null as any
     }
 

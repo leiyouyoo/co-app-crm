@@ -126,7 +126,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
   //获取详情方法
   status: number; //状态
   statusStep: number;
-  bookingDetailInfo: CSPBookingDto = { tradeType: 1, freightMethodType: 1 };
+  bookingDetailInfo: any = { tradeType: 1, freightMethodType: 1 };
   containList: any[] = [];
   specialgoodsList: any[] = [];
   lastData: CSPBookingOldData = {};

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPTestDtoValidateInput,CSPHttpResponseMessage,CSPAttachmentListDto,CSPListResultDto,CSPGetAllAttachmentListInput,CSPAttachmentDto,CSPBatchCreateAttachmentInput,CSPCreateAttachmentInput,CSPShareableContactModel,CSPAttachmentForIcpDto, } from './csp.types';
 
-@BaseUrl('/csp/Attachment')
+@BaseUrl('/CSP/Attachment')
 @Injectable({ providedIn: 'root' })
 export class CSPAttachmentService extends BaseApi {
   constructor(injector: Injector) {
@@ -11,6 +11,21 @@ export class CSPAttachmentService extends BaseApi {
   }
 
   
+    /**
+     * @param url /CSP/Attachment/SendCapMessage
+     * 
+     */
+
+    @POST('sendCapMessage')
+    sendCapMessage(
+        @Payload
+        _req: {eventName?:string,jsonContent?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
     /**
      * @param url /CSP/Attachment/TestDtoValidate
      * 

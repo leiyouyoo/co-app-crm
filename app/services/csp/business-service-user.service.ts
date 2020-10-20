@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPServiceUserGroupDto,CSPListResultDto, } from './csp.types';
 
-@BaseUrl('/csp/BusinessServiceUser')
+@BaseUrl('/CSP/BusinessServiceUser')
 @Injectable({ providedIn: 'root' })
-export class CSPBusinessServiceUserService extends BaseApi {
+export class CSPBusinessServiceUser extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }

@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CSPGetAllListForCRMInput,CSPGetAllListForCRMOutput,CSPPagedResultDto,CSPUpdateRoutesForCRMInput,CSPSureServiceCompanyInput,CSPCoEntityDto,CSPBookingDto,CSPSearchModel,CSPListResultDto,CSPGetCustomerBindUserForCRMOutput,CSPCRMBookingBindQuoteInput,CSPBookingCheckIsExistsInputDto,CSPUpdateBookingForIcpInput,CSPPurchaseOrderItemForIcpDto,CSPBookingForIcpDto,CSPClearanceInviocesUploadOutput,CSPClearanceInviocesDownloadOutput,CSPBookingRecentlyUsedOutput,CSPBookingStatisticsOutput,CSPChangeBookingStatusInput,CSPCancelBookingInput,CSPGetRelatedBusinessOutput,CSPGetChannelListOutput,CSPGetBookingListInputForFcm,CSPBookingForFcmDto,CSPSetBookingAcceptedInput,CSPSetBookingAcceptedOutput,CSPGetClearanceInvoicesForFcmOutput,CSPCreateOrUpdateForFcmInput,CSPCreateOrUpdateForFcmOutput,CSPCreateOrUpdateClearanceInvoicesForFcmInput,CSPDeleteBookingForFcmInput,CSPGetBookingListForFcmInput,CSPBookingListItemDtoForFcm, } from './csp.types';
+import { CSPGetAllListForCRMInput,CSPGetAllListForCRMOutput,CSPPagedResultDto,CSPUpdateRoutesForCRMInput,CSPSureServiceCompanyInput,CSPCoEntityDto,CSPBookingDto,CSPSearchModel,CSPListResultDto,CSPGetCustomerBindUserForCRMOutput,CSPCRMBookingBindQuoteInput,CSPBookingCheckIsExistsInputDto,CSPUpdateBookingForIcpInput,CSPPurchaseOrderItemForIcpDto,CSPBookingForIcpDto,CSPClearanceInviocesUploadOutput,CSPClearanceInviocesDownloadOutput,CSPPackingListEditDto,CSPImportPackingListInput,CSPImportResultDto,CSPExportPackingListInput,CSPExportPackingListOutput,CSPBookingRecentlyUsedOutput,CSPBookingStatisticsOutput,CSPChangeBookingStatusInput,CSPCancelBookingInput,CSPGetRelatedBusinessOutput,CSPGetChannelListOutput,CSPGetClearanceInvoicesForFcmOutput,CSPCreateOrUpdateClearanceInvoicesForFcmInput,CSPCreateOrUpdateForFcmOutput,CSPCreateOrUpdateForFcmInput,CSPDeleteBookingForFcmInput,CSPImportPurchaseOrdersForFcmInput, } from './csp.types';
 
-@BaseUrl('/csp/Booking')
+@BaseUrl('/CSP/Booking')
 @Injectable({ providedIn: 'root' })
 export class CSPBookingService extends BaseApi {
   constructor(injector: Injector) {
@@ -312,6 +312,66 @@ export class CSPBookingService extends BaseApi {
 
 
     /**
+     * @param url /CSP/Booking/SavePackingList
+     * 保存装箱单
+     */
+
+    @POST('savePackingList')
+    savePackingList(
+        @Payload
+        _req:CSPPackingListEditDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Booking/GetPackingList
+     * 根据 Booking Id 获取装箱单
+     */
+
+    @GET('getPackingList')
+    getPackingList(
+        @Payload
+        _req: {id?:string} 
+
+    ): Observable<CSPPackingListEditDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Booking/ImportPackingList
+     * 解析或导入装箱单
+     */
+
+    @POST('importPackingList')
+    importPackingList(
+        @Payload
+        _req:CSPImportPackingListInput
+
+    ): Observable<CSPImportResultDto<CSPPackingListEditDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Booking/ExportPackingList
+     * 导出装箱单
+     */
+
+    @POST('exportPackingList')
+    exportPackingList(
+        @Payload
+        _req:CSPExportPackingListInput
+
+    ): Observable<CSPExportPackingListOutput> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CSP/Booking/GetRecentlyUsed
      * 最近使用
      */
@@ -417,36 +477,6 @@ export class CSPBookingService extends BaseApi {
 
 
     /**
-     * @param url /CSP/Booking/GetPagedListForFcm
-     * 获取Fcm预订舱数据
-     */
-
-    @POST('getPagedListForFcm')
-    getPagedListForFcm(
-        @Payload
-        _req:CSPGetBookingListInputForFcm
-
-    ): Observable<CSPPagedResultDto<CSPBookingForFcmDto>> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /CSP/Booking/SetBookingAccepted
-     * 设置 Bookings 为已受理状态
-     */
-
-    @POST('setBookingAccepted')
-    setBookingAccepted(
-        @Payload
-        _req:CSPSetBookingAcceptedInput
-
-    ): Observable<CSPSetBookingAcceptedOutput> {
-        return null as any
-    }
-
-
-    /**
      * @param url /CSP/Booking/GetClearanceInvoicesForFcm
      * FCM 根据 BookingId 获取 清关列表
      */
@@ -457,21 +487,6 @@ export class CSPBookingService extends BaseApi {
         _req: {id?:string} 
 
     ): Observable<CSPGetClearanceInvoicesForFcmOutput> {
-        return null as any
-    }
-
-
-    /**
-     * @param url /CSP/Booking/CreateOrUpdateForFcm
-     * 更新预订舱信息
-     */
-
-    @POST('createOrUpdateForFcm')
-    createOrUpdateForFcm(
-        @Payload
-        _req:CSPCreateOrUpdateForFcmInput
-
-    ): Observable<CSPCreateOrUpdateForFcmOutput> {
         return null as any
     }
 
@@ -492,6 +507,36 @@ export class CSPBookingService extends BaseApi {
 
 
     /**
+     * @param url /CSP/Booking/BatchCreateOrUpdateForFcm
+     * 批量创建或更新来自 FCM 的 Booking
+     */
+
+    @POST('batchCreateOrUpdateForFcm')
+    batchCreateOrUpdateForFcm(
+        @Payload
+        _req: {} 
+
+    ): Observable<CSPListResultDto<CSPCreateOrUpdateForFcmOutput>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Booking/CreateOrUpdateForFcm
+     * 更新从 FCM 过来的 Booking
+     */
+
+    @POST('createOrUpdateForFcm')
+    createOrUpdateForFcm(
+        @Payload
+        _req:CSPCreateOrUpdateForFcmInput
+
+    ): Observable<CSPCreateOrUpdateForFcmOutput> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CSP/Booking/DeleteBookingForFcm
      * 删除由 FCM 创建的 Booking(s)
      */
@@ -507,16 +552,16 @@ export class CSPBookingService extends BaseApi {
 
 
     /**
-     * @param url /CSP/Booking/GetBookingListForFcm
-     * 根据 BookingId 集合获取 Booking 明细
+     * @param url /CSP/Booking/ImportPurchaseOrdersForFcm
+     * 同步 FCM PO 实际上相当于操作客服帮客户下单
      */
 
-    @POST('getBookingListForFcm')
-    getBookingListForFcm(
+    @POST('importPurchaseOrdersForFcm')
+    importPurchaseOrdersForFcm(
         @Payload
-        _req:CSPGetBookingListForFcmInput
+        _req:CSPImportPurchaseOrdersForFcmInput
 
-    ): Observable<CSPListResultDto<CSPBookingListItemDtoForFcm>> {
+    ): Observable<any> {
         return null as any
     }
 

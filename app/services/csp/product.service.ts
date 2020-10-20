@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CSPProductDto,CSPProductListDto,CSPPagedResultDto,CSPImportResult,CSPProductExportInput,CSPProductSkuListOutput, } from './csp.types';
+import { CSPProductDto,CSPProductListDto,CSPPagedResultDto,CSPImportResultDto,CSPProductExportInput,CSPProductSkuListOutput, } from './csp.types';
 
-@BaseUrl('/csp/Product')
+@BaseUrl('/CSP/Product')
 @Injectable({ providedIn: 'root' })
 export class CSPProductService extends BaseApi {
   constructor(injector: Injector) {
@@ -81,7 +81,7 @@ export class CSPProductService extends BaseApi {
         @Payload
         _req: {} 
 
-    ): Observable<CSPImportResult> {
+    ): Observable<any> {
         return null as any
     }
 

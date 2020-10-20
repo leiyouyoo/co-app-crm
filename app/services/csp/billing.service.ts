@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CSPUserIdentifier,CSPGetBillListInput,CSPBillOutput,CSPPagedResultDto,CSPListResultDto,CSPBillDto,CSPCoEntityDto,CSPChangeBillStatusInput,CSPConfirmBillsInput,CSPExportBillInput,CSPExportBillOutput,CSPSynchronizeBillsInput,CSPCreateOrUpdatePaymentRecordsInput,CSPPaymentRecordDto,CSPCreateOrUpdateChargeItemsInput,CSPChargeItemDto,CSPBankAccountDto,CSPBillingStatisticsOutput, } from './csp.types';
+import { CSPUserIdentifier,CSPGetBillListInput,CSPBillOutput,CSPPagedResultDto,CSPListResultDto,CSPBillDto,CSPCoEntityDto,CSPChangeBillStatusInput,CSPConfirmBillsInput,CSPExportBillInput,CSPExportBillOutput,CSPSynchronizeBillsInput,CSPCreateOrUpdatePaymentRecordsInput,CSPPaymentRecordDto,CSPCreateOrUpdateChargeItemsInput,CSPChargeItemDto,CSPBankAccountDto,CSPCompanyBankAccountDto,CSPBillingStatisticsOutput,CSPBillExportInput,CSPGetInvoiceBillInput,CSPInvoiceBillOutput,CSPInvoiceChargeItemInputDto, } from './csp.types';
 
-@BaseUrl('/csp/Billing')
+@BaseUrl('/CSP/Billing')
 @Injectable({ providedIn: 'root' })
 export class CSPBillingService extends BaseApi {
   constructor(injector: Injector) {
@@ -327,6 +327,36 @@ export class CSPBillingService extends BaseApi {
 
 
     /**
+     * @param url /CSP/Billing/GetCompanyBankAccountList
+     * 获取银行账户（发票使用）
+     */
+
+    @GET('getCompanyBankAccountList')
+    getCompanyBankAccountList(
+        @Payload
+        _req: {companyId?:string} 
+
+    ): Observable<CSPListResultDto<CSPCompanyBankAccountDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Billing/GetCompanyBankAccount
+     * 获取银行账户（发票使用）
+     */
+
+    @GET('getCompanyBankAccount')
+    getCompanyBankAccount(
+        @Payload
+        _req: {companyId?:string} 
+
+    ): Observable<CSPCompanyBankAccountDto> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CSP/Billing/GetBillingsStatistics
      * 获取Billings统计信息
      */
@@ -337,6 +367,51 @@ export class CSPBillingService extends BaseApi {
         _req: {} 
 
     ): Observable<CSPBillingStatisticsOutput> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Billing/Export
+     * 账单导出
+     */
+
+    @POST('export')
+    export(
+        @Payload
+        _req:CSPBillExportInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Billing/GetInvoiceBillList
+     * 查询未开票账单
+     */
+
+    @POST('getInvoiceBillList')
+    getInvoiceBillList(
+        @Payload
+        _req:CSPGetInvoiceBillInput
+
+    ): Observable<CSPPagedResultDto<CSPInvoiceBillOutput>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CSP/Billing/GetInvoiceChargeItems
+     * 根据账单及币种获取汇总费用项
+     */
+
+    @POST('getInvoiceChargeItems')
+    getInvoiceChargeItems(
+        @Payload
+        _req:CSPInvoiceChargeItemInputDto
+
+    ): Observable<any> {
         return null as any
     }
 
