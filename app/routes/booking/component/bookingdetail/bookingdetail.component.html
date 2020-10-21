@@ -1547,22 +1547,7 @@
     </button>
   </div>
   <div>
-    <crm-packing-list
-      *ngIf="bookingDetailInfo.tradeType"
-      [bookingId]="bookingDetailInfo.id"
-      [isEdit]="isEdit"
-      [tradeType]="bookingDetailInfo.tradeType"
-      [isPackSubmitted]="isSubmitted"
-      [pageList]="bookingDetailInfo.packingLists"
-      [listOfData]="bookingDetailInfo.cusClearanceInvoices"
-      (declareCurrency)="(bookingDetailInfo.declareCurrencyId)"
-      (verificationPassed)="verificationPassed = $event"
-      (packingLists)="bookingDetailInfo.packingLists = $event"
-      (cusClearanceInvoices)="bookingDetailInfo.cusClearanceInvoices = $event"
-      (cusClearanceInvoicesGroup)="cusClearanceInvoicesGroup = $event"
-      [isDisabledPack]="isDisabledPack"
-    >
-    </crm-packing-list>
+    <fcm-new-packing-list *ngIf="bookingDetailInfo.tradeType" [bindData]="bookingDetailInfo.id"> </fcm-new-packing-list>
   </div>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="packlisthandleCancel()">{{ 'Cancel' | translate }}</button>

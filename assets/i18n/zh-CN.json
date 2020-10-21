@@ -17,6 +17,14 @@
   "Quotes Detail": "报价详情",
   "Please type in your name!": "请输入姓名!",
   "quoteslist": "询价",
+  "Customer created": "客户创建",
+  "CSP account opened": "CSP账号开通",
+  "First issue (bill of lading issued to the customer)": "首次出单（提单签发给该客户）",
+  "Transaction (bill of lading issued to the client)": "Transaction (bill of lading issued to the client)",
+  "Turn into a potential customer": "转为潜在客户",
+  "Convert to shared client": "转为共享客户",
+  "Convert to an unowned client": "转为无主客户",
+  "'s partner":"的合作伙伴",
   "Customize": "自定义",
   "Name cannot be in English!": "姓名不能为英文!",
   "Fax": "传真",
@@ -916,5 +924,11 @@
   "Cut-off Date": "截关日",
   "Operation Instructions": "操作指示",
   "If there is no follow information, please click the search button to load all the data": "无关注信息请点击搜索按钮加载所有数据",
-  "Whether to leave or not": "是否要离开?"
+  "Whether to leave or not": "是否要离开?",
+  "Gross Weight(kg) /Carton": "毛重（公斤）/箱",
+  "Net Weight(kg) /Carton": "净重（公斤）/箱",
+  "Choose Address":"选择地址",
+  "Expected delivery time": "期望派送时间",
+  "Quantities in the packge": "装入数量",
+  "Delivery address":"送货地址"
 }

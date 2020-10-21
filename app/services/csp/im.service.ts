@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPMayInviteUserModel,CSPListResultDto,CSPCreateImGroupInput,CSPCreateImGroupForCustomerInput,CSPAddDeleteGroupInput,CSPAjaxResponse, } from './csp.types';
 
-@BaseUrl('/csp/IM')
+@BaseUrl('/CSP/IM')
 @Injectable({ providedIn: 'root' })
 export class CSPIMService extends BaseApi {
   constructor(injector: Injector) {

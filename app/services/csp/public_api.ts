@@ -6,7 +6,7 @@ export * from './business-service-user.service';
 export * from './dangerous-good.service';
 export * from './hs-code.service';
 export * from './im.service';
-export * from './invioce.service';
+export * from './invoice.service';
 export * from './product.service';
 export * from './profile.service';
 export * from './purchase-order.service';
@@ -20,3 +20,4 @@ export * from './pub.service';
 export * from './cityOcean.service';
 
 export * from './csp.types';
+

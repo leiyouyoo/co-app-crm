@@ -54,7 +54,7 @@ export class CustomerDetailsComponent implements OnInit {
     public router: Router,
     public crmCustomerService: CRMCustomerService,
     public translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getCustomerById();
@@ -181,7 +181,7 @@ export class CustomerDetailsComponent implements OnInit {
       incoterms: value.incoterms,
       industry: value.industry,
       description: value.description,
-      customerTaxes: value.customerTaxes[0]?.taxType ? value.customerTaxes : null,
+      customerTaxes: value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null,
     };
 
     if (application) {

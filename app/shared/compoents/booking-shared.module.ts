@@ -6,10 +6,20 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NetworkSharedModule, CoNzSelectExtraModule, CoDatetimeRangePickerModule } from '@co/cbc';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   declarations: [CreateBookingComponent, PackingListComponent],
-  imports: [CommonModule, FormsModule, NgZorroAntdModule, TranslateModule, NetworkSharedModule, CoNzSelectExtraModule, CoDatetimeRangePickerModule],
+  imports: [
+    SharedModule,
+    CommonModule,
+    FormsModule,
+    NgZorroAntdModule,
+    TranslateModule,
+    NetworkSharedModule,
+    CoNzSelectExtraModule,
+    CoDatetimeRangePickerModule,
+  ],
   exports: [CreateBookingComponent, PackingListComponent, CoDatetimeRangePickerModule],
 })
 export class BookingSharedModule {}

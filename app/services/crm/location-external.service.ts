@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMExternalLocationListDto,CRMListResultDto,CRMExternalLocationDto,CRMPagedResultDto,CRMFBALocationListDto,CRMCreateOrUpdateLocationExternalInput,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto,CRMGlobalSearchInput,CRMGlobalSearchOutput, } from './crm.types';
+import { CRMExternalLocationListDto,CRMListResultDto,CRMLocationListDto,CRMExternalLocationDto,CRMPagedResultDto,CRMFBALocationListDto,CRMGetLocationsForUiPickerInput,CRMCreateOrUpdateLocationExternalInput,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto,CRMGlobalSearchInput,CRMGlobalSearchOutput,CRMMailLocationDto, } from './crm.types';
 
 @BaseUrl('/crm/LocationExternal')
 @Injectable({ providedIn: 'root' })
@@ -177,6 +177,21 @@ export class CRMLocationExternalService extends BaseApi {
 
 
     /**
+     * @param url /CRM/LocationExternal/GetAllForUiPicker
+     * 地点选择器
+     */
+
+    @POST('getAllForUiPicker')
+    getAllForUiPicker(
+        @Payload
+        _req:CRMGetLocationsForUiPickerInput
+
+    ): Observable<CRMPagedResultDto<CRMLocationListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/LocationExternal/CreateCustomerLocation
      * 创建客户地点
      */
@@ -186,7 +201,7 @@ export class CRMLocationExternalService extends BaseApi {
         @Payload
         _req:CRMCreateOrUpdateLocationExternalInput
 
-    ): Observable<any> {
+    ): Observable<CRMExternalLocationDto> {
         return null as any
     }
 
@@ -322,6 +337,36 @@ export class CRMLocationExternalService extends BaseApi {
         _req:CRMGlobalSearchInput
 
     ): Observable<CRMListResultDto<CRMGlobalSearchOutput>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/LocationExternal/CreateMailLocation
+     * 创建邮寄地址
+     */
+
+    @POST('createMailLocation')
+    createMailLocation(
+        @Payload
+        _req:CRMMailLocationDto
+
+    ): Observable<CRMMailLocationDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/LocationExternal/GetMailLocations
+     * 获取邮寄地址列表
+     */
+
+    @GET('getMailLocations')
+    getMailLocations(
+        @Payload
+        _req: {customerId?:string} 
+
+    ): Observable<CRMListResultDto<CRMMailLocationDto>> {
         return null as any
     }
 

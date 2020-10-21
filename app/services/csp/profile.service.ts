@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPCurrentUserProfileEditDto, } from './csp.types';
 
-@BaseUrl('/csp/Profile')
+@BaseUrl('/CSP/Profile')
 @Injectable({ providedIn: 'root' })
 export class CSPProfileService extends BaseApi {
   constructor(injector: Injector) {

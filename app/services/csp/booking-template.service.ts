@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPBookingTemplateOutput,CSPPagedResultDto,CSPBookingTemplateDto,CSPBookingTemplateCheckInputDto, } from './csp.types';
 
-@BaseUrl('/csp/BookingTemplate')
+@BaseUrl('/CSP/BookingTemplate')
 @Injectable({ providedIn: 'root' })
 export class CSPBookingTemplateService extends BaseApi {
   constructor(injector: Injector) {

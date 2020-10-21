@@ -1,0 +1,33 @@
+<div class="address">
+  <p>{{ 'Delivery address' | translate }}</p>
+  <nz-select
+    nzAllowClear
+    nzShowSearch
+    nzServerSearch
+    (nzOnSearch)="getCustomerLocationAndFBALocations($event)"
+    [(ngModel)]="address"
+    [nzPlaceHolder]="'Please enter' | translate"
+    style="width: 100%;"
+  >
+    <nz-option nzCustomContent *ngFor="let item of addressList" [nzValue]="item" [nzLabel]="item.streetAddress"
+      ><span [title]="item.streetAddress">
+        {{ item.streetAddress }}
+      </span></nz-option
+    >
+  </nz-select>
+</div>
+
+<div class="address">
+  <p>{{ 'Expected delivery date' | translate }}</p>
+  <nz-select nzShowSearch nzAllowClear [(ngModel)]="expectDeliveryType" [nzPlaceHolder]="'Please enter' | translate">
+    <nz-option [nzValue]="2" [nzLabel]="'Deliver immediately after unpacking' | translate"></nz-option>
+    <nz-option [nzValue]="3" [nzLabel]="'SelfDelivery' | translate"></nz-option>
+    <nz-option [nzValue]="4" [nzLabel]="'TemporaryWarehouse' | translate"></nz-option>
+    <nz-option [nzValue]="-1" [nzLabel]="'Custom time' | translate"></nz-option>
+  </nz-select>
+</div>
+
+<div class="address">
+  <p>{{ 'Expected delivery time' | translate }}</p>
+  <nz-date-picker [(ngModel)]="expectDeliveryDate" [nzAllowClear]="false" [nzDisabled]="expectDeliveryType != -1"></nz-date-picker>
+</div>

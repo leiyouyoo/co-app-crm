@@ -42,6 +42,21 @@ export class CRMQuoteEnquiryService extends BaseApi {
 
 
     /**
+     * @param url /CRM/QuoteEnquiry/GetAllForES
+     * CRM获取询价列表(针对ES查询)
+     */
+
+    @POST('getAllForES')
+    getAllForES(
+        @Payload
+        _req:CRMQuoteEnquiryListForCRMInput
+
+    ): Observable<CRMPagedResultDto<CRMQuoteEnquiryListForCRMOutput>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/QuoteEnquiry/GetCRMCustomerAndUserHistorys
      * CRM获取所有客户用户历史数据(条件检索)
      */

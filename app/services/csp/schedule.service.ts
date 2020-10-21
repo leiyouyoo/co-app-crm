@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPScheduleDto,CSPListResultDto,CSPScheduleSentInput,CSPPagedResultDto, } from './csp.types';
 
-@BaseUrl('/csp/Schedule')
+@BaseUrl('/CSP/Schedule')
 @Injectable({ providedIn: 'root' })
 export class CSPScheduleService extends BaseApi {
   constructor(injector: Injector) {
@@ -118,7 +118,7 @@ export class CSPScheduleService extends BaseApi {
 
     /**
      * @param url /CSP/Schedule/CreateOrUpdate
-     * 保存
+     * 
      */
 
     @POST('createOrUpdate')

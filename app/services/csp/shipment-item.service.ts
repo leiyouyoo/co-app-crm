@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CSPShipmentItemDto,CSPListResultDto,CSPShipmentItemContainerDto,CSPOrderItemInShipmentItemContainerDto,CSPShipmentOrderItemInContainerDto,CSPCoEntityDto, } from './csp.types';
 
-@BaseUrl('/csp/ShipmentItem')
+@BaseUrl('/CSP/ShipmentItem')
 @Injectable({ providedIn: 'root' })
 export class CSPShipmentItemService extends BaseApi {
   constructor(injector: Injector) {

@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CSPGetShipmentListInput,CSPShipmentListOutput,CSPPagedResultDto,CSPPubLocation,CSPListResultDto,CSPNameValueDto,CSPNetWorkLocationModel,CSPGetAllForProductOutput,CSPShipmentDetailOutput,CSPShipmentEventGroupDto,CSPCreateOrUpdateShipmentInput,CSPCloseShipmentInput,CSPShipmentOrderItemDto,CSPImportShipmentOrderItemsInput,CSPUpdatePostPortEstDateInput,CSPConditionItemAttribute,CSPShipmentsStatisticsOutput,CSPGetRelatedBusinessOutput, } from './csp.types';
+import { CSPGetShipmentListInput,CSPShipmentListOutput,CSPPagedResultDto,CSPShipmentDetailOutput,CSPPubLocation,CSPListResultDto,CSPNameValueDto,CSPNetWorkLocationModel,CSPGetAllForProductOutput,CSPShipmentEventGroupDto,CSPCreateOrUpdateShipmentInput,CSPCloseShipmentInput,CSPShipmentOrderItemDto,CSPImportShipmentOrderItemsInput,CSPUpdatePostPortEstDateInput,CSPConditionItemAttribute,CSPShipmentsStatisticsOutput,CSPGetRelatedBusinessOutput, } from './csp.types';
 
-@BaseUrl('/csp/Shipment')
+@BaseUrl('/CSP/Shipment')
 @Injectable({ providedIn: 'root' })
 export class CSPShipmentService extends BaseApi {
   constructor(injector: Injector) {
@@ -51,7 +51,7 @@ export class CSPShipmentService extends BaseApi {
         @Payload
         _req:CSPGetShipmentListInput
 
-    ): Observable<CSPPagedResultDto<CSPShipmentListOutput>> {
+    ): Observable<CSPPagedResultDto<CSPShipmentDetailOutput>> {
         return null as any
     }
 
@@ -141,7 +141,7 @@ export class CSPShipmentService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CSPShipmentListOutput> {
+    ): Observable<CSPShipmentDetailOutput> {
         return null as any
     }
 

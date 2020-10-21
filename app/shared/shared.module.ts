@@ -50,9 +50,13 @@ import { WrapChildrenHeightDirective } from './directives/wrap-children-height.d
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hiddensharequotes.component';
 import { CopyDomToImageDirective } from './directives/copy-dom-to-image.directive';
+import { AddressDetailModalComponent } from './compoents/new-packing-list/address-detail-modal/address-detail-modal.component';
+import { NewPackingListComponent } from './compoents/new-packing-list/new-packing-list.component';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
+  NewPackingListComponent,
+  AddressDetailModalComponent,
   ApplyCusCodeComponent,
   CreateCustomerComponent,
   RecordEditComponent,
@@ -127,4 +131,4 @@ const DIRECTIVES = [
     ...DIRECTIVES,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -6,6 +6,7 @@ export * from './customer-access-allow.service';
 export * from './customer-external.service';
 export * from './customer-icp.service';
 export * from './customer-task.service';
+export * from './es-query.service';
 export * from './location.service';
 export * from './location-external.service';
 export * from './partner.service';
