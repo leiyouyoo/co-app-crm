@@ -1297,7 +1297,6 @@ export class InquiryListOceanComponent implements OnInit {
     this.shareModal = false;
     this.validateShareForm.reset();
   }
-
   // onSort(sortName: string, value: string): void {
   //   this.sortName = sortName;
   //   this.sortValue = value;

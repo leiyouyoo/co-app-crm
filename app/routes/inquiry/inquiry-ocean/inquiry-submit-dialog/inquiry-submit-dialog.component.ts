@@ -1,12 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import {
-  PlatformOrganizationUnitService,
-  PUBContainerService,
-  PUBPlaceService,
-  PUBTransportClauseService,
-} from '@co/cds';
+import { PlatformOrganizationUnitService, PUBContainerService, PUBPlaceService, PUBTransportClauseService } from '@co/cds';
 import { CRMCustomerService } from '../../../../services/crm';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RatesQuoteEnquiryService } from '../../../../services/rates';
@@ -22,11 +17,10 @@ enum WeightUnitCode {
   MT = 'ZLDWMT',
 }
 
-
 @Component({
   selector: 'crm-inquiry-submit-dialog',
   templateUrl: './inquiry-submit-dialog.component.html',
-  styleUrls: ['./inquiry-submit-dialog.component.less']
+  styleUrls: ['./inquiry-submit-dialog.component.less'],
 })
 export class InquirySubmitDialogComponent implements OnInit {
   @Input() id: string;
@@ -48,15 +42,16 @@ export class InquirySubmitDialogComponent implements OnInit {
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
 
-  constructor(private pubPlace: PUBPlaceService,
-              private fb: FormBuilder,
-              private pubTransportClause: PUBTransportClauseService,
-              private pubContainer: PUBContainerService,
-              private OrganizationUnit: PlatformOrganizationUnitService,
-              private crmCustomer: CRMCustomerService,
-              private msg: NzMessageService,
-              private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
-  ) { }
+  constructor(
+    private pubPlace: PUBPlaceService,
+    private fb: FormBuilder,
+    private pubTransportClause: PUBTransportClauseService,
+    private pubContainer: PUBContainerService,
+    private OrganizationUnit: PlatformOrganizationUnitService,
+    private crmCustomer: CRMCustomerService,
+    private msg: NzMessageService,
+    private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
+  ) {}
 
   ngOnInit(): void {
     this.bindData();
@@ -141,7 +136,7 @@ export class InquirySubmitDialogComponent implements OnInit {
       data.containerType = JSON.stringify(
         data.containerType.map((res) => {
           return {
-            name: res.code,
+            name: res,
             value: 1,
           };
         }),
@@ -335,6 +330,16 @@ export class InquirySubmitDialogComponent implements OnInit {
 
   closeView() {
     this.close.emit();
+  }
+
+  resetView() {
+    this.validateForm.reset();
+    this.validateForm.patchValue({
+      truckType: 2,
+      quantityUnitCode: 'ctn',
+      weightUnitCode: WeightUnitCode.KGS,
+      volumeUnitCode: VolumeUnitCode.CBM,
+    });
   }
 
   numValidator(): ValidatorFn {
