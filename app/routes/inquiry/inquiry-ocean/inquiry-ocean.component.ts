@@ -289,7 +289,7 @@ export class InquiryListOceanComponent implements OnInit {
       }
     } else if (e.type === 'sort') {
       // const value = e.sort.column.indexKey.toLowerCase();
-      this.onGetAll('containerPrice.' + e.sort.column.indexKey + '.keyWord', e.sort.value, 'sort');
+      this.onGetAll('containerPrice.' + e.sort.column.indexKey, e.sort.value, 'sort');
     }
     this.refreshStatus();
   }
