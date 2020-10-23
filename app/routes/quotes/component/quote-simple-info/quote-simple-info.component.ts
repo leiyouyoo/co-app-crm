@@ -16,7 +16,6 @@ export class QuoteSimpleInfoComponent implements OnInit {
   @Input() quoteObj: any = {};
   @Input() record: any = {};
   @Input() Id: string;
-  // @Input() quoteData: any = {};
   @Input() isRecord: boolean = false;
   @Output() updateQuote = new EventEmitter<boolean>();
   @Input() isShowQuotesNo: boolean = false;
@@ -46,6 +45,9 @@ export class QuoteSimpleInfoComponent implements OnInit {
 
   initData() {
     if (!this.isRecord) {
+      if (Object.keys(this.quoteObj).length > 0) {
+        this.handleData();
+      }
       if (this.Id) {
         this.getQuotesDetail(this.Id).subscribe((c) => {
           this.handleData();
