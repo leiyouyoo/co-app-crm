@@ -17,7 +17,7 @@ export class ShareOceanComponent {
   @Input() data: any;
   @Input() set cacheKey(data: any) {
     this.copyUrl =
-      window.location.origin + '/share/#/redirect?redirectType=rates&isForShare=true&id=' + encodeURIComponent(data);
+      CoConfigManager.getValue('appCityoceanUrl') + '/share/#/redirect?redirectType=rates&isForShare=true&id=' + encodeURIComponent(data);
   }
   // 船期查询表格
   sailVisible = false;
