@@ -10,7 +10,7 @@
 @input-border-color: rgba(0, 0, 0, 0.15);
 
 //次标题颜色 部分icon颜色
-@SubtitleColor    : #717a83;
+@SubtitleColor: #717a83;
 //控件内顶部栏颜⾊和选中时交互底⾊ 部分阴影⾊
 @Interaction-color: #eff6ff;
 
@@ -24,7 +24,7 @@
 //table
 //--
 //表格表⾏hover背景⾊
-@table-row-hover-bg     : #f6f8fa;
+@table-row-hover-bg: #f6f8fa;
 // TimePicker
 // ---
 @time-picker-selected-bg: @primary-color;
@@ -34,11 +34,9 @@
 @progress-default-color: @primary-color;
 
 //botton
-@btn-danger-color : @errorBorder;
-@btn-danger-bg    : #fff;
+@btn-danger-color: @errorBorder;
+@btn-danger-bg: #fff;
 @btn-danger-border: @errorBorder;
-
-
 
 html {
   .ant-tabs-tab-active {
@@ -47,68 +45,68 @@ html {
 
   //输入框
   .ant-input {
-    position             : relative;
-    display              : inline-block;
-    box-sizing           : border-box;
-    width                : 100%;
-    color                : #17191a;
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    list-style           : none;
-    background-color     : #fff;
-    background-image     : none;
-    border               : 1px solid @input-border-color;
-    border-radius        : 4px;
-    transition           : all 0.3s;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    color: #17191a;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    list-style: none;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid @input-border-color;
+    border-radius: 4px;
+    transition: all 0.3s;
     font-feature-settings: 'tnum';
   }
 
   .ant-input-number {
     // border       : 1px solid rgba(240, 243, 247, 1);
-    border-radius   : 4px;
+    border-radius: 4px;
     // box-shadow   : 0 2px 4px 0 rgba(239, 242, 247, 1);
   }
 
   //下拉框
   .ant-select {
-    position             : relative;
-    display              : inline-block;
-    box-sizing           : border-box;
-    padding              : 0;
-    color                : #17191a;
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    line-height          : 1.5;
-    list-style           : none;
-    outline              : 0;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0;
+    color: #17191a;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    outline: 0;
     font-feature-settings: 'tnum';
   }
 
   //单选框
   .ant-radio-group {
-    display              : inline-block;
-    box-sizing           : border-box;
-    padding              : 4px 0;
-    color                : #17191a;
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    list-style           : none;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 4px 0;
+    color: #17191a;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    list-style: none;
     font-feature-settings: 'tnum';
   }
 
   .ant-btn {
-    font-weight  : 400;
-    font-size    : 14px;
+    font-weight: 400;
+    font-size: 14px;
     border-radius: 8px;
   }
 
   .ant-btn-primary {
-    font-size       : 14px;
-    background-color: @primary-color  !important;
+    font-size: 14px;
+    background-color: @primary-color !important;
   }
 
   .ant-select-selection {
-    border       : 1px solid @input-border-color;
+    border: 1px solid @input-border-color;
     border-radius: 4px;
   }
 
@@ -124,9 +122,9 @@ html {
     }
 
     .ant-form-item-control {
-      position   : relative;
+      position: relative;
       line-height: 25px;
-      zoom       : 1;
+      zoom: 1;
     }
 
     .ant-input {
@@ -169,20 +167,20 @@ html {
 
   //按钮样式(primary)
   .ant-btn-primary {
-    position        : relative;
-    font-size       : 14px;
-    background-color: @primary-color  !important;
+    position: relative;
+    font-size: 14px;
+    background-color: @primary-color !important;
 
     &::before {
-      position  : absolute;
-      top       : 0;
-      right     : 0;
-      bottom    : 0;
-      left      : 0;
-      display   : block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: block;
       background: @primary-color;
-      opacity   : 0;
-      content   : '';
+      opacity: 0;
+      content: '';
     }
 
     &:not([disabled]):hover::before {
@@ -194,34 +192,34 @@ html {
     }
 
     &[disabled] {
-      color     : #fff;
+      color: #fff;
       background: rgba(24, 144, 255, 1);
       box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2);
-      opacity   : 0.5;
+      opacity: 0.5;
     }
   }
 
   .ant-btn-default,
   .ant-btn-default:focus {
     position: relative;
-    color   : rgba(0, 0, 0, 0.65);
-    border  : 1px solid rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.15);
 
     &::before {
-      position  : absolute;
-      top       : -1px;
-      right     : -1px;
-      bottom    : -1px;
-      left      : -1px;
-      display   : block;
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      display: block;
       background: @primary-color;
-      opacity   : 0;
-      content   : '';
+      opacity: 0;
+      content: '';
     }
 
     &:hover,
     &:active {
-      color : rgba(0, 0, 0, 0.65);
+      color: rgba(0, 0, 0, 0.65);
       border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
@@ -235,34 +233,34 @@ html {
 
     &[disabled] {
       background: rgba(0, 0, 0, 0.04);
-      border    : 1px solid rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
   }
 
   a.ant-btn {
-    position     : relative;
-    height       : initial;
-    padding      : 0;
-    color        : @primary-color;
-    line-height  : initial;
+    position: relative;
+    height: initial;
+    padding: 0;
+    color: @primary-color;
+    line-height: initial;
     border-radius: 0;
 
     &:hover span {
-      color          : @primary-color;
+      color: @primary-color;
       text-decoration: underline !important;
     }
 
     &:active span {
-      color          : @primary-color;
+      color: @primary-color;
       text-decoration: underline !important;
     }
 
     &::before {
-      position  : absolute;
-      display   : block;
+      position: absolute;
+      display: block;
       background: @primary-color;
-      opacity   : 0;
-      content   : '';
+      opacity: 0;
+      content: '';
     }
 
     &:not([disabled]):hover::before {
@@ -274,47 +272,47 @@ html {
     }
 
     &[disabled] {
-      color  : @primary-color  !important;
+      color: @primary-color !important;
       opacity: 0.4;
     }
   }
 
   //幽灵按钮样式
   .ghostButton {
-    margin-right    : 8px;
-    margin-left     : 8px;
-    color           : @primary-color;
+    margin-right: 8px;
+    margin-left: 8px;
+    color: @primary-color;
     background-color: #fff;
-    border-color    : #9cb2cd;
+    border-color: #9cb2cd;
   }
 
   .ghostButton:hover {
-    color           : @primary-color;
+    color: @primary-color;
     background-color: #fff;
-    border-color    : #d8e5f4;
+    border-color: #d8e5f4;
   }
 
   .ghostButton:active {
-    color           : @primary-color;
+    color: @primary-color;
     background-color: #fff;
-    border-color    : #8396ad;
+    border-color: #8396ad;
   }
 
   //下拉框选中鼠标悬浮样式
   .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
-    color           : @text-color;
-    font-weight     : 600;
+    color: @text-color;
+    font-weight: 600;
     background-color: @Interaction-color;
   }
 
   //下拉框组得样式
   .ant-select-dropdown-menu-item-group-title {
-    height     : 32px;
-    padding    : 0 12px;
-    color      : rgba(0, 0, 0, 0.45);
-    color      : @SubtitleColor;
+    height: 32px;
+    padding: 0 12px;
+    color: rgba(0, 0, 0, 0.45);
+    color: @SubtitleColor;
     font-weight: bold;
-    font-size  : 14px;
+    font-size: 14px;
     line-height: 32px;
   }
 
@@ -332,7 +330,7 @@ html {
   //下拉框指标
   .ant-select-arrow svg {
     display: inline-block;
-    color  : #17191a;
+    color: #17191a;
   }
 
   //table
@@ -349,45 +347,45 @@ html {
   //   border          : 0;
   // }
 
-  .ant-table-tbody>tr {
+  .ant-table-tbody > tr {
     border: 0;
   }
 
-  .ant-table-tbody>tr>td {
+  .ant-table-tbody > tr > td {
     margin: 0;
 
     text-align: left;
 
     ul {
-      height     : 35px;
-      height     : 100%;
-      margin     : 0;
-      padding    : 0;
+      height: 35px;
+      height: 100%;
+      margin: 0;
+      padding: 0;
       line-height: 35px;
-      list-style : none;
+      list-style: none;
 
       li {
-        max-width    : 100%;
-        height       : 20px;
-        margin       : 0;
-        padding      : 0;
-        overflow     : hidden;
-        line-height  : 20px;
-        white-space  : nowrap;
+        max-width: 100%;
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        line-height: 20px;
+        white-space: nowrap;
         text-overflow: ellipsis;
       }
     }
   }
 
-  .ant-table-thead>tr>th .ant-table-header-column .ant-table-column-sorters:hover::before {
+  .ant-table-thead > tr > th .ant-table-header-column .ant-table-column-sorters:hover::before {
     background: #f5f5f5ff !important;
   }
 
-  .ant-table-thead>tr>th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
+  .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
     background: #f5f5f5ff !important;
   }
 
-  .ant-table-thead>tr>th.ant-table-column-sort {
+  .ant-table-thead > tr > th.ant-table-column-sort {
     background: #f5f5f5ff !important;
   }
 
@@ -398,16 +396,16 @@ html {
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr {
+  .ant-table-tbody > tr {
     &:hover {
       background: #e6f7ff !important;
 
-      >td {
+      > td {
         background: #e6f7ff !important;
       }
     }
 
-    >td :hover {
+    > td :hover {
       cursor: pointer;
     }
   }
@@ -422,7 +420,7 @@ html {
 
   .ant-btn {
     font-weight: 600;
-    font-size  : 12px;
+    font-size: 12px;
   }
 
   .ant-form-explain {
@@ -430,7 +428,7 @@ html {
   }
 
   .page_footer {
-    display       : flex;
+    display: flex;
     flex-direction: row-reverse;
   }
 
@@ -444,7 +442,7 @@ html {
     }
 
     nz-table thead tr th:first-child {
-      color     : #6198ff !important;
+      color: #6198ff !important;
       text-align: left !important;
     }
 
@@ -468,7 +466,7 @@ html {
 
   .rate-table-edit {
     .ant-btn {
-      color       : #6198ff;
+      color: #6198ff;
       border-color: #6198ff;
     }
   }
@@ -476,7 +474,7 @@ html {
   rate-filter-panel {
     .ant-card {
       margin-bottom: 16px;
-      box-shadow   : 0 0 5px 2px #ebedef;
+      box-shadow: 0 0 5px 2px #ebedef;
     }
 
     .ant-card-head {
@@ -489,18 +487,18 @@ html {
   }
 
   .inner-content {
-    height  : 100%;
+    height: 100%;
     overflow: auto;
 
     .main-container {
-      background   : rgba(255, 255, 255, 1);
+      background: rgba(255, 255, 255, 1);
       border-radius: 10px;
-      box-shadow   : 0 0 10px 0 rgba(230, 233, 243, 0.5);
+      box-shadow: 0 0 10px 0 rgba(230, 233, 243, 0.5);
     }
 
     .bg-double-circle {
-      background-image   : url(../../assets/images/double-circle.png);
-      background-repeat  : no-repeat;
+      background-image: url(../../assets/images/double-circle.png);
+      background-repeat: no-repeat;
       background-position: left top;
     }
   }
@@ -515,7 +513,7 @@ html {
 
   .csp-header {
     .ant-badge-count {
-      font-size : 12px;
+      font-size: 12px;
       background: #fc5a5a !important;
       box-shadow: none;
 
@@ -526,7 +524,7 @@ html {
   }
 
   .csp-header-menu {
-    padding      : 12px 12px;
+    padding: 12px 12px;
     border-radius: 0 !important;
 
     .ant-dropdown-menu-item {
@@ -552,14 +550,14 @@ html {
   }
 
   .ql-toolbar {
-    border-top         : none !important;
-    border-right       : none !important;
+    border-top: none !important;
+    border-right: none !important;
     border-bottom-color: #e4e4e4 !important;
-    border-left        : none !important;
+    border-left: none !important;
   }
 }
 
-.ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner {
   height: initial;
 }
 
@@ -582,7 +580,7 @@ html {
 .ant-select-dropdown-menu-item {
   div {
     font-weight: 400 !important;
-    opacity    : 0.85 !important;
+    opacity: 0.85 !important;
   }
 }
 
@@ -599,7 +597,7 @@ html {
 }
 
 .nz-radio-group-normal {
-  padding   : 0;
+  padding: 0;
   box-shadow: 0px 2px 4px 0px rgba(239, 242, 247, 1);
 
   .ant-radio-button-wrapper {
@@ -629,22 +627,22 @@ html {
 }
 
 .nz-radio-group-pill {
-  padding      : 0;
+  padding: 0;
   border-radius: 8px;
-  box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
+  box-shadow: 0 2px 4px 0 rgba(230, 230, 230, 1);
 
   .ant-radio-button-wrapper {
-    min-width    : 60px;
-    height       : 22px;
-    color        : rgba(24, 144, 255, 1);
-    line-height  : 22px;
-    text-align   : center;
-    border       : none;
+    min-width: 60px;
+    height: 22px;
+    color: rgba(24, 144, 255, 1);
+    line-height: 22px;
+    text-align: center;
+    border: none;
     border-radius: 8px;
   }
 
   .ant-radio-button-wrapper-checked {
-    color     : #fff !important;
+    color: #fff !important;
     background: rgba(24, 144, 255, 1);
   }
 
@@ -675,25 +673,25 @@ html {
 }
 
 .nz-radio-group-button {
-  display      : inline-flex;
-  padding      : 2px;
-  color        : rgba(0, 0, 0, 0.25);
-  font-size    : 14px;
+  display: inline-flex;
+  padding: 2px;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
   border-radius: 8px;
-  box-shadow   : 0 2px 4px 0 rgba(230, 230, 230, 1);
+  box-shadow: 0 2px 4px 0 rgba(230, 230, 230, 1);
 
   .ant-radio-button-wrapper {
-    flex         : 1;
-    height       : 28px;
-    color        : rgba(191, 191, 191, 1);
-    text-align   : center;
-    border       : none;
+    flex: 1;
+    height: 28px;
+    color: rgba(191, 191, 191, 1);
+    text-align: center;
+    border: none;
     border-radius: 8px;
   }
 
   .ant-radio-button-wrapper-checked {
-    color     : #fff !important;
-    background: @primary-color  !important;
+    color: #fff !important;
+    background: @primary-color !important;
     box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
   }
 
@@ -705,7 +703,7 @@ html {
   nz-select {
     height: 28px;
 
-    &>div {
+    & > div {
       height: 28px;
       border: none;
     }
@@ -721,7 +719,7 @@ html {
   }
 
   .select-checked .ant-select-selection {
-    color     : #fff;
+    color: #fff;
     background: @primary-color;
 
     & .ant-select-selection__clear {
@@ -739,25 +737,25 @@ html {
 }
 
 .nz-radio-group-button-quote {
-  display      : inline-flex;
-  padding      : 2px;
-  color        : rgba(0, 0, 0, 0.25);
-  font-size    : 14px;
+  display: inline-flex;
+  padding: 2px;
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 14px;
   border-radius: 0px;
-  border       : 1px solid #d9d9d9;
+  border: 1px solid #d9d9d9;
 
   .ant-radio-button-wrapper {
-    flex         : 1;
-    height       : 28px;
-    color        : rgba(191, 191, 191, 1);
-    text-align   : center;
-    border       : none;
+    flex: 1;
+    height: 28px;
+    color: rgba(191, 191, 191, 1);
+    text-align: center;
+    border: none;
     border-radius: 0px;
   }
 
   .ant-radio-button-wrapper-checked {
-    color     : #fff !important;
-    background: @primary-color  !important;
+    color: #fff !important;
+    background: @primary-color !important;
     box-shadow: 0 5px 20px 0 rgba(24, 144, 255, 0.2) !important;
   }
 
@@ -769,7 +767,7 @@ html {
   nz-select {
     height: 28px;
 
-    &>div {
+    & > div {
       height: 28px;
       border: none;
     }
@@ -785,7 +783,7 @@ html {
   }
 
   .select-checked .ant-select-selection {
-    color     : #fff;
+    color: #fff;
     background: @primary-color;
 
     & .ant-select-selection__clear {
@@ -805,7 +803,7 @@ html {
 .ant-calendar-picker {
   width: 100%;
 
-  &>nz-picker {
+  & > nz-picker {
     width: 100%;
   }
 }
@@ -840,17 +838,17 @@ html {
 }
 
 .nz-table-radius {
-  overflow     : hidden;
-  border       : 1px solid rgba(240, 243, 247, 1);
+  overflow: hidden;
+  border: 1px solid rgba(240, 243, 247, 1);
   border-radius: 10px;
 
   th,
   td {
-    padding-top   : 0 !important;
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
-    color         : rgba(0, 0, 0, 0.65) !important;
-    font-weight   : 400 !important;
-    line-height   : 36px !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+    font-weight: 400 !important;
+    line-height: 36px !important;
   }
 
   td {
@@ -862,7 +860,7 @@ html {
   padding: 8px 20px;
 }
 
-.ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner:hover {
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner:hover {
   color: rgba(0, 0, 0, 0.65);
 }
 
@@ -875,28 +873,27 @@ html {
 }
 
 .ant-modal {
-  top       : 10% !important;
-  display   : flex;
-  max-width : 90% !important;
+  top: 10% !important;
+  display: flex;
+  max-width: 90% !important;
   max-height: 80% !important;
 
-  @media all and (-ms-high-contrast: none),
-  (-ms-high-contrast: active) {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     height: 100%;
   }
 
   overflow: hidden !important;
 
   .ant-modal-content {
-    display       : flex;
+    display: flex;
     flex-direction: column;
-    width         : 100%;
-    overflow      : hidden;
+    width: 100%;
+    overflow: hidden;
 
     .ant-modal-body {
-      flex     : 1;
+      flex: 1;
       flex-grow: 1;
-      overflow : auto;
+      overflow: auto;
     }
   }
 }
@@ -905,16 +902,16 @@ html {
   position: relative;
 
   &::before {
-    position  : absolute;
-    top       : 0;
-    bottom    : 0;
-    left      : 0;
-    display   : flex;
-    width     : 4px;
-    height    : 28px;
-    margin    : auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 4px;
+    height: 28px;
+    margin: auto;
     background: rgba(24, 144, 255, 1);
-    content   : '';
+    content: '';
   }
 }
 
@@ -923,7 +920,7 @@ html {
 }
 
 nz-table-title-footer {
-  padding-left : 0 !important;
+  padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
@@ -963,7 +960,7 @@ nz-table-inner-scroll {
   color: #fff !important;
 }
 
-.ant-btn+.ant-btn:not(.ant-btn-link) {
+.ant-btn + .ant-btn:not(.ant-btn-link) {
   margin-left: 8px;
 }
 
@@ -974,23 +971,23 @@ nz-table-inner-scroll {
 }
 
 .attachment {
-  display      : flex;
-  align-items  : center;
+  display: flex;
+  align-items: center;
   margin-bottom: 8px;
-  padding      : 4px;
-  border       : 1px solid @grey-4;
+  padding: 4px;
+  border: 1px solid @grey-4;
 
   &-icon {
-    padding  : 2px;
+    padding: 2px;
     font-size: 40px;
   }
 
   &-img {
-    width              : 64px;
-    height             : 64px;
-    background-color   : transparent;
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
     background-position: center center;
-    background-size    : cover;
+    background-size: cover;
   }
 }
 
@@ -1000,18 +997,18 @@ nz-table-inner-scroll {
 
     &-tag {
       position: absolute;
-      top     : -6px;
-      right   : -2px;
+      top: -6px;
+      right: -2px;
     }
   }
 }
 
 .img {
   &-thm {
-    position        : relative;
-    display         : block;
-    max-width       : 100%;
-    height          : auto;
+    position: relative;
+    display: block;
+    max-width: 100%;
+    height: auto;
     background-color: transparent;
 
     &:hover {
@@ -1021,33 +1018,33 @@ nz-table-inner-scroll {
     }
 
     &__mask {
-      position        : absolute;
-      top             : 0;
-      right           : 0;
-      bottom          : 0;
-      left            : 0;
-      z-index         : 2;
-      display         : block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      display: block;
       background-color: rgba(0, 0, 0, 0.3);
-      transition      : all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
 
     &__icon {
-      position  : absolute;
-      top       : 50%;
-      left      : 50%;
-      z-index   : 3;
-      display   : block;
-      color     : #fff;
-      font-size : 32px;
-      opacity   : 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 3;
+      display: block;
+      color: #fff;
+      font-size: 32px;
+      opacity: 0;
       transition: all 0.2s ease-in-out;
     }
 
     &__img {
-      z-index  : 1;
+      z-index: 1;
       max-width: 100%;
-      height   : auto;
+      height: auto;
     }
 
     &__zoom-in {
@@ -1083,42 +1080,42 @@ nz-table-inner-scroll {
 // #endregion
 
 .add {
-  height    : 48px;
+  height: 48px;
   margin-top: 14px;
-  padding   : 15px 0 15px 0;
+  padding: 15px 0 15px 0;
   text-align: center;
-  border    : 1px dashed rgba(94, 131, 255, 1);
-  cursor    : pointer;
+  border: 1px dashed rgba(94, 131, 255, 1);
+  cursor: pointer;
 
-  >span {
+  > span {
     display: inline-block;
 
     &:first-child {
-      box-sizing   : content-box;
+      box-sizing: content-box;
       padding-right: 5px;
-      color        : rgba(111, 144, 255, 1);
-      font-weight  : 400;
-      font-size    : 14px;
-      font-family  : PingFangSC-Regular, PingFang SC;
-      line-height  : 20px;
-      border-right : 1px solid rgba(94, 131, 255, 1);
-      cursor       : pointer;
+      color: rgba(111, 144, 255, 1);
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 20px;
+      border-right: 1px solid rgba(94, 131, 255, 1);
+      cursor: pointer;
     }
 
     &:last-child {
-      box-sizing  : content-box;
+      box-sizing: content-box;
       padding-left: 5px;
-      color       : rgba(153, 153, 153, 1);
-      font-weight : 400;
-      font-family : PingFangSC-Regular, PingFang SC;
-      line-height : 20px;
-      cursor      : pointer;
+      color: rgba(153, 153, 153, 1);
+      font-weight: 400;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 20px;
+      cursor: pointer;
     }
   }
 }
 
 .ant-table-placeholder {
-  border-top   : none !important;
+  border-top: none !important;
   border-bottom: none !important;
 }
 
@@ -1128,7 +1125,7 @@ nz-table {
       td {
         ul {
           margin-bottom: 0;
-          padding-left : 0;
+          padding-left: 0;
 
           li {
             list-style: none;
@@ -1140,49 +1137,48 @@ nz-table {
 }
 
 .cust-head {
-  width         : 100%;
-  margin-bottom : 24px;
+  width: 100%;
+  margin-bottom: 24px;
   padding-bottom: 24px;
-  background    : #fff;
+  background: #fff;
 }
 
 .cust-head-input input {
-  width        : 250px;
-  height       : 32px;
-  background   : rgba(255, 255, 255, 1);
-  border       : 1px solid rgba(215, 227, 241, 1);
+  width: 250px;
+  height: 32px;
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(215, 227, 241, 1);
   border-radius: 4px;
 }
 
 .cust-head-input {
-  display  : flex;
+  display: flex;
   flex-wrap: wrap;
 
   .font-size {
-    width      : 24px;
-    height     : 17px;
-    color      : rgba(23, 25, 26, 0.85);
+    width: 24px;
+    height: 17px;
+    color: rgba(23, 25, 26, 0.85);
     font-weight: 400;
-    font-size  : 12px;
+    font-size: 12px;
     font-family: PingFang-SC-Regular, PingFang-SC;
     line-height: 17px;
   }
 
   .search-button {
-    width      : 20px;
-    height     : 22px;
-    color      : rgba(255, 255, 255, 1);
+    width: 20px;
+    height: 22px;
+    color: rgba(255, 255, 255, 1);
     font-weight: 400;
-    font-size  : 14px;
+    font-size: 14px;
     line-height: 22px;
   }
 }
 
 // 样式改版
 
-
 .ant-pagination-item-active {
-  background: #1890FF;
+  background: #1890ff;
 
   a {
     color: #fff !important;
@@ -1205,11 +1201,11 @@ nz-table {
 
 .user-info-wrap {
   .ant-timeline-item-content {
-    background   : #F8F8FF;
+    background: #f8f8ff;
     border-radius: 10px;
-    padding      : 10px 5px;
-    margin       : 0 !important;
-    padding-left : 40px;
+    padding: 10px 5px;
+    margin: 0 !important;
+    padding-left: 40px;
   }
 
   .ant-timeline-item-tail {
@@ -1218,8 +1214,8 @@ nz-table {
 
   .ant-timeline-item-head {
     z-index: 999;
-    top    : 10px;
-    left   : 16px;
+    top: 10px;
+    left: 16px;
   }
 }
 
@@ -1236,16 +1232,14 @@ nz-table {
     text-align: left !important;
   }
 
-  background    : #fff;
-  height        : 100%;
-  display       : flex;
+  background: #fff;
+  height: 100%;
+  display: flex;
   flex-direction: column;
 
-
-
   nz-tabset {
-    height        : 100%;
-    display       : flex;
+    height: 100%;
+    display: flex;
     flex-direction: column;
 
     nz-tabs-nav {
@@ -1253,12 +1247,12 @@ nz-table {
     }
 
     .ant-tabs-content {
-      flex    : 1;
+      flex: 1;
       overflow: hidden;
 
       .ant-tabs-tabpane-active {
         overflow: hidden;
-        height  : 100%;
+        height: 100%;
       }
     }
   }
@@ -1266,150 +1260,139 @@ nz-table {
 
 .flexTableset {
   background: #fff;
-  height    : 100%;
-  overflow  : hidden;
+  height: 100%;
+  overflow: hidden;
 
   nz-tabset {
-    height        : 100%;
-    display       : flex;
+    height: 100%;
+    display: flex;
     flex-direction: column;
 
-
     .ant-tabs-content {
-      flex    : 1;
+      flex: 1;
       overflow: hidden;
 
       .ant-tabs-tabpane-active {
         overflow: hidden;
-        height  : 100%;
+        height: 100%;
       }
     }
   }
 }
 
 .crm-body {
-  height        : 100%;
+  height: 100%;
   flex-direction: column;
-  display       : flex;
+  display: flex;
 
   .search {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    align-items    : center;
-    padding        : 0 20px;
-    margin         : 20px 0;
+    align-items: center;
+    padding: 0 20px;
+    margin: 20px 0;
 
     i {
-      color: #D9D9D9;
+      color: #d9d9d9;
     }
 
     div {
       display: flex;
     }
-
   }
 
   .body-list {
-    flex          : 1;
-    padding       : 0 20px;
-    height        : 100%;
-    overflow      : hidden;
-    display       : flex;
+    flex: 1;
+    padding: 0 20px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
     flex-direction: column;
 
     .button-head {
-      padding      : 20px;
-      border-bottom: 1px solid #E8E8E8;
+      padding: 20px;
+      border-bottom: 1px solid #e8e8e8;
     }
 
     nz-table {
-      height  : auto;
+      height: auto;
       overflow: hidden;
-      flex    : 1;
+      flex: 1;
     }
   }
 
   .pagination {
     text-align: right;
-    padding   : 20px;
+    padding: 20px;
   }
-
-
 }
-
 
 //客户详情
 .customer-detial {
-  height         : 100%;
-  padding        : 0px;
-  display        : flex;
+  height: 100%;
+  padding: 0px;
+  display: flex;
   justify-content: space-between;
 
   .left {
     border-radius: 8px;
-    background   : #fff;
-    flex         : 1;
-    padding      : 0 26px 16px 26px;
-    margin-right : 12px;
-    width        : 70%;
-    overflow     : hidden;
+    background: #fff;
+    flex: 1;
+    padding: 0 26px 16px 26px;
+    margin-right: 12px;
+    width: 70%;
+    overflow: hidden;
 
     nz-tabset {
-      height        : 100%;
-      display       : flex;
+      height: 100%;
+      display: flex;
       flex-direction: column;
 
-
       .ant-tabs-content {
-        flex    : 1;
+        flex: 1;
         overflow: hidden;
 
         .ant-tabs-tabpane-active {
           overflow: hidden;
-          height  : 100%;
+          height: 100%;
         }
       }
     }
   }
 
   .right {
-    width        : 270px;
-    background   : #fff;
+    width: 270px;
+    background: #fff;
     border-radius: 8px;
 
     .ant-timeline-item-content {
-      background: #F6FAFF;
+      background: #f6faff;
     }
-
   }
 
   .cust-detail-head {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    flex-direction : column;
-    height         : 100%;
-    overflow-y     : auto;
-    overflow-x     : hidden;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .head-customer-name {
       border-radius: 5px;
-      background   : #F5F5F5;
-      align-items  : center;
-      padding      : 26px;
-      margin       : 15px 0;
+      background: #f5f5f5;
+      align-items: center;
+      padding: 26px;
+      margin: 15px 0;
 
       img {
-        width         : 25px;
-        height        : 25px;
+        width: 25px;
+        height: 25px;
         vertical-align: middle;
-        margin-left   : 5px;
+        margin-left: 5px;
       }
-
-
     }
-
   }
-
 }
 
 .im-globel-search {
@@ -1417,7 +1400,6 @@ nz-table {
     padding: 0;
   }
 }
-
 
 //运价列表
 .table-detail-table-line {
@@ -1428,12 +1410,12 @@ nz-table {
 
 .inquiry-right-footer {
   .ant-tabs-nav .ant-tabs-tab-active {
-    background   : rgba(24, 144, 255, 1);
+    background: rgba(24, 144, 255, 1);
     border-radius: 4px;
-    color        : #fff !important;
-    padding      : 0px 15px;
-    line-height  : 22px;
-    height       : 22px;
+    color: #fff !important;
+    padding: 0px 15px;
+    line-height: 22px;
+    height: 22px;
   }
 
   .ant-tabs-ink-bar {
@@ -1445,12 +1427,11 @@ nz-table {
   }
 
   .ant-tabs-bar {
-    border-bottom: 1px dashed #F0F0F0 !important;
+    border-bottom: 1px dashed #f0f0f0 !important;
   }
 }
 
 .inquiry-ocean-content {
-
   .ant-drawer-header,
   .ant-drawer-body {
     padding-left: 34px !important;
@@ -1464,13 +1445,12 @@ nz-table {
   }
 }
 
-
 .no-padding-tr {
   .nz-disable-td {
-    padding   : 0px 16px;
-    height    : 25px;
-    background: #F0F0F0 !important;
-    position  : relative;
+    padding: 0px 16px;
+    height: 25px;
+    background: #f0f0f0 !important;
+    position: relative;
   }
 }
 
@@ -1489,14 +1469,9 @@ nz-table {
   min-height: 90px;
 }
 
-
-
 // .cdk-virtual-scroll-orientation-vertical {  //自定义下拉框，内容只有一项时高度塌陷
 //   min-height: 58px;
 // }
-
-
-
 
 .share-view-table {
   .ant-table-cell {
@@ -1504,8 +1479,7 @@ nz-table {
   }
 
   .ant-table-thead {
-    background: #1890FF04 !important;
-    ;
+    background: #1890ff04 !important;
   }
 }
 
@@ -1518,35 +1492,35 @@ nz-table {
 // 运价详情时间轴
 .inquiry-right-footer {
   .ant-timeline-item-head {
-    width      : 15px;
-    height     : 15px;
-    border     : 5px solid transparent;
+    width: 15px;
+    height: 15px;
+    border: 5px solid transparent;
     margin-left: -2px;
   }
 
   .ant-timeline-item-head-blue {
-    color       : #8BCBF3;
-    border-color: #8BCBF3;
+    color: #8bcbf3;
+    border-color: #8bcbf3;
   }
 }
 
-.ant-form-item-label>label.ant-form-item-required::before {
+.ant-form-item-label > label.ant-form-item-required::before {
   content: '' !important;
 }
 
-.ant-form-item-label>label.ant-form-item-required::after {
-  display     : inline-block !important;
+.ant-form-item-label > label.ant-form-item-required::after {
+  display: inline-block !important;
   margin-right: 4px;
-  color       : #ff4d4f;
-  font-size   : 14px;
-  font-family : SimSun, sans-serif;
-  line-height : 1;
-  content     : '*'
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
 }
 
 .share-resources-modal {
   .ant-timeline-item-content {
-    background: #F6FAFF;
+    background: #f6faff;
   }
 }
 
@@ -1557,7 +1531,6 @@ nz-table {
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
   transition: none !important;
 }
-
 
 // 迁移的样式
 
@@ -1578,17 +1551,17 @@ body {
 //列表页面
 .index-header-title {
   min-height: 40px;
-  padding   : 8px 32px;
+  padding: 8px 32px;
   background: #fff;
 
   h1 {
     font-weight: bold;
-    font-size  : 32px !important;
+    font-size: 32px !important;
   }
 }
 
 .list-content {
-  padding   : 15px;
+  padding: 15px;
   background: #fff;
 }
 
@@ -1721,54 +1694,54 @@ body {
 
 .invioce-table {
   .ant-input {
-    position             : relative;
-    display              : inline-block;
-    display              : -webkit-box;
-    box-sizing           : border-box;
-    width                : 100%;
-    padding              : 4px 11px;
-    overflow             : hidden;
-    color                : #17191a;
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    white-space          : normal !important;
-    text-overflow        : ellipsis;
-    word-wrap            : break-word;
-    list-style           : none;
-    background-color     : #fff;
-    background-image     : none;
-    border               : 1px solid #d9d9d9;
-    border               : 0;
-    border-radius        : 4px !important;
-    transition           : all 0.3s;
+    position: relative;
+    display: inline-block;
+    display: -webkit-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px 11px;
+    overflow: hidden;
+    color: #17191a;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    list-style: none;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border: 0;
+    border-radius: 4px !important;
+    transition: all 0.3s;
     font-feature-settings: 'tnum';
-    -webkit-line-clamp   : 1;
-    -webkit-box-orient   : vertical;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 
   .ant-input-number {
-    position             : relative;
-    display              : inline-block;
-    box-sizing           : border-box;
-    width                : 100%;
-    width                : 90px;
-    height               : 32px;
-    margin               : 0;
-    padding              : 4px 11px;
-    padding              : 0;
-    color                : #17191a;
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    line-height          : 1.5;
-    line-height          : 32px;
-    line-height          : 1.5 \9;
-    list-style           : none;
-    background-color     : #fff;
-    background-image     : none;
-    border               : 1px solid #d9d9d9;
-    border               : 0;
-    border-radius        : 4px;
-    transition           : all 0.3s;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    // width                : 100%;
+    width: 80px;
+    height: 32px;
+    margin: 0;
+    padding: 4px 11px;
+    padding: 0;
+    color: #17191a;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    line-height: 32px;
+    line-height: 1.5 \9;
+    list-style: none;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border: 0;
+    border-radius: 4px;
+    transition: all 0.3s;
     font-feature-settings: 'tnum';
   }
 }
@@ -1776,48 +1749,48 @@ body {
 //bookinglist
 .incoterms {
   .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
-    width        : 100%;
-    margin-left  : 11px;
+    width: 100%;
+    margin-left: 11px;
     padding-right: 16px;
-    text-align   : center;
+    text-align: center;
   }
 }
 
 .sel-size {
   .ant-select-allow-clear .ant-select-selection--single .ant-select-selection-selected-value {
-    height       : 24px;
+    height: 24px;
     padding-right: 16px;
-    line-height  : 24px;
+    line-height: 24px;
   }
 
   .ant-select-selection--single {
-    position   : relative;
-    height     : 24px;
+    position: relative;
+    height: 24px;
     line-height: 24px;
-    cursor     : pointer;
+    cursor: pointer;
   }
 
   .ant-select-selection__rendered {
-    position    : relative;
-    display     : block;
+    position: relative;
+    display: block;
     margin-right: 11px;
-    margin-left : 11px;
-    line-height : 24px;
+    margin-left: 11px;
+    line-height: 24px;
   }
 
   .ant-select-selection__placeholder,
   .ant-select-search__field__placeholder {
-    position     : absolute;
-    top          : 50%;
-    right        : 9px;
-    left         : 0;
-    max-width    : 100%;
-    height       : 20px;
-    overflow     : hidden;
-    color        : #bfbfbf;
-    line-height  : 20px;
-    white-space  : nowrap;
-    text-align   : left;
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    left: 0;
+    max-width: 100%;
+    height: 20px;
+    overflow: hidden;
+    color: #bfbfbf;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: left;
     text-overflow: ellipsis;
   }
 }
@@ -1839,20 +1812,20 @@ body {
   //   color: #717a83;
   // }
 
-  .ant-table-tbody>tr>td {
-    min-width    : 120px;
-    height       : 25px;
-    margin       : 0;
-    padding      : 0 10px 0 10px;
-    overflow     : hidden;
-    white-space  : nowrap;
-    text-align   : center;
+  .ant-table-tbody > tr > td {
+    min-width: 120px;
+    height: 25px;
+    margin: 0;
+    padding: 0 10px 0 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
     text-overflow: ellipsis;
     border-bottom: 1px solid #e4e4e4;
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr>td:hover {
+  .ant-table-tbody > tr > td:hover {
     cursor: pointer;
   }
 }
@@ -1862,42 +1835,42 @@ body {
     color: red;
   }
 
-  .ant-table-thead>tr>th {
-    width           : 150px;
-    height          : 55px;
-    padding         : 1px;
-    padding         : 0;
-    color           : #717a83;
-    font-weight     : 600;
-    font-size       : 12px;
-    text-align      : center;
+  .ant-table-thead > tr > th {
+    width: 150px;
+    height: 55px;
+    padding: 1px;
+    padding: 0;
+    color: #717a83;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
     background-color: #f5f7fa;
-    border-bottom   : 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
   }
 
-  .ant-table-tbody>tr>td {
-    width        : 150px;
-    height       : 25px;
-    margin       : 0;
-    padding      : 0;
-    overflow     : hidden;
-    line-height  : 25px;
-    white-space  : nowrap;
-    text-align   : center;
+  .ant-table-tbody > tr > td {
+    width: 150px;
+    height: 25px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    line-height: 25px;
+    white-space: nowrap;
+    text-align: center;
     text-overflow: ellipsis;
     border-bottom: 1px solid #e4e4e4;
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr>td:hover {
+  .ant-table-tbody > tr > td:hover {
     cursor: pointer;
   }
 }
 
 .grey-backdrop.cdk-overlay-backdrop-showing {
-  position        : fixed;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.5) !important;
-  opacity         : 1 !important;
+  opacity: 1 !important;
 }
 
 .header-input-cdk-pane {
@@ -1906,16 +1879,16 @@ body {
 
 .cdk-global-overlay-wrapper {
   position: absolute;
-  z-index : 1000;
-  display : flex;
+  z-index: 1000;
+  display: flex;
 }
 
 .cdk-global-overlay-wrapper,
 .cdk-overlay-container {
-  top           : 0;
-  left          : 0;
-  width         : 100%;
-  height        : 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
@@ -1929,12 +1902,12 @@ body {
   }
 
   .ant-tabs-nav .ant-tabs-tab {
-    color      : #fff;
+    color: #fff;
     font-weight: 400 !important;
   }
 
   .ant-tabs-bar {
-    margin       : 0 !important;
+    margin: 0 !important;
     border-bottom: none;
   }
 
@@ -1948,8 +1921,8 @@ body {
 }
 
 .amapicon {
-  color        : #54a7af;
-  background   : white;
+  color: #54a7af;
+  background: white;
   border-radius: 50%;
 
   &::before {
@@ -1957,7 +1930,8 @@ body {
   }
 }
 
-.odd {}
+.odd {
+}
 
 .even {
   @bg: rgba(250, 251, 252, 1);
@@ -1968,7 +1942,7 @@ body {
 shipment-list-item.even {
   @bg: rgba(250, 251, 252, 1);
 
-  &>.list-item {
+  & > .list-item {
     background: @bg;
   }
 }
@@ -1986,10 +1960,10 @@ shipment-list-item.even {
   // }
 
   .ant-modal-footer {
-    padding      : 10px 16px;
-    text-align   : center !important;
-    background   : transparent;
-    border-top   : 1px solid #e8e8e8;
+    padding: 10px 16px;
+    text-align: center !important;
+    background: transparent;
+    border-top: 1px solid #e8e8e8;
     border-radius: 0 0 4px 4px;
   }
 }
@@ -2001,44 +1975,44 @@ shipment-list-item.even {
 
   .ant-table-fixed {
     table-layout: fixed;
-    border      : 0 !important;
+    border: 0 !important;
   }
 
-  .ant-table-thead>tr>th {
-    width           : 120px;
-    height          : 30px;
-    padding         : 16px 0 0 16px !important;
-    color           : rgba(0, 0, 0, 0.85);
-    font-weight     : 600;
-    font-size       : 12px;
-    text-align      : left !important;
+  .ant-table-thead > tr > th {
+    width: 120px;
+    height: 30px;
+    padding: 16px 0 0 16px !important;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: left !important;
     background-color: rgba(0, 0, 0, 0.04);
-    border-bottom   : 0px !important;
+    border-bottom: 0px !important;
   }
 
-  .ant-table-thead>tr:first-child>th:last-child {
+  .ant-table-thead > tr:first-child > th:last-child {
     text-align: left !important;
   }
 
-  .ant-table-tbody>tr>td:last-child {
+  .ant-table-tbody > tr > td:last-child {
     text-align: left !important;
   }
 
-  .ant-table-tbody>tr>td {
-    width           : 120px;
-    height          : 64px;
-    margin          : 0;
-    padding         : 0 0 0 16px !important;
-    overflow        : hidden;
-    white-space     : nowrap;
-    text-align      : left;
-    text-overflow   : ellipsis;
-    border          : 0 !important;
+  .ant-table-tbody > tr > td {
+    width: 120px;
+    height: 64px;
+    margin: 0;
+    padding: 0 0 0 16px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+    border: 0 !important;
     background-color: rgba(0, 0, 0, 0.04);
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr>td:hover {
+  .ant-table-tbody > tr > td:hover {
     cursor: pointer;
   }
 
@@ -2056,22 +2030,22 @@ shipment-list-item.even {
 }
 
 .quoteTable {
-  .ant-table-thead>tr>th {
-    height          : 30px !important;
-    padding         : 0 16px 0 16px !important;
+  .ant-table-thead > tr > th {
+    height: 30px !important;
+    padding: 0 16px 0 16px !important;
     background-color: rgba(24, 144, 255, 0.04) !important;
   }
 
-  .ant-table-tbody>tr>td {
-    height       : 50px;
-    width        : 120px;
-    padding      : 0px 0px 0px 16px !important;
-    text-align   : left;
+  .ant-table-tbody > tr > td {
+    height: 50px;
+    width: 120px;
+    padding: 0px 0px 0px 16px !important;
+    text-align: left;
     border-bottom: 1px solid #e4e4e4 !important;
-    white-space  : nowrap;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    overflow     : hidden;
-    word-break   : break-all;
+    overflow: hidden;
+    word-break: break-all;
   }
 }
 
@@ -2082,34 +2056,34 @@ shipment-list-item.even {
 
   .ant-table-fixed {
     table-layout: fixed;
-    border      : 0 !important;
+    border: 0 !important;
   }
 
-  .ant-table-thead>tr>th {
-    width           : 120px;
-    height          : 30px !important;
-    padding         : 0 16px 0 16px !important;
-    color           : rgba(0, 0, 0, 0.85) !important;
-    font-weight     : 600 !important;
-    text-align      : left;
+  .ant-table-thead > tr > th {
+    width: 120px;
+    height: 30px !important;
+    padding: 0 16px 0 16px !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+    font-weight: 600 !important;
+    text-align: left;
     background-color: rgba(24, 144, 255, 0.04) !important;
-    border          : 0 !important;
+    border: 0 !important;
   }
 
-  .ant-table-tbody>tr>td {
-    height       : 50px;
-    width        : 120px;
-    padding      : 0px 0px 0px 16px !important;
-    text-align   : left;
+  .ant-table-tbody > tr > td {
+    height: 50px;
+    width: 120px;
+    padding: 0px 0px 0px 16px !important;
+    text-align: left;
     border-bottom: 1px solid #e4e4e4 !important;
-    white-space  : nowrap;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    overflow     : hidden;
-    word-break   : break-all;
+    overflow: hidden;
+    word-break: break-all;
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr>td:hover {
+  .ant-table-tbody > tr > td:hover {
     cursor: pointer;
   }
 
@@ -2121,9 +2095,9 @@ shipment-list-item.even {
     width: 80% !important;
   }
 
-  .ant-input-number-input {
-    width: 80% !important;
-  }
+  // .ant-input-number-input {
+  //   width: 80% !important;
+  // }
 }
 
 .freightOcean-basic {
@@ -2133,24 +2107,24 @@ shipment-list-item.even {
 
   .ant-table-fixed {
     table-layout: fixed;
-    border      : 0 !important;
+    border: 0 !important;
   }
 
-  .ant-table-thead>tr>th {
-    width     : 120px;
-    height    : 36px !important;
-    padding   : 0 16px 0 16px !important;
-    color     : rgba(0, 0, 0, 0.85) !important;
+  .ant-table-thead > tr > th {
+    width: 120px;
+    height: 36px !important;
+    padding: 0 16px 0 16px !important;
+    color: rgba(0, 0, 0, 0.85) !important;
     text-align: left;
-    border    : 0px !important;
+    border: 0px !important;
   }
 
-  .ant-table-tbody>tr>td {
-    width           : 120px;
-    height          : 64px;
-    padding         : 0px 0px 0px 16px !important;
-    text-align      : left;
-    border-bottom   : 1px solid #e4e4e4 !important;
+  .ant-table-tbody > tr > td {
+    width: 120px;
+    height: 64px;
+    padding: 0px 0px 0px 16px !important;
+    text-align: left;
+    border-bottom: 1px solid #e4e4e4 !important;
     background-color: rgba(0, 0, 0, 0.04) !important;
   }
 
@@ -2159,7 +2133,7 @@ shipment-list-item.even {
   }
 
   //鼠标移上去小手样式
-  .ant-table-tbody>tr>td:hover {
+  .ant-table-tbody > tr > td:hover {
     cursor: pointer;
   }
 
@@ -2177,51 +2151,51 @@ shipment-list-item.even {
 }
 
 .backcolor {
-  .ant-table-thead>tr>th {
-    height          : 36px !important;
-    padding         : 0 16px 0 16px !important;
-    color           : rgba(0, 0, 0, 0.65);
+  .ant-table-thead > tr > th {
+    height: 36px !important;
+    padding: 0 16px 0 16px !important;
+    color: rgba(0, 0, 0, 0.65);
     background-color: rgba(0, 0, 0, 0.06);
   }
 
-  .ant-table-thead>tr:first-child>th:first-child {
+  .ant-table-thead > tr:first-child > th:first-child {
     border-top-left-radius: 10px;
   }
 
-  .ant-table-thead>tr:last-child>th:last-child {
+  .ant-table-thead > tr:last-child > th:last-child {
     border-top-right-radius: 10px;
   }
 
-  .ant-table-tbody>tr>td {
-    width        : 150px;
-    height       : 30px;
-    margin       : 0;
-    padding      : 8px 16px 8px 16px !important;
-    overflow     : hidden;
-    line-height  : 30px;
-    white-space  : nowrap;
-    text-align   : left;
+  .ant-table-tbody > tr > td {
+    width: 150px;
+    height: 30px;
+    margin: 0;
+    padding: 8px 16px 8px 16px !important;
+    overflow: hidden;
+    line-height: 30px;
+    white-space: nowrap;
+    text-align: left;
     text-overflow: ellipsis;
   }
 }
 
 .sharetable {
-  .ant-table-thead>tr>th {
-    height    : 36px !important;
-    padding   : 0 16px 0 16px !important;
-    color     : rgba(0, 0, 0, 0.65);
+  .ant-table-thead > tr > th {
+    height: 36px !important;
+    padding: 0 16px 0 16px !important;
+    color: rgba(0, 0, 0, 0.65);
     background: rgba(0, 0, 0, 0.04);
   }
 
-  .ant-table-tbody>tr>td {
-    width        : 150px;
-    height       : 30px;
-    margin       : 0;
-    padding      : 8px 16px 8px 16px !important;
-    overflow     : hidden;
-    line-height  : 30px;
-    white-space  : nowrap;
-    text-align   : left;
+  .ant-table-tbody > tr > td {
+    width: 150px;
+    height: 30px;
+    margin: 0;
+    padding: 8px 16px 8px 16px !important;
+    overflow: hidden;
+    line-height: 30px;
+    white-space: nowrap;
+    text-align: left;
     text-overflow: ellipsis;
   }
 }
@@ -2238,7 +2212,7 @@ shipment-list-item.even {
 
 .quote-simpleInfo {
   .carrier-type {
-    width           : 25% !important;
+    width: 25% !important;
     background-color: #fff !important;
   }
 
@@ -2256,9 +2230,8 @@ shipment-list-item.even {
 }
 
 .card-container {
-
-  .ant-tabs.ant-tabs-card .ant-tabs-card-content>.ant-tabs-tabpane,
-  .ant-tabs.ant-tabs-editable-card .ant-tabs-card-content>.ant-tabs-tabpane {
+  .ant-tabs.ant-tabs-card .ant-tabs-card-content > .ant-tabs-tabpane,
+  .ant-tabs.ant-tabs-editable-card .ant-tabs-card-content > .ant-tabs-tabpane {
     margin-top: 16px;
     transition: none !important;
   }
@@ -2282,7 +2255,7 @@ shipment-list-item.even {
 
   i::before {
     font-weight: bold;
-    font-size  : 15px;
+    font-size: 15px;
   }
 }
 
@@ -2293,20 +2266,20 @@ shipment-list-item.even {
 .quoteDetail-check {
   .ant-checkbox-checked .ant-checkbox-inner {
     background-color: #eceef0 !important;
-    border-color    : #eceef0 !important;
+    border-color: #eceef0 !important;
   }
 
   .ant-checkbox-checked .ant-checkbox-inner::after {
-    position   : absolute;
-    display    : table;
-    color      : black;
-    border     : 1px solid #d8d8d8;
-    border-top : 0;
+    position: absolute;
+    display: table;
+    color: black;
+    border: 1px solid #d8d8d8;
+    border-top: 0;
     border-left: 0;
-    transform  : rotate(45deg) scale(1) translate(-50%, -50%);
-    opacity    : 1;
-    transition : all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
-    content    : ' ';
+    transform: rotate(45deg) scale(1) translate(-50%, -50%);
+    opacity: 1;
+    transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    content: ' ';
   }
 }
 
@@ -2333,7 +2306,7 @@ html {
 
 .content-left-Details {
   .ant-tabs {
-    border       : 1px solid rgba(240, 243, 247, 1);
+    border: 1px solid rgba(240, 243, 247, 1);
     border-radius: 4px;
 
     &.ant-tabs-padding {
@@ -2365,8 +2338,8 @@ html {
 .CargoInfo-Weight-title,
 .CargoInfo-Volume-title {
   .ant-input-affix-wrapper {
-    padding    : 0px !important;
-    display    : flex !important;
+    padding: 0px !important;
+    display: flex !important;
     align-items: center;
   }
 
@@ -2384,22 +2357,22 @@ html {
 
 .quote-info-row-right {
   .ant-input-number {
-    border-right : 0px !important;
-    border-left  : 1px solid #d9d9d9 !important;
-    border-top   : 1px solid #d9d9d9 !important;
+    border-right: 0px !important;
+    border-left: 1px solid #d9d9d9 !important;
+    border-top: 1px solid #d9d9d9 !important;
     border-bottom: 1px solid #d9d9d9 !important;
   }
 
-  .ant-input-group.ant-input-group-compact>*:last-child,
-  .ant-input-group.ant-input-group-compact>.ant-select:last-child>.ant-select-selector,
-  .ant-input-group.ant-input-group-compact>.ant-calendar-picker:last-child .ant-input,
-  .ant-input-group.ant-input-group-compact>.ant-select-auto-complete:last-child .ant-input,
-  .ant-input-group.ant-input-group-compact>.ant-cascader-picker:last-child .ant-input,
-  .ant-input-group.ant-input-group-compact>.ant-cascader-picker-focused:last-child .ant-input,
-  .ant-input-group.ant-input-group-compact>.ant-mention-wrapper:last-child .ant-mention-editor,
-  .ant-input-group.ant-input-group-compact>.ant-time-picker:last-child .ant-time-picker-input {
+  .ant-input-group.ant-input-group-compact > *:last-child,
+  .ant-input-group.ant-input-group-compact > .ant-select:last-child > .ant-select-selector,
+  .ant-input-group.ant-input-group-compact > .ant-calendar-picker:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact > .ant-cascader-picker:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact > .ant-cascader-picker-focused:last-child .ant-input,
+  .ant-input-group.ant-input-group-compact > .ant-mention-wrapper:last-child .ant-mention-editor,
+  .ant-input-group.ant-input-group-compact > .ant-time-picker:last-child .ant-time-picker-input {
     border-bottom-left-radius: 0px !important;
-    border-top-left-radius   : 0px !important;
+    border-top-left-radius: 0px !important;
   }
 
   .ant-input-number-handler-wrap {
@@ -2413,6 +2386,6 @@ html {
 }
 
 .originRemark {
-  width      : 60% !important;
+  width: 60% !important;
   margin-left: 550px !important;
 }

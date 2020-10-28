@@ -51,6 +51,7 @@ export class InquiryComponent extends CoPageBase {
   quoteInputParams: any = {
     dynamicQuery: {},
     orderBy: { CreationTime: 0 },
+    id: null,
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
@@ -181,7 +182,7 @@ export class InquiryComponent extends CoPageBase {
   }
 
   GetAllForCRM() {
-    delete this.quoteInputParams.dynamicQuery.id;
+    // delete this.quoteInputParams.dynamicQuery.id;
     this.st.resetColumns();
   }
 
@@ -274,9 +275,11 @@ export class InquiryComponent extends CoPageBase {
     this.QuotesrecordComponent.clearDate();
     this.isShowcreaterecord = false;
   }
+
   quotesrecordOk() {
     this.QuotesrecordComponent.ngSubmit();
   }
+
   change(event) {
     console.log(event);
     switch (event.type) {
@@ -299,34 +302,38 @@ export class InquiryComponent extends CoPageBase {
     this.quoteInputParams.skipCount = 0;
     this.GetAllForCRM();
   }
+
   searchByTradeType() {
     this.search();
   }
+
   search() {
     let historyDataType;
-    if (this.quoteInputParams.dynamicQuery.id) {
-      historyDataType = this.customerAndUser.find(
-        (c) => c.customerId == this.quoteInputParams.dynamicQuery.id || c.userId == this.quoteInputParams.dynamicQuery.id,
-      )?.historyDataType;
+    if (this.quoteInputParams.id) {
+      historyDataType = this.customerAndUser.find((c) => c.customerId == this.quoteInputParams.id || c.userId == this.quoteInputParams.id)
+        ?.historyDataType;
     }
-    if (historyDataType && this.quoteInputParams.dynamicQuery.id) {
+    if (historyDataType && this.quoteInputParams.id) {
       if (historyDataType == 1) {
-        this.quoteInputParams.dynamicQuery.ownerUserId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.ownerUserId = this.quoteInputParams.id;
         this.quoteInputParams.dynamicQuery.ownerCustomerId = null;
       } else {
-        this.quoteInputParams.dynamicQuery.ownerCustomerId = this.quoteInputParams.dynamicQuery.id;
+        this.quoteInputParams.dynamicQuery.ownerCustomerId = this.quoteInputParams.id;
         this.quoteInputParams.dynamicQuery.ownerUserId = null;
       }
     } else {
       this.quoteInputParams.dynamicQuery.ownerUserId = null;
       this.quoteInputParams.dynamicQuery.ownerCustomerId = null;
     }
+    //搜索的时候将skipCount改为0;
+    this.quoteInputParams.skipCount = 0;
     this.GetAllForCRM();
   }
 
   clearSearch() {
     this.quoteInputParams.dynamicQuery = {};
-    this.search();
+    this.quoteInputParams.maxResultCount = 10;
+    this.quoteInputParams.skipCount = 0;
   }
 
   share(data: any, event: any) {
@@ -405,6 +412,7 @@ export class InquiryComponent extends CoPageBase {
         a.click();
       });
   }
+
   copyLink() {
     const contentComponentInstance = this.shareModalRef.getContentComponent();
     this.clipboardService.copyFromContent(
@@ -414,6 +422,7 @@ export class InquiryComponent extends CoPageBase {
     );
     this.message.info(this.translate.instant('Generated successfully'));
   }
+
   isIE() {
     return isIE();
   }

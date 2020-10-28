@@ -3,28 +3,47 @@
     <div class="index-header-title">
       <!-- <form nz-form #formData="ngForm"> -->
       <div class="index-header-title-filter">
-        <nz-select nzAllowClear
+        <nz-select
+          nzAllowClear
           [nzPlaceHolder]="'Please search for the booking operator / booking business name' | translate"
           (modelWithGroupChange)="bookingInputParams.bookingNoOrName = $event.groupValue"
-          class="index-header-title-filter-perple" [(ngModel)]="bookingInputParams.bookingNoOrName" nzShowSearch>
-          <nz-option [groupValue]="item" *ngFor="let item of bookingNoList" [nzValue]="item"
-            [nzLabel]="item.searchContent"></nz-option>
+          class="index-header-title-filter-perple"
+          [(ngModel)]="bookingInputParams.bookingNoOrName"
+          nzShowSearch
+        >
+          <nz-option [groupValue]="item" *ngFor="let item of bookingNoList" [nzValue]="item" [nzLabel]="item.searchContent"></nz-option>
         </nz-select>
-        <nz-select nzAllowClear nzShowSearch [nzPlaceHolder]="'Search for entrusted customers / contacts' | translate"
+        <nz-select
+          nzAllowClear
+          nzShowSearch
+          [nzPlaceHolder]="'Search for entrusted customers / contacts' | translate"
           (modelWithGroupChange)="bookingInputParams.customerOrContact = $event.groupValue"
-          class="index-header-title-filter-perple" [(ngModel)]="bookingInputParams.customerOrContact">
-          <nz-option [groupValue]="item" *ngFor="let item of customerOrContactList" [nzValue]="item"
-            [nzLabel]="item.searchContent"></nz-option>
+          class="index-header-title-filter-perple"
+          [(ngModel)]="bookingInputParams.customerOrContact"
+        >
+          <nz-option
+            [groupValue]="item"
+            *ngFor="let item of customerOrContactList"
+            [nzValue]="item"
+            [nzLabel]="item.searchContent"
+          ></nz-option>
         </nz-select>
-        <nz-select nzAllowClear [nzPlaceHolder]="'Status' | translate" class="index-header-title-filter-status"
-          [(ngModel)]="bookingInputParams.Status">
-          <nz-option *ngFor="let item of bookingStateList" [nzValue]="item" [nzLabel]="bookingState[item] | translate">
-          </nz-option>
+        <nz-select
+          nzAllowClear
+          [nzPlaceHolder]="'Status' | translate"
+          class="index-header-title-filter-status"
+          [(ngModel)]="bookingInputParams.Status"
+        >
+          <nz-option *ngFor="let item of bookingStateList" [nzValue]="item" [nzLabel]="bookingState[item] | translate"> </nz-option>
         </nz-select>
         <div class="icon-all">
           <!-- <label>{{ 'Company' | translate }}：</label> -->
-          <nz-radio-group [nzButtonStyle]="'solid'" class="tradeTypeGroup nz-radio-group-button"
-            [(ngModel)]="bookingInputParams.IsDistributeServiceCompany" (ngModelChange)="search()">
+          <nz-radio-group
+            [nzButtonStyle]="'solid'"
+            class="tradeTypeGroup nz-radio-group-button"
+            [(ngModel)]="bookingInputParams.IsDistributeServiceCompany"
+            (ngModelChange)="search()"
+          >
             <label class="tradeTypeInfo" nz-radio-button [nzValue]="false">{{ 'Pending assign' | translate }}</label>
             <label class="tradeTypeInfo" nz-radio-button [nzValue]="true">{{ 'Assigned' | translate }}</label>
           </nz-radio-group>
@@ -33,7 +52,7 @@
           {{ 'Search' | translate }}
         </button>
         <button nz-button nzType="Default" (click)="bookingInputParams = {}">
-          {{ 'Clear' | translate }}
+          {{ 'Reset' | translate }}
         </button>
       </div>
       <!-- </form> -->
@@ -44,13 +63,26 @@
       </div>
     </div>
     <div class="content-list">
-      <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: hidden">
-        <co-st class="list-table" [columns]="columns" [data]="bookingList" [showCheckbox]="false" [showFilters]="false"
-          calcScroll disableCalcX style="height: 100%;">
+      <nz-spin [nzSpinning]="loading" nzTip="Loading..." style="flex: 1; overflow: hidden;">
+        <co-st
+          class="list-table"
+          [columns]="columns"
+          [data]="bookingList"
+          [showCheckbox]="false"
+          [showFilters]="false"
+          calcScroll
+          disableCalcX
+          style="height: 100%;"
+        >
           <ng-template st-row="no" let-data>
             <span style="display: inline-block; min-width: 30px;">
-              <i *ngIf="data.isCustomerUpdate" [title]="'客户修改了订舱申请,详见详情页'" class="iconfont icon-gengxin" nz-icon
-                [nzIconfont]="'icon-gengxin'"></i>
+              <i
+                *ngIf="data.isCustomerUpdate"
+                [title]="'客户修改了订舱申请,详见详情页'"
+                class="iconfont icon-gengxin"
+                nz-icon
+                [nzIconfont]="'icon-gengxin'"
+              ></i>
             </span>
             {{ data.bookingNo }}
           </ng-template>
@@ -74,13 +106,14 @@
           </ng-template>
           <!-- 发货人 -->
           <ng-template st-row="originAddress" let-data>
-            <ng-template [ngTemplateOutlet]="addressTemplate"
-              [ngTemplateOutletContext]="{ $implicit: data.originAddress }"></ng-template>
+            <ng-template [ngTemplateOutlet]="addressTemplate" [ngTemplateOutletContext]="{ $implicit: data.originAddress }"></ng-template>
           </ng-template>
           <!-- 收货人 -->
           <ng-template st-row="destinationAddress" let-data>
-            <ng-template [ngTemplateOutlet]="addressTemplate"
-              [ngTemplateOutletContext]="{ $implicit: data.destinationAddress }"></ng-template>
+            <ng-template
+              [ngTemplateOutlet]="addressTemplate"
+              [ngTemplateOutletContext]="{ $implicit: data.destinationAddress }"
+            ></ng-template>
           </ng-template>
           <!-- 货物信息 -->
           <ng-template st-row="totalWeightDisplay" let-data>
@@ -127,12 +160,23 @@
               {{ data.serviceCompanyDisplay }}
             </span>
             <div *ngIf="!data.serviceCompanyId" style="min-width: 80px;">
-              <nz-select style="width: 80%;" [(ngModel)]="data.serviceCompanyId" nzAllowClear nzShowSearch
-                [appSearchByExtraKey]="['displayNameLocalization','displayName']" [nzCustomTemplate]="companyCustom"
-                nzPlaceHolder="{{ 'Choose' | translate }}" (nzOpenChange)="getServiceCompany(data)"
-                (ngModelChange)="SureServiceCompany(data)">
-                <nz-option [appNzOptionExtra]="item" [nzValue]="item.id" [nzLabel]="item.displayNameLocalization"
-                  *ngFor="let item of companylist"></nz-option>
+              <nz-select
+                style="width: 80%;"
+                [(ngModel)]="data.serviceCompanyId"
+                nzAllowClear
+                nzShowSearch
+                [appSearchByExtraKey]="['displayNameLocalization', 'displayName']"
+                [nzCustomTemplate]="companyCustom"
+                nzPlaceHolder="{{ 'Choose' | translate }}"
+                (nzOpenChange)="getServiceCompany(data)"
+                (ngModelChange)="SureServiceCompany(data)"
+              >
+                <nz-option
+                  [appNzOptionExtra]="item"
+                  [nzValue]="item.id"
+                  [nzLabel]="item.displayNameLocalization"
+                  *ngFor="let item of companylist"
+                ></nz-option>
               </nz-select>
               <ng-template #companyCustom let-selected>
                 <div>
@@ -171,11 +215,17 @@
       </nz-spin>
     </div>
     <div class="d-flex justify-content-end">
-      <nz-pagination style="text-align: right;" #nzpage [nzPageIndex]="pageinationParams.pageIndex"
-        [nzShowSizeChanger]="true" [nzTotal]="bookingtotal"
+      <nz-pagination
+        style="text-align: right;"
+        #nzpage
+        [nzPageIndex]="pageinationParams.pageIndex"
+        [nzShowSizeChanger]="true"
+        [nzTotal]="bookingtotal"
         (nzPageSizeChange)="nzpage.nzPageIndex = 1; currentPageSizeChange($event)"
-        [nzPageSize]="pageinationParams.nzPageSize" (nzPageIndexChange)="pageIndexChange($event)"
-        [nzShowQuickJumper]="false">
+        [nzPageSize]="pageinationParams.nzPageSize"
+        (nzPageIndexChange)="pageIndexChange($event)"
+        [nzShowQuickJumper]="false"
+      >
       </nz-pagination>
     </div>
   </div>
