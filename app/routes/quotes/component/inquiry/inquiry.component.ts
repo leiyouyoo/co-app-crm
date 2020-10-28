@@ -332,6 +332,7 @@ export class InquiryComponent extends CoPageBase {
 
   clearSearch() {
     this.quoteInputParams.dynamicQuery = {};
+    this.quoteInputParams.id = null;
     this.quoteInputParams.maxResultCount = 10;
     this.quoteInputParams.skipCount = 0;
   }
