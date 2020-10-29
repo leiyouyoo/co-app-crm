@@ -432,7 +432,7 @@
     }
  
     /**
-     *  No Remark 
+     * 主键类型默认为整形的数据传输对象基类
      */
     export class CRMCoEntityDto {
         
@@ -1013,13 +1013,13 @@
             /* 排除的客户id(假如合并的就需要排除) */ 
             excludeCustomerIds?: any[];
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -1064,25 +1064,27 @@
             /* 国家id */ 
             countryId?: string;
          
-            
+            /* 主键集合 */ 
             ids?: any[];
          
-            
+            /* 键名 */ 
             keyName?: string;
          
-            
+            /* 搜索文本 */ 
             searchText?: string;
          
-            
+            /* 包含逻辑删除 */ 
             includeDeleted?: boolean;
          
-            
+            /* Sorting information.
+Should include sorting field and optionally a direction (ASC or DESC)
+Can contain more than one field separated by comma (,). */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -1341,13 +1343,13 @@
             /* 不传则取当前登录客户 */ 
             customerId?: string;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -2000,7 +2002,10 @@
             unitType?: number;
          
             
-            notContainerPrice?: object;
+            notContainerPrice?: string;
+         
+            
+            unitTotal?: string;
          
             
             fromDate?: string;
@@ -2016,6 +2021,292 @@
          
             
             to?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCrmCustomerChangeEventDto {
+        
+         
+            
+            ids?: any[];
+         
+            
+            lastModificationTime?: string;
+         
+            
+            pageIndex?: number;
+         
+            
+            pageSize?: number;
+         
+            
+            eventTime?: string;
+         
+            
+            eventSource?: object;
+        
+        
+    }
+ 
+    /**
+     * crm的客户权限筛选
+     */
+    export class CRMCrmEsPageQueryInput {
+        
+         
+            /* 查询的客户列表类型
+0 = NoneCooperation
+1 = Cooperation
+2 = Share
+3 = Ownerless */ 
+            customerStatus?: number;
+         
+            
+            searchText?: string;
+         
+            
+            orderBy?: object;
+         
+            
+            dynamicQuery?: object;
+         
+            
+            incluedFields?: any[];
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCoAddressModel {
+        
+         
+            
+            id?: string;
+         
+            
+            level?: number;
+         
+            
+            code?: string;
+         
+            
+            name?: CRMLocalizationText;
+         
+            
+            fullName?: CRMLocalizationText;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMIndustryModel {
+        
+         
+            
+            id?: string;
+         
+            
+            name?: CRMLocalizationText;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMIncotermsModel {
+        
+         
+            
+            id?: string;
+         
+            
+            name?: CRMLocalizationText;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMContactUserModel {
+        
+         
+            
+            name?: string;
+         
+            
+            email?: string;
+         
+            
+            tel?: string;
+         
+            
+            isMaster?: boolean;
+         
+            
+            contactUser?: CRMUserModel;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCrmCustomerModel {
+        
+         
+            
+            id?: string;
+         
+            
+            isDeleted?: boolean;
+         
+            
+            tel?: string;
+         
+            
+            fax?: string;
+         
+            
+            keyWord?: string;
+         
+            
+            email?: string;
+         
+            
+            code?: string;
+         
+            /* 
+1 = Carrier
+2 = AirLine
+3 = Forwarding
+4 = DirectClient
+5 = Trucker
+6 = CustomsBroker
+7 = WareHouse
+8 = Storage
+9 = RailWay
+10 = Express
+11 = Terminal
+12 = Other */ 
+            customerType?: number;
+         
+            
+            isSalesCustomer?: boolean;
+         
+            
+            description?: string;
+         
+            
+            isShare?: boolean;
+         
+            /* 
+0 = NoneCooperation
+1 = Cooperation
+2 = Share
+3 = Ownerless */ 
+            status?: number;
+         
+            /* 
+0 = NoSet
+1 = UnApply
+2 = Processing
+3 = Passed
+4 = Unpassed */ 
+            state?: number;
+         
+            
+            tenantId?: number;
+         
+            
+            customerLevel?: number;
+         
+            
+            oceanAttachFee?: number;
+         
+            
+            editionRoleId?: number;
+         
+            
+            lastTradeTime?: string;
+         
+            
+            isMerged?: boolean;
+         
+            
+            mergerId?: string;
+         
+            
+            name?: CRMLocalizationText;
+         
+            
+            shortName?: CRMLocalizationText;
+         
+            
+            country?: CRMCoAddressModel;
+         
+            
+            province?: CRMCoAddressModel;
+         
+            
+            city?: CRMCoAddressModel;
+         
+            
+            address?: string;
+         
+            
+            industry?: CRMIndustryModel;
+         
+            
+            incoterms?: CRMIncotermsModel;
+         
+            
+            contacts?: any[];
+         
+            
+            masterContact?: CRMContactUserModel;
+         
+            
+            acessAllow?: any[];
+         
+            
+            owner?: any[];
+         
+            
+            customerTaxes?: any[];
+         
+            
+            creationTime?: string;
+         
+            
+            creator?: CRMUserModel;
+         
+            
+            lastModificationTime?: string;
+         
+            
+            lastModifierUser?: CRMUserModel;
+         
+            
+            deletionTime?: string;
+         
+            
+            deleterUser?: CRMUserModel;
         
         
     }
@@ -2293,6 +2584,11 @@
             /* 纬度 */ 
             latitude?: string;
          
+            /* 地点类型
+0 = Normal
+1 = FBA */ 
+            locationType?: number;
+         
             /* 关联的联系人 */ 
             contacts?: any[];
          
@@ -2422,25 +2718,27 @@
             /* 客户id */ 
             customerId?: string;
          
-            
+            /* 主键集合 */ 
             ids?: any[];
          
-            
+            /* 键名 */ 
             keyName?: string;
          
-            
+            /* 搜索文本 */ 
             searchText?: string;
          
-            
+            /* 包含逻辑删除 */ 
             includeDeleted?: boolean;
          
-            
+            /* Sorting information.
+Should include sorting field and optionally a direction (ASC or DESC)
+Can contain more than one field separated by comma (,). */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -3004,6 +3302,9 @@
             /* 是否是美线用来显示（Terms） */ 
             isAmericaLine?: boolean;
          
+            /* 船东Logo -没报价时没有 */ 
+            carrierLogo?: string;
+         
             /* 订舱Id */ 
             bookngId?: string;
          
@@ -3127,13 +3428,13 @@
             /* 用户名或客户名 */ 
             name?: string;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -3218,7 +3519,7 @@
 4 = Rejected */ 
             status?: number;
          
-            
+            /* 主键 */ 
             id?: string;
         
         
@@ -3285,13 +3586,13 @@
             /* 模糊匹配 */ 
             searchKey?: string;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
