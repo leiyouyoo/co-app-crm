@@ -313,7 +313,7 @@ export class InquiryListOceanComponent implements OnInit {
       dynamicQuery: this.fb.group({
         commodity: [null],
         shippingLineId: [null],
-        timeranges: [[]],
+        timeranges: [[new Date(), this.GetNextMonthDay(new Date())]],
         no: [null],
       }),
       // shipline: [null],

@@ -11,15 +11,17 @@
     <div class="content">
       <div class="freightType">
         <div class="f-type">
-      <span
-        class="iconfont icon-kongyun-1"
-        nz-icon nzIconfont="icon-airplane"
-        *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
-        style="padding-left: 16px;"
-      ></span>
+          <span
+            class="iconfont icon-kongyun-1"
+            nz-icon
+            nzIconfont="icon-airplane"
+            *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+            style="padding-left: 16px;"
+          ></span>
           <span
             class="iconfont icon-hangyun"
-            nz-icon nzIconfont="icon-ocean"
+            nz-icon
+            nzIconfont="icon-ocean"
             *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
             style="padding-left: 16px;"
           ></span>
@@ -43,16 +45,26 @@
           <ul class="routeInfo">
             <li *ngIf="_quoteinfo.originAddress || _quoteinfo?.originAddressName">
               <div class="routeInfo-info">
-                <div *ngIf="_quoteinfo.originAddress" class="word">
+                <div *ngIf="_quoteinfo.originAddress" nz-tooltip [nzTooltipTitle]="originTemplate" class="word">
                   {{
-                  [
-                    _quoteinfo?.originAddress?.streetAddress,
-                    _quoteinfo?.originAddress?.city,
-                    _quoteinfo?.originAddress?.province,
-                    _quoteinfo.originAddress?.country
-                  ] | arrayJoin
+                    [
+                      _quoteinfo?.originAddress?.streetAddress,
+                      _quoteinfo?.originAddress?.city,
+                      _quoteinfo?.originAddress?.province,
+                      _quoteinfo.originAddress?.country
+                    ] | arrayJoin
                   }}
                 </div>
+                <ng-template #originTemplate>
+                  {{
+                    [
+                      _quoteinfo?.originAddress?.streetAddress,
+                      _quoteinfo?.originAddress?.city,
+                      _quoteinfo?.originAddress?.province,
+                      _quoteinfo.originAddress?.country
+                    ] | arrayJoin
+                  }}
+                </ng-template>
                 <div *ngIf="_quoteinfo?.originAddressName">
                   <div *ngIf="!_quoteinfo.originAddress" class="word">
                     {{ _quoteinfo.originAddressName }}
@@ -72,8 +84,18 @@
                 </div>
                 <div *ngIf="!_quoteinfo.originPort" class="word">{{ 'originPort' | translate }}</div>
               </div>
-              <span class="iconfont icon-chuanyun-yuan" nz-icon nzIconfont="icon-ocean-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
-              <span class="iconfont icon-kongyun-yuan" nz-icon nzIconfont="icon-airplane-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                nz-icon
+                nzIconfont="icon-ocean-circle"
+                *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                nz-icon
+                nzIconfont="icon-airplane-circle"
+                *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
               <div class="horizontal-line"></div>
             </li>
             <li>
@@ -84,22 +106,42 @@
                 </div>
                 <div *ngIf="!_quoteinfo.destinationPort" class="word">{{ 'destinationPort' | translate }}</div>
               </div>
-              <span class="iconfont icon-chuanyun-yuan" nz-icon nzIconfont="icon-ocean-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"></span>
-              <span class="iconfont icon-kongyun-yuan" nz-icon nzIconfont="icon-airplane-circle" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"></span>
+              <span
+                class="iconfont icon-chuanyun-yuan"
+                nz-icon
+                nzIconfont="icon-ocean-circle"
+                *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean"
+              ></span>
+              <span
+                class="iconfont icon-kongyun-yuan"
+                nz-icon
+                nzIconfont="icon-airplane-circle"
+                *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Air"
+              ></span>
               <div class="horizontal-line" *ngIf="_quoteinfo?.destinationAddress || _quoteinfo?.destinationAddressName"></div>
             </li>
             <li *ngIf="_quoteinfo.destinationAddress || _quoteinfo.destinationAddressName">
               <div class="routeInfo-info">
-                <div *ngIf="_quoteinfo.destinationAddress" class="word">
+                <div *ngIf="_quoteinfo.destinationAddress" nz-tooltip [nzTooltipTitle]="desinationTemplate" class="word">
                   {{
-                  [
-                    _quoteinfo?.destinationAddress?.streetAddress,
-                    _quoteinfo?.destinationAddress?.city,
-                    _quoteinfo?.destinationAddress?.province,
-                    _quoteinfo.destinationAddress?.country
-                  ] | arrayJoin
+                    [
+                      _quoteinfo?.destinationAddress?.streetAddress,
+                      _quoteinfo?.destinationAddress?.city,
+                      _quoteinfo?.destinationAddress?.province,
+                      _quoteinfo.destinationAddress?.country
+                    ] | arrayJoin
                   }}
                 </div>
+                <ng-template #desinationTemplate>
+                  {{
+                    [
+                      _quoteinfo?.destinationAddress?.streetAddress,
+                      _quoteinfo?.destinationAddress?.city,
+                      _quoteinfo?.destinationAddress?.province,
+                      _quoteinfo.destinationAddress?.country
+                    ] | arrayJoin
+                  }}
+                </ng-template>
 
                 <div *ngIf="_quoteinfo.destinationAddressName" class="word">
                   <div *ngIf="!_quoteinfo.destinationAddress">
@@ -214,8 +256,8 @@
   <footer class="drawer_footer">
     <div class="line"></div>
     <div class="drawer_footer_btn">
-        <button nz-button nzType="default" (click)="closeView()">{{ 'Cancel' | translate }}</button>
-        <button nz-button nzType="primary" (click)="ngSubmit()" [nzLoading]="okLoading">{{ 'Add Quotes' | translate }}</button>
+      <button nz-button nzType="default" (click)="closeView()">{{ 'Cancel' | translate }}</button>
+      <button nz-button nzType="primary" (click)="ngSubmit()" [nzLoading]="okLoading">{{ 'Add Quotes' | translate }}</button>
     </div>
   </footer>
 
