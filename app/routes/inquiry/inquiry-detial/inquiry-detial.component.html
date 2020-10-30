@@ -56,8 +56,14 @@
     </nz-tab>
     <nz-tab nzTitle="{{ 'Fee details' | translate }}">
       <ng-template nz-tab>
-        <nz-table #detialTable [nzData]="item.costDetails" nzShowPagination="false" [nzScroll]="{ x: '500px' }"
-          [nzFrontPagination]="false" style="min-height: 200px;width:100%;margin-top: 24px;">
+        <nz-table
+          #detialTable
+          [nzData]="item.costDetails"
+          nzShowPagination="false"
+          [nzScroll]="{ x: '500px' }"
+          [nzFrontPagination]="false"
+          style="min-height: 200px; width: 100%; margin-top: 24px;"
+        >
           <thead>
             <tr>
               <th nzWidth="150px">
@@ -93,7 +99,6 @@
               <th nzWidth="150px">
                 {{ 'Customer(Agent)' | translate }}
               </th>
-
             </tr>
           </thead>
           <tbody>
@@ -133,20 +138,20 @@
               </td>
             </tr>
             <tr>
-              <td nzWidth="150px" style="background: #E7F3FF;color:#5CB0FF;">{{'Total'|translate}}</td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+              <td nzWidth="150px" style="background: #e7f3ff; color: #5cb0ff;">{{ 'Total' | translate }}</td>
+              <td nzWidth="150px" style="background: #fff; color: #fa6400;">
                 {{ item.currency }}
               </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+              <td nzWidth="150px" style="background: #fff; color: #fa6400;">
                 {{ total20GP.toFixed(2) || '--' }}
               </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+              <td nzWidth="150px" style="background: #fff; color: #fa6400;">
                 {{ total40GP.toFixed(2) || '--' }}
               </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+              <td nzWidth="150px" style="background: #fff; color: #fa6400;">
                 {{ total40HQ.toFixed(2) || '--' }}
               </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
+              <td nzWidth="150px" style="background: #fff; color: #fa6400;">
                 {{ total50HQ.toFixed(2) || '--' }}
               </td>
             </tr>
@@ -178,11 +183,11 @@
     <nz-tab nzTitle="{{ 'Local charge' | translate }}">
       <ng-template nz-tab>
         <div class="tab-box">
-          <div class="tab-item" (click)="chargeItemChange('pol')" [ngClass]="{ tabitemactive: chargeItem=='pol' }">
-            POL-XX{{ 'port' | translate }}
+          <div class="tab-item" (click)="chargeItemChange('pol')" [ngClass]="{ tabitemactive: chargeItem == 'pol' }">
+            POL-{{ item.pol }}
           </div>
-          <div class="tab-item" (click)="chargeItemChange('pod')" [ngClass]="{ tabitemactive: chargeItem=='pod' }">
-            POD-XX{{ 'port' | translate }}
+          <div class="tab-item" (click)="chargeItemChange('pod')" [ngClass]="{ tabitemactive: chargeItem == 'pod' }">
+            POD-{{ item.pod }}
           </div>
         </div>
         <div class="loc-charge-table">
@@ -241,7 +246,6 @@
             </tbody>
           </nz-table> -->
 
-
           <div class="loc-table-box">
             <div class="loc-table-content">
               <div class="loc-table-head">
@@ -263,58 +267,51 @@
                   {{ data.chargingCodeName ? data.chargingCodeName : '--' }}
                 </div>
                 <div class="loc-body-td">
-                  <span>
-                    {{ data.totalPrice || '--' }}
-                  </span>
-                  <span>
-                    /{{ chargeunittypePipe[data.chargeUnitType]  || '--' }}
-                  </span>
+                  <ng-container *ngIf="data.totalPrice; else elsetotalPriceTemplate">
+                    <span *ngIf="data.totalPrice">
+                      {{ data.totalPrice || '--' }} /{{ chargeunittypePipe[data.chargeUnitType] || '--' }}
+                    </span>
+                  </ng-container>
+                  <ng-template #elsetotalPriceTemplate>
+                    <span>
+                      --
+                    </span>
+                  </ng-template>
                 </div>
                 <div class="loc-body-td">
                   {{ data.currencyName ? data.currencyName : '--' }}
                 </div>
-                <div class="loc-body-td" *ngFor="let i of data.localUnitRateByPortOutputs;let idx = index">
-                  {{ i.cost || '--'}}
-
+                <div class="loc-body-td" *ngFor="let i of data.localUnitRateByPortOutputs; let idx = index">
+                  {{ i.cost || '--' }}
                 </div>
 
-                <div class="loc-body-mark"
-                  [ngStyle]="{'width': 150*(locChargeItem ? locChargeItem.length+3 : 3) + 'px'}">
+                <div class="loc-body-mark" [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 3 : 3) + 'px' }">
                   <span>{{ 'Remark' | translate }}：</span>
                   <span>{{ data.remark || '--' }}</span>
                 </div>
                 <div class="line"></div>
               </div>
 
-              <div class="loc-body-item" *ngIf="locChargeLists&&locChargeLists.length>0">
+              <div class="loc-body-item" *ngIf="locChargeLists && locChargeLists.length > 0">
                 <div class="loc-body-td">
                   <span class="txt-total">{{ 'Total' | translate }}(USD)</span>
                 </div>
+                <div class="loc-body-td">{{ unitPriceTotal }}</div>
                 <div class="loc-body-td"></div>
-                <div class="loc-body-td"></div>
-                <div class="loc-body-td" style="color:#FA6400" *ngFor="let total of locChargeItem">
-                  {{  locTotalList[total] ? locTotalList[total]?.toFixed(2) : "" }}
+                <div class="loc-body-td" style="color: #fa6400;" *ngFor="let total of locChargeItem">
+                  {{ locTotalList[total] ? locTotalList[total]?.toFixed(2) : '' }}
                 </div>
               </div>
-
             </div>
           </div>
-
-
-
         </div>
-
-
-
       </ng-template>
     </nz-tab>
-
-
   </nz-tabset>
 </div>
 
 <div class="inquiry-right-footer" *ngIf="trailerDetial">
-  <div class="drawer-bar ">
+  <div class="drawer-bar">
     <div class="box-sj"></div>
   </div>
 
@@ -323,14 +320,16 @@
   <div class="inquiry-detial">
     <!-- 商务报价 -->
     <div class="inquiry-first-item">
-      <div class="inquiry-title" *ngIf="trailerDetial.quoteReply" style="margin:0px 0px 0px 0px !important;">
+      <div class="inquiry-title" *ngIf="trailerDetial.quoteReply" style="margin: 0px 0px 0px 0px !important;">
         <strong>{{ 'Business quote' | translate }}:</strong>
         <span> {{ trailerDetial.quoteReply?.replyNo || '--' }}</span>
       </div>
       <div>
-        <span *ngIf="trailerDetial.quoteReply" style="margin-right: 15px;">{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
-                trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
-              }}</span>
+        <span *ngIf="trailerDetial.quoteReply" style="margin-right: 15px;"
+          >{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
+            trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
+          }}</span
+        >
       </div>
     </div>
 
@@ -343,9 +342,16 @@
       <ng-template #noData></ng-template>
 
       <!-- 基本运费 -->
-      <nz-table #containerTypeTable [nzData]="trailerDetial.quoteReply?.table1" [nzFrontPagination]="false"
-        nzShowPagination="false" class="small-table table-no-nodatabox" nzSize="small" [nzNoResult]="noData"
-        style="margin: 24px 0px;">
+      <nz-table
+        #containerTypeTable
+        [nzData]="trailerDetial.quoteReply?.table1"
+        [nzFrontPagination]="false"
+        nzShowPagination="false"
+        class="small-table table-no-nodatabox"
+        nzSize="small"
+        [nzNoResult]="noData"
+        style="margin: 24px 0px;"
+      >
         <thead>
           <tr>
             <th nzWidth="40%">
@@ -364,12 +370,8 @@
             <td>
               {{ trailerDetial.quoteReply.replyCarrier || '--' }}
             </td>
-            <td>
-              {{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}
-            </td>
-            <td *ngFor="let data of containerTypeTable.data">
-              {{ data.unitPrice?.toFixed(2) }} {{ data.currency }}
-            </td>
+            <td>{{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}</td>
+            <td *ngFor="let data of containerTypeTable.data">{{ data.unitPrice?.toFixed(2) }} {{ data.currency }}</td>
           </tr>
         </tbody>
       </nz-table>
@@ -395,21 +397,17 @@
             <div class="loc-body-td" [title]="data.chargingCode">
               {{ data.chargingCode || '--' }}
             </div>
-            <div class="loc-body-td">
-              {{ data.unitPrice?.toFixed(2) || '--' }} {{data.currency}}
-            </div>
+            <div class="loc-body-td">{{ data.unitPrice?.toFixed(2) || '--' }} {{ data.currency }}</div>
             <div class="loc-body-td">
               X{{ data.quantity || '--' }}
               <ng-container *ngIf="data.quantity">
-                {{data.containerCode}}
+                {{ data.containerCode }}
               </ng-container>
             </div>
-            <div class="loc-body-td">
-              {{ (data.unitPrice * data.quantity).toFixed(2) }} {{data.currency}}
-            </div>
-            <div class="loc-body-mark" [ngStyle]="{'width': '100%'}">
+            <div class="loc-body-td">{{ (data.unitPrice * data.quantity).toFixed(2) }} {{ data.currency }}</div>
+            <div class="loc-body-mark" [ngStyle]="{ width: '100%' }">
               <span>{{ 'Remark' | translate }}：</span>
-              <span style="color:#E02020">{{ data.remark || '--' }}</span>
+              <span style="color: #e02020;">{{ data.remark || '--' }}</span>
             </div>
           </div>
         </div>
@@ -436,26 +434,21 @@
             <div class="loc-body-td" [title]="data.chargingCode">
               {{ data.chargingCode || '--' }}
             </div>
-            <div class="loc-body-td">
-              {{ data.unitPrice?.toFixed(2) || '--' }} {{data.currency}}
-            </div>
+            <div class="loc-body-td">{{ data.unitPrice?.toFixed(2) || '--' }} {{ data.currency }}</div>
             <div class="loc-body-td">
               X{{ data.quantity || '--' }}
               <ng-container *ngIf="data.quantity">
-                {{data.containerCode}}
+                {{ data.containerCode }}
               </ng-container>
             </div>
-            <div class="loc-body-td">
-              {{ (data.unitPrice * data.quantity).toFixed(2) }} {{data.currency}}
-            </div>
-            <div class="loc-body-mark" [ngStyle]="{'width': '100%'}">
+            <div class="loc-body-td">{{ (data.unitPrice * data.quantity).toFixed(2) }} {{ data.currency }}</div>
+            <div class="loc-body-mark" [ngStyle]="{ width: '100%' }">
               <span>{{ 'Remark' | translate }}：</span>
-              <span style="color:#E02020">{{ data.remark || '--' }}</span>
+              <span style="color: #e02020;">{{ data.remark || '--' }}</span>
             </div>
           </div>
         </div>
       </div>
-
 
       <div class="inquiry-detial-table">
         <!-- 表格1 -->
@@ -601,8 +594,6 @@
       </div>
 
       <div class="inquiry-detial-msg" style="border-bottom: 1px solid #e5e5e5;">
-
-
         <span>{{ 'Respond by' | translate }}:{{ trailerDetial.quoteReply?.replyUser }}</span>
       </div>
     </div>
@@ -617,48 +608,59 @@
       <!-- 时间轴 -->
       <div class="inquiry-table-border">
         <div class="inquiry-table-border-flex">
-          <span>{{ 'POL' | translate }}</span><strong>{{ trailerDetial.fromPlaceName || '--' }}</strong>
+          <span>{{ 'POL' | translate }}</span
+          ><strong>{{ trailerDetial.fromPlaceName || '--' }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'POD' | translate }}</span><strong>{{ trailerDetial.destinationPort || '--' }}</strong>
+          <span>{{ 'POD' | translate }}</span
+          ><strong>{{ trailerDetial.destinationPort || '--' }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Delivery' | translate }}</span><strong>{{ trailerDetial.toPlaceName || '--' }}</strong>
+          <span>{{ 'Delivery' | translate }}</span
+          ><strong>{{ trailerDetial.toPlaceName || '--' }}</strong>
         </div>
       </div>
 
       <!-- 货好日期 -->
       <div class="inquiry-table-border">
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Cargo ready date' | translate }}</span><strong>{{ trailerDetial.cargoReadyDate | date: 'yyyy-MM-dd' }}</strong>
+          <span>{{ 'Cargo ready date' | translate }}</span
+          ><strong>{{ trailerDetial.cargoReadyDate | date: 'yyyy-MM-dd' }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Expected delivery date' | translate }}</span><strong>{{ trailerDetial.deliveryDate | date: 'yyyy-MM-dd' }}</strong>
+          <span>{{ 'Expected delivery date' | translate }}</span
+          ><strong>{{ trailerDetial.deliveryDate | date: 'yyyy-MM-dd' }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Expected shipowner' | translate }}</span><strong>{{ trailerDetial.carrierCustomer || '--' }}</strong>
+          <span>{{ 'Expected shipowner' | translate }}</span
+          ><strong>{{ trailerDetial.carrierCustomer || '--' }}</strong>
         </div>
       </div>
       <!-- 件数 -->
       <div class="inquiry-table-border">
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Pieces' | translate }}</span><strong>{{ trailerDetial.quantity || 0 }}{{ trailerDetial.quantityUnit }}</strong>
+          <span>{{ 'Pieces' | translate }}</span
+          ><strong>{{ trailerDetial.quantity || 0 }}{{ trailerDetial.quantityUnit }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Gross weight' | translate }}</span><strong>{{ trailerDetial.weight || 0 }}{{ trailerDetial.totalWeightUnit }}</strong>
+          <span>{{ 'Gross weight' | translate }}</span
+          ><strong>{{ trailerDetial.weight || 0 }}{{ trailerDetial.totalWeightUnit }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Volume' | translate }}</span><strong>{{ trailerDetial.volume || 0 }}{{ trailerDetial.totalVolumeUnit }}</strong>
+          <span>{{ 'Volume' | translate }}</span
+          ><strong>{{ trailerDetial.volume || 0 }}{{ trailerDetial.totalVolumeUnit }}</strong>
         </div>
       </div>
 
       <!-- ETOD -->
       <div class="inquiry-table-border">
         <div class="inquiry-table-border-flex">
-          <span>{{ 'ETOD' | translate }}</span><strong>{{ trailerDetial.etod || '--' }}</strong>
+          <span>{{ 'ETOD' | translate }}</span
+          ><strong>{{ trailerDetial.etod || '--' }}</strong>
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Product Name' | translate }}</span><strong>{{ trailerDetial.commodity || '--' }}</strong>
+          <span>{{ 'Product Name' | translate }}</span
+          ><strong>{{ trailerDetial.commodity || '--' }}</strong>
         </div>
       </div>
     </div>
@@ -666,18 +668,18 @@
     <div class="inquiry-table">
       <div class="inquiry-table-border" style="width: 49.5%;">
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Inquiry customer' | translate }}</span><strong>{{ trailerDetial.ownerCustomer || '--' }}</strong>
-          <span *ngIf="trailerDetial.isShipper" style="display:block;min-width: 101px;">
-            <label nz-checkbox [(ngModel)]="trailerDetial.isShipper" nzDisabled
-              style="margin-right: 20px;"></label>{{ 'sender' | translate }}</span>
-
+          <span>{{ 'Inquiry customer' | translate }}</span
+          ><strong>{{ trailerDetial.ownerCustomer || '--' }}</strong>
+          <span *ngIf="trailerDetial.isShipper" style="display: block; min-width: 101px;">
+            <label nz-checkbox [(ngModel)]="trailerDetial.isShipper" nzDisabled style="margin-right: 20px;"></label
+            >{{ 'sender' | translate }}</span
+          >
         </div>
         <div class="inquiry-table-border-flex">
-          <span>{{ 'Inquirer' | translate }}</span><strong>{{ trailerDetial.ownerContact || '--' }}</strong>
+          <span>{{ 'Inquirer' | translate }}</span
+          ><strong>{{ trailerDetial.ownerContact || '--' }}</strong>
         </div>
       </div>
-
-
     </div>
 
     <strong>{{ 'Remark' | translate }}</strong>

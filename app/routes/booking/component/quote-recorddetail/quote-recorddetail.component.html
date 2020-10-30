@@ -12,14 +12,14 @@
       </div>
       <div
         style="
-          width: 100%;
-          height: 40px;
           display: flex;
           align-items: center;
-          padding-left: 16px;
-          background: rgba(239, 246, 255, 1);
+          width: 100%;
+          height: 40px;
           margin-bottom: 16px;
+          padding-left: 16px;
           color: #6d7278;
+          background: rgba(239, 246, 255, 1);
           border: 1px solid rgba(215, 227, 241, 1);
         "
       >
@@ -32,7 +32,7 @@
       <div class="freightType" *ngFor="let quoteinfo of relateQuotelist">
         <div class="f-type">
           <div class="f-quoteDate">
-            <h2 style="margin-bottom: 0px; font-size: 16px; font-weight: bold;">{{ quoteinfo.quoteNo }}</h2>
+            <h2 style="margin-bottom: 0; font-weight: bold; font-size: 16px;">{{ quoteinfo.quoteNo }}</h2>
             <div>
               {{ 'Inquiry date' | translate }}:<span>{{ quoteinfo.cargoReadyDate | date: 'yyy-MM-dd' }}</span>
             </div>
@@ -130,7 +130,7 @@
         </div>
 
         <div class="f-quoteDetail">
-          <div style="text-align: right; margin-right: 15px;">
+          <div style="margin-right: 15px; text-align: right;">
             <button nz-button nzType="primary" (click)="copy(quoteinfo)">
               {{ 'Copy' | translate }}
             </button>
@@ -748,7 +748,7 @@
                 </td>
                 <ng-container *ngIf="checkTicket(startingplace)">
                   <td style="min-width: 120px;" [ngClass]="{ notClickn: item.unitType == 1 }">
-                    <div class="table-input">
+                    <div class="table-input" *ngIf="item.unitType == 2">
                       <nz-input-number
                         [required]="item.unitType == 2 && (quote_copy.freightType == 3 || quote_copy.freightType == 4)"
                         [(ngModel)]="item.unitPrice"
@@ -759,10 +759,11 @@
                         #unitPrice="ngModel"
                       >
                       </nz-input-number>
+                      <div class="table-red">
+                        <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
+                      </div>
                     </div>
-                    <div class="table-red">
-                      <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
-                    </div>
+                    <div class="table-input" *ngIf="item.unitType == 1">--</div>
                   </td>
                 </ng-container>
 
@@ -772,7 +773,7 @@
                     *ngFor="let containHavedata of containHavedataList"
                     [ngClass]="{ notClickn: item.unitType == 2 }"
                   >
-                    <div class="table-input">
+                    <div class="table-input" *ngIf="item.unitType == 1">
                       <nz-input-number
                         [required]="item.unitType == 1 && (quote_copy.freightType == 3 || quote_copy.freightType == 4)"
                         [name]="containHavedata.name + i"
@@ -784,9 +785,12 @@
                         [nzStep]="0.01"
                       >
                       </nz-input-number>
+                      <div class="table-red">
+                        <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                      </div>
                     </div>
-                    <div class="table-red">
-                      <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                    <div class="table-input" *ngIf="item.unitType == 2">
+                      --
                     </div>
                   </td>
                 </ng-container>
@@ -1012,7 +1016,7 @@
 
                 <ng-container *ngIf="checkTicket(endplace)">
                   <td [ngClass]="{ notClickn: item.unitType == 1 }">
-                    <div class="table-input">
+                    <div class="table-input" *ngIf="item.unitType == 2">
                       <nz-input-number
                         [(ngModel)]="item.unitPrice"
                         [name]="'unitPrice' + i"
@@ -1024,16 +1028,19 @@
                         [nzStep]="1"
                       >
                       </nz-input-number>
+                      <div class="table-red">
+                        <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
+                      </div>
                     </div>
-                    <div class="table-red">
-                      <app-formvalidation requiredName="unitPrice" [value]="unitPrice"> </app-formvalidation>
+                    <div class="table-input" *ngIf="item.unitType == 1">
+                      --
                     </div>
                   </td>
                 </ng-container>
 
                 <ng-container *ngIf="checkContaniner(endplace)">
                   <td *ngFor="let containHavedata of containHavedataList" [ngClass]="{ notClickn: item.unitType == 2 }">
-                    <div class="table-input">
+                    <div class="table-input" *ngIf="item.unitType == 1">
                       <nz-input-number
                         [required]="item.unitType == 1 && (quote_copy.freightType == 2 || quote_copy.freightType == 4)"
                         [name]="containHavedata.name + i"
@@ -1045,12 +1052,12 @@
                         [nzStep]="0.01"
                       >
                       </nz-input-number>
-                      <!-- <input nz-input placeholder="Basic usage" [name]="containHavedata.name+i"
-                                    [required]="item.unitType==1" #contain="ngModel"
-                                    [(ngModel)]="item[containHavedata.name]" /> -->
+                      <div class="table-red">
+                        <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                      </div>
                     </div>
-                    <div class="table-red">
-                      <app-formvalidation [requiredName]="containHavedata.name" [value]="contain"> </app-formvalidation>
+                    <div class="table-input" *ngIf="item.unitType == 2">
+                      --
                     </div>
                   </td>
                 </ng-container>
@@ -1194,7 +1201,7 @@
           <div style="display: flex; align-items: center;">
             <h5 style="min-width: 200px;">{{ 'Quote Effective Date' | translate }}<span class="red">*</span></h5>
           </div>
-          <div style="width: 40%; display: flex;">
+          <div style="display: flex; width: 40%;">
             <div>
               <nz-date-picker
                 [nzDisabledDate]="disabledDate"
@@ -1212,7 +1219,7 @@
               </div>
             </div>
 
-            <div style="display: flex; align-items: center; width: 10%; height: 30px; justify-content: center;">
+            <div style="display: flex; align-items: center; justify-content: center; width: 10%; height: 30px;">
               - - -
             </div>
             <div>
@@ -1237,7 +1244,7 @@
 
       <form nz-form #formData="ngForm" style="padding-left: 16px;">
         <div style="display: flex; margin-top: 20px;">
-          <div style="min-width: 400px; display: flex; align-items: center; margin-right: 20px;">
+          <div style="display: flex; align-items: center; min-width: 400px; margin-right: 20px;">
             <h5 style="min-width: 200px;">{{ 'Quotation acceptance customer' | translate }}<span class="red">*</span></h5>
             <div style="width: 100%;">
               <nz-select
@@ -1254,7 +1261,7 @@
               <app-formvalidation requiredName="ownerCustomerId" [value]="ownerCustomerIdRec"> </app-formvalidation>
             </div>
           </div>
-          <div style="width: 400px; display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; width: 400px;">
             <h5 style="min-width: 120px;">{{ 'Offer recipient' | translate }}<span class="red">*</span></h5>
             <div style="width: 100%;">
               <nz-select
@@ -1295,7 +1302,7 @@
 >
   <form nz-form #personData="ngForm">
     <div style="display: flex; margin-top: 16px;">
-      <div style="width: 8%; display: flex; align-items: center;">
+      <div style="display: flex; align-items: center; width: 8%;">
         <h5>{{ 'Quotation acceptance customer' | translate }}<span class="red">*</span></h5>
       </div>
       <div style="width: 20%;">
@@ -1313,7 +1320,7 @@
         </nz-select>
         <app-formvalidation requiredName="ownerCustomerId" [value]="ownerCustomerId"> </app-formvalidation>
       </div>
-      <div style="width: 8%; display: flex; align-items: center; margin-left: 30px;">
+      <div style="display: flex; align-items: center; width: 8%; margin-left: 30px;">
         <h5>{{ 'Offer recipient' | translate }}<span class="red">*</span></h5>
       </div>
       <div style="width: 20%;">

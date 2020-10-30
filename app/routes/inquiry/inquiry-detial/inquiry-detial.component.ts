@@ -38,6 +38,7 @@ export class InquiryDetialComponent {
     2: 'BILL',
   };
 
+  unitPriceTotal: number=0; //按票总价
   constructor(
     // private customerService: CustomerService,
     private msg: NzMessageService,
@@ -176,20 +177,34 @@ export class InquiryDetialComponent {
       this.pubCurrency.getExchangeList({ toCode: 'USD' }).subscribe((res: any) => {
         if (this.locChargeLists && this.locChargeLists.length > 0) {
           this.locChargeLists.forEach((item) => {
-            item?.localUnitRateByPortOutputs.forEach((e, index, arr) => {
-              // console.log(e.cost ? e.cost : item.totalPrice, "eeeee")
+            if (item?.chargeUnitType == 1) {
+              //按照箱型
+              item?.localUnitRateByPortOutputs.forEach((e, index, arr) => {
+                // console.log(e.cost ? e.cost : item.totalPrice, "eeeee")
+                if (item.currencyCode.toUpperCase() == 'USD') {
+                  this.locTotalList[this.locChargeItem[index]] += e.cost ? e.cost : item.totalPrice;
+                } else {
+                  res.forEach((element) => {
+                    if (element.fromCurrencyId === item.currencyId) {
+                      this.locTotalList[this.locChargeItem[index]] += e.cost
+                        ? element.exchangeRate * e.cost
+                        : element.exchangeRate * item.totalPrice;
+                    }
+                  });
+                }
+              });
+            } else {
+              //按照票
               if (item.currencyCode.toUpperCase() == 'USD') {
-                this.locTotalList[this.locChargeItem[index]] += e.cost ? e.cost : item.totalPrice;
+                this.unitPriceTotal += item?.totalPrice;
               } else {
                 res.forEach((element) => {
                   if (element.fromCurrencyId === item.currencyId) {
-                    this.locTotalList[this.locChargeItem[index]] += e.cost
-                      ? element.exchangeRate * e.cost
-                      : element.exchangeRate * item.totalPrice;
+                    this.unitPriceTotal += (element.exchangeRate * item?.totalPrice)
                   }
                 });
               }
-            });
+            }
           });
         }
       });
