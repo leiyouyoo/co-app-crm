@@ -61,11 +61,11 @@ export class SharedCustomersComponent extends CoPageBase {
       width: 150,
       title: 'Country, province',
       index: 'country',
-      format: (item, _col) => `${item.country + '-' + item.province}`,
+      render: 'country',
     },
-    { width: 100, title: 'Contact', index: 'contactName' },
-    { width: 100, title: 'Phone', index: 'contactTel' },
-    { width: 100, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    { width: '150px', title: 'Contact', index: 'masterContact.name' },
+    { width: '150px', title: 'Phone', index: 'masterContact.tel' },
+    { width: 250, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
     { width: 100, title: 'Sharer', render: 'sharer' },
     {
       title: 'Action',
@@ -114,7 +114,7 @@ export class SharedCustomersComponent extends CoPageBase {
     this.loading = true;
     this.crmCustomerService
       .getShares({
-        isCooperation: false, //是否成交合作的客户
+        customerStatus: 2,
         maxResultCount: this.maxResultCount,
         skipCount: num * this.maxResultCount,
         searchText: this.searchData,

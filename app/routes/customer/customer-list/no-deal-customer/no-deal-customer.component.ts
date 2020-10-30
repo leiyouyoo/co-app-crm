@@ -68,10 +68,10 @@ export class NoDealCustomerComponent extends CoPageBase {
       width: '150px',
       title: 'Country, province',
       index: 'country',
-      format: (item, _col) => `${item.country.code + '-' + item.province.code}`,
+      render: 'country',
     },
     { width: '150px', title: 'Contact', index: 'masterContact.name' },
-    { width: '150px', title: 'Phone', index: 'masterContact.email' },
+    { width: '150px', title: 'Phone', index: 'masterContact.tel' },
     { width: '150px', title: 'Owner', index: 'owner' },
     {
       title: 'Action',
@@ -299,7 +299,6 @@ export class NoDealCustomerComponent extends CoPageBase {
       })
       .subscribe(
         (res: any) => {
-          debugger;
           this.loading = false;
           this.listOfData = res;
         },
