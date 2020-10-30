@@ -1137,6 +1137,7 @@ export class InquiryListOceanComponent implements OnInit {
             (ress) => {
               this.shareLoading = false;
               this.showShareDtail = true;
+              debugger;
               this.showShareDtailData = ress;
             },
             (err) => {
