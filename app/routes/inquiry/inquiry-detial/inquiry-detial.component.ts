@@ -38,7 +38,7 @@ export class InquiryDetialComponent {
     2: 'BILL',
   };
 
-  unitPriceTotal: number=0; //按票总价
+  unitPriceTotal: number = 0; //按票总价
   constructor(
     // private customerService: CustomerService,
     private msg: NzMessageService,
@@ -157,6 +157,7 @@ export class InquiryDetialComponent {
   initTotalList() {
     try {
       this.locTotalList = {};
+      this.unitPriceTotal = 0;
       this.locChargeItem?.length > 0 &&
         this.locChargeItem.forEach((e) => {
           this.locTotalList[e] = 0;
@@ -200,7 +201,7 @@ export class InquiryDetialComponent {
               } else {
                 res.forEach((element) => {
                   if (element.fromCurrencyId === item.currencyId) {
-                    this.unitPriceTotal += (element.exchangeRate * item?.totalPrice)
+                    this.unitPriceTotal += element.exchangeRate * item?.totalPrice;
                   }
                 });
               }
