@@ -108,7 +108,7 @@ export class CustomerComponent extends CoPageBase {
 
     this.esQueryService
       .queryCustomers({
-        customerStatus: 0,
+        customerStatus: 1,
         maxResultCount: this.maxResultCount,
         skipCount: num * this.maxResultCount,
         searchText: this.searchData,
