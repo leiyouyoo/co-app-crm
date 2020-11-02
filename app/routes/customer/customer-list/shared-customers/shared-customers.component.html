@@ -72,7 +72,7 @@
 
       <ng-template st-row="country" let-data>
         {{ data.country?.code }}
-        <span *ngIf="data.province?.code"> - {{ data.province.code }} </span>
+        <span *ngIf="data.province?.name"> - {{ data.province.name.display }} </span>
       </ng-template>
     </co-st>
   </div>
