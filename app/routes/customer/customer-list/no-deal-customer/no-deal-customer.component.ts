@@ -72,7 +72,7 @@ export class NoDealCustomerComponent extends CoPageBase {
     },
     { width: '150px', title: 'Contact', index: 'masterContact.name' },
     { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: '150px', title: 'Owner', index: 'owner' },
+    { width: '150px', title: 'Owner', index: 'owner.name.display' },
     {
       title: 'Action',
       type: 'action',

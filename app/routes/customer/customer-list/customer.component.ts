@@ -47,7 +47,7 @@ export class CustomerComponent extends CoPageBase {
     },
     { width: '150px', title: 'Contact', index: 'masterContact.name' },
     { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: '150px', title: 'Owner', index: 'owner' },
+    { width: '150px', title: 'Owner', index: 'owner.name.display' },
     { width: 250, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
     {
       title: 'Action',
