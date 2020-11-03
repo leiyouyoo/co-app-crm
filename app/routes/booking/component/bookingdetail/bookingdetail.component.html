@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <i class="iconfont icon-booking-no" nz-icon [nzIconfont]="'icon-booking-no'"></i>
         <span style="margin-left: 16px; font-size: 16px;">{{ bookingDetailInfo?.bookingNo }}</span>
-        <span style="font-size: 24px; font-weight: 500; margin-left: 16px;">
+        <span style="margin-left: 16px; font-weight: 500; font-size: 24px;">
           <span *ngIf="status == 0">
             {{ 'Draft' | translate }}
           </span>
@@ -21,7 +21,7 @@
             {{ 'Booked' | translate }}
           </span>
           <span *ngIf="status == 4">
-            {{ 'Waiting for Pricing' | translate }}
+            {{ 'Waiting for price' | translate }}
           </span>
           <span *ngIf="status == 5">
             {{ 'Waiting for the customer to confirm the price' | translate }}
@@ -651,8 +651,8 @@
               <document-layout [BusinessId]="BusinessId" [BusinessType]="BusinessType"> </document-layout>
             </nz-tab>
             <nz-tab [nzTitle]="'Quotes' | translate">
-              <div *ngIf="!bookingDetailInfo.quoteEnquiryId && relateQuoteCount <= 0" style="text-align: center; margin-top: 100px;">
-                <div style="color: #717a83; height: 30px;">
+              <div *ngIf="!bookingDetailInfo.quoteEnquiryId && relateQuoteCount <= 0" style="margin-top: 100px; text-align: center;">
+                <div style="height: 30px; color: #717a83;">
                   {{ 'No quotation, please add a quotation and send it to the customer' | translate }}
                 </div>
                 <div>
@@ -662,7 +662,7 @@
                 </div>
               </div>
               <div *ngIf="bookingDetailInfo.quoteEnquiryId">
-                <div style="text-align: right; margin-right: 10px;">
+                <div style="margin-right: 10px; text-align: right;">
                   <button nz-button nzType="primary" (click)="isShowUpdateTab = true">
                     {{ 'Update quote' | translate }}
                   </button>
@@ -672,8 +672,8 @@
                   [Id]="bookingDetailInfo.quoteEnquiryId"
                 ></quote-quote-simple-info>
               </div>
-              <div *ngIf="relateQuoteCount > 0 && !bookingDetailInfo.quoteEnquiryId" style="text-align: center; margin-top: 100px;">
-                <div style="color: #717a83; height: 30px;">
+              <div *ngIf="relateQuoteCount > 0 && !bookingDetailInfo.quoteEnquiryId" style="margin-top: 100px; text-align: center;">
+                <div style="height: 30px; color: #717a83;">
                   {{ 'Match to' | translate }}<span>{{ relateQuoteCount }}</span
                   >{{
                     'Quotation for similar routes, please confirm the selection to be linked to the data of the current booking' | translate
@@ -693,13 +693,13 @@
         <div class="Booking-detail">
           <div class="Booking-detail-bookingDetail">
             <div class="detail-word">
-              <label for="" style="font-size: 15px; font-weight: 600;">{{ 'BookingDetail' | translate }}</label>
+              <label for="" style="font-weight: 600; font-size: 15px;">{{ 'BookingDetail' | translate }}</label>
             </div>
           </div>
 
           <div class="Booking-detail-line">
             <nz-list style="margin-bottom: 0;">
-              <nz-list-item class="list-item-header" style="border: none; display: flex; justify-content: space-between;">
+              <nz-list-item class="list-item-header" style="display: flex; justify-content: space-between; border: none;">
                 <span
                   ><label>{{ 'Route' | translate }}</label></span
                 >
@@ -709,7 +709,7 @@
                   </button>
                 </span>
               </nz-list-item>
-              <nz-list-item style="height: initial; margin-top: 14px; padding-bottom: 0; margin-bottom: 0px;" class="timeline">
+              <nz-list-item style="height: initial; margin-top: 14px; margin-bottom: 0; padding-bottom: 0;" class="timeline">
                 <route-time-line
                   class="timeline-icon-bg-1"
                   [originAddress]="
@@ -958,7 +958,7 @@
             <nz-list *ngIf="bookingDetailInfo.quantity && bookingDetailInfo.weight && bookingDetailInfo.volume">
               <nz-list-item class="list-item-header">
                 <span
-                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Cargo Detail' | translate }}</label></span
+                  ><label for="" style="font-weight: bold; font-size: 14px;">{{ 'Cargo Detail' | translate }}</label></span
                 >
               </nz-list-item>
               <nz-list-item>
@@ -1082,7 +1082,7 @@
             <nz-list *ngIf="bookingDetailInfo.description || specialgoodsList.length > 0 || bookingDetailInfo.specialInstructions">
               <nz-list-item class="list-item-header">
                 <span
-                  ><label for="" style="font-size: 14px; font-weight: bold;">{{ 'Detail' | translate }}</label></span
+                  ><label for="" style="font-weight: bold; font-size: 14px;">{{ 'Detail' | translate }}</label></span
                 >
               </nz-list-item>
               <nz-list-item *ngIf="bookingDetailInfo.description">
@@ -1138,7 +1138,7 @@
                 <span class="detailInfo-wap-info-left">
                   <label for="">{{ 'Special Goods' | translate }}</label>
                 </span>
-                <div [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0px;">
+                <div [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0;">
                   <div *ngFor="let item of specialgoodsList" class="quoteDetail-check">
                     <label style="height: 25px;" nz-checkbox [(ngModel)]="item.IsSelected">{{ item.Name }}</label>
                   </div>

@@ -931,5 +931,8 @@
   "Choose Address":"选择地址",
   "Expected delivery time": "期望派送时间",
   "Quantities in the packge": "装入数量",
-  "Delivery address":"送货地址"
+  "Delivery address":"送货地址",
+  "Waiting":"等待",
+  "Finished":"已完成",
+  "In Progress":"进行中"
 }
