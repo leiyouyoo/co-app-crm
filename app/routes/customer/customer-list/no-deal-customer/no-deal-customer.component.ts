@@ -72,7 +72,7 @@ export class NoDealCustomerComponent extends CoPageBase {
     },
     { width: '150px', title: 'Contact', index: 'masterContact.name' },
     { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: '150px', title: 'Owner', index: 'owner' },
+    { width: '150px', title: 'Owner', index: 'owner.name.display' },
     {
       title: 'Action',
       type: 'action',
@@ -155,9 +155,10 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   showDetial(data) {
+    debugger;
     this.$navigate(['crm/customers/customerdetails', data.id], {
       queryParams: {
-        _title: `${data.name}`,
+        _title: `${data.name.display}`,
       },
     });
   }
