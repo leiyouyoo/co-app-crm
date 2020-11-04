@@ -422,6 +422,7 @@ export class InquiryListOceanComponent implements OnInit {
   listOfData: any;
   totalCount: any;
   onGetAll(keyValue?, orderByName?, sort?) {
+    this.st.clear();
     return this.st.load();
     let datas = cloneDeep(this.searchForm.value);
     let num = this.skipCount - 1;
@@ -594,7 +595,6 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   stResProcess = (result: STData[], rawData) => {
-    debugger;
     if (result.length <= 0) return result;
     const sort = this.sort;
     this.sort = null;
