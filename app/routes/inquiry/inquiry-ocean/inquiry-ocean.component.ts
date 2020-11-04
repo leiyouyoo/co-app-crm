@@ -422,7 +422,7 @@ export class InquiryListOceanComponent implements OnInit {
   listOfData: any;
   totalCount: any;
   onGetAll(keyValue?, orderByName?, sort?) {
-    return this.st.reload();
+    return this.st.load();
     let datas = cloneDeep(this.searchForm.value);
     let num = this.skipCount - 1;
     let data: any = {
@@ -594,7 +594,8 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   stResProcess = (result: STData[], rawData) => {
-    if (result.length <= 0) return;
+    debugger;
+    if (result.length <= 0) return result;
     const sort = this.sort;
     this.sort = null;
     this.listOfData = result;
@@ -614,7 +615,7 @@ export class InquiryListOceanComponent implements OnInit {
         e.isValid = true;
       }
       e.containerPriceList = this.objToArray(e.containerPrice);
-      tablestitle = e.unitCodes.split(',');
+      if (e.unitCodes) tablestitle = e.unitCodes.split(',');
     });
 
     this.tablestitle = Array.from(new Set(tablestitle));

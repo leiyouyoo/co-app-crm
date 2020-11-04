@@ -301,7 +301,7 @@
                 <div class="loc-body-td">
                   <span class="txt-total">{{ 'Total' | translate }}(USD)</span>
                 </div>
-                <div class="loc-body-td" style="color: #fa6400;">{{ unitPriceTotal ? unitPriceTotal : '' }}</div>
+                <div class="loc-body-td" style="color: #fa6400;">{{ unitPriceTotal?.toFixed(2) ? unitPriceTotal?.toFixed(2) : '' }}</div>
                 <div class="loc-body-td"></div>
                 <div class="loc-body-td" style="color: #fa6400;" *ngFor="let total of locChargeItem">
                   {{ locTotalList[total] ? locTotalList[total]?.toFixed(2) : '' }}
