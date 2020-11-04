@@ -197,13 +197,13 @@
           </div>
         </ng-template>
         <ng-template st-row="shipCompany" let-data>
-          {{ data.shipCompany.displayName }}
+          {{ data?.shipCompany?.displayName }}
         </ng-template>
-        <ng-template st-row="pol" let-data> {{ data.pol.displayFullName }} </ng-template>
+        <ng-template st-row="pol" let-data> {{ data?.pol?.displayFullName }} </ng-template>
 
-        <ng-template st-row="delivery" let-data> {{ data.delivery.displayFullName }} </ng-template>
+        <ng-template st-row="delivery" let-data> {{ data?.delivery?.displayFullName }} </ng-template>
         <ng-template st-row="pod" let-data>
-          {{ data.pod.displayFullName }}
+          {{ data?.pod?.displayFullName }}
         </ng-template>
 
         <ng-template st-row="updateBy" let-data>
