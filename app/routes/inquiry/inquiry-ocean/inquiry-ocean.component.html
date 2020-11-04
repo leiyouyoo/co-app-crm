@@ -140,7 +140,7 @@
 
   <div class="inquiry-right">
     <div class="inquiry-right-content">
-      <co-st
+      <!-- <co-st
         #st
         virtualScroll
         [loading]="loading"
@@ -151,6 +151,22 @@
         [page]="{ front: false }"
         (change)="checkChange($event)"
         calcScroll
+        [noResult]="noresult"
+        style="height: 100%;"
+      > -->
+      <co-st
+        #st
+        data="/Rates/EsQuery/GetAllForES"
+        [columns]="columns"
+        [showFilters]="false"
+        [page]="{ front: false }"
+        [req]="{ process: paramsProcess }"
+        [res]="{ process: stResProcess }"
+        (change)="checkChange($event)"
+        calcScroll
+        [ps]="50"
+        loadOnScroll
+        virtualScroll
         [noResult]="noresult"
         style="height: 100%;"
       >

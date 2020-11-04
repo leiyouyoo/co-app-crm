@@ -261,6 +261,9 @@
                 <div class="loc-head-item" *ngFor="let detial of locChargeItem">
                   {{ detial }}
                 </div>
+                <div class="loc-head-item">
+                  {{ 'Feename' | translate }}
+                </div>
               </div>
               <div class="loc-body-item" *ngFor="let data of locChargeLists; let i = index">
                 <div class="loc-body-td" [title]="data?.chargingCodeName">
@@ -284,7 +287,9 @@
                 <div class="loc-body-td" *ngFor="let i of data.localUnitRateByPortOutputs; let idx = index">
                   {{ i.cost || '--' }}
                 </div>
-
+                <div class="loc-body-td">
+                  {{ data.chargingName ? data.chargingName : '--' }}
+                </div>
                 <div class="loc-body-mark" [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 3 : 3) + 'px' }">
                   <span>{{ 'Remark' | translate }}：</span>
                   <span>{{ data.remark || '--' }}</span>
