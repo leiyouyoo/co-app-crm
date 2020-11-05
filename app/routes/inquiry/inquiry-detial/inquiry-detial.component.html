@@ -261,6 +261,9 @@
                 <div class="loc-head-item" *ngFor="let detial of locChargeItem">
                   {{ detial }}
                 </div>
+                <div class="loc-head-item">
+                  {{ 'Feename' | translate }}
+                </div>
               </div>
               <div class="loc-body-item" *ngFor="let data of locChargeLists; let i = index">
                 <div class="loc-body-td" [title]="data?.chargingCodeName">
@@ -284,8 +287,10 @@
                 <div class="loc-body-td" *ngFor="let i of data.localUnitRateByPortOutputs; let idx = index">
                   {{ i.cost || '--' }}
                 </div>
-
-                <div class="loc-body-mark" [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 3 : 3) + 'px' }">
+                <div class="loc-body-td">
+                  {{ data.chargingName ? data.chargingName : '--' }}
+                </div>
+                <div class="loc-body-mark" [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 4 : 4) + 'px' }">
                   <span>{{ 'Remark' | translate }}：</span>
                   <span>{{ data.remark || '--' }}</span>
                 </div>
@@ -296,7 +301,7 @@
                 <div class="loc-body-td">
                   <span class="txt-total">{{ 'Total' | translate }}(USD)</span>
                 </div>
-                <div class="loc-body-td" style="color: #fa6400;">{{ unitPriceTotal ? unitPriceTotal : '' }}</div>
+                <div class="loc-body-td" style="color: #fa6400;">{{ unitPriceTotal?.toFixed(2) ? unitPriceTotal?.toFixed(2) : '' }}</div>
                 <div class="loc-body-td"></div>
                 <div class="loc-body-td" style="color: #fa6400;" *ngFor="let total of locChargeItem">
                   {{ locTotalList[total] ? locTotalList[total]?.toFixed(2) : '' }}

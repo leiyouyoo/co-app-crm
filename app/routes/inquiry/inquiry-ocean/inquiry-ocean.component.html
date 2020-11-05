@@ -140,7 +140,7 @@
 
   <div class="inquiry-right">
     <div class="inquiry-right-content">
-      <co-st
+      <!-- <co-st
         #st
         virtualScroll
         [loading]="loading"
@@ -151,6 +151,22 @@
         [page]="{ front: false }"
         (change)="checkChange($event)"
         calcScroll
+        [noResult]="noresult"
+        style="height: 100%;"
+      > -->
+      <co-st
+        #st
+        data="/Rates/EsQuery/GetAllForES"
+        [columns]="columns"
+        [showFilters]="false"
+        [page]="{ front: false }"
+        [req]="{ process: paramsProcess }"
+        [res]="{ process: stResProcess }"
+        (change)="checkChange($event)"
+        calcScroll
+        [ps]="50"
+        loadOnScroll
+        virtualScroll
         [noResult]="noresult"
         style="height: 100%;"
       >
@@ -181,17 +197,17 @@
           </div>
         </ng-template>
         <ng-template st-row="shipCompany" let-data>
-          {{ data.shipCompany.displayName }}
+          {{ data?.shipCompany?.displayName }}
         </ng-template>
-        <ng-template st-row="pol" let-data> {{ data.pol.displayFullName }} </ng-template>
+        <ng-template st-row="pol" let-data> {{ data?.pol?.displayFullName }} </ng-template>
 
-        <ng-template st-row="delivery" let-data> {{ data.delivery.displayFullName }} </ng-template>
+        <ng-template st-row="delivery" let-data> {{ data?.delivery?.displayFullName }} </ng-template>
         <ng-template st-row="pod" let-data>
-          {{ data.pod.displayFullName }}
+          {{ data?.pod?.displayFullName }}
         </ng-template>
 
         <ng-template st-row="updateBy" let-data>
-          {{ data.updateBy.displayName }}
+          {{ data?.updateBy?.displayName }}
         </ng-template>
 
         <ng-template st-row="action" let-data>

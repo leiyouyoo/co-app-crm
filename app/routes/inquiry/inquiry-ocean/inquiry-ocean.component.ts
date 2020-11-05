@@ -25,7 +25,7 @@ import { RatesFavoriteRateService } from '../../../services/rates/favorite-rate-
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { RatesOceanBaseItemExternalService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
-import { STColumn, STData, STComponent } from '@co/cbc';
+import { STColumn, STData, STComponent, STRequestOptions } from '@co/cbc';
 import { differenceInCalendarDays } from 'date-fns';
 import { ACLService } from '@co/acl';
 import { RatesEsQueryService } from 'apps/crm/app/services/rates';
@@ -54,7 +54,7 @@ export class InquiryListOceanComponent implements OnInit {
   unitUsers: any;
   transportList: any;
   tablestitle: any;
-  maxResultCount = 1000;
+  maxResultCount = 50;
   skipCount = 1;
   ratesList: any;
   detialVisible = false;
@@ -272,7 +272,9 @@ export class InquiryListOceanComponent implements OnInit {
       this.showShareBtn = true;
     }
   }
-
+  keyValue: any;
+  orderByName: any;
+  sort: any;
   checkChange(e) {
     // console.log(e);
     e.type === 'click' && this.showDetial(e.click.item, e.click.index);
@@ -289,6 +291,9 @@ export class InquiryListOceanComponent implements OnInit {
       }
     } else if (e.type === 'sort') {
       // const value = e.sort.column.indexKey.toLowerCase();
+      this.keyValue = 'containerPrice.' + e.sort.column.indexKey;
+      this.orderByName = e.sort.value;
+      this.sort = 'sort';
       this.onGetAll('containerPrice.' + e.sort.column.indexKey, e.sort.value, 'sort');
     }
     this.refreshStatus();
@@ -328,7 +333,6 @@ export class InquiryListOceanComponent implements OnInit {
     this.getAllShipLine();
     this.getCustomerList();
     this.isFllow = true;
-    this.onGetAll();
   }
 
   dataProcess(data: STData[]) {
@@ -418,35 +422,22 @@ export class InquiryListOceanComponent implements OnInit {
   listOfData: any;
   totalCount: any;
   onGetAll(keyValue?, orderByName?, sort?) {
+    this.st.clear();
+    return this.st.load();
     let datas = cloneDeep(this.searchForm.value);
     let num = this.skipCount - 1;
     let data: any = {
       MaxResultCount: this.maxResultCount,
       SkipCount: this.maxResultCount * num,
-      Sorting: this.sorting,
       orderBy: { 'containerPrice.40GP': 'asc' },
     };
     //处理数据
     data.isFollow = this.isFllow;
-    // let time = datas.fromDate;
-
-    // if (time && time.length > 0) {
-    //   datas.fromDate = time[0];
-    //   datas.ToDate = time[1];
-    // }
-
     // 通知带入ID
     if (this.id) {
       data.id = this.id;
     }
-
-    // if (this.searchForm.value.fromDate?.length <= 0) {
-    //   //处理日期问题
-    //   this.searchForm.value.fromDate = null;
-    //   this.searchForm.value.ToDate = null;
-    // }
     //处理数据
-    // const params = merge(datas, data);
     const params = { ...datas, ...data };
     !params.dynamicQuery?.commodity && delete params.dynamicQuery.commodity;
     !params.dynamicQuery?.no && delete params.dynamicQuery.no;
@@ -540,33 +531,6 @@ export class InquiryListOceanComponent implements OnInit {
                 render: e,
                 width: 90,
                 sort: e,
-                // sort: {
-                //   compare: (a, b) => {
-                //     // console.log(a);
-                //     // console.log(b);
-                //     let aItem;
-                //     let bItem;
-                //     a?.containerPriceList.forEach((item) => {
-                //       if (item.unit == e) {
-                //         aItem = item.rate;
-                //       }
-                //     });
-                //     b?.containerPriceList.forEach((item) => {
-                //       if (item.unit == e) {
-                //         bItem = item.rate;
-                //       }
-                //     });
-                //     const avalue = aItem ? aItem : 0;
-                //     const bvalue = bItem ? bItem : 0;
-                //     if (avalue > bvalue) {
-                //       return 1;
-                //     } else if (avalue < bvalue) {
-                //       return -1;
-                //     } else {
-                //       return 0;
-                //     }
-                //   },
-                // },
               });
             });
 
@@ -591,6 +555,131 @@ export class InquiryListOceanComponent implements OnInit {
         },
       );
   }
+
+  esParams: any;
+  paramsProcess = (requestOptions: STRequestOptions) => {
+    let datas = cloneDeep(this.searchForm.value);
+    let data: any = {
+      orderBy: { 'containerPrice.40GP': 'asc' },
+    };
+    //处理数据
+    data.isFollow = this.isFllow;
+    // 通知带入ID
+    if (this.id) {
+      data.id = this.id;
+    }
+    //处理数据
+    this.esParams = { ...datas, ...data };
+    !this.esParams.dynamicQuery?.commodity && delete this.esParams.dynamicQuery.commodity;
+    !this.esParams.dynamicQuery?.no && delete this.esParams.dynamicQuery.no;
+    !this.esParams?.dynamicQuery?.shippingLineId && delete this.esParams.dynamicQuery.shippingLineId;
+    this.esParams?.shipCompanys?.length <= 0 && delete this.esParams.shipCompanys;
+    this.esParams?.dynamicQuery?.timeranges?.length <= 0 && delete this.esParams.dynamicQuery.timeranges;
+    Object.keys(this.esParams?.dynamicQuery).length === 0 && delete this.esParams.dynamicQuery;
+    const map = {
+      descend: 'desc',
+      ascend: 'asc',
+    };
+    if (this.keyValue && this.orderByName) {
+      this.esParams.orderBy = { [this.keyValue]: map[this.orderByName] };
+    }
+    requestOptions.body.dynamicQuery = this.esParams.dynamicQuery;
+    requestOptions.body.orderBy = this.esParams.orderBy;
+    requestOptions.body.deliverys = this.esParams.deliverys;
+    requestOptions.body.pods = this.esParams.pods;
+    requestOptions.body.pols = this.esParams.pols;
+    requestOptions.body.shipCompanys = this.esParams.shipCompanys;
+    requestOptions.body.isFollow = this.esParams.isFollow;
+
+    return requestOptions;
+  };
+
+  stResProcess = (result: STData[], rawData) => {
+    if (result.length <= 0) return result;
+    const sort = this.sort;
+    this.sort = null;
+    this.listOfData = result;
+    this.totalCount = rawData.totalCount;
+    if (this.id && result && result.length > 0) this.showDetial(result[0], 0);
+    this.id = null;
+    this.loading = false;
+    let tablestitle = [];
+    result.forEach((e) => {
+      if (e.to) {
+        if (differenceInCalendarDays(new Date(e.to), new Date()) < 0) {
+          e.isValid = false;
+        } else {
+          e.isValid = true;
+        }
+      } else {
+        e.isValid = true;
+      }
+      e.containerPriceList = this.objToArray(e.containerPrice);
+      if (e.unitCodes) tablestitle = e.unitCodes.split(',');
+    });
+
+    this.tablestitle = Array.from(new Set(tablestitle));
+    this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
+      const aMatch = a.match(/(\d+)([A-Z]+)/);
+      const bMatch = b.match(/(\d+)([A-Z]+)/);
+      if (!aMatch) {
+        return 1;
+      }
+      if (!bMatch) {
+        return -1;
+      }
+      const aNumber = aMatch[1];
+      const bNumber = bMatch[1];
+      const aUnit = aMatch[2];
+      const bUnit = bMatch[2];
+      switch (true) {
+        case aUnit < bUnit:
+          return -1;
+        case aUnit > bUnit:
+          return 1;
+        default:
+      }
+      switch (true) {
+        case aNumber < bNumber:
+          return -1;
+        case aNumber > bNumber:
+          return 1;
+        default:
+          return 0;
+      }
+    });
+
+    // this.websort('40GP', 'ascend');
+    if (sort != 'sort') {
+      let titleItem = [];
+      this.initColumn();
+      this.tablestitle.forEach((e) => {
+        titleItem.push({
+          title: e,
+          index: e,
+          render: e,
+          width: 90,
+          sort: e,
+        });
+      });
+
+      titleItem.unshift(6, 0);
+      Array.prototype.splice.apply(this.columns, titleItem);
+
+      if (!result[0]?.isSuperPermission) {
+        this.columns.forEach((e, idx) => {
+          if (e.title == 'NameAccount') {
+            this.columns.splice(idx, 1);
+          }
+        });
+      }
+    }
+
+    setTimeout(() => {
+      if (sort != 'sort') this.st.resetColumns({ emitReload: false });
+    }, 0);
+    return result;
+  };
 
   //对象转数组
   objToArray(list: any) {
@@ -1137,7 +1226,6 @@ export class InquiryListOceanComponent implements OnInit {
             (ress) => {
               this.shareLoading = false;
               this.showShareDtail = true;
-              debugger;
               this.showShareDtailData = ress;
             },
             (err) => {
