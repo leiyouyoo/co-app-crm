@@ -1,4 +1,7 @@
 export interface BookingEntity {
+  quantityUnitId: string;
+  volumeUnitId: string;
+  weightUnitId: string;
   packingProducts?: any;
   packingCartons?: any;
   id?: string;
@@ -118,7 +121,6 @@ export interface packingLists {
   long?: number;
   width?: number;
   height?: number;
-
 }
 
 export interface packingListItems {
