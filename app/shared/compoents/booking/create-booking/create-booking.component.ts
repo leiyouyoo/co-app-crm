@@ -58,6 +58,9 @@ const emptyGuid = '00000000-0000-0000-0000-000000000000';
 export class CreateBookingComponent extends CoPageBase implements OnInit {
   //booking实体
   bookingObj: BookingEntity = {
+    weightUnitId: null,
+    volumeUnitId: null,
+    quantityUnitId: null,
     isTaxIncluded: true,
     freightMethodType: FreightMethodType.Ocean,
     shipmentType: 0,
@@ -1424,7 +1427,12 @@ export class CreateBookingComponent extends CoPageBase implements OnInit {
 
     this.bookingObj.packingProducts = this.newPackingListComponent.datas?.products;
     this.bookingObj.packingCartons = this.newPackingListComponent.datas?.cartons;
-
+    delete this.bookingObj.quantityUnitId;
+    delete this.bookingObj.quantityUnitString;
+    delete this.bookingObj.volumeUnitId;
+    delete this.bookingObj.volumeUnitString;
+    delete this.bookingObj.weightUnitId;
+    delete this.bookingObj.weightUnitString;
     this.bookingCheck().then((d) => {
       if (!this.isRepeat) {
         if (!this.bookingObj.id) {
