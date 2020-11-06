@@ -29,6 +29,7 @@
   </div>
 
   <nz-table
+    [nzScroll]="{ x: '2300px' }"
     [nzData]="listOfData.items"
     [nzLoading]="loading"
     [nzFrontPagination]="false"
@@ -70,7 +71,7 @@
         <th nzWidth="200px">
           {{ 'Owner' | translate }}
         </th>
-        <th nzWidth="150px" nzRight="0px">
+        <th nzWidth="300px" nzRight="0px">
           {{ 'Action' | translate }}
         </th>
       </tr>
