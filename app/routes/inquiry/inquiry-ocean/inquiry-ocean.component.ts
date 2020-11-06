@@ -422,7 +422,6 @@ export class InquiryListOceanComponent implements OnInit {
   listOfData: any;
   totalCount: any;
   onGetAll(keyValue?, orderByName?, sort?) {
-    this.st.clear();
     return this.st.load();
     let datas = cloneDeep(this.searchForm.value);
     let num = this.skipCount - 1;
