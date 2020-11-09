@@ -954,6 +954,14 @@
                   </label></span
                 >
               </nz-list-item>
+
+              <nz-list-item>
+                <label style="height: 25px;" nz-checkbox [(ngModel)]="bookingDetailInfo.isClearance">{{
+                  'Custom clearance' | translate
+                }}</label>
+                <label style="height: 25px;" nz-checkbox [(ngModel)]="item.isInsurance">{{ 'Insurance' | translate }}</label>
+                <label style="height: 25px;" nz-checkbox [(ngModel)]="item.isDeclaration">{{ 'Custom declaration' | translate }}</label>
+              </nz-list-item>
             </nz-list>
             <nz-list *ngIf="bookingDetailInfo.quantity && bookingDetailInfo.weight && bookingDetailInfo.volume">
               <nz-list-item class="list-item-header">
@@ -1079,7 +1087,7 @@
                 >
               </nz-list-item>
             </nz-list>
-            <nz-list *ngIf="bookingDetailInfo.description || specialgoodsList.length > 0 || bookingDetailInfo.specialInstructions">
+            <nz-list *ngIf="bookingDetailInfo.description || bookingDetailInfo.specialInstructions">
               <nz-list-item class="list-item-header">
                 <span
                   ><label for="" style="font-weight: bold; font-size: 14px;">{{ 'Detail' | translate }}</label></span
@@ -1134,18 +1142,27 @@
                   </label></span
                 >
               </nz-list-item>
-              <div *ngIf="specialgoodsList.length > 0" class="un-List">
+            </nz-list>
+            <nz-list>
+              <nz-list-item class="list-item-header">
+                <span
+                  ><label for="" style="font-weight: bold; font-size: 14px;">{{ 'Specification' | translate }}</label></span
+                >
+              </nz-list-item>
+              <div class="un-List">
                 <span class="detailInfo-wap-info-left">
                   <label for="">{{ 'Special Goods' | translate }}</label>
                 </span>
-                <div [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0;">
+                <div *ngIf="specialgoodsList.length > 0" [ngClass]="{ notClickn: true }" style="display: block; padding: 8px 0;">
                   <div *ngFor="let item of specialgoodsList" class="quoteDetail-check">
                     <label style="height: 25px;" nz-checkbox [(ngModel)]="item.IsSelected">{{ item.Name }}</label>
                   </div>
+                  <ng-container *ngIf="specialgoodsList.length == 0">
+                    {{ 'no' | translate }}
+                  </ng-container>
                 </div>
               </div>
             </nz-list>
-
             <nz-collapse [nzBordered]="false">
               <nz-collapse-panel [nzActive]="false" [nzHeader]="'Other' | translate">
                 <nz-list>

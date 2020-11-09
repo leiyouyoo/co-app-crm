@@ -934,5 +934,7 @@
   "Delivery address":"送货地址",
   "Waiting":"等待",
   "Finished":"已完成",
-  "In Progress":"进行中"
+  "In Progress":"进行中",
+  "Specification":"规格",
+  "no":"无"
 }
