@@ -7,7 +7,7 @@ import { TransferTocustomerComponent } from '../../component/transfer-tocustomer
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
 import { Validators } from '@angular/forms';
-import { CRMCustomerService, CRMCreateOrUpdateCustomerInput, CRMEsQueryService } from 'apps/crm/app/services/crm';
+import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';
@@ -68,11 +68,11 @@ export class NoDealCustomerComponent extends CoPageBase {
       width: '150px',
       title: 'Country, province',
       index: 'country',
-      render: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
     },
-    { width: '150px', title: 'Contact', index: 'masterContact.name' },
-    { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: '150px', title: 'Owner', index: 'owner.name.display' },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'Owner', index: 'owner' },
     {
       title: 'Action',
       type: 'action',
@@ -100,10 +100,11 @@ export class NoDealCustomerComponent extends CoPageBase {
   ];
 
   constructor(
-    private esQueryService: CRMEsQueryService,
     private msg: NzMessageService,
     private translate: TranslateService,
+    private router: Router,
     private crmCustomerService: CRMCustomerService,
+    private componentFactoryResolver: ComponentFactoryResolver,
     injector: Injector,
   ) {
     super(injector);
@@ -155,10 +156,9 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   showDetial(data) {
-    debugger;
     this.$navigate(['crm/customers/customerdetails', data.id], {
       queryParams: {
-        _title: `${data.name.display}`,
+        _title: `${data.name}`,
       },
     });
   }
@@ -213,7 +213,7 @@ export class NoDealCustomerComponent extends CoPageBase {
       industry: value.industry,
       description: value.description,
       incoterms: value.incoterms,
-      customerTaxes: value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null,
+      customerTaxes: value.customerTaxes[0]?.taxType ? value.customerTaxes : null,
     };
 
     if (application) {
@@ -291,9 +291,9 @@ export class NoDealCustomerComponent extends CoPageBase {
     this.loading = true;
     const num = this.skipCount - 1;
 
-    this.esQueryService
-      .queryCustomers({
-        customerStatus: 0,
+    this.crmCustomerService
+      .getAll({
+        isCooperation: false,
         maxResultCount: this.maxResultCount,
         skipCount: num * this.maxResultCount,
         searchText: this.searchData,
