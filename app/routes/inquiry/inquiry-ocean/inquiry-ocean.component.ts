@@ -291,10 +291,10 @@ export class InquiryListOceanComponent implements OnInit {
       }
     } else if (e.type === 'sort') {
       // const value = e.sort.column.indexKey.toLowerCase();
-      this.keyValue = 'containerPrice.' + e.sort.column.indexKey;
-      this.orderByName = e.sort.value;
+      // this.keyValue = 'containerPrice.' + e.sort.column.indexKey;
+      // this.orderByName = e.sort.value;
       this.sort = 'sort';
-      this.onGetAll('containerPrice.' + e.sort.column.indexKey, e.sort.value, 'sort');
+      // this.onGetAll('containerPrice.' + e.sort.column.indexKey, e.sort.value, 'sort');
     }
     this.refreshStatus();
   }
@@ -422,146 +422,150 @@ export class InquiryListOceanComponent implements OnInit {
   listOfData: any;
   totalCount: any;
   onGetAll(keyValue?, orderByName?, sort?) {
-    this.st.clear();
     return this.st.load();
-    let datas = cloneDeep(this.searchForm.value);
-    let num = this.skipCount - 1;
-    let data: any = {
-      MaxResultCount: this.maxResultCount,
-      SkipCount: this.maxResultCount * num,
-      orderBy: { 'containerPrice.40GP': 'asc' },
-    };
-    //处理数据
-    data.isFollow = this.isFllow;
-    // 通知带入ID
-    if (this.id) {
-      data.id = this.id;
-    }
-    //处理数据
-    const params = { ...datas, ...data };
-    !params.dynamicQuery?.commodity && delete params.dynamicQuery.commodity;
-    !params.dynamicQuery?.no && delete params.dynamicQuery.no;
-    !params?.dynamicQuery?.shippingLineId && delete params.dynamicQuery.shippingLineId;
-    params?.shipCompanys?.length <= 0 && delete params.shipCompanys;
-    params?.dynamicQuery?.timeranges?.length <= 0 && delete params.dynamicQuery.timeranges;
-    Object.keys(params?.dynamicQuery).length === 0 && delete params.dynamicQuery;
-    const map = {
-      descend: 'desc',
-      ascend: 'asc',
-    };
-    if (keyValue && orderByName) {
-      params.orderBy = { [keyValue]: map[orderByName] };
-    }
-    this.loading = true;
-    this.ratesEsQueryService
-      .getAllForES(params)
-      .pipe(
-        finalize(() => {
-          if (this.id && this.listOfData && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
-          data.id = null;
-          this.id = null;
-        }),
-      )
-      .subscribe(
-        (res) => {
-          this.loading = false;
-          // this.dataOfList = res;
-          let tablestitle = [];
+    // let datas = cloneDeep(this.searchForm.value);
+    // let num = this.skipCount - 1;
+    // let data: any = {
+    //   MaxResultCount: this.maxResultCount,
+    //   SkipCount: this.maxResultCount * num,
+    //   orderBy: { 'containerPrice.40GP': 'asc' },
+    // };
+    // //处理数据
+    // data.isFollow = this.isFllow;
+    // // 通知带入ID
+    // if (this.id) {
+    //   data.id = this.id;
+    // }
+    // //处理数据
+    // const params = { ...datas, ...data };
+    // !params.dynamicQuery?.commodity && delete params.dynamicQuery.commodity;
+    // !params.dynamicQuery?.no && delete params.dynamicQuery.no;
+    // !params?.dynamicQuery?.shippingLineId && delete params.dynamicQuery.shippingLineId;
+    // params?.shipCompanys?.length <= 0 && delete params.shipCompanys;
+    // params?.dynamicQuery?.timeranges?.length <= 0 && delete params.dynamicQuery.timeranges;
+    // Object.keys(params?.dynamicQuery).length === 0 && delete params.dynamicQuery;
+    // const map = {
+    //   descend: 'desc',
+    //   ascend: 'asc',
+    // };
+    // if (keyValue && orderByName) {
+    //   params.orderBy = { [keyValue]: map[orderByName] };
+    // }
+    // this.loading = true;
+    // this.ratesEsQueryService
+    //   .getAllForES(params)
+    //   .pipe(
+    //     finalize(() => {
+    //       if (this.id && this.listOfData && this.listOfData.length > 0) this.showDetial(this.listOfData[0], 0);
+    //       data.id = null;
+    //       this.id = null;
+    //     }),
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       this.loading = false;
+    //       // this.dataOfList = res;
+    //       let tablestitle = [];
 
-          this.listOfData = res.items;
-          this.totalCount = res.totalCount;
+    //       this.listOfData = res.items;
+    //       this.totalCount = res.totalCount;
 
-          this.listOfData.forEach((e) => {
-            if (e.to) {
-              if (differenceInCalendarDays(new Date(e.to), new Date()) < 0) {
-                e.isValid = false;
-              } else {
-                e.isValid = true;
-              }
-            } else {
-              e.isValid = true;
-            }
-            // e.containerPriceKey = Object.keys(e.containerPrice);
-            // e.ratePriceOutputs.forEach((c) => {
-            //   tablestitle.push(c.unit);
-            // });
-            e.containerPriceList = this.objToArray(e.containerPrice);
-            tablestitle = e.unitCodes.split(',');
-          });
+    //       this.listOfData.forEach((e) => {
+    //         if (e.to) {
+    //           if (differenceInCalendarDays(new Date(e.to), new Date()) < 0) {
+    //             e.isValid = false;
+    //           } else {
+    //             e.isValid = true;
+    //           }
+    //         } else {
+    //           e.isValid = true;
+    //         }
+    //         // e.containerPriceKey = Object.keys(e.containerPrice);
+    //         // e.ratePriceOutputs.forEach((c) => {
+    //         //   tablestitle.push(c.unit);
+    //         // });
+    //         e.containerPriceList = this.objToArray(e.containerPrice);
+    //         tablestitle = e.unitCodes.split(',');
+    //       });
 
-          this.tablestitle = Array.from(new Set(tablestitle));
-          this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
-            const aMatch = a.match(/(\d+)([A-Z]+)/);
-            const bMatch = b.match(/(\d+)([A-Z]+)/);
-            if (!aMatch) {
-              return 1;
-            }
-            if (!bMatch) {
-              return -1;
-            }
-            const aNumber = aMatch[1];
-            const bNumber = bMatch[1];
-            const aUnit = aMatch[2];
-            const bUnit = bMatch[2];
-            switch (true) {
-              case aUnit < bUnit:
-                return -1;
-              case aUnit > bUnit:
-                return 1;
-              default:
-            }
-            switch (true) {
-              case aNumber < bNumber:
-                return -1;
-              case aNumber > bNumber:
-                return 1;
-              default:
-                return 0;
-            }
-          });
+    //       this.tablestitle = Array.from(new Set(tablestitle));
+    //       this.tablestitle = this.tablestitle.sort((a: any, b: any) => {
+    //         const aMatch = a.match(/(\d+)([A-Z]+)/);
+    //         const bMatch = b.match(/(\d+)([A-Z]+)/);
+    //         if (!aMatch) {
+    //           return 1;
+    //         }
+    //         if (!bMatch) {
+    //           return -1;
+    //         }
+    //         const aNumber = aMatch[1];
+    //         const bNumber = bMatch[1];
+    //         const aUnit = aMatch[2];
+    //         const bUnit = bMatch[2];
+    //         switch (true) {
+    //           case aUnit < bUnit:
+    //             return -1;
+    //           case aUnit > bUnit:
+    //             return 1;
+    //           default:
+    //         }
+    //         switch (true) {
+    //           case aNumber < bNumber:
+    //             return -1;
+    //           case aNumber > bNumber:
+    //             return 1;
+    //           default:
+    //             return 0;
+    //         }
+    //       });
 
-          // this.websort('40GP', 'ascend');
-          if (sort != 'sort') {
-            let titleItem = [];
-            this.initColumn();
-            this.tablestitle.forEach((e) => {
-              titleItem.push({
-                title: e,
-                index: e,
-                render: e,
-                width: 90,
-                sort: e,
-              });
-            });
+    //       // this.websort('40GP', 'ascend');
+    //       if (sort != 'sort') {
+    //         let titleItem = [];
+    //         this.initColumn();
+    //         this.tablestitle.forEach((e) => {
+    //           titleItem.push({
+    //             title: e,
+    //             index: e,
+    //             render: e,
+    //             width: 90,
+    //             sort: e,
+    //           });
+    //         });
 
-            titleItem.unshift(6, 0);
-            Array.prototype.splice.apply(this.columns, titleItem);
+    //         titleItem.unshift(6, 0);
+    //         Array.prototype.splice.apply(this.columns, titleItem);
 
-            if (!this.listOfData[0]?.isSuperPermission) {
-              this.columns.forEach((e, idx) => {
-                if (e.title == 'NameAccount') {
-                  this.columns.splice(idx, 1);
-                }
-              });
-            }
-          }
+    //         if (!this.listOfData[0]?.isSuperPermission) {
+    //           this.columns.forEach((e, idx) => {
+    //             if (e.title == 'NameAccount') {
+    //               this.columns.splice(idx, 1);
+    //             }
+    //           });
+    //         }
+    //       }
 
-          setTimeout(() => {
-            if (sort != 'sort') this.st.resetColumns();
-          }, 0);
-        },
-        (err) => {
-          this.loading = false;
-        },
-      );
+    //       setTimeout(() => {
+    //         if (sort != 'sort') this.st.resetColumns();
+    //       }, 0);
+    //     },
+    //     (err) => {
+    //       this.loading = false;
+    //     },
+    //   );
   }
 
   esParams: any;
   paramsProcess = (requestOptions: STRequestOptions) => {
+    debugger
     let datas = cloneDeep(this.searchForm.value);
+
     let data: any = {
-      orderBy: { 'containerPrice.40GP': 'asc' },
+      // orderBy: { 'containerPrice.40GP': 'asc' },
     };
+    if(Object.keys(requestOptions.body.orderBy).length<=0){
+      requestOptions.body.orderBy= { 'containerPrice.40GP': 'asc' };
+    }
     //处理数据
     data.isFollow = this.isFllow;
     // 通知带入ID
@@ -569,22 +573,22 @@ export class InquiryListOceanComponent implements OnInit {
       data.id = this.id;
     }
     //处理数据
-    this.esParams = { ...datas, ...data };
+    this.esParams = { ...datas,...data};
     !this.esParams.dynamicQuery?.commodity && delete this.esParams.dynamicQuery.commodity;
     !this.esParams.dynamicQuery?.no && delete this.esParams.dynamicQuery.no;
     !this.esParams?.dynamicQuery?.shippingLineId && delete this.esParams.dynamicQuery.shippingLineId;
     this.esParams?.shipCompanys?.length <= 0 && delete this.esParams.shipCompanys;
     this.esParams?.dynamicQuery?.timeranges?.length <= 0 && delete this.esParams.dynamicQuery.timeranges;
     Object.keys(this.esParams?.dynamicQuery).length === 0 && delete this.esParams.dynamicQuery;
-    const map = {
-      descend: 'desc',
-      ascend: 'asc',
-    };
-    if (this.keyValue && this.orderByName) {
-      this.esParams.orderBy = { [this.keyValue]: map[this.orderByName] };
-    }
+    // const map = {
+    //   descend: 'desc',
+    //   ascend: 'asc',
+    // };
+    // if (this.keyValue && this.orderByName) {
+    //   this.esParams.orderBy = { [this.keyValue]: map[this.orderByName] };
+    // }
     requestOptions.body.dynamicQuery = this.esParams.dynamicQuery;
-    requestOptions.body.orderBy = this.esParams.orderBy;
+    // requestOptions.body.orderBy = this.esParams.orderBy;
     requestOptions.body.deliverys = this.esParams.deliverys;
     requestOptions.body.pods = this.esParams.pods;
     requestOptions.body.pols = this.esParams.pols;
@@ -659,7 +663,7 @@ export class InquiryListOceanComponent implements OnInit {
           index: e,
           render: e,
           width: 90,
-          sort: e,
+          sort: "containerPrice."+e,
         });
       });
 
