@@ -193,9 +193,10 @@ export class SharedCustomersComponent extends CoPageBase {
   }
 
   showDetial(data) {
+    debugger;
     this.$navigate(['crm/customers/shareddetial', data.id], {
       queryParams: {
-        _title: `${data.name.showDetial}`,
+        _title: `${data.name.display}`,
       },
     });
   }
