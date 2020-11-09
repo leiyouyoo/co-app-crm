@@ -3,13 +3,13 @@
 <div class="partner-detial" id="partner-detial">
   <div class="cust-detail-head">
     <div class="head-partner-name">
-      <div style="margin:0 20px ">
+      <div style="margin: 0 20px;">
         <div class="back">
           <i nz-icon nzType="arrow-left" nzTheme="outline" (click)="onBack()"></i>
         </div>
       </div>
-      <div style="font-weight: 800">
-        <strong style="font-size:20px">
+      <div style="font-weight: 800;">
+        <strong style="font-size: 20px;">
           {{ partnerInfo?.name }}
         </strong>
         <div *ngIf="partnerInfo?.partnerCustomer?.isRegistered" class="certification">{{ 'Verified' | translate }}</div>
@@ -18,9 +18,7 @@
         </div>
 
         <div *ngIf="partnerInfo" style="margin-top: 8px;">
-          <span *ngIf="partnerInfo?.localizationName" style="color:#999;margin-right: 10px;">{{
-            partnerInfo?.localizationName
-          }}</span>
+          <span *ngIf="partnerInfo?.localizationName" style="color: #999; margin-right: 10px;">{{ partnerInfo?.localizationName }}</span>
           {{ 'Code' | translate }}：{{ partnerInfo?.partnerCustomer?.code || '--' }}
         </div>
       </div>
@@ -54,8 +52,8 @@
               [partnerId]="partnerInfo?.partnerCustomer?.id"
               [isPartner]="true"
               [isOwner]="isOwner"
-              [partnerIsOwner]="partnerIsOwner"
-              [customerState]="cusState"
+              [partnerIsOwner]="partnerInfo?.isOwner"
+              [customerState]="partnerInfo?.partnerCustomer?.state"
               [isBind]="partnerInfo?.partnerCustomer?.isRegistered"
               [isCanBind]="partnerInfo.partnerCustomer ? true : false"
               (refushData)="initData()"

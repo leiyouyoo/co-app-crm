@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerMergeComponent } from '../component/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
-import { CRMCustomerService, CRMEsQueryService } from 'apps/crm/app/services/crm';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';
 
@@ -43,12 +43,12 @@ export class CustomerComponent extends CoPageBase {
       width: '150px',
       title: 'Country, province',
       index: 'country',
-      render: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
     },
-    { width: '150px', title: 'Contact', index: 'masterContact.name' },
-    { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: '150px', title: 'Owner', index: 'owner.name.display' },
-    { width: 250, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    { width: '150px', title: 'Contact', index: 'contactName' },
+    { width: '150px', title: 'Phone', index: 'contactTel' },
+    { width: '150px', title: 'Owner', index: 'owner' },
+    { width: '250px', title: 'First shipment time', index: 'firsttimeShipDate' },
     {
       title: 'Action',
       type: 'action',
@@ -73,7 +73,6 @@ export class CustomerComponent extends CoPageBase {
     injector: Injector,
     private msg: NzMessageService,
     public router: Router,
-    private esQueryService: CRMEsQueryService,
     private crmCustomerService: CRMCustomerService,
     private translate: TranslateService,
   ) {
@@ -106,9 +105,9 @@ export class CustomerComponent extends CoPageBase {
     this.loading = true;
     const num = this.skipCount - 1;
 
-    this.esQueryService
-      .queryCustomers({
-        customerStatus: 1,
+    this.crmCustomerService
+      .getAll({
+        isCooperation: true,
         maxResultCount: this.maxResultCount,
         skipCount: num * this.maxResultCount,
         searchText: this.searchData,
@@ -164,6 +163,7 @@ export class CustomerComponent extends CoPageBase {
   }
 
   transferCustomer(customerIds: any[], userId: any) {
+
     this.tranLoading = true;
     this.crmCustomerService
       .transferCustomer(
@@ -186,7 +186,7 @@ export class CustomerComponent extends CoPageBase {
   showDetial(data) {
     this.$navigate(['crm/customers/customerdetails', data.id], {
       queryParams: {
-        _title: `${data.name.display}`,
+        _title: `${data.name}`,
       },
     });
   }
