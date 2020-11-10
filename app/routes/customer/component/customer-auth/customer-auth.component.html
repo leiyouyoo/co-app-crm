@@ -25,7 +25,7 @@
         {{ 'Role' | translate }}:<span>{{ clientMsg?.editionRoleName }}</span>
       </div>
       <div>
-        {{ 'Contact information' | translate }}:<span>{{ clientMsg?.contactFullName }}</span>
+        {{ 'Contact information' | translate }}:<span>{{ clientMsg?.contactFullName || '--' }}</span>
       </div>
       <div>
         {{ 'Customer configuration level' | translate }}:
@@ -105,10 +105,7 @@
     <nz-alert
       style="margin-bottom: 20px;"
       nzType="warning"
-      nzMessage="{{
-        'After the customer level configuration is released, customers who have already opened the tenant can log in to the CSP platform to view the maritime freight rate after the bonus'
-          | translate
-      }}"
+      nzMessage=""
       nzShowIcon
     ></nz-alert>
 
@@ -172,7 +169,7 @@
                   T5{{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
                 </nz-option>
                 <nz-option [nzValue]="0" nzCustomContent>
-                  自定义
+                  {{'customize' | translate}}
                 </nz-option>
               </nz-select>
 
@@ -184,7 +181,7 @@
                 </div>
 
                 <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value == 0">
-                  自定义
+                  {{'customize' | translate}}
                 </div>
               </ng-template>
             </nz-form-control>
