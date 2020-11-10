@@ -557,7 +557,6 @@ export class InquiryListOceanComponent implements OnInit {
 
   esParams: any;
   paramsProcess = (requestOptions: STRequestOptions) => {
-    debugger
     let datas = cloneDeep(this.searchForm.value);
 
     let data: any = {
