@@ -3,9 +3,9 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';
-import { CRMCustomerService, CRMEsQueryService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'app-shared-customers',
@@ -18,7 +18,6 @@ export class SharedCustomersComponent extends CoPageBase {
     private msg: NzMessageService,
     private translate: TranslateService,
     public router: Router,
-    private esQueryService: CRMEsQueryService,
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
   ) {
@@ -62,11 +61,11 @@ export class SharedCustomersComponent extends CoPageBase {
       width: 150,
       title: 'Country, province',
       index: 'country',
-      render: 'country',
+      format: (item, _col) => `${item.country + '-' + item.province}`,
     },
-    { width: '150px', title: 'Contact', index: 'masterContact.name' },
-    { width: '150px', title: 'Phone', index: 'masterContact.tel' },
-    { width: 250, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
+    { width: 100, title: 'Contact', index: 'contactName' },
+    { width: 100, title: 'Phone', index: 'contactTel' },
+    { width: 100, title: 'First shipment time', index: 'firsttimeShipDate', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm' },
     { width: 100, title: 'Sharer', render: 'sharer' },
     {
       title: 'Action',
@@ -113,9 +112,9 @@ export class SharedCustomersComponent extends CoPageBase {
   getSharesList() {
     let num = this.skipCount - 1;
     this.loading = true;
-    this.esQueryService
-      .queryCustomers({
-        customerStatus: 2,
+    this.crmCustomerService
+      .getShares({
+        isCooperation: false, //是否成交合作的客户
         maxResultCount: this.maxResultCount,
         skipCount: num * this.maxResultCount,
         searchText: this.searchData,
@@ -195,7 +194,7 @@ export class SharedCustomersComponent extends CoPageBase {
   showDetial(data) {
     this.$navigate(['crm/customers/shareddetial', data.id], {
       queryParams: {
-        _title: `${data.name.showDetial}`,
+        _title: `${data.name}`,
       },
     });
   }

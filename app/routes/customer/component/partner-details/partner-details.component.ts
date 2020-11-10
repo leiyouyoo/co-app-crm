@@ -15,13 +15,7 @@ export class PartnerDetailsComponent implements OnInit {
   @Input() partnerId: any;
   @Input() isOwner: any;
 
-  contactOrlocation = 0;
   partnerInfo: any;
-  partnerName: string;
-  partnerDetial: any;
-  partnerIsOwner: any;
-  edit = false;
-  cusState: any;
 
   constructor(private activeRoute: ActivatedRoute, public msessage: NzMessageService, private crmPartnerService: CRMPartnerService) {}
 
@@ -30,35 +24,20 @@ export class PartnerDetailsComponent implements OnInit {
   }
 
   initData() {
-    this.getdetial();
+    this.getDetail();
   }
 
-  getdetial() {
-    this.getPartner(this.partnerId).subscribe(
-      (res: any) => {
-        this.partnerName = res.name;
-        this.partnerInfo = res;
-        this.partnerIsOwner = res.isOwner;
-
-        this.cusState = res?.partnerCustomer?.state;
-
-        if (this.partnerInfo) {
-          this.partnerInfo.locationCount = res.locationCount;
-          this.partnerInfo.contactCount = res.contactCount;
-        }
-      },
-      (err) => {},
-    );
-  }
-
-  back() {
-    this.outerPartnerDetails.emit();
-  }
-
-  getPartner(id: any) {
-    return this.crmPartnerService.get({
-      id: id,
-    });
+  getDetail() {
+    this.crmPartnerService
+      .get({
+        id: this.partnerId,
+      })
+      .subscribe(
+        (res: any) => {
+          this.partnerInfo = res;
+        },
+        (err) => {},
+      );
   }
 
   onBack() {

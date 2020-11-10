@@ -48,14 +48,10 @@
             >
               <ng-template st-row="CustomerTableName" let-data>
                 <a (click)="showDetial(data)">
-                  {{ data.name?.display || '--' }}
+                  {{ data.name || '--' }}
 
                   <span *ngIf="data.isMerged">({{ 'merged customers' | translate }})</span></a
                 >
-              </ng-template>
-              <ng-template st-row="country" let-data>
-                {{ data.country?.code }}
-                <span *ngIf="data.province?.name"> - {{ data.province.name.display }} </span>
               </ng-template>
             </co-st>
           </div>
