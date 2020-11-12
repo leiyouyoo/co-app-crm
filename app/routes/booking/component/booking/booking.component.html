@@ -72,6 +72,7 @@
           [showFilters]="false"
           calcScroll
           disableCalcX
+          (change)="change($event)"
           style="height: 100%;"
         >
           <ng-template st-row="no" let-data>

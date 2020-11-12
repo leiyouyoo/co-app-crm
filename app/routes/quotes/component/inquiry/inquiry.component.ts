@@ -169,6 +169,10 @@ export class InquiryComponent extends CoPageBase {
     });
   }
 
+  coOnActived() {
+    this.GetAllForCRM();
+  }
+
   onDivHeight() {
     // 获取宽高
     const tableDom = document.getElementById('table');
@@ -217,10 +221,6 @@ export class InquiryComponent extends CoPageBase {
 
   //主动报价回复
   createinitiativequotes() {
-    // this.isShowinitiativecreatequotes = true;
-    // setTimeout(() => {
-    //   this.initiativeCreatequotesComponent.ngScroll();
-    // }, 500);
     this.$navigate(['/crm/quotes/create-quote'], { queryParams: { _title: `${this.$L('Add Quotes')}` } });
   }
   createinitiativequotesCancel() {

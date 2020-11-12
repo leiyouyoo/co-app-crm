@@ -182,6 +182,18 @@ export class BookingComponent extends CoPageBase {
     this.bookingInputParams.SkipCount = 0;
     this.GetAllListForCRM(this.bookingInputParams);
   }
+
+  change(event) {
+    console.log(event);
+    switch (event.type) {
+      case 'dblClick':
+        this.view(event.dblClick.item);
+        break;
+
+      default:
+        break;
+    }
+  }
   //排序
   sort(sortName: string, value: string): void {
     this.sortName = sortName;
