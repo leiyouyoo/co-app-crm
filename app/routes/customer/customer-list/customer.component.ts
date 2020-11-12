@@ -163,7 +163,6 @@ export class CustomerComponent extends CoPageBase {
   }
 
   transferCustomer(customerIds: any[], userId: any) {
-
     this.tranLoading = true;
     this.crmCustomerService
       .transferCustomer(
