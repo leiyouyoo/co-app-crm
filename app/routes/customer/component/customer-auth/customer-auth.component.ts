@@ -25,7 +25,6 @@ export class CustomerAuthComponent implements OnInit {
 
   clientMsg: any;
   validateForm: FormGroup;
-  editionlist: any[] = [];
   contactList = [];
   maxPrice = 99.99;
   minPrice = 50;
@@ -60,7 +59,6 @@ export class CustomerAuthComponent implements OnInit {
 
   ngOnInit() {
     this.initData();
-    this.getEditionAll();
     this.onRolesList();
     this.onContactList();
     this.getDetial();
@@ -85,10 +83,10 @@ export class CustomerAuthComponent implements OnInit {
   getDetial() {
     if (this.isPartner) {
       if (this.partnerId) {
-        this.GetCustomerConfigure(this.partnerId);
+        this.getCustomerConfigure(this.partnerId);
       }
     } else {
-      this.GetCustomerConfigure(this.customerId);
+      this.getCustomerConfigure(this.customerId);
     }
   }
   onRolesList() {
@@ -166,14 +164,7 @@ export class CustomerAuthComponent implements OnInit {
     }
   }
 
-  //获取网站配置版本
-  getEditionAll() {
-    this.platformEditionService.getAll({ skipCount: 0, maxResultCount: 100 }).subscribe((c) => {
-      this.editionlist = c.items;
-    });
-  }
-
-  GetCustomerConfigure(id: any) {
+  getCustomerConfigure(id: any) {
     this.crmCustomerService
       .getCustomerConfigure({
         customerId: id,
