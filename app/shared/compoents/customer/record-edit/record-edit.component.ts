@@ -74,6 +74,7 @@ export class RecordEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // 作者：龙雪莉
     this.endDate = new Date();
     this.startDate = new Date(this.endDate - 60 * 60 * 1000 * 24 * 2);
     this.validateForm = this.fb.group({

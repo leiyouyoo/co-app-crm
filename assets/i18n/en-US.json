@@ -16,7 +16,7 @@
   "Input location/port": "Input location/port",
   "CustomerTableName": "Customer Name",
   "createBooking": "New booking",
-  "Customize":"Customize",
+  "Customize": "Customize",
   "Quotes Detail": "Quotes Detail",
   "Add": "Add",
   "Follow-up method": "Follow-up method",
@@ -26,5 +26,6 @@
     "Yes": "Yes",
     "No": "No"
   },
-  "Whether to leave or not": "Whether to leave or not"
+  "Whether to leave or not": "Whether to leave or not",
+  "The related local charge is only for reference": "The related local charge is only for reference, not inclusive or not  limited the local charges actually happened but not shown here, or happened but is not  proveded services by CITY OCEAN. All the local charges should be calculated according to final debit notes."
 }

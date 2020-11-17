@@ -10,7 +10,7 @@ import { Validators } from '@angular/forms';
 import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';
 import { CoPageBase } from '@co/core';
-import { STColumn } from '@co/cbc';
+import { STColumn, STComponent } from '@co/cbc';
 import { NzResizableService, NzResizeEvent } from 'ng-zorro-antd/resizable';
 @Component({
   selector: 'app-no-deal-customer',
@@ -50,7 +50,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   applicationLoading = false;
   maxResultCount = 20;
   skipCount = 1;
-
+  @ViewChild('st') st: STComponent;
   choosedData = [];
   columns: STColumn[] = [
     {
@@ -277,13 +277,13 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   createTrans() {
-    let list = []; // list 一定要定义为局部变量
-    this.listOfData.items.forEach((data) => {
-      if (data.choosed) {
-        list.push(data.id);
-      }
-    });
-    this.transferCustomer(list, this.tranCustomer.validateForm.get('userId').value);
+    let list = this.st.getCheckedList();
+    if (list?.length > 0) {
+      this.transferCustomer(
+        list.map((e) => e.id),
+        this.tranCustomer.validateForm.get('userId').value,
+      );
+    }
   }
 
   //获取客户数据
