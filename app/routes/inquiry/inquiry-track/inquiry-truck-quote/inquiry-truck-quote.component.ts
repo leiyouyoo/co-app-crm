@@ -10,19 +10,19 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
 
 enum VolumeUnitCode {
-  CBM = "TJDWCBM",
-  CFT = "TJDWCFT"
+  CBM = 'TJDWCBM',
+  CFT = 'TJDWCFT',
 }
 enum WeightUnitCode {
-  KGS = "ZLDWKGS",
-  LBS = "ZLDWLBS",
-  MT = "ZLDWMT"
+  KGS = 'ZLDWKGS',
+  LBS = 'ZLDWLBS',
+  MT = 'ZLDWMT',
 }
 
 @Component({
   selector: 'crm-inquiry-truck-quote',
   templateUrl: './inquiry-truck-quote.component.html',
-  styleUrls: ['./inquiry-truck-quote.component.less']
+  styleUrls: ['./inquiry-truck-quote.component.less'],
 })
 export class InquiryTruckQuoteComponent implements OnInit {
   @Input() id: string;
@@ -44,17 +44,18 @@ export class InquiryTruckQuoteComponent implements OnInit {
   readonly VolumeUnitCode = VolumeUnitCode;
   readonly WeightUnitCode = WeightUnitCode;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private OrganizationUnit: PlatformOrganizationUnitService,
     private crmCustomer: CRMCustomerService,
     private ratesQuoteEnquiryService: RatesQuoteEnquiryService,
     private msg: NzMessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       truckType: [2, [Validators.required]],
-      truckPortId: [null, [Validators.required]],
+      truckPortId: [null],
       truckAddressId: [null, [Validators.required]],
       ownerCustomerId: [null],
       ownerContactId: [null],
@@ -77,7 +78,7 @@ export class InquiryTruckQuoteComponent implements OnInit {
       id: [],
     });
     this.validateForm.controls.truckType.valueChanges.subscribe((res) => {
-      this.ngModelChangeYruckType();
+      this.ngModelChangeTruckType(res);
     });
     // 单位公制英制统一切换
     const weightUnitCode = this.validateForm.get('weightUnitCode');
@@ -166,13 +167,11 @@ export class InquiryTruckQuoteComponent implements OnInit {
   };
 
   getOrganizationUnitUsers() {
-    this.OrganizationUnit
-      .getOrganizationUnitUsers({
-        organizationUnitName: '商务部',
-      })
-      .subscribe((res: any) => {
-        this.unitUsers = res.items;
-      });
+    this.OrganizationUnit.getOrganizationUnitUsers({
+      organizationUnitName: '商务部',
+    }).subscribe((res: any) => {
+      this.unitUsers = res.items;
+    });
   }
 
   getCarrierCustomerList() {
@@ -245,12 +244,17 @@ export class InquiryTruckQuoteComponent implements OnInit {
     return this.validateForm.valid;
   }
 
-  ngModelChangeYruckType() {
+  ngModelChangeTruckType(res?) {
     this.validateForm.patchValue({
       truckPortId: null,
       truckAddressId: null,
       zipCode: null,
     });
+    if (res === 2) {
+      this.validateForm.controls.truckPortId.clearValidators();
+    } else {
+      this.validateForm.controls.truckPortId.setValidators(Validators.required);
+    }
     if (this.truckingFromToComponent) this.truckingFromToComponent.reverse();
   }
 

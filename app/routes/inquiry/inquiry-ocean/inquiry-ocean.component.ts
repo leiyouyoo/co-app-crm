@@ -562,8 +562,8 @@ export class InquiryListOceanComponent implements OnInit {
     let data: any = {
       // orderBy: { 'containerPrice.40GP': 'asc' },
     };
-    if(Object.keys(requestOptions.body.orderBy).length<=0){
-      requestOptions.body.orderBy= { 'containerPrice.40GP': 'asc' };
+    if (Object.keys(requestOptions.body.orderBy).length <= 0) {
+      requestOptions.body.orderBy = { 'containerPrice.40GP': 'asc' };
     }
     //处理数据
     data.isFollow = this.isFllow;
@@ -572,7 +572,7 @@ export class InquiryListOceanComponent implements OnInit {
       data.id = this.id;
     }
     //处理数据
-    this.esParams = { ...datas,...data};
+    this.esParams = { ...datas, ...data };
     !this.esParams.dynamicQuery?.commodity && delete this.esParams.dynamicQuery.commodity;
     !this.esParams.dynamicQuery?.no && delete this.esParams.dynamicQuery.no;
     !this.esParams?.dynamicQuery?.shippingLineId && delete this.esParams.dynamicQuery.shippingLineId;
@@ -662,7 +662,7 @@ export class InquiryListOceanComponent implements OnInit {
           index: e,
           render: e,
           width: 90,
-          sort: "containerPrice."+e,
+          sort: 'containerPrice.' + e,
         });
       });
 
