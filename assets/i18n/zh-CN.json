@@ -24,7 +24,7 @@
   "Turn into a potential customer": "转为潜在客户",
   "Convert to shared client": "转为共享客户",
   "Convert to an unowned client": "转为无主客户",
-  "'s partner":"的合作伙伴",
+  "'s partner": "的合作伙伴",
   "Customize": "自定义",
   "Name cannot be in English!": "姓名不能为英文!",
   "Fax": "传真",
@@ -928,11 +928,14 @@
   "Whether to leave or not": "是否要离开?",
   "Gross Weight(kg) /Carton": "毛重（公斤）/箱",
   "Net Weight(kg) /Carton": "净重（公斤）/箱",
-  "Choose Address":"选择地址",
+  "Choose Address": "选择地址",
   "Expected delivery time": "期望派送时间",
   "Quantities in the packge": "装入数量",
-  "Delivery address":"送货地址",
-  "Waiting":"等待",
-  "Finished":"已完成",
-  "In Progress":"进行中"
+  "Delivery address": "送货地址",
+  "Waiting": "等待",
+  "Finished": "已完成",
+  "In Progress": "进行中",
+  "The Pre-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.": "未关联港前费用，请和当地商务联系增加",
+  "The behind-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.": "未关联港后费用，请和当地商务联系增加",
+  "The related local charge is only for reference":"该费用仅供参考，不限不包括未录入的费用，及未由我司提供服务或收取的费用。以实际账单为准"
 }
