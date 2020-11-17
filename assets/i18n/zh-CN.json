@@ -936,5 +936,10 @@
   "Finished":"已完成",
   "In Progress":"进行中",
   "Specification":"规格",
-  "no":"无"
+  "no":"无",
+  "Special Goods": "特殊品",
+  "Batteries": "电池",
+  "Hazardous Materials": "有害物质",
+  "Magnetic Properties": "带磁物品",
+  "Other(creams,liquids,powders)": "其他(面霜，液体，粉剂)"
 }

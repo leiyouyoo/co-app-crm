@@ -955,13 +955,17 @@
                 >
               </nz-list-item>
 
-              <nz-list-item>
-                <label style="height: 25px;" nz-checkbox [(ngModel)]="bookingDetailInfo.isClearance">{{
-                  'Custom clearance' | translate
-                }}</label>
-                <label style="height: 25px;" nz-checkbox [(ngModel)]="item.isInsurance">{{ 'Insurance' | translate }}</label>
-                <label style="height: 25px;" nz-checkbox [(ngModel)]="item.isDeclaration">{{ 'Custom declaration' | translate }}</label>
-              </nz-list-item>
+              <div class="un-List">
+                <div class="notClickn quoteDetail-check">
+                  <label style="height: 25px;" nz-checkbox [(ngModel)]="bookingDetailInfo.isClearance">{{
+                    'Custom clearance' | translate
+                  }}</label>
+                  <label style="height: 25px;" nz-checkbox [(ngModel)]="bookingDetailInfo.isInsurance">{{ 'Insurance' | translate }}</label>
+                  <label style="height: 25px;" nz-checkbox [(ngModel)]="bookingDetailInfo.isDeclaration">{{
+                    'Custom declaration' | translate
+                  }}</label>
+                </div>
+              </div>
             </nz-list>
             <nz-list *ngIf="bookingDetailInfo.quantity && bookingDetailInfo.weight && bookingDetailInfo.volume">
               <nz-list-item class="list-item-header">
