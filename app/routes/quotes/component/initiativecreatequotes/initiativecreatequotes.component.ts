@@ -693,6 +693,9 @@ export class initiativeCreatequotesComponent extends CoPageBase implements OnIni
 
   clearPort(event: any) {
     if (!event) this.isSamePort = true;
+    this.handlequotesComponent.startingcurrencyId = 'deb5f402-b6c0-4491-b247-b75c3eda7976';
+    this.handlequotesComponent.endcurrencyId = 'deb5f402-b6c0-4491-b247-b75c3eda7976';
+    this.handlequotesComponent.setCurrencyId();
   }
 
   //创建create

@@ -22,6 +22,8 @@ export class HandlequotesComponent implements OnInit {
   //目的地费用
   @Input() endplace: any[] = [{ NO: 1 }];
   @Input() copyendplace: any[] = [{ NO: 1 }];
+  startingcurrencyId;
+  endcurrencyId;
 
   //起始地费用
   @Input() startingplace: any[] = [{ NO: 1 }];
@@ -300,9 +302,24 @@ export class HandlequotesComponent implements OnInit {
   getAllCurrency() {
     this.quotesService.getAllCurrency({}).subscribe((c) => {
       this.currencyList = c.items;
+      this.currencyList.forEach((e) => {
+        if (e.code === 'USD') {
+          !this.startingcurrencyId ? (this.startingcurrencyId = e.id) : null;
+          !this.endcurrencyId ? (this.endcurrencyId = e.id) : null;
+        }
+        this.setCurrencyId();
+      });
     });
   }
-
+  // 设置起始地和目的地的币种
+  setCurrencyId() {
+    this.startingplace.forEach((item) => {
+      item['currencyId'] = this.startingcurrencyId;
+    });
+    this.endplace.forEach((item) => {
+      item['currencyId'] = this.endcurrencyId;
+    });
+  }
   //获取船东信息
   getCarrierList() {
     this.crmCustomerService
@@ -731,14 +748,14 @@ export class HandlequotesComponent implements OnInit {
   addOrigin() {
     let i = this.startingplace.length > 0 ? this.startingplace.length : this.tableIndex;
     i++;
-    this.startingplace.push({ NO: i });
+    this.startingplace.push({ NO: i, currencyId: this.startingcurrencyId });
   }
 
   //增加行(目的地费用)
   addDestination() {
     let i = this.endplace.length > 0 ? this.endplace.length : this.tableIndex;
     i++;
-    this.endplace.push({ NO: i });
+    this.endplace.push({ NO: i, currencyId: this.endcurrencyId });
   }
 
   trackByIndex(index: number) {
