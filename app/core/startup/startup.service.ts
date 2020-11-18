@@ -34,7 +34,7 @@ export class StartupService {
 
     //TODO:子应用代码-加载指定子应用语言文件
     return new Promise((resolve) => {
-      zip(this.httpClient.get(`./apps/crm/assets/i18n/${lang}.json`))
+      zip(this.httpClient.get(`./apps/fcm/assets/i18n/${lang}.json?hash=${new Date().getTime()}`))
         .pipe(
           // 接收其他拦截器后产生的异常消息
           catchError((res) => {
