@@ -347,7 +347,7 @@
                   nzShowSearch
                   nzServerSearch
                   (nzOnSearch)="portOriginsearch($event)"
-                  (ngModelChange)="handlequotesComponent.init(); clearPort($event)"
+                  (ngModelChange)="handlequotesComponent.init(); clearPort($event, 'origin')"
                   nzAllowClear
                   nzPlaceHolder="{{ 'POL' | translate }}"
                   nzOptionHeightPx="104"
@@ -424,7 +424,7 @@
                   #destinationPortId="ngModel"
                   nzServerSearch
                   (nzOnSearch)="portDesinationsearch($event)"
-                  (ngModelChange)="handlequotesComponent.init(); clearPort($event)"
+                  (ngModelChange)="handlequotesComponent.init(); clearPort($event, 'destination')"
                   nzAllowClear
                   nzPlaceHolder="{{ 'POD' | translate }}"
                   nzOptionHeightPx="104"

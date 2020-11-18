@@ -691,11 +691,35 @@ export class initiativeCreatequotesComponent extends CoPageBase implements OnIni
     });
   }
 
-  clearPort(event: any) {
+  clearPort(event: any, type) {
     if (!event) this.isSamePort = true;
-    this.handlequotesComponent.startingcurrencyId = 'deb5f402-b6c0-4491-b247-b75c3eda7976';
-    this.handlequotesComponent.endcurrencyId = 'deb5f402-b6c0-4491-b247-b75c3eda7976';
-    this.handlequotesComponent.setCurrencyId();
+    let id = '';
+    switch (type) {
+      case 'origin':
+        id = this.OriginPortList.filter((e) => e.id === event)[0].countryId;
+        break;
+      case 'destination':
+        id = this.DesinationPortList.filter((e) => e.id === event)[0].countryId;
+        break;
+      default:
+        break;
+    }
+
+    this.quotesService.getAllCurrency({ regionId: id }).subscribe((res) => {
+      if (res && res.items[0]) {
+        switch (type) {
+          case 'origin':
+            this.handlequotesComponent.startingcurrencyId = res.items[0]?.id;
+            break;
+          case 'destination':
+            this.handlequotesComponent.endcurrencyId = res.items[0]?.id;
+            break;
+          default:
+            break;
+        }
+      }
+      this.handlequotesComponent.setCurrencyId();
+    });
   }
 
   //创建create
