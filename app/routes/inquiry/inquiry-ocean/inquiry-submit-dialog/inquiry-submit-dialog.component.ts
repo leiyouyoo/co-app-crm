@@ -148,6 +148,7 @@ export class InquirySubmitDialogComponent implements OnInit {
         (res: any) => {
           this.msg.success('创建成功');
           this.validateForm.reset();
+          this.close.emit(true);
           this.okLoading = false;
         },
         (err) => {

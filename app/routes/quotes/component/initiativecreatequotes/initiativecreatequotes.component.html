@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="choose-title justify-content-end">
+  <div class="choose-title justify-content-start">
     <!--<div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
       {{ 'Inquiry information' | translate }}
     </div>
@@ -11,7 +11,9 @@
     <div (click)="onGoDetial(3)" [ngClass]="i === 3 ? 'choosed' : 'choose'">{{ 'Origin cost' | translate }}</div>
     <div (click)="onGoDetial(4)" [ngClass]="i === 4 ? 'choosed' : 'choose'">{{ 'Destination cost' | translate }}</div>
     <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>-->
-    <button nz-button nzType="primary" [nzLoading]="loading" (click)="ngSubmit()" style="margin-bottom: 10px;">{{ 'Add Quotes' | translate }}</button>
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="ngSubmit()" style="margin-bottom: 10px;">
+      {{ 'Save' | translate }}
+    </button>
   </div>
   <div class="head_quote">
     <form nz-form #formData="ngForm">
@@ -178,7 +180,7 @@
                 <app-formvalidation requiredName="TradeType" [value]="tradeType"></app-formvalidation>
               </div>
             </div>
-            <div class="quote-info-channel">
+            <div *ngIf="quoteinfo.tradeType != 1" class="quote-info-channel">
               <label class="label" nzRequired>{{ 'Channel' | translate }}<span class="red">*</span></label>
               <div class="quote-info-row-right">
                 <nz-select
@@ -968,7 +970,7 @@
                             (ngModelChange)="changeUnitCode($event)"
                             [(ngModel)]="quoteinfo.volumeUnitCode"
                           >
-                            <label nz-radio-button [nzValue]="VolumeUnitCode.CBM">cmb</label>
+                            <label nz-radio-button [nzValue]="VolumeUnitCode.CBM">cbm</label>
                             <label nz-radio-button [nzValue]="VolumeUnitCode.CFT">cbf</label>
                           </nz-radio-group>
                         </div>

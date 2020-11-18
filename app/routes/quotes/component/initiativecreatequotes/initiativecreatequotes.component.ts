@@ -491,6 +491,7 @@ export class initiativeCreatequotesComponent extends CoPageBase implements OnIni
       this.quoteinfo.destinationIsRequireTruck = false;
       this.quoteinfo.freightType = freightType.DOORDOOR;
     } else {
+      this.quoteinfo.channel = null;
       this.quoteinfo.shipmentType = 0;
       this.quoteinfo.freightMethodType = this.freightMethodTypeValue.Ocean;
       this.quoteinfo.originAddressId = null;
