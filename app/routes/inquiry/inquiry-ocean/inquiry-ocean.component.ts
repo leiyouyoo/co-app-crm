@@ -217,7 +217,7 @@ export class InquiryListOceanComponent implements OnInit {
       },
     },
     { title: 'Reject reason', index: 'rejectRemark', width: 120 },
-    { title: 'Update by', index: 'updateBy', width: 120 },
+    { title: 'Business man', index: 'updateBy', width: 120 },
 
     {
       title: 'Action',
@@ -893,7 +893,7 @@ export class InquiryListOceanComponent implements OnInit {
         },
       },
       { title: 'Reject reason', index: 'rejectRemark', width: 120 },
-      { title: 'Update by', index: 'updateBy', render: 'updateBy', width: 120 },
+      { title: 'Business man', index: 'updateBy', render: 'updateBy', width: 120 },
 
       {
         title: 'Action',
