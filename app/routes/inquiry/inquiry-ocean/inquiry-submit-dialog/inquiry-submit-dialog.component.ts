@@ -33,6 +33,7 @@ export class InquirySubmitDialogComponent implements OnInit {
   basicPortList: any[];
   deliveryList: any[];
   transportList: any;
+  commonlyRatesList = ['20GP', '40GP', '40HQ', '45HQ'];
   ratesList: any;
   unitUsers: any;
   customerUserList: any;
@@ -222,6 +223,7 @@ export class InquirySubmitDialogComponent implements OnInit {
   getRates() {
     this.pubContainer.getAll({ maxResultCount: 100, skipCount: 0 }).subscribe((res: any) => {
       this.ratesList = res.items;
+      this.ratesList = this.ratesList.filter((e) => !this.commonlyRatesList.includes(e.code));
       this.ratesList.sort((a: any, b: any) => {
         const aMatch = a.desc.match(/(\d+)([A-Z]+)/);
         const bMatch = b.desc.match(/(\d+)([A-Z]+)/);
@@ -350,5 +352,15 @@ export class InquirySubmitDialogComponent implements OnInit {
       }
       return control.value > 0 ? null : { existSameCode: true };
     };
+  }
+  checkChange(e, name) {
+    console.log(e);
+    let list = this.validateForm.value.containerType || [];
+    if (e) {
+      list.push(name);
+    } else {
+      list = list.filter((e) => e !== name);
+    }
+    this.validateForm.controls.containerType.setValue(list);
   }
 }
