@@ -421,7 +421,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.onGetAll();
   }
 
-  listOfData: any;
+  listOfData = [];
   totalCount: any;
   onClose(e) {
     if (e === 'creat') {
