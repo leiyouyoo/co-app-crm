@@ -87,6 +87,7 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
+
         <button nz-button [nzType]="'primary'" (click)="onSearch()">
           {{ 'Search' | translate }}
         </button>
@@ -221,10 +222,10 @@
           <div>
             <img src="apps/crm/assets/images/nodata.png" style="display: block; width: 60px; margin: 0 auto; padding: 10px 0;" />
           </div>
-          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="isFllow">
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="searchForm.get('isFollow').value">
             {{ 'If there is no follow information, please click the search button to load all the data' | translate }}
           </div>
-          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!isFllow">
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!searchForm.get('isFollow').value">
             {{ 'No Data' | translate }}
           </div>
         </div>
@@ -873,5 +874,5 @@
 <crm-inquiry-submit-dialog
   *ngIf="modalVisible"
   [id]="inquiryId"
-  (close)="modalVisible = false; inquiryId = null; $event && onGetAll()"
+  (close)="modalVisible = false; inquiryId = null; onClose($event)"
 ></crm-inquiry-submit-dialog>

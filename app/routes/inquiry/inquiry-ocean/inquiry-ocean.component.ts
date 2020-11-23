@@ -70,7 +70,6 @@ export class InquiryListOceanComponent implements OnInit {
     zindex: '-1',
   };
 
-  isFllow = false;
   dataOfList;
   listTotal;
   // @ViewChild('detial', { static: true })
@@ -120,6 +119,7 @@ export class InquiryListOceanComponent implements OnInit {
     }
     return startValue.getTime() < new Date().getTime() - 24 * 60 * 60 * 1000;
   };
+  clearSearchParams: boolean;
 
   numValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -315,6 +315,7 @@ export class InquiryListOceanComponent implements OnInit {
       pods: [null],
       shipCompanys: [null],
       deliverys: [null],
+      isFollow: [true],
       dynamicQuery: this.fb.group({
         commodity: [null],
         shippingLineId: [null],
@@ -332,7 +333,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.getCRMCarrierList({ name: '', customerType: 1, sorting: 'code' });
     this.getAllShipLine();
     this.getCustomerList();
-    this.isFllow = true;
+    this.searchForm.controls.isFollow.setValue(true);
   }
 
   dataProcess(data: STData[]) {
@@ -402,25 +403,34 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onSearch() {
-    if (!this.searchForm.value.pols && !this.searchForm.value.pods && !this.searchForm.value.deliverys) {
-      this.msg.info(this.translate.instant('Please select pol'), {
-        nzDuration: 1000,
-      });
-      return false;
-    } else if (!this.searchForm.value.pods && !this.searchForm.value.deliverys) {
-      this.msg.info(this.translate.instant('Please select pod or delivery'), {
-        nzDuration: 1000,
-      });
-      return false;
-    }
+    // if (!this.searchForm.value.pols && !this.searchForm.value.pods && !this.searchForm.value.deliverys) {
+    //   this.msg.info(this.translate.instant('Please select pol'), {
+    //     nzDuration: 1000,
+    //   });
+    //   return false;
+    // } else if (!this.searchForm.value.pods && !this.searchForm.value.deliverys) {
+    //   this.msg.info(this.translate.instant('Please select pod or delivery'), {
+    //     nzDuration: 1000,
+    //   });
+    //   return false;
+    // }
     this.shareDisabled = true;
-    this.isFllow = false;
+    this.searchForm.controls.isFollow.setValue(false);
+    this.clearSearchParams = false;
     this.id = null;
     this.onGetAll();
   }
 
   listOfData: any;
   totalCount: any;
+  onClose(e) {
+    if (e === 'creat') {
+      this.searchForm.controls.isFollow.setValue(true);
+      this.searchForm.reset();
+    }
+    this.clearSearchParams = true;
+    e && this.onGetAll();
+  }
   onGetAll(keyValue?, orderByName?, sort?) {
     return this.st.load();
     // let datas = cloneDeep(this.searchForm.value);
@@ -431,7 +441,7 @@ export class InquiryListOceanComponent implements OnInit {
     //   orderBy: { 'containerPrice.40GP': 'asc' },
     // };
     // //处理数据
-    // data.isFollow = this.isFllow;
+    // data.isFollow = this.isFollow;
     // // 通知带入ID
     // if (this.id) {
     //   data.id = this.id;
@@ -562,11 +572,13 @@ export class InquiryListOceanComponent implements OnInit {
     let data: any = {
       // orderBy: { 'containerPrice.40GP': 'asc' },
     };
-    if (Object.keys(requestOptions.body.orderBy).length <= 0) {
+    if (Object.keys(requestOptions.body.orderBy).length <= 0 && !this.clearSearchParams) {
       requestOptions.body.orderBy = { 'containerPrice.40GP': 'asc' };
+    } else {
+      requestOptions.body.orderBy = { lastmodificationtime: 'desc' };
     }
     //处理数据
-    data.isFollow = this.isFllow;
+
     // 通知带入ID
     if (this.id) {
       data.id = this.id;

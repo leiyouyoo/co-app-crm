@@ -55,7 +55,7 @@ export class InquiryTruckQuoteComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       truckType: [2, [Validators.required]],
-      truckPortId: [null],
+      truckPortId: [null, [Validators.required]],
       truckAddressId: [null, [Validators.required]],
       ownerCustomerId: [null],
       ownerContactId: [null],

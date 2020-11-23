@@ -149,7 +149,7 @@ export class InquirySubmitDialogComponent implements OnInit {
         (res: any) => {
           this.msg.success('创建成功');
           this.validateForm.reset();
-          this.close.emit(true);
+          this.close.emit('creat');
           this.okLoading = false;
         },
         (err) => {
@@ -162,7 +162,7 @@ export class InquirySubmitDialogComponent implements OnInit {
           this.msg.success('编辑成功');
           this.validateForm.reset();
           this.okLoading = false;
-          this.close.emit(true);
+          this.close.emit('edit');
         },
         (err) => {
           this.okLoading = false;
@@ -354,7 +354,6 @@ export class InquirySubmitDialogComponent implements OnInit {
     };
   }
   checkChange(e, name) {
-    console.log(e);
     let list = this.validateForm.value.containerType || [];
     if (e) {
       list.push(name);
