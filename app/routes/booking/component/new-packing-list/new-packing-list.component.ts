@@ -106,7 +106,7 @@ export class NewPackingListComponent implements OnInit {
   downExcel() {
     this.cSPExcelService
       .exportPackingList({
-        bookingIds: [this.bookingId],
+        businessIds: [this.bookingId],
       })
       .subscribe(
         (res: any) => {
