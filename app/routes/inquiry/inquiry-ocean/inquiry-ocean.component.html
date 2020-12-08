@@ -87,7 +87,11 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-range-picker [formControl]="$any(searchForm.controls.dynamicQuery).controls.timeranges" style="width: 250px;"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
         <button nz-button [nzType]="'primary'" (click)="onSearch()">
           {{ 'Search' | translate }}
         </button>
@@ -127,12 +131,6 @@
 
       <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-range-picker formControlName="timeranges" style="width: 250px;"></nz-range-picker>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <input style="width: 200px;" type="text" nz-input formControlName="no" placeholder="{{ 'NO' | translate }}" />
         </nz-form-control>
       </nz-form-item>
@@ -160,14 +158,13 @@
         data="/Rates/EsQuery/GetAllForES"
         [columns]="columns"
         [showFilters]="false"
-        [page]="{ front: false }"
+        [ps]="searchParams.maxResultCount"
+        [(pi)]="searchParams.pageNo"
         [req]="{ process: paramsProcess }"
         [res]="{ process: stResProcess }"
         (change)="checkChange($event)"
         calcScroll
-        [ps]="50"
-        loadOnScroll
-        virtualScroll
+        [page]="{ front: false }"
         [noResult]="noresult"
         style="height: 100%;"
       >
@@ -231,11 +228,6 @@
         </div>
       </ng-template>
     </div>
-  </div>
-
-  <div style="text-align: right;">
-    <ng-template #totalTemplate let-total> {{ 'total' | translate }}:{{ totalCount }} </ng-template>
-    <span>{{ 'total' | translate }}:{{ totalCount }}</span>
   </div>
 
   <nz-drawer
