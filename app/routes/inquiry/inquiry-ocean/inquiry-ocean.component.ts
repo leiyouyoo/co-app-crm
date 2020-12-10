@@ -106,7 +106,11 @@ export class InquiryListOceanComponent implements OnInit {
 
   showShareBtn: boolean = false;
   showInquiryBtn: boolean = false;
-
+  searchParams = {
+    pageNo: 1,
+    maxResultCount: 30,
+    totalCount:0
+  };
   //通知 类型
   notifationType = 0;
   disabledShareDate = (endValue: Date): boolean => {
