@@ -73,11 +73,11 @@
                 <nz-list-item>
                   <span
                     style="
-                      font-size: 12px;
-                      font-family: PingFangSC-Medium, PingFang SC;
-                      font-weight: 500;
                       margin-right: 16px;
                       color: rgba(0, 0, 0, 0.85);
+                      font-weight: 500;
+                      font-size: 12px;
+                      font-family: PingFangSC-Medium, PingFang SC;
                     "
                     >{{ item.creationTime | date: 'mediumDate' }}
                     <span *ngIf="!isRecord">{{ 'Current' | translate }}</span>
@@ -124,14 +124,14 @@
                     class="list-right"
                     [title]="item.carrierName"
                     style="
-                      line-height: 30px;
+                      width: 90px;
                       margin-left: 5px;
                       overflow: hidden;
-                      word-break: break-word;
+                      line-height: 30px;
                       white-space: nowrap;
-                      text-overflow: ellipsis;
-                      width: 90px;
                       text-align: right;
+                      text-overflow: ellipsis;
+                      word-break: break-word;
                     "
                     >{{ item.carrierName }}</span
                   >
@@ -155,32 +155,32 @@
               <nz-list-item>
                 <span
                   style="
+                    width: 250px;
+                    color: rgba(0, 0, 0, 0.85);
+                    font-weight: 400;
                     font-size: 16px;
                     font-family: PingFangSC-Regular, PingFang SC;
-                    font-weight: 400;
-                    color: rgba(0, 0, 0, 0.85);
-                    width: 250px;
                   "
                   >{{ 'Ocean Freight/Total charge' | translate }}</span
                 >
                 <span *ngFor="let totalCharge of item.totalChargelist" style="min-width: 150px; margin-right: 10px;"
                   ><span
                     style="
+                      margin-right: 15px;
+                      color: rgba(0, 0, 0, 0.85);
+                      font-weight: 400;
                       font-size: 14px;
                       font-family: PingFangSC-Regular, PingFang SC;
-                      font-weight: 400;
-                      color: rgba(0, 0, 0, 0.85);
-                      margin-right: 15px;
                     "
                     >{{ totalCharge.Total?.toFixed(2) }}</span
                   >
-                  <span style="font-weight: 500; font-size: 16px; margin-right: 16px; color: rgba(0, 0, 0, 0.65);">{{
+                  <span style="margin-right: 16px; color: rgba(0, 0, 0, 0.65); font-weight: 500; font-size: 16px;">{{
                     totalCharge.Name
                   }}</span></span
                 >
               </nz-list-item>
               <nz-list-item *ngFor="let freight of item.freightList">
-                <span style="font-size: 14px; font-family: PingFangSC-Regular, PingFang SC; font-weight: 400; color: rgba(0, 0, 0, 0.65);"
+                <span style="color: rgba(0, 0, 0, 0.65); font-weight: 400; font-size: 14px; font-family: PingFangSC-Regular, PingFang SC;"
                   >{{ freight.unitPrice?.toFixed(2) }} X {{ freight.quantity }}
 
                   (
@@ -208,10 +208,10 @@
                   >)
                 </span>
                 <span style="min-width: 150px;"
-                  ><span style="font-weight: 400; margin-right: 16px; font-size: 14px; color: rgba(0, 0, 0, 0.85);">{{
+                  ><span style="margin-right: 16px; color: rgba(0, 0, 0, 0.85); font-weight: 400; font-size: 14px;">{{
                     freight.totalPrice?.toFixed(2)
                   }}</span>
-                  <span style="font-weight: 500; font-size: 16px; color: rgba(0, 0, 0, 0.65);">{{ freight.currencyName }}</span></span
+                  <span style="color: rgba(0, 0, 0, 0.65); font-weight: 500; font-size: 16px;">{{ freight.currencyName }}</span></span
                 >
               </nz-list-item>
             </nz-list>
@@ -320,6 +320,16 @@
                 </tr>
               </tbody>
             </nz-table>
+          </div>
+          <!-- 总计 -->
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 10px;">
+            <div style=" margin-right: 8px;font-size: 18px !important;">{{ 'Total' | translate }}</div>
+            <div *ngFor="let charge of item.totalChargelist" style="width: 100px;">
+              <span
+                ><span style="font-weight: 600; font-size: 18px !important;">{{ charge.Total }} </span>
+                <span style="font-size: 16px !important;">{{ charge.Name }}</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>

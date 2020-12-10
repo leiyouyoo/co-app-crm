@@ -16,6 +16,7 @@ import { RatesOceanBaseItemService } from '../../../services/rates/ocean-base-it
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { RatesLocalBaseRateExternalService } from '../../../services/rates/local-base-rate-external-service.service';
 import { PUBCurrencyService } from '@co/cds';
+import { STColumn, STComponent } from '@co/cbc';
 
 @Component({
   selector: 'app-inquiry-detial',
@@ -23,6 +24,7 @@ import { PUBCurrencyService } from '@co/cds';
   styleUrls: ['./inquiry-detial.component.less'],
 })
 export class InquiryDetialComponent {
+  @ViewChild('st', { static: false }) st: STComponent;
   @Input() datas: any;
 
   item: any;
@@ -39,6 +41,9 @@ export class InquiryDetialComponent {
   };
 
   unitPriceTotal: number = 0; //按票总价
+
+  rContainer = [];
+  feeDetailColumns: STColumn[] = [];
   constructor(
     // private customerService: CustomerService,
     private msg: NzMessageService,
@@ -48,6 +53,32 @@ export class InquiryDetialComponent {
     private pubCurrency: PUBCurrencyService,
   ) {}
 
+  columnsF: STColumn[] = [
+    { title: 'Fee item', index: 'costType', render: 'costType', width: 80 },
+    { title: 'Currency', index: 'currency', render: 'currency', width: 40 },
+  ];
+  columnsl: STColumn[] = [
+    { title: 'POL/From', index: 'pol', render: 'pol', width: 80 },
+    { title: 'POD', index: 'pod', render: 'pod', width: 80 },
+    { title: 'Delivery/To', index: 'delivery', render: 'delivery', width: 40 },
+    { title: 'Term', index: 'term', render: 'term', width: 40 },
+    { title: 'ItemCode', index: 'itemCode', render: 'itemCode', width: 40 },
+    { title: 'Duration(From)', index: 'from', render: 'from', width: 40 },
+    { title: 'Duration(To)', index: 'to', render: 'to', width: 40 },
+    { title: 'Customer(Agent)', index: 'customer', render: 'customer', width: 80 },
+  ];
+
+  pContainer(res) {
+    this.rContainer = [];
+    res.costUnits.forEach((e) => {
+      this.rContainer.push({
+        title: e,
+        index: '',
+        render: e,
+        width: 40,
+      });
+    });
+  }
   showDetial(data) {
     this.item = null;
     this.trailerDetial = null;
@@ -95,6 +126,8 @@ export class InquiryDetialComponent {
             }
           });
         }
+        this.pContainer(res);
+        this.feeDetailColumns = [...this.columnsF, ...this.rContainer, ...this.columnsl];
       });
     }
 

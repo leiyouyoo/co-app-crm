@@ -350,7 +350,7 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   checkChange(e) {
-    e.type === 'click' && this.showDetial(e.click.item, e.click.index);
+    e.type === 'click' && this.showDetial(e.click.item);
   }
 
   onCustomerListChange(id) {
@@ -415,7 +415,7 @@ export class InquiryTrackComponent implements OnInit {
       .getCrmGetAll({ ...data, ...datas })
       .pipe(
         finalize(() => {
-          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0], 0);
+          if (this.id && this.dataOfList && this.dataOfList.items.length > 0) this.showDetial(this.dataOfList?.items[0]);
           data.id = null;
           this.id = null;
         }),
@@ -574,7 +574,7 @@ export class InquiryTrackComponent implements OnInit {
   }
 
   busType: any = null;
-  showDetial(data, index) {
+  showDetial(data) {
     this.busType = data;
     this.detialVisible = true;
     this.dataOfList.items.forEach((e) => {

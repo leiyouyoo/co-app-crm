@@ -56,7 +56,44 @@
     </nz-tab>
     <nz-tab nzTitle="{{ 'Fee details' | translate }}">
       <ng-template nz-tab>
-        <nz-table
+        <co-st
+          style="width: 100%; min-height: 200px; margin-top: 24px;"
+          #st
+          columnSettingName="feeDetail"
+          [scroll]="{ x: '500px' }"
+          [data]="item.costDetails"
+          [showCheckbox]="false"
+          [showFilters]="false"
+          [body]="bodyTpl"
+          [columns]="feeDetailColumns"
+        >
+          <ng-template #bodyTpl let-s>
+            <ng-container *ngIf="st.count > 0">
+              <tr>
+                <td nzWidth="150px" style="color: #5cb0ff; background: #e7f3ff;">{{ 'Total' | translate }}</td>
+                <td nzWidth="150px" style="color: #fa6400; background: #fff;">
+                  {{ item.currency }}
+                </td>
+                <td nzWidth="150px" style="color: #fa6400; background: #fff;">
+                  {{ total20GP.toFixed(2) || '--' }}
+                </td>
+                <td nzWidth="150px" style="color: #fa6400; background: #fff;">
+                  {{ total40GP.toFixed(2) || '--' }}
+                </td>
+                <td nzWidth="150px" style="color: #fa6400; background: #fff;">
+                  {{ total40HQ.toFixed(2) || '--' }}
+                </td>
+                <td nzWidth="150px" style="color: #fa6400; background: #fff;">
+                  {{ total50HQ.toFixed(2) || '--' }}
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+          <ng-template st-row="{{ detail }}" let-data *ngFor="let detail of item.costUnits">
+            {{ data[detail] }}
+          </ng-template>
+        </co-st>
+        <!-- <nz-table
           #detialTable
           [nzData]="item.costDetails"
           nzShowPagination="false"
@@ -103,7 +140,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of detialTable.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
-              <td nzEllipsis>
+              <td nzEllipsis [title]="data?.costType">
                 {{ data.costType }}
               </td>
               <td nzEllipsis>
@@ -156,26 +193,6 @@
               </td>
             </tr>
           </tbody>
-        </nz-table>
-
-        <!-- <nz-table [nzScroll]="{ x: '500px' }" style="width:100%;margin-top: 1px;">
-          <thead>
-            <tr>
-              <td nzWidth="150px" style="background: #E7F3FF;color:#5CB0FF;">Total&nbsp;&nbsp;&nbsp;</td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
-                {{ total20GP || '--' }}
-              </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
-                {{ total40GP || '--' }}
-              </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
-                {{ total40HQ || '--' }}
-              </td>
-              <td nzWidth="150px" style="background:#fff; color:#FA6400">
-                {{ total50HQ || '--' }}
-            </tr>
-            </tr>
-          </thead>
         </nz-table> -->
       </ng-template>
     </nz-tab>
@@ -247,22 +264,20 @@
           </nz-table> -->
           <div
             *ngIf="this.locChargeLists?.length <= 0"
-            style="
-              min-height: 60px;
-              display: flex;
-              align-items: center;
-              color: rgba(0, 0, 0, 0.65);
-              font-size: 16px;
-            "
+            style="display: flex; align-items: center; min-height: 60px; color: rgba(0, 0, 0, 0.65); font-size: 16px;"
           >
-            <span *ngIf="chargeItem == 'pol'">{{'Tips'|translate}}:{{
-              'The Pre-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
-                | translate
-            }}</span>
-            <span *ngIf="chargeItem == 'pod'">{{'Tips'|translate}}:{{
-              'The behind-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
-                | translate
-            }}</span>
+            <span *ngIf="chargeItem == 'pol'"
+              >{{ 'Tips' | translate }}:{{
+                'The Pre-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
+                  | translate
+              }}</span
+            >
+            <span *ngIf="chargeItem == 'pod'"
+              >{{ 'Tips' | translate }}:{{
+                'The behind-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
+                  | translate
+              }}</span
+            >
           </div>
           <div class="loc-table-box" *ngIf="this.locChargeLists?.length > 0">
             <div class="loc-table-content">
@@ -330,15 +345,9 @@
           <div
             class="loc-body-item"
             *ngIf="this.locChargeLists?.length > 0"
-            style="
-              min-height: 60px;
-              display: flex;
-              align-items: center;
-              color: rgba(0, 0, 0, 0.85);
-              font-size: 16px;
-            "
+            style="display: flex; align-items: center; min-height: 60px; color: rgba(0, 0, 0, 0.85); font-size: 16px;"
           >
-            <span>{{'Tips'|translate}}:{{'The related local charge is only for reference'|translate}}</span>
+            <span>{{ 'Tips' | translate }}:{{ 'The related local charge is only for reference' | translate }}</span>
           </div>
         </div>
       </ng-template>

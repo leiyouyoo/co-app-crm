@@ -11,7 +11,7 @@
               <ng-container *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Air">
                 <h2>{{ 'AirLine' | translate }}:</h2>
               </ng-container>
-              <div style="font-size: 24px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.65);">
+              <div style="color: rgba(0, 0, 0, 0.65); font-weight: 500; font-size: 24px; font-family: PingFangSC-Medium, PingFang SC;">
                 {{ carrierName }}
               </div>
             </div>
@@ -19,7 +19,7 @@
               <h2>
                 {{ 'Expires' | translate }}
               </h2>
-              <div style="font-size: 16px; font-family: PingFangSC-Regular, PingFang SC; font-weight: 400; color: rgba(0, 0, 0, 0.65);">
+              <div style="color: rgba(0, 0, 0, 0.65); font-weight: 400; font-size: 16px; font-family: PingFangSC-Regular, PingFang SC;">
                 <span>
                   {{ validStartDate | date: 'mediumDate' }}
                 </span>
@@ -172,7 +172,7 @@
       <div class="freight_addtionalFees" *ngIf="OriginList?.length > 0 || DestinationList?.length > 0">
         <h1>{{ 'Addtional Fees' | translate }}</h1>
         <div class="freight_addtionalFees_tab">
-          <nz-tabset>
+          <nz-tabset [nzAnimated]="false">
             <nz-tab [nzTitle]="'Origin' | translate">
               <ng-container
                 *ngIf="quoteObj.freightMethodType == freightMethodTypeValue.Ocean && quoteObj.shipmentType == 0; else elseoriginTemplate"
@@ -181,7 +181,7 @@
                   <nz-list-item>
                     <span> {{ origin.chargeId }}</span>
                     <span
-                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      style="color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px; font-family: PingFangSC-Medium, PingFang SC;"
                       >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -189,7 +189,7 @@
                     <span>
                       <span
                         *ngFor="let originitem of origin.list"
-                        style="margin-right: 8px; font-size: 12px; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                        style="margin-right: 8px; color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px;"
                       >
                         {{ originitem.unitPrice?.toFixed(2) }}{{ originitem.currencyName }}/
                         <span *ngIf="originitem.unitType == 1">({{ originitem.containerCode }})</span>
@@ -228,7 +228,7 @@
                   <nz-list-item>
                     <span> {{ origin.chargingCodeName }}</span>
                     <span
-                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      style="color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px; font-family: PingFangSC-Medium, PingFang SC;"
                       >{{ 'Total' | translate }}（{{ origin.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -276,7 +276,7 @@
                   <nz-list-item>
                     <span> {{ destination.chargeId }}</span>
                     <span
-                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      style="color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px; font-family: PingFangSC-Medium, PingFang SC;"
                       >({{ 'Total' | translate }})（{{ destination.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -284,7 +284,7 @@
                     <span style="margin-right: 8px;">
                       <span
                         *ngFor="let destinationitem of destination.list"
-                        style="margin-right: 8px; font-size: 12px; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                        style="margin-right: 8px; color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px;"
                       >
                         {{ destinationitem.unitPrice?.toFixed(2) }}{{ destinationitem.currencyName }}/
                         <span *ngIf="destinationitem.unitType == 1">({{ destinationitem.containerCode }})</span>
@@ -323,7 +323,7 @@
                   <nz-list-item>
                     <span> {{ destination.chargingCodeName }}</span>
                     <span
-                      style="font-size: 12px; font-family: PingFangSC-Medium, PingFang SC; font-weight: 500; color: rgba(0, 0, 0, 0.45);"
+                      style="color: rgba(0, 0, 0, 0.45); font-weight: 500; font-size: 12px; font-family: PingFangSC-Medium, PingFang SC;"
                       >{{ 'Total' | translate }}（{{ destination.currencyName }}）：</span
                     >
                   </nz-list-item>
@@ -407,24 +407,24 @@
           <div class="freight_crminfo_info-bottom-right">
             <span class="iconfont icon-phone1" nz-icon nzIconfont="icon-phone"></span> +{{ userInfo.phoneNumber }}
           </div>
-          <div style="color: rgba(0, 0, 0, 0.15); width: 1px;">
+          <div style="width: 1px; color: rgba(0, 0, 0, 0.15);">
             |
           </div>
           <div class="freight_crminfo_info-bottom-right">
             <span class="iconfont icon-email" nz-icon nzIconfont="icon-email"></span> {{ userInfo.emailAddress }}
           </div>
-          <div style="color: rgba(0, 0, 0, 0.15); width: 1px;">
+          <div style="width: 1px; color: rgba(0, 0, 0, 0.15);">
             |
           </div>
           <div
             style="
               display: flex;
               align-items: center;
+              margin-left: 24px;
               color: rgba(0, 0, 0, 0.65);
               font-weight: 400;
               font-size: 14px;
               font-family: PingFangSC-Regular, PingFang SC;
-              margin-left: 24px;
             "
           >
             <span class="iconfont icon-network1" nz-icon nzIconfont="icon-internet"></span>app.cityocean.com
@@ -484,7 +484,7 @@
 </div>
 
 <div style="position: absolute;">
-  <div #downToImage style="padding: 24px; background-color: #ffffff;">
+  <div #downToImage style="padding: 24px; background-color: #fff;">
     <crm-hiddensharequotes
       *ngIf="quoteObj.id"
       [quoteObj]="quoteObj"

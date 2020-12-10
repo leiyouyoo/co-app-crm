@@ -373,24 +373,24 @@
       </ng-template>
 
       <ng-template st-row="From" let-data>
-        <div *ngIf="data.businessType == 2">
+        <div *ngIf="data.businessType == 2" (click)="showDetial(data)">
           <span *ngIf="data.truckType == 1" [title]="data.truckAddress">{{ data.truckAddress }}</span>
           <span *ngIf="data.truckType == 2" [title]="data.truckPort">{{ data.truckPort }}</span>
         </div>
 
-        <div *ngIf="data.businessType == 3">
+        <div *ngIf="data.businessType == 3" (click)="showDetial(data)">
           <span *ngIf="data.truckType == 1" [title]="data.truckAddress">{{ data.truckAddress }}</span>
           <span *ngIf="data.truckType == 2" [title]="data.truckPort">{{ data.truckPort }}</span>
         </div>
       </ng-template>
 
       <ng-template st-row="To" let-data>
-        <div *ngIf="data.businessType == 2">
+        <div *ngIf="data.businessType == 2" (click)="showDetial(data)">
           <span *ngIf="data.truckType == 1" [title]="data.truckPort">{{ data.truckPort }}</span>
           <span *ngIf="data.truckType == 2" [title]="data.truckAddress">{{ data.truckAddress }}</span>
         </div>
 
-        <div *ngIf="data.businessType == 3">
+        <div *ngIf="data.businessType == 3" (click)="showDetial(data)">
           <span *ngIf="data.truckType == 1" [title]="data.truckPort">{{ data.truckPort }}</span>
           <span *ngIf="data.truckType == 2" [title]="data.truckAddress">{{ data.truckAddress }}</span>
         </div>
