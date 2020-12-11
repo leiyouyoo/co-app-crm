@@ -54,18 +54,18 @@ export class InquiryDetialComponent {
   ) {}
 
   columnsF: STColumn[] = [
-    { title: 'Fee item', index: 'costType', render: 'costType', width: 80 },
+    { title: 'Fee item', index: 'costType', render: 'costType', width: 100 },
     { title: 'Currency', index: 'currency', render: 'currency', width: 40 },
   ];
   columnsl: STColumn[] = [
     { title: 'POL/From', index: 'pol', render: 'pol', width: 80 },
     { title: 'POD', index: 'pod', render: 'pod', width: 80 },
-    { title: 'Delivery/To', index: 'delivery', render: 'delivery', width: 40 },
-    { title: 'Term', index: 'term', render: 'term', width: 40 },
-    { title: 'ItemCode', index: 'itemCode', render: 'itemCode', width: 40 },
-    { title: 'Duration(From)', index: 'from', render: 'from', width: 40 },
-    { title: 'Duration(To)', index: 'to', render: 'to', width: 40 },
-    { title: 'Customer(Agent)', index: 'customer', render: 'customer', width: 80 },
+    { title: 'Delivery/To', index: 'delivery', render: 'delivery', width: 80 },
+    { title: 'Term', index: 'term', render: 'term', width: 60 },
+    { title: 'ItemCode', index: 'itemCode', render: 'itemCode', width: 80 },
+    { title: 'Duration(From)', index: 'from', render: 'from', width: 80 },
+    { title: 'Duration(To)', index: 'to', render: 'to', width: 80 },
+    { title: 'Customer(Agent)', index: 'customer', render: 'customer', width: 120 },
   ];
 
   pContainer(res) {
@@ -75,7 +75,7 @@ export class InquiryDetialComponent {
         title: e,
         index: '',
         render: e,
-        width: 40,
+        width: 80,
       });
     });
   }
