@@ -58,8 +58,8 @@ export class InquiryDetialComponent {
     { title: 'Currency', index: 'currency', render: 'currency', width: 40 },
   ];
   columnsl: STColumn[] = [
-    { title: 'POL/From', index: 'pol', render: 'pol', width: 80 },
-    { title: 'POD', index: 'pod', render: 'pod', width: 80 },
+    { title: 'POL/From', index: 'pol', render: 'pol', width: 100 },
+    { title: 'POD', index: 'pod', render: 'pod', width: 100 },
     { title: 'Delivery/To', index: 'delivery', render: 'delivery', width: 80 },
     { title: 'Term', index: 'term', render: 'term', width: 60 },
     { title: 'ItemCode', index: 'itemCode', render: 'itemCode', width: 80 },
