@@ -190,10 +190,7 @@
         [res]="{ process: stResProcess }"
         (change)="checkChange($event)"
         calcScroll
-        [ps]="50"
-        loadOnScroll
-        virtualScroll
-        virtualItemSize="30.4"
+        [page]="{ front: false }"
         [noResult]="noresult"
         style="height: 100%;"
       >
