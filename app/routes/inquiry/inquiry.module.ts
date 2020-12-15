@@ -20,6 +20,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { CopyDomToImageDirective } from './share/directives/copy-dom-to-image.directive';
 import { InquirySubmitDialogComponent } from './inquiry-ocean/inquiry-submit-dialog/inquiry-submit-dialog.component';
 import { InquiryTruckQuoteComponent } from './inquiry-track/inquiry-truck-quote/inquiry-truck-quote.component';
+import { FavoriteRouteComponent } from './favorite-route/favorite-route.component';
+
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 const COMPONENTS = [
   InquiryListComponent,
@@ -34,7 +36,7 @@ const COMPONENTS = [
   LoadingComponent,
   SailingSchedulesContentComponent,
   CopyDomToImageDirective,
-  ArrayJoinPipe
+  ArrayJoinPipe,
 ];
 const COMPONENTS_NOROUNT = [
   TrackDetialComponent,
@@ -44,6 +46,7 @@ const COMPONENTS_NOROUNT = [
   InquiryTrackComponent,
   InquirySubmitDialogComponent,
   InquiryTruckQuoteComponent,
+  FavoriteRouteComponent,
 ];
 
 @NgModule({
@@ -51,4 +54,4 @@ const COMPONENTS_NOROUNT = [
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class InquiryModule { }
+export class InquiryModule {}

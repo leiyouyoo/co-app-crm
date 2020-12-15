@@ -11,6 +11,7 @@ export * from './ocean-file-service.service';
 export * from './ocean-service.service';
 export * from './quote-enquiry.service';
 export * from './quote-reply.service';
+export * from './route-note-service.service';
 export * from './truck-external-service.service';
 export * from './truck-service.service';
 

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { RatesOceanOutput,RatesPagedResultDto,RatesOceanDto,RatesUpdateStateTypeDto, } from './rates.types';
+import { RatesOceanOutput,RatesPagedResultDto,RatesOceanDto,RatesUpdateStateTypeDto,RatesCheckValidContractNoInput,RatesCheckValidContractNoOutput, } from './rates.types';
 
 @BaseUrl('/rates/OceanService')
 @Injectable({ providedIn: 'root' })
@@ -157,6 +157,21 @@ export class RatesOceanService extends BaseApi {
         _req: {searchText?:string} 
 
     ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /Rates/OceanService/CheckValidContractNo
+     * 
+     */
+
+    @POST('checkValidContractNo')
+    checkValidContractNo(
+        @Payload
+        _req:RatesCheckValidContractNoInput
+
+    ): Observable<RatesCheckValidContractNoOutput> {
         return null as any
     }
 

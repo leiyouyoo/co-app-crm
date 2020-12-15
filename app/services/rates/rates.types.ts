@@ -18,6 +18,12 @@
             deliverys?: any[];
          
             
+            shipCompanys?: any[];
+         
+            
+            existsFields?: any[];
+         
+            
             searchText?: string;
          
             
@@ -131,6 +137,102 @@
     /**
      *  No Remark 
      */
+    export class RatesContainerPrice {
+        
+         
+            
+           ' 45FR'?: number;
+         
+            
+            '40RF'?: number;
+         
+            
+            '45HT'?: number;
+         
+            
+            '20RF'?: number;
+         
+            
+            '20HQ'?: number;
+         
+            
+            '20TK'?: number;
+         
+            
+            '40HP'?: number;
+         
+            
+            '20GP'?: number;
+         
+            
+            '45HP'?: number;
+         
+            
+            '40TK'?: number;
+         
+            
+            '400T'?: number;
+         
+            
+            '20FR'?: number;
+         
+            
+            '53HQ'?: number;
+         
+            
+            '45GP'?: number;
+         
+            
+            '40GP'?: number;
+         
+            
+            '45RF'?: number;
+         
+            
+            '20RH'?: number;
+         
+            
+            '450T'?: number;
+         
+            
+            '40NOR'?: number;
+         
+            
+            '40FR'?: number;
+         
+            
+            '200T'?: number;
+         
+            
+            '45TK'?: number;
+         
+            
+            '20NOR'?: number;
+         
+            
+            '40HT'?: number;
+         
+            
+            '40RH'?: number;
+         
+            
+            '45RH'?: number;
+         
+            
+            '45HQ'?: number;
+         
+            
+            '20HT'?: number;
+         
+            
+            '40HQ'?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
     export class RatesOceanRatesModel {
         
          
@@ -142,6 +244,9 @@
          
             
             id?: string;
+         
+            
+            oceanId?: string;
          
             
             pol?: RatesPortModel;
@@ -202,7 +307,10 @@
             isValid?: boolean;
          
             
-            containerPrice?: object;
+            isPublish?: boolean;
+         
+            
+            containerPrice?: RatesContainerPrice;
          
             
             unitCodes?: string;
@@ -218,6 +326,21 @@
          
             
             account?: string;
+         
+            
+            currencyId?: string;
+         
+            
+            currencyName?: string;
+         
+            
+            carrierLogo?: string;
+         
+            
+            status?: number;
+         
+            
+            lastModificationTime?: string;
         
         
     }
@@ -233,6 +356,24 @@
          
             
             items: any;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class RatesOceanRatesUpdateEventModel {
+        
+         
+            
+            ids?: any[];
+         
+            
+            eventTime?: string;
+         
+            
+            eventSource?: object;
         
         
     }
@@ -557,13 +698,13 @@
             
             isEligibility?: boolean;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -623,13 +764,13 @@
             /* 反向 */ 
             termExcl?: boolean;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -854,16 +995,16 @@
             /* 中转港口 */ 
             viaPortId?: string;
          
-            
+            /* 过滤条件 */ 
             filter?: string;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -941,13 +1082,13 @@
             
             id?: string;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         
@@ -1653,6 +1794,30 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class RatesCheckValidContractNoInput {
+        
+         
+            
+            contractNos: any[];
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class RatesCheckValidContractNoOutput {
+        
+         
+            
+            contracts?: any[];
+        
+        
+    }
+ 
+    /**
      * 报价Dto
      */
     export class RatesQuoteReplyDto {
@@ -1663,6 +1828,9 @@
          
             /* 报价船东公司 */ 
             replyCarrier?: string;
+         
+            
+            replyCarrierLogo?: string;
          
             /* TT航程 */ 
             transitTime?: string;
@@ -1730,6 +1898,9 @@
          
             /* 备注 */ 
             description?: string;
+         
+            
+            creationTime?: string;
          
             /* 数量 */ 
             quantity?: number;
@@ -2125,7 +2296,7 @@
     }
  
     /**
-     *  No Remark 
+     * 主键类型默认为整形的数据传输对象基类
      */
     export class RatesCoEntityDto {
         
@@ -2181,6 +2352,53 @@
     /**
      *  No Remark 
      */
+    export class RatesRouteNoteDto {
+        
+         
+            
+            name?: string;
+         
+            
+            carrierId?: any[];
+         
+            
+            shippingLineId?: string;
+         
+            
+            polId?: any[];
+         
+            
+            podId?: any[];
+         
+            
+            placeOfDeliveryId?: any[];
+         
+            /* 
+0 = NotSet
+1 = Rate */ 
+            routeNoteType?: number;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class RatesListResultDto<T> {
+        
+         
+            
+            items: any;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
     export class RatesCspTruckListInput {
         
          
@@ -2196,13 +2414,13 @@
 2 = Backend */ 
             type?: number;
          
-            
+            /* 排序 */ 
             sorting?: string;
          
-            
+            /* 页大小 */ 
             maxResultCount?: number;
          
-            
+            /* 跳过指定条数 */ 
             skipCount?: number;
         
         

@@ -25,11 +25,12 @@ import { RatesFavoriteRateService } from '../../../services/rates/favorite-rate-
 import { RatesQuoteEnquiryService } from '../../../services/rates/quote-enquiry.service';
 import { RatesOceanBaseItemExternalService } from '../../../services/rates/ocean-base-item-external-service.service';
 import { debounce } from 'apps/crm/app/shared/utils';
-import { STColumn, STData, STComponent, STRequestOptions } from '@co/cbc';
+import { STColumn, STData, STComponent, STRequestOptions, PageSideDrawerComponent } from '@co/cbc';
 import { differenceInCalendarDays } from 'date-fns';
 import { ACLService } from '@co/acl';
-import { RatesEsQueryService } from 'apps/crm/app/services/rates';
+import { RatesEsQueryService, RatesRouteNoteService } from 'apps/crm/app/services/rates';
 import { isEqual, merge, cloneDeep } from 'lodash';
+import { FavoriteRouteComponent } from '../favorite-route/favorite-route.component';
 // import { debounce } from '@shared/utils/debounce';
 @Component({
   selector: 'app-inquiry-ocean',
@@ -37,10 +38,12 @@ import { isEqual, merge, cloneDeep } from 'lodash';
   styleUrls: ['./inquiry-ocean.component.less'],
 })
 export class InquiryListOceanComponent implements OnInit {
+  @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   searchForm: FormGroup;
   datas: any;
   isAll = false;
-  basicPortList: any[];
+  basicPolPortList: any[];
+  basicPodPortList: any[];
   deliveryList: any[];
   placeList: any;
   carriers: any;
@@ -60,7 +63,7 @@ export class InquiryListOceanComponent implements OnInit {
   detialVisible = false;
   init: boolean = true;
   inquiryId: string;
-
+  selectedIndex = 0;
   drawerStyle: any = {
     width: '680px',
     paddingLeft: '0px',
@@ -109,7 +112,7 @@ export class InquiryListOceanComponent implements OnInit {
   searchParams = {
     pageNo: 1,
     maxResultCount: 30,
-    totalCount:0
+    totalCount: 0,
   };
   //通知 类型
   notifationType = 0;
@@ -142,6 +145,7 @@ export class InquiryListOceanComponent implements OnInit {
     ValidEnd: null,
   };
 
+  routeList = []; //收藏路线集合
   columns: STColumn[] = [
     { title: 'Attention', index: '', render: 'Attention', width: 40 },
     {
@@ -255,6 +259,7 @@ export class InquiryListOceanComponent implements OnInit {
     private pubCurrency: PUBCurrencyService,
     private pubChargingCode: PUBChargingCodeService,
     private aCLService: ACLService,
+    private ratesRouteNoteService: RatesRouteNoteService,
   ) {}
 
   ngOnInit() {
@@ -337,6 +342,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.getCRMCarrierList({ name: '', customerType: 1, sorting: 'code' });
     this.getAllShipLine();
     this.getCustomerList();
+    this.getAllRoute();
     this.searchForm.controls.isFollow.setValue(true);
   }
 
@@ -383,7 +389,8 @@ export class InquiryListOceanComponent implements OnInit {
   getBasicPortList(value = '') {
     if (/[\u4e00-\u9fa5]{2}/gi.test(value) || value.length > 2) {
       this.pubPlace.getAll({ name: value, isOcean: true }).subscribe((res: any) => {
-        this.basicPortList = res.items;
+        this.basicPolPortList = res.items;
+        this.basicPodPortList = res.items;
         this.deliveryList = res.items;
       });
       // this.customerService.getAllPlace({ Name: value, IsOcean: true }).subscribe((res: any) => {
@@ -717,6 +724,7 @@ export class InquiryListOceanComponent implements OnInit {
   }
 
   onShowModal() {
+    this.sideDrawer.close();
     this.modalVisible = true;
   }
 
@@ -745,6 +753,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   busType: any = {};
   showDetial(data, index) {
+    this.sideDrawer.close();
     this.busType = data;
     this.detialVisible = true;
 
@@ -1441,6 +1450,87 @@ export class InquiryListOceanComponent implements OnInit {
   //     this.listOfData = data;
   //   }
   // }
+
+  onAddLine(title, routeItem, sideDrawer) {
+    let contentParams;
+    contentParams = {
+      title,
+      routeItem,
+      sideDrawer,
+    };
+    this.sideDrawer.open(FavoriteRouteComponent, contentParams);
+    const component = this.sideDrawer.getContentComponent();
+    component?.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.getAllRoute();
+      }
+    });
+  }
+  getAllRoute() {
+    this.ratesRouteNoteService.getAllAsync({}).subscribe((res) => {
+      this.routeList = res.items;
+    });
+  }
+  editRoute(title, routeItem, sideDrawer) {
+    let contentParams;
+    contentParams = {
+      title,
+      routeItem,
+      sideDrawer,
+    };
+    this.sideDrawer.open(FavoriteRouteComponent, contentParams);
+    const component = this.sideDrawer.getContentComponent();
+    component?.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.getAllRoute();
+      }
+    });
+  }
+  nzSelectedIndexChange(e) {
+    debugger;
+    if (e == 0) {
+      this.searchForm.reset();
+      (this.searchForm.controls.dynamicQuery as FormGroup).controls.timeranges.setValue([new Date(), this.GetNextMonthDay(new Date())]);
+    } else {
+      let data = this.routeList[e - 1];
+      //查询数据
+      this.searchForm.controls.pols.setValue(data.polId);
+      this.searchForm.controls.pods.setValue(data.podId);
+      this.searchForm.controls.deliverys.setValue(data.placeOfDeliveryId);
+      (this.searchForm.controls.dynamicQuery as FormGroup).controls.shippingLineId.setValue(data.shippingLineId);
+      // 处理下拉选项
+      this.bindEditData(data);
+    }
+    this.onSearch();
+  }
+
+  bindEditData(data) {
+    this.getPortByIds('pol', data.polId);
+    this.getPortByIds('pod', data.podId);
+    this.getPortByIds('delivery', data.placeOfDeliveryId);
+  }
+  //根据id集合获取港口数据
+  getPortByIds(type, ids: any[]) {
+    switch (type) {
+      case 'pol':
+        this.pubPlace.getByPlacesIds(ids).subscribe((res) => {
+          this.basicPolPortList = res.items;
+        });
+        break;
+      case 'pod':
+        this.pubPlace.getByPlacesIds(ids).subscribe((res) => {
+          this.basicPodPortList = res.items;
+        });
+        break;
+      case 'delivery':
+        this.pubPlace.getByPlacesIds(ids).subscribe((res) => {
+          this.deliveryList = res.items;
+        });
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 export enum VolumeUnitCode {
