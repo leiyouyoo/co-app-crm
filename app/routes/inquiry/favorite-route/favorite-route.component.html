@@ -1,20 +1,24 @@
 <div style="display: flex; align-items: center; margin-bottom: 16px;">
-  <div style="margin-right: 16px;"><button nz-button nzType="primary" (click)="onSave()">保存</button></div>
+  <div style="margin-right: 16px;">
+    <button nz-button nzType="primary" (click)="onSave()">{{ 'Save' | translate }}</button>
+  </div>
   <div>
     <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Are you sure?' | translate" (nzOnConfirm)="onAllDetele($event)">
-      删除
+      {{ 'Delete' | translate }}
     </button>
   </div>
 </div>
 <nz-table [nzData]="form.value.routeList" class="custom-table" [nzShowPagination]="false" [nzScroll]="{ x: '500px', y: '260px' }">
   <thead>
     <tr>
-      <th nzWidth="250px">{{ '起始港' | translate }}<span class="red">*</span></th>
-      <th nzWidth="500px" rowspan="2">{{ '卸货港/交货地' | translate }}{{ '选一个必填' | translate }}<span class="red">*</span></th>
+      <th nzWidth="250px">{{ 'POL/From' | translate }}<span class="red">*</span></th>
+      <th nzWidth="500px" rowspan="2">
+        {{ 'POD' | translate }}/{{ 'Delivery' | translate }}{{ 'Select one required' | translate }}<span class="red">*</span>
+      </th>
       <!-- <th nzWidth="250px"></th> -->
-      <th nzWidth="250px">{{ '船公司' | translate }}</th>
-      <th nzWidth="250px">{{ '航线' | translate }}</th>
-      <th nzWidth="250px">{{ '线路名称' | translate }}</th>
+      <th nzWidth="250px">{{ 'Carrier' | translate }}</th>
+      <th nzWidth="250px">{{ 'Shippingline' | translate }}</th>
+      <th nzWidth="250px">{{ 'RouteName' | translate }}</th>
       <th nzWidth="100px" nzRight>{{ 'Action' | translate }}</th>
     </tr>
   </thead>
@@ -214,14 +218,14 @@
                 [nzTooltipTitle]="nameTemplate"
                 nz-input
                 [formControl]="item.controls.name"
-                placeholder="{{ '请输入' | translate }}"
+                placeholder="{{ 'Please Input' | translate }}"
               />
               <ng-template #nameTemplate>
                 <ng-container *ngIf="item.controls.name?.hasError('required')"> {{ 'Please Input' | translate }}!</ng-container>
               </ng-template>
             </ng-container>
             <ng-template #elsenameTemplate>
-              <input nz-input [formControl]="item.controls.name" placeholder="{{ '请输入' | translate }}" />
+              <input nz-input [formControl]="item.controls.name" placeholder="{{ 'Please Input' | translate }}" />
             </ng-template>
           </nz-form-control>
         </nz-form-item>
