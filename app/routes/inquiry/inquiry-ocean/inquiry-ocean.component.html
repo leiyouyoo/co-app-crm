@@ -85,186 +85,196 @@
               </nz-option>
             </nz-select> -->
 
-                <nz-select
-                  formControlName="deliverys"
-                  nzPlaceHolder="{{ 'Delivery' | translate }}"
-                  nzShowSearch
-                  nzServerSearch
-                  nzAllowClear
-                  nzMode="multiple"
-                  [nzMaxTagCount]="1"
-                  (nzOnSearch)="getBasicPortList($event)"
-                  class="selectIptNoPadding"
-                >
-                  <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization" [nzValue]="option.id"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
+            <nz-select
+              formControlName="deliverys"
+              nzPlaceHolder="{{ 'Delivery' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (nzOnSearch)="getBasicPortList($event)"
+              class="selectIptNoPadding"
+            >
+              <nz-option *ngFor="let option of deliveryList" [nzLabel]="option.nameLocalization"
+                         [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
 
-          <co-search-area-item>
-            <nz-form-item>
-              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                <nz-select
-                  nzMode="multiple"
-                  formControlName="shipCompanys"
-                  nzPlaceHolder="{{ 'Carrier' | translate }}"
-                  nzShowSearch
-                  nzServerSearch
-                  nzAllowClear
-                  (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
-                >
-                  <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
+      <co-search-area-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select
+              nzMode="multiple"
+              formControlName="shipCompanys"
+              nzPlaceHolder="{{ 'Carrier' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
+            >
+              <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
 
-          <co-search-area-item style="width: 15%;">
-            <nz-form-item>
-              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                <nz-range-picker [formControl]="$any(searchForm.controls.dynamicQuery).controls.timeranges"></nz-range-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
+      <co-search-area-item style="width: 15%">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-range-picker [formControl]="$any(searchForm.controls.dynamicQuery).controls.timeranges"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
 
-          <co-search-area-item style="width: 20%;">
-            <button nz-button [nzType]="'primary'" (click)="onSearch()">
-              {{ 'Search' | translate }}
-            </button>
-            <button nz-button [nzType]="'default'" (click)="onClear()">{{ 'Reset' | translate }}</button>
-            <button nz-button nzType="link" (click)="onShowMoreSearch()">
-              {{ 'Advanced search' | translate }}
-              <i nz-icon nzType="down" *ngIf="!showMoreSearch" nzTheme="outline"></i>
-              <i nz-icon nzType="up" *ngIf="showMoreSearch" nzTheme="outline"></i>
-            </button>
-          </co-search-area-item>
+      <co-search-area-item style="width: 20%">
+        <button nz-button [nzType]="'primary'" (click)="onSearch()">
+          {{ 'Search' | translate }}
+        </button>
+        <button nz-button [nzType]="'default'" (click)="onClear()">{{ 'Reset' | translate }}</button>
+        <button nz-button nzType="link" (click)="onShowMoreSearch()">
+          {{ 'Advanced search' | translate }}
+          <i nz-icon nzType="down" *ngIf="!showMoreSearch" nzTheme="outline"></i>
+          <i nz-icon nzType="up" *ngIf="showMoreSearch" nzTheme="outline"></i>
+        </button>
+      </co-search-area-item>
 
-          <co-search-area-item>
-            <button nz-button *ngIf="showShareBtn" [disabled]="shareDisabled" (click)="onShowShareModal()">
-              {{ 'Share' | translate }}
-            </button>
+      <co-search-area-item>
+        <button nz-button *ngIf="showShareBtn" [disabled]="shareDisabled" (click)="onShowShareModal()">
+          {{ 'Share' | translate }}
+        </button>
 
-            <button nz-button *ngIf="showInquiryBtn" nzType="primary" (click)="onShowModal()">
-              {{ 'Inquiry' | translate }}
-            </button>
-          </co-search-area-item>
-        </co-search-area-layout>
-        <!--    </div>-->
+        <button nz-button *ngIf="showInquiryBtn" nzType="primary" (click)="onShowModal()">
+          {{ 'Inquiry' | translate }}
+        </button>
+      </co-search-area-item>
+    </co-search-area-layout>
+    <!--    </div>-->
 
-        <!--    <div class="login-form2" >-->
-        <co-search-area-layout coWidth="12%" *ngIf="showMoreSearch" formGroupName="dynamicQuery">
-          <co-search-area-item>
-            <nz-form-item>
-              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                <nz-select formControlName="shippingLineId" nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
-                  <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
-          <co-search-area-item>
-            <nz-form-item>
-              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                <input type="text" nz-input formControlName="commodity" placeholder="{{ 'Commodity' | translate }}" />
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
-          <co-search-area-item>
-            <nz-form-item>
-              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                <input type="text" nz-input formControlName="no" placeholder="{{ 'NO' | translate }}" />
-              </nz-form-control>
-            </nz-form-item>
-          </co-search-area-item>
-        </co-search-area-layout>
-        <!--    </div>-->
-      </form>
-      <div class="inquiry-right">
-        <div class="inquiry-right-content">
-          <co-st
-            #st
-            data="/Rates/EsQuery/GetAllForES"
-            [columns]="columns"
-            [showFilters]="false"
-            [ps]="searchParams.maxResultCount"
-            [(pi)]="searchParams.pageNo"
-            [req]="{ process: paramsProcess }"
-            [res]="{ process: stResProcess }"
-            (change)="checkChange($event)"
-            calcScroll
-            [ps]="50"
-            loadOnScroll
-            virtualScroll
-            virtualItemSize="30.4"
-            [noResult]="noresult"
-            style="height: 100%;"
-          >
-            <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
-              <span *ngFor="let ratePrice of data.containerPriceList">
-                <span
-                  *ngIf="ratePrice.unit === tata"
-                  class="col-green"
-                  [ngClass]="{
-                    tablelineThrough: !data.isValid
-                  }"
-                  >{{ ratePrice.rate == 0 ? '' : ratePrice.rate }}</span
-                >
-              </span>
-            </ng-template>
+    <!--    <div class="login-form2" >-->
+    <co-search-area-layout coWidth="12%" *ngIf="showMoreSearch" formGroupName="dynamicQuery">
+      <co-search-area-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <nz-select formControlName="shippingLineId"
+                       nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
+              <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
+      <co-search-area-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <input type="text" nz-input formControlName="commodity"
+                   placeholder="{{ 'Commodity' | translate }}"/>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
+      <co-search-area-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+            <input type="text" nz-input formControlName="no"
+                   placeholder="{{ 'NO' | translate }}"/>
+          </nz-form-control>
+        </nz-form-item>
+      </co-search-area-item>
+    </co-search-area-layout>
+    <!--    </div>-->
+  </form>
 
-            <ng-template st-row="Attention" let-data>
-              <div class="detial_msg" style="width: 75px;">
-                <i
-                  nz-icon
-                  nzType="star"
-                  nzTheme="outline"
-                  (click)="$event.stopPropagation(); onFollowChange(data)"
-                  *ngIf="!data.isFavorite"
-                ></i>
+  <div class="inquiry-right">
+    <div class="inquiry-right-content">
+      <!-- <co-st
+        #st
+        virtualScroll
+        [loading]="loading"
+        [data]="listOfData"
+        [columns]="columns"
+        [showFilters]="false"
+        [total]="listTotal"
+        [page]="{ front: false }"
+        (change)="checkChange($event)"
+        calcScroll
+        [noResult]="noresult"
+        style="height: 100%;"
+      > -->
+      <co-st
+        #st
+        data="/Rates/EsQuery/GetAllForES"
+        [columns]="columns"
+        [showFilters]="false"
+        [ps]="searchParams.maxResultCount"
+        [(pi)]="searchParams.pageNo"
+        [req]="{ process: paramsProcess }"
+        [res]="{ process: stResProcess }"
+        (change)="checkChange($event)"
+        calcScroll
+        [page]="{ front: false }"
+        [noResult]="noresult"
+        style="height: 100%;"
+      >
+        <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
+          <span *ngFor="let ratePrice of data.containerPriceList">
+            <span
+              *ngIf="ratePrice.unit === tata"
+              class="col-green"
+              [ngClass]="{
+                tablelineThrough: !data.isValid
+              }"
+            >{{ ratePrice.rate == 0 ? '' : ratePrice.rate }}</span
+            >
+          </span>
+        </ng-template>
 
-                <i
-                  nz-icon
-                  nzType="star"
-                  nzTheme="fill"
-                  (click)="$event.stopPropagation(); onFollowChange(data)"
-                  *ngIf="data.isFavorite"
-                ></i>
-              </div>
-            </ng-template>
-            <ng-template st-row="shipCompany" let-data>
-              {{ data?.shipCompany?.displayName }}
-            </ng-template>
-            <ng-template st-row="pol" let-data> {{ data?.pol?.displayFullName }} </ng-template>
+        <ng-template st-row="Attention" let-data>
+          <div class="detial_msg" style="width: 75px;">
+            <i
+              nz-icon
+              nzType="star"
+              nzTheme="outline"
+              (click)="$event.stopPropagation(); onFollowChange(data)"
+              *ngIf="!data.isFavorite"
+            ></i>
 
-            <ng-template st-row="delivery" let-data> {{ data?.delivery?.displayFullName }} </ng-template>
-            <ng-template st-row="pod" let-data>
-              {{ data?.pod?.displayFullName }}
-            </ng-template>
+            <i nz-icon nzType="star" nzTheme="fill" (click)="$event.stopPropagation(); onFollowChange(data)"
+               *ngIf="data.isFavorite"></i>
+          </div>
+        </ng-template>
+        <ng-template st-row="shipCompany" let-data>
+          {{ data?.shipCompany?.displayName }}
+        </ng-template>
+        <ng-template st-row="pol" let-data> {{ data?.pol?.displayFullName }} </ng-template>
 
-            <ng-template st-row="updateBy" let-data>
-              {{ data?.updateBy?.displayName }}
-            </ng-template>
+        <ng-template st-row="delivery" let-data> {{ data?.delivery?.displayFullName }} </ng-template>
+        <ng-template st-row="pod" let-data>
+          {{ data?.pod?.displayFullName }}
+        </ng-template>
 
-            <ng-template st-row="action" let-data>
-              <a *ngIf="data.reject" (click)="onEdit(data, $event)">
-                {{ 'Edit' | translate }}
-              </a>
-            </ng-template>
-          </co-st>
-          <ng-template #noresult>
-            <div style="text-align: center; text-align: center;">
-              <div>
-                <img src="apps/crm/assets/images/nodata.png" style="display: block; width: 60px; margin: 0 auto; padding: 10px 0;" />
-              </div>
-              <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="searchForm.get('isFollow').value">
-                {{ 'If there is no follow information, please click the search button to load all the data' | translate }}
-              </div>
-              <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!searchForm.get('isFollow').value">
-                {{ 'No Data' | translate }}
-              </div>
-            </div>
-          </ng-template>
+        <ng-template st-row="updateBy" let-data>
+          {{ data?.updateBy?.displayName }}
+        </ng-template>
+
+        <ng-template st-row="action" let-data>
+          <a *ngIf="data.reject" (click)="onEdit(data, $event)">
+            {{ 'Edit' | translate }}
+          </a>
+        </ng-template>
+      </co-st>
+      <ng-template #noresult>
+        <div style="text-align: center; text-align: center;">
+          <div>
+            <img src="apps/crm/assets/images/nodata.png"
+                 style="display: block; width: 60px; margin: 0 auto; padding: 10px 0;"/>
+          </div>
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="searchForm.get('isFollow').value">
+            {{ 'If there is no follow information, please click the search button to load all the data' | translate }}
+          </div>
+          <div style="color: rgba(0, 0, 0, 0.45); font-size: 18px;" *ngIf="!searchForm.get('isFollow').value">
+            {{ 'No Data' | translate }}
+          </div>
         </div>
       </div>
       <nz-drawer
