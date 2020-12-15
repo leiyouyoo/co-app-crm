@@ -3,8 +3,8 @@
     <co-toolbar>
       <co-toolbar-item>
         <nz-tabset (nzSelectedIndexChange)="nzSelectedIndexChange($event)">
-          <nz-tab nzTitle="全部" [(nzSelectedIndex)]="selectedIndex"> </nz-tab>
-          <nz-tab [nzTitle]="titleTemplate" [(nzSelectedIndex)]="selectedIndex" *ngFor="let item of routeList; let i = index">
+          <nz-tab nzTitle="全部" > </nz-tab>
+          <nz-tab [nzTitle]="titleTemplate"  *ngFor="let item of routeList; let i = index">
             <ng-template #titleTemplate>
               {{ item.name }}
               <span

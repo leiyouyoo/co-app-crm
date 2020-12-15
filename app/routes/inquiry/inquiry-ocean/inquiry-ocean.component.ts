@@ -1506,6 +1506,7 @@ export class InquiryListOceanComponent implements OnInit {
       // 处理下拉选项
       this.bindEditData(data);
     }
+    this.selectedIndex = e;
     this.onSearch();
   }
 

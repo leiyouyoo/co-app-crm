@@ -3,7 +3,7 @@
     <button nz-button nzType="primary" (click)="onSave()">{{ 'Save' | translate }}</button>
   </div>
   <div>
-    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Are you sure?' | translate" (nzOnConfirm)="onAllDetele($event)">
+    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Are you sure?' | translate" (nzOnConfirm)="onAllDetele()">
       {{ 'Delete' | translate }}
     </button>
   </div>
