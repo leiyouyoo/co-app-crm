@@ -303,6 +303,7 @@ export class InquiryListOceanComponent implements OnInit {
       // this.keyValue = 'containerPrice.' + e.sort.column.indexKey;
       // this.orderByName = e.sort.value;
       this.sort = 'sort';
+      this.clearSearchParams = false;
       // this.onGetAll('containerPrice.' + e.sort.column.indexKey, e.sort.value, 'sort');
     }
     this.refreshStatus();
@@ -440,6 +441,7 @@ export class InquiryListOceanComponent implements OnInit {
       this.searchForm.reset();
     }
     this.clearSearchParams = true;
+    this.st.clearSort();
     e && this.onGetAll();
   }
   onGetAll(keyValue?, orderByName?, sort?) {
@@ -583,8 +585,11 @@ export class InquiryListOceanComponent implements OnInit {
     let data: any = {
       // orderBy: { 'containerPrice.40GP': 'asc' },
     };
+    //clearSearchParams 查询的时候是false ,抽屉弹窗关闭设置为true
     if (Object.keys(requestOptions.body.orderBy).length <= 0 && !this.clearSearchParams) {
       requestOptions.body.orderBy = { 'containerPrice.40GP': 'asc' };
+    } else if (Object.keys(requestOptions.body.orderBy).length > 0) {
+      //不做任何操作
     } else {
       requestOptions.body.orderBy = { lastmodificationtime: 'desc' };
     }
@@ -1471,7 +1476,7 @@ export class InquiryListOceanComponent implements OnInit {
       this.routeList = res.items;
     });
   }
-  editRoute(title, routeItem, sideDrawer) {
+  editRoute(title, routeItem, sideDrawer, e) {
     let contentParams;
     contentParams = {
       title,
@@ -1485,9 +1490,9 @@ export class InquiryListOceanComponent implements OnInit {
         this.getAllRoute();
       }
     });
+    e.stopPropagation();
   }
   nzSelectedIndexChange(e) {
-    debugger;
     if (e == 0) {
       this.searchForm.reset();
       (this.searchForm.controls.dynamicQuery as FormGroup).controls.timeranges.setValue([new Date(), this.GetNextMonthDay(new Date())]);

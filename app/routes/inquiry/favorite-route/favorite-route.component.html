@@ -206,7 +206,25 @@
         </nz-form-item>
       </td>
       <td>
-        <input nz-input [formControl]="item.controls.name" placeholder="{{ '请输入' | translate }}" />
+        <nz-form-item>
+          <nz-form-control>
+            <ng-container *ngIf="item.controls.name?.hasError('required'); else elsenameTemplate">
+              <input
+                nz-tooltip
+                [nzTooltipTitle]="nameTemplate"
+                nz-input
+                [formControl]="item.controls.name"
+                placeholder="{{ '请输入' | translate }}"
+              />
+              <ng-template #nameTemplate>
+                <ng-container *ngIf="item.controls.name?.hasError('required')"> {{ 'Please Input' | translate }}!</ng-container>
+              </ng-template>
+            </ng-container>
+            <ng-template #elsenameTemplate>
+              <input nz-input [formControl]="item.controls.name" placeholder="{{ '请输入' | translate }}" />
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
       </td>
       <td nzRight>
         <span

@@ -76,12 +76,12 @@ export class FavoriteRouteComponent implements OnInit {
   private buildRouteForm(item?) {
     const route = this.fb.group({
       id: [item ? item.id : this.emptyGuid],
-      name: [item ? item.name : null],
+      name: [item ? item.name : null, this.title == 'edit' ? [Validators.required] : []],
       polId: [item ? item.polId : null, [Validators.required]],
       polName: [null],
-      podId: [item ? item.podId : null, [Validators.required]],
+      podId: [item ? item.podId : null, item.placeOfDeliveryId?.length > 0 ? [] : [Validators.required]],
       podName: [null],
-      placeOfDeliveryId: [item ? item.placeOfDeliveryId : null, [Validators.required]],
+      placeOfDeliveryId: [item ? item.placeOfDeliveryId : null, item.podId?.length > 0 ? [] : [Validators.required]],
       placeOfDeliveryName: [null],
       carrierId: [item ? item.carrierId : null],
       shippingLineId: [item ? item.shippingLineId : null],
@@ -138,8 +138,9 @@ export class FavoriteRouteComponent implements OnInit {
   }
 
   onCheckValid() {
-    for (const i in this.form.controls) {
-      const control = this.form.controls[i];
+    let contr = (this.form.controls.routeList as FormArray).controls;
+    for (const i in contr) {
+      const control = contr[i];
       control.markAsDirty();
       control.updateValueAndValidity();
       if (control instanceof FormGroup || control instanceof FormArray) {
