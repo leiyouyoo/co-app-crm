@@ -119,6 +119,8 @@ export class CreateCustomerComponent {
   customerId = '';
   placeList = [];
   incotermList: any[];
+  // 常用条款
+  incotermDataList = [];
   industryList: any[];
   name: string;
 
@@ -139,6 +141,7 @@ export class CreateCustomerComponent {
     private pubDataDictionaryService: PUBDataDictionaryService,
     private crmCustomerService: CRMCustomerService,
     private msg: NzMessageService,
+    private el: ElementRef,
     private googleMapService: GoogleMapService,
   ) {}
   ngOnInit() {
@@ -169,6 +172,11 @@ export class CreateCustomerComponent {
         this.i = 4;
       }
     });
+  }
+
+  ngScrollBottom() {
+    document.querySelector('#head_customer_modal').scrollTop =
+      this.el.nativeElement.querySelector('#head_customer_modal').scrollHeight + 100;
   }
 
   checkKeyWordData(): ValidatorFn {
@@ -363,7 +371,7 @@ export class CreateCustomerComponent {
       email: [null, [Validators.email]],
       // email: [null, [FormValidators.email]],
       keyWord: [null, [Validators.required, this.checkKeyWordData()]],
-      industry: [null, [Validators.required]],
+      industry: [null],
       customerType: [3, [Validators.required]],
       incoterms: [null],
       isSalesCustomer: [false],
@@ -395,6 +403,15 @@ export class CreateCustomerComponent {
       })
       .subscribe((res) => {
         this.incotermList = res.items;
+        let data = this.incotermList.find((e) => e.name === 'FOB');
+        if (!this.incotermDataList.some((e) => e.name === data.name)) {
+          this.incotermDataList.push(data);
+        }
+
+        let data2 = this.incotermList.find((e) => e.name === 'CIF');
+        if (!this.incotermDataList.some((e) => e.name === data2.name)) {
+          this.incotermDataList.push(data2);
+        }
       });
 
     // 行业的
@@ -600,6 +617,14 @@ export class CreateCustomerComponent {
     }
   }
 
+  bindCommonData(data) {
+    this.incotermDataList.forEach((e) => (e.checked = false));
+    data.checked = true;
+    this.validateForm.patchValue({
+      incoterms: data.id,
+    });
+  }
+
   @debounce(200)
   async bindGoogleMapData(input) {
     let res = await this.googleMapService.autocomplete(input, this.translate.currentLang).toPromise();
@@ -692,6 +717,38 @@ export class CreateCustomerComponent {
         .toPromise();
       this.validateForm.patchValue({
         addressLocalization: detialMsg?.result?.formatted_address,
+      });
+    }
+  }
+
+  bindLocalName() {
+    let value = this.validateForm.controls.name.value;
+    let oVlaue = this.validateForm.controls.nameLocalization.value;
+    if (value && !oVlaue) {
+      this.validateForm.patchValue({
+        nameLocalization: value,
+      });
+    }
+
+    if (oVlaue && !value) {
+      this.validateForm.patchValue({
+        name: oVlaue,
+      });
+    }
+  }
+
+  bindFullName() {
+    let value = this.validateForm.controls.shortName.value;
+    let oVlaue = this.validateForm.controls.shortNameLocalization.value;
+    if (value && !oVlaue) {
+      this.validateForm.patchValue({
+        shortNameLocalization: value,
+      });
+    }
+
+    if (oVlaue && !value) {
+      this.validateForm.patchValue({
+        shortName: oVlaue,
       });
     }
   }

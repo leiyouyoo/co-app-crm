@@ -11,8 +11,12 @@
     </div>
     <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
-
-  <div style="display: flex; flex: 1; overflow: hidden; flex-direction: column;">
+  <footer class="drawer_footer">
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="cusLoading">
+      {{ 'Save' | translate }}
+    </button>
+  </footer>
+  <div style="display: flex; flex: 1; overflow: scroll; flex-direction: column;">
     <form nz-form nzLayout="vertical" [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item [ngClass]="{ borderB: see }">
         <nz-form-label [nzRequired]="!see">{{ 'Follow-up method' | translate }}</nz-form-label>
@@ -124,12 +128,6 @@
       </nz-form-item>
     </form>
   </div>
-
-  <footer class="drawer_footer">
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="cusLoading">
-      {{ 'Save' | translate }}
-    </button>
-  </footer>
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

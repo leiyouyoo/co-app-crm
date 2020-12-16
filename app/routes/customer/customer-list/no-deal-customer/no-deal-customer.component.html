@@ -70,10 +70,8 @@
     </div>
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
-
-  <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
   <footer class="drawer_footer">
-    <button nz-button (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+    <button nz-button (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
       {{ 'Application' | translate }}
     </button>
 
@@ -81,6 +79,8 @@
       {{ 'Save' | translate }}
     </button>
   </footer>
+  <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
+
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

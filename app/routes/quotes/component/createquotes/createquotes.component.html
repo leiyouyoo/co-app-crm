@@ -6,7 +6,13 @@
     <span (click)="closeView()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
     <!-- <i class="iconfont icon-guanbi icon-close" ></i> -->
   </header>
-
+  <footer class="drawer_footer">
+    <div class="line"></div>
+    <div class="drawer_footer_btn">
+      <button nz-button nzType="default" (click)="closeView()">{{ 'Cancel' | translate }}</button>
+      <button nz-button nzType="primary" (click)="ngSubmit()" [nzLoading]="okLoading">{{ 'Add Quotes' | translate }}</button>
+    </div>
+  </footer>
   <section class="drawer_content">
     <div class="content">
       <div class="freightType">
@@ -253,13 +259,7 @@
       ></crm-handlequotes>
     </div>
   </section>
-  <footer class="drawer_footer">
-    <div class="line"></div>
-    <div class="drawer_footer_btn">
-      <button nz-button nzType="default" (click)="closeView()">{{ 'Cancel' | translate }}</button>
-      <button nz-button nzType="primary" (click)="ngSubmit()" [nzLoading]="okLoading">{{ 'Add Quotes' | translate }}</button>
-    </div>
-  </footer>
+
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">
