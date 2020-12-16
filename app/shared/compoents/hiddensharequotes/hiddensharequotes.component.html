@@ -389,6 +389,58 @@
       <!-- <textarea rows="4" nz-input [(ngModel)]="ramark" style="margin-top: 16px;"></textarea> -->
     </div>
 
+    <div class="freight_terms">
+      <h1>{{ 'Terms' | translate }}</h1>
+      <div class="freight_terms_validity">
+        <h1>Quotes VALIDITY TERMS:</h1>
+        <div>
+          This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
+          shipper must accept the terms in writing by email or by making a booking pursuant to this NR.. Unless
+          otherwise specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door
+          delivery, or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be
+          assessed for collect freight. All charges not included in the rates but which are published in our Rules Tahff
+          and in effect at the time of shipment shall apply to this arrangement
+          <span class="teLarge">
+            ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
+            BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
+            RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+          </span>
+          <div>
+            <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
+            Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
+            change or documentation charges requested after the shipment has been received Chassis Rental: A chassis
+            rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental is
+            required
+          </div>
+          <div *ngIf="quoteObj.isAmericaLine">
+            <div class="teBold">
+              Chassis Rental:
+            </div>
+            A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental
+            is required
+          </div>
+        </div>
+        <!-- <div *ngIf="!quoteObj.IsAmericaLine">
+        This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
+        shipper must accept the terms in writing by email or by making a booking pursuant to this NR& Unless otherwise
+        specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door delivery,
+        or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be assessed for
+        collect freight. All charges not included in the rates but which are published in our Rules Tahff and in
+        effect at the time of shipment shall apply to this arrangement
+        <span class="teLarge">
+          ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
+          BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
+          RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
+        </span>
+        <div>
+          <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
+          Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
+          change or documentation charges requested after the shipment has been received
+        </div>
+      </div> -->
+      </div>
+    </div>
+
     <div class="freight_crminfo">
       <div class="freight_crminfo_info">
         <div class="freight_crminfo_avater">
@@ -444,56 +496,9 @@
       </div>
     </div>
 
-    <div class="freight_terms">
-      <h1>{{ 'Terms' | translate }}</h1>
-      <div class="freight_terms_validity">
-        <h1>Quotes VALIDITY TERMS:</h1>
-        <div>
-          This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
-          shipper must accept the terms in writing by email or by making a booking pursuant to this NR.. Unless
-          otherwise specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door
-          delivery, or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be
-          assessed for collect freight. All charges not included in the rates but which are published in our Rules Tahff
-          and in effect at the time of shipment shall apply to this arrangement
-          <span class="teLarge">
-            ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
-            BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
-            RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
-          </span>
-          <div>
-            <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
-            Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
-            change or documentation charges requested after the shipment has been received Chassis Rental: A chassis
-            rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental is
-            required
-          </div>
-          <div *ngIf="quoteObj.isAmericaLine">
-            <div class="teBold">
-              Chassis Rental:
-            </div>
-            A chassis rental fee may be assessed by your trucker or by the steamship line through us if a chassis rental
-            is required
-          </div>
-        </div>
-        <!-- <div *ngIf="!quoteObj.IsAmericaLine">
-        This NRA is an offer which may be withdrawn any time prior to its acceptance. To utilize the rates quoted, the
-        shipper must accept the terms in writing by email or by making a booking pursuant to this NR& Unless otherwise
-        specified, the rates quoted do not include marine insurance, customs clearance, duties, taxes, door delivery,
-        or any customary charges at deshnation such as CSC, DDC, DTHC, or Port Charges A charge may be assessed for
-        collect freight. All charges not included in the rates but which are published in our Rules Tahff and in
-        effect at the time of shipment shall apply to this arrangement
-        <span class="teLarge">
-          ALL QUOTATION WILL RESULT IN A NEGOTIATED RATE ARRANGEMENT (NRA) IF BOOKED AND SHIPPED, THE SHIPPER’S
-          BOOKING OF CARGO AFTER RECEIVING THE TERMS OF THIS NRA OR AN NRA AMENDMENT CONSTITUTES ACCEPTANCE OF THE
-          RATES AND TERMS OF THIS NRA OR NRA AMENDMENT
-        </span>
-        <div>
-          <div class="teBold">Waiting Time/Detention/Demurrage/Charges for Change of Destination/Documents:</div>
-          Rates do not include truck waiting time or container detention or demurrage Rates do not include destination
-          change or documentation charges requested after the shipment has been received
-        </div>
-      </div> -->
-      </div>
+    <div class="QRcode">
+      <img src="apps/crm/assets/images/CSP.png" />
+      <p>{{"CSP APP" | translate}}</p>
     </div>
   </div>
 </div>
