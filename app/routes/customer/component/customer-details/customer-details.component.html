@@ -31,7 +31,7 @@
             </div>
 
             <div class="customer-center">
-              <nz-tabset [nzType]="'card'" class="customer-user">
+              <nz-tabset [nzType]="'card'" class="customer-user" (nzSelectedIndexChange)="closeDrawer()">
                 <nz-tab nzTitle="{{ 'Contact list' | translate }}">
                   <ng-template nz-tab>
                     <contacts-list
@@ -64,10 +64,11 @@
                   <ng-template nz-tab>
                     <customer-customer-auth
                       [customerId]="customerId"
-                      [isBind]="customerInfo?.isRegistered"
+                      [state]="customerInfo?.state"
                       [isOwner]="customerInfo?.isOwner"
                       [customerState]="customerInfo?.state"
                       [isCanBind]="true"
+                      (showAuth)="showAuth()"
                       (refushData)="getCustomerById()"
                       (closeModal)="createCancel()"
                     >
@@ -127,17 +128,18 @@
     </div>
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
-
-  <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
   <footer class="drawer_footer">
-    <button nz-button (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+    <button nz-button (click)="updateCustomer(true)" nzType="primary" [nzLoading]="applicationLoading" [disabled]="cusLoading">
       {{ 'Application' | translate }}
     </button>
 
-    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading" *ngIf="showSave">
       {{ 'Save' | translate }}
     </button>
   </footer>
+  <div style="display: flex; flex: 1; overflow: hidden;">
+    <div #createCustomer></div>
+  </div>
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

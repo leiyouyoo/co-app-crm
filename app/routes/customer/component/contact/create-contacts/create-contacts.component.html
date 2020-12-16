@@ -11,7 +11,9 @@
     </div>
     <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
-
+  <footer class="drawer_footer">
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+  </footer>
   <div class="contacts">
     <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'" *ngIf="validateForm">
       <div nz-row [nzGutter]="24">
@@ -200,9 +202,7 @@
     </form>
   </div>
 
-  <footer class="drawer_footer">
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
-  </footer>
+
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

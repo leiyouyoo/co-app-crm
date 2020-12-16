@@ -16,14 +16,14 @@
       </div>
     </div>
 
-    <div class="head_customer">
+    <div class="head_customer" id="head_customer_modal">
       <div #demo1>
         <div nz-row [nzGutter]="24">
           <div nz-col [nzSpan]="24" class="title">
             <strong>{{ 'Customer information' | translate }}</strong>
           </div>
 
-          <div nz-col [nzSpan]="12">
+          <div nz-col [nzSpan]="11">
             <nz-form-item>
               <nz-form-label nzRequired>{{ 'Full name' | translate }}</nz-form-label>
               <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="customerErrorTpl">
@@ -45,7 +45,16 @@
             </nz-form-item>
           </div>
 
-          <div nz-col [nzSpan]="12">
+          <div nz-col [nzSpan]="2">
+            <nz-form-item>
+              <nz-form-label>&nbsp;</nz-form-label>
+              <nz-form-control>
+                <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindLocalName()"></i>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzSpan]="11">
             <nz-form-item>
               <nz-form-label>{{ 'Full name' | translate }}({{ 'Local' | translate }})</nz-form-label>
               <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="enErrorTpl">
@@ -154,7 +163,7 @@
         </div>
 
         <div nz-row [nzGutter]="24">
-          <div nz-col [nzSpan]="12">
+          <div nz-col [nzSpan]="11">
             <nz-form-item>
               <nz-form-label nzRequired>{{ 'Abbreviation' | translate }}</nz-form-label>
               <nz-form-control nzErrorTip="{{ 'The abbreviation cannot be empty!' | translate }}">
@@ -163,7 +172,16 @@
             </nz-form-item>
           </div>
 
-          <div nz-col [nzSpan]="12">
+          <div nz-col [nzSpan]="2">
+            <nz-form-item>
+              <nz-form-label>&nbsp;</nz-form-label>
+              <nz-form-control>
+                <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindFullName()"></i>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzSpan]="11">
             <nz-form-item>
               <nz-form-label>{{ 'Abbreviation' | translate }}({{ 'Local' | translate }})</nz-form-label>
               <nz-form-control [nzErrorTip]="shortNameErrorTpl">
@@ -390,20 +408,20 @@
           </div>
         </div>
 
-        <div nz-col [nzSpan]="24">
+        <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label>{{ 'Email' | translate }}</nz-form-label>
+            <nz-form-label nzRequired>{{ 'Email' | translate }}/{{ 'Fax' | translate }}(任意一项必填)</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'The email address you entered is incorrect!' | translate }}!">
-              <input nz-input formControlName="email" placeholder="{{ 'Please enter' | translate }}" />
+              <input nz-input formControlName="email" placeholder="{{ 'Please enter Email' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="24">
+        <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
+            <nz-form-label>&nbsp;</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter the correct fax!' | translate }}">
-              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter' | translate }}" />
+              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -450,7 +468,7 @@
 
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Industry' | translate }}</nz-form-label>
+            <nz-form-label>{{ 'Industry' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'The industry cannot be empty!' | translate }}">
               <nz-select nzShowSearch nzAllowClear formControlName="industry" nzPlaceHolder="{{ 'Please select' | translate }}">
                 <nz-option *ngFor="let item of industryList" [nzLabel]="item.nameLocalization" [nzValue]="item.id"> </nz-option>
@@ -485,9 +503,19 @@
           <nz-form-item>
             <nz-form-label>{{ 'Common incoterms' | translate }}</nz-form-label>
             <nz-form-control>
-              <nz-select nzShowSearch nzAllowClear formControlName="incoterms" nzPlaceHolder="{{ 'Please select' | translate }}">
-                <nz-option *ngFor="let item of incotermList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
-              </nz-select>
+              <div class="common_select">
+                <div
+                  *ngFor="let data of incotermDataList"
+                  [ngClass]="{ common_selected: data.checked }"
+                  class="common_select_data"
+                  (click)="bindCommonData(data)"
+                >
+                  {{ data.name }}
+                </div>
+                <nz-select nzShowSearch nzAllowClear formControlName="incoterms" nzPlaceHolder="{{ 'Please select' | translate }}">
+                  <nz-option *ngFor="let item of incotermList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
+                </nz-select>
+              </div>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -552,7 +580,7 @@
             >
               <div nz-col [nzSpan]="12">
                 <nz-form-item>
-                  <nz-form-control nzErrorTip="{{ 'Please Select' | translate }}">
+                  <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                     <nz-select
                       nzShowSearch
                       nzAllowClear

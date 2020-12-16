@@ -1,7 +1,7 @@
 <div style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
   <div class="table-title">
-    <div class="card-title">
-      <div class="gutter-box" *ngIf="i">
+    <div class="card-title" *ngIf="i">
+      <div class="gutter-box" >
         <i nz-icon nzType="arrow-left" nzTheme="outline" (click)="i = 0; createLocations.isVisible = false"></i>
       </div>
     </div>
@@ -21,7 +21,15 @@
 
           <div class="edit-icon" *ngIf="isOwner">
             <i nz-icon class="del" nzType="form" nzTheme="outline" (click)="onShowLocation()"></i>
-            <i nz-icon class="del" nzType="delete" nzTheme="outline" (click)="onDeleteLocation()"></i>
+            <i
+              nz-icon
+              class="del"
+              nzType="delete"
+              nzTheme="outline"
+              (click)="onDeleteLocation()"
+              nz-tooltip
+              [nzTooltipTitle]="'Delete location and unbind its contacts' | translate"
+            ></i>
           </div>
         </div>
 

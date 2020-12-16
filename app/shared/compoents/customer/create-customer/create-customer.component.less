@@ -66,7 +66,31 @@
 }
 
 .add-btn {
-  width: 100%;
+  width   : 100%;
   position: relative;
-  top:-7px;
+  top     : -7px;
+}
+
+.common_select {
+  display    : flex;
+  align-items: center;
+
+  .common_select_data {
+    margin-right : 5px;
+    border       : 1px solid #d9d9d9;
+    padding      : 3.5px 8px;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid #1890ff;
+      color : #1890ff;
+    }
+  }
+}
+
+
+.common_selected {
+  border: 1px solid #1890ff !important;
+  color : #1890ff;
 }

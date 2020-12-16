@@ -15,9 +15,7 @@
       <nz-card [nzTitle]="tabtitle1">
         <p>
           {{ 'Full name' | translate }} : {{ customerInfo?.name || '--' }}
-          <span style="margin-left: 10px;"
-            >{{ 'Abbreviation' | translate }} : {{ customerInfo?.shortName || '--' }}</span
-          >
+          <span style="margin-left: 10px;">{{ 'Abbreviation' | translate }} : {{ customerInfo?.shortName || '--' }}</span>
         </p>
 
         <p>{{ 'Address' | translate }} : {{ customerInfo?.address || '--' }}</p>
@@ -30,9 +28,7 @@
       <nz-card [nzTitle]="tabtitle2">
         <p>
           {{ 'Full name' | translate }} : {{ customerInfo?.localizationName || '--' }}
-          <span style="margin-left: 10px;"
-            >{{ 'Abbreviation' | translate }}: {{ customerInfo?.localizationShortName || '--' }}</span
-          >
+          <span style="margin-left: 10px;">{{ 'Abbreviation' | translate }}: {{ customerInfo?.localizationShortName || '--' }}</span>
         </p>
 
         <p>{{ 'Address' | translate }} : {{ customerInfo?.localizationAddress || '--' }}</p>
@@ -64,17 +60,11 @@
 >
   <div #createCustomer></div>
   <ng-template #cusFooter>
-    <button nz-button (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+    <button nz-button [nzType]="'primary'" (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
       {{ 'Application' | translate }}
     </button>
 
-    <button
-      nz-button
-      nzType="primary"
-      (click)="updateCustomer()"
-      [disabled]="applicationLoading"
-      [nzLoading]="cusLoading"
-    >
+    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
     </button>
   </ng-template>

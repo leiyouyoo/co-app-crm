@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { isThisISOWeek } from 'date-fns';
 import { SSORoleService, PlatformEditionService } from '@co/cds';
@@ -11,19 +11,21 @@ import { NzResizeEvent } from 'ng-zorro-antd/resizable';
   styleUrls: ['./customer-auth.component.less'],
 })
 export class CustomerAuthComponent implements OnInit {
-  @Input() isBind: any;
+  @Input() state: any;
   @Input() customerId: any;
   @Input() partnerId: any;
   @Input() isPartner: boolean;
   @Input() isCanBind: boolean;
   @Input() customerState: any;
+  @Input() customerInfo: any;
   // 判断同一业务员
   @Input() isOwner: false;
   @Input() partnerIsOwner: false;
   @Output() refushData = new EventEmitter<any>();
   @Output() closeModal = new EventEmitter<any>();
-
+  @Output() showAuth = new EventEmitter<any>();
   clientMsg: any;
+
   validateForm: FormGroup;
   contactList = [];
   maxPrice = 99.99;
@@ -175,13 +177,16 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   noRZModal: boolean = false;
+
   onCertification() {
     this.closeModal.emit();
     this.validateForm.reset();
+
     if (this.customerState != 3) {
       this.noRZModal = true;
       return;
     }
+
     this.isVisible = true;
   }
 
@@ -224,7 +229,7 @@ export class CustomerAuthComponent implements OnInit {
       this.loading = true;
     }
 
-    if (!this.isBind) {
+    if (this.state !== 3) {
       this.crmCustomerService
         .customerConfigure({
           customerId: id,
@@ -292,5 +297,7 @@ export class CustomerAuthComponent implements OnInit {
     });
   }
 
-  getCusDetailById() {}
+  editCustomer() {
+    this.showAuth.emit(true);
+  }
 }

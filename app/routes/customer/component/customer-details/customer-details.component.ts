@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -16,7 +16,7 @@ import { Validators } from '@angular/forms';
 })
 export class CustomerDetailsComponent implements OnInit {
   public customerId: any = this.activeRoute.snapshot.params.id;
-
+  showSave = true;
   customerInfo: any;
   customerType = '';
   cargoCanvassingType = '';
@@ -41,8 +41,9 @@ export class CustomerDetailsComponent implements OnInit {
   @ViewChild(ApplyCusCodeComponent, { static: true })
   applyCusCodeComponent: ApplyCusCodeComponent;
 
-  @ViewChild(CreateCustomerComponent, { static: true })
-  createCustomer: CreateCustomerComponent;
+  com: any;
+  @ViewChild('createCustomer', { static: true, read: ViewContainerRef })
+  createCustomer: ViewContainerRef;
 
   width = 600;
   requestAnimationFrameId: number;
@@ -52,13 +53,14 @@ export class CustomerDetailsComponent implements OnInit {
     public msessage: NzMessageService,
     public renderer2: Renderer2,
     public router: Router,
+    private componentFactoryResolver: ComponentFactoryResolver,
     public crmCustomerService: CRMCustomerService,
     public translate: TranslateService,
   ) {}
 
   ngOnInit() {
     this.getCustomerById();
-    this.createCustomer.initData();
+    // this.createCustomer.initData();
   }
 
   onResize({ width }: NzResizeEvent): void {
@@ -97,12 +99,23 @@ export class CustomerDetailsComponent implements OnInit {
     this.isPartnerDetails = false;
   }
 
-  editCustomer() {
+  editCustomer(bottom = false) {
     this.showCustomer = true;
-    this.createCustomer.initData(this.customerInfo);
+    this.createCustomer.clear();
+    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
+    this.com.instance.initData(this.customerInfo);
+    setTimeout(() => {
+      this.com.instance.ngScroll();
+      if (bottom) {
+        this.updateCustomer(true);
+        this.com.instance.ngScrollBottom();
+      }
+    }, 500);
   }
 
   createCancel() {
+    this.showSave = true;
+    this.createCustomer.clear();
     this.showCustomer = false;
   }
 
@@ -130,7 +143,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   // 创建客户
   updateCustomer(application?: boolean) {
-    this.createCustomer.validateForm.controls.customerTaxes.controls.forEach((e) => {
+    this.com.instance.validateForm.controls.customerTaxes.controls.forEach((e) => {
       if (application) {
         e.controls.taxNo.setValidators([Validators.required]);
         e.controls.taxType.setValidators([Validators.required]);
@@ -143,11 +156,10 @@ export class CustomerDetailsComponent implements OnInit {
       const tmp = document.querySelector('.ant-form-item-explain');
       tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
     }, 0);
-    if (!this.createCustomer.submitForm()) {
-      this.msessage.warning(this.translate.instant('Please check the content'));
+    if (!this.com.instance.submitForm()) {
       return;
     }
-    let value = this.createCustomer.validateForm.value;
+    let value = this.com.instance.validateForm.value;
     let tel = value.tel.map((res) => res.tel);
 
     if (!value.email && !value.fax) {
@@ -201,5 +213,14 @@ export class CustomerDetailsComponent implements OnInit {
         this.applicationLoading = false;
       },
     );
+  }
+
+  showAuth() {
+    this.showSave = false;
+    this.editCustomer(true);
+  }
+
+  closeDrawer() {
+    this.createCancel();
   }
 }
