@@ -101,21 +101,20 @@ export class FavoriteRouteComponent implements OnInit {
     }
   }
 
-  async getPortList(type, id) {
-    debugger;
+  async getPortList(type, ids) {
     switch (type) {
       case 'pol':
-        this.pubPlace.getAll({ id: id, isOcean: true }).subscribe((res: any) => {
+        this.pubPlace.getByPlacesIds(ids).subscribe((res: any) => {
           this.basicPolPortList = res.items;
         });
         break;
       case 'pod':
-        this.pubPlace.getAll({ id: id, isOcean: true }).subscribe((res: any) => {
+        this.pubPlace.getByPlacesIds(ids).subscribe((res: any) => {
           this.basicPodPortList = res.items;
         });
         break;
       case 'delivery':
-        this.pubPlace.getAll({ id: id, isOcean: true }).subscribe((res: any) => {
+        this.pubPlace.getByPlacesIds(ids).subscribe((res: any) => {
           this.deliveryList = res.items;
         });
         break;
@@ -156,7 +155,6 @@ export class FavoriteRouteComponent implements OnInit {
 
   polNames = [];
   polIdChange(e, item) {
-    debugger;
     e = e.filter((c) => c != undefined);
     this.polNames = e.map((c) => c.nameLocalization);
     item.controls.polName.setValue(this.polNames);
@@ -216,7 +214,6 @@ export class FavoriteRouteComponent implements OnInit {
     });
   }
   onSave() {
-    debugger;
     if (!this.onCheckValid()) {
       return;
     }
@@ -229,7 +226,6 @@ export class FavoriteRouteComponent implements OnInit {
       }
     });
     this.ratesRouteNoteService.createOrUpdate(this.form.value.routeList).subscribe((res) => {
-      debugger;
       this.msg.info(this.translate.instant('保存成功') + '!');
       this.onSubmitted.emit(true);
       this.sideDrawer.close();

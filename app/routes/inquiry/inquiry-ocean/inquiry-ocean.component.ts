@@ -1477,6 +1477,7 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
   editRoute(title, routeItem, sideDrawer, e) {
+    debugger
     let contentParams;
     contentParams = {
       title,
@@ -1493,6 +1494,7 @@ export class InquiryListOceanComponent implements OnInit {
     e.stopPropagation();
   }
   nzSelectedIndexChange(e) {
+    this.sideDrawer.close();
     if (e == 0) {
       this.searchForm.reset();
       (this.searchForm.controls.dynamicQuery as FormGroup).controls.timeranges.setValue([new Date(), this.GetNextMonthDay(new Date())]);
@@ -1502,6 +1504,7 @@ export class InquiryListOceanComponent implements OnInit {
       this.searchForm.controls.pols.setValue(data.polId);
       this.searchForm.controls.pods.setValue(data.podId);
       this.searchForm.controls.deliverys.setValue(data.placeOfDeliveryId);
+      this.searchForm.controls.shipCompanys.setValue(data.carrierId);
       (this.searchForm.controls.dynamicQuery as FormGroup).controls.shippingLineId.setValue(data.shippingLineId);
       // 处理下拉选项
       this.bindEditData(data);
