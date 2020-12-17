@@ -221,6 +221,21 @@
 
         <div nz-col [nzSpan]="12">
           <nz-form-item>
+            <nz-form-label nzFor="isCreateContact">&nbsp;</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              {{ 'Add contact' | translate }}?
+              <nz-switch
+                style="margin-left: 5px;"
+                formControlName="isCreateContact"
+                nzCheckedChildren="{{ 'Open' | translate }}"
+                nzUnCheckedChildren="{{ 'Close' | translate }}"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
             <nz-form-label nzFor="contactId">{{ 'Contact' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
               <nz-select nzShowSearch nzPlaceHolder="{{ 'Please choose' | translate }}" nzAllowClear formControlName="contactId">
@@ -231,10 +246,37 @@
           </nz-form-item>
         </div>
       </div>
+
+      <div nz-row [nzGutter]="24" *ngIf="validateForm.get('isCreateContact').value === true">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'First name' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactName" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'Last name' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactSurName" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'Phone' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactPhone" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
     </form>
   </div>
-
-
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

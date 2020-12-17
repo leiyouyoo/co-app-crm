@@ -107,7 +107,7 @@ export class CustomerDetailsComponent implements OnInit {
     setTimeout(() => {
       this.com.instance.ngScroll();
       if (bottom) {
-        this.updateCustomer(true);
+        this.checkValid();
         this.com.instance.ngScrollBottom();
       }
     }, 500);
@@ -139,6 +139,15 @@ export class CustomerDetailsComponent implements OnInit {
 
   refreshData() {
     this.getCustomerById();
+  }
+
+  // 校验认证
+  checkValid() {
+    this.com.instance.validateForm.controls.customerTaxes.controls.forEach((e) => {
+      e.controls.taxNo.setValidators([Validators.required]);
+      e.controls.taxType.setValidators([Validators.required]);
+    });
+    this.com.instance.submitForm();
   }
 
   // 创建客户

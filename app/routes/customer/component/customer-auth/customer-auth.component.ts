@@ -78,10 +78,15 @@ export class CustomerAuthComponent implements OnInit {
       userName: [null, [Validators.required, Validators.email]],
       editionRoleId: [null, [Validators.required]],
       contactId: [null],
+      isCreateContact: [false],
       customerLevel: [null, [Validators.required, Validators.maxLength(20)]],
       oceanAttachFee: [null, [Validators.required, this.checkKeyWordData()]],
+      contactName: [null],
+      contactSurName: [null],
+      contactPhone: [null],
     });
   }
+
   getDetial() {
     if (this.isPartner) {
       if (this.partnerId) {
@@ -91,6 +96,7 @@ export class CustomerAuthComponent implements OnInit {
       this.getCustomerConfigure(this.customerId);
     }
   }
+
   onRolesList() {
     this.ssoRoleService
       .getParentRoles({
@@ -203,6 +209,16 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   handleOk() {
+    if (this.validateForm.get('isCreateContact').value === true) {
+      this.validateForm.controls.contactName.setValidators([Validators.required]);
+      this.validateForm.controls.contactSurName.setValidators([Validators.required]);
+      this.validateForm.controls.contactPhone.setValidators([Validators.required]);
+    } else {
+      this.validateForm.controls.contactName.setValidators([]);
+      this.validateForm.controls.contactSurName.setValidators([]);
+      this.validateForm.controls.contactPhone.setValidators([]);
+    }
+
     // tslint:disable-next-line: forin
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
@@ -236,6 +252,10 @@ export class CustomerAuthComponent implements OnInit {
           userName: this.validateForm.get('userName').value,
           editionRoleId: this.validateForm.get('editionRoleId').value,
           contactId: this.validateForm.get('contactId').value,
+          isCreateContact: this.validateForm.get('isCreateContact').value,
+          contactName: this.validateForm.get('contactName').value,
+          contactSurName: this.validateForm.get('contactSurName').value,
+          contactPhone: this.validateForm.get('contactPhone').value,
           customerConfigure: {
             customerLevel: this.validateForm.get('customerLevel').value,
             oceanAttachFee: this.validateForm.get('oceanAttachFee').value,

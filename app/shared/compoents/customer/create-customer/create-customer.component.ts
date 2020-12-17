@@ -728,11 +728,13 @@ export class CreateCustomerComponent {
       this.validateForm.patchValue({
         nameLocalization: value,
       });
-    }
-
-    if (oVlaue && !value) {
+    } else if (oVlaue && !value) {
       this.validateForm.patchValue({
         name: oVlaue,
+      });
+    } else {
+      this.validateForm.patchValue({
+        nameLocalization: value,
       });
     }
   }
@@ -744,11 +746,13 @@ export class CreateCustomerComponent {
       this.validateForm.patchValue({
         shortNameLocalization: value,
       });
-    }
-
-    if (oVlaue && !value) {
+    } else if (oVlaue && !value) {
       this.validateForm.patchValue({
         shortName: oVlaue,
+      });
+    } else {
+      this.validateForm.patchValue({
+        shortNameLocalization: value,
       });
     }
   }
