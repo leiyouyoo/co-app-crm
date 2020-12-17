@@ -31,13 +31,21 @@
             </div>
 
             <div class="customer-center">
-              <nz-tabset [nzType]="'card'" class="customer-user" (nzSelectedIndexChange)="closeDrawer()">
+              <nz-tabset
+                [nzType]="'card'"
+                class="customer-user"
+                (nzSelectedIndexChange)="closeDrawer($event)"
+                [nzSelectedIndex]="selectedIndex"
+              >
                 <nz-tab nzTitle="{{ 'Contact list' | translate }}">
                   <ng-template nz-tab>
                     <contacts-list
                       [isOwner]="customerInfo?.isOwner"
                       [customerId]="customerId"
                       [editionRoleId]="customerInfo?.editionRoleId"
+                      [state]="customerInfo?.state"
+                      (showAuth)="showAuth()"
+                      (showMainAccount)="showMainAccount()"
                       (refushData)="getCustomerById()"
                       (closeModal)="createCancel()"
                     ></contacts-list>
@@ -67,6 +75,7 @@
                       [state]="customerInfo?.state"
                       [isOwner]="customerInfo?.isOwner"
                       [customerState]="customerInfo?.state"
+                      [isRegistered]="customerInfo?.isRegistered"
                       [isCanBind]="true"
                       (showAuth)="showAuth()"
                       (refushData)="getCustomerById()"

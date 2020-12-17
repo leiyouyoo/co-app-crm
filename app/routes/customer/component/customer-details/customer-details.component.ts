@@ -17,6 +17,7 @@ import { Validators } from '@angular/forms';
 export class CustomerDetailsComponent implements OnInit {
   public customerId: any = this.activeRoute.snapshot.params.id;
   showSave = true;
+  selectedIndex = 0;
   customerInfo: any;
   customerType = '';
   cargoCanvassingType = '';
@@ -233,7 +234,12 @@ export class CustomerDetailsComponent implements OnInit {
     this.editCustomer(true);
   }
 
-  closeDrawer() {
+  closeDrawer(event) {
+    this.selectedIndex = event;
     this.createCancel();
+  }
+
+  showMainAccount() {
+    this.selectedIndex = 2;
   }
 }

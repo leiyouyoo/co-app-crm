@@ -1,4 +1,4 @@
-<div class="customerAuth-content" *ngIf="state === 3; else noCustomer">
+<div class="customerAuth-content" *ngIf="state === 3 && isRegistered; else noCustomer">
   <div class="table-title">
     <button nz-button nzSize="small" nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
       {{ 'Edit' | translate }}
@@ -71,12 +71,27 @@
         <img src="apps/crm/assets/images/customer/noCustomer.png" />
       </div>
       <div style="text-align: left;">
-        <div class="title">{{ 'Customer is not certified' | translate }}</div>
-        <div class="message">{{ 'Sorry, you have not performed client authentication' | translate }}</div>
+        <div class="title">
+          <span *ngIf="state == 3">{{ 'No master account' | translate }}</span>
+          <span *ngIf="state == 2">{{ 'In the authentication' | translate }}</span>
+          <span *ngIf="state != 2 && state != 3">{{ 'Customer is not certified' | translate }}</span>
+        </div>
+        <div class="message">
+          <span *ngIf="state == 3">{{ 'Sorry, the main account has not been opened' | translate }}</span>
+          <span *ngIf="state == 2">{{ 'Financial review, please wait patiently' | translate }}</span>
+          <span *ngIf="state != 2 && state != 3">{{ 'Sorry, you have not performed client authentication' | translate }}</span>
+        </div>
         <div class="message" style="color: #e55354;" *ngIf="!isCanBind">
           {{ 'Sorry, the partner is not bound to the customer' | translate }}
         </div>
-        <div>
+
+        <div *ngIf="state === 3">
+          <button nz-button nzSize="small" nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
+            {{ 'Open the main account' | translate }}
+          </button>
+        </div>
+
+        <div *ngIf="state != 2 && state != 3">
           <button
             nz-button
             nzSize="small"
@@ -84,13 +99,7 @@
             (click)="editCustomer()"
             [disabled]="!isOwner || (!partnerIsOwner && isPartner)"
           >
-            <span *ngIf="state == 2" class="certification">
-              {{ 'In the authentication' | translate }}
-            </span>
-            <span *ngIf="state == 3" class="certification">
-              {{ 'Certification by' | translate }}
-            </span>
-            <span *ngIf="state != 2 && customerInfo?.state != 3" class="certification">
+            <span class="certification">
               {{ 'Certify now' | translate }}
             </span>
           </button>
@@ -310,8 +319,8 @@
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
               {{ 'Main contact' | translate }}
               <nz-radio-group formControlName="isMasterContact" nzButtonStyle="solid" style="margin-left: 5px;">
-                <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
-                <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
+                <label nz-radio-button [nzValue]="true">{{ 'Yes' | translate }}</label>
+                <label nz-radio-button [nzValue]="false">{{ 'No' | translate }}</label>
               </nz-radio-group>
             </nz-form-control>
           </nz-form-item>

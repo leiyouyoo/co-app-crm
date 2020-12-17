@@ -16,6 +16,7 @@ export class CustomerAuthComponent implements OnInit {
   @Input() partnerId: any;
   @Input() isPartner: boolean;
   @Input() isCanBind: boolean;
+  @Input() isRegistered: boolean;
   @Input() customerState: any;
   @Input() customerInfo: any;
   // 判断同一业务员
