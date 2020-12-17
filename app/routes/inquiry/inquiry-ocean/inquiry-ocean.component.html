@@ -26,7 +26,7 @@
     <div class="inquiry-ocean-content" style="display: flex; flex-direction: column; height: 100%; background: #fff;">
       <form nz-form [formGroup]="searchForm">
         <!--    <div class="login-form">-->
-        <co-search-area-layout coWidth="12%">
+        <co-search-area-layout coWidth="200">
           <!-- <nz-form-item>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select formControlName="pol" nzPlaceHolder="{{ 'POL' | translate }}" nzShowSearch nzServerSearch
@@ -128,7 +128,7 @@
             </nz-form-item>
           </co-search-area-item>
 
-          <co-search-area-item style="width: 20%;">
+          <co-search-area-item coWidth="auto">
             <button nz-button [nzType]="'primary'" (click)="onSearch()">
               {{ 'Search' | translate }}
             </button>

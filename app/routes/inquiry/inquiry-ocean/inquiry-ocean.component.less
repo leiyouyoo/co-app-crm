@@ -318,8 +318,19 @@
     }
 
     .co-search-area-item {
-      width: 12%;
       margin-right: 4px !important;
+    }
+  }
+
+  co-search-area-item {
+    nz-select {
+      height: 32px;
+      overflow: hidden;
+      nz-select-top-control {
+        height: inherit;
+        overflow: inherit;
+        flex-wrap: nowrap;
+      }
     }
   }
 }
