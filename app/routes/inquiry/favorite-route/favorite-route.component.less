@@ -4,6 +4,15 @@
 
     .ant-form-item {
       margin-bottom: 0 !important;
+
+      .ant-form-item-control {
+        height: 28px;
+        line-height: 28px;
+
+        .ant-form-item-control-input {
+          min-height: 28px;
+        }
+      }
     }
 
     .ant-table table {
@@ -35,16 +44,29 @@
     }
 
     .ant-input {
-      width: 80% !important;
+      width: 96% !important;
+      height: 26px;
+      padding: 0 4px;
     }
 
     .ant-select {
-      width: 80% !important;
+      width: 96% !important;
+
+      .ant-select-selector {
+        height: 26px;
+      }
     }
 
     .ant-input-number-input {
-      width: 80% !important;
+      width: 96% !important;
+      height: 26px;
+      padding: 0 4px;
     }
+  }
+
+  button {
+    padding: 0;
+    height: 24px;
   }
 }
 
