@@ -77,7 +77,13 @@
           {{ 'Sorry, the partner is not bound to the customer' | translate }}
         </div>
         <div>
-          <button nz-button nzSize="small" nzType="primary" (click)="editCustomer()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
+          <button
+            nz-button
+            nzSize="small"
+            nzType="primary"
+            (click)="editCustomer()"
+            [disabled]="!isOwner || (!partnerIsOwner && isPartner)"
+          >
             <span *ngIf="state == 2" class="certification">
               {{ 'In the authentication' | translate }}
             </span>
@@ -85,7 +91,7 @@
               {{ 'Certification by' | translate }}
             </span>
             <span *ngIf="state != 2 && customerInfo?.state != 3" class="certification">
-              {{ 'Not certified' | translate }}
+              {{ 'Certify now' | translate }}
             </span>
           </button>
         </div>
@@ -243,9 +249,9 @@
             <nz-form-label nzFor="isCreateContact">&nbsp;</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
               {{ 'Whether to create a contact' | translate }}?
-              <nz-radio-group formControlName="isCreateContact" nzButtonStyle="solid">
-                <label nz-radio-button [nzValue]="true">开</label>
-                <label nz-radio-button [nzValue]="false">关</label>
+              <nz-radio-group formControlName="isCreateContact" nzButtonStyle="solid" style="margin-left: 5px;">
+                <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
+                <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
               </nz-radio-group>
             </nz-form-control>
           </nz-form-item>
@@ -270,8 +276,8 @@
         </div>
       </div>
 
-      <div nz-row [nzGutter]="24" *ngIf="validateForm.get('isCreateContact').value === true">
-        <div nz-col [nzSpan]="12">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
           <nz-form-item>
             <nz-form-label nzFor="contactId" nzRequired>{{ 'First name' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
@@ -280,7 +286,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="12">
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
           <nz-form-item>
             <nz-form-label nzFor="contactId" nzRequired>{{ 'Last name' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
@@ -289,7 +295,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="12">
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
           <nz-form-item>
             <nz-form-label nzFor="contactId" nzRequired>{{ 'Phone' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
@@ -297,19 +303,19 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-      </div>
 
-      <div>
-        <nz-form-item>
-          <nz-form-label nzFor="isMasterContact">&nbsp;</nz-form-label>
-          <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-            {{ 'Main contact' | translate }}
-            <nz-radio-group formControlName="isMasterContact" nzButtonStyle="solid">
-              <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
-              <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
-            </nz-radio-group>
-          </nz-form-control>
-        </nz-form-item>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label nzFor="isMasterContact">&nbsp;</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              {{ 'Main contact' | translate }}
+              <nz-radio-group formControlName="isMasterContact" nzButtonStyle="solid" style="margin-left: 5px;">
+                <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
+                <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
     </form>
   </div>
