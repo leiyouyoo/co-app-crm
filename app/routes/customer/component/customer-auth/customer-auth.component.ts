@@ -323,4 +323,12 @@ export class CustomerAuthComponent implements OnInit {
   editCustomer() {
     this.showAuth.emit(true);
   }
+
+  clearContact(event) {
+    if (event) {
+      this.validateForm.patchValue({
+        contactId: null,
+      });
+    }
+  }
 }

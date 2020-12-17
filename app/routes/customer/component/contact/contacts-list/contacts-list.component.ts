@@ -441,7 +441,7 @@ export class ContactsListComponent implements OnInit {
     if (this.state === 2) {
       title = this.translate.instant('In the authentication');
       message = this.translate.instant('Financial review, please wait patiently');
-      text = this.translate.instant('Okay');
+      text = this.translate.instant('Ok');
     }
     // 绑定角色
     if (!this.editionRoleId) {

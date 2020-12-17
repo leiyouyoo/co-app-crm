@@ -172,17 +172,7 @@
           <nz-form-item>
             <nz-form-label nzFor="customerLevel"
               >{{ 'Customer configuration level' | translate }}
-              <i
-                nz-icon
-                nzType="info-circle"
-                nzTheme="outline"
-                nz-tooltip
-                [nzTooltipTitle]="
-                  'Set the customer\'s price level, the customer can see the reserve price + the added price after configuring the price in the CSP'
-                    | translate
-                "
-                class="tips"
-              ></i>
+
               <span
                 style="
                   color: #ff4d4f;
@@ -194,6 +184,18 @@
                 "
                 >*</span
               >
+
+              <i
+                nz-icon
+                nzType="info-circle"
+                nzTheme="outline"
+                nz-tooltip
+                [nzTooltipTitle]="
+                  'Set the customer\'s price level, the customer can see the reserve price + the added price after configuring the price in the CSP'
+                    | translate
+                "
+                class="tips"
+              ></i>
             </nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
               <nz-select
@@ -258,7 +260,12 @@
             <nz-form-label nzFor="isCreateContact">&nbsp;</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
               {{ 'Whether to create a contact' | translate }}?
-              <nz-radio-group formControlName="isCreateContact" nzButtonStyle="solid" style="margin-left: 5px;">
+              <nz-radio-group
+                formControlName="isCreateContact"
+                nzButtonStyle="solid"
+                style="margin-left: 5px;"
+                (ngModelChange)="clearContact($event)"
+              >
                 <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
                 <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
               </nz-radio-group>
