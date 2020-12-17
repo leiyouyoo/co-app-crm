@@ -1,6 +1,6 @@
 <div class="customerAuth-content" *ngIf="state === 3; else noCustomer">
   <div class="table-title">
-    <button nz-button nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
+    <button nz-button nzSize="small" nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
       {{ 'Edit' | translate }}
     </button>
   </div>
@@ -77,7 +77,7 @@
           {{ 'Sorry, the partner is not bound to the customer' | translate }}
         </div>
         <div>
-          <button nz-button nzType="primary" (click)="editCustomer()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
+          <button nz-button nzSize="small" nzType="primary" (click)="editCustomer()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
             <span *ngIf="state == 2" class="certification">
               {{ 'In the authentication' | translate }}
             </span>
@@ -108,7 +108,7 @@
     <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+    <button nz-button nzSize="small" nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
   </footer>
   <div style="display: flex; flex: 1; flex-direction: column; overflow: hidden;">
     <nz-alert

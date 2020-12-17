@@ -131,6 +131,7 @@
   <footer class="drawer_footer">
     <button
       nz-button
+      nzSize="small"
       (click)="updateCustomer(true)"
       nzType="primary"
       [nzLoading]="applicationLoading"
@@ -141,6 +142,7 @@
 
     <button
       nz-button
+      nzSize="small"
       nzType="primary"
       (click)="updateCustomer()"
       [disabled]="applicationLoading || !com?.instance?.validateForm?.valid"

@@ -71,11 +71,11 @@
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
+    <button nz-button nzSize="small" (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
       {{ 'Application' | translate }}
     </button>
 
-    <button nz-button nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+    <button nz-button nzSize="small" nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
     </button>
   </footer>
@@ -101,7 +101,7 @@
 >
   <transfer-tocustomer></transfer-tocustomer>
   <ng-template #tranFooter>
-    <button nz-button nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
+    <button nz-button nzSize="small" nzType="primary" (click)="createTrans()" [nzLoading]="tranLoading">
       {{ 'Transfer' | translate }}
     </button>
   </ng-template>
@@ -138,6 +138,6 @@
 </ng-template>
 
 <ng-template #modalFooter>
-  <button nz-button nzType="primary" (click)="cancelDeleteCustomer()">{{ 'OK' | translate }}</button>
+  <button nz-button nzSize="small" nzType="primary" (click)="cancelDeleteCustomer()">{{ 'OK' | translate }}</button>
 </ng-template>
 <app-customer-merge (getCustomerByPageList)="getCustomerByPageList()"></app-customer-merge>
