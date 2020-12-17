@@ -13,7 +13,7 @@
     <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+    <button nz-button nzSize="small" nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
   </footer>
   <div class="location">
     <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'" *ngIf="validateForm" [autocomplete]="false">
@@ -98,10 +98,10 @@
                         </nz-form-item>
                       </div>
                       <div nz-col [nzSpan]="24" style="text-align: center;">
-                        <button nz-button (click)="isAddContacts = false" style="margin-right: 12px;">
+                        <button nz-button nzSize="small" (click)="isAddContacts = false" style="margin-right: 12px;">
                           {{ 'Cancel' | translate }}
                         </button>
-                        <button nz-button nzType="primary" (click)="contactForm()">
+                        <button nz-button nzSize="small" nzType="primary" (click)="contactForm()">
                           {{ 'New' | translate }}
                         </button>
                       </div>

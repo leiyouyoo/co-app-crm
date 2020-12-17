@@ -63,7 +63,7 @@ export class CustomerAuthComponent implements OnInit {
     this.initData();
     this.onRolesList();
     this.onContactList();
-    this.getDetial();
+    this.getDetail();
   }
 
   onResize({ width }: NzResizeEvent): void {
@@ -79,6 +79,7 @@ export class CustomerAuthComponent implements OnInit {
       editionRoleId: [null, [Validators.required]],
       contactId: [null],
       isCreateContact: [false],
+      isMasterContact: [false],
       customerLevel: [null, [Validators.required, Validators.maxLength(20)]],
       oceanAttachFee: [null, [Validators.required, this.checkKeyWordData()]],
       contactName: [null],
@@ -87,7 +88,7 @@ export class CustomerAuthComponent implements OnInit {
     });
   }
 
-  getDetial() {
+  getDetail() {
     if (this.isPartner) {
       if (this.partnerId) {
         this.getCustomerConfigure(this.partnerId);
@@ -253,6 +254,7 @@ export class CustomerAuthComponent implements OnInit {
           editionRoleId: this.validateForm.get('editionRoleId').value,
           contactId: this.validateForm.get('contactId').value,
           isCreateContact: this.validateForm.get('isCreateContact').value,
+          isMasterContact: this.validateForm.get('isMasterContact').value,
           contactName: this.validateForm.get('contactName').value,
           contactSurName: this.validateForm.get('contactSurName').value,
           contactPhone: this.validateForm.get('contactPhone').value,
@@ -265,7 +267,7 @@ export class CustomerAuthComponent implements OnInit {
           (c) => {
             this.loading = false;
             this.isVisible = false;
-            this.getDetial();
+            this.getDetail();
             this.refushData.emit('');
           },
           (error) => {
@@ -290,7 +292,7 @@ export class CustomerAuthComponent implements OnInit {
         (c) => {
           this.loading = false;
           this.isVisible = false;
-          this.getDetial();
+          this.getDetail();
           this.refushData.emit('');
         },
         (error) => {

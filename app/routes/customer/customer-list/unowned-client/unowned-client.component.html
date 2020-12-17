@@ -57,7 +57,7 @@
       <ng-template st-row="Status" let-data>
         <span *ngIf="data.claimStatus === 0">{{ 'Unclaimed' | translate }}</span>
         <span *ngIf="data.claimStatus === 1" class="redColor">{{ 'Claimed' | translate }}</span>
-        <button nz-button nzType="danger" *ngIf="data.claimStatus === 2">
+        <button nz-button nzSize="small" nzType="danger" *ngIf="data.claimStatus === 2">
           {{ 'Department manager assignment' | translate }}
         </button>
       </ng-template>

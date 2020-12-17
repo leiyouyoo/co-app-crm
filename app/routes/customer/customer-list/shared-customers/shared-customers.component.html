@@ -21,7 +21,7 @@
       <button class="button" nz-button [nzType]="'primary'" (click)="showMerge()">
         {{ 'customer merge' | translate }}
       </button>
-      <button nz-button (click)="onShareModal()" nzType="primary">
+      <button nz-button nzSize="small" (click)="onShareModal()" nzType="primary">
         <i nz-icon nzType="menu-fold" nzTheme="outline"></i>{{ 'Shared resource library' | translate }}
       </button>
     </div>
@@ -96,7 +96,7 @@
           >
             <nz-option *ngFor="let option of customList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
           </nz-select>
-          <button nz-button (click)="getTableData()" [nzLoading]="tableLoading" nzType="primary" style="margin-left: 24px;">
+          <button nz-button nzSize="small" (click)="getTableData()" [nzLoading]="tableLoading" nzType="primary" style="margin-left: 24px;">
             {{ 'Search' | translate }}
           </button>
         </div>

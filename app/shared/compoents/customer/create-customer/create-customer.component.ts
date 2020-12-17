@@ -17,7 +17,7 @@ export class CreateCustomerComponent {
   skipCount = 1;
   validateForm: any;
   userList: any = {};
-
+  common_select_selected = false;
   //地区数据
   regions: any[];
   provinces: any[];
@@ -123,7 +123,7 @@ export class CreateCustomerComponent {
   incotermDataList = [];
   industryList: any[];
   name: string;
-
+  scrollTop = 0;
   data: any;
   i = 1;
   @ViewChild('demo1') demo1: ElementRef;
@@ -144,6 +144,7 @@ export class CreateCustomerComponent {
     private el: ElementRef,
     private googleMapService: GoogleMapService,
   ) {}
+
   ngOnInit() {
     // 获取国家
     this.pubRegionService
@@ -161,12 +162,12 @@ export class CreateCustomerComponent {
       let height1 = this.demo1.nativeElement.scrollHeight;
       let height2 = this.demo2.nativeElement.scrollHeight;
       let height3 = this.demo3.nativeElement.scrollHeight;
-      let scrollTop = document.querySelector('.head_customer').scrollTop;
-      if (scrollTop < height1) {
+      this.scrollTop = document.querySelector('.head_customer').scrollTop;
+      if (this.scrollTop < height1) {
         this.i = 1;
-      } else if (scrollTop >= height1 && scrollTop < height1 + height2) {
+      } else if (this.scrollTop >= height1 && this.scrollTop < height1 + height2) {
         this.i = 2;
-      } else if (scrollTop >= height1 && scrollTop >= height1 + height2 && scrollTop < height1 + height2 + height3) {
+      } else if (this.scrollTop >= height1 && this.scrollTop >= height1 + height2 && this.scrollTop < height1 + height2 + height3) {
         this.i = 3;
       } else {
         this.i = 4;
@@ -406,11 +407,33 @@ export class CreateCustomerComponent {
         let data = this.incotermList.find((e) => e.name === 'FOB');
         if (!this.incotermDataList.some((e) => e.name === data.name)) {
           this.incotermDataList.push(data);
+          this.incotermList.splice(
+            this.incotermList.findIndex((e) => e.name === 'FOB'),
+            1,
+          );
         }
 
         let data2 = this.incotermList.find((e) => e.name === 'CIF');
         if (!this.incotermDataList.some((e) => e.name === data2.name)) {
           this.incotermDataList.push(data2);
+          this.incotermList.splice(
+            this.incotermList.findIndex((e) => e.name === 'CIF'),
+            1,
+          );
+        }
+
+        // 绑定值
+        if (this.validateForm.get('incoterms').value != '' || this.validateForm.get('incoterms').value != null) {
+          let value = this.validateForm.get('incoterms').value;
+          let index = this.incotermList.findIndex((e) => e.id === value);
+          if (index != -1) {
+            this.common_select_selected = true;
+          }
+
+          let index2 = this.incotermDataList.findIndex((e) => e.id === value);
+          if (index2 != -1) {
+            this.incotermDataList[index2].checked = true;
+          }
         }
       });
 
@@ -618,11 +641,22 @@ export class CreateCustomerComponent {
   }
 
   bindCommonData(data) {
+    this.common_select_selected = false;
+    this.incotermList.forEach((e) => (e.checked = false));
     this.incotermDataList.forEach((e) => (e.checked = false));
     data.checked = true;
-    this.validateForm.patchValue({
-      incoterms: data.id,
+
+    this.validateForm.get('incoterms').setValue(data.id, {
+      emitEvent: false,
+      emitViewToModelChange: false,
     });
+  }
+
+  bindSelectCommonData(data) {
+    if (data) {
+      this.incotermDataList.forEach((e) => (e.checked = false));
+      this.common_select_selected = true;
+    }
   }
 
   @debounce(200)

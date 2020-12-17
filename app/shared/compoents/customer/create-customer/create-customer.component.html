@@ -1,6 +1,6 @@
 <div style="height: 100%; overflow-x: hidden;">
   <form nzLayout="vertical" nz-form [formGroup]="validateForm" style="height: 100%; display: flex; flex-direction: column;">
-    <div class="choose-title">
+    <div class="choose-title" [ngClass]="{ title_shadow: scrollTop > 0 }">
       <div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
         {{ 'Customer Information' | translate }}
       </div>
@@ -512,7 +512,13 @@
                 >
                   {{ data.name }}
                 </div>
-                <nz-select nzShowSearch nzAllowClear formControlName="incoterms" nzPlaceHolder="{{ 'Please select' | translate }}">
+                <nz-select
+                  nzShowSearch
+                  [ngClass]="{ common_select_selected: common_select_selected }"
+                  formControlName="incoterms"
+                  nzPlaceHolder="{{ 'Others' | translate }}"
+                  (ngModelChange)="bindSelectCommonData($event)"
+                >
                   <nz-option *ngFor="let item of incotermList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
                 </nz-select>
               </div>
