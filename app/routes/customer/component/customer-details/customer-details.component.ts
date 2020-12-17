@@ -109,8 +109,12 @@ export class CustomerDetailsComponent implements OnInit {
       if (bottom) {
         this.checkValid();
         this.com.instance.ngScrollBottom();
+
+        setTimeout(() => {
+          this.com.instance.i = 4;
+        }, 0);
       }
-    }, 500);
+    }, 0);
   }
 
   createCancel() {

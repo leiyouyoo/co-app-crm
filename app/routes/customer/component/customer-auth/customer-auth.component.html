@@ -78,7 +78,15 @@
         </div>
         <div>
           <button nz-button nzType="primary" (click)="editCustomer()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
-            {{ 'Authentication now' | translate }}
+            <span *ngIf="state == 2" class="certification">
+              {{ 'In the authentication' | translate }}
+            </span>
+            <span *ngIf="state == 3" class="certification">
+              {{ 'Certification by' | translate }}
+            </span>
+            <span *ngIf="state != 2 && customerInfo?.state != 3" class="certification">
+              {{ 'Not certified' | translate }}
+            </span>
           </button>
         </div>
       </div>
@@ -147,7 +155,7 @@
 
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label nzRequired nzFor="customerLevel"
+            <nz-form-label nzFor="customerLevel"
               >{{ 'Customer configuration level' | translate }}
               <i
                 nz-icon
@@ -160,6 +168,17 @@
                 "
                 class="tips"
               ></i>
+              <span
+                style="
+                  color: #ff4d4f;
+                  margin-left: 4px;
+                  margin-right: 4px;
+                  font-size: 14px;
+                  font-family: SimSun, sans-serif;
+                  line-height: 1;
+                "
+                >*</span
+              >
             </nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
               <nz-select
@@ -223,13 +242,11 @@
           <nz-form-item>
             <nz-form-label nzFor="isCreateContact">&nbsp;</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-              {{ 'Add contact' | translate }}?
-              <nz-switch
-                style="margin-left: 5px;"
-                formControlName="isCreateContact"
-                nzCheckedChildren="{{ 'Open' | translate }}"
-                nzUnCheckedChildren="{{ 'Close' | translate }}"
-              ></nz-switch>
+              {{ 'Whether to create a contact' | translate }}?
+              <nz-radio-group formControlName="isCreateContact" nzButtonStyle="solid">
+                <label nz-radio-button [nzValue]="true">开</label>
+                <label nz-radio-button [nzValue]="false">关</label>
+              </nz-radio-group>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -238,7 +255,13 @@
           <nz-form-item>
             <nz-form-label nzFor="contactId">{{ 'Contact' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-              <nz-select nzShowSearch nzPlaceHolder="{{ 'Please choose' | translate }}" nzAllowClear formControlName="contactId">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="{{ 'Please choose' | translate }}"
+                nzAllowClear
+                formControlName="contactId"
+                [nzDisabled]="validateForm.get('isCreateContact').value === true"
+              >
                 <nz-option *ngFor="let item of contactList" [nzLabel]="item.name + (item.surname ? item.surname : '')" [nzValue]="item.id">
                 </nz-option>
               </nz-select>
@@ -274,6 +297,19 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+      </div>
+
+      <div>
+        <nz-form-item>
+          <nz-form-label nzFor="isMasterContact">&nbsp;</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+            {{ 'Main contact' | translate }}
+            <nz-radio-group formControlName="isMasterContact" nzButtonStyle="solid">
+              <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
+              <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </form>
   </div>
