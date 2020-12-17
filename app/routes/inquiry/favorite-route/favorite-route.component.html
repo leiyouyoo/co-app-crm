@@ -3,7 +3,7 @@
     <button nz-button nzType="primary" (click)="onSave()">{{ 'Save' | translate }}</button>
   </div>
   <div>
-    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Are you sure?' | translate" (nzOnConfirm)="onAllDetele()">
+    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Whether to delete all data?' | translate" (nzOnConfirm)="onAllDetele()">
       {{ 'Delete' | translate }}
     </button>
   </div>
@@ -185,7 +185,7 @@
       </td>
       <td>
         <nz-form-item>
-          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-form-control>
             <nz-select
               nzMode="multiple"
               [formControl]="item.controls.carrierId"
