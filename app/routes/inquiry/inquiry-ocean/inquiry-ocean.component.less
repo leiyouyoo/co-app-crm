@@ -326,10 +326,58 @@
     nz-select {
       height: 32px;
       overflow: hidden;
+
       nz-select-top-control {
         height: inherit;
         overflow: inherit;
         flex-wrap: nowrap;
+      }
+    }
+  }
+
+  .customer-tabs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .ant-tabs-bar {
+      margin: 0;
+    }
+
+    .icon-bianji {
+      color: #97aca2;
+    }
+
+    .ant-tabs-nav .ant-tabs-tab-active {
+      color: #1890ff;
+
+      .icon-bianji {
+        color: #1890ff;
+      }
+    }
+
+
+    .localfeelist-gradient {
+      width: 84px;
+      height: 48px;
+      position: absolute;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(24, 144, 255, 0.5));
+      right: 32px;
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+
+      .add-route {
+        background: #1890ff;
+        color: #fff;
+        height: 24px;
+        line-height: 24px;
+        width: 24px;
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
       }
     }
   }
@@ -338,3 +386,6 @@
 .routelist-polActive::before {
   color: #fff !important;
 }
+
+
+
