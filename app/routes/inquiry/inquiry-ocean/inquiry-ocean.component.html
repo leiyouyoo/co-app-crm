@@ -2,21 +2,25 @@
   <co-page-main [coMaxWidth]="sideDrawer.isOpen ? 1200 : undefined">
     <co-toolbar>
       <co-toolbar-item>
-        <nz-tabset (nzSelectedIndexChange)="nzSelectedIndexChange($event)">
-          <nz-tab nzTitle="全部" > </nz-tab>
-          <nz-tab [nzTitle]="titleTemplate"  *ngFor="let item of routeList; let i = index">
+        <nz-tabset #nzTabset nzTabPosition="top"  (nzSelectedIndexChange)="nzSelectedIndexChange($event)">
+          <nz-tab nzTitle="全部"> </nz-tab>
+          <nz-tab [nzTitle]="titleTemplate" *ngFor="let item of routeList; let i = index">
             <ng-template #titleTemplate>
               {{ item.name }}
               <span
                 class="iconfont icon-edit"
                 nz-icon
                 nzIconfont="icon-edit"
-                (click)="editRoute('edit', item, sideDrawer,$event)"
+                (click)="editRoute('edit', item, sideDrawer, $event)"
                 [ngClass]="{ 'routelist-polActive': selectedIndex == i }"
               ></span>
             </ng-template>
           </nz-tab>
         </nz-tabset>
+        <div
+          class="localfeelist-gradient"
+          [hidden]="!nzTabset?.nzTabsNavComponent?.showPaginationControls || nzTabset?.nzTabsNavComponent?.disableScrollAfter"
+        ></div>
       </co-toolbar-item>
       <co-toolbar-item style="display: flex; flex-direction: row; align-items: center; margin-top: -10px;">
         <nz-divider nzType="vertical"></nz-divider>
@@ -183,19 +187,19 @@
       <div class="inquiry-right">
         <div class="inquiry-right-content">
           <co-st
-          #st
-          data="/Rates/EsQuery/GetAllForES"
-          [columns]="columns"
-          [showFilters]="false"
-          [ps]="searchParams.maxResultCount"
-          [(pi)]="searchParams.pageNo"
-          [req]="{ process: paramsProcess }"
-          [res]="{ process: stResProcess }"
-          (change)="checkChange($event)"
-          calcScroll
-          [page]="{ front: false }"
-          [noResult]="noresult"
-          style="height: 100%;"
+            #st
+            data="/Rates/EsQuery/GetAllForES"
+            [columns]="columns"
+            [showFilters]="false"
+            [ps]="searchParams.maxResultCount"
+            [(pi)]="searchParams.pageNo"
+            [req]="{ process: paramsProcess }"
+            [res]="{ process: stResProcess }"
+            (change)="checkChange($event)"
+            calcScroll
+            [page]="{ front: false }"
+            [noResult]="noresult"
+            style="height: 100%;"
           >
             <ng-template st-row="{{ tata }}" let-data *ngFor="let tata of tablestitle">
               <span *ngFor="let ratePrice of data.containerPriceList">

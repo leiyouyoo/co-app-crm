@@ -87,7 +87,7 @@ export class InquiryListOceanComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   id: any;
-
+  type: string; //通知消息用来判断是合约价还是询报价
   // 分享
   shareModal = false;
   shareDisabled = true;
@@ -263,10 +263,12 @@ export class InquiryListOceanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    debugger;
     this.id = null;
     this.initData();
     this.activeRoute.queryParams.subscribe((params) => {
       this.id = params?.id;
+      this.type = params?.type;
       this.bindData();
       // setTimeout(() => {
       //   if (params?.type) {
@@ -580,6 +582,7 @@ export class InquiryListOceanComponent implements OnInit {
 
   esParams: any;
   paramsProcess = (requestOptions: STRequestOptions) => {
+    debugger;
     let datas = cloneDeep(this.searchForm.value);
 
     let data: any = {
@@ -597,7 +600,10 @@ export class InquiryListOceanComponent implements OnInit {
 
     // 通知带入ID
     if (this.id) {
+      //如果是通知跳转过来的将收藏条件设为false
+      datas.isFollow = false;
       data.id = this.id;
+      requestOptions.body.id = this.id;
     }
     //处理数据
     this.esParams = { ...datas, ...data };
@@ -626,6 +632,7 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   stResProcess = (result: STData[], rawData) => {
+    debugger;
     if (result.length <= 0) return result;
     const sort = this.sort;
     this.sort = null;
@@ -633,6 +640,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.totalCount = rawData.totalCount;
     if (this.id && result && result.length > 0) this.showDetial(result[0], 0);
     this.id = null;
+
     this.loading = false;
     let tablestitle = [];
     result.forEach((e) => {
@@ -1477,7 +1485,7 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
   editRoute(title, routeItem, sideDrawer, e) {
-    debugger
+    debugger;
     let contentParams;
     contentParams = {
       title,
@@ -1510,6 +1518,7 @@ export class InquiryListOceanComponent implements OnInit {
       this.bindEditData(data);
     }
     this.selectedIndex = e;
+    this.id = null; //收藏数据点击查询将id清空
     this.onSearch();
   }
 

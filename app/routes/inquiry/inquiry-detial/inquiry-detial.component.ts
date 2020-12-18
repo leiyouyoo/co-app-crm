@@ -80,6 +80,7 @@ export class InquiryDetialComponent {
     });
   }
   showDetial(data) {
+    debugger
     this.item = null;
     this.trailerDetial = null;
     this.initTotal();
