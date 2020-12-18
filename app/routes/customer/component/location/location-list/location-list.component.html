@@ -5,7 +5,7 @@
         <i nz-icon nzType="arrow-left" nzTheme="outline" (click)="i = 0; createLocations.isVisible = false"></i>
       </div>
     </div>
-    <button nz-button nzType="primary" (click)="onCreateLocation()" [disabled]="!isOwner">
+    <button nz-button nzSize="small" nzType="primary" (click)="onCreateLocation()" [disabled]="!isOwner">
       {{ 'New' | translate }}
     </button>
   </div>
@@ -63,7 +63,7 @@
           </nz-tab>
         </nz-tabset>
         <ng-template #tablebutton>
-          <button nz-button nzType="primary" (click)="onBindContants()" [disabled]="!isOwner">
+          <button nz-button nzSize="small" nzType="primary" (click)="onBindContants()" [disabled]="!isOwner">
             {{ 'Bind more contacts' | translate }}
           </button>
         </ng-template>
@@ -132,7 +132,7 @@
             {{ data.lastModifier }}
           </td>
           <td nzEllipsis nzRight="0">
-            <button nz-button nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
+            <button nz-button nzSize="small" nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
               {{ 'Contact' | translate }}:{{ data.contacts.length }}
             </button>
             <ng-template #contentTemplate>

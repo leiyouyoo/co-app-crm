@@ -31,13 +31,21 @@
             </div>
 
             <div class="customer-center">
-              <nz-tabset [nzType]="'card'" class="customer-user" (nzSelectedIndexChange)="closeDrawer()">
+              <nz-tabset
+                [nzType]="'card'"
+                class="customer-user"
+                (nzSelectedIndexChange)="closeDrawer($event)"
+                [nzSelectedIndex]="selectedIndex"
+              >
                 <nz-tab nzTitle="{{ 'Contact list' | translate }}">
                   <ng-template nz-tab>
                     <contacts-list
                       [isOwner]="customerInfo?.isOwner"
                       [customerId]="customerId"
                       [editionRoleId]="customerInfo?.editionRoleId"
+                      [state]="customerInfo?.state"
+                      (showAuth)="showAuth()"
+                      (showMainAccount)="showMainAccount()"
                       (refushData)="getCustomerById()"
                       (closeModal)="createCancel()"
                     ></contacts-list>
@@ -67,6 +75,7 @@
                       [state]="customerInfo?.state"
                       [isOwner]="customerInfo?.isOwner"
                       [customerState]="customerInfo?.state"
+                      [isRegistered]="customerInfo?.isRegistered"
                       [isCanBind]="true"
                       (showAuth)="showAuth()"
                       (refushData)="getCustomerById()"
@@ -129,11 +138,26 @@
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button (click)="updateCustomer(true)" nzType="primary" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+    <button
+      nz-button
+      nzSize="small"
+      (click)="updateCustomer(true)"
+      nzType="primary"
+      [nzLoading]="applicationLoading"
+      [disabled]="cusLoading || !com?.instance?.validateForm?.valid"
+    >
       {{ 'Application' | translate }}
     </button>
 
-    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading" *ngIf="showSave">
+    <button
+      nz-button
+      nzSize="small"
+      nzType="primary"
+      (click)="updateCustomer()"
+      [disabled]="applicationLoading || !com?.instance?.validateForm?.valid"
+      [nzLoading]="cusLoading"
+      *ngIf="showSave"
+    >
       {{ 'Save' | translate }}
     </button>
   </footer>

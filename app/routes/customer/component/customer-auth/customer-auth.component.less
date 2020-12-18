@@ -1,7 +1,7 @@
 .table-title {
   align-items: center;
-  display        : flex;
-  padding        : 14px 0;
+  display    : flex;
+  padding    : 14px 0;
 }
 
 
@@ -148,4 +148,34 @@
 .tips {
   color      : #1890ff;
   margin-left: 5px;
+}
+
+:host {
+  ::ng-deep {
+    .content_label {
+      .ant-radio-group {
+        padding: 0 !important;
+        width  : 100%;
+
+        &:first-child {
+          border-radius: 4px 0 0 4px;
+        }
+
+        &:last-child {
+          border-radius: 4px 0 0 4px;
+        }
+
+        label {
+          text-align: center;
+          width     : 50%;
+        }
+
+        .ant-radio-button-wrapper-checked {
+          color       : #1890ff;
+          background  : #D1E9FF;
+          border-color: #D1E9FF;
+        }
+      }
+    }
+  }
 }

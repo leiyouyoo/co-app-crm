@@ -1,6 +1,6 @@
 <div style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
   <div class="button-bind" style="text-align: right;">
-    <button nz-button [nzType]="'primary'" class="currency-button" (click)="onShowNewCustomer()" [disabled]="!isOwner">
+    <button nz-button nzSize="small" [nzType]="'primary'" class="currency-button" (click)="onShowNewCustomer()" [disabled]="!isOwner">
       {{ 'Bind new customers' | translate }}
     </button>
   </div>
@@ -67,7 +67,7 @@
           </td>
           <td nzEllipsis>
             <div class="detial_msg" style="width: 150px;">
-              <button nz-button nzType="default" nzSize="small" *ngIf="data.matchCustomers.length > 0" (click)="bindCustomer(data)">
+              <button nz-button nzSize="small" nzType="default" nzSize="small" *ngIf="data.matchCustomers.length > 0" (click)="bindCustomer(data)">
                 +{{ data.matchCustomers.length }}
               </button>
               <span *ngIf="data.matchCustomers.length == 0">{{ data.partnerCustomerOwner || '--' }}</span>

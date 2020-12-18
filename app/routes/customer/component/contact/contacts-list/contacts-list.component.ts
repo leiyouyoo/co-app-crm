@@ -19,12 +19,13 @@ import { SSORoleService } from '@co/cds';
 export class ContactsListComponent implements OnInit {
   @Input() customerId: any;
   @Input() partnerId: any;
-
+  @Input() state: any;
   @Input() editionRoleId: any;
   @Input() isOwner: any;
   @Output() refushData = new EventEmitter<any>();
   @Output() closeModal = new EventEmitter<any>();
-
+  @Output() showAuth = new EventEmitter<any>();
+  @Output() showMainAccount = new EventEmitter<any>();
   @ViewChild(CreateContactsComponent, { static: true })
   createContacts: CreateContactsComponent;
   i: any;
@@ -428,12 +429,34 @@ export class ContactsListComponent implements OnInit {
   }
 
   showCspModal() {
+    let title = this.translate.instant('Not certified');
+    let message = this.translate.instant('Please pass the authentication and review first, and open the main account');
+    let text = this.translate.instant('Authentication now');
+    if (this.state === 3) {
+      title = this.translate.instant('Certification by');
+      message = this.translate.instant('Please open the main account first');
+      text = this.translate.instant('Open the main account');
+    }
+
+    if (this.state === 2) {
+      title = this.translate.instant('In the authentication');
+      message = this.translate.instant('Financial review, please wait patiently');
+      text = this.translate.instant('Ok');
+    }
     // 绑定角色
     if (!this.editionRoleId) {
       this.modalService.warning({
-        nzTitle: this.translate.instant('Warning'),
-        nzContent: this.translate.instant('Please open the main account first'),
-        nzOnOk: () => {},
+        nzTitle: title,
+        nzContent: message,
+        nzOkText: text,
+        nzOnOk: () => {
+          if (this.state === 3) {
+            this.showMainAccount.emit(true);
+          } else if (this.state === 2) {
+          } else {
+            this.showAuth.emit(true);
+          }
+        },
       });
       return;
     }

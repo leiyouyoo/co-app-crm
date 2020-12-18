@@ -45,8 +45,8 @@
 
 .choosed {
   border-radius: 5px;
-  background   : #1890FF;
-  color        : #fff;
+  background   : #D1E9FF;
+  color        : #0084ff;
 }
 
 .pagination {
@@ -80,17 +80,43 @@
     border       : 1px solid #d9d9d9;
     padding      : 3.5px 8px;
     border-radius: 4px;
+    color        : #a2a3a3;
 
     &:hover {
-      cursor: pointer;
-      border: 1px solid #1890ff;
-      color : #1890ff;
+      cursor    : pointer;
+      color     : #fff !important;
+      border    : 1px solid #1890ff !important;
+      background: #1890ff;
     }
   }
 }
 
 
 .common_selected {
-  border: 1px solid #1890ff !important;
-  color : #1890ff;
+  color     : #fff !important;
+  border    : 1px solid #1890ff !important;
+  background: #1890ff;
+}
+
+.title_shadow {
+  box-shadow: 5px 4px 8px #99999940;
+}
+
+
+
+:host {
+  ::ng-deep {
+    .common_select_selected {
+
+      .ant-select-selector {
+        transition: 0s !important;
+        background: #1890ff !important;
+        color     : #fff;
+      }
+
+      svg {
+        fill: #fff !important;
+      }
+    }
+  }
 }

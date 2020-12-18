@@ -1,6 +1,6 @@
-<div class="customerAuth-content" *ngIf="state === 3; else noCustomer">
+<div class="customerAuth-content" *ngIf="state === 3 && isRegistered; else noCustomer">
   <div class="table-title">
-    <button nz-button nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
+    <button nz-button nzSize="small" nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
       {{ 'Edit' | translate }}
     </button>
   </div>
@@ -71,14 +71,37 @@
         <img src="apps/crm/assets/images/customer/noCustomer.png" />
       </div>
       <div style="text-align: left;">
-        <div class="title">{{ 'Customer is not certified' | translate }}</div>
-        <div class="message">{{ 'Sorry, you have not performed client authentication' | translate }}</div>
+        <div class="title">
+          <span *ngIf="state == 3">{{ 'No master account' | translate }}</span>
+          <span *ngIf="state == 2">{{ 'In the authentication' | translate }}</span>
+          <span *ngIf="state != 2 && state != 3">{{ 'Customer is not certified' | translate }}</span>
+        </div>
+        <div class="message">
+          <span *ngIf="state == 3">{{ 'Sorry, the main account has not been opened' | translate }}</span>
+          <span *ngIf="state == 2">{{ 'Financial review, please wait patiently' | translate }}</span>
+          <span *ngIf="state != 2 && state != 3">{{ 'Sorry, you have not performed client authentication' | translate }}</span>
+        </div>
         <div class="message" style="color: #e55354;" *ngIf="!isCanBind">
           {{ 'Sorry, the partner is not bound to the customer' | translate }}
         </div>
-        <div>
-          <button nz-button nzType="primary" (click)="editCustomer()" [disabled]="!isOwner || (!partnerIsOwner && isPartner)">
-            {{ 'Authentication now' | translate }}
+
+        <div *ngIf="state === 3">
+          <button nz-button nzSize="small" nzType="primary" (click)="onCreate()" [disabled]="!isOwner || (!partnerIsOwner && partnerId)">
+            {{ 'Open the main account' | translate }}
+          </button>
+        </div>
+
+        <div *ngIf="state != 2 && state != 3">
+          <button
+            nz-button
+            nzSize="small"
+            nzType="primary"
+            (click)="editCustomer()"
+            [disabled]="!isOwner || (!partnerIsOwner && isPartner)"
+          >
+            <span class="certification">
+              {{ 'Certify now' | translate }}
+            </span>
           </button>
         </div>
       </div>
@@ -100,7 +123,7 @@
     <span (click)="handleCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
+    <button nz-button nzSize="small" nzType="primary" (click)="handleOk()" [nzLoading]="loading">{{ 'Save' | translate }}</button>
   </footer>
   <div style="display: flex; flex: 1; flex-direction: column; overflow: hidden;">
     <nz-alert
@@ -147,8 +170,21 @@
 
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label nzRequired nzFor="customerLevel"
+            <nz-form-label nzFor="customerLevel"
               >{{ 'Customer configuration level' | translate }}
+
+              <span
+                style="
+                  color: #ff4d4f;
+                  margin-left: 4px;
+                  margin-right: 4px;
+                  font-size: 14px;
+                  font-family: SimSun, sans-serif;
+                  line-height: 1;
+                "
+                >*</span
+              >
+
               <i
                 nz-icon
                 nzType="info-circle"
@@ -219,11 +255,29 @@
           </nz-form-item>
         </div>
 
+        <div nz-col [nzSpan]="12" class="content_label">
+          <nz-form-item>
+            <nz-form-label nzFor="isCreateContact">{{ 'Whether to create a contact' | translate }}?</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <nz-radio-group formControlName="isCreateContact" nzButtonStyle="solid" (ngModelChange)="clearContact($event)">
+                <label nz-radio-button [nzValue]="true">{{ 'Open' | translate }}</label>
+                <label nz-radio-button [nzValue]="false">{{ 'Close' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
         <div nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-label nzFor="contactId">{{ 'Contact' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-              <nz-select nzShowSearch nzPlaceHolder="{{ 'Please choose' | translate }}" nzAllowClear formControlName="contactId">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="{{ 'Please choose' | translate }}"
+                nzAllowClear
+                formControlName="contactId"
+                [nzDisabled]="validateForm.get('isCreateContact').value === true"
+              >
                 <nz-option *ngFor="let item of contactList" [nzLabel]="item.name + (item.surname ? item.surname : '')" [nzValue]="item.id">
                 </nz-option>
               </nz-select>
@@ -231,10 +285,49 @@
           </nz-form-item>
         </div>
       </div>
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'First name' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactName" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'Last name' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactSurName" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12" *ngIf="validateForm.get('isCreateContact').value === true">
+          <nz-form-item>
+            <nz-form-label nzFor="contactId" nzRequired>{{ 'Phone' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <input type="text" nz-input formControlName="contactPhone" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12" class="content_label">
+          <nz-form-item>
+            <nz-form-label nzFor="isMasterContact">{{ 'Main contact' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+              <nz-radio-group formControlName="isMasterContact" nzButtonStyle="solid" style="margin-left: 5px;">
+                <label nz-radio-button [nzValue]="true">{{ 'Yes' | translate }}</label>
+                <label nz-radio-button [nzValue]="false">{{ 'No' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
     </form>
   </div>
-
-
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

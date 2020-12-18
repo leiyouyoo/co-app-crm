@@ -1460,7 +1460,7 @@ Can contain more than one field separated by comma (,). */
      *  No Remark 
      */
     export class CRMCustomerAuthenticateDto {
-        
+        isMasterContact?:boolean;
          
             /* 客户id */ 
             customerId: string;

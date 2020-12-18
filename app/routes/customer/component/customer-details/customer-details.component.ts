@@ -17,6 +17,7 @@ import { Validators } from '@angular/forms';
 export class CustomerDetailsComponent implements OnInit {
   public customerId: any = this.activeRoute.snapshot.params.id;
   showSave = true;
+  selectedIndex = 0;
   customerInfo: any;
   customerType = '';
   cargoCanvassingType = '';
@@ -107,10 +108,14 @@ export class CustomerDetailsComponent implements OnInit {
     setTimeout(() => {
       this.com.instance.ngScroll();
       if (bottom) {
-        this.updateCustomer(true);
+        this.checkValid();
         this.com.instance.ngScrollBottom();
+
+        setTimeout(() => {
+          this.com.instance.i = 4;
+        }, 0);
       }
-    }, 500);
+    }, 0);
   }
 
   createCancel() {
@@ -139,6 +144,15 @@ export class CustomerDetailsComponent implements OnInit {
 
   refreshData() {
     this.getCustomerById();
+  }
+
+  // 校验认证
+  checkValid() {
+    this.com.instance.validateForm.controls.customerTaxes.controls.forEach((e) => {
+      e.controls.taxNo.setValidators([Validators.required]);
+      e.controls.taxType.setValidators([Validators.required]);
+    });
+    this.com.instance.submitForm();
   }
 
   // 创建客户
@@ -220,7 +234,12 @@ export class CustomerDetailsComponent implements OnInit {
     this.editCustomer(true);
   }
 
-  closeDrawer() {
+  closeDrawer(event) {
+    this.selectedIndex = event;
     this.createCancel();
+  }
+
+  showMainAccount() {
+    this.selectedIndex = 2;
   }
 }

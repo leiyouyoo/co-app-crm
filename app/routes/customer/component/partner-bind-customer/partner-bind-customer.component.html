@@ -122,7 +122,7 @@
     <ng-template #noResult>
       <img src="apps\crm\assets\images\nodata.png" style="width: 150px; margin: 0 auto; display: block; padding: 20px 0;" />
       <div style="text-align: center;">
-        <button nz-button nzType="primary" (click)="onShowCreate()">{{ 'New customer' | translate }}</button>
+        <button nz-button nzSize="small" nzType="primary" (click)="onShowCreate()">{{ 'New customer' | translate }}</button>
       </div>
     </ng-template>
   </nz-table>
@@ -141,13 +141,13 @@
   </div>
 
   <div style="text-align: right; margin: 20px 0 0 0;" *ngIf="!hasValue">
-    <button nz-button (click)="createOkCustomer(true)" [nzType]="'primary'" [nzLoading]="cusLoading" style="margin-right: 20px;">
+    <button nz-button nzSize="small" (click)="createOkCustomer(true)" [nzType]="'primary'" [nzLoading]="cusLoading" style="margin-right: 20px;">
       {{ 'Application' | translate }}
     </button>
-    <button nz-button nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
+    <button nz-button nzSize="small" nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
       {{ 'Cancel' | translate }}
     </button>
-    <button nz-button nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
       {{ 'OK' | translate }}
     </button>
   </div>

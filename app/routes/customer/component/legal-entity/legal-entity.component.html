@@ -2,7 +2,7 @@
   <div></div>
   <div class="card-title">
     <div class="gutter-box">
-      <button nz-button (click)="onShowLegalEdit()" nzType="primary">
+      <button nz-button nzSize="small" (click)="onShowLegalEdit()" nzType="primary">
         {{ 'Edit' | translate }}
       </button>
     </div>
@@ -60,11 +60,11 @@
 >
   <div #createCustomer></div>
   <ng-template #cusFooter>
-    <button nz-button [nzType]="'primary'" (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
+    <button nz-button nzSize="small" [nzType]="'primary'" (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
       {{ 'Application' | translate }}
     </button>
 
-    <button nz-button nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+    <button nz-button nzSize="small" nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
     </button>
   </ng-template>

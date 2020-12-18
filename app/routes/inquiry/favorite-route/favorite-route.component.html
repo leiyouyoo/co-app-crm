@@ -3,234 +3,235 @@
     <button nz-button nzType="primary" (click)="onSave()">{{ 'Save' | translate }}</button>
   </div>
   <div>
-    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Whether to delete all data?' | translate" (nzOnConfirm)="onAllDetele()">
+    <button nz-button nzType="default" nz-button nz-popconfirm [nzTitle]="'Whether to delete all data?' | translate"
+            (nzOnConfirm)="onAllDetele()">
       {{ 'Delete' | translate }}
     </button>
   </div>
 </div>
-<nz-table [nzData]="form.value.routeList" class="custom-table" [nzShowPagination]="false" [nzScroll]="{ x: '500px', y: '260px' }">
+<nz-table [nzData]="form.value.routeList" class="custom-table" [nzShowPagination]="false" [nzScroll]="{ x: '500px' }">
   <thead>
-    <tr>
-      <th nzWidth="250px">{{ 'POL/From' | translate }}<span class="red">*</span></th>
-      <th nzWidth="500px" rowspan="2">
-        {{ 'POD' | translate }}/{{ 'Delivery' | translate }}{{ 'Select one required' | translate }}<span class="red">*</span>
-      </th>
-      <!-- <th nzWidth="250px"></th> -->
-      <th nzWidth="250px">{{ 'Carrier' | translate }}</th>
-      <th nzWidth="250px">{{ 'Shippingline' | translate }}</th>
-      <th nzWidth="250px">{{ 'RouteName' | translate }}</th>
-      <th nzWidth="100px" nzRight>{{ 'Action' | translate }}</th>
-    </tr>
+  <tr>
+    <th nzWidth="250px">{{ 'POL/From' | translate }}<span class="red">*</span></th>
+    <th nzWidth="500px" rowspan="2">
+      {{ 'POD' | translate }}/{{ 'Delivery' | translate }}{{ 'Select one required' | translate }}<span
+      class="red">*</span>
+    </th>
+    <!-- <th nzWidth="250px"></th> -->
+    <th nzWidth="250px">{{ 'Carrier' | translate }}</th>
+    <th nzWidth="250px">{{ 'Shippingline' | translate }}</th>
+    <th nzWidth="250px">{{ 'RouteName' | translate }}</th>
+    <th nzWidth="100px" nzRight>{{ 'Action' | translate }}</th>
+  </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of $any(form.controls.routeList)?.controls; index as i">
-      <td>
-        <nz-form-item>
-          <nz-form-control>
-            <ng-container *ngIf="item.controls.polId.hasError('required'); else elsepolIdTemplate">
-              <nz-select
-                nz-tooltip
-                [nzTooltipTitle]="paymentMoneyTemplate"
-                [formControl]="item.controls.polId"
-                class="selectIptNoPadding"
-                nzPlaceHolder="{{ 'POL' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (appNzOptionExtraChange)="polIdChange($event, item)"
-                (nzOnSearch)="searchBasicPortList($event)"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of basicPolPortList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-              <ng-template #paymentMoneyTemplate>
-                <ng-container *ngIf="item.controls.polId.hasError('required')"> {{ 'Please Input' | translate }}!</ng-container>
-              </ng-template>
-            </ng-container>
-            <ng-template #elsepolIdTemplate>
-              <nz-select
-                [formControl]="item.controls.polId"
-                class="selectIptNoPadding"
-                nzPlaceHolder="{{ 'POL' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (appNzOptionExtraChange)="polIdChange($event, item)"
-                (nzOnSearch)="searchBasicPortList($event)"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of basicPolPortList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-      </td>
-      <td rowspan="2" style="display: flex; flex-direction: row; width: 100%;">
-        <nz-form-item style="width: 50%;">
-          <nz-form-control>
-            <ng-container *ngIf="item.controls.podId?.hasError('required'); else elsepodTemplate">
-              <nz-select
-                nz-tooltip
-                [nzTooltipTitle]="podTemplate"
-                [formControl]="item.controls.podId"
-                class="selectIptNoPadding"
-                nzPlaceHolder="{{ 'POD' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (appNzOptionExtraChange)="podIdChange($event, item)"
-                (nzOnSearch)="searchBasicPortList($event)"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of basicPodPortList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-              <ng-template #podTemplate>
-                <ng-container *ngIf="item.controls.podId?.hasError('required')"> {{ 'Please Input' | translate }}!</ng-container>
-              </ng-template>
-            </ng-container>
-            <ng-template #elsepodTemplate>
-              <nz-select
-                [formControl]="item.controls.podId"
-                class="selectIptNoPadding"
-                nzPlaceHolder="{{ 'POD' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (appNzOptionExtraChange)="podIdChange($event, item)"
-                (nzOnSearch)="searchBasicPortList($event)"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of basicPodPortList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item style="width: 50%;">
-          <nz-form-control>
-            <ng-container *ngIf="item.controls.placeOfDeliveryId?.hasError('required'); else elseplaceOfDeliveryIdTemplate">
-              <nz-select
-                nz-tooltip
-                [nzTooltipTitle]="deliveryTemplate"
-                [formControl]="item.controls.placeOfDeliveryId"
-                nzPlaceHolder="{{ 'Delivery' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (nzOnSearch)="searchBasicPortList($event)"
-                (appNzOptionExtraChange)="deliveryIdChange($event, item)"
-                class="selectIptNoPadding"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of deliveryList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-              <ng-template #deliveryTemplate>
-                <ng-container *ngIf="item.controls.placeOfDeliveryId?.hasError('required')">
-                  {{ 'Please Input' | translate }}!</ng-container
-                >
-              </ng-template>
-            </ng-container>
-            <ng-template #elseplaceOfDeliveryIdTemplate>
-              <nz-select
-                [formControl]="item.controls.placeOfDeliveryId"
-                nzPlaceHolder="{{ 'Delivery' | translate }}"
-                nzShowSearch
-                nzServerSearch
-                nzAllowClear
-                nzMode="multiple"
-                [nzMaxTagCount]="1"
-                (nzOnSearch)="searchBasicPortList($event)"
-                (appNzOptionExtraChange)="deliveryIdChange($event, item)"
-                class="selectIptNoPadding"
-              >
-                <nz-option
-                  [appNzOptionExtra]="option"
-                  *ngFor="let option of deliveryList"
-                  [nzLabel]="option.nameLocalization"
-                  [nzValue]="option.id"
-                ></nz-option>
-              </nz-select>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-      </td>
-      <td>
-        <nz-form-item>
-          <nz-form-control>
+  <tr *ngFor="let item of $any(form.controls.routeList)?.controls; index as i">
+    <td>
+      <nz-form-item>
+        <nz-form-control>
+          <ng-container *ngIf="item.controls.polId.hasError('required'); else elsepolIdTemplate">
             <nz-select
-              nzMode="multiple"
-              [formControl]="item.controls.carrierId"
-              nzPlaceHolder="{{ 'Carrier' | translate }}"
+              nz-tooltip
+              [nzTooltipTitle]="paymentMoneyTemplate"
+              [formControl]="item.controls.polId"
+              class="selectIptNoPadding"
+              nzPlaceHolder="{{ 'POL' | translate }}"
               nzShowSearch
               nzServerSearch
               nzAllowClear
-              (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
+              nzSize="small"
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (appNzOptionExtraChange)="polIdChange($event, item)"
+              (nzOnSearch)="searchBasicPortList($event)"
             >
-              <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"></nz-option>
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of basicPolPortList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
             </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </td>
-      <td>
-        <nz-form-item>
-          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-            <nz-select [formControl]="item.controls.shippingLineId" nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
-              <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </td>
-      <td>
-        <nz-form-item>
-          <nz-form-control>
-            <ng-container *ngIf="item.controls.name?.hasError('required'); else elsenameTemplate">
-              <input
-                nz-tooltip
-                [nzTooltipTitle]="nameTemplate"
-                nz-input
-                [formControl]="item.controls.name"
-                placeholder="{{ 'Please Input' | translate }}"
-              />
-              <ng-template #nameTemplate>
-                <ng-container *ngIf="item.controls.name?.hasError('required')"> {{ 'Please Input' | translate }}!</ng-container>
-              </ng-template>
-            </ng-container>
-            <ng-template #elsenameTemplate>
-              <input nz-input [formControl]="item.controls.name" placeholder="{{ 'Please Input' | translate }}" />
+            <ng-template #paymentMoneyTemplate>
+              <ng-container *ngIf="item.controls.polId.hasError('required')"> {{ 'Please Input' | translate }}!
+              </ng-container>
             </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-      </td>
-      <td nzRight>
+          </ng-container>
+          <ng-template #elsepolIdTemplate>
+            <nz-select
+              [formControl]="item.controls.polId"
+              class="selectIptNoPadding"
+              nzPlaceHolder="{{ 'POL' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              nzSize="small"
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (appNzOptionExtraChange)="polIdChange($event, item)"
+              (nzOnSearch)="searchBasicPortList($event)"
+            >
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of basicPolPortList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </td>
+    <td rowspan="2" style="display: flex; flex-direction: row; width: 100%;">
+      <nz-form-item style="width: 50%;">
+        <nz-form-control>
+          <ng-container *ngIf="item.controls.podId?.hasError('required'); else elsepodTemplate">
+            <nz-select
+              nz-tooltip
+              [nzTooltipTitle]="podTemplate"
+              [formControl]="item.controls.podId"
+              class="selectIptNoPadding"
+              nzPlaceHolder="{{ 'POD' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzSize="small"
+              nzAllowClear
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (appNzOptionExtraChange)="podIdChange($event, item)"
+              (nzOnSearch)="searchBasicPortList($event)"
+            >
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of basicPodPortList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+            <ng-template #podTemplate>
+              <ng-container *ngIf="item.controls.podId?.hasError('required')"> {{ 'Please Input' | translate }}!
+              </ng-container>
+            </ng-template>
+          </ng-container>
+          <ng-template #elsepodTemplate>
+            <nz-select
+              [formControl]="item.controls.podId"
+              class="selectIptNoPadding"
+              nzPlaceHolder="{{ 'POD' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzSize="small"
+              nzAllowClear
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (appNzOptionExtraChange)="podIdChange($event, item)"
+              (nzOnSearch)="searchBasicPortList($event)"
+            >
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of basicPodPortList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item style="width: 50%;">
+        <nz-form-control>
+          <ng-container
+            *ngIf="item.controls.placeOfDeliveryId?.hasError('required'); else elseplaceOfDeliveryIdTemplate">
+            <nz-select
+              nz-tooltip
+              [nzTooltipTitle]="deliveryTemplate"
+              [formControl]="item.controls.placeOfDeliveryId"
+              nzPlaceHolder="{{ 'Delivery' | translate }}"
+              nzShowSearch
+              nzSize="small"
+              nzServerSearch
+              nzAllowClear
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (nzOnSearch)="searchBasicPortList($event)"
+              (appNzOptionExtraChange)="deliveryIdChange($event, item)"
+              class="selectIptNoPadding"
+            >
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of deliveryList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+            <ng-template #deliveryTemplate>
+              <ng-container *ngIf="item.controls.placeOfDeliveryId?.hasError('required')">
+                {{ 'Please Input' | translate }}!
+              </ng-container
+              >
+            </ng-template>
+          </ng-container>
+          <ng-template #elseplaceOfDeliveryIdTemplate>
+            <nz-select
+              [formControl]="item.controls.placeOfDeliveryId"
+              nzPlaceHolder="{{ 'Delivery' | translate }}"
+              nzShowSearch
+              nzServerSearch
+              nzAllowClear
+              nzSize="small"
+              nzMode="multiple"
+              [nzMaxTagCount]="1"
+              (nzOnSearch)="searchBasicPortList($event)"
+              (appNzOptionExtraChange)="deliveryIdChange($event, item)"
+              class="selectIptNoPadding"
+            >
+              <nz-option
+                [appNzOptionExtra]="option"
+                *ngFor="let option of deliveryList"
+                [nzLabel]="option.nameLocalization"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </td>
+    <td>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select
+            nzMode="multiple"
+            [formControl]="item.controls.carrierId"
+            nzPlaceHolder="{{ 'Carrier' | translate }}"
+            nzShowSearch
+            nzServerSearch
+            nzSize="small"
+            nzAllowClear
+            (nzOnSearch)="getCRMCarrierList({ name: $event, customerType: 1, sorting: 'code' })"
+          >
+            <nz-option *ngFor="let option of carriers" [nzLabel]="option.code" [nzValue]="option.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </td>
+    <td>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select nzSize="small" [formControl]="item.controls.shippingLineId"
+                     nzPlaceHolder="{{ 'Shippingline' | translate }}" nzAllowClear>
+            <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </td>
+    <td>
+      <nz-form-item>
+        <nz-form-control>
+          <input nzSize="small" nz-input [formControl]="item.controls.name"
+                 placeholder="{{ 'Please Input' | translate }}"/>
+        </nz-form-control>
+      </nz-form-item>
+    </td>
+    <td nzRight>
         <span
           class="iconfont icon-Delete"
           nz-icon
@@ -238,8 +239,8 @@
           *ngIf="$any(form.controls.routeList)?.value?.length > 1"
           (click)="deleteRoute(i)"
         ></span>
-      </td>
-    </tr>
+    </td>
+  </tr>
   </tbody>
 </nz-table>
 <button

@@ -16,6 +16,7 @@ export class CustomerAuthComponent implements OnInit {
   @Input() partnerId: any;
   @Input() isPartner: boolean;
   @Input() isCanBind: boolean;
+  @Input() isRegistered: boolean;
   @Input() customerState: any;
   @Input() customerInfo: any;
   // 判断同一业务员
@@ -63,7 +64,7 @@ export class CustomerAuthComponent implements OnInit {
     this.initData();
     this.onRolesList();
     this.onContactList();
-    this.getDetial();
+    this.getDetail();
   }
 
   onResize({ width }: NzResizeEvent): void {
@@ -78,11 +79,17 @@ export class CustomerAuthComponent implements OnInit {
       userName: [null, [Validators.required, Validators.email]],
       editionRoleId: [null, [Validators.required]],
       contactId: [null],
+      isCreateContact: [false],
+      isMasterContact: [false],
       customerLevel: [null, [Validators.required, Validators.maxLength(20)]],
       oceanAttachFee: [null, [Validators.required, this.checkKeyWordData()]],
+      contactName: [null],
+      contactSurName: [null],
+      contactPhone: [null],
     });
   }
-  getDetial() {
+
+  getDetail() {
     if (this.isPartner) {
       if (this.partnerId) {
         this.getCustomerConfigure(this.partnerId);
@@ -91,6 +98,7 @@ export class CustomerAuthComponent implements OnInit {
       this.getCustomerConfigure(this.customerId);
     }
   }
+
   onRolesList() {
     this.ssoRoleService
       .getParentRoles({
@@ -203,6 +211,16 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   handleOk() {
+    if (this.validateForm.get('isCreateContact').value === true) {
+      this.validateForm.controls.contactName.setValidators([Validators.required]);
+      this.validateForm.controls.contactSurName.setValidators([Validators.required]);
+      this.validateForm.controls.contactPhone.setValidators([Validators.required]);
+    } else {
+      this.validateForm.controls.contactName.setValidators([]);
+      this.validateForm.controls.contactSurName.setValidators([]);
+      this.validateForm.controls.contactPhone.setValidators([]);
+    }
+
     // tslint:disable-next-line: forin
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
@@ -236,6 +254,11 @@ export class CustomerAuthComponent implements OnInit {
           userName: this.validateForm.get('userName').value,
           editionRoleId: this.validateForm.get('editionRoleId').value,
           contactId: this.validateForm.get('contactId').value,
+          isCreateContact: this.validateForm.get('isCreateContact').value,
+          isMasterContact: this.validateForm.get('isMasterContact').value,
+          contactName: this.validateForm.get('contactName').value,
+          contactSurName: this.validateForm.get('contactSurName').value,
+          contactPhone: this.validateForm.get('contactPhone').value,
           customerConfigure: {
             customerLevel: this.validateForm.get('customerLevel').value,
             oceanAttachFee: this.validateForm.get('oceanAttachFee').value,
@@ -245,7 +268,7 @@ export class CustomerAuthComponent implements OnInit {
           (c) => {
             this.loading = false;
             this.isVisible = false;
-            this.getDetial();
+            this.getDetail();
             this.refushData.emit('');
           },
           (error) => {
@@ -270,7 +293,7 @@ export class CustomerAuthComponent implements OnInit {
         (c) => {
           this.loading = false;
           this.isVisible = false;
-          this.getDetial();
+          this.getDetail();
           this.refushData.emit('');
         },
         (error) => {
@@ -299,5 +322,13 @@ export class CustomerAuthComponent implements OnInit {
 
   editCustomer() {
     this.showAuth.emit(true);
+  }
+
+  clearContact(event) {
+    if (event) {
+      this.validateForm.patchValue({
+        contactId: null,
+      });
+    }
   }
 }
