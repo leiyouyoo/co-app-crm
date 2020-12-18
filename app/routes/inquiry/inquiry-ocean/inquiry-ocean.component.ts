@@ -263,11 +263,11 @@ export class InquiryListOceanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     this.id = null;
     this.initData();
+    this.id = this.activeRoute.snapshot.params.id;
     this.activeRoute.queryParams.subscribe((params) => {
-      this.id = params?.id;
+      // this.id = params?.id;
       this.type = params?.type;
       this.bindData();
       // setTimeout(() => {
@@ -582,7 +582,6 @@ export class InquiryListOceanComponent implements OnInit {
 
   esParams: any;
   paramsProcess = (requestOptions: STRequestOptions) => {
-    debugger;
     let datas = cloneDeep(this.searchForm.value);
 
     let data: any = {
@@ -634,7 +633,6 @@ export class InquiryListOceanComponent implements OnInit {
   };
 
   stResProcess = (result: STData[], rawData) => {
-    debugger;
     if (result.length <= 0) return result;
     const sort = this.sort;
     this.sort = null;
@@ -1487,7 +1485,6 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
   editRoute(title, routeItem, sideDrawer, e) {
-    debugger;
     let contentParams;
     contentParams = {
       title,

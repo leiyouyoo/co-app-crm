@@ -275,8 +275,9 @@ export class InquiryTrackComponent implements OnInit {
     volumeUnitCode.valueChanges.subscribe((value) => {
       weightUnitCode.setValue(hashObj[value], { emitEvent: false });
     });
+    this.id = this.activeRoute.snapshot.params.id;
     this.activeRoute.queryParams.subscribe((params) => {
-      this.id = params?.id;
+      // this.id = params?.id;
       if (params?.truckType) {
         this.searchForm.controls.Type.setValue(Number(params?.truckType));
       }

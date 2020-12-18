@@ -21,7 +21,23 @@ const routes: Routes = [
     },
   },
   {
+    path: 'oceanlist/:id',
+    component: InquiryListOceanComponent,
+    data: {
+      titleI18n: 'crm:oceanlist',
+      reuse: true,
+    },
+  },
+  {
     path: 'tracklist',
+    component: InquiryTrackComponent,
+    data: {
+      titleI18n: 'crm:tracklist',
+      reuse: true,
+    },
+  },
+  {
+    path: 'tracklist/:id',
     component: InquiryTrackComponent,
     data: {
       titleI18n: 'crm:tracklist',
