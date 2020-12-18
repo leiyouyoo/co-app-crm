@@ -118,7 +118,7 @@
             </nz-form-item>
           </co-search-area-item>
 
-          <co-search-area-item>
+          <co-search-area-item style="width: 150px;">
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-select
@@ -136,7 +136,7 @@
             </nz-form-item>
           </co-search-area-item>
 
-          <co-search-area-item style="width: 15%;">
+          <co-search-area-item style="width: 250px;">
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-range-picker
@@ -157,7 +157,7 @@
             </button>
           </co-search-area-item>
 
-          <co-search-area-item>
+          <co-search-area-item *ngIf="showShareBtn||showInquiryBtn">
             <button nz-button *ngIf="showShareBtn" [disabled]="shareDisabled" (click)="onShowShareModal()">
               {{ 'Share' | translate }}
             </button>
