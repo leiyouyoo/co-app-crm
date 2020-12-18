@@ -602,11 +602,13 @@ export class InquiryListOceanComponent implements OnInit {
     if (this.id) {
       //如果是通知跳转过来的将收藏条件设为false
       datas.isFollow = false;
-      data.id = this.id;
-      requestOptions.body.id = this.id;
     }
     //处理数据
     this.esParams = { ...datas, ...data };
+    if (this.id) {
+      data.id = this.id;
+      this.esParams.dynamicQuery.id = this.id;
+    }
     !this.esParams.dynamicQuery?.commodity && delete this.esParams.dynamicQuery.commodity;
     !this.esParams.dynamicQuery?.no && delete this.esParams.dynamicQuery.no;
     !this.esParams?.dynamicQuery?.shippingLineId && delete this.esParams.dynamicQuery.shippingLineId;
@@ -640,7 +642,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.totalCount = rawData.totalCount;
     if (this.id && result && result.length > 0) this.showDetial(result[0], 0);
     this.id = null;
-
+    this.esParams.dynamicQuery.id = null;
     this.loading = false;
     let tablestitle = [];
     result.forEach((e) => {
@@ -1519,6 +1521,7 @@ export class InquiryListOceanComponent implements OnInit {
     }
     this.selectedIndex = e;
     this.id = null; //收藏数据点击查询将id清空
+    this.esParams.dynamicQuery.id = this.id;
     this.onSearch();
   }
 
