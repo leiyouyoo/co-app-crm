@@ -87,7 +87,7 @@ export class InquiryListOceanComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   id: any;
-
+  type: string; //通知消息用来判断是合约价还是询报价
   // 分享
   shareModal = false;
   shareDisabled = true;
@@ -265,8 +265,10 @@ export class InquiryListOceanComponent implements OnInit {
   ngOnInit() {
     this.id = null;
     this.initData();
+    this.id = this.activeRoute.snapshot.params.id;
     this.activeRoute.queryParams.subscribe((params) => {
-      this.id = params?.id;
+      // this.id = params?.id;
+      this.type = params?.type;
       this.bindData();
       // setTimeout(() => {
       //   if (params?.type) {
@@ -597,10 +599,15 @@ export class InquiryListOceanComponent implements OnInit {
 
     // 通知带入ID
     if (this.id) {
-      data.id = this.id;
+      //如果是通知跳转过来的将收藏条件设为false
+      datas.isFollow = false;
     }
     //处理数据
     this.esParams = { ...datas, ...data };
+    if (this.id) {
+      data.id = this.id;
+      this.esParams.dynamicQuery.id = this.id;
+    }
     !this.esParams.dynamicQuery?.commodity && delete this.esParams.dynamicQuery.commodity;
     !this.esParams.dynamicQuery?.no && delete this.esParams.dynamicQuery.no;
     !this.esParams?.dynamicQuery?.shippingLineId && delete this.esParams.dynamicQuery.shippingLineId;
@@ -633,6 +640,7 @@ export class InquiryListOceanComponent implements OnInit {
     this.totalCount = rawData.totalCount;
     if (this.id && result && result.length > 0) this.showDetial(result[0], 0);
     this.id = null;
+    this.esParams.dynamicQuery.id = null;
     this.loading = false;
     let tablestitle = [];
     result.forEach((e) => {
@@ -1477,7 +1485,6 @@ export class InquiryListOceanComponent implements OnInit {
     });
   }
   editRoute(title, routeItem, sideDrawer, e) {
-    debugger
     let contentParams;
     contentParams = {
       title,
@@ -1510,6 +1517,8 @@ export class InquiryListOceanComponent implements OnInit {
       this.bindEditData(data);
     }
     this.selectedIndex = e;
+    this.id = null; //收藏数据点击查询将id清空
+    this.esParams.dynamicQuery.id = this.id;
     this.onSearch();
   }
 
