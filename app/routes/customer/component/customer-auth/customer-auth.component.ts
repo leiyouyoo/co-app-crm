@@ -35,7 +35,7 @@ export class CustomerAuthComponent implements OnInit {
   isVisible = false;
   loading = false;
   rolesList: any;
-
+  showCreateContact = true;
   width = 600;
   requestAnimationFrameId: number;
 
@@ -247,7 +247,7 @@ export class CustomerAuthComponent implements OnInit {
       this.loading = true;
     }
 
-    if (this.state !== 3) {
+    if (this.state === 3) {
       this.crmCustomerService
         .customerConfigure({
           customerId: id,
@@ -303,7 +303,14 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   onCreate() {
+    debugger;
     this.isVisible = true;
+    if (this.clientMsg.userName) {
+      this.showCreateContact = false;
+    } else {
+      this.showCreateContact = true;
+    }
+
     this.validateForm.reset();
     if (this.clientMsg && this.clientMsg.contactId) {
       this.contactList.push({
@@ -317,6 +324,8 @@ export class CustomerAuthComponent implements OnInit {
       contactId: this.clientMsg.contactId,
       customerLevel: this.clientMsg.customerConfigure.customerLevel,
       oceanAttachFee: this.clientMsg.customerConfigure.oceanAttachFee,
+      isCreateContact: false,
+      isMasterContact: this.clientMsg.isMasterContact,
     });
   }
 

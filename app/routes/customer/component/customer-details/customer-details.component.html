@@ -154,7 +154,7 @@
       nzSize="small"
       nzType="primary"
       (click)="updateCustomer()"
-      [disabled]="applicationLoading || !com?.instance?.validateForm?.valid"
+      [disabled]="applicationLoading"
       [nzLoading]="cusLoading"
       *ngIf="showSave"
     >

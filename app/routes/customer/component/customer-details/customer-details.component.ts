@@ -104,9 +104,12 @@ export class CustomerDetailsComponent implements OnInit {
     this.showCustomer = true;
     this.createCustomer.clear();
     this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
+
     this.com.instance.initData(this.customerInfo);
+
     setTimeout(() => {
       this.com.instance.ngScroll();
+
       if (bottom) {
         this.checkValid();
         this.com.instance.ngScrollBottom();

@@ -270,8 +270,8 @@ export class CreateCustomerComponent {
 
     if (registration) {
       data = this.fb.group({
-        taxNo: [registration.taxNo, []],
-        taxType: [registration.taxType, []],
+        taxNo: [registration.taxNo, [Validators.required]],
+        taxType: [registration.taxType, [Validators.required]],
       });
 
       this.registrationTypes.forEach((e) => {
@@ -281,8 +281,8 @@ export class CreateCustomerComponent {
       });
     } else {
       data = this.fb.group({
-        taxNo: [null, []],
-        taxType: [null, []],
+        taxNo: [null, [Validators.required]],
+        taxType: [null, [Validators.required]],
       });
     }
 
@@ -386,6 +386,7 @@ export class CreateCustomerComponent {
       encityId: [null],
       customerTaxes: new FormArray([]),
     });
+
     this.addPhone(data.tel);
 
     if (data?.customerTaxes?.length > 0) {
