@@ -640,7 +640,9 @@ export class InquiryListOceanComponent implements OnInit {
     this.totalCount = rawData.totalCount;
     if (this.id && result && result.length > 0) this.showDetial(result[0], 0);
     this.id = null;
-    this.esParams.dynamicQuery.id = null;
+    if (this?.esParams?.dynamicQuery) {
+      this.esParams.dynamicQuery.id = null;
+    }
     this.loading = false;
     let tablestitle = [];
     result.forEach((e) => {

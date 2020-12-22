@@ -1,5 +1,5 @@
 <co-page-layout>
-  <co-page-main [coMaxWidth]="sideDrawer.isOpen ? 1200 : undefined">
+  <co-page-main [coMaxWidth]="sideDrawer.isOpen ? 1200 : undefined" style="display: flex;flex-direction: column;">
     <section class="customer-tabs">
       <nz-tabset nzTabPosition="top" #nzTabset (nzSelectedIndexChange)="nzSelectedIndexChange($event)">
         <nz-tab nzTitle="全部"></nz-tab>
@@ -28,14 +28,7 @@
 <!--        <i nz-icon nzType="plus-circle" nzTheme="outline" (click)="onAddLine('Add', null, sideDrawer)"></i>-->
       </div>
     </section>
-    <co-toolbar>
-      <co-toolbar-item>
-      </co-toolbar-item>
-      <co-toolbar-item style="display: flex; flex-direction: row; align-items: center; margin-top: -10px;">
-
-      </co-toolbar-item>
-    </co-toolbar>
-    <div class="inquiry-ocean-content" style="display: flex; flex-direction: column; height: 100%; background: #fff;">
+    <div class="inquiry-ocean-content" style="display: flex;flex:1 1 auto;flex-direction: column;overflow: hidden; background: #fff;">
       <form nz-form [formGroup]="searchForm">
         <!--    <div class="login-form">-->
         <co-search-area-layout coWidth="200">
@@ -209,7 +202,7 @@
             [req]="{ process: paramsProcess }"
             [res]="{ process: stResProcess }"
             (change)="checkChange($event)"
-            calcScroll
+            calcScroll disableCalcX expandRowByClick
             [page]="{ front: false }"
             [noResult]="noresult"
             style="height: 100%;"
