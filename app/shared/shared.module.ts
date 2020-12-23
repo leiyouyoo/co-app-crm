@@ -10,7 +10,6 @@ import { CoACLModule } from '@co/acl';
 import { CoConfigManager } from '@co/core';
 import { CoCommonModule } from '@co/common';
 import { CoFormModule } from '@co/form';
-import { SelectCellTitleDirective } from './directives/select-cell-title.directive';
 
 import { SHARED_CO_MODULES } from './shared-co.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
@@ -85,7 +84,6 @@ const DIRECTIVES = [
   WrapChildrenHeightDirective,
   MouseMoveDirective,
   CopyDomToImageDirective,
-  SelectCellTitleDirective,
 ];
 // #endregion
 

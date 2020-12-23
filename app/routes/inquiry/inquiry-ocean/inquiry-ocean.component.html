@@ -45,6 +45,7 @@
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-select
+                  [nzDropdownMatchSelectWidth]="false"
                   formControlName="pols"
                   class="selectIptNoPadding"
                   nzPlaceHolder="{{ 'POL' | translate }}"
@@ -66,6 +67,7 @@
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-select
+                  [nzDropdownMatchSelectWidth]="false"
                   formControlName="pods"
                   class="selectIptNoPadding"
                   nzPlaceHolder="{{ 'POD' | translate }}"
@@ -93,6 +95,7 @@
             </nz-select> -->
 
                 <nz-select
+                  [nzDropdownMatchSelectWidth]="false"
                   formControlName="deliverys"
                   nzPlaceHolder="{{ 'Delivery' | translate }}"
                   nzShowSearch
@@ -114,6 +117,7 @@
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-select
+                  [nzDropdownMatchSelectWidth]="false"
                   nzMode="multiple"
                   formControlName="shipCompanys"
                   nzPlaceHolder="{{ 'Carrier' | translate }}"
@@ -167,7 +171,7 @@
             <nz-form-item>
               <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
                 <nz-select formControlName="shippingLineId" nzPlaceHolder="{{ 'Shippingline' | translate }}"
-                           nzAllowClear>
+                           [nzDropdownMatchSelectWidth]="false" nzAllowClear>
                   <nz-option *ngFor="let option of shippings" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
                 </nz-select>
               </nz-form-control>
