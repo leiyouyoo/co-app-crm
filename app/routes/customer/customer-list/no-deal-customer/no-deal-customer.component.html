@@ -71,16 +71,15 @@
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button nzSize="small" (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
-      {{ 'Application' | translate }}
-    </button>
-
     <button nz-button nzSize="small" nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
     </button>
+
+    <button nz-button nzSize="small" (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
+      {{ 'Application' | translate }}
+    </button>
   </footer>
   <create-customer style="display: flex; flex: 1; overflow: hidden;"></create-customer>
-
 
   <nz-resize-handle nzDirection="left">
     <div class="right-wrap">

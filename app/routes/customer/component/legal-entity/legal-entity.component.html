@@ -60,12 +60,19 @@
 >
   <div #createCustomer></div>
   <ng-template #cusFooter>
-    <button nz-button nzSize="small" [nzType]="'primary'" (click)="updateCustomer(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading">
-      {{ 'Application' | translate }}
-    </button>
-
     <button nz-button nzSize="small" nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
       {{ 'Save' | translate }}
+    </button>
+
+    <button
+      nz-button
+      nzSize="small"
+      [nzType]="'primary'"
+      (click)="updateCustomer(true)"
+      [nzLoading]="applicationLoading"
+      [disabled]="cusLoading"
+    >
+      {{ 'Application' | translate }}
     </button>
   </ng-template>
 </nz-modal>

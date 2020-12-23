@@ -141,17 +141,6 @@
     <button
       nz-button
       nzSize="small"
-      (click)="updateCustomer(true)"
-      nzType="primary"
-      [nzLoading]="applicationLoading"
-      [disabled]="cusLoading || !com?.instance?.validateForm?.valid"
-    >
-      {{ 'Application' | translate }}
-    </button>
-
-    <button
-      nz-button
-      nzSize="small"
       nzType="primary"
       (click)="updateCustomer()"
       [disabled]="applicationLoading"
@@ -159,6 +148,17 @@
       *ngIf="showSave"
     >
       {{ 'Save' | translate }}
+    </button>
+
+    <button
+      nz-button
+      nzSize="small"
+      (click)="updateCustomer(true)"
+      nzType="primary"
+      [nzLoading]="applicationLoading"
+      [disabled]="cusLoading || !com?.instance?.validateForm?.valid"
+    >
+      {{ 'Application' | translate }}
     </button>
   </footer>
   <div style="display: flex; flex: 1; overflow: hidden;">

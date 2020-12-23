@@ -141,14 +141,22 @@
   </div>
 
   <div style="text-align: right; margin: 20px 0 0 0;" *ngIf="!hasValue">
-    <button nz-button nzSize="small" (click)="createOkCustomer(true)" [nzType]="'primary'" [nzLoading]="cusLoading" style="margin-right: 20px;">
-      {{ 'Application' | translate }}
-    </button>
     <button nz-button nzSize="small" nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
       {{ 'Cancel' | translate }}
     </button>
     <button nz-button nzSize="small" nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
       {{ 'OK' | translate }}
+    </button>
+
+    <button
+      nz-button
+      nzSize="small"
+      (click)="createOkCustomer(true)"
+      [nzType]="'primary'"
+      [nzLoading]="cusLoading"
+      style="margin-right: 20px;"
+    >
+      {{ 'Application' | translate }}
     </button>
   </div>
 </div>
