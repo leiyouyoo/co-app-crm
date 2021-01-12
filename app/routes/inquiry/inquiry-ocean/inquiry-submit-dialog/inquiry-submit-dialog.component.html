@@ -9,8 +9,8 @@
   <footer class="drawer_footer">
     <div class="line"></div>
     <div class="drawer_footer_btn">
-      <button nz-button nzType="default" (click)="resetView()">{{ 'Reset' | translate }}</button>
       <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="okLoading">{{ 'Submit' | translate }}</button>
+      <button nz-button nzType="default" (click)="resetView()">{{ 'Reset' | translate }}</button>
     </div>
   </footer>
   <section class="drawer_content">
