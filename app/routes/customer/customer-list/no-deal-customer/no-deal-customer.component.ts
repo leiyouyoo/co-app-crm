@@ -102,9 +102,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   constructor(
     private msg: NzMessageService,
     private translate: TranslateService,
-    private router: Router,
     private crmCustomerService: CRMCustomerService,
-    private componentFactoryResolver: ComponentFactoryResolver,
     injector: Injector,
   ) {
     super(injector);
@@ -164,6 +162,7 @@ export class NoDealCustomerComponent extends CoPageBase {
   }
 
   create(application?: boolean): void {
+    debugger;
     this.createCustomer.validateForm.controls.customerTaxes.controls.forEach((e) => {
       if (application) {
         e.controls.taxNo.setValidators([Validators.required]);

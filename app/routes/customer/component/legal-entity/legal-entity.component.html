@@ -60,7 +60,14 @@
 >
   <div #createCustomer></div>
   <ng-template #cusFooter>
-    <button nz-button nzSize="small" nzType="primary" (click)="updateCustomer()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+    <button
+      nz-button
+      nzSize="small"
+      nzType="primary"
+      (click)="updateCustomer()"
+      [disabled]="applicationLoading || !com?.instance?.validateForm.valid"
+      [nzLoading]="cusLoading"
+    >
       {{ 'Save' | translate }}
     </button>
 
@@ -70,7 +77,7 @@
       [nzType]="'primary'"
       (click)="updateCustomer(true)"
       [nzLoading]="applicationLoading"
-      [disabled]="cusLoading"
+      [disabled]="cusLoading || !com?.instance?.validateForm.valid || !com?.instance?.requiredCustomerTaxes()"
     >
       {{ 'Application' | translate }}
     </button>

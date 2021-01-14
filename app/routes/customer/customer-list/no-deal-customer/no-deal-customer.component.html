@@ -71,11 +71,25 @@
     <span (click)="createCancel()" class="txt-close"><i nz-icon nzType="close" nzTheme="outline"></i></span>
   </header>
   <footer class="drawer_footer">
-    <button nz-button nzSize="small" nzType="primary" (click)="create()" [disabled]="applicationLoading" [nzLoading]="cusLoading">
+    <button
+      nz-button
+      nzSize="small"
+      nzType="primary"
+      (click)="create()"
+      [disabled]="applicationLoading || !createCustomer.validateForm.valid"
+      [nzLoading]="cusLoading"
+    >
       {{ 'Save' | translate }}
     </button>
 
-    <button nz-button nzSize="small" (click)="create(true)" [nzLoading]="applicationLoading" [disabled]="cusLoading" [nzType]="'primary'">
+    <button
+      nz-button
+      nzSize="small"
+      (click)="create(true)"
+      [nzLoading]="applicationLoading"
+      [disabled]="cusLoading || !createCustomer.validateForm.valid || !createCustomer.requiredCustomerTaxes()"
+      [nzType]="'primary'"
+    >
       {{ 'Application' | translate }}
     </button>
   </footer>

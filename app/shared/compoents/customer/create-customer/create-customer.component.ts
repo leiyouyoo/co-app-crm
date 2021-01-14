@@ -270,8 +270,8 @@ export class CreateCustomerComponent {
 
     if (registration) {
       data = this.fb.group({
-        taxNo: [registration.taxNo, [Validators.required]],
-        taxType: [registration.taxType, [Validators.required]],
+        taxNo: [registration.taxNo],
+        taxType: [registration.taxType],
       });
 
       this.registrationTypes.forEach((e) => {
@@ -281,8 +281,8 @@ export class CreateCustomerComponent {
       });
     } else {
       data = this.fb.group({
-        taxNo: [null, [Validators.required]],
-        taxType: [null, [Validators.required]],
+        taxNo: [null],
+        taxType: [null],
       });
     }
 
@@ -451,6 +451,10 @@ export class CreateCustomerComponent {
     if (data) {
       this.setData(data);
     }
+  }
+
+  requiredCustomerTaxes() {
+    return this.validateForm.value.customerTaxes.every((e) => e.taxNo != null && e.taxNo != '' && e.taxType != null && e.taxType != '');
   }
 
   // tslint:disable-next-line: adjacent-overload-signatures

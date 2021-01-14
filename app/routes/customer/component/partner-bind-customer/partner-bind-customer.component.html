@@ -141,19 +141,18 @@
   </div>
 
   <div style="text-align: right; margin: 20px 0 0 0;" *ngIf="!hasValue">
-    <button nz-button nzSize="small" nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
+    <button nz-button nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
       {{ 'Cancel' | translate }}
     </button>
-    <button nz-button nzSize="small" nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
+    <button nz-button nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
       {{ 'OK' | translate }}
     </button>
 
     <button
       nz-button
-      nzSize="small"
       (click)="createOkCustomer(true)"
       [nzType]="'primary'"
-      [nzLoading]="cusLoading"
+      [disabled]="cusLoading || !com?.instance?.validateForm.valid || !com?.instance?.requiredCustomerTaxes()"
       style="margin-right: 20px;"
     >
       {{ 'Application' | translate }}

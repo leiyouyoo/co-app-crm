@@ -535,13 +535,14 @@ export class ContactsListComponent implements OnInit {
         })
         .subscribe(
           (res: any) => {
-            this.loading = false;
             this.userId = null;
             if (res.message) {
+              this.loading = false;
               this.message.error(res.message);
               return;
             }
             if (!res.success) {
+              this.loading = false;
               this.modalService.confirm({
                 nzTitle: this.translate.instant('Tips'),
                 nzContent: this.translate.instant('The mailbox already exists, whether to continue to use the existing account?'),

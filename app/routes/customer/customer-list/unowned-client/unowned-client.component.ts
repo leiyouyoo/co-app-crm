@@ -173,6 +173,9 @@ export class UnownedClientComponent extends CoPageBase {
   }
 
   checkChange(e) {
+    e.type === 'pi' && this.pageIndexChange(e.pi);
+    e.type === 'ps' && this.pageSizeChange(e.ps);
+
     e.type === 'dblClick' && this.showDetial(e.dblClick.item);
   }
 }

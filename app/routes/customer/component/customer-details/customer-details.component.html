@@ -143,7 +143,7 @@
       nzSize="small"
       nzType="primary"
       (click)="updateCustomer()"
-      [disabled]="applicationLoading"
+      [disabled]="applicationLoading ||  !com?.instance?.validateForm.valid"
       [nzLoading]="cusLoading"
       *ngIf="showSave"
     >
@@ -156,7 +156,7 @@
       (click)="updateCustomer(true)"
       nzType="primary"
       [nzLoading]="applicationLoading"
-      [disabled]="cusLoading || !com?.instance?.validateForm?.valid"
+      [disabled]="cusLoading || !com?.instance?.validateForm.valid || !com?.instance?.requiredCustomerTaxes()"
     >
       {{ 'Application' | translate }}
     </button>
