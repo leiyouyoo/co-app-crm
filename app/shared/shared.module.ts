@@ -52,6 +52,8 @@ import { HiddensharequotesComponent } from './compoents/hiddensharequotes/hidden
 import { CopyDomToImageDirective } from './directives/copy-dom-to-image.directive';
 import { AddressDetailModalComponent } from './compoents/new-packing-list/address-detail-modal/address-detail-modal.component';
 import { NewPackingListComponent } from './compoents/new-packing-list/new-packing-list.component';
+import { SearchByExtraKeyDirective } from './directives/search-by-extra-key.directive';
+import { ModelWithGroupChangeDirective } from './directives/model-with-group-change.directive';
 environment.SERVER_URL = CoConfigManager.getValue('serverUrl');
 
 const COMPONENTS_ENTRY = [
@@ -84,6 +86,8 @@ const DIRECTIVES = [
   WrapChildrenHeightDirective,
   MouseMoveDirective,
   CopyDomToImageDirective,
+  SearchByExtraKeyDirective,
+  ModelWithGroupChangeDirective
 ];
 // #endregion
 

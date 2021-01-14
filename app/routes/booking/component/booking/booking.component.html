@@ -166,7 +166,7 @@
                 [(ngModel)]="data.serviceCompanyId"
                 nzAllowClear
                 nzShowSearch
-                [appSearchByExtraKey]="['displayNameLocalization', 'displayName']"
+                [appSearchByExtraKey]="['companyName']"
                 [nzCustomTemplate]="companyCustom"
                 nzPlaceHolder="{{ 'Choose' | translate }}"
                 (nzOpenChange)="getServiceCompany(data)"
@@ -175,13 +175,13 @@
                 <nz-option
                   [appNzOptionExtra]="item"
                   [nzValue]="item.id"
-                  [nzLabel]="item.displayNameLocalization"
+                  [nzLabel]="item.companyName"
                   *ngFor="let item of companylist"
                 ></nz-option>
               </nz-select>
               <ng-template #companyCustom let-selected>
                 <div>
-                  {{ selected.template._appExtra.displayNameLocalization }}
+                  {{ selected.template._appExtra.companyName }}
                 </div>
               </ng-template>
             </div>
