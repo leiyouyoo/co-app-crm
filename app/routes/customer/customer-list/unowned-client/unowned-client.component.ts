@@ -47,7 +47,7 @@ export class UnownedClientComponent extends CoPageBase {
       width: '150px',
       title: 'Country, province',
       index: 'country',
-      format: (item, _col) => `${item.country + '-' + item.province}`,
+      format: (item, _col) => `${item.country + item.province ? '-' + item.province : ''}`,
     },
     { width: '150px', title: 'Contact', index: 'contactName' },
     { width: '150px', title: 'Phone', index: 'contactTel' },
