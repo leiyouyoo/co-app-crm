@@ -78,7 +78,7 @@ export class CreateLocationComponent implements OnInit {
       remarks: [null],
       province: [null],
       postalCode: [null, [Validators.required]],
-      city: [null, [Validators.required]],
+      city: [null],
       portCode: [null],
       address: [null, [Validators.required]],
       address2: [null, [Validators.required]],
