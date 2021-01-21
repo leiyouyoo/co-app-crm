@@ -4,7 +4,7 @@ export enum bookingStatus {
     ShippingDone = 3,
     WaitingForPricing = 4,
     WaitingForBuyer = 5,
-    WaitingForSellerr = 6,
+    WaitingForSeller = 6,
     BookingCancelled = 7,
     ShippingCancelled = 8,
     PriceConfirmedByCustomer=9,
