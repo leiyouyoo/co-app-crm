@@ -28,6 +28,8 @@ import { GlobalConfigModule } from './global-config.module';
 import { LayoutModule } from './layout/layout.module';
 import { RoutesModule } from './routes/routes.module';
 import { SharedModule } from './shared/shared.module';
+import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
+import { NZ_WAVE_GLOBAL_CONFIG } from 'ng-zorro-antd/core/wave';
 
 // 图标
 const antDesignIcons = AllIcons as {
@@ -97,6 +99,7 @@ const APPINIT_PROVIDES = [
   imports: [
     BrowserModule,
     NoopAnimationsModule,
+    NzNoAnimationModule,
     HttpClientModule,
     GlobalConfigModule.forRoot(),
     CoAuthModule,
@@ -112,7 +115,18 @@ const APPINIT_PROVIDES = [
     ...I18NSERVICE_MODULES,
     ...FORM_MODULES,
   ],
-  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES],
+  providers: [
+    ...LANG_PROVIDES,
+    ...INTERCEPTOR_PROVIDES,
+    ...I18NSERVICE_PROVIDES,
+    ...APPINIT_PROVIDES,
+    {
+      provide: NZ_WAVE_GLOBAL_CONFIG,
+      useValue: {
+        disabled: true,
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
