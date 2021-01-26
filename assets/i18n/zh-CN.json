@@ -967,5 +967,7 @@
   "RouteName": "线路名称",
   "Please Input": "请输入",
   "Whether to delete all data?": "是否删除全部数据?",
-  "CSP APP": "CSP移动端"
+  "CSP APP": "CSP移动端",
+  "WaitingForBuyer":"等待买家确认",
+  "WaitingForSeller":"等待卖家确认"
 }

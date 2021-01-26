@@ -171,7 +171,7 @@ export class BookingdetailComponent extends BookingBase implements OnInit {
         case bookingStatus.WaitingForBuyer:
           this.statusStep = 1;
           break;
-        case bookingStatus.WaitingForSellerr:
+        case bookingStatus.WaitingForSeller:
           this.statusStep = 1;
           break;
         case bookingStatus.BookingCancelled:

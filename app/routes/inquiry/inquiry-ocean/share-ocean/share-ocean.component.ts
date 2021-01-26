@@ -4,7 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import domToImage from 'dom-to-image';
 // import { environment } from '@env/environment';
-import { PUBSailingSchedulesService } from '@co/cds';
+import { PUBSailingSchedulesInput, PUBSailingSchedulesService } from '@co/cds';
 import { CoConfigManager } from '@co/core';
 // import { isIE } from '@cityocean/shared-library';
 
@@ -35,8 +35,8 @@ export class ShareOceanComponent {
     // public sailingSchedulesService: SailService,
     private msg: NzMessageService,
     private translate: TranslateService,
-    private pubSailingSchedules: PUBSailingSchedulesService
-  ) { }
+    private pubSailingSchedules: PUBSailingSchedulesService,
+  ) {}
 
   onTips() {
     this.msg.success(this.translate.instant('Copy Success!'));
@@ -68,8 +68,8 @@ export class ShareOceanComponent {
     return this.data.cacheItem.map((e, i) => {
       let id = 'share' + i;
       return document.getElementById(id);
-    })
-  }
+    });
+  };
 
   isIE() {
     if (!!(window as any).ActiveXObject || 'ActiveXObject' in window) {
@@ -107,29 +107,25 @@ export class ShareOceanComponent {
     this.isSailLoading = true;
     let num = this.sailSkipCount - 1;
     this.sailDatas = null;
-    this.pubSailingSchedules
-      .querySailingSchedules({
-        origPortId: this.currentSailingSchdules.polId,
-        destPortId: this.currentSailingSchdules.podId,
-        carrierCode: [],
-        maxResultCount: this.sailMaxResultCount,
-        skipCount: num * this.sailMaxResultCount,
-      })
-      .subscribe(
-        (res) => {
-          this.sailDatas = res;
-          this.isSailLoading = false;
-        },
-        () => {
-          this.sailDatas = { items: [], totalCount: 0 };
-          this.isSailLoading = false;
-        },
-      );
+    let pUBSailingSchedulesInput: PUBSailingSchedulesInput;
+    pUBSailingSchedulesInput.origPortId = this.currentSailingSchdules.polId;
+    pUBSailingSchedulesInput.destPortId = this.currentSailingSchdules.podId;
+    (pUBSailingSchedulesInput.carrierCode = []), (pUBSailingSchedulesInput.maxResultCount = this.sailMaxResultCount);
+    pUBSailingSchedulesInput.skipCount = num*this.sailMaxResultCount;
+
+    this.pubSailingSchedules.querySailingSchedules(pUBSailingSchedulesInput).subscribe(
+      (res) => {
+        this.sailDatas = res;
+        this.isSailLoading = false;
+      },
+      () => {
+        this.sailDatas = { items: [], totalCount: 0 };
+        this.isSailLoading = false;
+      },
+    );
   }
 
   goCsp() {
     // window.open('/csp/#/bookings');
   }
 }
-
-

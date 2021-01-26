@@ -440,6 +440,7 @@ export class InquiryTrackComponent implements OnInit {
   onClear() {
     this.searchForm.reset();
     this.searchForm.controls.Type.setValue(1);
+    this.onGetAll();
     // this.searchForm.patchValue({
     //   Type: 1,
     // });
