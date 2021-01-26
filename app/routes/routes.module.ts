@@ -37,6 +37,10 @@ export const routers: Routes = [
         loadChildren: () => import(/* webpackChunkName: "crm-bookings" */ './booking/booking.module').then((mod) => mod.BookingModule),
       },
       {
+        path: 'config',
+        loadChildren: () => import(/* webpackChunkName: "crm-config" */ './config/config.module').then((mod) => mod.ConfigModule),
+      },
+      {
         path: '**',
         component: EmptyComponent,
       },

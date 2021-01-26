@@ -1,0 +1,42 @@
+:host {
+  height: 100%;
+  ::ng-deep {
+    .ant-tabs-bar{
+      margin: 0;
+    }
+    .ant-checkbox-wrapper ,.ant-radio-wrapper{
+      font-size: 12px;
+      margin: 8px 8px 8px 0;
+      .ant-checkbox + span {
+        padding-left: 4px;
+      }
+    }
+  }
+
+  section{
+    height: 100%;
+    .define-customer-type{
+      overflow: auto;
+      max-height: calc(100% - 24px);
+      .class-0{
+        border-bottom: 1px solid #E9E9E9;
+        margin-bottom: 8px;
+      }
+      h5{
+        font-size: 14px;
+        margin-top: 12px;
+        color: rgba(0,0,0,0.85);
+      }
+      .define-customer-title{
+        color: rgba(0,0,0,0.85);
+        line-height: 22px;
+        font-size: 14px;
+        &::before{
+          content: '';
+          margin-right: 12px;
+          border-left: 4px solid #1890FF;
+        }
+      }
+    }
+  }
+}
