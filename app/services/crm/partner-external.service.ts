@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMExternalPartnerDto,CRMExternalPartnerListDto,CRMPagedResultDto,CRMExternalPartnerAndCustomerDto,CRMListResultDto, } from './crm.types';
+import { crmExternalPartnerDto,crmPagedResultDto1,crmExternalPartnerListDto,crmListResultDto1,crmExternalPartnerAndCustomerDto } from './crm.types';
 
 @BaseUrl('/crm/PartnerExternal')
 @Injectable({ providedIn: 'root' })
-export class CRMPartnerExternalService extends BaseApi {
+export class crmPartnerExternalService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMPartnerExternalService extends BaseApi {
      * 根据合作伙伴id获取合作伙伴
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMExternalPartnerDto> {
+    ): Observable<crmExternalPartnerDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMPartnerExternalService extends BaseApi {
      * 分页获取客户下的合作伙伴
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMExternalPartnerListDto>> {
+    ): Observable<crmPagedResultDto1<crmExternalPartnerListDto>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMPartnerExternalService extends BaseApi {
      * 获取我的所属客户及绑定了客户的合作伙伴
      */
 
-    @GET('getMyCustomerAndPartners')
+    @GET('GetMyCustomerAndPartners')
     getMyCustomerAndPartners(
         @Payload
-        _req: {customerId?:string} 
+        _req: {lang?:string,customerId?:string,includeLocations?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMExternalPartnerAndCustomerDto>> {
+    ): Observable<crmListResultDto1<crmExternalPartnerAndCustomerDto>> {
         return null as any
     }
 
@@ -61,12 +61,12 @@ export class CRMPartnerExternalService extends BaseApi {
      * 获取客户下开通了主账号的合作伙伴
      */
 
-    @GET('getRegisteredPartners')
+    @GET('GetRegisteredPartners')
     getRegisteredPartners(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMExternalPartnerListDto>> {
+    ): Observable<crmListResultDto1<crmExternalPartnerListDto>> {
         return null as any
     }
 
@@ -76,10 +76,10 @@ export class CRMPartnerExternalService extends BaseApi {
      * 创建客户下的合作伙伴
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMExternalPartnerDto
+        _req:crmExternalPartnerDto
 
     ): Observable<any> {
         return null as any
@@ -91,10 +91,10 @@ export class CRMPartnerExternalService extends BaseApi {
      * 更新合作伙伴
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMExternalPartnerDto
+        _req:crmExternalPartnerDto
 
     ): Observable<any> {
         return null as any
@@ -106,7 +106,7 @@ export class CRMPartnerExternalService extends BaseApi {
      * 删除合作伙伴
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 

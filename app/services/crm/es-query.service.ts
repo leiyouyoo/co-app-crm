@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMEsPageQueryInput,CRMCrmEnquiryModel,CRMPagedResultDto,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput,CRMCrmCustomerModel, } from './crm.types';
+import { crmEsPageQueryInput,crmPagedResultDto1,crmCrmEnquiryModel,crmCrmCustomerChangeEventDto,crmCrmEsPageQueryInput,crmCrmCustomerModel } from './crm.types';
 
 @BaseUrl('/crm/EsQuery')
 @Injectable({ providedIn: 'root' })
-export class CRMEsQueryService extends BaseApi {
+export class crmEsQueryService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -13,15 +13,15 @@ export class CRMEsQueryService extends BaseApi {
   
     /**
      * @param url /CRM/EsQuery/GetAllForES
-     * 
+     * 暂无备注
      */
 
-    @POST('getAllForES')
+    @POST('GetAllForES')
     getAllForES(
         @Payload
-        _req:CRMEsPageQueryInput
+        _req:crmEsPageQueryInput
 
-    ): Observable<CRMPagedResultDto<CRMCrmEnquiryModel>> {
+    ): Observable<crmPagedResultDto1<crmCrmEnquiryModel>> {
         return null as any
     }
 
@@ -31,7 +31,7 @@ export class CRMEsQueryService extends BaseApi {
      * 同步询价数据，仅测试时使用
      */
 
-    @POST('syncCrmEnquiry')
+    @POST('SyncCrmEnquiry')
     syncCrmEnquiry(
         @Payload
         _req: {} 
@@ -43,13 +43,13 @@ export class CRMEsQueryService extends BaseApi {
 
     /**
      * @param url /CRM/EsQuery/SyncCrmCustomers
-     * 
+     * 暂无备注
      */
 
-    @POST('syncCrmCustomers')
+    @POST('SyncCrmCustomers')
     syncCrmCustomers(
         @Payload
-        _req:CRMCrmCustomerChangeEventDto
+        _req:crmCrmCustomerChangeEventDto
 
     ): Observable<any> {
         return null as any
@@ -61,7 +61,7 @@ export class CRMEsQueryService extends BaseApi {
      * 重置索引，可选删除文件
      */
 
-    @GET('rebuildIndex')
+    @GET('RebuildIndex')
     rebuildIndex(
         @Payload
         _req: {deleteIndex?:boolean} 
@@ -76,12 +76,12 @@ export class CRMEsQueryService extends BaseApi {
      * 查询用户数据
      */
 
-    @POST('queryCustomers')
+    @POST('QueryCustomers')
     queryCustomers(
         @Payload
-        _req:CRMCrmEsPageQueryInput
+        _req:crmCrmEsPageQueryInput
 
-    ): Observable<CRMPagedResultDto<CRMCrmCustomerModel>> {
+    ): Observable<crmPagedResultDto1<crmCrmCustomerModel>> {
         return null as any
     }
 

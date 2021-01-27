@@ -5,7 +5,7 @@ import {  } from './crm.types';
 
 @BaseUrl('/crm/CustomerTask')
 @Injectable({ providedIn: 'root' })
-export class CRMCustomerTaskService extends BaseApi {
+export class crmCustomerTaskService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,7 +16,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 任务调度-自动推送无主客户,每天早上8点推送
      */
 
-    @POST('pushOwnerlessCustomer')
+    @POST('PushOwnerlessCustomer')
     pushOwnerlessCustomer(
         @Payload
         _req: {} 
@@ -31,7 +31,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 任务调度-合作客户转潜在
      */
 
-    @POST('cooperationToUncooperative')
+    @POST('CooperationToUncooperative')
     cooperationToUncooperative(
         @Payload
         _req: {} 
@@ -46,7 +46,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 任务调度-没跟进潜在转共享
      */
 
-    @POST('noFollowUncooperativeToShared')
+    @POST('NoFollowUncooperativeToShared')
     noFollowUncooperativeToShared(
         @Payload
         _req: {} 
@@ -61,7 +61,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 任务调度-没交易潜在客户转共享
      */
 
-    @POST('noDealUncooperativeToShared')
+    @POST('NoDealUncooperativeToShared')
     noDealUncooperativeToShared(
         @Payload
         _req: {} 
@@ -76,7 +76,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 任务调度-没交易潜在转共享（交易日期空，根据认领时间判断）
      */
 
-    @POST('noDealUncooperativeToSharedByClaim')
+    @POST('NoDealUncooperativeToSharedByClaim')
     noDealUncooperativeToSharedByClaim(
         @Payload
         _req: {} 
@@ -91,7 +91,7 @@ export class CRMCustomerTaskService extends BaseApi {
      * 未跟进共享转无主
      */
 
-    @POST('noFollowSharedToUnowned')
+    @POST('NoFollowSharedToUnowned')
     noFollowSharedToUnowned(
         @Payload
         _req: {} 

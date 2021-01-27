@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMPartnerDto,CRMPartnerListDto,CRMPagedResultDto,CRMCreateOrUpdatePartnerDto,CRMPartnerBindCustomerInput,CRMUnBindCustomerInput, } from './crm.types';
+import { crmPartnerDto,crmPagedResultDto1,crmPartnerListDto,crmCreateOrUpdatePartnerDto,crmPartnerBindCustomerInput,crmUnBindCustomerInput } from './crm.types';
 
 @BaseUrl('/crm/Partner')
 @Injectable({ providedIn: 'root' })
-export class CRMPartnerService extends BaseApi {
+export class crmPartnerService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMPartnerService extends BaseApi {
      * 根据合作伙伴id获取合作伙伴
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMPartnerDto> {
+    ): Observable<crmPartnerDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMPartnerService extends BaseApi {
      * 分页获取客户下的合作伙伴
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMPartnerListDto>> {
+    ): Observable<crmPagedResultDto1<crmPartnerListDto>> {
         return null as any
     }
 
@@ -46,10 +46,10 @@ export class CRMPartnerService extends BaseApi {
      * 创建客户并创建合作伙伴(转为客户也可用)
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMCreateOrUpdatePartnerDto
+        _req:crmCreateOrUpdatePartnerDto
 
     ): Observable<any> {
         return null as any
@@ -61,10 +61,10 @@ export class CRMPartnerService extends BaseApi {
      * 给合作伙伴绑定客户
      */
 
-    @POST('bindCustomer')
+    @POST('BindCustomer')
     bindCustomer(
         @Payload
-        _req:CRMPartnerBindCustomerInput
+        _req:crmPartnerBindCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -76,10 +76,10 @@ export class CRMPartnerService extends BaseApi {
      * 解除合作伙伴绑定的客户
      */
 
-    @POST('unBindCustomer')
+    @POST('UnBindCustomer')
     unBindCustomer(
         @Payload
-        _req:CRMUnBindCustomerInput
+        _req:crmUnBindCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -91,7 +91,7 @@ export class CRMPartnerService extends BaseApi {
      * 删除合作伙伴
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 
