@@ -171,7 +171,7 @@ export class CRMContactService extends BaseApi {
         @Payload
         _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<any> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 

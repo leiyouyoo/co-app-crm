@@ -122,6 +122,9 @@
             /* 头像id */ 
             profilePictureId?: string;
          
+            /* 激活链接（空就不显示复制按钮） */ 
+            activityLink?: string;
+         
             /* 用户信息 */ 
             userInfo?: CRMCustomerBindCoUserDto;
          
@@ -432,7 +435,7 @@
     }
  
     /**
-     * 主键类型默认为整形的数据传输对象基类
+     *  No Remark 
      */
     export class CRMCoEntityDto {
         
@@ -923,6 +926,9 @@
             /* 贸易条款，取PUB基础数据 */ 
             incoterms?: string;
          
+            /* 贸易条款字符串 */ 
+            incotermsStr?: string;
+         
             /* 公司简介 */ 
             description?: string;
          
@@ -1013,13 +1019,13 @@
             /* 排除的客户id(假如合并的就需要排除) */ 
             excludeCustomerIds?: any[];
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1053,6 +1059,14 @@
 3 = Ownerless */ 
             status?: number;
          
+            /* 审核状态
+0 = NoSet
+1 = UnApply
+2 = Processing
+3 = Passed
+4 = Unpassed */ 
+            auditState?: number;
+         
             /* 客户搜索范围
 0 = User
 1 = Department
@@ -1061,30 +1075,31 @@
 4 = All */ 
             scope?: number;
          
+            /* 是否包含联系人 */ 
+            includeContacts?: boolean;
+         
             /* 国家id */ 
             countryId?: string;
          
-            /* 主键集合 */ 
+            
             ids?: any[];
          
-            /* 键名 */ 
+            
             keyName?: string;
          
-            /* 搜索文本 */ 
+            
             searchText?: string;
          
-            /* 包含逻辑删除 */ 
+            
             includeDeleted?: boolean;
          
-            /* Sorting information.
-Should include sorting field and optionally a direction (ASC or DESC)
-Can contain more than one field separated by comma (,). */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1107,6 +1122,24 @@ Can contain more than one field separated by comma (,). */
          
             /* 公司名 */ 
             name?: string;
+         
+            /* 本地语言名称 */ 
+            localizationName?: string;
+         
+            
+            tel?: string;
+         
+            
+            fax?: string;
+         
+            
+            address?: string;
+         
+            
+            code?: string;
+         
+            /* 地点集合 */ 
+            locations?: any[];
         
         
     }
@@ -1343,13 +1376,13 @@ Can contain more than one field separated by comma (,). */
             /* 不传则取当前登录客户 */ 
             customerId?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -1437,6 +1470,24 @@ Can contain more than one field separated by comma (,). */
     }
  
     /**
+     * 简约客户模型
+     */
+    export class CRMShortCustomerDto {
+        
+         
+            /* 全称 */ 
+            name?: string;
+         
+            
+            isDefault?: boolean;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
      * 客户配置
      */
     export class CRMCustomerConfigureDto {
@@ -1460,7 +1511,7 @@ Can contain more than one field separated by comma (,). */
      *  No Remark 
      */
     export class CRMCustomerAuthenticateDto {
-        isMasterContact?:boolean;
+        
          
             /* 客户id */ 
             customerId: string;
@@ -1476,6 +1527,9 @@ Can contain more than one field separated by comma (,). */
          
             /* 是否创建联系人 */ 
             isCreateContact?: boolean;
+         
+            /* 是否主联系人 */ 
+            isMasterContact?: boolean;
          
             /* 联系人名称 */ 
             contactName?: string;
@@ -1527,6 +1581,33 @@ Can contain more than one field separated by comma (,). */
          
             /* 保留的客户ID */ 
             keepCustomerId?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCheckConfigure {
+        
+         
+            
+            repeatCustomerDefinition?: any[];
+         
+            
+            similarCustomerDefinition?: any[];
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMGetAccessAllowsByCustomerInput {
+        
+         
+            /* 客户id */ 
+            customerIds?: any[];
         
         
     }
@@ -1600,6 +1681,12 @@ Can contain more than one field separated by comma (,). */
             
             name?: string;
          
+            /* 本地化名称 */ 
+            localizationName?: string;
+         
+            
+            localizationText?: string;
+         
             
             tenantId?: number;
         
@@ -1644,6 +1731,69 @@ Can contain more than one field separated by comma (,). */
          
             /* 0是客户CustomerId，1是询价联系人ContactId */ 
             type?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMGetCustomerByNamesInput {
+        
+         
+            
+            names?: any[];
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCompanyCustomerOutput {
+        
+         
+            /* 公司ID */ 
+            companyId?: string;
+         
+            /* 公司名称 */ 
+            companyName?: string;
+         
+            /* 客户ID */ 
+            customerId?: string;
+         
+            /* 客户名称 */ 
+            customerName?: string;
+         
+            /* 客户英文名 */ 
+            localizationCustomerName?: string;
+         
+            /* 客户编码 */ 
+            code?: string;
+         
+            /* 客户电话 */ 
+            customerTel?: string;
+         
+            /* 客户传真 */ 
+            customerFax?: string;
+         
+            /* 客户地址 */ 
+            customerAddress?: string;
+         
+            /* 标准币种ID */ 
+            standardCurrencyId?: string;
+         
+            /* 标准币种ID */ 
+            standardCurrencyName?: string;
+         
+            /* 是否有效 */ 
+            isActive?: boolean;
+         
+            /* 默认值 */ 
+            isDefault?: boolean;
+         
+            /* 地址集合 */ 
+            locations?: any[];
         
         
     }
@@ -1906,6 +2056,102 @@ Can contain more than one field separated by comma (,). */
     /**
      *  No Remark 
      */
+    export class CRMContainerPrice {
+        
+         
+            
+            45FR?: number;
+         
+            
+            40RF?: number;
+         
+            
+            45HT?: number;
+         
+            
+            20RF?: number;
+         
+            
+            20HQ?: number;
+         
+            
+            20TK?: number;
+         
+            
+            40HP?: number;
+         
+            
+            20GP?: number;
+         
+            
+            45HP?: number;
+         
+            
+            40TK?: number;
+         
+            
+            400T?: number;
+         
+            
+            20FR?: number;
+         
+            
+            53HQ?: number;
+         
+            
+            45GP?: number;
+         
+            
+            40GP?: number;
+         
+            
+            45RF?: number;
+         
+            
+            20RH?: number;
+         
+            
+            450T?: number;
+         
+            
+            40NOR?: number;
+         
+            
+            40FR?: number;
+         
+            
+            200T?: number;
+         
+            
+            45TK?: number;
+         
+            
+            20NOR?: number;
+         
+            
+            40HT?: number;
+         
+            
+            40RH?: number;
+         
+            
+            45RH?: number;
+         
+            
+            45HQ?: number;
+         
+            
+            20HT?: number;
+         
+            
+            40HQ?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
     export class CRMCrmEnquiryModel {
         
          
@@ -1991,7 +2237,7 @@ Can contain more than one field separated by comma (,). */
             carrierLogo?: string;
          
             
-            containerPrice?: object;
+            containerPrice?: CRMContainerPrice;
          
             /* 
 0 = NotSet
@@ -2005,13 +2251,22 @@ Can contain more than one field separated by comma (,). */
             notContainerPrice?: string;
          
             
+            notContainerPrice1?: object;
+         
+            
             unitTotal?: string;
+         
+            
+            unitTotal1?: object;
          
             
             fromDate?: string;
          
             
             endDate?: string;
+         
+            
+            lastModificationTime?: string;
          
             
             isQuoteReply?: boolean;
@@ -2167,6 +2422,27 @@ Can contain more than one field separated by comma (,). */
     /**
      *  No Remark 
      */
+    export class CRMAllowUserModel {
+        
+         
+            
+            allowUserId?: number;
+         
+            
+            isOwner?: boolean;
+         
+            
+            tenantId?: number;
+         
+            
+            name?: CRMLocalizationText;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
     export class CRMCrmCustomerModel {
         
          
@@ -2285,7 +2561,7 @@ Can contain more than one field separated by comma (,). */
             acessAllow?: any[];
          
             
-            owner?: any[];
+            owner?: CRMAllowUserModel;
          
             
             customerTaxes?: any[];
@@ -2307,6 +2583,9 @@ Can contain more than one field separated by comma (,). */
          
             
             deleterUser?: CRMUserModel;
+         
+            
+            firstShipmentTime?: string;
         
         
     }
@@ -2652,6 +2931,18 @@ Can contain more than one field separated by comma (,). */
             /* 联系人Id集合 */ 
             contactIds?: any[];
          
+            /* 客户电话 */ 
+            customerTel?: string;
+         
+            /* 客户电话 */ 
+            customerFax?: string;
+         
+            /* 经度 */ 
+            longitude?: string;
+         
+            /* 纬度 */ 
+            latitude?: string;
+         
             
             id?: string;
         
@@ -2718,27 +3009,25 @@ Can contain more than one field separated by comma (,). */
             /* 客户id */ 
             customerId?: string;
          
-            /* 主键集合 */ 
+            
             ids?: any[];
          
-            /* 键名 */ 
+            
             keyName?: string;
          
-            /* 搜索文本 */ 
+            
             searchText?: string;
          
-            /* 包含逻辑删除 */ 
+            
             includeDeleted?: boolean;
          
-            /* Sorting information.
-Should include sorting field and optionally a direction (ASC or DESC)
-Can contain more than one field separated by comma (,). */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -2913,6 +3202,48 @@ Can contain more than one field separated by comma (,). */
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMEditForBillOfLadingInput {
+        
+         
+            /* 地址id */ 
+            locationId?: string;
+         
+            /* 地点名称 */ 
+            name?: string;
+         
+            /* 国家 */ 
+            countryId?: string;
+         
+            /* 省份 */ 
+            provinceId?: string;
+         
+            /* 城市 */ 
+            cityId?: string;
+         
+            /* 街道地址 */ 
+            streetAddress?: string;
+         
+            /* 联系类型
+0 = Default
+1 = Selected
+2 = Create */ 
+            contactType?: number;
+         
+            /* 客户id */ 
+            customerId?: string;
+         
+            /* 客户电话 */ 
+            customerTel?: string;
+         
+            /* 客户传真 */ 
+            customerFax?: string;
+        
+        
+    }
+ 
+    /**
      * 合作伙伴Dto
      */
     export class CRMPartnerDto {
@@ -2932,6 +3263,18 @@ Can contain more than one field separated by comma (,). */
          
             /* 当前账号是否为合作伙伴所属客户的拥有者 */ 
             isOwner?: boolean;
+         
+            /* 合作伙伴（具有客户身份）所归属的业务员 */ 
+            partnerCustomerOwner?: string;
+         
+            /* 合作伙伴创建人 */ 
+            creator?: string;
+         
+            /* 创建绑定的用户名 */ 
+            bindUserName?: string;
+         
+            /* 绑定时间 */ 
+            bindTime?: string;
          
             
             id?: string;
@@ -3428,13 +3771,13 @@ Can contain more than one field separated by comma (,). */
             /* 用户名或客户名 */ 
             name?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -3472,6 +3815,9 @@ Can contain more than one field separated by comma (,). */
          
             /* 数量 */ 
             count?: number;
+         
+            /* 海运箱型集合（table头） */ 
+            unitCodes?: any[];
         
         
     }
@@ -3519,7 +3865,7 @@ Can contain more than one field separated by comma (,). */
 4 = Rejected */ 
             status?: number;
          
-            /* 主键 */ 
+            
             id?: string;
         
         
@@ -3586,13 +3932,13 @@ Can contain more than one field separated by comma (,). */
             /* 模糊匹配 */ 
             searchKey?: string;
          
-            /* 排序 */ 
+            
             sorting?: string;
          
-            /* 页大小 */ 
+            
             maxResultCount?: number;
          
-            /* 跳过指定条数 */ 
+            
             skipCount?: number;
         
         
@@ -3723,10 +4069,16 @@ Can contain more than one field separated by comma (,). */
             carrierName?: string;
          
             /* 运输费用总价(不含本地费用、拖车费用等) */ 
+            onlyOceanTotalCharge?: string;
+         
+            /* 运输费用总价 */ 
             totalCharge?: string;
          
             /* 费用总价(统一币种的全部费用) */ 
             unifiedTotalCharge?: number;
+         
+            /* 报价用户名称 */ 
+            replyUserName?: string;
          
             
             id?: string;

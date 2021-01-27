@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerAccessAllowOutput,CRMPagedResultDto, } from './crm.types';
+import { CRMGetAccessAllowsByCustomerInput,CRMCustomerAccessAllowOutput,CRMListResultDto,CRMPagedResultDto, } from './crm.types';
 
 @BaseUrl('/crm/CustomerAccessAllow')
 @Injectable({ providedIn: 'root' })
@@ -11,6 +11,21 @@ export class CRMCustomerAccessAllowService extends BaseApi {
   }
 
   
+    /**
+     * @param url /CRM/CustomerAccessAllow/GetByCustomer
+     * 根据客户获取所有业务员
+     */
+
+    @POST('getByCustomer')
+    getByCustomer(
+        @Payload
+        _req:CRMGetAccessAllowsByCustomerInput
+
+    ): Observable<CRMListResultDto<CRMCustomerAccessAllowOutput>> {
+        return null as any
+    }
+
+
     /**
      * @param url /CRM/CustomerAccessAllow/GetAll
      * 客户访问权限列表

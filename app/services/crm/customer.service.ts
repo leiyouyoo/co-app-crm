@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMCustomerListDto,CRMPagedResultDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMExternalPartnerAndCustomerDto,CRMListResultDto,CRMOwnerLessPagedResultDto,CRMSearchCustomerOutput,CRMCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput, } from './crm.types';
+import { CRMCustomerDto,CRMCustomerListDto,CRMPagedResultDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMExternalPartnerAndCustomerDto,CRMListResultDto,CRMOwnerLessPagedResultDto,CRMSearchCustomerOutput,CRMCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMCheckConfigure, } from './crm.types';
 
 @BaseUrl('/crm/Customer')
 @Injectable({ providedIn: 'root' })
@@ -79,7 +79,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('getMyCustomerAndPartners')
     getMyCustomerAndPartners(
         @Payload
-        _req: {} 
+        _req: {includeLocations?:boolean} 
 
     ): Observable<CRMListResultDto<CRMExternalPartnerAndCustomerDto>> {
         return null as any
@@ -462,6 +462,21 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/GetUserOwnCompanyCustomer
+     * 获取用户所拥有的（或所属）公司
+     */
+
+    @GET('getUserOwnCompanyCustomer')
+    getUserOwnCompanyCustomer(
+        @Payload
+        _req: {} 
+
+    ): Observable<CRMListResultDto<CRMShortCustomerDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/GetCustomerConfigure
      * 获取客户配置
      */
@@ -530,6 +545,36 @@ export class CRMCustomerService extends BaseApi {
     mergeCustomer(
         @Payload
         _req:CRMMergeCustomerInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetCheckConfigure
+     * 获取客户查验配置
+     */
+
+    @GET('getCheckConfigure')
+    getCheckConfigure(
+        @Payload
+        _req: {} 
+
+    ): Observable<CRMCheckConfigure> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/UpdateCheckConfigureStatus
+     * 更新客户查验配置状态
+     */
+
+    @POST('updateCheckConfigureStatus')
+    updateCheckConfigureStatus(
+        @Payload
+        _req: {} 
 
     ): Observable<any> {
         return null as any

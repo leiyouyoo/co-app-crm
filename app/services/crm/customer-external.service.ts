@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMCustomerBindCoUserDto,CRMListResultDto,CRMUserDetailInfo,CRMPagedResultDto,CRMGetByCustomerIdsOutput,CRMGetCustomerAndPartnerOutput,CRMCustomerAndContactDto,CRMCustomerListDto,CRMBecomeCooperationInput, } from './crm.types';
+import { CRMCustomerDto,CRMCustomerBindCoUserDto,CRMListResultDto,CRMUserDetailInfo,CRMPagedResultDto,CRMGetByCustomerIdsOutput,CRMGetCustomerAndPartnerOutput,CRMCustomerAndContactDto,CRMCustomerListDto,CRMGetCustomerByNamesInput,CRMShortCustomerDto,CRMCompanyCustomerOutput,CRMBecomeCooperationInput, } from './crm.types';
 
 @BaseUrl('/crm/CustomerExternal')
 @Injectable({ providedIn: 'root' })
@@ -127,6 +127,36 @@ export class CRMCustomerExternalService extends BaseApi {
         _req: {ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/CustomerExternal/GetByNames
+     * 根据名称集合找对应的客户
+     */
+
+    @POST('getByNames')
+    getByNames(
+        @Payload
+        _req:CRMGetCustomerByNamesInput
+
+    ): Observable<CRMListResultDto<CRMShortCustomerDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/CustomerExternal/GetCompanyCustomers
+     * 获取公司客户
+     */
+
+    @GET('getCompanyCustomers')
+    getCompanyCustomers(
+        @Payload
+        _req: {lang?:string,isActive?:boolean,isMarkDefault?:boolean,placeId?:string} 
+
+    ): Observable<CRMListResultDto<CRMCompanyCustomerOutput>> {
         return null as any
     }
 

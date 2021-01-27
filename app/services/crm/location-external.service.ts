@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMExternalLocationListDto,CRMListResultDto,CRMLocationListDto,CRMExternalLocationDto,CRMPagedResultDto,CRMFBALocationListDto,CRMGetLocationsForUiPickerInput,CRMCreateOrUpdateLocationExternalInput,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto,CRMGlobalSearchInput,CRMGlobalSearchOutput,CRMMailLocationDto, } from './crm.types';
+import { CRMExternalLocationListDto,CRMListResultDto,CRMLocationListDto,CRMExternalLocationDto,CRMPagedResultDto,CRMFBALocationListDto,CRMGetLocationsForUiPickerInput,CRMCreateOrUpdateLocationExternalInput,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto,CRMGlobalSearchInput,CRMGlobalSearchOutput,CRMMailLocationDto,CRMEditForBillOfLadingInput, } from './crm.types';
 
 @BaseUrl('/crm/LocationExternal')
 @Injectable({ providedIn: 'root' })
@@ -367,6 +367,21 @@ export class CRMLocationExternalService extends BaseApi {
         _req: {customerId?:string} 
 
     ): Observable<CRMListResultDto<CRMMailLocationDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/LocationExternal/EditForBillOfLading
+     * 从提单处创建或编辑地点
+     */
+
+    @POST('editForBillOfLading')
+    editForBillOfLading(
+        @Payload
+        _req:CRMEditForBillOfLadingInput
+
+    ): Observable<any> {
         return null as any
     }
 

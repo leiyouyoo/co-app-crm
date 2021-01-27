@@ -49,7 +49,7 @@ export class CRMPartnerExternalService extends BaseApi {
     @GET('getMyCustomerAndPartners')
     getMyCustomerAndPartners(
         @Payload
-        _req: {customerId?:string} 
+        _req: {lang?:string,customerId?:string,includeLocations?:boolean} 
 
     ): Observable<CRMListResultDto<CRMExternalPartnerAndCustomerDto>> {
         return null as any
