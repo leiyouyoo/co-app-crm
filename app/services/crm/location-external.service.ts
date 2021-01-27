@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMExternalLocationListDto,CRMListResultDto,CRMLocationListDto,CRMExternalLocationDto,CRMPagedResultDto,CRMFBALocationListDto,CRMGetLocationsForUiPickerInput,CRMCreateOrUpdateLocationExternalInput,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto,CRMGlobalSearchInput,CRMGlobalSearchOutput,CRMMailLocationDto,CRMEditForBillOfLadingInput, } from './crm.types';
+import { crmListResultDto1,crmExternalLocationListDto,crmExternalLocationDto,crmPagedResultDto1,crmFBALocationListDto,crmGetLocationsForUiPickerInput,crmLocationListDto,crmCreateOrUpdateLocationExternalInput,crmAssignUsersToLocationDto,crmAssignLocationsToUserDto,crmUnbindUsersLocationDto,crmGlobalSearchInput,crmGlobalSearchOutput,crmMailLocationDto,crmEditForBillOfLadingInput } from './crm.types';
 
-@BaseUrl('/CRM/LocationExternal')
+@BaseUrl('/crm/LocationExternal')
 @Injectable({ providedIn: 'root' })
-export class CRMLocationExternalService extends BaseApi {
+export class crmLocationExternalService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取客户下以及客户的合作伙伴的location、别人共享的地点
      */
 
-    @GET('getLocationByCustomer')
+    @GET('GetLocationByCustomer')
     getLocationByCustomer(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取客户自己的全部地址
      */
 
-    @GET('getLocationByCustomerOwn')
+    @GET('GetLocationByCustomerOwn')
     getLocationByCustomerOwn(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 根据Id查location
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMExternalLocationDto> {
+    ): Observable<crmExternalLocationDto> {
         return null as any
     }
 
@@ -61,12 +61,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 根据Id获取用于更新的location
      */
 
-    @GET('getForUpdate')
+    @GET('GetForUpdate')
     getForUpdate(
         @Payload
         _req: {locationId?:string,partnerId?:string} 
 
-    ): Observable<CRMExternalLocationDto> {
+    ): Observable<crmExternalLocationDto> {
         return null as any
     }
 
@@ -76,12 +76,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取地点列表（客户自己的或者合作伙伴的）
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {partnerId?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmPagedResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -91,12 +91,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 根据地点集合查找地点
      */
 
-    @POST('getLocationByIds')
+    @POST('GetLocationByIds')
     getLocationByIds(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -106,12 +106,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 根据id获取地点集合(包括FBA)
      */
 
-    @POST('getAllLocationByIds')
+    @POST('GetAllLocationByIds')
     getAllLocationByIds(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -121,12 +121,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取客户的共享地点(数据包含客户自己的、客户合作伙伴的、别人共享给客户的)
      */
 
-    @GET('getSharedList')
+    @GET('GetSharedList')
     getSharedList(
         @Payload
         _req: {sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmPagedResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -136,12 +136,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取FBA地址
      */
 
-    @GET('getFBALocations')
+    @GET('GetFBALocations')
     getFBALocations(
         @Payload
         _req: {isCityocean?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -151,12 +151,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 根据客户获取FBA地址
      */
 
-    @GET('getFBALocationsByCustomer')
+    @GET('GetFBALocationsByCustomer')
     getFBALocationsByCustomer(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -166,12 +166,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取客户的地址以及海外仓
      */
 
-    @GET('getCustomerLocationAndFBALocations')
+    @GET('GetCustomerLocationAndFBALocations')
     getCustomerLocationAndFBALocations(
         @Payload
         _req: {customerId?:string,countryId?:string} 
 
-    ): Observable<CRMListResultDto<CRMFBALocationListDto>> {
+    ): Observable<crmListResultDto1<crmFBALocationListDto>> {
         return null as any
     }
 
@@ -181,12 +181,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 地点选择器
      */
 
-    @POST('getAllForUiPicker')
+    @POST('GetAllForUiPicker')
     getAllForUiPicker(
         @Payload
-        _req:CRMGetLocationsForUiPickerInput
+        _req:crmGetLocationsForUiPickerInput
 
-    ): Observable<CRMPagedResultDto<CRMLocationListDto>> {
+    ): Observable<crmPagedResultDto1<crmLocationListDto>> {
         return null as any
     }
 
@@ -196,12 +196,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 创建客户地点
      */
 
-    @POST('createCustomerLocation')
+    @POST('CreateCustomerLocation')
     createCustomerLocation(
         @Payload
-        _req:CRMCreateOrUpdateLocationExternalInput
+        _req:crmCreateOrUpdateLocationExternalInput
 
-    ): Observable<CRMExternalLocationDto> {
+    ): Observable<crmExternalLocationDto> {
         return null as any
     }
 
@@ -211,10 +211,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 更新客户地点
      */
 
-    @PUT('updateForCustomerLocation')
+    @PUT('UpdateForCustomerLocation')
     updateForCustomerLocation(
         @Payload
-        _req:CRMCreateOrUpdateLocationExternalInput
+        _req:crmCreateOrUpdateLocationExternalInput
 
     ): Observable<any> {
         return null as any
@@ -226,10 +226,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 创建合作伙伴地点
      */
 
-    @POST('createPartnerLocation')
+    @POST('CreatePartnerLocation')
     createPartnerLocation(
         @Payload
-        _req:CRMCreateOrUpdateLocationExternalInput
+        _req:crmCreateOrUpdateLocationExternalInput
 
     ): Observable<any> {
         return null as any
@@ -241,10 +241,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 更新合作伙伴地点
      */
 
-    @PUT('updateForPartnerLocation')
+    @PUT('UpdateForPartnerLocation')
     updateForPartnerLocation(
         @Payload
-        _req:CRMCreateOrUpdateLocationExternalInput
+        _req:crmCreateOrUpdateLocationExternalInput
 
     ): Observable<any> {
         return null as any
@@ -256,12 +256,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取联系人的地点
      */
 
-    @GET('getByContactId')
+    @GET('GetByContactId')
     getByContactId(
         @Payload
         _req: {contactId?:string} 
 
-    ): Observable<CRMListResultDto<CRMExternalLocationListDto>> {
+    ): Observable<crmListResultDto1<crmExternalLocationListDto>> {
         return null as any
     }
 
@@ -271,10 +271,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 赋值用户（联系人）到地点
      */
 
-    @POST('assignUsersToLocation')
+    @POST('AssignUsersToLocation')
     assignUsersToLocation(
         @Payload
-        _req:CRMAssignUsersToLocationDto
+        _req:crmAssignUsersToLocationDto
 
     ): Observable<any> {
         return null as any
@@ -286,10 +286,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 赋值地点给用户（联系人）
      */
 
-    @POST('assignLocationsToUser')
+    @POST('AssignLocationsToUser')
     assignLocationsToUser(
         @Payload
-        _req:CRMAssignLocationsToUserDto
+        _req:crmAssignLocationsToUserDto
 
     ): Observable<any> {
         return null as any
@@ -301,10 +301,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 解除联系人地点绑定关系
      */
 
-    @POST('unbindUserLocation')
+    @POST('UnbindUserLocation')
     unbindUserLocation(
         @Payload
-        _req:CRMUnbindUsersLocationDto
+        _req:crmUnbindUsersLocationDto
 
     ): Observable<any> {
         return null as any
@@ -316,7 +316,7 @@ export class CRMLocationExternalService extends BaseApi {
      * 删除地点
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 
@@ -331,12 +331,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 全局搜索
      */
 
-    @POST('globalSearch')
+    @POST('GlobalSearch')
     globalSearch(
         @Payload
-        _req:CRMGlobalSearchInput
+        _req:crmGlobalSearchInput
 
-    ): Observable<CRMListResultDto<CRMGlobalSearchOutput>> {
+    ): Observable<crmListResultDto1<crmGlobalSearchOutput>> {
         return null as any
     }
 
@@ -346,12 +346,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 创建邮寄地址
      */
 
-    @POST('createMailLocation')
+    @POST('CreateMailLocation')
     createMailLocation(
         @Payload
-        _req:CRMMailLocationDto
+        _req:crmMailLocationDto
 
-    ): Observable<CRMMailLocationDto> {
+    ): Observable<crmMailLocationDto> {
         return null as any
     }
 
@@ -361,12 +361,12 @@ export class CRMLocationExternalService extends BaseApi {
      * 获取邮寄地址列表
      */
 
-    @GET('getMailLocations')
+    @GET('GetMailLocations')
     getMailLocations(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMListResultDto<CRMMailLocationDto>> {
+    ): Observable<crmListResultDto1<crmMailLocationDto>> {
         return null as any
     }
 
@@ -376,10 +376,10 @@ export class CRMLocationExternalService extends BaseApi {
      * 从提单处创建或编辑地点
      */
 
-    @POST('editForBillOfLading')
+    @POST('EditForBillOfLading')
     editForBillOfLading(
         @Payload
-        _req:CRMEditForBillOfLadingInput
+        _req:crmEditForBillOfLadingInput
 
     ): Observable<any> {
         return null as any

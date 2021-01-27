@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMQuoteReplyDto,CRMListResultDto,CRMCoEntityDto,CRMPagedResultDto, } from './crm.types';
+import { crmListResultDto1,crmQuoteReplyDto,crmCoEntityDto,crmPagedResultDto1 } from './crm.types';
 
-@BaseUrl('/CRM/QuoteReply')
+@BaseUrl('/crm/QuoteReply')
 @Injectable({ providedIn: 'root' })
-export class CRMQuoteReplyService extends BaseApi {
+export class crmQuoteReplyService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMQuoteReplyService extends BaseApi {
      * 获取报价列表
      */
 
-    @GET('getAllForCRM')
+    @GET('GetAllForCRM')
     getAllForCRM(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMListResultDto<CRMQuoteReplyDto>> {
+    ): Observable<crmListResultDto1<crmQuoteReplyDto>> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMQuoteReplyService extends BaseApi {
      * CRM创建报价
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMQuoteReplyDto
+        _req:crmQuoteReplyDto
 
-    ): Observable<CRMQuoteReplyDto> {
+    ): Observable<crmQuoteReplyDto> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMQuoteReplyService extends BaseApi {
      * 根据询价Id获取最新报价
      */
 
-    @GET('getLastForCRM')
+    @GET('GetLastForCRM')
     getLastForCRM(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMQuoteReplyDto> {
+    ): Observable<crmQuoteReplyDto> {
         return null as any
     }
 
@@ -61,7 +61,7 @@ export class CRMQuoteReplyService extends BaseApi {
      * 检查过期报价
      */
 
-    @POST('checkExpiredReply')
+    @POST('CheckExpiredReply')
     checkExpiredReply(
         @Payload
         _req: {} 
@@ -76,10 +76,10 @@ export class CRMQuoteReplyService extends BaseApi {
      * 接受报价
      */
 
-    @POST('acceptReply')
+    @POST('AcceptReply')
     acceptReply(
         @Payload
-        _req:CRMCoEntityDto
+        _req:crmCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -91,10 +91,10 @@ export class CRMQuoteReplyService extends BaseApi {
      * 预定订舱（提供csp操作时，系统自动调用）
      */
 
-    @POST('replyBooking')
+    @POST('ReplyBooking')
     replyBooking(
         @Payload
-        _req:CRMCoEntityDto
+        _req:crmCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -106,10 +106,10 @@ export class CRMQuoteReplyService extends BaseApi {
      * 拒绝报价
      */
 
-    @POST('rejectReply')
+    @POST('RejectReply')
     rejectReply(
         @Payload
-        _req:CRMCoEntityDto
+        _req:crmCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -121,10 +121,10 @@ export class CRMQuoteReplyService extends BaseApi {
      * 再一次请求报价
      */
 
-    @POST('requestNewReply')
+    @POST('RequestNewReply')
     requestNewReply(
         @Payload
-        _req:CRMCoEntityDto
+        _req:crmCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -133,55 +133,55 @@ export class CRMQuoteReplyService extends BaseApi {
 
     /**
      * @param url /CRM/QuoteReply/Get
-     * 
+     * 暂无备注
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMQuoteReplyDto> {
+    ): Observable<crmQuoteReplyDto> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteReply/GetAll
-     * 
+     * 暂无备注
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {replyNo?:string,carrierId?:string,transitTime?:string,sailSchedule?:string,validStartDate?:string,validEndDate?:string,creationTime?:string,status?:number,quoteEnquiryId?:string,quoteReplyItems?:any[],carrierName?:string,onlyOceanTotalCharge?:string,totalCharge?:string,unifiedTotalCharge?:number,replyUserName?:string,id?:string} 
 
-    ): Observable<CRMPagedResultDto<CRMQuoteReplyDto>> {
+    ): Observable<crmPagedResultDto1<crmQuoteReplyDto>> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteReply/Update
-     * 
+     * 暂无备注
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMQuoteReplyDto
+        _req:crmQuoteReplyDto
 
-    ): Observable<CRMQuoteReplyDto> {
+    ): Observable<crmQuoteReplyDto> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteReply/Delete
-     * 
+     * 暂无备注
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 

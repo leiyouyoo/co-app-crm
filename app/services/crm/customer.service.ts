@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMCustomerListDto,CRMPagedResultDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMExternalPartnerAndCustomerDto,CRMListResultDto,CRMOwnerLessPagedResultDto,CRMSearchCustomerOutput,CRMCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMCheckConfigure, } from './crm.types';
+import { crmCustomerDto,crmPagedResultDto1,crmCustomerListDto,crmMergeCustomerListInput,crmGetAllForUiPickerInput,crmListResultDto1,crmExternalPartnerAndCustomerDto,crmOwnerLessPagedResultDto1,crmSearchCustomerOutput,crmCreateOrUpdateCustomerInput,crmCustomerOutput,crmGetCustomerByNameInput,crmCheckDeleteOutput,crmFollowCustomerInput,crmAssignCustomerInput,crmCustomerAndPartnerListDto,crmShortCustomerDto,crmCustomerAuthenticateDto,crmAuditCustomerInput,crmMergeCustomerInput,crmCheckConfigure } from './crm.types';
 
-@BaseUrl('/CRM/Customer')
+@BaseUrl('/crm/Customer')
 @Injectable({ providedIn: 'root' })
-export class CRMCustomerService extends BaseApi {
+export class crmCustomerService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMCustomerService extends BaseApi {
      * 客户详情
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMCustomerDto> {
+    ): Observable<crmCustomerDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页获取我的客户
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取用于合并的客户
      */
 
-    @POST('getAllForMerge')
+    @POST('GetAllForMerge')
     getAllForMerge(
         @Payload
-        _req:CRMMergeCustomerListInput
+        _req:crmMergeCustomerListInput
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -61,12 +61,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取客户列表
      */
 
-    @POST('getAllForUiPicker')
+    @POST('GetAllForUiPicker')
     getAllForUiPicker(
         @Payload
-        _req:CRMGetAllForUiPickerInput
+        _req:crmGetAllForUiPickerInput
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -76,12 +76,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取业务员的客户及合作伙伴
      */
 
-    @GET('getMyCustomerAndPartners')
+    @GET('GetMyCustomerAndPartners')
     getMyCustomerAndPartners(
         @Payload
         _req: {includeLocations?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMExternalPartnerAndCustomerDto>> {
+    ): Observable<crmListResultDto1<crmExternalPartnerAndCustomerDto>> {
         return null as any
     }
 
@@ -91,12 +91,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取业务员的客户及合作伙伴(包含联系人与地址)
      */
 
-    @GET('getMyCustomerAndPartnersWithLocationsAndContacts')
+    @GET('GetMyCustomerAndPartnersWithLocationsAndContacts')
     getMyCustomerAndPartnersWithLocationsAndContacts(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -106,12 +106,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页获取共享客户
      */
 
-    @GET('getShares')
+    @GET('GetShares')
     getShares(
         @Payload
         _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -121,12 +121,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页获取共享资源库
      */
 
-    @GET('getShareSources')
+    @GET('GetShareSources')
     getShareSources(
         @Payload
         _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -136,12 +136,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取无主客户
      */
 
-    @GET('getOwnerlessCustomer')
+    @GET('GetOwnerlessCustomer')
     getOwnerlessCustomer(
         @Payload
         _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMOwnerLessPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmOwnerLessPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -151,12 +151,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取当前业务员拥有的所有客户(开通租户的，包含联系人集合、地点集合)
      */
 
-    @GET('getOwnerCustomers')
+    @GET('GetOwnerCustomers')
     getOwnerCustomers(
         @Payload
         _req: {userId?:number} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -166,12 +166,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取当前业务员拥有的所有客户(开通账号的)
      */
 
-    @GET('getOwnerCustomersBySalesId')
+    @GET('GetOwnerCustomersBySalesId')
     getOwnerCustomersBySalesId(
         @Payload
         _req: {userId?:number,isRegistered?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMCustomerDto>> {
+    ): Observable<crmListResultDto1<crmCustomerDto>> {
         return null as any
     }
 
@@ -181,12 +181,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页搜索客户
      */
 
-    @GET('getAllBySearch')
+    @GET('GetAllBySearch')
     getAllBySearch(
         @Payload
         _req: {ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -196,12 +196,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页搜索直客跟同行客户（Rate用）
      */
 
-    @GET('getPeerAndDirectClient')
+    @GET('GetPeerAndDirectClient')
     getPeerAndDirectClient(
         @Payload
         _req: {customerType?:number,ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -211,12 +211,12 @@ export class CRMCustomerService extends BaseApi {
      * 分页搜索同行客户
      */
 
-    @GET('getForwardingCompanies')
+    @GET('GetForwardingCompanies')
     getForwardingCompanies(
         @Payload
         _req: {searchText?:string,includeDefault?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMSearchCustomerOutput>> {
+    ): Observable<crmPagedResultDto1<crmSearchCustomerOutput>> {
         return null as any
     }
 
@@ -226,12 +226,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取客户的合作伙伴对应的客户集合
      */
 
-    @GET('getCustomerPartners')
+    @GET('GetCustomerPartners')
     getCustomerPartners(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -241,12 +241,12 @@ export class CRMCustomerService extends BaseApi {
      * 根据名称搜索客户（绑定合作伙伴搜索客户可用）
      */
 
-    @GET('getCustomerByName')
+    @GET('GetCustomerByName')
     getCustomerByName(
         @Payload
         _req: {name?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -256,12 +256,12 @@ export class CRMCustomerService extends BaseApi {
      * 根据名称或代码搜索客户
      */
 
-    @GET('getCustomerByNameOrCode')
+    @GET('GetCustomerByNameOrCode')
     getCustomerByNameOrCode(
         @Payload
         _req: {searchText?:string,customerStatus?:number,isShared?:boolean,isOwnerLess?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -271,12 +271,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取客户用于更新
      */
 
-    @GET('getForUpdate')
+    @GET('GetForUpdate')
     getForUpdate(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMCreateOrUpdateCustomerInput> {
+    ): Observable<crmCreateOrUpdateCustomerInput> {
         return null as any
     }
 
@@ -286,12 +286,12 @@ export class CRMCustomerService extends BaseApi {
      * 创建客户
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMCreateOrUpdateCustomerInput
+        _req:crmCreateOrUpdateCustomerInput
 
-    ): Observable<CRMCustomerOutput> {
+    ): Observable<crmCustomerOutput> {
         return null as any
     }
 
@@ -301,12 +301,12 @@ export class CRMCustomerService extends BaseApi {
      * 校验客户重复名称
      */
 
-    @POST('checkDuplicateName')
+    @POST('CheckDuplicateName')
     checkDuplicateName(
         @Payload
-        _req:CRMGetCustomerByNameInput
+        _req:crmGetCustomerByNameInput
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -316,12 +316,12 @@ export class CRMCustomerService extends BaseApi {
      * 更新客户
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMCreateOrUpdateCustomerInput
+        _req:crmCreateOrUpdateCustomerInput
 
-    ): Observable<CRMCustomerOutput> {
+    ): Observable<crmCustomerOutput> {
         return null as any
     }
 
@@ -331,12 +331,12 @@ export class CRMCustomerService extends BaseApi {
      * 验证删除
      */
 
-    @POST('checkDelete')
+    @POST('CheckDelete')
     checkDelete(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMCheckDeleteOutput> {
+    ): Observable<crmCheckDeleteOutput> {
         return null as any
     }
 
@@ -346,7 +346,7 @@ export class CRMCustomerService extends BaseApi {
      * 删除客户
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 
@@ -361,10 +361,10 @@ export class CRMCustomerService extends BaseApi {
      * 认领客户（认领无主客户）
      */
 
-    @POST('claimCustomer')
+    @POST('ClaimCustomer')
     claimCustomer(
         @Payload
-        _req:CRMFollowCustomerInput
+        _req:crmFollowCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -376,10 +376,10 @@ export class CRMCustomerService extends BaseApi {
      * 跟进客户（获取共享客户权限）
      */
 
-    @POST('followCustomer')
+    @POST('FollowCustomer')
     followCustomer(
         @Payload
-        _req:CRMFollowCustomerInput
+        _req:crmFollowCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -391,10 +391,10 @@ export class CRMCustomerService extends BaseApi {
      * 转让客户/指派客户
      */
 
-    @POST('transferCustomer')
+    @POST('TransferCustomer')
     transferCustomer(
         @Payload
-        _req:CRMAssignCustomerInput
+        _req:crmAssignCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -406,12 +406,12 @@ export class CRMCustomerService extends BaseApi {
      * 根据类型获取客户（船东、航空等类型）
      */
 
-    @GET('getCustomerByType')
+    @GET('GetCustomerByType')
     getCustomerByType(
         @Payload
         _req: {customerType:number,name?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -421,12 +421,12 @@ export class CRMCustomerService extends BaseApi {
      * 根据类型获取客户（分页）
      */
 
-    @GET('getPageCustomerByType')
+    @GET('GetPageCustomerByType')
     getPageCustomerByType(
         @Payload
         _req: {customerType:number,name?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -436,12 +436,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取部门所有人员的客户
      */
 
-    @GET('getDepartmentCustomer')
+    @GET('GetDepartmentCustomer')
     getDepartmentCustomer(
         @Payload
         _req: {name?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerListDto>> {
+    ): Observable<crmPagedResultDto1<crmCustomerListDto>> {
         return null as any
     }
 
@@ -451,12 +451,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取当前业务员所拥有的客户及合作伙伴(Rate创建询价用)
      */
 
-    @GET('getCurrentCustomerAndPartner')
+    @GET('GetCurrentCustomerAndPartner')
     getCurrentCustomerAndPartner(
         @Payload
         _req: {includePartner?:boolean} 
 
-    ): Observable<CRMListResultDto<CRMCustomerAndPartnerListDto>> {
+    ): Observable<crmListResultDto1<crmCustomerAndPartnerListDto>> {
         return null as any
     }
 
@@ -466,12 +466,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取用户所拥有的（或所属）公司
      */
 
-    @GET('getUserOwnCompanyCustomer')
+    @GET('GetUserOwnCompanyCustomer')
     getUserOwnCompanyCustomer(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMShortCustomerDto>> {
+    ): Observable<crmListResultDto1<crmShortCustomerDto>> {
         return null as any
     }
 
@@ -481,12 +481,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取客户配置
      */
 
-    @GET('getCustomerConfigure')
+    @GET('GetCustomerConfigure')
     getCustomerConfigure(
         @Payload
         _req: {customerId?:string} 
 
-    ): Observable<CRMCustomerAuthenticateDto> {
+    ): Observable<crmCustomerAuthenticateDto> {
         return null as any
     }
 
@@ -496,10 +496,10 @@ export class CRMCustomerService extends BaseApi {
      * 客户配置\开通主账号
      */
 
-    @POST('customerConfigure')
+    @POST('CustomerConfigure')
     customerConfigure(
         @Payload
-        _req:CRMCustomerAuthenticateDto
+        _req:crmCustomerAuthenticateDto
 
     ): Observable<any> {
         return null as any
@@ -511,10 +511,10 @@ export class CRMCustomerService extends BaseApi {
      * 更新客户配置
      */
 
-    @PUT('updateCustomerConfigure')
+    @PUT('UpdateCustomerConfigure')
     updateCustomerConfigure(
         @Payload
-        _req:CRMCustomerAuthenticateDto
+        _req:crmCustomerAuthenticateDto
 
     ): Observable<any> {
         return null as any
@@ -526,10 +526,10 @@ export class CRMCustomerService extends BaseApi {
      * 提交审核客户
      */
 
-    @POST('auditCustomer')
+    @POST('AuditCustomer')
     auditCustomer(
         @Payload
-        _req:CRMAuditCustomerInput
+        _req:crmAuditCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -541,10 +541,10 @@ export class CRMCustomerService extends BaseApi {
      * 合并客户
      */
 
-    @POST('mergeCustomer')
+    @POST('MergeCustomer')
     mergeCustomer(
         @Payload
-        _req:CRMMergeCustomerInput
+        _req:crmMergeCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -556,12 +556,12 @@ export class CRMCustomerService extends BaseApi {
      * 获取客户查验配置
      */
 
-    @GET('getCheckConfigure')
+    @GET('GetCheckConfigure')
     getCheckConfigure(
         @Payload
         _req: {} 
 
-    ): Observable<CRMCheckConfigure> {
+    ): Observable<crmCheckConfigure> {
         return null as any
     }
 
@@ -571,7 +571,7 @@ export class CRMCustomerService extends BaseApi {
      * 更新客户查验配置状态
      */
 
-    @POST('updateCheckConfigureStatus')
+    @POST('UpdateCheckConfigureStatus')
     updateCheckConfigureStatus(
         @Payload
         _req: {} 

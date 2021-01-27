@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMTraceLogCommentListDto,CRMPagedResultDto,CRMCreateTraceLogCommentInput, } from './crm.types';
+import { crmPagedResultDto1,crmTraceLogCommentListDto,crmCreateTraceLogCommentInput } from './crm.types';
 
-@BaseUrl('/CRM/TraceLogComment')
+@BaseUrl('/crm/TraceLogComment')
 @Injectable({ providedIn: 'root' })
-export class CRMTraceLogCommentService extends BaseApi {
+export class crmTraceLogCommentService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMTraceLogCommentService extends BaseApi {
      * 分页获取评论
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {traceLogId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMTraceLogCommentListDto>> {
+    ): Observable<crmPagedResultDto1<crmTraceLogCommentListDto>> {
         return null as any
     }
 
@@ -31,10 +31,10 @@ export class CRMTraceLogCommentService extends BaseApi {
      * 发表日志评论
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMCreateTraceLogCommentInput
+        _req:crmCreateTraceLogCommentInput
 
     ): Observable<any> {
         return null as any
@@ -46,7 +46,7 @@ export class CRMTraceLogCommentService extends BaseApi {
      * 删除日志评论
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 

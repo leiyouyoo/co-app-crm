@@ -17,5 +17,5 @@ export * from './trace-log.service';
 export * from './trace-log-comment.service';
 
 
-export * from './CRM.types';
+export * from './crm.types';
 

@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMGetAccessAllowsByCustomerInput,CRMCustomerAccessAllowOutput,CRMListResultDto,CRMPagedResultDto, } from './crm.types';
+import { crmGetAccessAllowsByCustomerInput,crmListResultDto1,crmCustomerAccessAllowOutput,crmPagedResultDto1 } from './crm.types';
 
-@BaseUrl('/CRM/CustomerAccessAllow')
+@BaseUrl('/crm/CustomerAccessAllow')
 @Injectable({ providedIn: 'root' })
-export class CRMCustomerAccessAllowService extends BaseApi {
+export class crmCustomerAccessAllowService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMCustomerAccessAllowService extends BaseApi {
      * 根据客户获取所有业务员
      */
 
-    @POST('getByCustomer')
+    @POST('GetByCustomer')
     getByCustomer(
         @Payload
-        _req:CRMGetAccessAllowsByCustomerInput
+        _req:crmGetAccessAllowsByCustomerInput
 
-    ): Observable<CRMListResultDto<CRMCustomerAccessAllowOutput>> {
+    ): Observable<crmListResultDto1<crmCustomerAccessAllowOutput>> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMCustomerAccessAllowService extends BaseApi {
      * 客户访问权限列表
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMCustomerAccessAllowOutput>> {
+    ): Observable<crmPagedResultDto1<crmCustomerAccessAllowOutput>> {
         return null as any
     }
 
@@ -46,7 +46,7 @@ export class CRMCustomerAccessAllowService extends BaseApi {
      * 添加客户访问权限
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
         _req: {} 

@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMIMContactGroupDto,CRMListResultDto,CRMIMContactDto, } from './crm.types';
+import { crmListResultDto1,crmIMContactGroupDto,crmIMContactDto } from './crm.types';
 
-@BaseUrl('/CRM/ContactIM')
+@BaseUrl('/crm/ContactIM')
 @Injectable({ providedIn: 'root' })
-export class CRMContactIMService extends BaseApi {
+export class crmContactIMService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMContactIMService extends BaseApi {
      * 获取所有合作伙伴的所有联系人
      */
 
-    @GET('getPartnerContacts')
+    @GET('GetPartnerContacts')
     getPartnerContacts(
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<CRMListResultDto<CRMIMContactGroupDto>> {
+    ): Observable<crmListResultDto1<crmIMContactGroupDto>> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMContactIMService extends BaseApi {
      * 获取客户下所有联系人
      */
 
-    @GET('getCustomerContacts')
+    @GET('GetCustomerContacts')
     getCustomerContacts(
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<CRMListResultDto<CRMIMContactDto>> {
+    ): Observable<crmListResultDto1<crmIMContactDto>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMContactIMService extends BaseApi {
      * 获取业务员所跟进的所有客户的所有联系人
      */
 
-    @GET('getSaleCustomerContacts')
+    @GET('GetSaleCustomerContacts')
     getSaleCustomerContacts(
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<CRMListResultDto<CRMIMContactGroupDto>> {
+    ): Observable<crmListResultDto1<crmIMContactGroupDto>> {
         return null as any
     }
 

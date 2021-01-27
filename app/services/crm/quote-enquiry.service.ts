@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMQuoteEnquiryDto,CRMQuoteEnquiryListForCRMOutput,CRMPagedResultDto,CRMQuoteEnquiryListForCRMInput,CRMListResultDto,CRMCustomerListModel,CRMGetRelatedQuoteForCRMOutput,CRMGetListByRouteForCRMOutput,CRMQuoteEnquiryListForCSPInput,CRMQuoteEnquiryListForCSPOutput,CRMObject, } from './crm.types';
+import { crmQuoteEnquiryDto,crmPagedResultDto1,crmQuoteEnquiryListForCRMOutput,crmQuoteEnquiryListForCRMInput,crmListResultDto1,crmCustomerListModel,crmGetRelatedQuoteForCRMOutput,crmGetListByRouteForCRMOutput,crmQuoteEnquiryListForCSPInput,crmQuoteEnquiryListForCSPOutput } from './crm.types';
 
-@BaseUrl('/CRM/QuoteEnquiry')
+@BaseUrl('/crm/QuoteEnquiry')
 @Injectable({ providedIn: 'root' })
-export class CRMQuoteEnquiryService extends BaseApi {
+export class crmQuoteEnquiryService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取详情页（询报价均有返回）
      */
 
-    @GET('getForCRM')
+    @GET('GetForCRM')
     getForCRM(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMQuoteEnquiryDto> {
+    ): Observable<crmQuoteEnquiryDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取询价列表
      */
 
-    @GET('getAllForCRM')
+    @GET('GetAllForCRM')
     getAllForCRM(
         @Payload
         _req: {status?:number,tradeTypes?:string,quoteNo?:string,historyDataType?:number,userId?:number,customerId?:string,name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMQuoteEnquiryListForCRMOutput>> {
+    ): Observable<crmPagedResultDto1<crmQuoteEnquiryListForCRMOutput>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取询价列表(针对ES查询)
      */
 
-    @POST('getAllForES')
+    @POST('GetAllForES')
     getAllForES(
         @Payload
-        _req:CRMQuoteEnquiryListForCRMInput
+        _req:crmQuoteEnquiryListForCRMInput
 
-    ): Observable<CRMPagedResultDto<CRMQuoteEnquiryListForCRMOutput>> {
+    ): Observable<crmPagedResultDto1<crmQuoteEnquiryListForCRMOutput>> {
         return null as any
     }
 
@@ -61,12 +61,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取所有客户用户历史数据(条件检索)
      */
 
-    @GET('getCRMCustomerAndUserHistorys')
+    @GET('GetCRMCustomerAndUserHistorys')
     getCRMCustomerAndUserHistorys(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMQuoteEnquiryListForCRMInput>> {
+    ): Observable<crmListResultDto1<crmQuoteEnquiryListForCRMInput>> {
         return null as any
     }
 
@@ -76,12 +76,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取客户最近5条数据联动用户
      */
 
-    @GET('getCRMCustomerBindUserHistorys')
+    @GET('GetCRMCustomerBindUserHistorys')
     getCRMCustomerBindUserHistorys(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMCustomerListModel>> {
+    ): Observable<crmListResultDto1<crmCustomerListModel>> {
         return null as any
     }
 
@@ -91,12 +91,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CRM获取相关的报价（询价路线和订舱路线全匹配），用来选择报价（只有沟通中、已接受的）
      */
 
-    @GET('getRelatedQuoteForCRM')
+    @GET('GetRelatedQuoteForCRM')
     getRelatedQuoteForCRM(
         @Payload
         _req: {originPortId?:string,originAddressId?:string,destinationPortId?:string,destinationAddressId?:string,incotermsString?:string,shipperCustomerId?:string,consigneeCustomerId?:string} 
 
-    ): Observable<CRMGetRelatedQuoteForCRMOutput> {
+    ): Observable<crmGetRelatedQuoteForCRMOutput> {
         return null as any
     }
 
@@ -106,12 +106,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * 根据路线匹配询价信息（用于复制价格）
      */
 
-    @GET('getListByRouteForCRM')
+    @GET('GetListByRouteForCRM')
     getListByRouteForCRM(
         @Payload
         _req: {id?:string,destinationAddressId?:string,originAddressId?:string,destinationPortId?:string,originPortId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMGetListByRouteForCRMOutput>> {
+    ): Observable<crmPagedResultDto1<crmGetListByRouteForCRMOutput>> {
         return null as any
     }
 
@@ -121,12 +121,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * 获取列表
      */
 
-    @POST('getAll')
+    @POST('GetAll')
     getAll(
         @Payload
-        _req:CRMQuoteEnquiryListForCSPInput
+        _req:crmQuoteEnquiryListForCSPInput
 
-    ): Observable<CRMPagedResultDto<CRMQuoteEnquiryDto>> {
+    ): Observable<crmPagedResultDto1<crmQuoteEnquiryDto>> {
         return null as any
     }
 
@@ -136,12 +136,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CSP创建询价 / CRM创建询报价
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMQuoteEnquiryDto
+        _req:crmQuoteEnquiryDto
 
-    ): Observable<CRMQuoteEnquiryDto> {
+    ): Observable<crmQuoteEnquiryDto> {
         return null as any
     }
 
@@ -151,7 +151,7 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * 根据询价Id获取拥有者和绑定销售
      */
 
-    @GET('getTeamUser')
+    @GET('GetTeamUser')
     getTeamUser(
         @Payload
         _req: {id?:string} 
@@ -166,12 +166,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * 根据多个QuoteEnquiryId获取对应详情
      */
 
-    @POST('getListByIds')
+    @POST('GetListByIds')
     getListByIds(
         @Payload
         _req: {} 
 
-    ): Observable<CRMListResultDto<CRMQuoteEnquiryDto>> {
+    ): Observable<crmListResultDto1<crmQuoteEnquiryDto>> {
         return null as any
     }
 
@@ -181,12 +181,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CSP获取详情页（询报价均有返回）
      */
 
-    @GET('getForCSP')
+    @GET('GetForCSP')
     getForCSP(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMQuoteEnquiryDto> {
+    ): Observable<crmQuoteEnquiryDto> {
         return null as any
     }
 
@@ -196,12 +196,12 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CSP获取询价列表
      */
 
-    @POST('getAllForCSP')
+    @POST('GetAllForCSP')
     getAllForCSP(
         @Payload
-        _req:CRMQuoteEnquiryListForCSPInput
+        _req:crmQuoteEnquiryListForCSPInput
 
-    ): Observable<CRMPagedResultDto<CRMQuoteEnquiryListForCSPOutput>> {
+    ): Observable<crmPagedResultDto1<crmQuoteEnquiryListForCSPOutput>> {
         return null as any
     }
 
@@ -211,52 +211,52 @@ export class CRMQuoteEnquiryService extends BaseApi {
      * CSP获取历史包括（港口、地址、FBA地址等）
      */
 
-    @GET('getHistorys')
+    @GET('GetHistorys')
     getHistorys(
         @Payload
         _req: {historyDataType?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMObject>> {
+    ): Observable<crmPagedResultDto1<any>> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteEnquiry/Get
-     * 
+     * 暂无备注
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMQuoteEnquiryDto> {
+    ): Observable<crmQuoteEnquiryDto> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteEnquiry/Update
-     * 
+     * 暂无备注
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMQuoteEnquiryDto
+        _req:crmQuoteEnquiryDto
 
-    ): Observable<CRMQuoteEnquiryDto> {
+    ): Observable<crmQuoteEnquiryDto> {
         return null as any
     }
 
 
     /**
      * @param url /CRM/QuoteEnquiry/Delete
-     * 
+     * 暂无备注
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 

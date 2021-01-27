@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMContactDto,CRMListResultDto,CRMContactListDto,CRMPagedResultDto,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMCreateOrUpdateContactOutput,CRMCoEntityDto,CRMResetUserPasswordInput, } from './crm.types';
+import { crmContactDto,crmListResultDto1,crmContactListDto,crmPagedResultDto1,crmCheckContactEmailInput,crmCheckContactEmailOutput,crmCheckMainContact,crmCommonResponse,crmCreateOrUpdateContactInput,crmCreateOrUpdateContactOutput,crmCoEntityDto,crmResetUserPasswordInput } from './crm.types';
 
-@BaseUrl('/CRM/Contact')
+@BaseUrl('/crm/Contact')
 @Injectable({ providedIn: 'root' })
-export class CRMContactService extends BaseApi {
+export class crmContactService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMContactService extends BaseApi {
      * 获取联系人详情
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMContactDto> {
+    ): Observable<crmContactDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMContactService extends BaseApi {
      * 根据联系人id集合获取联系人集合
      */
 
-    @GET('getByIds')
+    @GET('GetByIds')
     getByIds(
         @Payload
         _req: {ids?:any[]} 
 
-    ): Observable<CRMListResultDto<CRMContactDto>> {
+    ): Observable<crmListResultDto1<crmContactDto>> {
         return null as any
     }
 
@@ -46,12 +46,12 @@ export class CRMContactService extends BaseApi {
      * 客户或合作伙伴的所有联系人(仅限业务员自己创建的)
      */
 
-    @GET('getAllByCustomer')
+    @GET('GetAllByCustomer')
     getAllByCustomer(
         @Payload
         _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMListResultDto<CRMContactListDto>> {
+    ): Observable<crmListResultDto1<crmContactListDto>> {
         return null as any
     }
 
@@ -61,12 +61,12 @@ export class CRMContactService extends BaseApi {
      * 分页获取客户或合作伙伴的联系人
      */
 
-    @GET('getByCustomerOrPartner')
+    @GET('GetByCustomerOrPartner')
     getByCustomerOrPartner(
         @Payload
         _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMContactListDto>> {
+    ): Observable<crmPagedResultDto1<crmContactListDto>> {
         return null as any
     }
 
@@ -76,12 +76,12 @@ export class CRMContactService extends BaseApi {
      * 分页获取客户跟合作伙伴的联系人
      */
 
-    @GET('getAllCustomerAndPartnerContacts')
+    @GET('GetAllCustomerAndPartnerContacts')
     getAllCustomerAndPartnerContacts(
         @Payload
         _req: {searchText?:string,isRegistered?:boolean,ids?:any[],sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMContactListDto>> {
+    ): Observable<crmPagedResultDto1<crmContactListDto>> {
         return null as any
     }
 
@@ -91,12 +91,12 @@ export class CRMContactService extends BaseApi {
      * 获取地点下的联系人
      */
 
-    @GET('getByLocationId')
+    @GET('GetByLocationId')
     getByLocationId(
         @Payload
         _req: {locationId?:string} 
 
-    ): Observable<CRMListResultDto<CRMContactListDto>> {
+    ): Observable<crmListResultDto1<crmContactListDto>> {
         return null as any
     }
 
@@ -106,12 +106,12 @@ export class CRMContactService extends BaseApi {
      * 根据联系人名称或电话搜索
      */
 
-    @GET('getByNameOrTel')
+    @GET('GetByNameOrTel')
     getByNameOrTel(
         @Payload
         _req: {searchText?:string,type?:number} 
 
-    ): Observable<CRMListResultDto<CRMContactListDto>> {
+    ): Observable<crmListResultDto1<crmContactListDto>> {
         return null as any
     }
 
@@ -121,12 +121,12 @@ export class CRMContactService extends BaseApi {
      * 验证email是否注册过
      */
 
-    @POST('checkEmailRepeat')
+    @POST('CheckEmailRepeat')
     checkEmailRepeat(
         @Payload
-        _req:CRMCheckContactEmailInput
+        _req:crmCheckContactEmailInput
 
-    ): Observable<CRMCheckContactEmailOutput> {
+    ): Observable<crmCheckContactEmailOutput> {
         return null as any
     }
 
@@ -136,12 +136,12 @@ export class CRMContactService extends BaseApi {
      * 验证是否已有主联系人
      */
 
-    @POST('checkHasMainContact')
+    @POST('CheckHasMainContact')
     checkHasMainContact(
         @Payload
-        _req:CRMCheckMainContact
+        _req:crmCheckMainContact
 
-    ): Observable<CRMCommonResponse> {
+    ): Observable<crmCommonResponse> {
         return null as any
     }
 
@@ -151,12 +151,12 @@ export class CRMContactService extends BaseApi {
      * 创建客户联系人(可选同步开通租户账号)
      */
 
-    @POST('createForCustomer')
+    @POST('CreateForCustomer')
     createForCustomer(
         @Payload
-        _req:CRMCreateOrUpdateContactInput
+        _req:crmCreateOrUpdateContactInput
 
-    ): Observable<CRMCreateOrUpdateContactOutput> {
+    ): Observable<crmCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -166,12 +166,12 @@ export class CRMContactService extends BaseApi {
      * 创建合作伙伴联系人
      */
 
-    @POST('createForPartner')
+    @POST('CreateForPartner')
     createForPartner(
         @Payload
-        _req:CRMCreateOrUpdateContactInput
+        _req:crmCreateOrUpdateContactInput
 
-    ): Observable<CRMCreateOrUpdateContactOutput> {
+    ): Observable<crmCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -181,12 +181,12 @@ export class CRMContactService extends BaseApi {
      * 更新联系人
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMCreateOrUpdateContactInput
+        _req:crmCreateOrUpdateContactInput
 
-    ): Observable<CRMCreateOrUpdateContactOutput> {
+    ): Observable<crmCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -196,7 +196,7 @@ export class CRMContactService extends BaseApi {
      * 删除联系人
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 
@@ -211,10 +211,10 @@ export class CRMContactService extends BaseApi {
      * 解绑/删除用户
      */
 
-    @POST('unbindOrDeleteUser')
+    @POST('UnbindOrDeleteUser')
     unbindOrDeleteUser(
         @Payload
-        _req:CRMCoEntityDto
+        _req:crmCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -226,10 +226,10 @@ export class CRMContactService extends BaseApi {
      * 重置密码
      */
 
-    @POST('resetUserPassword')
+    @POST('ResetUserPassword')
     resetUserPassword(
         @Payload
-        _req:CRMResetUserPasswordInput
+        _req:crmResetUserPasswordInput
 
     ): Observable<any> {
         return null as any

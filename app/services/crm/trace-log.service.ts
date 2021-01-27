@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMTraceLogListDto,CRMPagedResultDto,CRMCreateTraceLogInput, } from './crm.types';
+import { crmTraceLogListDto,crmPagedResultDto1,crmCreateTraceLogInput } from './crm.types';
 
-@BaseUrl('/CRM/TraceLog')
+@BaseUrl('/crm/TraceLog')
 @Injectable({ providedIn: 'root' })
-export class CRMTraceLogService extends BaseApi {
+export class crmTraceLogService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -16,12 +16,12 @@ export class CRMTraceLogService extends BaseApi {
      * 获取单条跟进记录详情
      */
 
-    @GET('get')
+    @GET('Get')
     get(
         @Payload
         _req: {id?:string} 
 
-    ): Observable<CRMTraceLogListDto> {
+    ): Observable<crmTraceLogListDto> {
         return null as any
     }
 
@@ -31,12 +31,12 @@ export class CRMTraceLogService extends BaseApi {
      * 分页获取日志
      */
 
-    @GET('getAll')
+    @GET('GetAll')
     getAll(
         @Payload
         _req: {customerId?:string,userId?:number,traceLogTypeId?:string,content?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<CRMPagedResultDto<CRMTraceLogListDto>> {
+    ): Observable<crmPagedResultDto1<crmTraceLogListDto>> {
         return null as any
     }
 
@@ -46,10 +46,10 @@ export class CRMTraceLogService extends BaseApi {
      * 发表日志
      */
 
-    @POST('create')
+    @POST('Create')
     create(
         @Payload
-        _req:CRMCreateTraceLogInput
+        _req:crmCreateTraceLogInput
 
     ): Observable<any> {
         return null as any
@@ -61,10 +61,10 @@ export class CRMTraceLogService extends BaseApi {
      * 编辑日志
      */
 
-    @PUT('update')
+    @PUT('Update')
     update(
         @Payload
-        _req:CRMCreateTraceLogInput
+        _req:crmCreateTraceLogInput
 
     ): Observable<any> {
         return null as any
@@ -76,7 +76,7 @@ export class CRMTraceLogService extends BaseApi {
      * 删除日志
      */
 
-    @DELETE('delete')
+    @DELETE('Delete')
     delete(
         @Payload
         _req: {id?:string} 
@@ -91,7 +91,7 @@ export class CRMTraceLogService extends BaseApi {
      * 给日志点赞
      */
 
-    @POST('addPraise')
+    @POST('AddPraise')
     addPraise(
         @Payload
         _req: {traceLogId?:string} 
