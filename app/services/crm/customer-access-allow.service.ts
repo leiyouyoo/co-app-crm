@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CRMGetAccessAllowsByCustomerInput,CRMCustomerAccessAllowOutput,CRMListResultDto,CRMPagedResultDto, } from './crm.types';
 
-@BaseUrl('/crm/CustomerAccessAllow')
+@BaseUrl('/CRM/CustomerAccessAllow')
 @Injectable({ providedIn: 'root' })
 export class CRMCustomerAccessAllowService extends BaseApi {
   constructor(injector: Injector) {

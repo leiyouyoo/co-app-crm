@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CRMEsPageQueryInput,CRMCrmEnquiryModel,CRMPagedResultDto,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput,CRMCrmCustomerModel, } from './crm.types';
 
-@BaseUrl('/crm/EsQuery')
+@BaseUrl('/CRM/EsQuery')
 @Injectable({ providedIn: 'root' })
 export class CRMEsQueryService extends BaseApi {
   constructor(injector: Injector) {

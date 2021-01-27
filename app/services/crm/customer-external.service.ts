@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
 import { CRMCustomerDto,CRMCustomerBindCoUserDto,CRMListResultDto,CRMUserDetailInfo,CRMPagedResultDto,CRMGetByCustomerIdsOutput,CRMGetCustomerAndPartnerOutput,CRMCustomerAndContactDto,CRMCustomerListDto,CRMGetCustomerByNamesInput,CRMShortCustomerDto,CRMCompanyCustomerOutput,CRMBecomeCooperationInput, } from './crm.types';
 
-@BaseUrl('/crm/CustomerExternal')
+@BaseUrl('/CRM/CustomerExternal')
 @Injectable({ providedIn: 'root' })
 export class CRMCustomerExternalService extends BaseApi {
   constructor(injector: Injector) {
