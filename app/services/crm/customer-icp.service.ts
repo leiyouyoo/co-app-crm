@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmIcpCreateOrUpdateCustomerInput,crmCustomerOutput,crmIcpUpdateCustomerCodeInput } from './crm.types';
+import { CRMIcpCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMIcpUpdateCustomerCodeInput } from './crm.types';
 
-@BaseUrl('/crm/CustomerIcp')
+@BaseUrl('/CRM/CustomerIcp')
 @Injectable({ providedIn: 'root' })
-export class crmCustomerIcpService extends BaseApi {
+export class CRMCustomerIcpService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -19,9 +19,9 @@ export class crmCustomerIcpService extends BaseApi {
     @POST('CreateOrUpdate')
     createOrUpdate(
         @Payload
-        _req:crmIcpCreateOrUpdateCustomerInput
+        _req:CRMIcpCreateOrUpdateCustomerInput
 
-    ): Observable<crmCustomerOutput> {
+    ): Observable<CRMCustomerOutput> {
         return null as any
     }
 
@@ -34,7 +34,7 @@ export class crmCustomerIcpService extends BaseApi {
     @POST('UpdateCode')
     updateCode(
         @Payload
-        _req:crmIcpUpdateCustomerCodeInput
+        _req:CRMIcpUpdateCustomerCodeInput
 
     ): Observable<any> {
         return null as any

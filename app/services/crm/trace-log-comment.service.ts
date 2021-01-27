@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmPagedResultDto1,crmTraceLogCommentListDto,crmCreateTraceLogCommentInput } from './crm.types';
+import { CRMPagedResultDto1,CRMTraceLogCommentListDto,CRMCreateTraceLogCommentInput } from './crm.types';
 
-@BaseUrl('/crm/TraceLogComment')
+@BaseUrl('/CRM/TraceLogComment')
 @Injectable({ providedIn: 'root' })
-export class crmTraceLogCommentService extends BaseApi {
+export class CRMTraceLogCommentService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -21,7 +21,7 @@ export class crmTraceLogCommentService extends BaseApi {
         @Payload
         _req: {traceLogId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmPagedResultDto1<crmTraceLogCommentListDto>> {
+    ): Observable<CRMPagedResultDto1<CRMTraceLogCommentListDto>> {
         return null as any
     }
 
@@ -34,7 +34,7 @@ export class crmTraceLogCommentService extends BaseApi {
     @POST('Create')
     create(
         @Payload
-        _req:crmCreateTraceLogCommentInput
+        _req:CRMCreateTraceLogCommentInput
 
     ): Observable<any> {
         return null as any
