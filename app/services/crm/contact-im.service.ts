@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmListResultDto1,crmIMContactGroupDto,crmIMContactDto } from './crm.types';
+import { CRMListResultDto1,CRMIMContactGroupDto,CRMIMContactDto } from './crm.types';
 
-@BaseUrl('/crm/ContactIM')
+@BaseUrl('/CRM/ContactIM')
 @Injectable({ providedIn: 'root' })
-export class crmContactIMService extends BaseApi {
+export class CRMContactIMService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -21,7 +21,7 @@ export class crmContactIMService extends BaseApi {
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<crmListResultDto1<crmIMContactGroupDto>> {
+    ): Observable<CRMListResultDto1<CRMIMContactGroupDto>> {
         return null as any
     }
 
@@ -36,7 +36,7 @@ export class crmContactIMService extends BaseApi {
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<crmListResultDto1<crmIMContactDto>> {
+    ): Observable<CRMListResultDto1<CRMIMContactDto>> {
         return null as any
     }
 
@@ -51,7 +51,7 @@ export class crmContactIMService extends BaseApi {
         @Payload
         _req: {customerId?:string,searchText?:string} 
 
-    ): Observable<crmListResultDto1<crmIMContactGroupDto>> {
+    ): Observable<CRMListResultDto1<CRMIMContactGroupDto>> {
         return null as any
     }
 

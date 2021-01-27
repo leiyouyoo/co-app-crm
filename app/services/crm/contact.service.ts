@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmContactDto,crmListResultDto1,crmContactListDto,crmPagedResultDto1,crmCheckContactEmailInput,crmCheckContactEmailOutput,crmCheckMainContact,crmCommonResponse,crmCreateOrUpdateContactInput,crmCreateOrUpdateContactOutput,crmCoEntityDto,crmResetUserPasswordInput } from './crm.types';
+import { CRMContactDto,CRMListResultDto1,CRMContactListDto,CRMPagedResultDto1,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMCreateOrUpdateContactOutput,CRMCoEntityDto,CRMResetUserPasswordInput } from './crm.types';
 
-@BaseUrl('/crm/Contact')
+@BaseUrl('/CRM/Contact')
 @Injectable({ providedIn: 'root' })
-export class crmContactService extends BaseApi {
+export class CRMContactService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -21,7 +21,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<crmContactDto> {
+    ): Observable<CRMContactDto> {
         return null as any
     }
 
@@ -36,7 +36,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {ids?:any[]} 
 
-    ): Observable<crmListResultDto1<crmContactDto>> {
+    ): Observable<CRMListResultDto1<CRMContactDto>> {
         return null as any
     }
 
@@ -51,7 +51,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmListResultDto1<crmContactListDto>> {
+    ): Observable<CRMListResultDto1<CRMContactListDto>> {
         return null as any
     }
 
@@ -66,7 +66,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmPagedResultDto1<crmContactListDto>> {
+    ): Observable<CRMPagedResultDto1<CRMContactListDto>> {
         return null as any
     }
 
@@ -81,7 +81,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {searchText?:string,isRegistered?:boolean,ids?:any[],sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmPagedResultDto1<crmContactListDto>> {
+    ): Observable<CRMPagedResultDto1<CRMContactListDto>> {
         return null as any
     }
 
@@ -96,7 +96,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {locationId?:string} 
 
-    ): Observable<crmListResultDto1<crmContactListDto>> {
+    ): Observable<CRMListResultDto1<CRMContactListDto>> {
         return null as any
     }
 
@@ -111,7 +111,7 @@ export class crmContactService extends BaseApi {
         @Payload
         _req: {searchText?:string,type?:number} 
 
-    ): Observable<crmListResultDto1<crmContactListDto>> {
+    ): Observable<CRMListResultDto1<CRMContactListDto>> {
         return null as any
     }
 
@@ -124,9 +124,9 @@ export class crmContactService extends BaseApi {
     @POST('CheckEmailRepeat')
     checkEmailRepeat(
         @Payload
-        _req:crmCheckContactEmailInput
+        _req:CRMCheckContactEmailInput
 
-    ): Observable<crmCheckContactEmailOutput> {
+    ): Observable<CRMCheckContactEmailOutput> {
         return null as any
     }
 
@@ -139,9 +139,9 @@ export class crmContactService extends BaseApi {
     @POST('CheckHasMainContact')
     checkHasMainContact(
         @Payload
-        _req:crmCheckMainContact
+        _req:CRMCheckMainContact
 
-    ): Observable<crmCommonResponse> {
+    ): Observable<CRMCommonResponse> {
         return null as any
     }
 
@@ -154,9 +154,9 @@ export class crmContactService extends BaseApi {
     @POST('CreateForCustomer')
     createForCustomer(
         @Payload
-        _req:crmCreateOrUpdateContactInput
+        _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<crmCreateOrUpdateContactOutput> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -169,9 +169,9 @@ export class crmContactService extends BaseApi {
     @POST('CreateForPartner')
     createForPartner(
         @Payload
-        _req:crmCreateOrUpdateContactInput
+        _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<crmCreateOrUpdateContactOutput> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -184,9 +184,9 @@ export class crmContactService extends BaseApi {
     @PUT('Update')
     update(
         @Payload
-        _req:crmCreateOrUpdateContactInput
+        _req:CRMCreateOrUpdateContactInput
 
-    ): Observable<crmCreateOrUpdateContactOutput> {
+    ): Observable<CRMCreateOrUpdateContactOutput> {
         return null as any
     }
 
@@ -214,7 +214,7 @@ export class crmContactService extends BaseApi {
     @POST('UnbindOrDeleteUser')
     unbindOrDeleteUser(
         @Payload
-        _req:crmCoEntityDto
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -229,7 +229,7 @@ export class crmContactService extends BaseApi {
     @POST('ResetUserPassword')
     resetUserPassword(
         @Payload
-        _req:crmResetUserPasswordInput
+        _req:CRMResetUserPasswordInput
 
     ): Observable<any> {
         return null as any

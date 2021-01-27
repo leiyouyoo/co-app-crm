@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmGetAccessAllowsByCustomerInput,crmListResultDto1,crmCustomerAccessAllowOutput,crmPagedResultDto1 } from './crm.types';
+import { CRMGetAccessAllowsByCustomerInput,CRMListResultDto1,CRMCustomerAccessAllowOutput,CRMPagedResultDto1 } from './crm.types';
 
-@BaseUrl('/crm/CustomerAccessAllow')
+@BaseUrl('/CRM/CustomerAccessAllow')
 @Injectable({ providedIn: 'root' })
-export class crmCustomerAccessAllowService extends BaseApi {
+export class CRMCustomerAccessAllowService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -19,9 +19,9 @@ export class crmCustomerAccessAllowService extends BaseApi {
     @POST('GetByCustomer')
     getByCustomer(
         @Payload
-        _req:crmGetAccessAllowsByCustomerInput
+        _req:CRMGetAccessAllowsByCustomerInput
 
-    ): Observable<crmListResultDto1<crmCustomerAccessAllowOutput>> {
+    ): Observable<CRMListResultDto1<CRMCustomerAccessAllowOutput>> {
         return null as any
     }
 
@@ -36,7 +36,7 @@ export class crmCustomerAccessAllowService extends BaseApi {
         @Payload
         _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmPagedResultDto1<crmCustomerAccessAllowOutput>> {
+    ): Observable<CRMPagedResultDto1<CRMCustomerAccessAllowOutput>> {
         return null as any
     }
 

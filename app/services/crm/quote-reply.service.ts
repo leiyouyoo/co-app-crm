@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmListResultDto1,crmQuoteReplyDto,crmCoEntityDto,crmPagedResultDto1 } from './crm.types';
+import { CRMListResultDto1,CRMQuoteReplyDto,CRMCoEntityDto,CRMPagedResultDto1 } from './crm.types';
 
-@BaseUrl('/crm/QuoteReply')
+@BaseUrl('/CRM/QuoteReply')
 @Injectable({ providedIn: 'root' })
-export class crmQuoteReplyService extends BaseApi {
+export class CRMQuoteReplyService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -21,7 +21,7 @@ export class crmQuoteReplyService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<crmListResultDto1<crmQuoteReplyDto>> {
+    ): Observable<CRMListResultDto1<CRMQuoteReplyDto>> {
         return null as any
     }
 
@@ -34,9 +34,9 @@ export class crmQuoteReplyService extends BaseApi {
     @POST('Create')
     create(
         @Payload
-        _req:crmQuoteReplyDto
+        _req:CRMQuoteReplyDto
 
-    ): Observable<crmQuoteReplyDto> {
+    ): Observable<CRMQuoteReplyDto> {
         return null as any
     }
 
@@ -51,7 +51,7 @@ export class crmQuoteReplyService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<crmQuoteReplyDto> {
+    ): Observable<CRMQuoteReplyDto> {
         return null as any
     }
 
@@ -79,7 +79,7 @@ export class crmQuoteReplyService extends BaseApi {
     @POST('AcceptReply')
     acceptReply(
         @Payload
-        _req:crmCoEntityDto
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -94,7 +94,7 @@ export class crmQuoteReplyService extends BaseApi {
     @POST('ReplyBooking')
     replyBooking(
         @Payload
-        _req:crmCoEntityDto
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -109,7 +109,7 @@ export class crmQuoteReplyService extends BaseApi {
     @POST('RejectReply')
     rejectReply(
         @Payload
-        _req:crmCoEntityDto
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -124,7 +124,7 @@ export class crmQuoteReplyService extends BaseApi {
     @POST('RequestNewReply')
     requestNewReply(
         @Payload
-        _req:crmCoEntityDto
+        _req:CRMCoEntityDto
 
     ): Observable<any> {
         return null as any
@@ -141,7 +141,7 @@ export class crmQuoteReplyService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<crmQuoteReplyDto> {
+    ): Observable<CRMQuoteReplyDto> {
         return null as any
     }
 
@@ -156,7 +156,7 @@ export class crmQuoteReplyService extends BaseApi {
         @Payload
         _req: {replyNo?:string,carrierId?:string,transitTime?:string,sailSchedule?:string,validStartDate?:string,validEndDate?:string,creationTime?:string,status?:number,quoteEnquiryId?:string,quoteReplyItems?:any[],carrierName?:string,onlyOceanTotalCharge?:string,totalCharge?:string,unifiedTotalCharge?:number,replyUserName?:string,id?:string} 
 
-    ): Observable<crmPagedResultDto1<crmQuoteReplyDto>> {
+    ): Observable<CRMPagedResultDto1<CRMQuoteReplyDto>> {
         return null as any
     }
 
@@ -169,9 +169,9 @@ export class crmQuoteReplyService extends BaseApi {
     @PUT('Update')
     update(
         @Payload
-        _req:crmQuoteReplyDto
+        _req:CRMQuoteReplyDto
 
-    ): Observable<crmQuoteReplyDto> {
+    ): Observable<CRMQuoteReplyDto> {
         return null as any
     }
 

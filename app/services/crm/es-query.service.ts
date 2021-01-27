@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmEsPageQueryInput,crmPagedResultDto1,crmCrmEnquiryModel,crmCrmCustomerChangeEventDto,crmCrmEsPageQueryInput,crmCrmCustomerModel } from './crm.types';
+import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput,CRMCrmCustomerModel } from './crm.types';
 
-@BaseUrl('/crm/EsQuery')
+@BaseUrl('/CRM/EsQuery')
 @Injectable({ providedIn: 'root' })
-export class crmEsQueryService extends BaseApi {
+export class CRMEsQueryService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -19,9 +19,9 @@ export class crmEsQueryService extends BaseApi {
     @POST('GetAllForES')
     getAllForES(
         @Payload
-        _req:crmEsPageQueryInput
+        _req:CRMEsPageQueryInput
 
-    ): Observable<crmPagedResultDto1<crmCrmEnquiryModel>> {
+    ): Observable<CRMPagedResultDto1<CRMCrmEnquiryModel>> {
         return null as any
     }
 
@@ -49,7 +49,7 @@ export class crmEsQueryService extends BaseApi {
     @POST('SyncCrmCustomers')
     syncCrmCustomers(
         @Payload
-        _req:crmCrmCustomerChangeEventDto
+        _req:CRMCrmCustomerChangeEventDto
 
     ): Observable<any> {
         return null as any
@@ -79,9 +79,9 @@ export class crmEsQueryService extends BaseApi {
     @POST('QueryCustomers')
     queryCustomers(
         @Payload
-        _req:crmCrmEsPageQueryInput
+        _req:CRMCrmEsPageQueryInput
 
-    ): Observable<crmPagedResultDto1<crmCrmCustomerModel>> {
+    ): Observable<CRMPagedResultDto1<CRMCrmCustomerModel>> {
         return null as any
     }
 

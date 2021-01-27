@@ -1,5 +1,6 @@
 {
   "name": "co-app-crm",
   "version": "0.0.1",
-  "description": "平台管理子应用"
+  "description": "平台管理子应用",
+  "dependencies": {}
 }

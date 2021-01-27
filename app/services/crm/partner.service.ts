@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { crmPartnerDto,crmPagedResultDto1,crmPartnerListDto,crmCreateOrUpdatePartnerDto,crmPartnerBindCustomerInput,crmUnBindCustomerInput } from './crm.types';
+import { CRMPartnerDto,CRMPagedResultDto1,CRMPartnerListDto,CRMCreateOrUpdatePartnerDto,CRMPartnerBindCustomerInput,CRMUnBindCustomerInput } from './crm.types';
 
-@BaseUrl('/crm/Partner')
+@BaseUrl('/CRM/Partner')
 @Injectable({ providedIn: 'root' })
-export class crmPartnerService extends BaseApi {
+export class CRMPartnerService extends BaseApi {
   constructor(injector: Injector) {
     super(injector);
   }
@@ -21,7 +21,7 @@ export class crmPartnerService extends BaseApi {
         @Payload
         _req: {id?:string} 
 
-    ): Observable<crmPartnerDto> {
+    ): Observable<CRMPartnerDto> {
         return null as any
     }
 
@@ -36,7 +36,7 @@ export class crmPartnerService extends BaseApi {
         @Payload
         _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
-    ): Observable<crmPagedResultDto1<crmPartnerListDto>> {
+    ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
         return null as any
     }
 
@@ -49,7 +49,7 @@ export class crmPartnerService extends BaseApi {
     @POST('Create')
     create(
         @Payload
-        _req:crmCreateOrUpdatePartnerDto
+        _req:CRMCreateOrUpdatePartnerDto
 
     ): Observable<any> {
         return null as any
@@ -64,7 +64,7 @@ export class crmPartnerService extends BaseApi {
     @POST('BindCustomer')
     bindCustomer(
         @Payload
-        _req:crmPartnerBindCustomerInput
+        _req:CRMPartnerBindCustomerInput
 
     ): Observable<any> {
         return null as any
@@ -79,7 +79,7 @@ export class crmPartnerService extends BaseApi {
     @POST('UnBindCustomer')
     unBindCustomer(
         @Payload
-        _req:crmUnBindCustomerInput
+        _req:CRMUnBindCustomerInput
 
     ): Observable<any> {
         return null as any
