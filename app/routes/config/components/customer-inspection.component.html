@@ -1,8 +1,9 @@
 <section>
   <nz-spin [nzSpinning]="loading">
     <div>
-      <button nzSize="small" nz-button (click)="updateCheckConfigureStatus()" nzType="primary">应用</button>
-      <button nzSize="small" nz-button (click)="getCheckConfigure()" nzType="default">取消</button>
+      <button nzSize="small" nz-button (click)="updateCheckConfigureStatus()"
+              nzType="primary">{{"Apply"|translate}}</button>
+      <button nzSize="small" nz-button (click)="getCheckConfigure()" nzType="default">{{"Cancel"|translate}}</button>
     </div>
     <div class="define-customer-type">
       <ng-container *ngFor="let con of config">
