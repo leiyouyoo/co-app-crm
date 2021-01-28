@@ -10,4 +10,5 @@ export class ConfigComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
 }

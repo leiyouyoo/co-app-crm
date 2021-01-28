@@ -70,7 +70,7 @@ export interface QuoteEnquiry {
 export interface quoteReplys {
   replyNo?: string;
   //报价业务号
-  carrierId?: number;
+  carrierId?: string;
   sailSchedule?: string;
   // 承运公司
   transitTime?: string;

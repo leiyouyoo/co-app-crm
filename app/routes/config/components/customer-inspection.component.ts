@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { CRMCustomerService } from '../../../services/crm';
+import { CoPageBase } from '@co/core';
 
 @Component({
   selector: 'app-crm-customer-inspection',
@@ -6,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer-inspection.component.less'],
 })
 
-export class CustomerInspectionComponent implements OnInit {
+export class CustomerInspectionComponent extends CoPageBase implements OnInit {
   config = [
     {
-      list: [
+      configureItemlist: [
         {
           label: '客户详情',
           type: 'checkbox',
           id: '11111',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '客户全称（英文）', value: '1', checked: true },
             { label: '客户全称（本地语言）', value: '2', checked: false },
@@ -32,8 +34,8 @@ export class CustomerInspectionComponent implements OnInit {
         {
           label: '客户相关联系人',
           type: 'checkbox',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '邮箱', value: '1', id: '1-1', checked: false },
             { label: '号码', value: '2', id: '1-2', checked: false },
@@ -42,8 +44,8 @@ export class CustomerInspectionComponent implements OnInit {
         {
           label: '客户相关位置',
           type: 'checkbox',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '地址', value: '1', checked: true },
           ],
@@ -52,8 +54,8 @@ export class CustomerInspectionComponent implements OnInit {
           label: '查验方式：',
           type: 'checkbox',
           isMethod: true,
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '精准查询', value: '1', checked: true, disabled: true },
           ],
@@ -69,16 +71,16 @@ export class CustomerInspectionComponent implements OnInit {
         },
       ],
       label: '重复客户定义',
-      hidden:false
+      hidden: false,
     },
     {
-      list: [
+      configureItemlist: [
         {
           label: '客户详情',
           type: 'checkbox',
           id: '11111',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '客户全称（英文）', value: '1', checked: true },
             { label: '客户全称（本地语言）', value: '2', checked: false },
@@ -95,8 +97,8 @@ export class CustomerInspectionComponent implements OnInit {
         {
           label: '客户相关联系人',
           type: 'checkbox',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '邮箱', value: '1', id: '1-1', checked: false },
             { label: '号码', value: '2', id: '1-2', checked: false },
@@ -105,8 +107,8 @@ export class CustomerInspectionComponent implements OnInit {
         {
           label: '客户相关位置',
           type: 'checkbox',
-          allChecked:false,
-          indeterminate:false,
+          allChecked: false,
+          indeterminate: false,
           list: [
             { label: '地址', value: '1', checked: false },
           ],
@@ -114,9 +116,9 @@ export class CustomerInspectionComponent implements OnInit {
         {
           label: '查验方式：',
           type: 'checkbox',
-          allChecked:false,
-          indeterminate:false,
-          isMethod: true,
+          allChecked: false,
+          indeterminate: false,
+          isCheckAll: true,
           list: [
             { label: '精准查询', value: '1', checked: true, disabled: true },
           ],
@@ -131,24 +133,49 @@ export class CustomerInspectionComponent implements OnInit {
         },
       ],
       label: '相似客户定义',
-      hidden:false
+      hidden: false,
     },
   ];
+  loading = false;
 
-
-  constructor() {
+  constructor(private crmCustomerService: CRMCustomerService, injector: Injector) {
+    super(injector);
   }
 
   ngOnInit() {
-    this.setValue(true);
+    this.getCheckConfigure();
+  }
+
+  getCheckConfigure() {
+    this.loading = true;
+    this.crmCustomerService.getCheckConfigure({}).subscribe((res) => {
+      this.loading = false;
+      this.config = res.definitionlist;
+      this.setValue(true);
+    }, () => this.loading = false);
+  }
+
+  updateCheckConfigureStatus() {
+    let list = [];
+    this.config.forEach(e => {
+      e.configureItemlist.forEach(ele => {
+        list = list.concat(ele.list);
+      });
+    });
+    this.loading = true;
+    this.crmCustomerService.updateCheckConfigureStatus(list).subscribe((res) => {
+      this.$message.success(this.$L('Save successfully'));
+      this.loading = false;
+    }, () => this.loading = true)
+    ;
   }
 
   setValue(initValue = false) {
     this.config.forEach(element => {
-      element.list.forEach(e => {
+      element.configureItemlist.forEach(e => {
         this.updateSingleChecked(e);
         if (e.type === 'radio') {
-          initValue ? e.value = e.list.filter(ele => ele.checked)[0].value : null;
+          initValue ? e.value = e.list.filter(ele => ele.checked)[0]?.value : null;
           e.list.forEach(ele => {
             ele.checked = false;
             ele.value === e.value ? ele.checked = true : null;
@@ -188,5 +215,12 @@ export class CustomerInspectionComponent implements OnInit {
         };
       });
     }
+  }
+
+  radioChange(event, item) {
+    item.list.forEach(e => {
+      e.checked = false;
+      e.id == event ? e.checked = true : null;
+    });
   }
 }

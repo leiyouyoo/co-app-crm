@@ -3,13 +3,16 @@ import { differenceInCalendarDays } from 'date-fns';
 import { groupBy } from 'lodash';
 import { NgForm } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
-import { CRMQuoteEnquiryService, CRMQuoteEnquiryDto, CRMCustomerService } from 'apps/crm/app/services/crm';
 import { PUBChargingCodeService, PUBCurrencyService } from '@co/cds';
 import { Observable } from 'rxjs';
 import { CSPBookingService } from 'apps/crm/app/services/csp';
 import { FreightMethodType } from '../../../../shared/types/booking/FreightMethodType';
-import { quoteReplys } from '../../../../shared/compoents/booking/class/quoteEntity';
 import { QuoteSimpleInfoComponent } from '../../../quotes/component/quote-simple-info/quote-simple-info.component';
+import {
+  CRMQuoteEnquiryDto,
+  CRMCustomerService,
+  CRMQuoteEnquiryService,
+} from '../../../../services/crm';
 
 @Component({
   selector: 'booking-quote-recorddetail',
@@ -547,7 +550,7 @@ export class QuoteRecorddetailComponent implements OnInit {
   @Output() isSuccessfully = new EventEmitter<boolean>();
   @Output() isClosed = new EventEmitter<boolean>();
   @Output() isQuoteRecordStatus = new EventEmitter<boolean>();
-  quoteReplys: quoteReplys = {
+  quoteReplys: CRMQuoteEnquiryDto = {
     quoteReplyItems: [],
   };
 
