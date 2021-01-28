@@ -11,27 +11,27 @@
           {{ 'Contract information' | translate }}
         </strong>
         <div class="contract">
-          <div class="contract-msg">
+          <div class="contract-msg" *ngFor="let con of item.oceanCustomers">
             <div>
               <span>
                 <i nz-icon nzType="user" nzTheme="outline"></i>
                 <span>{{ 'Shipper' | translate }}</span>
               </span>
-              <span>{{ item.shipper || '--' }}</span>
+              <span>{{ con.shipper || '--' }}</span>
             </div>
             <div>
               <span>
                 <i nz-icon nzType="user" nzTheme="outline"></i>
                 <span>{{ 'Consignee' | translate }}</span>
               </span>
-              <span>{{ item.consignee || '--' }}</span>
+              <span>{{ con.consignee || '--' }}</span>
             </div>
             <div>
               <span>
                 <i nz-icon nzType="user" nzTheme="outline"></i>
                 <span>{{ 'Notify' | translate }}</span>
               </span>
-              <span>{{ item.notify || '--' }}</span>
+              <span>{{ con.notify || '--' }}</span>
             </div>
           </div>
 
@@ -267,15 +267,15 @@
             style="display: flex; align-items: center; min-height: 60px; color: rgba(0, 0, 0, 0.65); font-size: 16px;"
           >
             <span *ngIf="chargeItem == 'pol'"
-              >{{ 'Tips' | translate }}:{{
-                'The Pre-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
-                  | translate
+            >{{ 'Tips' | translate }}:{{
+              'The Pre-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
+                | translate
               }}</span
             >
             <span *ngIf="chargeItem == 'pod'"
-              >{{ 'Tips' | translate }}:{{
-                'The behind-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
-                  | translate
+            >{{ 'Tips' | translate }}:{{
+              'The behind-port local charges has not been related to the ocean freight, please contact with local business colleagues if need.'
+                | translate
               }}</span
             >
           </div>
@@ -323,7 +323,8 @@
                 <div class="loc-body-td">
                   {{ data.chargingName ? data.chargingName : '--' }}
                 </div>
-                <div class="loc-body-mark" [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 4 : 4) + 'px' }">
+                <div class="loc-body-mark"
+                     [ngStyle]="{ width: 150 * (locChargeItem ? locChargeItem.length + 4 : 4) + 'px' }">
                   <span>{{ 'Remark' | translate }}：</span>
                   <span>{{ data.remark || '--' }}</span>
                 </div>
@@ -334,7 +335,8 @@
                 <div class="loc-body-td">
                   <span class="txt-total">{{ 'Total' | translate }}(USD)</span>
                 </div>
-                <div class="loc-body-td" style="color: #fa6400;">{{ unitPriceTotal?.toFixed(2) ? unitPriceTotal?.toFixed(2) : '' }}</div>
+                <div class="loc-body-td"
+                     style="color: #fa6400;">{{ unitPriceTotal?.toFixed(2) ? unitPriceTotal?.toFixed(2) : '' }}</div>
                 <div class="loc-body-td"></div>
                 <div class="loc-body-td" style="color: #fa6400;" *ngFor="let total of locChargeItem">
                   {{ locTotalList[total] ? locTotalList[total]?.toFixed(2) : '' }}
@@ -371,8 +373,8 @@
       </div>
       <div>
         <span *ngIf="trailerDetial.quoteReply" style="margin-right: 15px;"
-          >{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
-            trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
+        >{{ 'expires' | translate }}:{{ trailerDetial.quoteReply.validStartDate | date: 'yyyy-MM-dd' }}~{{
+          trailerDetial.quoteReply.validEndDate | date: 'yyyy-MM-dd'
           }}</span
         >
       </div>
@@ -398,26 +400,26 @@
         style="margin: 24px 0;"
       >
         <thead>
-          <tr>
-            <th nzWidth="40%">
-              {{ 'Carrier' | translate }}
-            </th>
-            <th nzWidth="20%">
-              {{ 'T/T' | translate }}
-            </th>
-            <th nzWidth="20%" *ngFor="let data of containerTypeTable.data">
-              {{ data.containerCode }}
-            </th>
-          </tr>
+        <tr>
+          <th nzWidth="40%">
+            {{ 'Carrier' | translate }}
+          </th>
+          <th nzWidth="20%">
+            {{ 'T/T' | translate }}
+          </th>
+          <th nzWidth="20%" *ngFor="let data of containerTypeTable.data">
+            {{ data.containerCode }}
+          </th>
+        </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              {{ trailerDetial.quoteReply.replyCarrier || '--' }}
-            </td>
-            <td>{{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}</td>
-            <td *ngFor="let data of containerTypeTable.data">{{ data.unitPrice?.toFixed(2) }} {{ data.currency }}</td>
-          </tr>
+        <tr>
+          <td>
+            {{ trailerDetial.quoteReply.replyCarrier || '--' }}
+          </td>
+          <td>{{ trailerDetial.quoteReply.transitTime || '--' }}{{ 'Days' | translate }}</td>
+          <td *ngFor="let data of containerTypeTable.data">{{ data.unitPrice?.toFixed(2) }} {{ data.currency }}</td>
+        </tr>
         </tbody>
       </nz-table>
 
