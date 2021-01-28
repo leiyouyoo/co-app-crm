@@ -1,9 +1,12 @@
 <section>
   <nz-spin [nzSpinning]="loading">
     <div>
-      <button nzSize="small" nz-button (click)="updateCheckConfigureStatus()"
+      <button nzSize="small" nz-button *ngIf="!editing" (click)="editing=!editing"
+              nzType="primary">{{"Edit"|translate}}</button>
+      <button *ngIf="editing" nzSize="small" nz-button (click)="editing = false;updateCheckConfigureStatus()"
               nzType="primary">{{"Apply"|translate}}</button>
-      <button nzSize="small" nz-button (click)="getCheckConfigure()" nzType="default">{{"Cancel"|translate}}</button>
+      <button *ngIf="editing" nzSize="small" nz-button (click)="editing = false;getCheckConfigure()"
+              nzType="default">{{"Cancel"|translate}}</button>
     </div>
     <div class="define-customer-type">
       <ng-container *ngFor="let con of config">
@@ -12,17 +15,17 @@
                (click)="con.hidden = !con.hidden"></i>{{con.label}}</h5>
         <ng-container *ngIf="!con.hidden">
           <div [class]="'class-'+i" *ngFor="let item of con.configureItemlist;let i = index">
-            <div class="define-customer-title">{{item.label}}</div>
+            <span class="define-customer-title">{{item.label}}</span>
             <ng-container *ngIf="item.type==='checkbox'">
-              <label nz-checkbox [(ngModel)]="item.allChecked" *ngIf="item.isCheckAll"
+              <label nz-checkbox [(ngModel)]="item.allChecked" *ngIf="item.isCheckAll && editing"
                      (ngModelChange)="updateAllChecked(item)" [nzIndeterminate]="item.indeterminate">
                 {{"Check all" | translate}}
               </label>
-              <nz-checkbox-group [(ngModel)]="item.list" [disabled]="!item.isCheckAll"
+              <nz-checkbox-group [(ngModel)]="item.list" [disabled]="!item.isCheckAll || !editing"
                                  (ngModelChange)="updateSingleChecked(item)"></nz-checkbox-group>
             </ng-container>
             <ng-container *ngIf="item.type==='radio'">
-              <nz-radio-group (ngModelChange)="radioChange($event,item)" [(ngModel)]="item.value">
+              <nz-radio-group (ngModelChange)="radioChange($event,item)" [disabled]="!editing" [(ngModel)]="item.value">
                 <label nz-radio [nzValue]="o.value" *ngFor="let o of item.list">{{ o.label }}</label>
               </nz-radio-group>
             </ng-container>

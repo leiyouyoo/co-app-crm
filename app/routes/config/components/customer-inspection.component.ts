@@ -137,6 +137,7 @@ export class CustomerInspectionComponent extends CoPageBase implements OnInit {
     },
   ];
   loading = false;
+  editing = false;
 
   constructor(private crmCustomerService: CRMCustomerService, injector: Injector) {
     super(injector);

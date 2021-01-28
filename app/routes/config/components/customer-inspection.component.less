@@ -17,7 +17,12 @@
     }
 
     .ant-checkbox-wrapper-checked {
-      color: #1890FF;
+      color: #1890FF !important;
+    }
+
+    ant-checkbox-disabled, .ant-checkbox-disabled + span, .ant-radio-disabled + span {
+      cursor: auto;
+      color: #1890FF !important;
     }
 
     nz-spin, .ant-spin-container {
@@ -33,7 +38,7 @@
       overflow: auto;
       max-height: calc(100% - 24px);
 
-      .class-0 {
+      .class-2 {
         border-bottom: 1px solid #E9E9E9;
         margin-bottom: 8px;
       }
@@ -48,6 +53,7 @@
         color: rgba(0, 0, 0, 0.85);
         line-height: 22px;
         font-size: 14px;
+        margin-right: 20px;
       }
     }
   }
