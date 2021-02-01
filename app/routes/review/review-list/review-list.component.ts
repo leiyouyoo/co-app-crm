@@ -111,10 +111,6 @@ export class ReviewListComponent extends CoPageBase {
   }
 
   coOnInit(): void {
-    this.ssoUserService.getUsersWithFAMExamine({}).subscribe((res) => {
-      debugger;
-    });
-
     this.customerSolutionService.getApplyList(this.reqParams).subscribe((res) => {
       this.listOfData = res.items;
       this.totalCount = res.totalCount;
