@@ -149,7 +149,7 @@ export class CustomerInspectionComponent extends CoPageBase implements OnInit {
 
   getCheckConfigure() {
     this.loading = true;
-    this.crmCustomerService.getCheckConfigure({}).subscribe((res) => {
+    this.crmCustomerService.getCheckConfigure({}).subscribe((res:any) => {
       this.loading = false;
       this.config = res.definitionlist;
       this.setValue(true);

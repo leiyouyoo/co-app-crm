@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput,CRMCrmCustomerModel } from './crm.types';
+import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerModel,CRMEntityDto1,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput } from './crm.types';
 
 @BaseUrl('/CRM/EsQuery')
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,7 @@ export class CRMEsQueryService extends BaseApi {
   
     /**
      * @param url /CRM/EsQuery/GetAllForES
-     * 暂无备注
+     * ES获取客户询报价
      */
 
     @POST('GetAllForES')
@@ -27,6 +27,21 @@ export class CRMEsQueryService extends BaseApi {
 
 
     /**
+     * @param url /CRM/EsQuery/GetAllCustomerForES
+     * ES获取客户信息
+     */
+
+    @POST('GetAllCustomerForES')
+    getAllCustomerForES(
+        @Payload
+        _req:CRMEsPageQueryInput
+
+    ): Observable<CRMPagedResultDto1<CRMCrmCustomerModel>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/EsQuery/SyncCrmEnquiry
      * 同步询价数据，仅测试时使用
      */
@@ -34,7 +49,7 @@ export class CRMEsQueryService extends BaseApi {
     @POST('SyncCrmEnquiry')
     syncCrmEnquiry(
         @Payload
-        _req: {} 
+        _req:CRMEntityDto1<any>
 
     ): Observable<any> {
         return null as any
@@ -43,7 +58,7 @@ export class CRMEsQueryService extends BaseApi {
 
     /**
      * @param url /CRM/EsQuery/SyncCrmCustomers
-     * 暂无备注
+     * 同步客户数据
      */
 
     @POST('SyncCrmCustomers')

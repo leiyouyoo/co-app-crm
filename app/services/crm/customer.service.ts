@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMCheckConfigure } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMCheckConfigure,CRMQueryConnectionCustomerInput,CRMCheckCustomerDto } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -357,6 +357,21 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/SetDangerCustomer
+     * 设为危险客户
+     */
+
+    @POST('SetDangerCustomer')
+    setDangerCustomer(
+        @Payload
+        _req:CRMCoEntityDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/ClaimCustomer
      * 认领客户（认领无主客户）
      */
@@ -577,6 +592,36 @@ export class CRMCustomerService extends BaseApi {
         _req: {} 
 
     ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/QueryConnectionCustomer
+     * 获取可用关联客户列表
+     */
+
+    @POST('QueryConnectionCustomer')
+    queryConnectionCustomer(
+        @Payload
+        _req:CRMQueryConnectionCustomerInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/CustomerCheckAsync
+     * 验证客户数据
+     */
+
+    @POST('CustomerCheckAsync')
+    customerCheckAsync(
+        @Payload
+        _req:CRMCreateOrUpdateCustomerInput
+
+    ): Observable<CRMCheckCustomerDto> {
         return null as any
     }
 

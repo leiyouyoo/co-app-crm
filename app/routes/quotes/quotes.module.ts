@@ -25,7 +25,7 @@ const COMPONENTS = [
 @NgModule({
   declarations: [...COMPONENTS],
   // imports: [QuotesRoutingModule, SharedModule, QuotesRoutingModule, QuoteCommmonModule, ImModule],
-  imports: [QuotesRoutingModule, QuoteCommmonModule, QuotesRoutingModule, QuoteCommmonModule, SharedModule],
+  imports: [QuotesRoutingModule, QuoteCommmonModule, QuoteCommmonModule, SharedModule],
   exports: [...COMPONENTS],
 })
 export class QuotesModule {}
