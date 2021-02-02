@@ -13,12 +13,14 @@
   "Create booking": "Create booking",
   "Booking detail": "Booking detail",
   "oceanlist": "Ocean Rates",
+  "WaitingReply": "Waiting Reply",
   "Input location/port": "Input location/port",
   "CustomerTableName": "Customer Name",
   "createBooking": "New booking",
   "Customize": "Customize",
   "Quotes Detail": "Quotes Detail",
   "Add": "Add",
+  "ReviewType": "Type",
   "Follow-up method": "Follow-up method",
   "NO_table": "NO.",
   "booking": {
@@ -28,6 +30,6 @@
   },
   "Whether to leave or not": "Whether to leave or not",
   "The related local charge is only for reference": "The related local charge is only for reference, not inclusive or not  limited the local charges actually happened but not shown here, or happened but is not  proveded services by CITY OCEAN. All the local charges should be calculated according to final debit notes.",
-  "WaitingForBuyer":"Waiting For Buyer",
-  "WaitingForSeller":"Waiting For Seller"
+  "WaitingForBuyer": "Waiting For Buyer",
+  "WaitingForSeller": "Waiting For Seller"
 }

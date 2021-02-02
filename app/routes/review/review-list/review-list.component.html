@@ -33,8 +33,8 @@
           <li
             [nzSelected]="index === selectedMenuIndex"
             nz-menu-item
-            *ngFor="let o of menuOfList; index as index"
-            (click)="onMenuListClick(o, index)"
+            *ngFor="let o of menuOfList; let index = index"
+            (click)="onMenuListClick(o)"
           >
             {{ o.title | translate }}
             <span *ngIf="o.countIndex">({{ (stOrderList?.rawData && stOrderList.rawData[o.countIndex]) || 0 }})</span>
@@ -50,18 +50,12 @@
             [columns]="columns"
             [loading]="loading"
             [total]="totalCount"
-            [req]="{ process: stReqProcess, params: reqParams }"
             [page]="{ front: false }"
             calcScroll
             disableCalcX
             columnDefaultWidth="100"
             (change)="onStChange($event)"
           >
-            <ng-template st-row="no." let-data>
-              <a [innerHTML]="data.shipmentNo" (click)="goDetail(data)"></a>
-              <nz-tag *ngIf="data.hasChild" [nzColor]="'gold'">拼</nz-tag>
-              <nz-tag *ngIf="data.hasMergerd" [nzColor]="'blue'">合</nz-tag>
-            </ng-template>
           </co-st>
         </div>
 

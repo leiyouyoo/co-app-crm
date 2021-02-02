@@ -33,58 +33,56 @@ export class ReviewListComponent extends CoPageBase {
   menuLoading = false;
   selectedMenuIndex = 0;
   menuOfList = [
-    { title: '待回复', data: {}, countIndex: 'onProcessing' },
+    { title: 'To reply', data: ReviewStatusType.WaitingReply },
     {
-      title: '已回复',
-      data: {},
-      countIndex: 'hasException',
-      columns: ['creationTime', 'quoteReplyStatus'],
+      title: 'Replied',
+      data: ReviewStatusType.Pass,
     },
-    { title: '已驳回', data: {} },
-    { title: '全部', data: {} },
+    { title: 'Rejected', data: ReviewStatusType.Reject },
+    { title: 'All', data: null },
   ];
 
   columns: STColumn[] = [
-    { title: '业务号', index: 'businessNo', width: 120 },
+    { title: 'Business number', index: 'businessNo', width: 120 },
     {
-      title: '状态',
+      title: 'Status',
       index: 'status',
       type: 'enum',
       enum: ReviewStatusType as any,
       width: 120,
     },
     {
-      title: '目的港',
+      title: 'Delivery/To',
       index: 'destinationPort',
       width: 120,
     },
     {
-      title: '目的地',
+      title: 'Destination',
       index: 'destinationAddress',
     },
-    { title: '代理', index: 'agentType', type: 'enum', enum: ReviewAgentType as any },
+    { title: 'Proxy', index: 'agentType', type: 'enum', enum: ReviewAgentType as any },
     {
-      title: '类型',
+      title: 'ReviewType',
       index: 'businessType',
       type: 'enum',
       enum: ReviewBusinessType as any,
     },
     {
-      title: '申请备注',
+      title: 'Application note',
       index: 'applyRemark',
     },
     {
-      title: '申请人',
+      title: 'Applicant',
       index: 'creatorUser',
     },
     {
-      title: '申请日期',
+      title: 'Date of Application',
       index: 'creationTime',
       type: 'date',
       dateFormat: 'yyyy-MM-dd HH:mm:ss',
     },
-    { title: '回复人', index: 'replierUser' },
-    { title: '回复日期', index: 'replyTime' },
+    { title: 'Responder', index: 'replierUser' },
+    { title: 'Reply date', index: 'replyTime' },
     {
       title: 'Action',
       type: 'action',
@@ -92,6 +90,12 @@ export class ReviewListComponent extends CoPageBase {
       fixed: 'right',
       className: 'no-line-through',
       buttons: [
+        {
+          text: this.$L('Reply'),
+          type: 'none',
+          click: (e) => {},
+          iif: (data) => data.status === 0,
+        },
         {
           text: this.$L('View'),
           type: 'none',
@@ -150,15 +154,7 @@ export class ReviewListComponent extends CoPageBase {
   //#endregion
 
   //#region 公共方法
-  stReqProcess = (requestOptions: STRequestOptions) => {
-    const menuParams = this.menuOfList[this.selectedMenuIndex].data || {};
-    requestOptions.body.dynamicQuery = { ...requestOptions.body.dynamicQuery, ...menuParams, serviceType: this.serviceType };
-    return requestOptions;
-  };
 
-  stResProcess = (result: STData[], rawData) => {
-    return result;
-  };
   //#endregion
 
   //#region 私有方法
@@ -214,6 +210,7 @@ export class ReviewListComponent extends CoPageBase {
         skipCount: num * this.reqParams.maxResultCount,
         businessNo: this.reqParams.businessNo,
         creatorUserId: this.reqParams.creatorUserId,
+        status: this.selectedMenuIndex,
         agentType: (this.reqParams.agentType ? ReviewAgentType[this.reqParams.agentType] : null) as any,
       })
       .pipe(finalize(() => (this.loading = false)))
@@ -238,6 +235,10 @@ export class ReviewListComponent extends CoPageBase {
     this.getUsers(data);
   }
 
-  onMenuListClick(data, i) {}
+  onMenuListClick(data) {
+    this.resetParam();
+    this.selectedMenuIndex = data.data;
+    this.getList();
+  }
   //#endregion
 }
