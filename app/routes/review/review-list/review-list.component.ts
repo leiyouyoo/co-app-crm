@@ -45,10 +45,10 @@ export class ReviewListComponent extends CoPageBase {
   ];
 
   columns: STColumn[] = [
-    { title: '业务号', index: 'shipmentNo', render: 'no.', width: 160 },
+    { title: '业务号', index: 'businessNo', width: 120 },
     {
       title: '状态',
-      index: 'shipmentStatus',
+      index: 'status',
       type: 'enum',
       enum: ReviewStatusType as any,
       width: 120,
@@ -80,6 +80,8 @@ export class ReviewListComponent extends CoPageBase {
     {
       title: '申请日期',
       index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd HH:mm:ss',
     },
     { title: '回复人', index: 'replierUser' },
     { title: '回复日期', index: 'replyTime' },

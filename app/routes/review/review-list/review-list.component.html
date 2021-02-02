@@ -7,7 +7,7 @@
       </ng-template>
     </nz-input-group>
 
-    <nz-select [(ngModel)]="reqParams.agentType" [nzPlaceHolder]="'All types' | translate">
+    <nz-select [(ngModel)]="reqParams.agentType" nzAllowClear [nzPlaceHolder]="'All types' | translate">
       <nz-option [nzValue]="data" [nzLabel]="data" *ngFor="let data of keys()"></nz-option>
     </nz-select>
 
@@ -15,6 +15,7 @@
       [(ngModel)]="reqParams.creatorUserId"
       nzShowSearch
       nzServerSearch
+      nzAllowClear
       (nzOnSearch)="searchData($event)"
       [nzPlaceHolder]="'All applicants' | translate"
     >
