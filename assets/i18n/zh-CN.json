@@ -20,7 +20,7 @@
   "quoteslist": "询价",
   "Certify now": "马上认证",
   "Customer created": "客户创建",
-  "Any item is required":"任意一项必填",
+  "Any item is required": "任意一项必填",
   "Open": "开",
   "Close": "关",
   "CSP account opened": "CSP账号开通",
@@ -379,6 +379,8 @@
   "Submit": "提交",
   "Cargo Detail": "货物信息",
   "BookStatus": "订舱处理状态",
+  "All applicants": "全部申请人",
+  "All types": "全部类型",
   "Company": "出货口岸",
   "Origin Truck": "港前拖车",
   "Destination Truck": "港后拖车",
@@ -969,7 +971,7 @@
   "Please Input": "请输入",
   "Whether to delete all data?": "是否删除全部数据?",
   "CSP APP": "CSP移动端",
-  "WaitingForBuyer":"等待买家确认",
-  "WaitingForSeller":"等待卖家确认",
+  "WaitingForBuyer": "等待买家确认",
+  "WaitingForSeller": "等待卖家确认",
   "Check all": "全选"
 }

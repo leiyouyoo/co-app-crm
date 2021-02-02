@@ -1,17 +1,29 @@
 <div style="display: flex; height: 100%; flex-direction: column;">
-  <co-page-layout style="flex: unset; height: 72px; margin-bottom: 1em;">
-    <co-search-area-layout>
-      <nz-input-group style="width: 320px;" [nzSuffix]="suffixIconSearch">
-        <input type="text" nz-input [(ngModel)]="reqParams.businessNo" placeholder="{{ '业务号' | translate }}" />
-        <ng-template #suffixIconSearch>
-          <i nz-icon nzType="search" (click)="setDefaultMenu(); stOrderList.load()"></i>
-        </ng-template>
-      </nz-input-group>
+  <div class="title">
+    <nz-input-group style="width: 320px; margin: 12px 0 12px 12px;" [nzSuffix]="suffixIconSearch">
+      <input type="text" nz-input [(ngModel)]="reqParams.businessNo" placeholder="{{ '业务号' | translate }}" />
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search" (click)="setDefaultMenu(); stOrderList.load()"></i>
+      </ng-template>
+    </nz-input-group>
 
-      <button nz-button nzType="primary" (click)="setDefaultMenu(); stOrderList.load()">{{ 'Search' | translate }}</button>
-      <button nz-button nzType="default" (click)="resetParam()">{{ 'Reset' | translate }}</button>
-    </co-search-area-layout>
-  </co-page-layout>
+    <nz-select [(ngModel)]="reqParams.agentType" [nzPlaceHolder]="'All types' | translate">
+      <nz-option [nzValue]="data" [nzLabel]="data" *ngFor="let data of keys()"></nz-option>
+    </nz-select>
+
+    <nz-select
+      [(ngModel)]="reqParams.creatorUserId"
+      nzShowSearch
+      nzServerSearch
+      (nzOnSearch)="searchData($event)"
+      [nzPlaceHolder]="'All applicants' | translate"
+    >
+      <nz-option [nzValue]="data.id" [nzLabel]="data.userName" *ngFor="let data of userList"></nz-option>
+    </nz-select>
+
+    <button nz-button nzType="primary" (click)="getList()">{{ 'Search' | translate }}</button>
+    <button nz-button nzType="default" (click)="resetParam()">{{ 'Reset' | translate }}</button>
+  </div>
 
   <co-page-layout>
     <co-page-main>
@@ -35,8 +47,12 @@
             calcScroll
             disableCalcX
             [columns]="columns"
+            [loading]="loading"
+            [total]="totalCount"
             [req]="{ process: stReqProcess, params: reqParams }"
-            [res]="{ process: stResProcess }"
+            [page]="{ front: false }"
+            calcScroll
+            disableCalcX
             columnDefaultWidth="100"
             (change)="onStChange($event)"
           >

@@ -10,7 +10,7 @@
     width        : 100%;
     background   : #fff;
     border-bottom: 1px solid #f2f2f2;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 :host ::ng-deep {
@@ -19,8 +19,25 @@
         border-bottom: 2px solid #1890ff !important;
     }
 
-    .ant-menu-item:hover{
+    .ant-menu-item:hover {
         color        : #1890ff !important;
-        border-bottom: 2px solid #1890ff !important; 
+        border-bottom: 2px solid #1890ff !important;
+    }
+}
+
+.title {
+    display      : flex;
+    align-items  : center;
+    background   : #fff;
+    margin-bottom: 8px;
+    flex-wrap    : wrap;
+
+    button {
+        margin: 8px 0 8px 8px !important;
+    }
+
+    nz-select {
+        margin: 8px 0 8px 8px !important;
+        width : 200px;
     }
 }
