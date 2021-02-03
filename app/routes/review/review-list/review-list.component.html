@@ -15,7 +15,7 @@
     </nz-input-group>
 
     <nz-select [(ngModel)]="reqParams.agentType" nzAllowClear [nzPlaceHolder]="'All types' | translate">
-      <nz-option [nzValue]="data" [nzLabel]="data" *ngFor="let data of keys()"></nz-option>
+      <nz-option [nzValue]="data" [nzLabel]="data | translate" *ngFor="let data of keys()"></nz-option>
     </nz-select>
 
     <nz-select

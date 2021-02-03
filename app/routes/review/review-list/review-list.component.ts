@@ -132,7 +132,7 @@ export class ReviewListComponent extends CoPageBase {
   }
 
   keys(): Array<string> {
-    var data = ReviewBusinessType;
+    var data = ReviewAgentType;
     var keys = Object.keys(data);
     return keys.slice(keys.length / 2);
   }
