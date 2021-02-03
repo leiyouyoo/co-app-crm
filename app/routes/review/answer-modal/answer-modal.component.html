@@ -14,8 +14,8 @@
       </div>
 
       <div class="item">
-        <div>申请人：{{ data?.replierUser }}</div>
-        <div>申请时间：{{ data?.replyTime }}</div>
+        <div>申请人：{{ data?.creatorUser }}</div>
+        <div>申请时间：{{ data?.creationTime | date:'yyyy-MM-dd hh:mm:ss'}}</div>
       </div>
 
       <nz-form-item style="margin-bottom: 12px;">
