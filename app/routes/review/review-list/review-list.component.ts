@@ -50,6 +50,7 @@ export class ReviewListComponent extends CoPageBase {
       title: 'Status',
       index: 'status',
       type: 'enum',
+      render: 'status',
       enum: ReviewStatusType as any,
       width: 120,
     },
@@ -62,12 +63,12 @@ export class ReviewListComponent extends CoPageBase {
       title: 'Destination',
       index: 'destinationAddress',
     },
-    { title: 'Proxy', index: 'agentType', type: 'enum', enum: ReviewAgentType as any },
+    { title: 'Proxy', index: 'agentCustomer' },
     {
       title: 'ReviewType',
-      index: 'businessType',
+      index: 'agentType',
       type: 'enum',
-      enum: ReviewBusinessType as any,
+      enum: ReviewAgentType as any,
     },
     {
       title: 'Application note',
@@ -97,7 +98,7 @@ export class ReviewListComponent extends CoPageBase {
           type: 'none',
           iif: (data) => data.status === 0,
           click: (e) => {
-            this.answer(e, [e?.id])
+            this.answer(e, [e?.id]);
           },
         },
       ],
@@ -131,20 +132,20 @@ export class ReviewListComponent extends CoPageBase {
   }
 
   keys(): Array<string> {
-    var data = ReviewBusinessType;
+    var data = ReviewAgentType;
     var keys = Object.keys(data);
     return keys.slice(keys.length / 2);
   }
 
-  coOnActived(): void { }
+  coOnActived(): void {}
 
-  coOnDeactived(): void { }
+  coOnDeactived(): void {}
 
-  coOnChanges(changes: SimpleChanges): void { }
+  coOnChanges(changes: SimpleChanges): void {}
 
-  coAfterViewInit(): void { }
+  coAfterViewInit(): void {}
 
-  coOnDestroy(): void { }
+  coOnDestroy(): void {}
 
   //#endregion
 
@@ -166,6 +167,7 @@ export class ReviewListComponent extends CoPageBase {
       creatorUserId: null as any,
       agentType: null,
     };
+    this.getList();
   }
 
   selectItem: any;
@@ -199,7 +201,7 @@ export class ReviewListComponent extends CoPageBase {
     this.getList();
   }
 
-  goDetail(e) { }
+  goDetail(e) {}
 
   getList() {
     let num = this.reqParams.skipCount - 1;
@@ -236,34 +238,35 @@ export class ReviewListComponent extends CoPageBase {
   }
 
   onMenuListClick(data) {
-    this.resetParam();
     this.selectedMenuIndex = data.data;
     this.getList();
   }
 
   clickAnswer() {
-    let ids = this.selectItem?.map(e => { return e.id })
+    let ids = this.selectItem?.map((e) => {
+      return e.id;
+    });
     if (ids?.length > 0) {
-      this.answer(null, ids)
+      this.answer(null, ids);
     } else {
-      this.message.warning('请选择至少一条数据')
+      this.message.warning(this.$L('Please select at least one piece of data'));
     }
-
   }
 
   answer(item = null, id) {
-    this.nzModalService.create({
-      nzContent: AnswerModalComponent,
-      nzWidth: 800,
-      nzComponentParams: {
-        data: item,
-        id: id
-      }
-    }).afterClose.subscribe(data => {
-      if (data) {
-      }
-    });
-
+    this.nzModalService
+      .create({
+        nzContent: AnswerModalComponent,
+        nzWidth: 800,
+        nzComponentParams: {
+          data: item,
+          id: id,
+        },
+      })
+      .afterClose.subscribe((data) => {
+        if (data) {
+        }
+      });
   }
   //#endregion
 }
