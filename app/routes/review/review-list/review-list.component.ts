@@ -246,7 +246,7 @@ export class ReviewListComponent extends CoPageBase {
     if (ids?.length > 0) {
       this.answer(null, ids)
     } else {
-      this.message.warning('请选择至少一条数据')
+      this.message.warning(this.$L('Please select at least one piece of data'));
     }
 
   }
