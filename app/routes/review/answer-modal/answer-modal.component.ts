@@ -75,11 +75,6 @@ export class AnswerModalComponent extends CoPageBase {
   //#region 事件处理
   handleOk() {
 
-    if (this.isPass && !this.customerId) {
-      this.message.warning('请选择代理')
-      return;
-    }
-
     this.customerSolutionService.auditApplyInfo({
       isPass: this.isPass,
       customerId: this.customerId,
