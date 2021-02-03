@@ -8,6 +8,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { SSOUserService } from '@co/cds';
 import { ReviewAgentType, ReviewBusinessType, ReviewStatusType } from './../enums';
 import { finalize } from 'rxjs/operators';
+import { AnswerModalComponent } from '../answer-modal/answer-modal.component';
+import { id } from 'date-fns/locale';
 @Component({
   selector: 'crm-review-list',
   templateUrl: './review-list.component.html',
@@ -91,9 +93,11 @@ export class ReviewListComponent extends CoPageBase {
       className: 'no-line-through',
       buttons: [
         {
-          text: this.$L('View'),
+          text: '回复',
           type: 'none',
-          click: (e) => {},
+          click: (e) => {
+            this.answer(e, [e?.id])
+          },
         },
       ],
     },
@@ -131,15 +135,15 @@ export class ReviewListComponent extends CoPageBase {
     return keys.slice(keys.length / 2);
   }
 
-  coOnActived(): void {}
+  coOnActived(): void { }
 
-  coOnDeactived(): void {}
+  coOnDeactived(): void { }
 
-  coOnChanges(changes: SimpleChanges): void {}
+  coOnChanges(changes: SimpleChanges): void { }
 
-  coAfterViewInit(): void {}
+  coAfterViewInit(): void { }
 
-  coOnDestroy(): void {}
+  coOnDestroy(): void { }
 
   //#endregion
 
@@ -180,6 +184,7 @@ export class ReviewListComponent extends CoPageBase {
         this.goDetail(e.dblClick.item);
         break;
       case 'checkbox':
+        this.selectItem = e.checkbox;
         break;
       case 'pi':
         this.pageIndexChange(e.pi);
@@ -201,7 +206,7 @@ export class ReviewListComponent extends CoPageBase {
     this.getList();
   }
 
-  goDetail(e) {}
+  goDetail(e) { }
 
   getList() {
     let num = this.reqParams.skipCount - 1;
@@ -236,6 +241,31 @@ export class ReviewListComponent extends CoPageBase {
     this.getUsers(data);
   }
 
-  onMenuListClick(data, i) {}
+  onMenuListClick(data, i) { }
+
+
+  clickAnswer() {
+    let ids = this.selectItem?.map(e => { return e.id })
+    if (ids?.length > 0) {
+      this.answer(null, ids)
+    } else {
+      this.message.warning('请选择至少一条数据')
+    }
+
+  }
+
+  answer(item = null, id) {
+    this.nzModalService.create({
+      nzContent: AnswerModalComponent,
+      nzWidth: 800,
+      nzComponentParams: {
+        data: item,
+        id: id
+      }
+    }).afterClose.subscribe(data => {
+      if (data) {
+      }
+    });
+  }
   //#endregion
 }
