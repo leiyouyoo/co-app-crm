@@ -1,9 +1,9 @@
 <div style="display: flex; height: 100%; flex-direction: column;">
   <div class="title">
     <nz-input-group style="width: 320px; margin: 12px 0 12px 12px;" [nzSuffix]="suffixIconSearch">
-      <input type="text" nz-input [(ngModel)]="reqParams.businessNo" placeholder="{{ '业务号' | translate }}" />
+      <input type="text" nz-input [(ngModel)]="reqParams.businessNo" placeholder="{{ 'Business number' | translate }}" />
       <ng-template #suffixIconSearch>
-        <i nz-icon nzType="search" (click)="setDefaultMenu(); stOrderList.load()"></i>
+        <i nz-icon nzType="close-circle" nzTheme="outline" (click)="reqParams.businessNo = ''"></i>
       </ng-template>
     </nz-input-group>
 
