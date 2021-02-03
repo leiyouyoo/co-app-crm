@@ -7,12 +7,18 @@
       </ng-template>
     </nz-input-group>
 
-    <nz-select [(ngModel)]="reqParams.agentType" [nzPlaceHolder]="'All types' | translate">
+    <nz-select [(ngModel)]="reqParams.agentType" nzAllowClear [nzPlaceHolder]="'All types' | translate">
       <nz-option [nzValue]="data" [nzLabel]="data" *ngFor="let data of keys()"></nz-option>
     </nz-select>
 
-    <nz-select [(ngModel)]="reqParams.creatorUserId" nzShowSearch nzServerSearch (nzOnSearch)="searchData($event)"
-      [nzPlaceHolder]="'All applicants' | translate">
+    <nz-select
+      [(ngModel)]="reqParams.creatorUserId"
+      nzShowSearch
+      nzServerSearch
+      nzAllowClear
+      (nzOnSearch)="searchData($event)"
+      [nzPlaceHolder]="'All applicants' | translate"
+    >
       <nz-option [nzValue]="data.id" [nzLabel]="data.userName" *ngFor="let data of userList"></nz-option>
     </nz-select>
 
@@ -32,22 +38,32 @@
 
 
         <ul nz-menu class="review-menu" nzMode="horizontal">
-          <li [nzSelected]="index === selectedMenuIndex" nz-menu-item *ngFor="let o of menuOfList; index as index"
-            (click)="onMenuListClick(o, index)">
+          <li
+            [nzSelected]="index === selectedMenuIndex"
+            nz-menu-item
+            *ngFor="let o of menuOfList; let index = index"
+            (click)="onMenuListClick(o)"
+          >
             {{ o.title | translate }}
             <span *ngIf="o.countIndex">({{ (stOrderList?.rawData && stOrderList.rawData[o.countIndex]) || 0 }})</span>
           </li>
         </ul>
 
         <div style="flex: 1; overflow: hidden; margin-bottom: 1em;">
-          <co-st #stOrderList [data]="listOfData" calcScroll disableCalcX [columns]="columns" [loading]="loading"
-            [total]="totalCount" [req]="{ process: stReqProcess, params: reqParams }" [page]="{ front: false }"
-            calcScroll disableCalcX columnDefaultWidth="100" (change)="onStChange($event)">
-            <ng-template st-row="no." let-data>
-              <a [innerHTML]="data.shipmentNo" (click)="goDetail(data)"></a>
-              <nz-tag *ngIf="data.hasChild" [nzColor]="'gold'">拼</nz-tag>
-              <nz-tag *ngIf="data.hasMergerd" [nzColor]="'blue'">合</nz-tag>
-            </ng-template>
+          <co-st
+            #stOrderList
+            [data]="listOfData"
+            calcScroll
+            disableCalcX
+            [columns]="columns"
+            [loading]="loading"
+            [total]="totalCount"
+            [page]="{ front: false }"
+            calcScroll
+            disableCalcX
+            columnDefaultWidth="100"
+            (change)="onStChange($event)"
+          >
           </co-st>
         </div>
 
