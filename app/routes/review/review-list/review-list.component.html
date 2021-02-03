@@ -3,7 +3,14 @@
     <nz-input-group style="width: 320px; margin: 12px 0 12px 12px;" [nzSuffix]="suffixIconSearch">
       <input type="text" nz-input [(ngModel)]="reqParams.businessNo" placeholder="{{ 'Business number' | translate }}" />
       <ng-template #suffixIconSearch>
-        <i nz-icon nzType="close-circle" nzTheme="outline" (click)="reqParams.businessNo = ''"></i>
+        <i
+          nz-icon
+          nzType="close-circle"
+          style="color: #999;"
+          nzTheme="outline"
+          (click)="reqParams.businessNo = ''"
+          *ngIf="reqParams.businessNo"
+        ></i>
       </ng-template>
     </nz-input-group>
 
@@ -28,15 +35,12 @@
 
   <co-page-layout>
     <co-page-main>
-
       <div style="height: 100%; display: flex; flex-direction: column;">
-
-
         <div>
-          <button nz-button nzType="default" (click)="clickAnswer()">{{'Bulk reply' | translate}}</button>
+          <div>
+            <button nz-button nzType="default" (click)="clickAnswer()">{{ 'Bulk reply' | translate }}</button>
+          </div>
         </div>
-
-
         <ul nz-menu class="review-menu" nzMode="horizontal">
           <li
             [nzSelected]="index === selectedMenuIndex"
@@ -64,6 +68,22 @@
             columnDefaultWidth="100"
             (change)="onStChange($event)"
           >
+            <ng-template st-row="status" let-data>
+              <span *ngIf="data.status == 0">
+                <div class="tap" style="background: #faad14;"></div>
+                {{ 'WaitingReply' | translate }}
+              </span>
+
+              <span *ngIf="data.status == 1">
+                <div class="tap" style="background: #30aa00;"></div>
+                {{ 'Pass' | translate }}
+              </span>
+
+              <span *ngIf="data.status == 2">
+                <div class="tap" style="background: #e55354;"></div>
+                {{ 'Reject' | translate }}
+              </span>
+            </ng-template>
           </co-st>
         </div>
 
