@@ -235,9 +235,11 @@ export class ReviewListComponent extends CoPageBase {
     this.getUsers(data);
   }
 
-<<<<<<< HEAD
-  onMenuListClick(data, i) { }
-
+  onMenuListClick(data) {
+    this.resetParam();
+    this.selectedMenuIndex = data.data;
+    this.getList();
+  }
 
   clickAnswer() {
     let ids = this.selectItem?.map(e => { return e.id })
@@ -261,12 +263,7 @@ export class ReviewListComponent extends CoPageBase {
       if (data) {
       }
     });
-=======
-  onMenuListClick(data) {
-    this.resetParam();
-    this.selectedMenuIndex = data.data;
-    this.getList();
->>>>>>> 951a1d49d46c96900e0ad0e8b3c9f949147d3f19
+
   }
   //#endregion
 }

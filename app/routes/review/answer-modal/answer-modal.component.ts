@@ -75,8 +75,6 @@ export class AnswerModalComponent extends CoPageBase {
   //#region 事件处理
   handleOk() {
 
-    debugger
-
     if (this.isPass && !this.customerId) {
       this.message.warning('请选择代理')
       return;
@@ -89,7 +87,7 @@ export class AnswerModalComponent extends CoPageBase {
       ids: this.id
     }).subscribe(res => {
       this.message.success(this.$L('Success'))
-      this.modalRef.close()
+      this.modalRef.close(true)
     })
   }
 
