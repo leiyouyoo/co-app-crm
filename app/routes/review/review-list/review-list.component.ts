@@ -246,6 +246,15 @@ export class ReviewListComponent extends CoPageBase {
     let ids = this.selectItem?.map((e) => {
       return e.id;
     });
+    let isPass = this.selectItem?.map((e => {
+      return e.status
+    }))
+
+    if (isPass.indexOf(1) != -1) {
+      this.message.warning('不能重复回复');
+      return;
+    }
+
     if (ids?.length > 0) {
       this.answer(null, ids);
     } else {
