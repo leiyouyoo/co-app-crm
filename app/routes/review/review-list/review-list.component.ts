@@ -137,15 +137,15 @@ export class ReviewListComponent extends CoPageBase {
     return keys.slice(keys.length / 2);
   }
 
-  coOnActived(): void {}
+  coOnActived(): void { }
 
-  coOnDeactived(): void {}
+  coOnDeactived(): void { }
 
-  coOnChanges(changes: SimpleChanges): void {}
+  coOnChanges(changes: SimpleChanges): void { }
 
-  coAfterViewInit(): void {}
+  coAfterViewInit(): void { }
 
-  coOnDestroy(): void {}
+  coOnDestroy(): void { }
 
   //#endregion
 
@@ -201,7 +201,7 @@ export class ReviewListComponent extends CoPageBase {
     this.getList();
   }
 
-  goDetail(e) {}
+  goDetail(e) { }
 
   getList() {
     let num = this.reqParams.skipCount - 1;
@@ -265,6 +265,7 @@ export class ReviewListComponent extends CoPageBase {
       })
       .afterClose.subscribe((data) => {
         if (data) {
+          this.getList();
         }
       });
   }
