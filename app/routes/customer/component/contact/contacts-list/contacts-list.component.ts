@@ -137,7 +137,8 @@ export class ContactsListComponent implements OnInit {
     }
     this.ssoRoleService
       .getParentOrChildrens({
-        type: 1,·
+        type: 1,
+        parentId: id,
       })
       .subscribe((res: any) => {
         this.rolesList = res.items;
