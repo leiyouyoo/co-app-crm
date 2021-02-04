@@ -18,7 +18,7 @@
         <div>申请时间：{{ data?.creationTime | date:'yyyy-MM-dd hh:mm:ss'}}</div>
       </div>
 
-      <nz-form-item style="margin-bottom: 12px;">
+      <nz-form-item style="margin-bottom: 12px;" *ngIf="data?.destinationAddress">
         <nz-form-label [nzSm]="3" nzFor="email">送货地址
         </nz-form-label>
         <nz-form-control [nzSm]="20" [nzErrorTip]="'Please enter' | translate">
