@@ -270,6 +270,7 @@ export class ReviewListComponent extends CoPageBase {
         nzComponentParams: {
           data: item,
           id: id,
+          countryId: item ? item?.countryId : null
         },
       })
       .afterClose.subscribe((data) => {
