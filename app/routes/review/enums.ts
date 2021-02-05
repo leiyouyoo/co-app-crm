@@ -26,7 +26,7 @@ export enum ReviewAgentType {
   /// <summary>
   /// Normal
   /// </summary>
-  Normal = 0,
+  ReviewNormal = 0,
 
   /// <summary>
   /// ThirdParty
