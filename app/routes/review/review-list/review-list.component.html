@@ -71,17 +71,17 @@
           >
             <ng-template st-row="status" let-data>
               <span *ngIf="data.status == 0">
-                <div class="tap" style="background: #faad14;"></div>
+                <div class="tap" style="background: #1890FF;"></div>
                 {{ 'WaitingReply' | translate }}
               </span>
 
               <span *ngIf="data.status == 1">
-                <div class="tap" style="background: #30aa00;"></div>
+                <div class="tap" style="background: #52C41A;"></div>
                 {{ 'Pass' | translate }}
               </span>
 
               <span *ngIf="data.status == 2">
-                <div class="tap" style="background: #e55354;"></div>
+                <div class="tap" style="background: #FF4D4F;"></div>
                 {{ 'Reject' | translate }}
               </span>
             </ng-template>

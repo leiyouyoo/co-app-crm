@@ -89,7 +89,7 @@ export class ReviewListComponent extends CoPageBase {
     {
       title: 'Action',
       type: 'action',
-      width: 150,
+      width: 60,
       fixed: 'right',
       className: 'no-line-through',
       buttons: [
