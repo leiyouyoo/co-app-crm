@@ -22,10 +22,8 @@ export class AnswerModalComponent extends CoPageBase {
   customerId: any = null;
   remark: any = null;
   id: any;
-  customerFilter: any = {
-    CustomerType: 3,
-  };
-
+  countryId: any;
+  customerFilter: any = {}
   AgentTypePipi: any = {
     '0': '普通',
     '1': '第三方代理',
@@ -57,6 +55,12 @@ export class AnswerModalComponent extends CoPageBase {
         nzTitle: '回复'
       })
     })
+
+    this.customerFilter = {
+      countryId: this.countryId,
+      CustomerType: 3,
+    }
+
   }
 
   coOnActived(): void { }
