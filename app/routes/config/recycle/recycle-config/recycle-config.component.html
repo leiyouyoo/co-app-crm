@@ -1,0 +1,161 @@
+<nz-spin [nzSpinning]="loading">
+  <div>
+    <button nzSize="small" nz-button *ngIf="!editing" (click)="editing=!editing"
+            nzType="primary">{{"Edit"|translate}}</button>
+    <button *ngIf="editing" nzSize="small" nz-button (click)="editing = false;"
+            nzType="primary">{{"Apply"|translate}}</button>
+    <button *ngIf="editing" nzSize="small" nz-button (click)="editing = false;"
+            nzType="default">{{"Cancel"|translate}}</button>
+  </div>
+  <div class="define-customer-type">
+    <h5><i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
+           [style.transform]="!showBasicInfo?'rotate(180deg)':'unset'"
+           (click)="showBasicInfo = !showBasicInfo"></i>公海池基本属性</h5>
+    <ng-container *ngIf="showBasicInfo">
+      <!--      公海负责人-->
+      <nz-form-item>
+        <nz-form-label nzRequired class="define-customer-title">公海负责人</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <div style="line-height: 32px;">已选择 32 个部门 12个 成员</div>
+          <nz-tree-select required style="width: 320px;" nzSize="small" [nzDropdownStyle]="{'max-height':'400px'}" [nzNodes]="personList" nzShowSearch
+                          nzShowLine
+                          nzAllowClear nzHideUnMatched
+                          [nzPlaceHolder]="'Please select' | translate"
+                          [(ngModel)]="validateForm.personLiableList">
+          </nz-tree-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired class="define-customer-title">设置公海类型:</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-radio-group [(ngModel)]="validateForm.highSeasPondType">
+            <div style="display: flex;align-items: center;">
+              <label style="display: block;" nz-radio
+                     [nzValue]="0">系统随机分配型（系统主动推送公海客户给成员，公海成员可见可领取公海客户，也可由公海负责人分配）</label>
+              <nz-divider nzType="vertical"></nz-divider>
+              <label>随机分配数量:<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.highSeasPondType_RandomAllocationNumber"/>条/
+                <nz-select nzSize="small" style="width: 80px;" [(ngModel)]="validateForm.highSeasPondType_RandomAllocationUnit">
+                  <nz-option nzValue="day" nzLabel="天"></nz-option>
+                  <nz-option nzValue="week" nzLabel="周"></nz-option>
+                  <nz-option nzValue="month" nzLabel="月"></nz-option>
+                </nz-select>
+              </label>
+            </div>
+            <label style="display: block;" nz-radio [nzValue]="1">主动领取型公海（公海成员可见可领取公海客户，也可由公海负责人分配）</label>
+            <label style="display: block;" nz-radio [nzValue]="2">人工分配型公海（公海成员不可见公海客户，由公海负责人负责人分配）</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired class="define-customer-title">添加公海成员:</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <div style="line-height: 32px;">已选择 32 个部门 12个 成员</div>
+          <nz-tree-select required style="width: 320px;" nzSize="small" [nzDropdownStyle]="{'max-height':'400px'}" [nzNodes]="personList" nzShowSearch
+                          nzShowLine
+                          nzAllowClear nzHideUnMatched
+                          [nzPlaceHolder]="'Please select' | translate"
+                          [(ngModel)]="validateForm.highSeasPondUsers">
+          </nz-tree-select>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
+    <h5><i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
+           [style.transform]="!showRecycle?'rotate(180deg)':'unset'"
+           (click)="showRecycle = !showRecycle"></i>公海池智能回收规则</h5>
+    <ng-container *ngIf="showRecycle">
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">客资领取上限</nz-form-label>
+        <nz-form-control>
+          <label><input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.customerCapitalNum"/>个客户/人/
+            <nz-select nzSize="small" style="width: 80px;" [(ngModel)]="validateForm.customerCapitalUnit">
+              <nz-option nzValue="day" nzLabel="天"></nz-option>
+              <nz-option nzValue="week" nzLabel="周"></nz-option>
+              <nz-option nzValue="month" nzLabel="月"></nz-option>
+            </nz-select>
+            <span class="explanation">（客资包含：成交客户、潜在客户）</span>
+            <nz-divider nzType="vertical"></nz-divider>
+            累计总数不超过：<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.customerCapitalTotal"/>个客户/人
+          </label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">连续领取规则</nz-form-label>
+        <nz-form-control>
+          <label><input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.dayLimit"/>天内，不能领取同一个客户
+            <span class="explanation">（客户被主动退回或被动回收后一定时间内不能再领取该客户）</span>
+          </label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">自动回收规则</nz-form-label>
+        <nz-form-control>
+          <div style="display: flex;align-items: stretch;">
+            <div>
+              <article>潜在客户:</article>
+              <div style="line-height: 32px;">1.获取之后<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Potential_NotFollowedDays"/>天没有持续跟进的客户
+                <span class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
+              </div>
+              <div style="line-height: 32px;">或<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Potential_NotDealDays"/>天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
+              </div>
+            </div>
+            <nz-divider style="height: unset;" nzType="vertical"></nz-divider>
+            <div>
+              <article>成交客户:</article>
+              <div>
+                <div style="line-height: 32px;">1.获取之后<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Obtain_NotFollowedDays"/>天没有持续跟进的客户<span class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
+                </div>
+                <div style="line-height: 32px;">或<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Obtain_NotDealDays"/>天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
+                </div>
+              </div>
+              <div>
+                <div style="line-height: 32px;">2.成交之后<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Deal_NotFollowedDays"/>天没有持续跟进的客户
+                </div>
+                <div style="line-height: 32px;">或<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recovery_Deal_NotDealDays"/>天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">设置认领规则</nz-form-label>
+        <nz-form-control>
+          <label nz-checkbox (ngModelChange)="chang($event,1)" [(ngModel)]="claimRules.potential">潜在客户认领后，潜在客户状态重置；</label>
+          <label nz-checkbox (ngModelChange)="chang($event,1)" [(ngModel)]="claimRules.obtain">已成交客户认领后，保留历史成员的成交记录；</label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">设置成交定义</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group [(ngModel)]="validateForm.setingDealDefinition">
+            <label nz-radio [nzValue]="0">生成运单</label>
+            <label nz-radio [nzValue]="1">创建订单</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">即将回收提醒</nz-form-label>
+        <nz-form-control>
+          <label>提前<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.recallReminderDays"/>天系统通知客户所有人即将回收客户
+          </label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="define-customer-title">客户冻结规则</nz-form-label>
+        <nz-form-control>
+          <label>连续退回<input nzSize="small" style="width: 50px" nz-input [(ngModel)]="validateForm.returnTimesFreeze"/>次的客户将被冻结<span class="explanation">（被冻结客户，解冻前客户不能分配给用户跟进）</span>
+          </label>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+  </div>
+</nz-spin>
