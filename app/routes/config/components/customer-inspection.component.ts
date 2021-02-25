@@ -168,7 +168,6 @@ export class CustomerInspectionComponent extends CoPageBase implements OnInit {
       this.$message.success(this.$L('Save successfully'));
       this.loading = false;
     }, () => this.loading = true)
-    ;
   }
 
   setValue(initValue = false) {

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMCheckConfigure,CRMQueryConnectionCustomerInput,CRMCheckCustomerDto } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMTransferCustomerInput,CRMTurnCustomerSeaInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -34,7 +34,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -109,7 +109,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetShares')
     getShares(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -124,7 +124,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetShareSources')
     getShareSources(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -139,7 +139,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetOwnerlessCustomer')
     getOwnerlessCustomer(
         @Payload
-        _req: {searchText?:string,customerOwnerIds?:any[],isCooperation?:boolean,includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMOwnerLessPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -357,12 +357,42 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/RecoverDelete
+     * 恢复客户--仅恢复客户
+     */
+
+    @POST('RecoverDelete')
+    recoverDelete(
+        @Payload
+        _req:CRMCoEntityDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/SetDangerCustomer
      * 设为危险客户
      */
 
     @POST('SetDangerCustomer')
     setDangerCustomer(
+        @Payload
+        _req:CRMCoEntityDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/RecoverSetDangerCustomer
+     * 取消危险客户
+     */
+
+    @POST('RecoverSetDangerCustomer')
+    recoverSetDangerCustomer(
         @Payload
         _req:CRMCoEntityDto
 
@@ -561,6 +591,36 @@ export class CRMCustomerService extends BaseApi {
         @Payload
         _req:CRMMergeCustomerInput
 
+    ): Observable<CRMMergeCustomerInput> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetCustomerMergeLogs
+     * 获取客户合并记录
+     */
+
+    @GET('GetCustomerMergeLogs')
+    getCustomerMergeLogs(
+        @Payload
+        _req: {customerId?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/RemergeCustomer
+     * 撤销合并
+     */
+
+    @POST('RemergeCustomer')
+    remergeCustomer(
+        @Payload
+        _req:CRMRemergeCustomerInput
+
     ): Observable<any> {
         return null as any
     }
@@ -597,6 +657,81 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/SaveHighSeasPondSetting
+     * 保存公海池配置
+     */
+
+    @POST('SaveHighSeasPondSetting')
+    saveHighSeasPondSetting(
+        @Payload
+        _req:CRMCustomerHighSeasPondSettingDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetHighSeasPondSetting
+     * 获取配置信息
+     */
+
+    @GET('GetHighSeasPondSetting')
+    getHighSeasPondSetting(
+        @Payload
+        _req: {} 
+
+    ): Observable<CRMCustomerHighSeasPondSettingDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/BulkClaimCustomer
+     * 业务员认领客户(无论是否分配给自己都可以认领)
+     */
+
+    @POST('BulkClaimCustomer')
+    bulkClaimCustomer(
+        @Payload
+        _req:CRMClaimCustomerInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/BulkTransferCustomer
+     * 转让客户
+     */
+
+    @POST('BulkTransferCustomer')
+    bulkTransferCustomer(
+        @Payload
+        _req:CRMTransferCustomerInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/BulkTurnCustomerSea
+     * 客户转移到公海(自己的客户才有权限)
+     */
+
+    @POST('BulkTurnCustomerSea')
+    bulkTurnCustomerSea(
+        @Payload
+        _req:CRMTurnCustomerSeaInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/QueryConnectionCustomer
      * 获取可用关联客户列表
      */
@@ -612,6 +747,66 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/CustomerCommunalCheckAsync
+     * 通用验证客户数据
+     */
+
+    @POST('CustomerCommunalCheckAsync')
+    customerCommunalCheckAsync(
+        @Payload
+        _req:CRMCustomerCommunalCheckInput
+
+    ): Observable<CRMCheckCustomerDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/FAMGetCustomerDetail
+     * 客户详情
+     */
+
+    @GET('FAMGetCustomerDetail')
+    fAMGetCustomerDetail(
+        @Payload
+        _req: {id?:string} 
+
+    ): Observable<CRMFAMCustomerDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/FAMUpdate
+     * 更新客户数据
+     */
+
+    @POST('FAMUpdate')
+    fAMUpdate(
+        @Payload
+        _req:CRMCreateOrUpdateCustomerInput
+
+    ): Observable<CRMCustomerOutput> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/FAMCreate
+     * 创建客户
+     */
+
+    @POST('FAMCreate')
+    fAMCreate(
+        @Payload
+        _req:CRMCreateOrUpdateCustomerInput
+
+    ): Observable<CRMCustomerOutput> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/CustomerCheckAsync
      * 验证客户数据
      */
@@ -622,6 +817,51 @@ export class CRMCustomerService extends BaseApi {
         _req:CRMCreateOrUpdateCustomerInput
 
     ): Observable<CRMCheckCustomerDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/ApprovalRenaming
+     * 审批改名
+     */
+
+    @POST('ApprovalRenaming')
+    approvalRenaming(
+        @Payload
+        _req:CRMCustomerRenamingApprovalInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/ApplyRenamingDetail
+     * 申请改名详情
+     */
+
+    @GET('ApplyRenamingDetail')
+    applyRenamingDetail(
+        @Payload
+        _req: {id?:string} 
+
+    ): Observable<CRMRenamingDetailDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/ApplyRenaming
+     * 客户名称变更申请
+     */
+
+    @POST('ApplyRenaming')
+    applyRenaming(
+        @Payload
+        _req:CRMCustomerApplyModifyNameInput
+
+    ): Observable<any> {
         return null as any
     }
 

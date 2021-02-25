@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NzTreeNodeOptions } from 'ng-zorro-antd';
 import { pendingOrDone } from '../../../../../../platform/app/shared';
 import { map } from 'rxjs/operators';
 import { PlatformOrganizationUnitDto } from '@co/cds';
-import { CoPageBase } from '@co/core';
-import { CRMContactIMService } from '../../../../services/crm';
+import { CoPageBase, debounce } from '@co/core';
+import { CRMContactIMService, CRMCustomerHighSeasPondSettingDto, CRMCustomerService } from '../../../../services/crm';
 import { _HttpClient } from '@co/common';
 
 @Component({
@@ -14,15 +14,16 @@ import { _HttpClient } from '@co/common';
   styleUrls: ['./recycle-config.component.less'],
 })
 export class RecycleConfigComponent extends CoPageBase implements OnInit {
+  @ViewChild('recycleForm', { static: true }) recycleForm: NgForm;
   loading = false;
   editing = false;
   showBasicInfo = true;
   showRecycle = true;
-  validateForm = {
+  validateForm: CRMCustomerHighSeasPondSettingDto = {
     personLiableList: [], //负责人集合
     personLiableDeptCount: null,//部门数量
     personLiableCount: null,//负责人数量
-    highSeasPondType: 0,//设置公海类型
+    highSeasPondType: '0',//设置公海类型
     highSeasPondType_RandomAllocationNumber: null,//设置公海类型
     highSeasPondType_RandomAllocationUnit: null,//设置公海单位
     highSeasPondUsers: [],//公海用户成员
@@ -48,23 +49,61 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
     potential: false,
     obtain: false,
   };
+  userListParams = {
+    isLoading: true,
+    maxResultCount: 20,
+    skipCount: 0,
+    name: null,
+  };
+  userList = [];
   personList: NzTreeNodeOptions[] = [];
 
   constructor(private fb: FormBuilder, injector: Injector,
-              private cdr: ChangeDetectorRef, private _httpClient: _HttpClient) {
+              private cdr: ChangeDetectorRef, private _httpClient: _HttpClient, private crmCustomerService: CRMCustomerService) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.loadPerson();
-    this.validateForm.settingClaimRules.forEach(e => {
-      if (e == 0) {
-        this.claimRules.potential = true;
-      }
-      if (e == 1) {
-        this.claimRules.obtain = true;
-      }
-    });
+    this.getSetting();
+  }
+
+  getSetting() {
+    this.loading = true;
+    this.crmCustomerService.getHighSeasPondSetting({}).subscribe(r => {
+        this.loading = false;
+        this.validateForm = r;
+        this.validateForm.settingClaimRules?.forEach(e => {
+          if (e == 0) {
+            this.claimRules.potential = true;
+          }
+          if (e == 1) {
+            this.claimRules.obtain = true;
+          }
+        });
+      }, () => this.loading = false,
+    );
+  }
+
+  validate() {
+    // tslint:disable-next-line: forin
+    for (const i in this.recycleForm.controls) {
+      this.recycleForm.controls[i].markAsDirty();
+      this.recycleForm.controls[i].updateValueAndValidity();
+    }
+    return this.recycleForm.valid;
+  }
+
+  updateSetting() {
+    if (!this.validate()) {
+      return;
+    }
+    this.loading = true;
+    this.crmCustomerService.saveHighSeasPondSetting(this.validateForm).subscribe((res) => {
+      this.$message.success(this.$L('Save successfully'));
+      this.loading = false;
+      this.editing = false;
+    }, () => this.loading = false);
   }
 
   // 获取公司内部组织架构员工
@@ -85,8 +124,8 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
         const result = { rootNodes: [], flattenNodes: [] };
         const conventPersonUnitToTreeNode = (unit: PlatformOrganizationUnitDto, parent): NzTreeNodeOptions => {
           const nzTreeNode: NzTreeNodeOptions = {
-            title: unit.displayNameLocalization,
-            key: unit.id,
+            title: unit.name || unit.companyName,
+            key: unit.userId,
             level: unit.level,
             selectable: false,
             disableCheckbox: disableCheckbox ? true : unit.level == 1,
@@ -126,8 +165,33 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
   }
 
   chang(e, type) {
-    this.validateForm.settingClaimRules = this.validateForm.settingClaimRules.filter(ele => {
+    this.validateForm.settingClaimRules = this.validateForm.settingClaimRules?.filter(ele => {
       return ele == type && e;
     });
+  }
+
+  /**
+   * 获取客户所有人数据
+   * @param name
+   * @param loadMore
+   */
+  @debounce(1000)
+  getCityOceanUsers(name, loadMore = false) {
+    this.userListParams.isLoading = true;
+    this.userListParams.maxResultCount = 20;
+    if (!loadMore) {
+      this.userListParams.skipCount = 0;
+      this.userListParams.name = name;
+      this.userList = [];
+    }
+    this._httpClient.get('/SSO/User/GetAllActiveUserBySearch', { searchText: name }).subscribe((r: any) => {
+      this.userListParams.isLoading = false;
+      if (loadMore) {
+        this.userList = [...this.userList, ...r];
+      } else {
+        this.userList = r;
+      }
+      this.cdr.detectChanges();
+    }, e => this.userListParams.isLoading = false);
   }
 }

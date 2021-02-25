@@ -19,7 +19,7 @@ export class CRMCustomerSolutionService extends BaseApi {
     @GET('GetApplyList')
     getApplyList(
         @Payload
-        _req: { status?:number, businessNo?:string,agentType?:number,creatorUserId?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {businessNo?:string,agentType?:number,status?:number,creatorUserId?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerSolutionApplyListDto>> {
         return null as any

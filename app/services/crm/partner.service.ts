@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMPartnerDto,CRMPagedResultDto1,CRMPartnerListDto,CRMCreateOrUpdatePartnerDto,CRMPartnerBindCustomerInput,CRMUnBindCustomerInput } from './crm.types';
+import { CRMPartnerDto,CRMPagedResultDto1,CRMPartnerListDto,CRMCustomerPagedAndSortedInput,CRMCreateOrUpdatePartnerDto,CRMPartnerBindCustomerInput,CRMUnBindCustomerInput } from './crm.types';
 
 @BaseUrl('/CRM/Partner')
 @Injectable({ providedIn: 'root' })
@@ -35,6 +35,21 @@ export class CRMPartnerService extends BaseApi {
     getAll(
         @Payload
         _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Partner/FAMGetAll
+     * 分页获取客户下的合作伙伴
+     */
+
+    @POST('FAMGetAll')
+    fAMGetAll(
+        @Payload
+        _req:CRMCustomerPagedAndSortedInput
 
     ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
         return null as any
