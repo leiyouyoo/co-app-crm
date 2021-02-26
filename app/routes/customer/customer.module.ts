@@ -11,7 +11,6 @@ import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerSourceComponent } from './component-old/customer-source/customer-source.component';
 import { RelationPositionComponent } from './component-old/relation-position/relation-position.component';
 import { CreateContactsComponent } from './component-old/contact/create-contacts/create-contacts.component';
-import { CreateLocationComponent } from './component-old/location/create-location/create-location.component';
 import { RelationContactComponent } from './component-old/relation-contact/relation-contact.component';
 import { ShareDetailsComponent } from './component-old/shared-details/shared-details.component';
 import { UnownedDetailComponent } from './component-old/unowned-detial/unowned-detial.component';
@@ -38,6 +37,7 @@ import { ContactDetailComponent } from './component/contact/contact-detail/conta
 import { CreatePotentialCustomerComponent } from './component/customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
 import { HighlightPipe } from './pipe/heightLight';
 import { CoCascaderModule } from '@co/cbc';
+import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -50,7 +50,6 @@ const COMPONENTS = [
   CustomerPartnerComponent,
   PartnerBindCustomerComponent,
   CreateContactsComponent,
-  CreateLocationComponent,
   ShareDetailsComponent,
   UnownedDetailComponent,
   NodealDetailComponent,
@@ -76,7 +75,7 @@ const NEWCOMPONENTS = [
 const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule,CoCascaderModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule,CoCascaderModule,NzAnchorModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
