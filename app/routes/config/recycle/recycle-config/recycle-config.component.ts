@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { NzTreeNodeOptions } from 'ng-zorro-antd';
+import { NzTreeNodeOptions, NzTreeSelectComponent } from 'ng-zorro-antd';
 import { pendingOrDone } from '../../../../../../platform/app/shared';
 import { map } from 'rxjs/operators';
 import { PlatformOrganizationUnitDto } from '@co/cds';
@@ -15,6 +15,8 @@ import { _HttpClient } from '@co/common';
 })
 export class RecycleConfigComponent extends CoPageBase implements OnInit {
   @ViewChild('recycleForm', { static: true }) recycleForm: NgForm;
+  @ViewChild('seasPondUsers', { static: false }) seasPondUsers: NzTreeSelectComponent;
+  @ViewChild('personLiable', { static: false }) personLiable: NzTreeSelectComponent;
   loading = false;
   editing = false;
   showBasicInfo = true;
@@ -98,6 +100,32 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
     if (!this.validate()) {
       return;
     }
+    const getChecked = (nodes, arr, type) => {
+      nodes.forEach(node => {
+        if (node.origin?.dataType == 2) {
+          switch (type) {
+            case 1: {
+              this.validateForm.personLiableDeptCount++;
+              break;
+            }
+            case 2: {
+              this.validateForm.highSeasPondDeptCount++;
+              break;
+            }
+          }
+        }
+        if (node._children?.length) {
+          getChecked(node._children, arr, type);
+        } else {
+          arr.push(node.origin.objId);
+        }
+      });
+      return arr;
+    };
+    this.validateForm.personLiableList = getChecked(this.personLiable.getCheckedNodeList(), [], 1);
+    this.validateForm.personLiableCount = this.validateForm.personLiableList.length;
+    this.validateForm.highSeasPondUsers = getChecked(this.seasPondUsers.getCheckedNodeList(), [], 2);
+    this.validateForm.highSeasPondUserCount = this.validateForm.highSeasPondUsers.length;
     this.loading = true;
     this.crmCustomerService.saveHighSeasPondSetting(this.validateForm).subscribe((res) => {
       this.$message.success(this.$L('Save successfully'));
@@ -110,7 +138,7 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
   getUsersAndOrganizationUnit(input?) {
     const param: any = {};
     if (input) param.inpupt = input;
-    const url = `/Platform/OrganizationUnit/GetUsersAndOrganizationUnit`;
+    const url = `/Platform/OrganizationUnit/GetOrganizationUnitDeptUsers`;
     return this._httpClient.get(url, param);
   }
 
@@ -124,11 +152,9 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
         const result = { rootNodes: [], flattenNodes: [] };
         const conventPersonUnitToTreeNode = (unit: PlatformOrganizationUnitDto, parent): NzTreeNodeOptions => {
           const nzTreeNode: NzTreeNodeOptions = {
-            title: unit.name || unit.companyName,
-            key: unit.userId,
+            title: unit.localizationName || unit.name,
+            key: unit.code || unit.objId,
             level: unit.level,
-            selectable: false,
-            disableCheckbox: disableCheckbox ? true : unit.level == 1,
             expanded: unit.level == 1,
             parent,
             ...unit,
@@ -138,7 +164,7 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
           result.flattenNodes.unshift(nzTreeNode); // 这里用unshift而不是push，确保父部门排在子部门前面
           return nzTreeNode;
         };
-        result.rootNodes = value.items.map((item) => conventPersonUnitToTreeNode(item, null));
+        result.rootNodes = value.map((item) => conventPersonUnitToTreeNode(item, null));
         return result;
       }),
     );
@@ -158,9 +184,6 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
       .pipe(pendingOrDone(this.onFetching))
       .subscribe((v) => {
         this.personList = v.rootNodes;
-        v.flattenNodes.forEach(node => {
-          node.selectable = true;
-        });
       });
   }
 

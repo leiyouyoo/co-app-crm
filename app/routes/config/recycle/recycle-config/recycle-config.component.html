@@ -16,33 +16,23 @@
       <nz-form-item>
         <nz-form-label nzRequired class="define-customer-title">公海负责人</nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <div style="line-height: 32px;">已选择 32 个部门 12个 成员</div>
-          <nz-select [nzDisabled]="!editing"
-                     name="personLiableList"
-                     required
-                     nzShowSearch
-                     nzServerSearch
-                     nzMode="multiple"
-                     (nzOnSearch)="getCityOceanUsers($event)"
-                     [(ngModel)]="validateForm.personLiableList"
-                     nzPlaceHolder="{{ 'Please select' | translate }}"
-          >
-            <nz-option *ngFor="let item of userList"
-                       [nzLabel]="item.surnameLocalization+ ' ' + item.nameLocalization"
-                       [nzValue]="item.id"></nz-option>
-          </nz-select>
-          <!--          <nz-tree-select required style="width: 320px;" nzSize="small" [nzDropdownStyle]="{'max-height':'400px'}"-->
-          <!--                          [nzNodes]="personList" nzShowSearch-->
-          <!--                          nzShowLine-->
-          <!--                          nzCheckable-->
-          <!--                          [nzMaxTagCount]="3"-->
-          <!--                          [nzMultiple]="true"-->
-          <!--                          [nzMaxTagPlaceholder]="omittedPlaceHolder"-->
-          <!--                          nzAllowClear nzHideUnMatched-->
-          <!--          name="personLiableList"-->
-          <!--                          [nzPlaceHolder]="'Please select' | translate"-->
-          <!--                          [(ngModel)]="validateForm.personLiableList">-->
-          <!--          </nz-tree-select>-->
+          <div style="line-height: 32px;">已选择 {{validateForm.personLiableDeptCount}}
+            个部门 {{validateForm.personLiableCount}}个成员
+          </div>
+          <nz-tree-select #personLiable required style="width: 320px;" nzSize="small"
+                          [nzDropdownStyle]="{'max-height':'400px'}"
+                          [nzNodes]="personList" nzShowSearch
+                          [nzDisabled]="!editing"
+                          nzShowLine
+                          nzCheckable
+                          [nzMaxTagCount]="3"
+                          [nzMultiple]="true"
+                          [nzMaxTagPlaceholder]="omittedPlaceHolder"
+                          [nzAllowClear]="editing" nzHideUnMatched
+                          name="personLiableList"
+                          [nzPlaceHolder]="'Please select' | translate"
+                          [(ngModel)]="validateForm.personLiableList">
+          </nz-tree-select>
           <ng-template #omittedPlaceHolder let-omittedValues> + {{ omittedValues.length }}...</ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -53,11 +43,13 @@
           <nz-radio-group [disabled]="!editing" name="highSeasPondType" [(ngModel)]="validateForm.highSeasPondType">
             <div style="display: flex;align-items: center;">
               <label style="display: block;" nz-radio
-                     [nzValue]="0">系统随机分配型（系统主动推送公海客户给成员，公海成员可见可领取公海客户，也可由公海负责人分配）</label>
+                     nzValue="0">系统随机分配型（系统主动推送公海客户给成员，公海成员可见可领取公海客户，也可由公海负责人分配）</label>
               <nz-divider nzType="vertical"></nz-divider>
-              <label>随机分配数量:<input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input
-                                   name="highSeasPondType_RandomAllocationNumber"
-                                   [(ngModel)]="validateForm.highSeasPondType_RandomAllocationNumber"/>条/
+              <label>随机分配数量:
+                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                 name="highSeasPondType_RandomAllocationNumber"
+                                 [(ngModel)]="validateForm.highSeasPondType_RandomAllocationNumber"></nz-input-number>
+                条/
                 <nz-select [nzDisabled]="!editing" nzSize="small" style="width: 80px;"
                            name="highSeasPondType_RandomAllocationUnit"
                            [(ngModel)]="validateForm.highSeasPondType_RandomAllocationUnit">
@@ -67,8 +59,8 @@
                 </nz-select>
               </label>
             </div>
-            <label style="display: block;" nz-radio [nzValue]="1">主动领取型公海（公海成员可见可领取公海客户，也可由公海负责人分配）</label>
-            <label style="display: block;" nz-radio [nzValue]="2">人工分配型公海（公海成员不可见公海客户，由公海负责人负责人分配）</label>
+            <label style="display: block;" nz-radio nzValue="1">主动领取型公海（公海成员可见可领取公海客户，也可由公海负责人分配）</label>
+            <label style="display: block;" nz-radio nzValue="2">人工分配型公海（公海成员不可见公海客户，由公海负责人负责人分配）</label>
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -76,34 +68,24 @@
       <nz-form-item>
         <nz-form-label nzRequired class="define-customer-title">添加公海成员:</nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <div style="line-height: 32px;">已选择 32 个部门 12个 成员</div>
-          <!--          <nz-tree-select required style="width: 320px;" nzSize="small" [nzDropdownStyle]="{'max-height':'400px'}"-->
-          <!--                          [nzNodes]="personList" nzShowSearch-->
-          <!--                          nzCheckable-->
-          <!--                          [nzMaxTagCount]="3"-->
-          <!--                          [nzMultiple]="true"-->
-          <!--                          [nzMaxTagPlaceholder]="omittedPlaceHolder1"-->
-          <!--                          nzShowLine-->
-          <!--                          nzAllowClear nzHideUnMatched-->
-          <!--          name="highSeasPondUsers"-->
-          <!--                          [nzPlaceHolder]="'Please select' | translate"-->
-          <!--                          [(ngModel)]="validateForm.highSeasPondUsers">-->
-          <!--          </nz-tree-select>-->
-          <!--          <ng-template #omittedPlaceHolder1 let-omittedValues> + {{ omittedValues.length }}... </ng-template>-->
-          <nz-select [nzDisabled]="!editing"
-                     nzShowSearch
-                     required
-                     nzServerSearch
-                     nzMode="multiple"
-                     name="highSeasPondUsers"
-                     (nzOnSearch)="getCityOceanUsers($event)"
-                     [(ngModel)]="validateForm.highSeasPondUsers"
-                     nzPlaceHolder="{{ 'Please select' | translate }}"
-          >
-            <nz-option *ngFor="let item of userList"
-                       [nzLabel]="item.surnameLocalization+ ' ' + item.nameLocalization"
-                       [nzValue]="item.id"></nz-option>
-          </nz-select>
+          <div style="line-height: 32px;">已选择 {{validateForm.highSeasPondDeptCount}}
+            个部门 {{validateForm.highSeasPondUserCount}}个成员
+          </div>
+          <nz-tree-select #seasPondUsers required style="width: 320px;" nzSize="small"
+                          [nzDropdownStyle]="{'max-height':'400px'}"
+                          [nzNodes]="personList" nzShowSearch
+                          nzCheckable
+                          [nzDisabled]="!editing"
+                          [nzMaxTagCount]="3"
+                          [nzMultiple]="true"
+                          [nzMaxTagPlaceholder]="omittedPlaceHolder1"
+                          nzShowLine
+                          [nzAllowClear]="editing" nzHideUnMatched
+                          name="highSeasPondUsers"
+                          [nzPlaceHolder]="'Please select' | translate"
+                          [(ngModel)]="validateForm.highSeasPondUsers">
+          </nz-tree-select>
+          <ng-template #omittedPlaceHolder1 let-omittedValues> + {{ omittedValues.length }}...</ng-template>
         </nz-form-control>
       </nz-form-item>
     </ng-container>
@@ -115,8 +97,10 @@
       <nz-form-item>
         <nz-form-label class="define-customer-title">客资领取上限</nz-form-label>
         <nz-form-control>
-          <label><input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input name="customerCapitalNum"
-                        [(ngModel)]="validateForm.customerCapitalNum"/>个客户/人/
+          <label>
+            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalNum"
+                             [(ngModel)]="validateForm.customerCapitalNum"></nz-input-number>
+            个客户/人/
             <nz-select [nzDisabled]="!editing" nzSize="small" style="width: 80px;" name="customerCapitalUnit"
                        [(ngModel)]="validateForm.customerCapitalUnit">
               <nz-option nzValue="天" nzLabel="天"></nz-option>
@@ -125,8 +109,10 @@
             </nz-select>
             <span class="explanation">（客资包含：成交客户、潜在客户）</span>
             <nz-divider nzType="vertical"></nz-divider>
-            累计总数不超过：<input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input name="customerCapitalTotal"
-                           [(ngModel)]="validateForm.customerCapitalTotal"/>个客户/人
+            累计总数不超过：
+            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalTotal"
+                             [(ngModel)]="validateForm.customerCapitalTotal"></nz-input-number>
+            个客户/人
           </label>
         </nz-form-control>
       </nz-form-item>
@@ -134,8 +120,10 @@
       <nz-form-item>
         <nz-form-label class="define-customer-title">连续领取规则</nz-form-label>
         <nz-form-control>
-          <label><input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input name="dayLimit"
-                        [(ngModel)]="validateForm.dayLimit"/>天内，不能领取同一个客户
+          <label>
+            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="dayLimit"
+                             [(ngModel)]="validateForm.dayLimit"></nz-input-number>
+            天内，不能领取同一个客户
             <span class="explanation">（客户被主动退回或被动回收后一定时间内不能再领取该客户）</span>
           </label>
         </nz-form-control>
@@ -147,41 +135,54 @@
           <div style="display: flex;align-items: stretch;">
             <div>
               <article>潜在客户:</article>
-              <div style="line-height: 32px;">1.获取之后<input [readOnly]="!editing" nzSize="small" style="width: 50px"
-                                                           nz-input name="recovery_Potential_NotFollowedDays"
-                                                           [(ngModel)]="validateForm.recovery_Potential_NotFollowedDays"/>天没有持续跟进的客户
+              <div style="line-height: 32px;">1.获取之后
+                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                 name="recovery_Potential_NotFollowedDays"
+                                 [(ngModel)]="validateForm.recovery_Potential_NotFollowedDays"></nz-input-number>
+                天没有持续跟进的客户
                 <span class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
               </div>
-              <div style="line-height: 32px;">或<input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input
-                                                      name="recovery_Potential_NotDealDays"
-                                                      [(ngModel)]="validateForm.recovery_Potential_NotDealDays"/>天没有成交的客户<span
-                class="explanation">（设置天数必须大于上一项）</span>
+              <div style="line-height: 32px;">或
+                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                 name="recovery_Potential_NotDealDays"
+                                 [nzMin]="validateForm.recovery_Potential_NotFollowedDays"
+                                 [(ngModel)]="validateForm.recovery_Potential_NotDealDays"></nz-input-number>
+                天没有成交的客户<span
+                  class="explanation">（设置天数必须大于上一项）</span>
               </div>
             </div>
             <nz-divider style="height: unset;" nzType="vertical"></nz-divider>
             <div>
               <article>成交客户:</article>
               <div>
-                <div style="line-height: 32px;">1.获取之后<input [readOnly]="!editing" nzSize="small" style="width: 50px"
-                                                             nz-input name="recovery_Obtain_NotFollowedDays"
-                                                             [(ngModel)]="validateForm.recovery_Obtain_NotFollowedDays"/>天没有持续跟进的客户<span
-                  class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
+                <div style="line-height: 32px;">1.获取之后
+                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                   name="recovery_Obtain_NotFollowedDays"
+                                   [(ngModel)]="validateForm.recovery_Obtain_NotFollowedDays"></nz-input-number>
+                  天没有持续跟进的客户<span
+                    class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
                 </div>
-                <div style="line-height: 32px;">或<input [readOnly]="!editing" nzSize="small" style="width: 50px"
-                                                        nz-input name="recovery_Obtain_NotDealDays"
-                                                        [(ngModel)]="validateForm.recovery_Obtain_NotDealDays"/>天没有成交的客户<span
-                  class="explanation">（设置天数必须大于上一项）</span>
+                <div style="line-height: 32px;">或
+                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                   name="recovery_Obtain_NotDealDays"
+                                   [nzMin]="validateForm.recovery_Obtain_NotFollowedDays"
+                                   [(ngModel)]="validateForm.recovery_Obtain_NotDealDays"></nz-input-number>
+                  天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
                 </div>
               </div>
               <div>
-                <div style="line-height: 32px;">2.成交之后<input [readOnly]="!editing" nzSize="small" style="width: 50px"
-                                                             nz-input name="recovery_Deal_NotFollowedDays"
-                                                             [(ngModel)]="validateForm.recovery_Deal_NotFollowedDays"/>天没有持续跟进的客户
+                <div style="line-height: 32px;">2.成交之后
+                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                   name="recovery_Deal_NotFollowedDays"
+                                   [(ngModel)]="validateForm.recovery_Deal_NotFollowedDays"></nz-input-number>
+                  天没有持续跟进的客户
                 </div>
-                <div style="line-height: 32px;">或<input [readOnly]="!editing" nzSize="small" style="width: 50px"
-                                                        nz-input name="recovery_Deal_NotDealDays"
-                                                        [(ngModel)]="validateForm.recovery_Deal_NotDealDays"/>天没有成交的客户<span
-                  class="explanation">（设置天数必须大于上一项）</span>
+                <div style="line-height: 32px;">或
+                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                                   name="recovery_Deal_NotDealDays"
+                                   [nzMin]="validateForm.recovery_Deal_NotFollowedDays"
+                                   [(ngModel)]="validateForm.recovery_Deal_NotDealDays"></nz-input-number>
+                  天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
                 </div>
               </div>
             </div>
@@ -213,8 +214,10 @@
       <nz-form-item>
         <nz-form-label class="define-customer-title">即将回收提醒</nz-form-label>
         <nz-form-control>
-          <label>提前<input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input name="recallReminderDays"
-                          [(ngModel)]="validateForm.recallReminderDays"/>天系统通知客户所有人即将回收客户
+          <label>提前
+            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="recallReminderDays"
+                             [(ngModel)]="validateForm.recallReminderDays"></nz-input-number>
+            天系统通知客户所有人即将回收客户
           </label>
         </nz-form-control>
       </nz-form-item>
@@ -222,9 +225,11 @@
       <nz-form-item>
         <nz-form-label class="define-customer-title">客户冻结规则</nz-form-label>
         <nz-form-control>
-          <label>连续退回<input [readOnly]="!editing" nzSize="small" style="width: 50px" nz-input name="returnTimesFreeze"
-                            [(ngModel)]="validateForm.returnTimesFreeze"/>次的客户将被冻结<span
-            class="explanation">（被冻结客户，解冻前客户不能分配给用户跟进）</span>
+          <label>连续退回
+            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="returnTimesFreeze"
+                             [(ngModel)]="validateForm.returnTimesFreeze"></nz-input-number>
+            次的客户将被冻结<span
+              class="explanation">（被冻结客户，解冻前客户不能分配给用户跟进）</span>
           </label>
         </nz-form-control>
       </nz-form-item>
