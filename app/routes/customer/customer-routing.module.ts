@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CustomerDetailsComponent } from './component/customer-details/customer-details.component';
-import { LocationListComponent } from './component/location/location-list/location-list.component';
-import { ShareDetailsComponent } from './component/shared-details/shared-details.component';
-import { NodealDetailComponent } from './component/nodeal-detail/nodeal-detail.component';
+import { CustomerDetailsComponent } from './component-old/customer-details/customer-details.component';
+import { LocationListComponent } from './component-old/location/location-list/location-list.component';
+import { ShareDetailsComponent } from './component-old/shared-details/shared-details.component';
+import { NodealDetailComponent } from './component-old/nodeal-detail/nodeal-detail.component';
 import { CustomerIndexComponent } from './customer-index.component';
-import { UnownedDetailComponent } from './component/unowned-detial/unowned-detial.component';
+import { UnownedDetailComponent } from './component-old/unowned-detial/unowned-detial.component';
 import { CustomerComponent } from './customer-list/customer.component';
+import { CustomerListComponent } from './component/customer-list/customer-list.component';
+import { CustomersInfoComponent } from './component/customers-info/customers-info.component';
+
 const routes: Routes = [
   {
     path: '',
-    component: CustomerComponent,
+    component: CustomerListComponent,
     data: {
       titleI18n: 'crm:customerlist',
       reuse: true,
@@ -18,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'customerdetails/:id',
-    component: CustomerDetailsComponent,
+    component: CustomersInfoComponent,
     data: {
       titleI18n: 'crm:customerdetails',
       reuse: true,

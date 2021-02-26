@@ -8,6 +8,7 @@ export * from './customer-external.service';
 export * from './customer-icp.service';
 export * from './customer-solution.service';
 export * from './customer-task.service';
+export * from './customer-title.service';
 export * from './es-query.service';
 export * from './location.service';
 export * from './location-external.service';

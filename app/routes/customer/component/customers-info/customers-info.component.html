@@ -1,0 +1,77 @@
+<nz-layout>
+  <nz-header>
+    <div class="customerInfo-header">
+      <div style="display: flex; align-items: center; font-weight: 800;">
+        <strong style="font-size: 20px;">深圳市木马创意有限公司 </strong>
+        <div class="edit-customer">
+          <img src="apps/crm/assets/icon/Edit.svg" width="25px" />
+        </div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <button nz-button>{{ '查看客户组织结构' | translate }}</button>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <nz-dropdown-menu #moreButton="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              {{ '申请客户代码' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '申请更正客户名' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '申请CSP认证' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '转让' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '转移到公海' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ 'CSP账号配置' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '作废' | translate }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+    <div style="margin-top: 8px;">
+      <span style="margin-right: 10px; color: #999;">客户类型</span>
+      <span style="margin-right: 40px;">直客</span>
+      <span style="margin-right: 10px; color: #999;">客户代码</span>
+      <span style="margin-right: 40px;">ALUMN5C5FCA</span>
+      <span style="margin-right: 10px; color: #999;">开单地址</span>
+      <span style="margin-right: 40px;">703 EVANS AVENUE SUITE 300,TORONTO…</span>
+      <span style="margin-right: 10px; color: #999;">客户所有人</span>
+      <span>李旸</span>
+    </div>
+  </nz-header>
+  <nz-layout>
+    <nz-content nz-row [nzGutter]="32">
+      <div nz-col class="gutter-row" [nzSpan]="16">
+        <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
+        <div style="height: 600px; padding-left: 16px; background: #fff;">
+          <nz-tabset nzAnimated="false">
+            <nz-tab [nzTitle]="'联系人列表' | translate">
+              <crm-contact-list></crm-contact-list>
+            </nz-tab>
+            <nz-tab [nzTitle]="'位置列表' | translate">
+              <crm-location-list> </crm-location-list>
+            </nz-tab>
+            <nz-tab [nzTitle]="'发票抬头' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'文档' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'详情' | translate">
+              <crm-customer-detail></crm-customer-detail>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+      <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
+        <div class="inner-box">col-6</div>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

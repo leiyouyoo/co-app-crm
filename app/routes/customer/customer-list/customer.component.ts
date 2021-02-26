@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzMessageService, isTemplateRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
-import { CustomerMergeComponent } from '../component/customer-merge/customer-merge.component';
+import { TransferTocustomerComponent } from '../component-old/transfer-tocustomer/transfer-tocustomer.component';
+import { CustomerMergeComponent } from '../component-old/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';

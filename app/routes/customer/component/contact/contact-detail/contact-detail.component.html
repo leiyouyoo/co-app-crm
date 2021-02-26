@@ -1,0 +1,137 @@
+<form nzLayout="horizontal" nz-form [formGroup]="validateForm" style="display: flex; flex-direction: column; height: 100%;">
+  <div style="margin-bottom: 8px;">
+    <button nz-button nzSize="small" nzType="primary">{{ 'Save' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default">{{ 'Cancel' | translate }}</button>
+  </div>
+
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="18" style="display: flex; align-items: center;">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '姓名(英文)' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="formControlName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <span>-</span>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="formControlName" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="4">
+      <nz-form-item>
+        <nz-form-control style="width: 150px;">
+          <label nz-checkbox>主联系人</label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '姓名(本地语言)' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="formControlName" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '手机号码' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+          <input
+            nz-input
+            formControlName="tel"
+            maxlength="20"
+            type="string"
+            placeholder="{{ 'Please enter' | translate }}"
+            style="flex: 1;"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'Email' | translate }} </nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="email" placeholder="{{ 'Please enter Email' | translate }}" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="4">
+      <nz-form-item>
+        <nz-form-control style="width: 150px;">
+          <label nz-checkbox>开通主账号</label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label>{{ '职位' | translate }}</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="position">
+            <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+            <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row style="color: #1890ff;" (click)="isShow = !isShow">
+    更多信息
+  </div>
+  <div nz-row *ngIf="isShow">
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label>{{ '电话号码' | translate }}</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            formControlName="tel"
+            maxlength="20"
+            type="string"
+            placeholder="{{ 'Please enter' | translate }}"
+            style="flex: 1;"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row *ngIf="isShow">
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label>{{ '传真' | translate }}</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            formControlName="tel"
+            maxlength="20"
+            type="string"
+            placeholder="{{ 'Please enter' | translate }}"
+            style="flex: 1;"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row *ngIf="isShow">
+    <div nz-col [nzSpan]="18">
+      <nz-form-item>
+        <nz-form-label>{{ '备注' | translate }}</nz-form-label>
+        <nz-form-control>
+          <textarea formControlName="Reamrk" maxlength="1000" nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>

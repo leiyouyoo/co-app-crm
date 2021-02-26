@@ -1,0 +1,656 @@
+<section class="fam-customer-detail">
+  <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."> </nz-spin>
+  <form id="form" nzLayout="horizontal" nz-form [formGroup]="validateForm">
+    <h5 id="components-basic-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="showBasicInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="showBasicInfo = !showBasicInfo"
+      ></i
+      >{{ 'Basic Information' | translate }}
+    </h5>
+    <ng-container *ngIf="showBasicInfo">
+      <div nz-row [nzGutter]="16">
+        <!--    全称(英文)-->
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Full name' | translate }}</nz-form-label>
+            <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}">
+              <ng-container *ngIf="validateForm.get('name').value; else elseNameTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('name').value }}</label>
+              </ng-container>
+              <ng-template #elseNameTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--    全称(本地语言)-->
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Full name' | translate }}({{ 'Local' | translate }})</nz-form-label>
+            <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}">
+              <ng-container *ngIf="validateForm.get('localizationName').value; else elselocalizationNameTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('localizationName').value }}</label>
+              </ng-container>
+              <ng-template #elselocalizationNameTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        简称(英文)-->
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Abbreviation' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'The abbreviation cannot be empty!' | translate }}">
+              <ng-container *ngIf="validateForm.get('shortName').value; else elseAbbreviationTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('shortName').value }}</label>
+              </ng-container>
+              <ng-template #elseAbbreviationTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        简称(本地语言)-->
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Abbreviation' | translate }}({{ 'Local' | translate }})</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">{{ validateForm.get('localizationShortName').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        地址(英文)-->
+        <div nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label>{{ 'Address' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">{{ validateForm.get('address').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        地址(本地语言)-->
+        <div nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label>{{ 'Address' | translate }}({{ 'Local' | translate }})</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">{{ validateForm.get('localizationAddress').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- 代码-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Code' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('code').value; else elseTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('code').value }}</label>
+              </ng-container>
+              <ng-template #elseTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- 客户属性-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <!-- <nz-form-label [nzRequired]="!readonly">{{ '客户属性' | translate }}</nz-form-label>
+                <nz-form-control>
+                  <nz-tag *ngIf="readonly" [nzColor]="'orange'">总月结</nz-tag>
+                </nz-form-control> -->
+          </nz-form-item>
+        </div>
+
+        <!--      常用贸易方式-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Common incoterms' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">{{ validateForm.get('incotermsDisplay').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--      是否销售客户-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Sales customer' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">
+                <ng-container *ngIf="validateForm.get('isSalesCustomer').value; else elseSaleTemplate">
+                  是
+                </ng-container>
+                <ng-template #elseSaleTemplate>
+                  否
+                </ng-template>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!--        客户类型-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Customer type' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('customerType').value; else elsecustomerTypeTemplate">
+                <label *ngIf="readonly">
+                  <span *ngIf="validateForm.get('customerType').value == 1">
+                    {{ 'Carrier' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 2">
+                    {{ 'AirLine' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 3">
+                    {{ 'Forwarding' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 4">
+                    {{ 'FamCustomer.DirectClient' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 5">
+                    {{ 'Trucker' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 6">
+                    {{ 'CustomsBroker' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 7">
+                    {{ 'WareHouse' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 8">
+                    {{ 'Storage' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 9">
+                    {{ 'RailWay' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 10">
+                    {{ 'Express' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 17">
+                    {{ 'Terminal' | translate }}
+                  </span>
+                  <span *ngIf="validateForm.get('customerType').value == 12">
+                    {{ 'Other' | translate }}
+                  </span>
+                </label>
+              </ng-container>
+              <ng-template #elsecustomerTypeTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!--      状态-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Status' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">
+                <span *ngIf="validateForm.get('status').value == 0">
+                  {{ 'NoneCooperation' | translate }}
+                </span>
+                <span *ngIf="validateForm.get('status').value == 1">
+                  {{ 'Cooperation' | translate }}
+                </span>
+                <span *ngIf="validateForm.get('status').value == 2">
+                  {{ 'Share' | translate }}
+                </span>
+                <span *ngIf="validateForm.get('status').value == 3">
+                  {{ 'Ownerless' | translate }}
+                </span>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!--        客户所有人-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Owner' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('ownerUserList').value?.length > 0; else elseTemplate">
+                <span *ngFor="let item of validateForm.get('ownerUserList').value">
+                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.allowUserName }}</label>
+                </span>
+              </ng-container>
+              <ng-template #elseTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!--      创建日期-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ '创建日期' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('creationTime').value; else elsecreationTimeTemplate">
+                <label *ngIf="readonly"> {{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
+              </ng-container>
+              <ng-template #elsecreationTimeTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- 关联公司-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Related company' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
+                <span *ngFor="let item of validateForm.get('relatedCustomers').value">
+                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.zhName }}</label>
+                </span>
+              </ng-container>
+              <ng-template #elserelatedCustomersTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- 曾用名-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Used Name' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('beforeNames')?.value?.length > 0; else elseCustomerRenamingsTemplate">
+                {{ (validateForm.get('beforeNames')?.value)[0].nameLocalization }}
+                <span
+                  style="color: #1890ff; font-size: 15px;"
+                  nz-popover
+                  [nzPopoverTitle]="null"
+                  [nzPopoverContent]="contentTemplate"
+                  class="iconfont icon-tongxunluxian"
+                  nz-icon
+                  [nzIconfont]="'icon-tongxunluxian'"
+                ></span>
+                <ng-template #contentTemplate>
+                  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="width: 33.3%;">{{ 'Local' | translate }}</div>
+                    <div style="width: 33.3%;">{{ 'English' | translate }}</div>
+                    <div style="width: 33.3%;"></div>
+                  </div>
+                  <div
+                    *ngFor="let item of validateForm.get('beforeNames').value"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      width: 100%;
+                      padding: 4px;
+                      border-bottom: 1px solid #f0f0f0;
+                    "
+                  >
+                    <label
+                      *ngIf="readonly"
+                      [title]="item.nameLocalization"
+                      style="
+                        width: 33.3%;
+                        margin-right: 8px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        word-break: break-all;
+                      "
+                    >
+                      {{ item.nameLocalization }}</label
+                    >
+                    <label
+                      *ngIf="readonly"
+                      [title]="item.name"
+                      style="
+                        width: 33.3%;
+                        margin-right: 8px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        word-break: break-all;
+                      "
+                    >
+                      {{ item.name }}</label
+                    >
+                    <label *ngIf="readonly" style="width: 33.3%; margin-right: 8px;">
+                      <nz-tag [nzColor]="'blue'" style="border-radius: 10px;">
+                        <span *ngIf="item.dataSource == 1">{{ 'Correct' | translate }}</span>
+                        <span *ngIf="item.dataSource == 2">{{ 'Merge' | translate }}</span>
+                      </nz-tag>
+                    </label>
+                  </div>
+                </ng-template>
+              </ng-container>
+              <ng-template #elseCustomerRenamingsTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container>
+
+    <div style="margin: 8px; margin-left: -2px; border-bottom: 1px solid#f0f0f0;"></div>
+    <h5 id="components-concat-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="concatInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="concatInfo = !concatInfo"
+      ></i
+      >{{ 'Contact Information' | translate }}
+    </h5>
+    <ng-container *ngIf="concatInfo">
+      <div nz-row [nzGutter]="16" formArrayName="tel">
+        <!--        号码-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Phone' | translate }} </nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly"> {{ validateForm.get('tel').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <!--        邮箱-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzRequired]="!readonly">{{ 'Email' | translate }} </nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">{{ validateForm.get('email').value }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        传真-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('fax').value; else elsefaxTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('fax').value }}</label>
+              </ng-container>
+              <ng-template #elsefaxTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container>
+    <div style="margin: 8px; margin-left: -2px; border-bottom: 1px solid #f0f0f0;"></div>
+    <h5 id="components-business-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="businessInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="businessInfo = !businessInfo"
+      ></i
+      >{{ 'Business Information' | translate }}
+    </h5>
+    <ng-container *ngIf="businessInfo">
+      <div nz-row [nzGutter]="16">
+        <!--        行业-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Industry' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('industryDisplay').value; else elseindustryDisplayTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('industryDisplay').value }}</label>
+              </ng-container>
+              <ng-template #elseindustryDisplayTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        网址-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('customerConfigure').value?.website; else elsecustomerConfigureTemplate">
+                <label *ngIf="readonly">
+                  {{ validateForm.get('customerConfigure').value?.website }}
+                </label>
+              </ng-container>
+              <ng-template #elsecustomerConfigureTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!--      公司简介-->
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label>{{ 'Profile' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('description').value; else elsedescriptionTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('description').value }}</label>
+              </ng-container>
+              <ng-template #elsedescriptionTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container>
+    <div style="margin: 8px; margin-left: -2px; border-bottom: 1px solid #f0f0f0;"></div>
+    <h5 id="components-tax-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="taxInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="taxInfo = !taxInfo"
+      ></i>
+      {{ 'Tax Information' | translate }}
+    </h5>
+    <ng-container *ngIf="taxInfo">
+      <div *ngFor="let item of validateForm.get('customerTaxes').value">
+        <div nz-row [nzGutter]="16">
+          <!--        税务登记类型-->
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label>{{ 'Tax register type' | translate }}</nz-form-label>
+              <nz-form-control>
+                <label *ngIf="readonly">
+                  <span *ngIf="item?.taxType == 0">{{ 'EIN' | translate }}</span>
+                  <span *ngIf="item?.taxType == 1">{{ 'SSN' | translate }}</span>
+                  <span *ngIf="item?.taxType == 2">{{ 'ITIN' | translate }}</span>
+                  <span *ngIf="item?.taxType == 3">{{ 'ATIN' | translate }}</span>
+                </label>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <!--        税务登记号-->
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label>{{ 'Tax register Number' | translate }} </nz-form-label>
+              <nz-form-control>
+                <label *ngIf="readonly">{{ item?.taxNo }}</label>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+      <!--      审核状态-->
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label>{{ 'Audit Status' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">
+                <span *ngIf="validateForm.get('examineState')?.value == 1">
+                  {{ 'WaitingExamine' | translate }}
+                </span>
+                <span *ngIf="validateForm.get('examineState')?.value == 2">
+                  {{ 'PassExamine' | translate }}
+                </span>
+                <span *ngIf="validateForm.get('examineState')?.value == 3">
+                  {{ 'RefuseExamine' | translate }}
+                </span>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!--      审核日期-->
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label>{{ 'Review date' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('examineTime')?.value; else elseexamineTimeTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('examineTime')?.value | date: 'yyyy-MM-dd' }}</label>
+              </ng-container>
+              <ng-template #elseexamineTimeTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container>
+
+    <div style="margin: 8px; margin-left: -2px; border-bottom: 1px solid#f0f0f0;"></div>
+    <h5 id="components-csp-credentials-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="cspInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="cspInfo = !cspInfo"
+      ></i>
+      {{ 'CSP Credentials' | translate }}
+    </h5>
+    <ng-container *ngIf="cspInfo">
+      <div nz-row [nzGutter]="16">
+        <!--        客户配置级别-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Customer grand' | translate }}</nz-form-label>
+            <nz-form-control>
+              <label *ngIf="readonly">
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 0">{{ 'Customize' | translate }}</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 1">T1(50-99.99)USD</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 2">T2(100-199.99)USD</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 3">T3(200-299.99)USD</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 4">T4(300-499.99)USD</span>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        海运费叠加金额-->
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Addition in sea freight' | translate }} </nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('customerConfigure').value?.oceanAttachFee; else elseTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('customerConfigure').value?.oceanAttachFee }}USD</label>
+              </ng-container>
+              <ng-template #elseTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container>
+    <!-- <div style="margin: 8px; margin-left: -2px; border-bottom: 1px solid#f0f0f0;"></div>
+    <h5 id="components-system-info">
+      <i
+        nz-icon
+        nzType="down-square"
+        nzTheme="fill"
+        style="margin-right: 4px; color: #1890ff; font-size: 16px;"
+        [style.transform]="sysInfo ? 'rotate(180deg)' : 'unset'"
+        (click)="sysInfo = !sysInfo"
+      ></i>
+      {{ '系统记录' | translate }}
+    </h5> -->
+    <!-- <ng-container *ngIf="sysInfo">
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Update Time' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('lastModificationTime').value; else elselastModificationTimeTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('lastModificationTime').value | date: 'yyyy-MM-dd' }}</label>
+              </ng-container>
+              <ng-template #elselastModificationTimeTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'Update By' | translate }} </nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('lastModificationUser').value; else elselastModificationUserTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('lastModificationUser').value }}</label>
+              </ng-container>
+              <ng-template #elselastModificationUserTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'CreateTime' | translate }}</nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('creationTime').value; else elseCreateTimeTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
+              </ng-container>
+              <ng-template #elseCreateTimeTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>{{ 'CreateUser' | translate }} </nz-form-label>
+            <nz-form-control>
+              <ng-container *ngIf="validateForm.get('creationUser').value; else elsecreationUserTemplate">
+                <label *ngIf="readonly">{{ validateForm.get('creationUser').value }}</label>
+              </ng-container>
+              <ng-template #elsecreationUserTemplate>
+                --
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </ng-container> -->
+  </form>
+  <!-- <div style="margin-left: 12px;">
+      <nz-anchor nzTarget="form">
+        <nz-link nzHref="#components-basic-info" [nzTitle]="'Basic Information' | translate"></nz-link>
+        <nz-link nzHref="#components-concat-info" [nzTitle]="'Contact Information' | translate"></nz-link>
+        <nz-link nzHref="#components-business-info" [nzTitle]="'Business Information' | translate"></nz-link>
+        <nz-link nzHref="#components-tax-info" [nzTitle]="'Tax Information' | translate"></nz-link>
+        <nz-link nzHref="#components-csp-credentials-info" [nzTitle]="'CSP Credentials' | translate"></nz-link>
+        <nz-link nzHref="#components-system-info" [nzTitle]="'System Information' | translate"></nz-link>
+      </nz-anchor>
+    </div> -->
+</section>

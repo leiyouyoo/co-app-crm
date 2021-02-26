@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerModel,CRMEntityDto1,CRMCrmCustomerChangeEventDto,CRMCrmEsPageQueryInput } from './crm.types';
+import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerModel,CRMCrmCustomerExamineModel,CRMEntityDto1,CRMCrmCustomerChangeEventDto,CRMCrmCustomerExamineChangeEventDto,CRMCrmEsPageQueryInput } from './crm.types';
 
 @BaseUrl('/CRM/EsQuery')
 @Injectable({ providedIn: 'root' })
@@ -42,6 +42,21 @@ export class CRMEsQueryService extends BaseApi {
 
 
     /**
+     * @param url /CRM/EsQuery/GetAllCustomerExamineForES
+     * ES获取客户审批信息
+     */
+
+    @POST('GetAllCustomerExamineForES')
+    getAllCustomerExamineForES(
+        @Payload
+        _req:CRMEsPageQueryInput
+
+    ): Observable<CRMPagedResultDto1<CRMCrmCustomerExamineModel>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/EsQuery/SyncCrmEnquiry
      * 同步询价数据，仅测试时使用
      */
@@ -65,6 +80,21 @@ export class CRMEsQueryService extends BaseApi {
     syncCrmCustomers(
         @Payload
         _req:CRMCrmCustomerChangeEventDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/EsQuery/SyncCrmCustomerExamines
+     * 同步客户审批数据
+     */
+
+    @POST('SyncCrmCustomerExamines')
+    syncCrmCustomerExamines(
+        @Payload
+        _req:CRMCrmCustomerExamineChangeEventDto
 
     ): Observable<any> {
         return null as any

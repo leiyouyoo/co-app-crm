@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
+import { CustomerMergeComponent } from '../../component-old/customer-merge/customer-merge.component';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';

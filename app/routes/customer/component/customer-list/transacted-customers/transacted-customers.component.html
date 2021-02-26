@@ -1,0 +1,38 @@
+<co-st
+  [hidden]="customerType == 5"
+  #st
+  [ps]="searchParams.pageSize"
+  [(pi)]="searchParams.pageNo"
+  [columns]="columns"
+  [data]="customerInfo?.items"
+  [total]="customerInfo?.totalCount"
+  columnDefaultWidth="100"
+  (change)="onTableChange($event)"
+  calcScroll
+  disableCalcX
+  virtualScroll
+  [showFilters]="false"
+  [showCheckbox]="true"
+  style="flex: 1;"
+>
+</co-st>
+
+<!-- 待审批列表 -->
+<co-st
+  [hidden]="customerType != 5"
+  #st
+  [ps]="searchParams.pageSize"
+  [(pi)]="searchParams.pageNo"
+  [columns]="pendingcolumns"
+  [data]="customerInfo?.items"
+  [total]="customerInfo?.totalCount"
+  columnDefaultWidth="100"
+  (change)="onTableChange($event)"
+  calcScroll
+  disableCalcX
+  virtualScroll
+  [showFilters]="false"
+  [showCheckbox]="true"
+  style="flex: 1; height: calc(100% - 32px);"
+>
+</co-st>

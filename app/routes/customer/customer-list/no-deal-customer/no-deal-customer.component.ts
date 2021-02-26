@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { TranslateService } from '@ngx-translate/core';
-import { TransferTocustomerComponent } from '../../component/transfer-tocustomer/transfer-tocustomer.component';
+import { TransferTocustomerComponent } from '../../component-old/transfer-tocustomer/transfer-tocustomer.component';
 // import { CreateCustomerComponent } from '../../component/create-customer/create-customer.component';
 import { Router } from '@angular/router';
-import { CustomerMergeComponent } from '../../component/customer-merge/customer-merge.component';
+import { CustomerMergeComponent } from '../../component-old/customer-merge/customer-merge.component';
 import { Validators } from '@angular/forms';
 import { CRMCustomerService, CRMCreateOrUpdateCustomerInput } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from '../../../../shared/compoents/customer/create-customer/create-customer.component';

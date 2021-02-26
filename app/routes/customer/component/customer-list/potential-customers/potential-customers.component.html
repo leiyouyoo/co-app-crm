@@ -1,0 +1,16 @@
+<co-st
+  #st
+  [ps]="searchParams.pageSize"
+  [(pi)]="searchParams.pageNo"
+  [columns]="columns"
+  [data]="customerInfo?.items"
+  [total]="customerInfo?.totalCount"
+  columnDefaultWidth="100"
+  (change)="onTableChange($event)"
+  calcScroll
+  disableCalcX
+  [showFilters]="false"
+  [showCheckbox]="true"
+  style="flex: 1;"
+>
+</co-st>
