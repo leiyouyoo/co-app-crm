@@ -115,6 +115,163 @@
 </div>
 <section>
   <form id="form" nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+
+    <h5 id="components-concat-info">
+      <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
+         [style.transform]="concatInfo?'rotate(180deg)':'unset'"
+         (click)="concatInfo = !concatInfo"></i>{{"Contact Information" | translate}}
+      ({{"Fill in at least one email and fax" | translate}})</h5>
+    <ng-container *ngIf="concatInfo">
+      <div nz-row [nzGutter]="16">
+        <!--        潜在客户阶段-->
+        <div nz-col [nzSpan]="11">
+          <nz-form-item>
+            <nz-form-label>{{ '潜在客户阶段' | translate }}</nz-form-label>
+            <nz-form-control>
+              <div class="common_select">
+                <nz-select formControlName="leadTrackingPhase" nzPlaceHolder="{{ 'Please select' | translate }}">
+                  <nz-option nzLabel="初步接洽" [nzValue]="0"></nz-option>
+                  <nz-option nzLabel="需求确定" [nzValue]="1"></nz-option>
+                  <nz-option nzLabel="报价" [nzValue]="2"></nz-option>
+                  <nz-option nzLabel="谈判" [nzValue]="3"></nz-option>
+                </nz-select>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- 客户所有人-->
+        <div nz-col [nzSpan]="11">
+          <nz-form-item>
+            <nz-form-label>{{ 'Owner' | translate }}</nz-form-label>
+            <nz-form-control>
+              <div class="common_select">
+                <nz-select
+                  (nzScrollToBottom)="loadMore()"
+                  nzShowSearch
+                  nzServerSearch
+                  (nzOnSearch)="getCityOceanUsers($event)"
+                  formControlName="customerOwner"
+                  nzPlaceHolder="{{ 'Please select' | translate }}"
+                >
+                  <nz-option *ngFor="let item of userList"
+                             [nzLabel]="item.surnameLocalization+ ' ' + item.nameLocalization"
+                             [nzValue]="item.id"></nz-option>
+                </nz-select>
+                <ng-template #renderTemplate>
+                  <nz-spin *ngIf="userListParams.isLoading"></nz-spin>
+                </ng-template>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div formArrayName="customerContacts">
+        <div nz-row formGroupName="0" [nzGutter]="16">
+          <div nz-col [nzSpan]="11">
+            <div nz-row>
+              <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                  <nz-form-label>{{ '姓名（英文）' | translate }}</nz-form-label>
+                  <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                    <input nz-input formControlName="name" maxlength="20"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                  <nz-form-label style="text-align: right;">{{ '名' | translate }}</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input formControlName="lastname" maxlength="20"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <!--        姓名（本地语言）-->
+          <div nz-col [nzSpan]="11">
+            <nz-form-item>
+              <nz-form-label>{{ '姓名（本地语言）' | translate }}</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="nameLocalization" maxlength="20"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="16" formArrayName="tel">
+        <!--        号码-->
+        <div nz-col [nzSpan]="11" *ngFor="let detail of validateForm.controls['tel'].controls; let inx = index"
+             [formGroupName]="inx">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'Phone' | translate }}
+              <a *ngIf="validateForm.controls['tel'].controls.length ===1" (click)="addPhone()">
+                <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
+              </a>
+              <a>
+                <i *ngIf="inx !== 0" style="margin-left: 6px; font-size: 20px;" nz-icon nzType="delete"
+                   nzTheme="outline"
+                   (click)="delete('tel', inx)"></i>
+              </a>
+            </nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter the correct phone number!' | translate }}">
+              <div class="flex_between">
+                <input
+                  (blur)="telBlur('tel',inx)"
+                  [id]="'tel' + inx"
+                  nz-input
+                  formControlName="tel"
+                  maxlength="20"
+                  type="string"
+                  placeholder="{{ 'Please enter' | translate }}"
+                  style="flex: 1;"
+                />
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <!--        邮箱-->
+        <div nz-col [nzSpan]="11">
+          <nz-form-item>
+            <nz-form-label>{{ 'Email' | translate }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="emailAddressErrorTpl">
+              <nz-input-group [nzSuffix]="inputClearTpl6">
+                <input (blur)="checkRepeatData('email')" id="email" nz-input formControlName="email"
+                       placeholder="{{ 'Please enter Email' | translate }}"/>
+                <ng-template #inputClearTpl6
+                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                    *ngIf="validateForm.get('addressLocalization').value"
+                    (click)="validateForm.get('addressLocalization').reset();hide()"></i
+                ></ng-template>
+              </nz-input-group>
+              <ng-template #emailAddressErrorTpl>
+                <ng-container *ngIf="validateForm.get('email').hasError('email')">
+                  {{ 'The email address you entered is incorrect!' | translate }}
+                </ng-container>
+                <ng-container *ngIf="validateForm.get('email').hasError('existSame')">
+                  {{ 'The email cannot be same!' | translate }}
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!--        传真-->
+        <div nz-col [nzSpan]="11">
+          <nz-form-item>
+            <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
+            <nz-form-control nzErrorTip="{{ 'Please enter the correct fax!' | translate }}">
+              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+    </ng-container>
+
     <h5 id="components-basic-info">
       <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
          [style.transform]="showBasicInfo?'rotate(180deg)':'unset'"
@@ -393,32 +550,6 @@
           </nz-form-item>
         </div>
 
-        <!-- 客户所有人-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Owner' | translate }}</nz-form-label>
-            <nz-form-control>
-              <div class="common_select">
-                <nz-select
-                  (nzScrollToBottom)="loadMore()"
-                  nzShowSearch
-                  nzServerSearch
-                  (nzOnSearch)="getCityOceanUsers($event)"
-                  formControlName="customerOwner"
-                  nzPlaceHolder="{{ 'Please select' | translate }}"
-                >
-                  <nz-option *ngFor="let item of userList"
-                             [nzLabel]="item.surnameLocalization+ ' ' + item.nameLocalization"
-                             [nzValue]="item.id"></nz-option>
-                </nz-select>
-                <ng-template #renderTemplate>
-                  <nz-spin *ngIf="userListParams.isLoading"></nz-spin>
-                </ng-template>
-              </div>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
         <!--      销售客户-->
         <div nz-col [nzSpan]="11">
           <nz-form-item>
@@ -442,86 +573,6 @@
 
       </div>
     </ng-container>
-
-    <h5 id="components-concat-info">
-      <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
-         [style.transform]="concatInfo?'rotate(180deg)':'unset'"
-         (click)="concatInfo = !concatInfo"></i>{{"Contact Information" | translate}}
-      ({{"Fill in at least one email and fax" | translate}})</h5>
-    <ng-container *ngIf="concatInfo">
-      <div nz-row [nzGutter]="16" formArrayName="tel">
-        <!--        号码-->
-        <div nz-col [nzSpan]="11" *ngFor="let detail of validateForm.controls['tel'].controls; let inx = index"
-             [formGroupName]="inx">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Phone' | translate }}
-              <a *ngIf="validateForm.controls['tel'].controls.length ===1" (click)="addPhone()">
-                <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
-              </a>
-              <a>
-                <i *ngIf="inx !== 0" style="margin-left: 6px; font-size: 20px;" nz-icon nzType="delete"
-                   nzTheme="outline"
-                   (click)="delete('tel', inx)"></i>
-              </a>
-            </nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'Please enter the correct phone number!' | translate }}">
-              <div class="flex_between">
-                <input
-                  (blur)="telBlur('tel',inx)"
-                  [id]="'tel' + inx"
-                  nz-input
-                  formControlName="tel"
-                  maxlength="20"
-                  type="string"
-                  placeholder="{{ 'Please enter' | translate }}"
-                  style="flex: 1;"
-                />
-              </div>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-      <div nz-row [nzGutter]="16">
-        <!--        邮箱-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Email' | translate }}
-              <!--              ({{'Any item is required' | translate}})-->
-            </nz-form-label>
-            <nz-form-control [nzErrorTip]="emailAddressErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl6">
-                <input (blur)="checkRepeatData('email')" id="email" nz-input formControlName="email"
-                       placeholder="{{ 'Please enter Email' | translate }}"/>
-                <ng-template #inputClearTpl6
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('addressLocalization').value"
-                    (click)="validateForm.get('addressLocalization').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #emailAddressErrorTpl>
-                <ng-container *ngIf="validateForm.get('email').hasError('email')">
-                  {{ 'The email address you entered is incorrect!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('email').hasError('existSame')">
-                  {{ 'The email cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--        传真-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'Please enter the correct fax!' | translate }}">
-              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}"/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-      </div>
-    </ng-container>
-
 
     <h5 id="components-business-info">
       <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "

@@ -113,3 +113,13 @@ export enum examineType {
   /// </summary>
   PostCode = 2,
 }
+
+// 潜在客户追踪阶段
+export enum leadTrackingPhase {
+  PreliminaryContact,
+  DemandDetermination,
+  QuotedPrice,
+  Negotiation,
+  WinTheOrder,
+  LostOrder
+}
