@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { NzTreeNodeOptions, NzTreeSelectComponent } from 'ng-zorro-antd';
-import { pendingOrDone } from '../../../../../../platform/app/shared';
 import { map } from 'rxjs/operators';
 import { PlatformOrganizationUnitDto } from '@co/cds';
 import { CoPageBase, debounce } from '@co/core';
 import { CRMContactIMService, CRMCustomerHighSeasPondSettingDto, CRMCustomerService } from '../../../../services/crm';
 import { _HttpClient } from '@co/common';
+import { pendingOrDone } from '../../../../shared';
 
 @Component({
   selector: 'crm-recycle-config',
