@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@co/cbc';
+import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CreatePotentialCustomerComponent } from './create-potential-customer/create-potential-customer.component';
 
 @Component({
   selector: 'crm-potential-customers',
@@ -10,6 +11,7 @@ import { CRMCustomerService } from 'apps/crm/app/services/crm';
 })
 export class PotentialCustomersComponent extends CoPageBase {
   @ViewChild('st', { static: false }) st: STComponent;
+  @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   @Input() set customerType(v) {
     this.searchParams.type = v;
   }
@@ -38,6 +40,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     maxResultCount: 10,
     skipCount: 0,
   };
+  title = 'Add Customer';
   customerInfo: any;
   constructor(injector: Injector, private cRMCustomerService: CRMCustomerService) {
     super(injector);
@@ -206,5 +209,23 @@ export class PotentialCustomersComponent extends CoPageBase {
   //展开客户详情
   onShowCustomerDetail(data) {
     this.customerDetail.emit(data);
+  }
+  /**
+   * 创建客户
+   */
+  createCustomer() {
+    const contentParams = {
+      sideDrawer: this.sideDrawer,
+    };
+    this.title = 'Add Customer';
+    this.sideDrawer.open(CreatePotentialCustomerComponent, contentParams);
+    const component = this.sideDrawer.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.sideDrawer.destroy();
+        }, 1000);
+      }
+    });
   }
 }

@@ -33,10 +33,10 @@ import {
 } from '../../../../../../services/crm';
 
 @Component({
-  selector: 'fam-create-customer',
+  selector: 'crm-create-potential-customer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './create-customer.component.html',
-  styleUrls: ['./create-customer.component.less'],
+  templateUrl: './create-potential-customer.component.html',
+  styleUrls: ['./create-potential-customer.component.less'],
 })
 export class CreatePotentialCustomerComponent extends CoPageBase implements OnInit {
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
