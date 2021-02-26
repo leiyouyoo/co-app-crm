@@ -36,8 +36,9 @@ import { LocationListComponent } from './component/location/location-list/locati
 import { CustomerDetailComponent } from './component/customers-info/customer-detail/customer-detail.component';
 import { ContactDetailComponent } from './component/contact/contact-detail/contact-detail.component';
 import { LocationDetailComponent } from './component/location/location-detail/location-detail.component';
-import { CoCascaderModule } from '../../shared/compoents/co-cascader';
-
+import { CreatePotentialCustomerComponent } from './component/customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
+import { HighlightPipe } from './pipe/heightLight';
+import { CoCascaderModule } from '@co/cbc';
 // const COMPONENTS = [
 //   CustomerComponent,
 //   NoDealCustomerComponent,
@@ -74,7 +75,7 @@ const NEWCOMPONENTS = [
   ContactDetailComponent,
   LocationDetailComponent,
 ];
-const COMPONENTS_NOROUNT = [LegalEntityComponent];
+const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponent];
 
 @NgModule({
   imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule],
@@ -90,6 +91,7 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent];
     UnownedClientComponent,
     SharedCustomersComponent,
     CustomerIndexComponent,
+    HighlightPipe
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

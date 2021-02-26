@@ -1,16 +1,34 @@
-<co-st
-  #st
-  [ps]="searchParams.pageSize"
-  [(pi)]="searchParams.pageNo"
-  [columns]="columns"
-  [data]="customerInfo?.items"
-  [total]="customerInfo?.totalCount"
-  columnDefaultWidth="100"
-  (change)="onTableChange($event)"
-  calcScroll
-  disableCalcX
-  [showFilters]="false"
-  [showCheckbox]="true"
-  style="flex: 1;"
->
-</co-st>
+<co-page-layout>
+  <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
+    <button (click)="createCustomer()">新增潜在客户</button>
+    <co-st
+      #st
+      [ps]="searchParams.pageSize"
+      [(pi)]="searchParams.pageNo"
+      [columns]="columns"
+      [data]="customerInfo?.items"
+      [total]="customerInfo?.totalCount"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      disableCalcX
+      [showFilters]="false"
+      [showCheckbox]="true"
+      style="flex: 1;"
+    >
+    </co-st>
+  </co-page-main>
+
+  <co-page-side-drawer
+    coWidthResizable
+    coMinWidth="800px"
+    (coOnClose)="$event.close()"
+    [coTitle]="drawerTitle"
+    #sideDrawer
+  ></co-page-side-drawer>
+  <ng-template #drawerTitle>
+    <div class="drawerTitle">
+      <div class="title" [innerHTML]="title | translate"></div>
+    </div>
+  </ng-template>
+</co-page-layout>
