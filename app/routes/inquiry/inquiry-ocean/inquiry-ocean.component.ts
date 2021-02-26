@@ -279,7 +279,7 @@ export class InquiryListOceanComponent implements OnInit {
       // }, 100);
     });
     // console.log(this.aCLService.can('j:商务员'), '0000000000');
-    if (this.aCLService.can(['j:销售代表', 'j:海外拓展', 'j:拓展员', 'j: 电商顾问'])) {
+    if (this.aCLService.can(['j:销售代表', 'j:海外拓展', 'j:拓展员', 'j:电商顾问'])) {
       this.showInquiryBtn = true;
       this.showShareBtn = true;
     }
