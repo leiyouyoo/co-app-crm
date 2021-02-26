@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 import { CustomersInfoComponent } from '../customers-info/customers-info.component';
+import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { PotentialCustomersComponent } from './potential-customers/potential-customers.component';
 import { TransactedCustomersComponent } from './transacted-customers/transacted-customers.component';
 
@@ -117,14 +118,26 @@ export class CustomerListComponent extends CoPageBase {
    */
   approveName(customerInfo) {}
 
-  //打开新增联系人弹框
+  // //打开新增联系人弹框
+  // onAdd() {
+  //   const modal = this.modal.create({
+  //     nzTitle: this.$L('add Contact'),
+  //     nzContent: ContactDetailComponent,
+  //     nzComponentParams: {},
+  //     nzClassName: 'crm-contact-detail',
+  //     nzStyle: { width: '38%' },
+  //     nzFooter: null,
+  //   });
+  // }
+
+  //打开新增位置弹框
   onAdd() {
     const modal = this.modal.create({
-      nzTitle: this.$L('add Contact'),
-      nzContent: ContactDetailComponent,
+      nzTitle: this.$L('Correct customer name'),
+      nzContent: LocationDetailComponent,
       nzComponentParams: {},
-      nzClassName: 'crm-contact-detail',
-      nzStyle: { width: '35%' },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
       nzFooter: null,
     });
   }

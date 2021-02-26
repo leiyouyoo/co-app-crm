@@ -35,6 +35,9 @@ import { ContactListComponent } from './component/contact/contact-list/contact-l
 import { LocationListComponent } from './component/location/location-list/location-list.component';
 import { CustomerDetailComponent } from './component/customers-info/customer-detail/customer-detail.component';
 import { ContactDetailComponent } from './component/contact/contact-detail/contact-detail.component';
+import { LocationDetailComponent } from './component/location/location-detail/location-detail.component';
+import { CoCascaderModule } from '../../shared/compoents/co-cascader';
+
 // const COMPONENTS = [
 //   CustomerComponent,
 //   NoDealCustomerComponent,
@@ -69,11 +72,12 @@ const NEWCOMPONENTS = [
   LocationListComponent,
   CustomerDetailComponent,
   ContactDetailComponent,
+  LocationDetailComponent,
 ];
 const COMPONENTS_NOROUNT = [LegalEntityComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
