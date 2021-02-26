@@ -38,30 +38,30 @@ import { ContactDetailComponent } from './component/contact/contact-detail/conta
 import { CreatePotentialCustomerComponent } from './component/customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
 import { HighlightPipe } from './pipe/heightLight';
 import { CoCascaderModule } from '@co/cbc';
-// const COMPONENTS = [
-//   CustomerComponent,
-//   NoDealCustomerComponent,
-//   NoDealCustomerComponent,
-//   CustomerDetailsComponent,
-//   ContactsListComponent,
-//   LocationListComponent,
-//   CustomerAuthComponent,
-//   CustomerRecordComponent,
-//   CustomerPartnerComponent,
-//   PartnerBindCustomerComponent,
-//   CreateContactsComponent,
-//   CreateLocationComponent,
-//   ShareDetailsComponent,
-//   UnownedDetailComponent,
-//   NodealDetailComponent,
-//   RelationContactComponent,
-//   CustomerMergeComponent,
+const COMPONENTS = [
+  CustomerComponent,
+  NoDealCustomerComponent,
+  NoDealCustomerComponent,
+  CustomerDetailsComponent,
+  ContactsListComponent,
+  LocationListComponent,
+  CustomerAuthComponent,
+  CustomerRecordComponent,
+  CustomerPartnerComponent,
+  PartnerBindCustomerComponent,
+  CreateContactsComponent,
+  CreateLocationComponent,
+  ShareDetailsComponent,
+  UnownedDetailComponent,
+  NodealDetailComponent,
+  RelationContactComponent,
+  CustomerMergeComponent,
 
-//   // RecordEditComponent,
-//   ShowImageComponent,
+  // RecordEditComponent,
+  ShowImageComponent,
 
-//   LegalEntityComponent,
-// ];
+  LegalEntityComponent,
+];
 
 const NEWCOMPONENTS = [
   CustomerListComponent,
@@ -81,6 +81,7 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponen
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
     ...NEWCOMPONENTS,
+    ...COMPONENTS,
     PartnerDetailsComponent,
     TransferTocustomerComponent,
     CustomerLifeCyclePipe,
