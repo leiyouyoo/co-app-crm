@@ -8,6 +8,7 @@ import { UnownedDetailComponent } from './component-old/unowned-detial/unowned-d
 import { CustomerComponent } from './customer-list/customer.component';
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { CustomersInfoComponent } from './component/customers-info/customers-info.component';
+import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,14 @@ const routes: Routes = [
   {
     path: 'customerdetails/:id',
     component: CustomersInfoComponent,
+    data: {
+      titleI18n: 'crm:customerdetails',
+      reuse: true,
+    },
+  },
+  {
+    path: 'potentailcustomerdetails/:id',
+    component: PotentailcustomerInfoComponent,
     data: {
       titleI18n: 'crm:customerdetails',
       reuse: true,

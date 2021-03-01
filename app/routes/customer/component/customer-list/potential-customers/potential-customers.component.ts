@@ -83,48 +83,48 @@ export class PotentialCustomersComponent extends CoPageBase {
       width: 100,
     },
     {
-      title: '代码',
+      title: 'Code',
       index: 'code',
       width: 100,
     },
     {
-      title: '姓名(英文)',
-      index: 'code',
+      title: 'Name(English)',
+      index: 'contactName',
       width: 100,
     },
     {
-      title: '姓名(中文)',
-      index: 'code',
+      title: 'Name(Chinese)',
+      index: 'localizationContactName',
       width: 100,
     },
     {
-      title: '潜在客户状态',
-      index: 'code',
+      title: 'Prospect status',
+      index: 'LeadTrackingPhase',
       width: 100,
     },
     {
-      title: '审批状态',
-      index: 'approvelStatus',
+      title: 'Approval Status',
+      index: 'state',
       width: 100,
     },
     {
       title: 'Full name (local language)',
-      index: 'approvelStatus',
+      index: 'localizationName',
       width: 120,
     },
     {
       title: 'Full name(english)',
-      index: 'approvelStatus',
+      index: 'name',
       width: 100,
     },
     {
       title: 'Abbreviation(local language)',
-      index: 'approvelStatus',
+      index: 'localizationShortName',
       width: 120,
     },
     {
       title: 'Abbreviation(english)',
-      index: 'approvelStatus',
+      index: 'shortName',
       width: 100,
     },
     {
@@ -141,47 +141,47 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Country',
-      index: 'approvelStatus',
+      index: 'country',
       width: 80,
     },
     {
       title: 'Owner',
-      index: 'approvelStatus',
+      index: 'owner',
       width: 80,
     },
     {
       title: 'CreateUser',
-      index: 'approvelStatus',
+      index: 'creator',
       width: 80,
     },
     {
       title: 'Customer Type',
-      index: 'CustomerType',
+      index: 'customerType',
       width: 80,
     },
     {
       title: 'Creation Time',
-      index: 'approvelStatus',
+      index: 'creationTime',
       width: 100,
     },
     {
       title: 'Update Time',
-      index: 'approvelStatus',
+      index: 'lastModificationTime',
       width: 100,
     },
     {
       title: 'Approval date',
-      index: 'approvelStatus',
+      index: 'auditedDate',
       width: 100,
     },
     {
       title: 'Approver',
-      index: 'approvelStatus',
+      index: 'auditor',
       width: 80,
     },
     {
       title: 'Dangerous customer',
-      index: 'approvelStatus',
+      index: 'isDangerFlag',
       width: 80,
     },
     {
@@ -196,11 +196,114 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Is the CSP account open',
+      index: 'isRegistered',
+      width: 100,
+    },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 230,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
+    },
+  ];
+  pendingcolumns: STColumn[] = [
+    {
+      title: 'business type',
+      index: 'code',
+      width: 100,
+    },
+    {
+      title: 'Code',
+      index: 'code',
+      width: 100,
+    },
+    {
+      title: 'Full name (local language)',
+      index: 'localizationName',
+      width: 120,
+    },
+    {
+      title: 'Full name(english)',
+      index: 'localizationShortName',
+      width: 100,
+    },
+    {
+      title: 'Abbreviation(local language)',
+      index: 'name',
+      width: 120,
+    },
+    {
+      title: 'Abbreviation(english)',
+      index: 'shortName',
+      width: 100,
+    },
+    {
+      title: 'Country',
+      index: 'country',
+      width: 80,
+    },
+    {
+      title: 'Applicant',
+      index: 'contactName',
+      width: 90,
+    },
+    {
+      title: 'Date of Application',
       index: 'approvelStatus',
       width: 100,
     },
+    {
+      title: 'Owner',
+      index: 'owner',
+      width: 80,
+    },
+    {
+      title: 'CreateUser',
+      index: 'creator',
+      width: 80,
+    },
+    {
+      title: 'Creation Time',
+      index: 'creationTime',
+      width: 100,
+    },
+    {
+      title: 'Approval date',
+      index: 'auditedDate',
+      width: 100,
+    },
+    {
+      title: 'Approver',
+      index: 'auditor',
+      width: 80,
+    },
+    {
+      title: 'Reason for rejection',
+      index: 'refuseReason',
+      width: 70,
+      sort: 'refuseReason',
+    },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 230,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
+    },
   ];
-
   //table操作方法
   onTableChange(e) {
     debugger;

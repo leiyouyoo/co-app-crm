@@ -75,12 +75,12 @@ export class TransactedCustomersComponent extends CoPageBase {
   }
   columns: STColumn[] = [
     {
-      title: '代码',
+      title: 'Code',
       index: 'code',
       width: 100,
     },
     {
-      title: '审批状态',
+      title: 'Approval Status',
       index: 'state',
       width: 100,
     },
@@ -171,13 +171,13 @@ export class TransactedCustomersComponent extends CoPageBase {
       index: 'isDangerFlag',
       width: 80,
     },
+    // {
+    //   title: 'Data Status',
+    //   index: 'claimStatus',
+    //   width: 80,
+    // },
     {
-      title: 'Data Status',
-      index: 'claimStatus',
-      width: 80,
-    },
-    {
-      title: '首次出货时间',
+      title: 'First shipment time',
       index: 'firstTradeTime',
       width: 80,
     },
@@ -186,16 +186,29 @@ export class TransactedCustomersComponent extends CoPageBase {
       index: 'isRegistered',
       width: 100,
     },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 230,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
+    },
   ];
 
   pendingcolumns: STColumn[] = [
     {
-      title: '业务类型',
-      index: 'code',
+      title: 'business type',
+      index: 'examineType',
       width: 100,
     },
     {
-      title: '代码',
+      title: 'Code',
       index: 'code',
       width: 100,
     },
@@ -264,6 +277,19 @@ export class TransactedCustomersComponent extends CoPageBase {
       index: 'refuseReason',
       width: 70,
       sort: 'refuseReason',
+    },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 230,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
     },
   ];
 

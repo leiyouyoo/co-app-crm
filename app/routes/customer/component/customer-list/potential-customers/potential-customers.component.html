@@ -7,27 +7,27 @@
           {{ 'Add Customer' | translate }}
         </button>
         <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin-left: 8px;">
-          <nz-option [nzValue]="0" [nzLabel]="'我负责的客户' | translate"></nz-option>
-          <nz-option [nzValue]="1" [nzLabel]="'我参与跟进的客户' | translate"></nz-option>
-          <nz-option [nzValue]="2" [nzLabel]="'我认领的客户' | translate"></nz-option>
-          <nz-option [nzValue]="3" [nzLabel]="'全部' | translate"></nz-option>
-          <nz-option [nzValue]="4" [nzLabel]="'我部门的客户' | translate"></nz-option>
-          <nz-option [nzValue]="5" [nzLabel]="'待审批客户' | translate"></nz-option>
+          <nz-option [nzValue]="0" [nzLabel]="'I m in charge' | translate"></nz-option>
+          <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
+          <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
+          <nz-option [nzValue]="3" [nzLabel]="'All' | translate"></nz-option>
+          <nz-option [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
+          <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>
-              {{ '申请变更客户名' | translate }}
+              {{ 'Apply Name' | translate }}
             </li>
             <li nz-menu-item>
-              {{ '转让' | translate }}
+              {{ 'Transfer' | translate }}
             </li>
             <li nz-menu-item>
-              {{ '转移到公海' | translate }}
+              {{ 'Transfer to the high seas' | translate }}
             </li>
             <li nz-menu-item>
-              {{ '合并' | translate }}
+              {{ 'merge' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -55,6 +55,7 @@
       </div>
     </div>
     <co-st
+      [hidden]="searchParams.type == 5"
       #st
       [ps]="searchParams.pageSize"
       [(pi)]="searchParams.pageNo"
@@ -68,6 +69,25 @@
       [showFilters]="false"
       [showCheckbox]="true"
       style="flex: 1;"
+    >
+    </co-st>
+
+    <!-- 待审批列表 -->
+    <co-st
+      [hidden]="searchParams.type != 5"
+      #st
+      [ps]="searchParams.pageSize"
+      [(pi)]="searchParams.pageNo"
+      [columns]="pendingcolumns"
+      [data]="customerInfo?.items"
+      [total]="customerInfo?.totalCount"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      disableCalcX
+      [showFilters]="false"
+      [showCheckbox]="true"
+      style="flex: 1; height: calc(100% - 32px);"
     >
     </co-st>
   </co-page-main>
