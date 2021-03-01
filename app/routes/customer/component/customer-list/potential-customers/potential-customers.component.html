@@ -69,6 +69,41 @@
       [showCheckbox]="true"
       style="flex: 1;"
     >
+      <ng-template st-row="LeadTrackingPhase" let-data>
+        <span *ngIf="data.LeadTrackingPhase == 0">{{ 'PreliminaryContact' | translate }}</span>
+        <span *ngIf="data.LeadTrackingPhase == 1">{{ 'DemandDetermination' | translate }}</span>
+        <span *ngIf="data.LeadTrackingPhase == 2">{{ 'QuotedPrice' | translate }}</span>
+        <span *ngIf="data.LeadTrackingPhase == 3">{{ 'Negotiation' | translate }}</span>
+        <span *ngIf="data.LeadTrackingPhase == 4">{{ 'WinTheOrder' | translate }}</span>
+        <span *ngIf="data.LeadTrackingPhase == 5">{{ 'LostOrder' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="state" let-data>
+        <span *ngIf="data.examineState == 0">
+          {{ 'NoneCooperation' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 1">
+          {{ 'Cooperation' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 2">
+          {{ 'Share customers' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 3">
+          {{ 'Ownerless' | translate }}
+        </span>
+      </ng-template>
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'CustomerList.Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'CustomerList.No' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isRegistered" let-data>
+        <span *ngIf="data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+        >
+        <span *ngIf="!data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+          <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+        </span>
+      </ng-template>
     </co-st>
 
     <!-- 待审批列表 -->
@@ -86,8 +121,12 @@
       disableCalcX
       [showFilters]="false"
       [showCheckbox]="true"
-      style="flex: 1; height: calc(100% - 32px);"
+      style="flex: 1;"
     >
+      <ng-template st-row="examineType" let-data>
+        <span *ngIf="data.examineType == 1">{{ 'Name change approval' | translate }}</span>
+        <span *ngIf="data.examineType == 2">{{ 'Code approval' | translate }}</span>
+      </ng-template>
     </co-st>
   </co-page-main>
 

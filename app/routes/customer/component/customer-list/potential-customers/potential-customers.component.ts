@@ -63,7 +63,6 @@ export class PotentialCustomersComponent extends CoPageBase {
   }
   getAll() {
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
-      debugger;
       this.customerInfo = res;
     });
   }
@@ -71,7 +70,6 @@ export class PotentialCustomersComponent extends CoPageBase {
    * 获取不同类型下的客户数据
    */
   onchangeCustomer(e) {
-    debugger;
     this.searchParams.type = e;
     this.st.load();
   }
@@ -100,11 +98,13 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Prospect status',
       index: 'LeadTrackingPhase',
+      render: 'LeadTrackingPhase',
       width: 100,
     },
     {
       title: 'Approval Status',
       index: 'state',
+      render: 'state',
       width: 100,
     },
     {
@@ -162,16 +162,22 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Creation Time',
       index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Update Time',
       index: 'lastModificationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Approval date',
       index: 'auditedDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -182,6 +188,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Dangerous customer',
       index: 'isDangerFlag',
+      render: 'isDangerFlag',
       width: 80,
     },
     {
@@ -189,11 +196,11 @@ export class PotentialCustomersComponent extends CoPageBase {
       index: 'approvelStatus',
       width: 80,
     },
-    {
-      title: 'Customer Status',
-      index: 'approvelStatus',
-      width: 80,
-    },
+    // {
+    //   title: 'Customer Status',
+    //   index: 'approvelStatus',
+    //   width: 80,
+    // },
     {
       title: 'Is the CSP account open',
       index: 'isRegistered',
@@ -216,7 +223,8 @@ export class PotentialCustomersComponent extends CoPageBase {
   pendingcolumns: STColumn[] = [
     {
       title: 'business type',
-      index: 'code',
+      index: 'examineType',
+      render: 'examineType',
       width: 100,
     },
     {
@@ -251,12 +259,14 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Applicant',
-      index: 'contactName',
+      index: 'applyUserName',
       width: 90,
     },
     {
       title: 'Date of Application',
-      index: 'approvelStatus',
+      index: 'applyDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -272,11 +282,15 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Creation Time',
       index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Approval date',
       index: 'auditedDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -306,7 +320,6 @@ export class PotentialCustomersComponent extends CoPageBase {
   ];
   //table操作方法
   onTableChange(e) {
-    debugger;
     switch (e.type) {
       case 'pi': {
         this.searchParams.pageNo = e.pi;
