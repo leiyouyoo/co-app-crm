@@ -59,7 +59,9 @@ export class TransactedCustomersComponent extends CoPageBase {
     this.st.load();
   }
 
-  onRefresh() {}
+  onRefresh() {
+    this.st.load();
+  }
 
   onReset() {
     this.searchParams.searchText = '';

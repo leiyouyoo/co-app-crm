@@ -1,4 +1,7 @@
-<section class="fam-customer-detail">
+<section style="display: flex; justify-content: flex-end; height: 40px; margin-right: 10px;">
+  <button nzType="primary" nz-button (click)="editCustomer()">{{ 'Edit' | translate }}</button>
+</section>
+<section class="fam-customer-detail" [hidden]="edit">
   <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."> </nz-spin>
   <form id="form" nzLayout="horizontal" nz-form [formGroup]="validateForm">
     <h5 id="components-basic-info">
@@ -20,7 +23,7 @@
             <nz-form-label [nzRequired]="!readonly">{{ 'Full name' | translate }}</nz-form-label>
             <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}">
               <ng-container *ngIf="validateForm.get('name').value; else elseNameTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('name').value }}</label>
+                <label>{{ validateForm.get('name').value }}</label>
               </ng-container>
               <ng-template #elseNameTemplate>
                 --
@@ -34,7 +37,7 @@
             <nz-form-label>{{ 'Full name' | translate }}({{ 'Local' | translate }})</nz-form-label>
             <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}">
               <ng-container *ngIf="validateForm.get('localizationName').value; else elselocalizationNameTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('localizationName').value }}</label>
+                <label>{{ validateForm.get('localizationName').value }}</label>
               </ng-container>
               <ng-template #elselocalizationNameTemplate>
                 --
@@ -48,7 +51,7 @@
             <nz-form-label [nzRequired]="!readonly">{{ 'Abbreviation' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'The abbreviation cannot be empty!' | translate }}">
               <ng-container *ngIf="validateForm.get('shortName').value; else elseAbbreviationTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('shortName').value }}</label>
+                <label>{{ validateForm.get('shortName').value }}</label>
               </ng-container>
               <ng-template #elseAbbreviationTemplate>
                 --
@@ -61,7 +64,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Abbreviation' | translate }}({{ 'Local' | translate }})</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">{{ validateForm.get('localizationShortName').value }}</label>
+              <label>{{ validateForm.get('localizationShortName').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -70,7 +73,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Address' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">{{ validateForm.get('address').value }}</label>
+              <label>{{ validateForm.get('address').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -79,7 +82,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Address' | translate }}({{ 'Local' | translate }})</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">{{ validateForm.get('localizationAddress').value }}</label>
+              <label>{{ validateForm.get('localizationAddress').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -90,7 +93,7 @@
             <nz-form-label [nzRequired]="!readonly">{{ 'Code' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('code').value; else elseTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('code').value }}</label>
+                <label>{{ validateForm.get('code').value }}</label>
               </ng-container>
               <ng-template #elseTemplate>
                 --
@@ -103,7 +106,7 @@
           <nz-form-item>
             <!-- <nz-form-label [nzRequired]="!readonly">{{ '客户属性' | translate }}</nz-form-label>
                 <nz-form-control>
-                  <nz-tag *ngIf="readonly" [nzColor]="'orange'">总月结</nz-tag>
+                  <nz-tag   [nzColor]="'orange'">总月结</nz-tag>
                 </nz-form-control> -->
           </nz-form-item>
         </div>
@@ -113,7 +116,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Common incoterms' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">{{ validateForm.get('incotermsDisplay').value }}</label>
+              <label>{{ validateForm.get('incotermsDisplay').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -122,7 +125,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Sales customer' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">
+              <label>
                 <ng-container *ngIf="validateForm.get('isSalesCustomer').value; else elseSaleTemplate">
                   是
                 </ng-container>
@@ -140,7 +143,7 @@
             <nz-form-label [nzRequired]="!readonly">{{ 'Customer type' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('customerType').value; else elsecustomerTypeTemplate">
-                <label *ngIf="readonly">
+                <label>
                   <span *ngIf="validateForm.get('customerType').value == 1">
                     {{ 'Carrier' | translate }}
                   </span>
@@ -191,7 +194,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Status' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">
+              <label>
                 <span *ngIf="validateForm.get('status').value == 0">
                   {{ 'NoneCooperation' | translate }}
                 </span>
@@ -216,7 +219,7 @@
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('ownerUserList').value?.length > 0; else elseTemplate">
                 <span *ngFor="let item of validateForm.get('ownerUserList').value">
-                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.allowUserName }}</label>
+                  <label style="margin-right: 8px;"> {{ item.allowUserName }}</label>
                 </span>
               </ng-container>
               <ng-template #elseTemplate>
@@ -232,7 +235,7 @@
             <nz-form-label>{{ '创建日期' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('creationTime').value; else elsecreationTimeTemplate">
-                <label *ngIf="readonly"> {{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
+                <label> {{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
               </ng-container>
               <ng-template #elsecreationTimeTemplate>
                 --
@@ -248,7 +251,7 @@
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
                 <span *ngFor="let item of validateForm.get('relatedCustomers').value">
-                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.zhName }}</label>
+                  <label style="margin-right: 8px;"> {{ item.zhName }}</label>
                 </span>
               </ng-container>
               <ng-template #elserelatedCustomersTemplate>
@@ -291,7 +294,6 @@
                     "
                   >
                     <label
-                      *ngIf="readonly"
                       [title]="item.nameLocalization"
                       style="
                         width: 33.3%;
@@ -305,7 +307,6 @@
                       {{ item.nameLocalization }}</label
                     >
                     <label
-                      *ngIf="readonly"
                       [title]="item.name"
                       style="
                         width: 33.3%;
@@ -318,7 +319,7 @@
                     >
                       {{ item.name }}</label
                     >
-                    <label *ngIf="readonly" style="width: 33.3%; margin-right: 8px;">
+                    <label style="width: 33.3%; margin-right: 8px;">
                       <nz-tag [nzColor]="'blue'" style="border-radius: 10px;">
                         <span *ngIf="item.dataSource == 1">{{ 'Correct' | translate }}</span>
                         <span *ngIf="item.dataSource == 2">{{ 'Merge' | translate }}</span>
@@ -355,7 +356,7 @@
           <nz-form-item>
             <nz-form-label [nzRequired]="!readonly">{{ 'Phone' | translate }} </nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly"> {{ validateForm.get('tel').value }}</label>
+              <label> {{ validateForm.get('tel').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -366,7 +367,7 @@
           <nz-form-item>
             <nz-form-label [nzRequired]="!readonly">{{ 'Email' | translate }} </nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">{{ validateForm.get('email').value }}</label>
+              <label>{{ validateForm.get('email').value }}</label>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -376,7 +377,7 @@
             <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('fax').value; else elsefaxTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('fax').value }}</label>
+                <label>{{ validateForm.get('fax').value }}</label>
               </ng-container>
               <ng-template #elsefaxTemplate>
                 --
@@ -406,7 +407,7 @@
             <nz-form-label>{{ 'Industry' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('industryDisplay').value; else elseindustryDisplayTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('industryDisplay').value }}</label>
+                <label>{{ validateForm.get('industryDisplay').value }}</label>
               </ng-container>
               <ng-template #elseindustryDisplayTemplate>
                 --
@@ -420,7 +421,7 @@
             <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('customerConfigure').value?.website; else elsecustomerConfigureTemplate">
-                <label *ngIf="readonly">
+                <label>
                   {{ validateForm.get('customerConfigure').value?.website }}
                 </label>
               </ng-container>
@@ -439,7 +440,7 @@
             <nz-form-label>{{ 'Profile' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('description').value; else elsedescriptionTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('description').value }}</label>
+                <label>{{ validateForm.get('description').value }}</label>
               </ng-container>
               <ng-template #elsedescriptionTemplate>
                 --
@@ -469,7 +470,7 @@
             <nz-form-item>
               <nz-form-label>{{ 'Tax register type' | translate }}</nz-form-label>
               <nz-form-control>
-                <label *ngIf="readonly">
+                <label>
                   <span *ngIf="item?.taxType == 0">{{ 'EIN' | translate }}</span>
                   <span *ngIf="item?.taxType == 1">{{ 'SSN' | translate }}</span>
                   <span *ngIf="item?.taxType == 2">{{ 'ITIN' | translate }}</span>
@@ -483,7 +484,7 @@
             <nz-form-item>
               <nz-form-label>{{ 'Tax register Number' | translate }} </nz-form-label>
               <nz-form-control>
-                <label *ngIf="readonly">{{ item?.taxNo }}</label>
+                <label>{{ item?.taxNo }}</label>
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -495,7 +496,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Audit Status' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">
+              <label>
                 <span *ngIf="validateForm.get('examineState')?.value == 1">
                   {{ 'WaitingExamine' | translate }}
                 </span>
@@ -518,7 +519,7 @@
             <nz-form-label>{{ 'Review date' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('examineTime')?.value; else elseexamineTimeTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('examineTime')?.value | date: 'yyyy-MM-dd' }}</label>
+                <label>{{ validateForm.get('examineTime')?.value | date: 'yyyy-MM-dd' }}</label>
               </ng-container>
               <ng-template #elseexamineTimeTemplate>
                 --
@@ -548,7 +549,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Customer grand' | translate }}</nz-form-label>
             <nz-form-control>
-              <label *ngIf="readonly">
+              <label>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 0">{{ 'Customize' | translate }}</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 1">T1(50-99.99)USD</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 2">T2(100-199.99)USD</span>
@@ -564,7 +565,7 @@
             <nz-form-label>{{ 'Addition in sea freight' | translate }} </nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('customerConfigure').value?.oceanAttachFee; else elseTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('customerConfigure').value?.oceanAttachFee }}USD</label>
+                <label>{{ validateForm.get('customerConfigure').value?.oceanAttachFee }}USD</label>
               </ng-container>
               <ng-template #elseTemplate>
                 --
@@ -593,7 +594,7 @@
             <nz-form-label>{{ 'Update Time' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('lastModificationTime').value; else elselastModificationTimeTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('lastModificationTime').value | date: 'yyyy-MM-dd' }}</label>
+                <label  >{{ validateForm.get('lastModificationTime').value | date: 'yyyy-MM-dd' }}</label>
               </ng-container>
               <ng-template #elselastModificationTimeTemplate>
                 --
@@ -606,7 +607,7 @@
             <nz-form-label>{{ 'Update By' | translate }} </nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('lastModificationUser').value; else elselastModificationUserTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('lastModificationUser').value }}</label>
+                <label  >{{ validateForm.get('lastModificationUser').value }}</label>
               </ng-container>
               <ng-template #elselastModificationUserTemplate>
                 --
@@ -619,7 +620,7 @@
             <nz-form-label>{{ 'CreateTime' | translate }}</nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('creationTime').value; else elseCreateTimeTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
+                <label  >{{ validateForm.get('creationTime').value | date: 'yyyy-MM-dd' }}</label>
               </ng-container>
               <ng-template #elseCreateTimeTemplate>
                 --
@@ -632,7 +633,7 @@
             <nz-form-label>{{ 'CreateUser' | translate }} </nz-form-label>
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('creationUser').value; else elsecreationUserTemplate">
-                <label *ngIf="readonly">{{ validateForm.get('creationUser').value }}</label>
+                <label  >{{ validateForm.get('creationUser').value }}</label>
               </ng-container>
               <ng-template #elsecreationUserTemplate>
                 --
@@ -654,3 +655,5 @@
       </nz-anchor>
     </div> -->
 </section>
+
+<crm-create-transacted-customers [hidden]="!edit" [customerInfo]="customerInfo" (onSubmitted)="onSubmitted($event)"></crm-create-transacted-customers>

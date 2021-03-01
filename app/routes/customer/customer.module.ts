@@ -44,6 +44,7 @@ import { PotentailcustomerInfoComponent } from './component/potentailcustomer-in
 import { PotentailcustomerDetailComponent } from './component/potentailcustomer-info/potentailcustomer-detail/potentailcustomer-detail.component';
 import { DistributionCustomerComponent } from './component/distribution-customer/distribution-customer.component';
 
+import { CreateTransactedCustomersComponent } from './component/customer-list/transacted-customers/create-transacted-customers/create-transacted-customers.component';
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -80,6 +81,7 @@ const NEWCOMPONENTS = [
   LocationDetailComponent,
   PotentailcustomerInfoComponent,
   PotentailcustomerDetailComponent,
+  CreateTransactedCustomersComponent,
 ];
 const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent, DistributionCustomerComponent];
 

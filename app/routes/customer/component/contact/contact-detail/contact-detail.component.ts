@@ -23,6 +23,13 @@ export class ContactDetailComponent implements OnInit {
       position: [null, [Validators.required]],
       email: [null, [Validators.required]],
       Reamrk: [null, [Validators.required]],
+      role: [null, [Validators.required]],
+      cspAccount: [false],
+    });
+
+    this.validateForm.get('cspAccount').valueChanges.subscribe((data) => {
+      if (data) {
+      }
     });
   }
 }
