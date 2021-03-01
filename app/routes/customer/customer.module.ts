@@ -40,6 +40,9 @@ import { HighlightPipe } from './pipe/heightLight';
 import { CoCascaderModule } from '@co/cbc';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { HighSeasPondCustomerComponent } from './component/customer-list/high-seas-pond-customer/high-seas-pond-customer.component';
+import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
+import { PotentailcustomerDetailComponent } from './component/potentailcustomer-info/potentailcustomer-detail/potentailcustomer-detail.component';
+
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -74,11 +77,13 @@ const NEWCOMPONENTS = [
   CustomerDetailComponent,
   ContactDetailComponent,
   LocationDetailComponent,
+  PotentailcustomerInfoComponent,
+  PotentailcustomerDetailComponent,
 ];
-const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponent];
+const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule,CoCascaderModule,NzAnchorModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,

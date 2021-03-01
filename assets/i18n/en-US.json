@@ -32,5 +32,9 @@
   "Whether to leave or not": "Whether to leave or not",
   "The related local charge is only for reference": "The related local charge is only for reference, not inclusive or not  limited the local charges actually happened but not shown here, or happened but is not  proveded services by CITY OCEAN. All the local charges should be calculated according to final debit notes.",
   "WaitingForBuyer": "Waiting For Buyer",
-  "WaitingForSeller": "Waiting For Seller"
+  "WaitingForSeller": "Waiting For Seller",
+  "CustomerList": {
+    "Yes": "Yes",
+    "No": "No"
+  }
 }

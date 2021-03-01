@@ -68,7 +68,7 @@ export class CustomerListComponent extends CoPageBase {
   }
 
   onShowpotentialCustomerDetail(item) {
-    this.$navigate(['/crm/customers/customerdetails', item.id], { queryParams: { _title: `${item?.name}` } });
+    this.$navigate(['/crm/customers/potentailcustomerdetails', item.id], { queryParams: { _title: `${item?.name}` } });
   }
 
   /**

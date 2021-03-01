@@ -2,7 +2,14 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
-
+import { customerType } from '../../../models/enum';
+const addlabel = (obj) => {
+  const result = {};
+  for (const objKey in obj) {
+    result[objKey] = obj[objKey];
+  }
+  return result;
+};
 @Component({
   selector: 'crm-transacted-customers',
   templateUrl: './transacted-customers.component.html',
@@ -61,7 +68,6 @@ export class TransactedCustomersComponent extends CoPageBase {
 
   getAll() {
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
-      debugger;
       this.customerInfo = res;
     });
   }
@@ -70,19 +76,19 @@ export class TransactedCustomersComponent extends CoPageBase {
    * 获取不同类型下的客户数据
    */
   onchangeCustomer(e) {
-    debugger;
     this.searchParams.type = e;
     this.st.load();
   }
   columns: STColumn[] = [
     {
-      title: '代码',
+      title: 'Code',
       index: 'code',
       width: 100,
     },
     {
-      title: '审批状态',
+      title: 'Approval Status',
       index: 'state',
+      render: 'state',
       width: 100,
     },
     {
@@ -145,21 +151,29 @@ export class TransactedCustomersComponent extends CoPageBase {
     {
       title: 'Customer Type',
       index: 'customerType',
+      type: 'enum',
+      enum: addlabel(customerType) as any,
       width: 80,
     },
     {
       title: 'Creation Time',
       index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Update Time',
       index: 'lastModificationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Approval date',
       index: 'auditedDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -170,6 +184,7 @@ export class TransactedCustomersComponent extends CoPageBase {
     {
       title: 'Dangerous customer',
       index: 'isDangerFlag',
+      render: 'isDangerFlag',
       width: 80,
     },
     {
@@ -178,25 +193,40 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 80,
     },
     {
-      title: '首次出货时间',
+      title: 'First shipment time',
       index: 'firstTradeTime',
       width: 80,
     },
     {
       title: 'Is the CSP account open',
       index: 'isRegistered',
+      render: 'isRegistered',
       width: 100,
+    },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 150,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
     },
   ];
 
   pendingcolumns: STColumn[] = [
     {
-      title: '业务类型',
-      index: 'code',
+      title: 'business type',
+      index: 'examineType',
+      render: 'examineType',
       width: 100,
     },
     {
-      title: '代码',
+      title: 'Code',
       index: 'code',
       width: 100,
     },
@@ -227,12 +257,14 @@ export class TransactedCustomersComponent extends CoPageBase {
     },
     {
       title: 'Applicant',
-      index: 'contactName',
+      index: 'applyUserName',
       width: 90,
     },
     {
       title: 'Date of Application',
-      index: 'approvelStatus',
+      index: 'applyDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -248,11 +280,15 @@ export class TransactedCustomersComponent extends CoPageBase {
     {
       title: 'Creation Time',
       index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
       title: 'Approval date',
       index: 'auditedDate',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
       width: 100,
     },
     {
@@ -266,11 +302,23 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 70,
       sort: 'refuseReason',
     },
+    {
+      type: 'action',
+      fixed: 'right',
+      width: 150,
+      buttons: [
+        {
+          text: 'View',
+          click: (e) => {
+            this.onShowCustomerDetail(e);
+          },
+        },
+      ],
+    },
   ];
 
   //table操作方法
   onTableChange(e) {
-    debugger;
     switch (e.type) {
       case 'pi': {
         this.searchParams.pageNo = e.pi;
