@@ -1,6 +1,6 @@
 <co-page-layout>
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
-    <co-page-layout style="flex: none; height: auto !important;" class="bill-top">
+    <!-- <co-page-layout style="flex: none; height: auto !important;" class="bill-top">
       <co-search-area-layout class="bank-search">
         <co-search-area-item [coWidth]="250">
           <nz-form-item>
@@ -32,9 +32,9 @@
           </button>
         </co-search-area-item>
       </co-search-area-layout>
-    </co-page-layout>
+    </co-page-layout> -->
 
-    <co-page-layout style="padding-top: 0;" class="m-top">
+    <co-page-layout style="padding-top: 0;" class="bill-top">
       <co-toolbar>
         <co-toolbar-item>
           <nz-tabset (nzSelectedIndexChange)="selectedIndexChange($event)">
@@ -43,7 +43,7 @@
             <nz-tab [nzTitle]="'公海池' | translate"></nz-tab>
           </nz-tabset>
         </co-toolbar-item>
-        <co-toolbar-item style="margin-right: 0;">
+        <!-- <co-toolbar-item style="margin-right: 0;">
           <button *ngIf="selectIndex == 1" style="margin-left: 20px;" nz-button nzType="primary" (click)="createCustomer()">
             {{ 'Add Customer' | translate }}
           </button>
@@ -83,12 +83,7 @@
               </li>
             </ul>
           </nz-dropdown-menu>
-        </co-toolbar-item>
-        <co-toolbar-item>
-          <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 0;"></nz-divider>
-          <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
-          <button nz-button (click)="onAdd()">{{ 'Add' | translate }}</button>
-        </co-toolbar-item>
+        </co-toolbar-item> -->
       </co-toolbar>
 
       <co-page-main>

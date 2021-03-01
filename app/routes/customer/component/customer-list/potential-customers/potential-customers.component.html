@@ -1,6 +1,59 @@
 <co-page-layout>
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
-    <button (click)="createCustomer()">新增潜在客户</button>
+    <!-- <button (click)="createCustomer()">新增潜在客户</button> -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <div style="display: flex; align-items: center;">
+        <button nz-button nzType="primary" (click)="createCustomer()">
+          {{ 'Add Customer' | translate }}
+        </button>
+        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin-left: 8px;">
+          <nz-option [nzValue]="0" [nzLabel]="'我负责的客户' | translate"></nz-option>
+          <nz-option [nzValue]="1" [nzLabel]="'我参与跟进的客户' | translate"></nz-option>
+          <nz-option [nzValue]="2" [nzLabel]="'我认领的客户' | translate"></nz-option>
+          <nz-option [nzValue]="3" [nzLabel]="'全部' | translate"></nz-option>
+          <nz-option [nzValue]="4" [nzLabel]="'我部门的客户' | translate"></nz-option>
+          <nz-option [nzValue]="5" [nzLabel]="'待审批客户' | translate"></nz-option>
+        </nz-select>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <nz-dropdown-menu #moreButton="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              {{ '申请变更客户名' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '转让' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '转移到公海' | translate }}
+            </li>
+            <li nz-menu-item>
+              {{ '合并' | translate }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+
+        <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
+        <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
+      </div>
+      <div>
+        <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
+          <input type="text" nz-input [(ngModel)]="searchParams.searchText" [placeholder]="'Search Code/Customer Name/Tel' | translate" />
+        </nz-input-group>
+        <ng-template #inputClearTpl
+          ><i
+            nz-icon
+            class="ant-input-clear-icon"
+            nzTheme="fill"
+            nzType="close-circle"
+            *ngIf="searchParams.searchText"
+            (click)="onReset()"
+          ></i
+        ></ng-template>
+        <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
+          <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
+        </button>
+      </div>
+    </div>
     <co-st
       #st
       [ps]="searchParams.pageSize"

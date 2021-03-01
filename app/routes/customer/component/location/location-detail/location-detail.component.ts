@@ -22,7 +22,7 @@ export class LocationDetailComponent implements OnInit {
   provinces: any[];
   citys: any[];
   placeList = [];
-
+  contactList = [{}, {}];
   constructor(
     private fb: FormBuilder,
     private googleMapService: GoogleMapService,

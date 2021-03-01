@@ -21,12 +21,7 @@ export class CustomerListComponent extends CoPageBase {
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   @ViewChild(TransactedCustomersComponent, { static: false }) transactedCustomersList!: TransactedCustomersComponent;
   @ViewChild(PotentialCustomersComponent, { static: false }) potentialCustomersComponent!: PotentialCustomersComponent;
-
-  customerType = 0;
   highseaPondType = 1;
-  searchParams = {
-    searchText: '',
-  };
   title = '客户详情';
   selectIndex = 0;
   constructor(
@@ -50,26 +45,13 @@ export class CustomerListComponent extends CoPageBase {
 
   //#endregion
 
-  onSearch() {
-    if (this.selectIndex == 0) {
-      this.transactedCustomersList.searchParams.searchText = this.searchParams.searchText;
-      this.transactedCustomersList.st.load();
-    } else if (this.selectIndex == 1) {
-      this.potentialCustomersComponent.searchParams.searchText = this.searchParams.searchText;
-      this.potentialCustomersComponent.st.load();
-    }
-  }
-
-  onRefresh() {}
-
-  onReset() {
-    this.searchParams.searchText = '';
-    this.onSearch();
-  }
-
   selectedIndexChange(e) {
     this.selectIndex = e;
-    this.onSearch();
+    if (this.selectIndex == 0) {
+      this.transactedCustomersList.st.load();
+    } else if (this.selectIndex == 1) {
+      this.potentialCustomersComponent.st.load();
+    }
   }
 
   updateCustomerName() {}
@@ -88,17 +70,7 @@ export class CustomerListComponent extends CoPageBase {
   onShowpotentialCustomerDetail(item) {
     this.$navigate(['/crm/customers/customerdetails', item.id], { queryParams: { _title: `${item?.name}` } });
   }
-  /**
-   * 获取不同类型下的客户数据
-   */
-  onchangeCustomer(e) {
-    debugger;
-    if (this.selectIndex == 0) {
-      this.transactedCustomersList.searchParams.type = e;
-      this.transactedCustomersList.st.load();
-    } else {
-    }
-  }
+
   /**
    * 申请代码
    */

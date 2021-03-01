@@ -26,16 +26,16 @@ export class PotentialCustomersComponent extends CoPageBase {
     type: 0,
     searchText: '',
     isCooperation: false,
-    customerOwnerIds: [],
-    includeTaxes: false,
-    includeContacts: false,
-    includeShareOwner: false,
-    loadUser: false,
-    isUserContact: false,
-    isOwn: false,
+    customerOwnerIds: null,
+    includeTaxes: null,
+    includeContacts: null,
+    includeShareOwner: null,
+    loadUser: null,
+    isUserContact: null,
+    isOwn: null,
     customerId: '',
-    isPassedAudit: false,
-    customerStatus: 0,
+    isPassedAudit: null,
+    customerStatus: null,
     sorting: '',
     maxResultCount: 10,
     skipCount: 0,
@@ -50,11 +50,30 @@ export class PotentialCustomersComponent extends CoPageBase {
     this.getAll();
   }
 
+  onSearch() {
+    this.searchParams.searchText = this.searchParams.searchText;
+    this.st.load();
+  }
+
+  onRefresh() {}
+
+  onReset() {
+    this.searchParams.searchText = '';
+    this.onSearch();
+  }
   getAll() {
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
       debugger;
       this.customerInfo = res;
     });
+  }
+  /**
+   * 获取不同类型下的客户数据
+   */
+  onchangeCustomer(e) {
+    debugger;
+    this.searchParams.type = e;
+    this.st.load();
   }
   columns: STColumn[] = [
     {

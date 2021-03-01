@@ -2,6 +2,8 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
+import { NzModalService } from 'ng-zorro-antd';
+import { LocationDetailComponent } from '../location-detail/location-detail.component';
 
 @Component({
   selector: 'crm-location-list',
@@ -9,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./location-list.component.less'],
 })
 export class LocationListComponent extends CoPageBase {
-  constructor(injector: Injector, private translate: TranslateService) {
+  constructor(injector: Injector, private translate: TranslateService, private modal: NzModalService) {
     super(injector);
   }
 
@@ -87,4 +89,15 @@ export class LocationListComponent extends CoPageBase {
     },
   ];
   onTableChange(e) {}
+
+  onAdd() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Correct customer name'),
+      nzContent: LocationDetailComponent,
+      nzComponentParams: {},
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+  }
 }

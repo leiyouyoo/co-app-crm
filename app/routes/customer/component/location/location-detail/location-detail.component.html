@@ -10,7 +10,7 @@
   </div>
 
   <div nz-row [nzGutter]="8">
-    <div nz-col [nzSpan]="12" style="display: flex; align-items: center;">
+    <div nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired>{{ '位置名称' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
@@ -22,7 +22,51 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ '选择联系人' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <input nz-input placeholder="Basic usage" formControlName="lastname" />
+          <nz-select
+            #contact
+            style="width: 100%;"
+            formControlName="lastname"
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="'Search Contact' | translate"
+            [nzCustomTemplate]="custom"
+            [nzDropdownRender]="render"
+            (nzOnSearch)="originLocationsearch($event)"
+            (appNzOptionExtraChange)="clearLocation($event, 'origin')"
+            nzOptionHeightPx="54"
+          >
+            <nz-option
+              nzCustomContent
+              [nzValue]="item.id"
+              [nzLabel]="item.name"
+              *ngFor="let item of contactList; let i = index"
+              [appNzOptionExtra]="item"
+            >
+              <div>
+                <div>dsfd</div>
+                <div>sdfd</div>
+              </div>
+            </nz-option>
+          </nz-select>
+          <ng-template #custom let-selected>
+            <!-- <div>
+              <span>
+                <span
+                  >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                  >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
+                  >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
+                  >{{ selected.template._appExtra.country }}</span
+                >
+              </span>
+            </div> -->
+          </ng-template>
+          <ng-template #render>
+            <nz-divider></nz-divider>
+            <div class="add-item" (click)="('')">
+              <span nz-icon [nzIconfont]="'icon-add-fill'" class="iconfont icon-add-fill"></span> {{ 'Add Contact' | translate }}
+            </div>
+          </ng-template>
+          <!-- <input nz-input placeholder="Basic usage" formControlName="lastname" /> -->
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -46,7 +90,7 @@
     </div>
   </div>
   <div nz-row [nzGutter]="8">
-    <div nz-col [nzSpan]="20">
+    <div nz-col [nzSpan]="24">
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Address' | translate }}</nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
@@ -149,45 +193,8 @@
       </nz-form-item>
     </div>
   </div>
-  <div nz-row style="color: #1890ff;" (click)="isShow = !isShow">
-    更多信息
-  </div>
-  <div nz-row *ngIf="isShow" [nzGutter]="8">
-    <div nz-col [nzSpan]="20">
-      <nz-form-item>
-        <nz-form-label>{{ '电话号码' | translate }}</nz-form-label>
-        <nz-form-control>
-          <input
-            nz-input
-            formControlName="tel"
-            maxlength="20"
-            type="string"
-            placeholder="{{ 'Please enter' | translate }}"
-            style="flex: 1;"
-          />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <div nz-row *ngIf="isShow" [nzGutter]="8">
-    <div nz-col [nzSpan]="20">
-      <nz-form-item>
-        <nz-form-label>{{ '传真' | translate }}</nz-form-label>
-        <nz-form-control>
-          <input
-            nz-input
-            formControlName="tel"
-            maxlength="20"
-            type="string"
-            placeholder="{{ 'Please enter' | translate }}"
-            style="flex: 1;"
-          />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <div nz-row *ngIf="isShow" [nzGutter]="8">
-    <div nz-col [nzSpan]="20">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="24">
       <nz-form-item>
         <nz-form-label>{{ '备注' | translate }}</nz-form-label>
         <nz-form-control>
