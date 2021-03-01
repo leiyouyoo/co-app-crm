@@ -250,10 +250,10 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     },
   ];
 
-  showBasicInfo = true;
+  showBasicInfo = false;
   concatInfo = true;
   businessInfo = true;
-  taxInfo = true;
+  taxInfo = false;
   cspInfo = false;
   maxPrice = 99.99;
   minPrice = 50;
@@ -570,8 +570,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       data.customerTaxes.forEach((item) => {
         this.addRegistration(item);
       });
-    } else {
-      this.addRegistration(null);
     }
 
     //贸易方式

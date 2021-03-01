@@ -16,6 +16,7 @@ export class TransactedCustomersComponent extends CoPageBase {
   // get customerType() {
   //   return this.searchParams.type;
   // }
+  customerType;
   @Output() customerDetail = new EventEmitter<any>();
   searchParams = {
     pageNo: 1,

@@ -272,240 +272,255 @@
       </div>
     </ng-container>
 
-    <h5 id="components-basic-info">
-      <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
-         [style.transform]="showBasicInfo?'rotate(180deg)':'unset'"
-         (click)="showBasicInfo = !showBasicInfo"></i>{{"Basic Information"| translate}}
-    </h5>
-    <ng-container *ngIf="showBasicInfo">
-      <div nz-row [nzGutter]="16">
-        <!--    全称(英文)-->
-        <div nz-col class="gutter-row" [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Full name' | translate }}</nz-form-label>
-            <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="customerErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl">
-                <input
-                  id="name"
-                  nz-input
-                  (blur)="checkRepeatData('name')"
-                  formControlName="name"
-                  placeholder="{{ 'Please enter full name' | translate }}"
-                />
-                <ng-template #inputClearTpl
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('name').value"
-                    (click)="validateForm.get('name').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #customerErrorTpl>
-                <ng-container *ngIf="validateForm.get('name').hasError('required')">
-                  {{ 'The full name cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('name').hasError('existSame')">
-                  {{ 'The full name cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col [nzSpan]="2">
-          <nz-form-item>
-            <nz-form-control style="display: flex;align-items: center;justify-content: center;">
-              <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindLocalName()"></i>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--    全称(本地语言)-->
-        <div nz-col class="gutter-row" [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Full name' | translate }}({{ 'Local' | translate }})</nz-form-label>
-            <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="enErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl1">
-                <input id="nameLocalization" nz-input formControlName="nameLocalization"
-                       (blur)="checkRepeatData('nameLocalization')"
-                       placeholder="{{ 'Please enter' | translate }}"
-                       maxlength="100"/>
-                <ng-template #inputClearTpl1
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('nameLocalization').value"
-                    (click)="validateForm.get('nameLocalization').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #enErrorTpl>
-                <ng-container *ngIf="validateForm.get('nameLocalization').hasError('required')">
-                  {{ 'Location name cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('nameLocalization').hasError('existSame')">
-                  {{ 'The full name cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--        简称(英文)-->
-        <div nz-col class="gutter-row" [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Abbreviation' | translate }}</nz-form-label>
-            <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl2">
-                <input id="shortName" (blur)="checkRepeatData('shortName')" nz-input formControlName="shortName"
-                       placeholder="{{ 'Please enter short name' | translate }}"
-                       type="text"/>
-                <ng-template #inputClearTpl2
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('shortName').value"
-                    (click)="validateForm.get('shortName').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #AbbreviationErrorTpl>
-                <ng-container *ngIf="validateForm.get('shortName').hasError('required')">
-                  {{ 'The abbreviation cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('shortName').hasError('existSame')">
-                  {{ 'The abbreviation cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col [nzSpan]="2">
-          <nz-form-item>
-            <nz-form-control style="display: flex;align-items: center;justify-content: center;">
-              <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindFullName()"></i>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--        简称(本地语言)-->
-        <div nz-col class="gutter-row" [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Abbreviation' | translate }}({{ 'Local' | translate }})</nz-form-label>
-            <nz-form-control [nzErrorTip]="shortNameErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl3">
-                <input
-                  (blur)="checkRepeatData('shortNameLocalization')"
-                  id="shortNameLocalization"
-                  nz-input
-                  formControlName="shortNameLocalization"
-                  type="text"
-                  placeholder="{{ 'Please enter short name' | translate }}"
-                />
-                <ng-template #inputClearTpl3
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('shortNameLocalization').value"
-                    (click)="validateForm.get('shortNameLocalization').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #shortNameErrorTpl>
-                <ng-container *ngIf="validateForm.get('shortNameLocalization').hasError('required')">
-                  {{ 'Abbreviation cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('shortNameLocalization').hasError('existSame')">
-                  {{ 'Abbreviation cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--    地址-->
-        <div nz-col class="gutter-row" [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Address' | translate }}</nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
-              <co-cascader style="width: 100%;" [nzValueProperty]="'id'" [nzOptionRender]="renderTpl"
-                           [nzLabelRender]="labelTpl"
-                           formControlName="country"
-                           [nzShowLocalSearch]="true"
-                           nzPlaceHolder="{{ 'Please select country-province-city' | translate }}"
-                           [nzLoadData]="loadData.bind(this)" [nzLabelProperty]="'nameLocalization'"
-                           (ngModelChange)="onCascaderChanges($event)"></co-cascader>
-              <ng-template #renderTpl let-option let-index="index">{{ option.nameLocalization }}</ng-template>
-              <ng-template #labelTpl>{{ getCountryName }}</ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--        详细地址(英文)-->
-        <div nz-col [nzSpan]="24">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Address(english)' | translate }}</nz-form-label>
-            <nz-form-control [nzErrorTip]="addressErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl4">
-                <input
-                  id="address"
-                  (blur)="checkRepeatData('address')"
-                  nz-input
-                  placeholder="{{ 'Please enter' | translate }}"
-                  formControlName="address"
-                  [nzAutocomplete]="auto"
-                  (input)="searchPlace($event)"
-                >
-                <ng-template #inputClearTpl4
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('address').value"
-                    (click)="validateForm.get('address').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <nz-autocomplete #auto>
-                <nz-auto-option *ngFor="let item of placeList" [nzValue]="item.description"
-                                (click)="bindGoogleMapData(item.description)">
-                  <span>{{ item.description }}</span>
-                </nz-auto-option>
-              </nz-autocomplete>
-              <ng-template #addressErrorTpl>
-                <ng-container *ngIf="validateForm.get('address').hasError('required')">
-                  {{ 'Address cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('address').hasError('existSame')">
-                  {{ 'Address cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <!--        详细地址(本地语言)-->
-        <div nz-col [nzSpan]="24">
-          <nz-form-item>
-            <nz-form-label>{{ 'Address' | translate }}({{ 'Local' | translate }})</nz-form-label>
-            <nz-form-control [nzErrorTip]="localAddressErrorTpl">
-              <nz-input-group [nzSuffix]="inputClearTpl5">
-                <input
-                  (blur)="checkRepeatData('addressLocalization')"
-                  id="addressLocalization"
-                  nz-input
-                  placeholder="{{ 'Please enter' | translate }}"
-                  formControlName="addressLocalization"
-                >
-                <ng-template #inputClearTpl5
-                ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                    *ngIf="validateForm.get('addressLocalization').value"
-                    (click)="validateForm.get('addressLocalization').reset();hide()"></i
-                ></ng-template>
-              </nz-input-group>
-              <ng-template #localAddressErrorTpl>
-                <ng-container *ngIf="validateForm.get('addressLocalization').hasError('required')">
-                  {{ 'Address cannot be empty!' | translate }}
-                </ng-container>
-                <ng-container *ngIf="validateForm.get('addressLocalization').hasError('existSame')">
-                  {{ 'Address cannot be same!' | translate }}
-                </ng-container>
-              </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+    <h5 id="components-basic-info"> {{"Basic Information"| translate}}</h5>
 
-        <!--        客户类型-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Customer type' | translate }}</nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'Customer type cannot be empty!' | translate }}">
-              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="{{ 'Please select' | translate }}"
-                         formControlName="customerType">
-                <nz-option *ngFor="let item of customerTypes" [nzLabel]="item.name | translate"
-                           [nzValue]="item.value"></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+    <div nz-row [nzGutter]="16">
+      <!--    全称(英文)-->
+      <div nz-col class="gutter-row" [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Full name' | translate }}</nz-form-label>
+          <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="customerErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl">
+              <input
+                id="name"
+                nz-input
+                (blur)="checkRepeatData('name')"
+                formControlName="name"
+                placeholder="{{ 'Please enter full name' | translate }}"
+              />
+              <ng-template #inputClearTpl
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('name').value"
+                  (click)="validateForm.get('name').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <ng-template #customerErrorTpl>
+              <ng-container *ngIf="validateForm.get('name').hasError('required')">
+                {{ 'The full name cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('name').hasError('existSame')">
+                {{ 'The full name cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="2">
+        <nz-form-item>
+          <nz-form-control style="display: flex;align-items: center;justify-content: center;">
+            <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindLocalName()"></i>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--    全称(本地语言)-->
+      <div nz-col class="gutter-row" [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label>{{ 'Full name' | translate }}({{ 'Local' | translate }})</nz-form-label>
+          <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="enErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl1">
+              <input id="nameLocalization" nz-input formControlName="nameLocalization"
+                     (blur)="checkRepeatData('nameLocalization')"
+                     placeholder="{{ 'Please enter' | translate }}"
+                     maxlength="100"/>
+              <ng-template #inputClearTpl1
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('nameLocalization').value"
+                  (click)="validateForm.get('nameLocalization').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <ng-template #enErrorTpl>
+              <ng-container *ngIf="validateForm.get('nameLocalization').hasError('required')">
+                {{ 'Location name cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('nameLocalization').hasError('existSame')">
+                {{ 'The full name cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--        简称(英文)-->
+      <div nz-col class="gutter-row" [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Abbreviation' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl2">
+              <input id="shortName" (blur)="checkRepeatData('shortName')" nz-input formControlName="shortName"
+                     placeholder="{{ 'Please enter short name' | translate }}"
+                     type="text"/>
+              <ng-template #inputClearTpl2
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('shortName').value"
+                  (click)="validateForm.get('shortName').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <ng-template #AbbreviationErrorTpl>
+              <ng-container *ngIf="validateForm.get('shortName').hasError('required')">
+                {{ 'The abbreviation cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('shortName').hasError('existSame')">
+                {{ 'The abbreviation cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="2">
+        <nz-form-item>
+          <nz-form-control style="display: flex;align-items: center;justify-content: center;">
+            <i nz-icon nzType="retweet" nzTheme="outline" style="color: #1890ff;" (click)="bindFullName()"></i>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--        简称(本地语言)-->
+      <div nz-col class="gutter-row" [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label>{{ 'Abbreviation' | translate }}({{ 'Local' | translate }})</nz-form-label>
+          <nz-form-control [nzErrorTip]="shortNameErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl3">
+              <input
+                (blur)="checkRepeatData('shortNameLocalization')"
+                id="shortNameLocalization"
+                nz-input
+                formControlName="shortNameLocalization"
+                type="text"
+                placeholder="{{ 'Please enter short name' | translate }}"
+              />
+              <ng-template #inputClearTpl3
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('shortNameLocalization').value"
+                  (click)="validateForm.get('shortNameLocalization').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <ng-template #shortNameErrorTpl>
+              <ng-container *ngIf="validateForm.get('shortNameLocalization').hasError('required')">
+                {{ 'Abbreviation cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('shortNameLocalization').hasError('existSame')">
+                {{ 'Abbreviation cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--    地址-->
+      <div nz-col class="gutter-row" [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Address' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
+            <co-cascader style="width: 100%;" [nzValueProperty]="'id'" [nzOptionRender]="renderTpl"
+                         [nzLabelRender]="labelTpl"
+                         formControlName="country"
+                         [nzShowLocalSearch]="true"
+                         nzPlaceHolder="{{ 'Please select country-province-city' | translate }}"
+                         [nzLoadData]="loadData.bind(this)" [nzLabelProperty]="'nameLocalization'"
+                         (ngModelChange)="onCascaderChanges($event)"></co-cascader>
+            <ng-template #renderTpl let-option let-index="index">{{ option.nameLocalization }}</ng-template>
+            <ng-template #labelTpl>{{ getCountryName }}</ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--        详细地址(英文)-->
+      <div nz-col [nzSpan]="24">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Address(english)' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="addressErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl4">
+              <input
+                id="address"
+                (blur)="checkRepeatData('address')"
+                nz-input
+                placeholder="{{ 'Please enter' | translate }}"
+                formControlName="address"
+                [nzAutocomplete]="auto"
+                (input)="searchPlace($event)"
+              >
+              <ng-template #inputClearTpl4
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('address').value"
+                  (click)="validateForm.get('address').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <nz-autocomplete #auto>
+              <nz-auto-option *ngFor="let item of placeList" [nzValue]="item.description"
+                              (click)="bindGoogleMapData(item.description)">
+                <span>{{ item.description }}</span>
+              </nz-auto-option>
+            </nz-autocomplete>
+            <ng-template #addressErrorTpl>
+              <ng-container *ngIf="validateForm.get('address').hasError('required')">
+                {{ 'Address cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('address').hasError('existSame')">
+                {{ 'Address cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--        详细地址(本地语言)-->
+      <div nz-col [nzSpan]="24">
+        <nz-form-item>
+          <nz-form-label>{{ 'Address' | translate }}({{ 'Local' | translate }})</nz-form-label>
+          <nz-form-control [nzErrorTip]="localAddressErrorTpl">
+            <nz-input-group [nzSuffix]="inputClearTpl5">
+              <input
+                (blur)="checkRepeatData('addressLocalization')"
+                id="addressLocalization"
+                nz-input
+                placeholder="{{ 'Please enter' | translate }}"
+                formControlName="addressLocalization"
+              >
+              <ng-template #inputClearTpl5
+              ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                  *ngIf="validateForm.get('addressLocalization').value"
+                  (click)="validateForm.get('addressLocalization').reset();hide()"></i
+              ></ng-template>
+            </nz-input-group>
+            <ng-template #localAddressErrorTpl>
+              <ng-container *ngIf="validateForm.get('addressLocalization').hasError('required')">
+                {{ 'Address cannot be empty!' | translate }}
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('addressLocalization').hasError('existSame')">
+                {{ 'Address cannot be same!' | translate }}
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!--        客户类型-->
+      <div nz-col [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Customer type' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Customer type cannot be empty!' | translate }}">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="{{ 'Please select' | translate }}"
+                       formControlName="customerType">
+              <nz-option *ngFor="let item of customerTypes" [nzLabel]="item.name | translate"
+                         [nzValue]="item.value"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!--      销售客户-->
+      <div nz-col [nzSpan]="11">
+        <nz-form-item>
+          <nz-form-label nzNoColon>{{ 'Sales customer' | translate }}</nz-form-label>
+          <nz-form-control>
+            <label nz-checkbox formControlName="isSalesCustomer" style="margin-right: 1em;"></label>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="24">
+        <h5>
+          <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
+             [style.transform]="showBasicInfo?'rotate(180deg)':'unset'"
+             (click)="showBasicInfo = !showBasicInfo;taxInfo=false;cspInfo=false;taxInfoChange(false);cspInfoChange(false)"></i>{{"More Information"| translate}}
+        </h5>
+      </div>
+      <ng-container *ngIf="showBasicInfo">
 
         <!--      常用贸易方式-->
         <div nz-col [nzSpan]="11">
@@ -550,16 +565,6 @@
           </nz-form-item>
         </div>
 
-        <!--      销售客户-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzNoColon>{{ 'Sales customer' | translate }}</nz-form-label>
-            <nz-form-control>
-              <label nz-checkbox formControlName="isSalesCustomer" style="margin-right: 1em;"></label>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
         <!--      状态-->
         <div nz-col [nzSpan]="11">
           <nz-form-item>
@@ -571,136 +576,138 @@
           </nz-form-item>
         </div>
 
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
 
-    <h5 id="components-business-info">
-      <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
-         [style.transform]="businessInfo?'rotate(180deg)':'unset'"
-         (click)="businessInfo = !businessInfo"></i>{{"Business Information"| translate}}
-    </h5>
-    <ng-container *ngIf="businessInfo">
-      <div nz-row [nzGutter]="16">
-        <!--        行业-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Industry' | translate }}</nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'The industry cannot be empty!' | translate }}">
-              <nz-select nzShowSearch nzAllowClear formControlName="industry"
-                         nzPlaceHolder="{{ 'Please select' | translate }}">
-                <nz-option *ngFor="let item of industryList" [nzLabel]="item.nameLocalization"
-                           [nzValue]="item.id"></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
+    <ng-container *ngIf="showBasicInfo">
+      <h5 id="components-business-info">
+        <i nz-icon nzType="down-square" nzTheme="fill" style="color:#1890FF;font-size: 16px;margin-right: 4px; "
+           [style.transform]="businessInfo?'rotate(180deg)':'unset'"
+           (click)="businessInfo = !businessInfo"></i>{{"Business Information"| translate}}
+      </h5>
+      <ng-container *ngIf="businessInfo">
+        <div nz-row [nzGutter]="16">
+          <!--        行业-->
+          <div nz-col [nzSpan]="11">
+            <nz-form-item>
+              <nz-form-label>{{ 'Industry' | translate }}</nz-form-label>
+              <nz-form-control nzErrorTip="{{ 'The industry cannot be empty!' | translate }}">
+                <nz-select nzShowSearch nzAllowClear formControlName="industry"
+                           nzPlaceHolder="{{ 'Please select' | translate }}">
+                  <nz-option *ngFor="let item of industryList" [nzLabel]="item.nameLocalization"
+                             [nzValue]="item.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <!--        网址-->
+          <div nz-col [nzSpan]="11">
+            <nz-form-item>
+              <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="website" placeholder="{{ 'Please enter' | translate }}"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
         </div>
-        <!--        网址-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="website" placeholder="{{ 'Please enter' | translate }}"/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
 
-      <!--      公司简介-->
-      <div nz-row [nzGutter]="16">
-        <div nz-col [nzSpan]="24">
-          <nz-form-item>
-            <nz-form-label>{{ 'Profile' | translate }}</nz-form-label>
-            <nz-form-control>
+        <!--      公司简介-->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="24">
+            <nz-form-item>
+              <nz-form-label>{{ 'Profile' | translate }}</nz-form-label>
+              <nz-form-control>
             <textarea formControlName="description" maxlength="1000" nz-input
                       [nzAutosize]="{ minRows: 2, maxRows: 3 }"></textarea>
-            </nz-form-control>
-          </nz-form-item>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
-    <h5 id="components-tax-info">
-      <nz-switch nzSize="small" (ngModelChange)="taxInfoChange($event)" [ngModelOptions]="{standalone:true}"
-                 [(ngModel)]="taxInfo"></nz-switch>
-      {{"Tax Information" | translate}}
-    </h5>
-    <ng-container *ngIf="taxInfo">
-      <div formArrayName="customerTaxes">
-        <div [formGroupName]="inx"
-             *ngFor="let detail of validateForm.controls['customerTaxes'].controls; let inx = index">
-          <div nz-row [nzGutter]="16">
-            <!--            税务登记类型-->
-            <div nz-col [nzSpan]="11">
-              <nz-form-item>
-                <nz-form-label nzRequired>{{ 'Tax register type' | translate }}
-                  <a>
-                    <i *ngIf="0 === inx && addRegistrationButton" (click)="addRegistration()"
-                       style="font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
-                  </a>
-                </nz-form-label>
-                <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-                  <nz-select
-                    nzShowSearch
-                    nzAllowClear
-                    formControlName="taxType"
-                    nzPlaceHolder="{{ 'Please select' | translate }}"
-                    (ngModelChange)="onChangeRegistrationType($event)"
-                  >
-                    <nz-option
-                      *ngFor="let item of registrationTypes"
-                      [nzLabel]="item.name"
-                      [nzValue]="item.value"
-                      [nzDisabled]="item.checked"
+      <h5 id="components-tax-info">
+        <nz-switch nzSize="small" (ngModelChange)="taxInfoChange($event)" [ngModelOptions]="{standalone:true}"
+                   [(ngModel)]="taxInfo"></nz-switch>
+        {{"Tax Information" | translate}}
+      </h5>
+      <ng-container *ngIf="taxInfo">
+        <div formArrayName="customerTaxes">
+          <div [formGroupName]="inx"
+               *ngFor="let detail of validateForm.controls['customerTaxes'].controls; let inx = index">
+            <div nz-row [nzGutter]="16">
+              <!--            税务登记类型-->
+              <div nz-col [nzSpan]="11">
+                <nz-form-item>
+                  <nz-form-label nzRequired>{{ 'Tax register type' | translate }}
+                    <a>
+                      <i *ngIf="0 === inx && addRegistrationButton" (click)="addRegistration()"
+                         style="font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
+                    </a>
+                  </nz-form-label>
+                  <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+                    <nz-select
+                      nzShowSearch
+                      nzAllowClear
+                      formControlName="taxType"
+                      nzPlaceHolder="{{ 'Please select' | translate }}"
+                      (ngModelChange)="onChangeRegistrationType($event)"
                     >
-                    </nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <!--            税务登记号-->
-            <div nz-col [nzSpan]="11">
-              <nz-form-item>
-                <nz-form-label nzRequired>{{ 'Tax register Number' | translate }}</nz-form-label>
-                <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
-                  <div class="flex_between">
-                    <input [id]="'customerTaxes' + inx" nz-input formControlName="taxNo" (blur)="taxNoBlur($event, inx)"
-                           placeholder="{{ 'Please enter' | translate }}"
-                           style="flex: 1;"/>
-                  </div>
-                </nz-form-control>
-                <a>
-                  <i
-                    style="font-size: 20px;"
-                    nz-icon
-                    nzType="delete"
-                    *ngIf="validateForm.controls['customerTaxes'].controls?.length!=1"
-                    nzTheme="outline"
-                    (click)="deleteCustomerTaxes(validateForm.controls['customerTaxes'].controls[inx].value.taxType,inx)"
-                  ></i>
-                </a>
-              </nz-form-item>
+                      <nz-option
+                        *ngFor="let item of registrationTypes"
+                        [nzLabel]="item.name"
+                        [nzValue]="item.value"
+                        [nzDisabled]="item.checked"
+                      >
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <!--            税务登记号-->
+              <div nz-col [nzSpan]="11">
+                <nz-form-item>
+                  <nz-form-label nzRequired>{{ 'Tax register Number' | translate }}</nz-form-label>
+                  <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                    <div class="flex_between">
+                      <input [id]="'customerTaxes' + inx" nz-input formControlName="taxNo"
+                             (blur)="taxNoBlur($event, inx)"
+                             placeholder="{{ 'Please enter' | translate }}"
+                             style="flex: 1;"/>
+                    </div>
+                  </nz-form-control>
+                  <a>
+                    <i
+                      style="font-size: 20px;"
+                      nz-icon
+                      nzType="delete"
+                      *ngIf="validateForm.controls['customerTaxes'].controls?.length!=1"
+                      nzTheme="outline"
+                      (click)="deleteCustomerTaxes(validateForm.controls['customerTaxes'].controls[inx].value.taxType,inx)"
+                    ></i>
+                  </a>
+                </nz-form-item>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
 
-    <h5 id="components-csp-credentials-info">
-      <nz-switch nzSize="small" (ngModelChange)="cspInfoChange($event)" [ngModelOptions]="{standalone:true}"
-                 [(ngModel)]="cspInfo"></nz-switch>
-      {{"CSP Credentials" | translate}}
-    </h5>
-    <ng-container *ngIf="cspInfo">
-      <div nz-row [nzGutter]="16">
-        <!--        客户配置级别-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzFor="customerLevel"
-            >{{ 'Customer grand' | translate }}
+      <h5 id="components-csp-credentials-info">
+        <nz-switch nzSize="small" (ngModelChange)="cspInfoChange($event)" [ngModelOptions]="{standalone:true}"
+                   [(ngModel)]="cspInfo"></nz-switch>
+        {{"CSP Credentials" | translate}}
+      </h5>
+      <ng-container *ngIf="cspInfo">
+        <div nz-row [nzGutter]="16">
+          <!--        客户配置级别-->
+          <div nz-col [nzSpan]="11">
+            <nz-form-item>
+              <nz-form-label nzFor="customerLevel"
+              >{{ 'Customer grand' | translate }}
 
-              <span
-                style="
+                <span
+                  style="
                   color: #ff4d4f;
                   margin-left: 4px;
                   margin-right: 4px;
@@ -708,85 +715,87 @@
                   font-family: SimSun, sans-serif;
                   line-height: 1;
                 "
-              >*</span
-              >
+                >*</span
+                >
 
-              <i
-                nz-icon
-                nzType="info-circle"
-                nzTheme="outline"
-                nz-tooltip
-                [nzTooltipTitle]="
+                <i
+                  nz-icon
+                  nzType="info-circle"
+                  nzTheme="outline"
+                  nz-tooltip
+                  [nzTooltipTitle]="
                   'Set the customer\'s price level, the customer can see the reserve price + the added price after configuring the price in the CSP'
                     | translate
                 "
-                class="tips"
-              ></i>
-            </nz-form-label>
-            <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-              <nz-select
-                nzShowSearch
-                nzPlaceHolder="{{ 'Please select' | translate }}"
-                nzAllowClear
-                formControlName="customerLevel"
-                [nzCustomTemplate]="multipleTemplate"
-                (ngModelChange)="changeCustomerLevel($event)"
-              >
-                <nz-option [nzValue]="1" nzCustomContent>
-                  T1{{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)
-                </nz-option>
-                <nz-option [nzValue]="2" nzCustomContent>
-                  T2{{ 'range' | translate }}:(<span style="color: #faad14;">100-199.99</span>)
-                </nz-option>
-                <nz-option [nzValue]="3" nzCustomContent>
-                  T3{{ 'range' | translate }}:(<span style="color: #faad14;">200-299.99)</span>)
-                </nz-option>
-                <nz-option [nzValue]="4" nzCustomContent>
-                  T4{{ 'range' | translate }}:(<span style="color: #faad14;">300-499.99)</span>)
-                </nz-option>
-                <nz-option [nzValue]="5" nzCustomContent>
-                  T5{{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
-                </nz-option>
-                <nz-option [nzValue]="0" nzCustomContent>
-                  {{ 'customize' | translate }}
-                </nz-option>
-              </nz-select>
+                  class="tips"
+                ></i>
+              </nz-form-label>
+              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+                <nz-select
+                  nzShowSearch
+                  nzPlaceHolder="{{ 'Please select' | translate }}"
+                  nzAllowClear
+                  formControlName="customerLevel"
+                  [nzCustomTemplate]="multipleTemplate"
+                  (ngModelChange)="changeCustomerLevel($event)"
+                >
+                  <nz-option [nzValue]="1" nzCustomContent>
+                    T1{{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)
+                  </nz-option>
+                  <nz-option [nzValue]="2" nzCustomContent>
+                    T2{{ 'range' | translate }}:(<span style="color: #faad14;">100-199.99</span>)
+                  </nz-option>
+                  <nz-option [nzValue]="3" nzCustomContent>
+                    T3{{ 'range' | translate }}:(<span style="color: #faad14;">200-299.99)</span>)
+                  </nz-option>
+                  <nz-option [nzValue]="4" nzCustomContent>
+                    T4{{ 'range' | translate }}:(<span style="color: #faad14;">300-499.99)</span>)
+                  </nz-option>
+                  <nz-option [nzValue]="5" nzCustomContent>
+                    T5{{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
+                  </nz-option>
+                  <nz-option [nzValue]="0" nzCustomContent>
+                    {{ 'customize' | translate }}
+                  </nz-option>
+                </nz-select>
 
-              <ng-template #multipleTemplate let-selected>
-                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value != 0">
-                  T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span style="color: #faad14;"
-                ><span *ngIf="!maxPrice">≥</span>{{ minPrice }}<span *ngIf="maxPrice">-{{ maxPrice }}</span></span
-                >)
-                </div>
+                <ng-template #multipleTemplate let-selected>
+                  <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value != 0">
+                    T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span
+                    style="color: #faad14;"
+                  ><span *ngIf="!maxPrice">≥</span>{{ minPrice }}<span *ngIf="maxPrice">-{{ maxPrice }}</span></span
+                  >)
+                  </div>
 
-                <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value == 0">
-                  {{ 'customize' | translate }}
-                </div>
+                  <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value == 0">
+                    {{ 'customize' | translate }}
+                  </div>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!--        海运费叠加金额-->
+          <div nz-col [nzSpan]="11">
+            <nz-form-item>
+              <nz-form-label nzRequired
+                             nzFor="oceanAttachFee">{{ 'Addition in sea freight' | translate }}</nz-form-label>
+              <nz-form-control [nzErrorTip]="errortips">
+                <nz-input-group nzAddOnAfter="USD">
+                  <input type="number" nz-input formControlName="oceanAttachFee"
+                         placeholder="{{ 'Please enter' | translate }}"/>
+                </nz-input-group>
+              </nz-form-control>
+              <ng-template #errortips>
+                {{ 'Please enter the price in the price range' | translate }}
               </ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+            </nz-form-item>
+          </div>
 
-        <!--        海运费叠加金额-->
-        <div nz-col [nzSpan]="11">
-          <nz-form-item>
-            <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Addition in sea freight' | translate }}</nz-form-label>
-            <nz-form-control [nzErrorTip]="errortips">
-              <nz-input-group nzAddOnAfter="USD">
-                <input type="number" nz-input formControlName="oceanAttachFee"
-                       placeholder="{{ 'Please enter' | translate }}"/>
-              </nz-input-group>
-            </nz-form-control>
-            <ng-template #errortips>
-              {{ 'Please enter the price in the price range' | translate }}
-            </ng-template>
-          </nz-form-item>
         </div>
+      </ng-container>
 
-      </div>
     </ng-container>
-
-
   </form>
   <!--  锚点-->
   <div style="margin-left: 12px;z-index: 1;">

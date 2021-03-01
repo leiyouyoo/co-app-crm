@@ -347,7 +347,12 @@ export class LocationDetailComponent implements OnInit {
       });
     }
   }
+  originLocationsearch(e){
 
+  }
+  clearLocation(e,type){
+
+  }
   @debounce(200)
   searchPlace(value, language = this.translate.currentLang) {
     const form = this.validateForm.value;

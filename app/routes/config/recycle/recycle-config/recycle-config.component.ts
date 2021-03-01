@@ -188,9 +188,26 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
   }
 
   chang(e, type) {
-    this.validateForm.settingClaimRules = this.validateForm.settingClaimRules?.filter(ele => {
-      return ele == type && e;
-    });
+    if (!this.validateForm.settingClaimRules) {
+      this.validateForm.settingClaimRules = [];
+    }
+    switch (type) {
+      case 0:
+        if (e) {
+          this.validateForm.settingClaimRules.push(0);
+        } else {
+          this.validateForm.settingClaimRules = this.validateForm.settingClaimRules.filter(e => e == 0);
+        }
+        break;
+      case 1:
+        if (e) {
+          this.validateForm.settingClaimRules.push(1);
+        } else {
+          this.validateForm.settingClaimRules = this.validateForm.settingClaimRules.filter(e => e == 1);
+        }
+        break;
+    }
+    this.validateForm.settingClaimRules = [...new Set(this.validateForm.settingClaimRules)];
   }
 
   /**

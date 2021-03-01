@@ -1028,6 +1028,21 @@
   "Name(English)":"姓名(英文)",
   "Name(Chinese)":"姓名(中文)",
   "Prospect status":"潜在客户状态",
-  "Reason for rejection":"驳回原因"
-
+  "Reason for rejection":"驳回原因",
+  "Business Information": "工商信息",
+  "Contact Information": "联系人信息",
+  "Address(english)": "地址（英文）",
+  "Related company": "关联公司",
+  "Tax Information": "税务信息",
+  "CSP Credentials": "CSP认证信息",
+  "Website": "网址",
+  "Tax register type": "税务登记类型",
+  "Tax register Number": "税务登记号",
+  "Addition in sea freight": "海运费叠加金额",
+  "Customer grand": "客户配置级别",
+  "Please select country-province-city": "请选择国家-省-市",
+  "Add Customer": "新增客户",
+  "More Information": "更多信息"
 }
+ 
+
