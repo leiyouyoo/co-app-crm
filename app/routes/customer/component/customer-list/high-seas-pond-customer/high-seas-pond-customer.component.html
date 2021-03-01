@@ -1,0 +1,74 @@
+<co-page-layout>
+  <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <div style="display: flex; align-items: center;">
+        <nz-select [(ngModel)]="searchParams.searchType" (ngModelChange)="onchangeCustomer($event)"
+                   style="width: 200px; margin-left: 8px;">
+          <nz-option [nzValue]="0" [nzLabel]="'分配给我的' | translate"></nz-option>
+          <nz-option [nzValue]="1" [nzLabel]="'分配给我部门的' | translate"></nz-option>
+          <nz-option [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
+          <nz-option [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
+        </nz-select>
+        <button style="margin-left: 8px;" nz-button nzType="primary">
+          {{ '分配' | translate }}
+        </button>
+        <button nz-button nzType="normal">
+          {{ '认领' | translate }}
+        </button>
+        <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
+        <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
+      </div>
+      <div>
+        <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
+          <input type="text" nz-input [(ngModel)]="searchParams.searchkeywork"
+                 [placeholder]="'Search Code/Customer Name/Tel' | translate"/>
+        </nz-input-group>
+        <ng-template #inputClearTpl
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="searchParams.searchkeywork"
+          (click)="onReset()"
+        ></i
+        ></ng-template>
+        <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
+          <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
+        </button>
+      </div>
+    </div>
+    <co-st
+      #st
+      [ps]="searchParams.pageSize"
+      [(pi)]="searchParams.pageNo"
+      [columns]="columns"
+      [data]="customerInfo?.items"
+      [total]="customerInfo?.totalCount"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      disableCalcX
+      [showFilters]="false"
+      [showCheckbox]="true"
+      style="flex: 1;"
+    >
+      <ng-template st-row="country" let-data>
+        {{ data.countryName}}-{{ data.provinceName}}
+      </ng-template>
+    </co-st>
+  </co-page-main>
+
+  <co-page-side-drawer
+    coWidthResizable
+    coMinWidth="800px"
+    (coOnClose)="$event.close()"
+    [coTitle]="drawerTitle"
+    #sideDrawer
+  ></co-page-side-drawer>
+  <ng-template #drawerTitle>
+    <div class="drawerTitle">
+      <div class="title" [innerHTML]="title | translate"></div>
+    </div>
+  </ng-template>
+</co-page-layout>

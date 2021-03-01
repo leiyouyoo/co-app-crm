@@ -1,3 +1,4 @@
+export * from './attachment.service';
 export * from './contact.service';
 export * from './contact-external.service';
 export * from './contact-im.service';

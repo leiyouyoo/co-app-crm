@@ -1,5 +1,80 @@
  
     /**
+     * 附件模型
+     */
+    export class CRMAttachmentDto {
+        [key:string]: any;
+        
+         
+            /* 附件类型
+0 = Other
+1 = MonthlyClosing
+2 = TelexRelease */ 
+            type?: number;
+         
+            /* 文件id(上传到文件服务器后返回) */ 
+            fileId?: string;
+         
+            /* 文件名称(上传到文件服务器后返回) */ 
+            fileName?: string;
+         
+            /* 文件扩展名(上传到文件服务器后返回) */ 
+            extensionName?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 附件列表模型
+     */
+    export class CRMAttachmentListDto {
+        [key:string]: any;
+        
+         
+            /* 上传人 */ 
+            creator?: string;
+         
+            /* 上传时间 */ 
+            creationTime?: string;
+         
+            /* 附件类型
+0 = Other
+1 = MonthlyClosing
+2 = TelexRelease */ 
+            type?: number;
+         
+            /* 文件id(上传到文件服务器后返回) */ 
+            fileId?: string;
+         
+            /* 文件名称(上传到文件服务器后返回) */ 
+            fileName?: string;
+         
+            /* 文件扩展名(上传到文件服务器后返回) */ 
+            extensionName?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMListResultDto1<T> {
+        [key:string]: any;
+        
+         
+            
+            items?: T[];
+        
+        
+    }
+ 
+    /**
      * 联系人Dto
      */
     export class CRMContactDto {
@@ -132,19 +207,6 @@
          
             /* 上级userid */ 
             parentId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMListResultDto1<T> {
-        [key:string]: any;
-        
-         
-            
-            items?: T[];
         
         
     }
@@ -1272,13 +1334,35 @@
 3 = Ownerless */ 
             status?: number;
          
-            /* 审核状态
+            /* 审核状态（过期）
 0 = NoSet
 1 = UnApply
 2 = Processing
 3 = Passed
 4 = Unpassed */ 
             state?: number;
+         
+            /* 审批状态（使用这个）
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批类型
+0 = NoteSet
+1 = UpdateName
+2 = PostCode */ 
+            examineType?: number;
+         
+            /* 申请人 */ 
+            applyUserName?: string;
+         
+            /* 申请日期 */ 
+            applyDate?: string;
+         
+            /* 驳回原因 */ 
+            refuseReason?: string;
          
             /* 地址 */ 
             address?: string;
@@ -1339,6 +1423,9 @@
          
             /* 是否合并的 */ 
             isMerged?: boolean;
+         
+            /* 是否默认值(下拉数据源才用) */ 
+            isDefault?: boolean;
          
             /* 共享人 */ 
             sharedUsers?: any[];
@@ -1452,6 +1539,9 @@
          
             /* 是否包含联系人 */ 
             includeContacts?: boolean;
+         
+            /* 是否标记默认值 */ 
+            isMarkDefault?: boolean;
          
             /* 国家id */ 
             countryId?: string;
@@ -1886,9 +1976,6 @@
             /* 用户名 */ 
             userName?: string;
          
-            /* 用户版本角色 */ 
-            editionRoleId?: number;
-         
             /* 联系人id */ 
             contactId?: string;
          
@@ -1913,11 +2000,14 @@
             /* 联系人姓名(详情页面显示用，不用提交) */ 
             contactFullName?: string;
          
+            /* 在分布式事务中，该字段会自动设置为本地事务ID */ 
+            txId?: string;
+         
             /* 客户配置 */ 
             customerConfigure?: CRMCustomerConfigureDto;
          
-            /* 在分布式事务中，该字段会自动设置为本地事务ID */ 
-            txId?: string;
+            /* 用户版本角色 */ 
+            editionRoleId?: number;
         
         
     }
@@ -2133,13 +2223,35 @@
 3 = Ownerless */ 
             status?: number;
          
-            /* 审核状态
+            /* 审核状态（过期）
 0 = NoSet
 1 = UnApply
 2 = Processing
 3 = Passed
 4 = Unpassed */ 
             state?: number;
+         
+            /* 审批状态（使用这个）
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批类型
+0 = NoteSet
+1 = UpdateName
+2 = PostCode */ 
+            examineType?: number;
+         
+            /* 申请人 */ 
+            applyUserName?: string;
+         
+            /* 申请日期 */ 
+            applyDate?: string;
+         
+            /* 驳回原因 */ 
+            refuseReason?: string;
          
             /* 地址 */ 
             address?: string;
@@ -2200,6 +2312,9 @@
          
             /* 是否合并的 */ 
             isMerged?: boolean;
+         
+            /* 是否默认值(下拉数据源才用) */ 
+            isDefault?: boolean;
          
             /* 共享人 */ 
             sharedUsers?: CRMCustomerAccessAllowListDto[];
@@ -2413,22 +2528,6 @@
     }
  
     /**
-     * 转让模型
-     */
-    export class CRMTransferCustomerInput {
-        [key:string]: any;
-        
-         
-            /* 客户Id是s */ 
-            ids?: any[];
-         
-            /* 转让用户Id */ 
-            allowUserId?: number;
-        
-        
-    }
- 
-    /**
      * 客户转移到公海
      */
     export class CRMTurnCustomerSeaInput {
@@ -2437,6 +2536,134 @@
          
             /* 客户Id是s */ 
             ids?: any[];
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCustomerAccountConfigureInput {
+        [key:string]: any;
+        
+         
+            /* 客户id */ 
+            customerId: string;
+         
+            /* 客户配置 */ 
+            customerConfigure?: CRMCustomerConfigureDto;
+         
+            /* 用户版本角色 */ 
+            editionRoleId?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMGetCustomerOrganizationOutput {
+        [key:string]: any;
+        
+         
+            /* 客户名称 */ 
+            customerName?: string;
+         
+            /* 国家省份名称 */ 
+            countryProvinceName?: string;
+         
+            /* 客户拥有者名称 */ 
+            ownerNames?: string;
+         
+            /* 手机号 */ 
+            tel?: string;
+         
+            /* 首次交易时间 */ 
+            firstTradeTime?: string;
+        
+        
+    }
+ 
+    /**
+     * 公海池客户查询
+     */
+    export class CRMQueryHighSeasPondCustomerInput {
+        [key:string]: any;
+        
+         
+            /* 搜索类型
+0 = AssignedToMe
+1 = AssignedToMyDepartment
+2 = ALL
+3 = CustomerRecyclingStation */ 
+            searchType?: number;
+         
+            /* 搜索关键字 */ 
+            searchkeywork?: string;
+         
+            
+            sorting?: string;
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
+     * 公海池客户查询
+     */
+    export class CRMQueryHighSeasPondCustomerDto {
+        [key:string]: any;
+        
+         
+            /* 全称英文 */ 
+            fullName?: string;
+         
+            /* 本地语言全称 */ 
+            localizationFullName?: string;
+         
+            /* 国家ID */ 
+            countryId?: string;
+         
+            /* 省份Id */ 
+            provinceId?: string;
+         
+            /* 国家名称 */ 
+            countryName?: string;
+         
+            /* 本地化国家名称 */ 
+            localizationCountryName?: string;
+         
+            /* 省份名称 */ 
+            provinceName?: string;
+         
+            /* 本地化省份 */ 
+            localizationProvinceName?: string;
+         
+            /* 主联系人ID */ 
+            mainContactId?: string;
+         
+            /* 主联系人名称 */ 
+            mainContactName?: string;
+         
+            /* 主联系人号码 */ 
+            mainContactTel?: string;
+         
+            /* 客户所属人 */ 
+            ownerUserId?: number;
+         
+            /* 客户所有人 */ 
+            ownerUserName?: string;
+         
+            /* 首次出货时间 */ 
+            firstShipmentTime?: string;
+         
+            
+            id?: string;
         
         
     }

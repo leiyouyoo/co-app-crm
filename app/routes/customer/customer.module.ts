@@ -39,6 +39,7 @@ import { CreatePotentialCustomerComponent } from './component/customer-list/pote
 import { HighlightPipe } from './pipe/heightLight';
 import { CoCascaderModule } from '@co/cbc';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
+import { HighSeasPondCustomerComponent } from './component/customer-list/high-seas-pond-customer/high-seas-pond-customer.component';
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -91,7 +92,8 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponen
     UnownedClientComponent,
     SharedCustomersComponent,
     CustomerIndexComponent,
-    HighlightPipe
+    HighlightPipe,
+    HighSeasPondCustomerComponent
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
