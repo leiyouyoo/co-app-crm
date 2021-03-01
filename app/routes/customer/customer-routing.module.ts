@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CustomerDetailsComponent } from './component-old/customer-details/customer-details.component';
-import { LocationListComponent } from './component-old/location/location-list/location-list.component';
 import { ShareDetailsComponent } from './component-old/shared-details/shared-details.component';
 import { NodealDetailComponent } from './component-old/nodeal-detail/nodeal-detail.component';
 import { CustomerIndexComponent } from './customer-index.component';
@@ -48,14 +47,6 @@ const routes: Routes = [
     component: ShareDetailsComponent,
     data: {
       titleI18n: 'crm:shareddetial',
-      reuse: true,
-    },
-  },
-  {
-    path: 'location/:id',
-    component: LocationListComponent,
-    data: {
-      titleI18n: 'crm:location',
       reuse: true,
     },
   },

@@ -11,7 +11,6 @@ import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerSourceComponent } from './component-old/customer-source/customer-source.component';
 import { RelationPositionComponent } from './component-old/relation-position/relation-position.component';
 import { CreateContactsComponent } from './component-old/contact/create-contacts/create-contacts.component';
-import { CreateLocationComponent } from './component-old/location/create-location/create-location.component';
 import { RelationContactComponent } from './component-old/relation-contact/relation-contact.component';
 import { ShareDetailsComponent } from './component-old/shared-details/shared-details.component';
 import { UnownedDetailComponent } from './component-old/unowned-detial/unowned-detial.component';
@@ -39,30 +38,30 @@ import { LocationDetailComponent } from './component/location/location-detail/lo
 import { CreatePotentialCustomerComponent } from './component/customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
 import { HighlightPipe } from './pipe/heightLight';
 import { CoCascaderModule } from '@co/cbc';
-// const COMPONENTS = [
-//   CustomerComponent,
-//   NoDealCustomerComponent,
-//   NoDealCustomerComponent,
-//   CustomerDetailsComponent,
-//   ContactsListComponent,
-//   LocationListComponent,
-//   CustomerAuthComponent,
-//   CustomerRecordComponent,
-//   CustomerPartnerComponent,
-//   PartnerBindCustomerComponent,
-//   CreateContactsComponent,
-//   CreateLocationComponent,
-//   ShareDetailsComponent,
-//   UnownedDetailComponent,
-//   NodealDetailComponent,
-//   RelationContactComponent,
-//   CustomerMergeComponent,
+import { NzAnchorModule } from 'ng-zorro-antd/anchor';
+const COMPONENTS = [
+  CustomerComponent,
+  NoDealCustomerComponent,
+  NoDealCustomerComponent,
+  CustomerDetailsComponent,
+  ContactsListComponent,
+  LocationListComponent,
+  CustomerAuthComponent,
+  CustomerRecordComponent,
+  CustomerPartnerComponent,
+  PartnerBindCustomerComponent,
+  CreateContactsComponent,
+  ShareDetailsComponent,
+  UnownedDetailComponent,
+  NodealDetailComponent,
+  RelationContactComponent,
+  CustomerMergeComponent,
 
-//   // RecordEditComponent,
-//   ShowImageComponent,
+  // RecordEditComponent,
+  ShowImageComponent,
 
-//   LegalEntityComponent,
-// ];
+  LegalEntityComponent,
+];
 
 const NEWCOMPONENTS = [
   CustomerListComponent,
@@ -78,11 +77,12 @@ const NEWCOMPONENTS = [
 const COMPONENTS_NOROUNT = [LegalEntityComponent,CreatePotentialCustomerComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule,CoCascaderModule,NzAnchorModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
     ...NEWCOMPONENTS,
+    ...COMPONENTS,
     PartnerDetailsComponent,
     TransferTocustomerComponent,
     CustomerLifeCyclePipe,

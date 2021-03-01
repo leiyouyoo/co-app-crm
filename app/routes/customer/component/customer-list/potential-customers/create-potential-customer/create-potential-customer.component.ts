@@ -536,7 +536,13 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       shortNameLocalization: [null],
       address: [null, { validators: [Validators.required] }],
       addressLocalization: [null],
+      leadTrackingPhase: [0],
       tel: new FormArray([]),
+      customerContacts: new FormArray([this.fb.group({
+        lastname: [null],
+        name: [null, [Validators.required]],
+        nameLocalization: [null],
+      })]),
       fax: [null, [this.mobileValidator()]],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
@@ -1169,7 +1175,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     } else {
       this.cusLoading = true;
     }
-
     let entity: CRMCreateOrUpdateCustomerInput = {
       name: value.name,
       nameLocalization: value.nameLocalization,
@@ -1179,6 +1184,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       addressLocalization: value.address,
       tel: tel.toString(),
       fax: value.fax,
+      leadTrackingPhase: value.leadTrackingPhase,
       email: value.email,
       customerType: value.customerType,
       isSalesCustomer: value.isSalesCustomer == null ? false : value.isSalesCustomer,
@@ -1193,6 +1199,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerOwner: value.customerOwner,
       customerLevel: value.customerLevel,
       website: value.website,
+      customerContacts: [Object.assign(value.customerContacts[0], { phone: tel.toString(), email: value.email })],
       customerTaxes: value.customerTaxes ? value.customerTaxes[0]?.taxType ? value.customerTaxes : null : null,
     };
     console.log(entity);
