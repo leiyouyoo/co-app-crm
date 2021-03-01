@@ -3,6 +3,9 @@ import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../models/enum';
+import { ApproveCodeComponent } from '../../../../../../../fam/app/routes/customer/component/approve-code/approve-code.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { DistributionCustomerComponent } from '../../distribution-customer/distribution-customer.component';
 
 @Component({
   selector: 'crm-high-seas-pond-customer',
@@ -13,6 +16,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   @ViewChild('st', { static: false }) st: STComponent;
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   selected = [];
+  loading = false;
 
   @Input() set customerType(v) {
     this.searchParams.searchType = v;
@@ -39,7 +43,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   readonly CustomerStatus = CustomerStatus;
   readonly CustomerType = CustomerType;
 
-  constructor(injector: Injector, private cRMCustomerService: CRMCustomerService) {
+  constructor(injector: Injector, private crmCustomerService: CRMCustomerService,private modal:NzModalService) {
     super(injector);
   }
 
@@ -47,10 +51,10 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
     if (type == 'assign') {
       this.columns = [
         {
-          title: 'NO',
+          title: '',
           index: '',
           type: 'no',
-          width: 100,
+          width: 50,
         },
         {
           title: 'Full name(english)',
@@ -92,10 +96,10 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
     } else {
       this.columns = [
         {
-          title: 'NO',
+          title: '',
           index: '',
           type: 'no',
-          width: 100,
+          width: 50,
         },
         {
           title: 'Code',
@@ -256,9 +260,11 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   }
 
   getAll() {
-    this.cRMCustomerService.queryHighSeasPondCustomers(this.searchParams).subscribe((res) => {
+    this.loading = true;
+    this.crmCustomerService.queryHighSeasPondCustomers(this.searchParams).subscribe((res) => {
       this.customerInfo = res;
-    });
+      this.loading = false;
+    }, e => this.loading = false);
   }
 
   /**
@@ -304,5 +310,45 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         break;
       }
     }
+  }
+
+  /**
+   * 认领
+   */
+  claim() {
+    const list = this.selected.filter(e => !e.isRecycleCustomer).map(e => e.id);
+    if (!list.length) {
+      this.$message.warning('所选客户包含被回收的客户');
+      return;
+    }
+    this.loading = true;
+    this.crmCustomerService.bulkClaimCustomer({ ids: list }).subscribe(r => {
+      this.$message.success('认领成功');
+      this.getAll();
+    }, e => this.loading = false);
+  }
+
+  /**
+   * 分配
+   */
+  distributionCustomer() {
+    const list = this.selected.filter(e => !e.isRecycleCustomer).map(e => e.id);
+    if (!list.length) {
+      this.$message.warning('所选客户包含被回收的客户');
+      return;
+    }
+    const modal = this.modal.create({
+      nzTitle: this.$L('distribution Customer'),
+      nzContent: DistributionCustomerComponent,
+      nzClosable: false,
+      nzWidth: 820,
+
+      nzComponentParams: {  customerIds: list },
+      nzFooter: null,
+    });
+    const instance = modal.getContentComponent();
+    instance.onSubmitted.subscribe((r) => {
+      r && this.st.load();
+    });
   }
 }

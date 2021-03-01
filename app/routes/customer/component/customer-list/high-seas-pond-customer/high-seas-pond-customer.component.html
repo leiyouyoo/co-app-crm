@@ -9,10 +9,10 @@
           <nz-option [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
           <nz-option [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
         </nz-select>
-        <button style="margin-left: 8px;" nz-button nzType="primary">
+        <button [disabled]="!selected.length" (click)="distributionCustomer()" style="margin-left: 8px;" nz-button nzType="primary">
           {{ '分配' | translate }}
         </button>
-        <button nz-button nzType="normal">
+        <button [disabled]="!selected.length" nz-button (click)="claim()" nzType="normal">
           {{ '认领' | translate }}
         </button>
         <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
@@ -43,6 +43,7 @@
       [ps]="searchParams.pageSize"
       [(pi)]="searchParams.pageNo"
       [columns]="columns"
+      [loading]="loading"
       [data]="customerInfo?.items"
       [total]="customerInfo?.totalCount"
       columnDefaultWidth="100"
@@ -65,12 +66,11 @@
         <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
       </ng-template>
       <ng-template st-row="ownerState" let-data>
-        <span *ngIf="!data.owner">{{ '"Unowned client' | translate }}</span>
+        <span *ngIf="!data.owner">{{ 'Unowned client' | translate }}</span>
         <span *ngIf="data.owner">{{ 'Main customer' | translate }}</span>
       </ng-template>
       <ng-template st-row="examineState" let-data>
         <span *ngIf="data.examineState == 0">
-          {{ 'NotSet' | translate }}
         </span>
         <span *ngIf="data.examineState == 1">
           {{ 'WaitingExamine' | translate }}
@@ -94,8 +94,8 @@
       </ng-template>
 
       <ng-template st-row="isDangerFlag" let-data>
-        <span *ngIf="data.isDangerFlag">{{ 'Yes' | translate }}</span>
-        <span *ngIf="!data.isDangerFlag">{{ 'No' | translate }}</span>
+        <span *ngIf="data.isDangerFlag">{{ 'CustomerList.Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'CustomerList.No' | translate }}</span>
       </ng-template>
 
       <ng-template st-row="isDeleted" let-data>

@@ -1,0 +1,19 @@
+<nz-spin [nzSpinning]="loading">
+  <div>
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading"  (click)="confirm()">{{ '分配' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+  </div>
+  <div>
+    <nz-select
+      nzSize="small"
+      style="width: 80%;margin: 8px 8px 8px 0"
+      [nzPlaceHolder]="'Please select' | translate"
+      [(ngModel)]="listOfSelectedValue"
+    >
+      <nz-option nzCustomContent *ngFor="let item of listOfCustomer" [nzLabel]="item?.name?.name?.zh ||item?.name?.name?.en"
+                 [nzValue]="item"><span
+        [innerHTML]="item?.name?.name?.zh || item?.name?.name?.en"></span></nz-option>
+    </nz-select>
+    <ng-template #tagPlaceHolder let-selectedList> + {{ selectedList.length }} </ng-template>
+  </div>
+</nz-spin>

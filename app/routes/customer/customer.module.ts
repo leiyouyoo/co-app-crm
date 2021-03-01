@@ -42,6 +42,7 @@ import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { HighSeasPondCustomerComponent } from './component/customer-list/high-seas-pond-customer/high-seas-pond-customer.component';
 import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 import { PotentailcustomerDetailComponent } from './component/potentailcustomer-info/potentailcustomer-detail/potentailcustomer-detail.component';
+import { DistributionCustomerComponent } from './component/distribution-customer/distribution-customer.component';
 
 const COMPONENTS = [
   CustomerComponent,
@@ -80,7 +81,7 @@ const NEWCOMPONENTS = [
   PotentailcustomerInfoComponent,
   PotentailcustomerDetailComponent,
 ];
-const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent];
+const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent, DistributionCustomerComponent];
 
 @NgModule({
   imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule],
@@ -98,8 +99,9 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerCompone
     SharedCustomersComponent,
     CustomerIndexComponent,
     HighlightPipe,
-    HighSeasPondCustomerComponent
+    HighSeasPondCustomerComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class CustomerModule {}
+export class CustomerModule {
+}
