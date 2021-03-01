@@ -2,12 +2,14 @@
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; align-items: center; font-weight: 800;">
-        <strong style="font-size: 20px;">深圳市木马创意有限公司 </strong>
+        <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" />
         </div>
       </div>
       <div style="display: flex; align-items: center;">
@@ -45,8 +47,8 @@
       <span style="margin-right: 40px;">直客</span>
       <span style="margin-right: 10px; color: #999;">客户代码</span>
       <span style="margin-right: 40px;">ALUMN5C5FCA</span>
-      <span style="margin-right: 10px; color: #999;">开单地址</span>
-      <span style="margin-right: 40px;">703 EVANS AVENUE SUITE 300,TORONTO…</span>
+      <!-- <span style="margin-right: 10px; color: #999;">开单地址</span>
+      <span style="margin-right: 40px;">703 EVANS AVENUE SUITE 300,TORONTO…</span> -->
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
       <span>李旸</span>
       <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
@@ -56,7 +58,7 @@
     <nz-content nz-row [nzGutter]="32">
       <div nz-col class="gutter-row" [nzSpan]="16">
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
-        <div style="padding-left: 16px; background: #fff;">
+        <div style="height: 100%; padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
             <nz-tab [nzTitle]="'联系人列表' | translate">
               <crm-contact-list></crm-contact-list>
@@ -68,7 +70,7 @@
             <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
             <nz-tab [nzTitle]="'文档' | translate"></nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
-              <crm-customer-detail></crm-customer-detail>
+              <crm-customer-detail [isLoading]="isLoading" [customerInfo]="customerInfo"></crm-customer-detail>
             </nz-tab>
           </nz-tabset>
         </div>

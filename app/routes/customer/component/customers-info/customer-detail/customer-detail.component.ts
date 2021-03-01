@@ -13,6 +13,15 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./customer-detail.component.less'],
 })
 export class CustomerDetailComponent extends CoPageBase {
+  @Input() set customerInfo(v) {
+    this.customerDetail = v;
+    this.initData(v);
+  }
+  get customerInfo() {
+    return this.customerDetail;
+  }
+  customerDetail: any;
+  @Input() isLoading = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @Input() readonly = true;
   @Input() customerId;
@@ -48,7 +57,7 @@ export class CustomerDetailComponent extends CoPageBase {
   minPrice = 50;
   cusLoading: boolean;
   applicationLoading: boolean;
-
+  edit = false;
   constructor(
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
@@ -86,22 +95,16 @@ export class CustomerDetailComponent extends CoPageBase {
     }
   }
 
-  ngOnInit() {
-    this.initData();
-    this.getCustomerDetail(this.customerId);
+  ngOnInit() {}
+
+  editCustomer() {
+    this.edit = !this.edit;
   }
 
-  getCustomerDetail(id) {
-    this.loading = true;
-    this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(
-      (res) => {
-        this.loading = false;
-        this.initData(res);
-      },
-      (error) => {
-        this.loading = false;
-      },
-    );
+  onSubmit(e) {
+    if (e) {
+      this.edit = false;
+    }
   }
 
   ngScroll() {
@@ -129,9 +132,13 @@ export class CustomerDetailComponent extends CoPageBase {
   }
 
   initData(data: any = {}) {
+    debugger;
     this.validateForm = this.fb.group({
       name: [data.name, [Validators.required]],
       code: [data.code, [Validators.required]],
+      isEnterpriseAuth: [data.isEnterpriseAuth],
+      isRegistered: [data.isRegistered],
+      ownerUserList: [data.ownerUserList],
       shortName: [data.shortName, [Validators.required]],
       address: [data.address, [Validators.required]],
       localizationName: [data.localizationName],
@@ -164,7 +171,6 @@ export class CustomerDetailComponent extends CoPageBase {
       relatedCustomers: [data.relatedCustomers],
       customerRenamings: [data.customerRenamings],
       beforeNames: [data.beforeNames],
-      ownerUserList: [data.ownerUserList],
       examineState: [data.examineState],
     });
   }

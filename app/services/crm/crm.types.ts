@@ -1,5 +1,86 @@
  
     /**
+     * 附件模型
+     */
+    export class CRMAttachmentDto {
+        [key:string]: any;
+        
+         
+            /* 客户Id */ 
+            customerId?: string;
+         
+            /* 附件类型
+0 = Other
+1 = MonthlyClosing
+2 = TelexRelease */ 
+            type?: number;
+         
+            /* 文件id(上传到文件服务器后返回) */ 
+            fileId?: string;
+         
+            /* 文件名称(上传到文件服务器后返回) */ 
+            fileName?: string;
+         
+            /* 文件扩展名(上传到文件服务器后返回) */ 
+            extensionName?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 附件列表模型
+     */
+    export class CRMAttachmentListDto {
+        [key:string]: any;
+        
+         
+            /* 上传人 */ 
+            creator?: string;
+         
+            /* 上传时间 */ 
+            creationTime?: string;
+         
+            /* 客户Id */ 
+            customerId?: string;
+         
+            /* 附件类型
+0 = Other
+1 = MonthlyClosing
+2 = TelexRelease */ 
+            type?: number;
+         
+            /* 文件id(上传到文件服务器后返回) */ 
+            fileId?: string;
+         
+            /* 文件名称(上传到文件服务器后返回) */ 
+            fileName?: string;
+         
+            /* 文件扩展名(上传到文件服务器后返回) */ 
+            extensionName?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMListResultDto1<T> {
+        [key:string]: any;
+        
+         
+            
+            items?: T[];
+        
+        
+    }
+ 
+    /**
      * 联系人Dto
      */
     export class CRMContactDto {
@@ -132,19 +213,6 @@
          
             /* 上级userid */ 
             parentId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMListResultDto1<T> {
-        [key:string]: any;
-        
-         
-            
-            items?: T[];
         
         
     }
@@ -1265,6 +1333,21 @@
             /* 是否危险客户 */ 
             isDangerFlag?: boolean;
          
+            /* 潜在客户状态
+0 = PreliminaryContact
+1 = DemandDetermination
+2 = QuotedPrice
+3 = Negotiation
+4 = WinTheOrder
+5 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
+            /* 成交状态
+0 = NotSet
+1 = NoneCooperation
+2 = HaveCooperation */ 
+            cooperationState?: number;
+         
             /* 客户状态
 0 = NoneCooperation
 1 = Cooperation
@@ -1272,13 +1355,35 @@
 3 = Ownerless */ 
             status?: number;
          
-            /* 审核状态
+            /* 审核状态（过期）
 0 = NoSet
 1 = UnApply
 2 = Processing
 3 = Passed
 4 = Unpassed */ 
             state?: number;
+         
+            /* 审批状态（使用这个）
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批类型-业务类型
+0 = NoteSet
+1 = UpdateName
+2 = PostCode */ 
+            examineType?: number;
+         
+            /* 申请人 */ 
+            applyUserName?: string;
+         
+            /* 申请日期 */ 
+            applyDate?: string;
+         
+            /* 驳回原因 */ 
+            refuseReason?: string;
          
             /* 地址 */ 
             address?: string;
@@ -1300,6 +1405,9 @@
          
             /* 联系人名称 */ 
             contactName?: string;
+         
+            /* 联系人本地名称 */ 
+            localizationContactName?: string;
          
             /* 联系人电话 */ 
             contactTel?: string;
@@ -1340,6 +1448,9 @@
             /* 是否合并的 */ 
             isMerged?: boolean;
          
+            /* 是否默认值(下拉数据源才用) */ 
+            isDefault?: boolean;
+         
             /* 共享人 */ 
             sharedUsers?: any[];
          
@@ -1351,6 +1462,9 @@
          
             /* 税务登记信息 */ 
             customerTaxes?: any[];
+         
+            /* 是否删除 （是否有效） */ 
+            isDeleted?: boolean;
          
             
             id?: string;
@@ -1452,6 +1566,9 @@
          
             /* 是否包含联系人 */ 
             includeContacts?: boolean;
+         
+            /* 是否标记默认值 */ 
+            isMarkDefault?: boolean;
          
             /* 国家id */ 
             countryId?: string;
@@ -1886,9 +2003,6 @@
             /* 用户名 */ 
             userName?: string;
          
-            /* 用户版本角色 */ 
-            editionRoleId?: number;
-         
             /* 联系人id */ 
             contactId?: string;
          
@@ -1913,11 +2027,14 @@
             /* 联系人姓名(详情页面显示用，不用提交) */ 
             contactFullName?: string;
          
+            /* 在分布式事务中，该字段会自动设置为本地事务ID */ 
+            txId?: string;
+         
             /* 客户配置 */ 
             customerConfigure?: CRMCustomerConfigureDto;
          
-            /* 在分布式事务中，该字段会自动设置为本地事务ID */ 
-            txId?: string;
+            /* 用户版本角色 */ 
+            editionRoleId?: number;
         
         
     }
@@ -2126,6 +2243,21 @@
             /* 是否危险客户 */ 
             isDangerFlag?: boolean;
          
+            /* 潜在客户状态
+0 = PreliminaryContact
+1 = DemandDetermination
+2 = QuotedPrice
+3 = Negotiation
+4 = WinTheOrder
+5 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
+            /* 成交状态
+0 = NotSet
+1 = NoneCooperation
+2 = HaveCooperation */ 
+            cooperationState?: number;
+         
             /* 客户状态
 0 = NoneCooperation
 1 = Cooperation
@@ -2133,13 +2265,35 @@
 3 = Ownerless */ 
             status?: number;
          
-            /* 审核状态
+            /* 审核状态（过期）
 0 = NoSet
 1 = UnApply
 2 = Processing
 3 = Passed
 4 = Unpassed */ 
             state?: number;
+         
+            /* 审批状态（使用这个）
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批类型-业务类型
+0 = NoteSet
+1 = UpdateName
+2 = PostCode */ 
+            examineType?: number;
+         
+            /* 申请人 */ 
+            applyUserName?: string;
+         
+            /* 申请日期 */ 
+            applyDate?: string;
+         
+            /* 驳回原因 */ 
+            refuseReason?: string;
          
             /* 地址 */ 
             address?: string;
@@ -2161,6 +2315,9 @@
          
             /* 联系人名称 */ 
             contactName?: string;
+         
+            /* 联系人本地名称 */ 
+            localizationContactName?: string;
          
             /* 联系人电话 */ 
             contactTel?: string;
@@ -2200,6 +2357,9 @@
          
             /* 是否合并的 */ 
             isMerged?: boolean;
+         
+            /* 是否默认值(下拉数据源才用) */ 
+            isDefault?: boolean;
          
             /* 共享人 */ 
             sharedUsers?: CRMCustomerAccessAllowListDto[];
@@ -2413,22 +2573,6 @@
     }
  
     /**
-     * 转让模型
-     */
-    export class CRMTransferCustomerInput {
-        [key:string]: any;
-        
-         
-            /* 客户Id是s */ 
-            ids?: any[];
-         
-            /* 转让用户Id */ 
-            allowUserId?: number;
-        
-        
-    }
- 
-    /**
      * 客户转移到公海
      */
     export class CRMTurnCustomerSeaInput {
@@ -2442,14 +2586,311 @@
     }
  
     /**
-     * 获取可关联客户列表
+     *  No Remark 
      */
-    export class CRMQueryConnectionCustomerInput {
+    export class CRMCustomerAccountConfigureInput {
         [key:string]: any;
         
          
-            /* 输入关键字 */ 
-            searchText?: string;
+            /* 客户id */ 
+            customerId: string;
+         
+            /* 客户配置 */ 
+            customerConfigure?: CRMCustomerConfigureDto;
+         
+            /* 用户版本角色 */ 
+            editionRoleId?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMGetCustomerOrganizationOutput {
+        [key:string]: any;
+        
+         
+            /* 客户名称 */ 
+            customerName?: string;
+         
+            /* 国家省份名称 */ 
+            countryProvinceName?: string;
+         
+            /* 客户拥有者名称 */ 
+            ownerNames?: string;
+         
+            /* 手机号 */ 
+            tel?: string;
+         
+            /* 首次交易时间 */ 
+            firstTradeTime?: string;
+        
+        
+    }
+ 
+    /**
+     * 公海池客户查询
+     */
+    export class CRMQueryHighSeasPondCustomerInput {
+        [key:string]: any;
+        
+         
+            /* 搜索类型
+0 = AssignedToMe
+1 = AssignedToMyDepartment
+2 = ALL
+3 = CustomerRecyclingStation */ 
+            searchType?: number;
+         
+            /* 搜索关键字 */ 
+            searchkeywork?: string;
+         
+            
+            sorting?: string;
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
+     * 公海池客户查询
+     */
+    export class CRMQueryHighSeasPondCustomerDto {
+        [key:string]: any;
+        
+         
+            /* 转手次数 */ 
+            turnoverCount?: number;
+         
+            /* 被退回次数 */ 
+            returnCount?: number;
+         
+            /* 是否回收站客户 */ 
+            isRecycleCustomer?: boolean;
+         
+            /* 全称 */ 
+            name?: string;
+         
+            /* 简称 */ 
+            shortName?: string;
+         
+            /* 本地化全称 */ 
+            localizationName?: string;
+         
+            /* 本地化简称 */ 
+            localizationShortName?: string;
+         
+            /* 电话1 */ 
+            tel?: string;
+         
+            /* 传真 */ 
+            fax?: string;
+         
+            /* 关键字 */ 
+            keyWord?: string;
+         
+            /* 邮箱 */ 
+            email?: string;
+         
+            /* 代码 */ 
+            code?: string;
+         
+            /* 客户类型
+1 = Carrier
+2 = AirLine
+3 = Forwarding
+4 = DirectClient
+5 = Trucker
+6 = CustomsBroker
+7 = WareHouse
+8 = Storage
+9 = RailWay
+10 = Express
+11 = Terminal
+12 = Other */ 
+            customerType?: number;
+         
+            /* 是否是销售客户 */ 
+            isSalesCustomer?: boolean;
+         
+            /* 贸易条款，取PUB基础数据 */ 
+            incoterms?: string;
+         
+            /* 贸易条款字符串 */ 
+            incotermsStr?: string;
+         
+            /* 公司简介 */ 
+            description?: string;
+         
+            /* 是否危险客户 */ 
+            isDangerFlag?: boolean;
+         
+            /* 潜在客户状态
+0 = PreliminaryContact
+1 = DemandDetermination
+2 = QuotedPrice
+3 = Negotiation
+4 = WinTheOrder
+5 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
+            /* 成交状态
+0 = NotSet
+1 = NoneCooperation
+2 = HaveCooperation */ 
+            cooperationState?: number;
+         
+            /* 客户状态
+0 = NoneCooperation
+1 = Cooperation
+2 = Share
+3 = Ownerless */ 
+            status?: number;
+         
+            /* 审核状态（过期）
+0 = NoSet
+1 = UnApply
+2 = Processing
+3 = Passed
+4 = Unpassed */ 
+            state?: number;
+         
+            /* 审批状态（使用这个）
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批类型-业务类型
+0 = NoteSet
+1 = UpdateName
+2 = PostCode */ 
+            examineType?: number;
+         
+            /* 申请人 */ 
+            applyUserName?: string;
+         
+            /* 申请日期 */ 
+            applyDate?: string;
+         
+            /* 驳回原因 */ 
+            refuseReason?: string;
+         
+            /* 地址 */ 
+            address?: string;
+         
+            /* 国家名称 */ 
+            country?: string;
+         
+            /* 国家本地化名称 */ 
+            localizationCountry?: string;
+         
+            /* 省/洲 名称 */ 
+            province?: string;
+         
+            /* 城市名称 */ 
+            city?: string;
+         
+            /* 客户拥有人 */ 
+            owner?: string;
+         
+            /* 联系人名称 */ 
+            contactName?: string;
+         
+            /* 联系人本地名称 */ 
+            localizationContactName?: string;
+         
+            /* 联系人电话 */ 
+            contactTel?: string;
+         
+            /* 是否开通了主账号 */ 
+            isRegistered?: boolean;
+         
+            /* 认领状态 0未认领，1已认领，2经理分配 */ 
+            claimStatus?: number;
+         
+            /* 首次交易时间 */ 
+            firstTradeTime?: string;
+         
+            /* 创建人 */ 
+            creator?: string;
+         
+            /* 创建时间 */ 
+            creationTime?: string;
+         
+            /* 最后修改人 */ 
+            lastModifier?: string;
+         
+            /* 最后修改时间 */ 
+            lastModificationTime?: string;
+         
+            /* 审核人 */ 
+            auditor?: string;
+         
+            /* 审核时间 */ 
+            auditedDate?: string;
+         
+            /* 无主客户推送的业务员Id（仅无主客户用） */ 
+            pushUserId?: number;
+         
+            /* 无主客户推送的业务员姓名（仅无主客户用） */ 
+            pushName?: string;
+         
+            /* 是否合并的 */ 
+            isMerged?: boolean;
+         
+            /* 是否默认值(下拉数据源才用) */ 
+            isDefault?: boolean;
+         
+            /* 共享人 */ 
+            sharedUsers?: any[];
+         
+            /* 客户拥有的联系人集合 */ 
+            contacts?: any[];
+         
+            /* 地点集合 */ 
+            locations?: any[];
+         
+            /* 税务登记信息 */ 
+            customerTaxes?: any[];
+         
+            /* 是否删除 （是否有效） */ 
+            isDeleted?: boolean;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCustomerAccessAllowOutput {
+        [key:string]: any;
+        
+         
+            /* 客户id */ 
+            customerId?: string;
+         
+            /* 用户Id */ 
+            allowUserId?: number;
+         
+            /* 是否拥有者 */ 
+            isOwner?: boolean;
+         
+            
+            allowUserName?: string;
+         
+            
+            id?: string;
         
         
     }
@@ -2478,6 +2919,346 @@
          
             
             id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMbeforeName {
+        [key:string]: any;
+        
+         
+            /* 数据来源 1更正，2合并 */ 
+            dataSource?: number;
+         
+            
+            name?: string;
+         
+            
+            nameLocalization?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMScheduleDto {
+        [key:string]: any;
+        
+         
+            
+            remindStartTime: string;
+         
+            
+            title: string;
+         
+            
+            remindEndTime?: string;
+         
+            
+            content?: string;
+         
+            
+            remindPeople?: string;
+         
+            
+            advanceTime?: number;
+         
+            /* 
+0 = NotSet
+1 = DIYSet
+2 = Shipment
+3 = Customer */ 
+            scheduleType?: number;
+         
+            
+            businessNo?: string;
+         
+            
+            creationTime?: string;
+         
+            /* 
+1 = Csp
+2 = Icp */ 
+            fromSource?: number;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 日志列表Dto
+     */
+    export class CRMTraceLogListDto {
+        [key:string]: any;
+        
+         
+            /* 内容 */ 
+            content?: string;
+         
+            /* 点赞数 */ 
+            praiseCount?: number;
+         
+            /* 跟进类型id */ 
+            traceLogTypeId?: string;
+         
+            /* 跟进类型 */ 
+            traceLogType?: string;
+         
+            /* 更进记录 */ 
+            followUpRecord?: string;
+         
+            /* 客户Id */ 
+            customerId?: string;
+         
+            /* 客户名称 */ 
+            customerName?: string;
+         
+            /* 用户头像 */ 
+            profilePictureId?: string;
+         
+            /* 用户名 */ 
+            creatorUser?: string;
+         
+            /* 内容明细集合 */ 
+            traceLogItems?: any[];
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 客户详情
+     */
+    export class CRMCustomerDetailDto {
+        [key:string]: any;
+        
+         
+            /* 归属人列表 */ 
+            ownerUserList?: CRMCustomerAccessAllowOutput[];
+         
+            /* 创建时间 */ 
+            creationTime?: string;
+         
+            
+            lastModificationTime?: string;
+         
+            
+            creationUser?: string;
+         
+            
+            lastModificationUser?: string;
+         
+            /* 关联客户 */ 
+            relatedCustomers?: CRMQueryConnectionCustomerDto[];
+         
+            /* 客户名称修改列表 */ 
+            beforeNames?: CRMbeforeName[];
+         
+            /* 是否企业认证 */ 
+            isEnterpriseAuth?: boolean;
+         
+            /* 客户日程 */ 
+            scheduleList?: CRMScheduleDto[];
+         
+            /* 跟踪记录 */ 
+            traceLogList?: CRMTraceLogListDto[];
+         
+            /* 全称 */ 
+            name?: string;
+         
+            /* 本地化全称 */ 
+            localizationName?: string;
+         
+            /* 简称 */ 
+            shortName?: string;
+         
+            /* 本地化简称 */ 
+            localizationShortName?: string;
+         
+            /* 地址 */ 
+            address?: string;
+         
+            /* 本地化地址 */ 
+            localizationAddress?: string;
+         
+            /* 电话1 */ 
+            tel?: string;
+         
+            /* 传真 */ 
+            fax?: string;
+         
+            /* 关键字 */ 
+            keyWord?: string;
+         
+            /* 邮编 */ 
+            postalCode?: string;
+         
+            /* 邮箱 */ 
+            email?: string;
+         
+            /* 代码 */ 
+            code?: string;
+         
+            /* 客户类型
+1 = Carrier
+2 = AirLine
+3 = Forwarding
+4 = DirectClient
+5 = Trucker
+6 = CustomsBroker
+7 = WareHouse
+8 = Storage
+9 = RailWay
+10 = Express
+11 = Terminal
+12 = Other */ 
+            customerType?: number;
+         
+            /* 客户状态
+0 = NoneCooperation
+1 = Cooperation
+2 = Share
+3 = Ownerless */ 
+            status?: number;
+         
+            /* 审核状态
+0 = NoSet
+1 = UnApply
+2 = Processing
+3 = Passed
+4 = Unpassed */ 
+            state?: number;
+         
+            /* 审批状态
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            examineState?: number;
+         
+            /* 审批时间 */ 
+            examineTime?: string;
+         
+            /* 审批人 */ 
+            examineUserId?: number;
+         
+            /* 是否危险客户 */ 
+            isDangerFlag?: boolean;
+         
+            /* 成交状态
+0 = NotSet
+1 = NoneCooperation
+2 = HaveCooperation */ 
+            cooperationState?: number;
+         
+            /* 客户归属状态
+0 = NotSet
+1 = NoneOwner
+2 = HaveOwner */ 
+            ownerState?: number;
+         
+            /* 是否是销售客户 */ 
+            isSalesCustomer?: boolean;
+         
+            /* 国家id */ 
+            countryId?: string;
+         
+            /* 国家名称 */ 
+            country?: string;
+         
+            /* 省/洲 Id */ 
+            provinceId?: string;
+         
+            /* 省/洲 名称 */ 
+            province?: string;
+         
+            /* 城市Id */ 
+            cityId?: string;
+         
+            /* 城市名称 */ 
+            city?: string;
+         
+            /* 贸易条款，取PUB基础数据 */ 
+            incoterms?: string;
+         
+            /* 贸易条款显示字符 */ 
+            incotermsDisplay?: string;
+         
+            /* 行业，取PUB基础数据 */ 
+            industry?: string;
+         
+            /* 行业显示字符串 */ 
+            industryDisplay?: string;
+         
+            /* 公司简介 */ 
+            description?: string;
+         
+            /* 当前用户是否客户拥有人(true则可以修改法人实体) */ 
+            isOwner?: boolean;
+         
+            /* 客户角色版本Id */ 
+            editionRoleId?: number;
+         
+            /* 是否开通了主账号 */ 
+            isRegistered?: boolean;
+         
+            /* 拥有地点数量 */ 
+            locationCount?: number;
+         
+            /* 联系人数量 */ 
+            contactCount?: number;
+         
+            
+            customerConfigure?: CRMCustomerConfigure;
+         
+            
+            customerLifeCycles?: CRMCustomerLifeCycleDto[];
+         
+            
+            customerTaxes?: CRMCustomerTaxDto[];
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 日志子项Dto
+     */
+    export class CRMTraceLogItemDto {
+        [key:string]: any;
+        
+         
+            /* 日志Id */ 
+            traceLogId?: string;
+         
+            /* 图片文件的Guid，拼接文件服务器路径组成图片url */ 
+            fileId?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 获取可关联客户列表
+     */
+    export class CRMQueryConnectionCustomerInput {
+        [key:string]: any;
+        
+         
+            /* 输入关键字 */ 
+            searchText?: string;
         
         
     }
@@ -2516,50 +3297,6 @@
          
             /* 重复数据 */ 
             validationErrors?: object;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerAccessAllowOutput {
-        [key:string]: any;
-        
-         
-            /* 客户id */ 
-            customerId?: string;
-         
-            /* 用户Id */ 
-            allowUserId?: number;
-         
-            /* 是否拥有者 */ 
-            isOwner?: boolean;
-         
-            
-            allowUserName?: string;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMbeforeName {
-        [key:string]: any;
-        
-         
-            /* 数据来源 1更正，2合并 */ 
-            dataSource?: number;
-         
-            
-            name?: string;
-         
-            
-            nameLocalization?: string;
         
         
     }
@@ -5972,68 +6709,6 @@
          
             /* 运输费用总价 */ 
             totalCharge?: string;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     * 日志子项Dto
-     */
-    export class CRMTraceLogItemDto {
-        [key:string]: any;
-        
-         
-            /* 日志Id */ 
-            traceLogId?: string;
-         
-            /* 图片文件的Guid，拼接文件服务器路径组成图片url */ 
-            fileId?: string;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     * 日志列表Dto
-     */
-    export class CRMTraceLogListDto {
-        [key:string]: any;
-        
-         
-            /* 内容 */ 
-            content?: string;
-         
-            /* 点赞数 */ 
-            praiseCount?: number;
-         
-            /* 跟进类型id */ 
-            traceLogTypeId?: string;
-         
-            /* 跟进类型 */ 
-            traceLogType?: string;
-         
-            /* 更进记录 */ 
-            followUpRecord?: string;
-         
-            /* 客户Id */ 
-            customerId?: string;
-         
-            /* 客户名称 */ 
-            customerName?: string;
-         
-            /* 用户头像 */ 
-            profilePictureId?: string;
-         
-            /* 用户名 */ 
-            creatorUser?: string;
-         
-            /* 内容明细集合 */ 
-            traceLogItems?: CRMTraceLogItemDto[];
          
             
             id?: string;

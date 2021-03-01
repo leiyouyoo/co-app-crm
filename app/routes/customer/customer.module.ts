@@ -41,7 +41,7 @@ import { CoCascaderModule } from '@co/cbc';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 import { PotentailcustomerDetailComponent } from './component/potentailcustomer-info/potentailcustomer-detail/potentailcustomer-detail.component';
-
+import { CreateTransactedCustomersComponent } from './component/customer-list/transacted-customers/create-transacted-customers/create-transacted-customers.component';
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -78,6 +78,7 @@ const NEWCOMPONENTS = [
   LocationDetailComponent,
   PotentailcustomerInfoComponent,
   PotentailcustomerDetailComponent,
+  CreateTransactedCustomersComponent,
 ];
 const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent];
 

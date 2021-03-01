@@ -1,15 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 
 @Component({
   selector: 'crm-customers-info',
   templateUrl: './customers-info.component.html',
-  styleUrls: ['./customers-info.component.less']
+  styleUrls: ['./customers-info.component.less'],
 })
 export class CustomersInfoComponent implements OnInit {
-
-  constructor() { }
+  customerInfo: any;
+  isLoading = false;
+  customerId = this.activeRoute.snapshot.params.id;
+  constructor(private crmCustomerService: CRMCustomerService, public activeRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
+    debugger;
+    this.getCustomerDetail(this.customerId);
   }
 
+  getCustomerDetail(id) {
+    this.isLoading = true;
+    this.crmCustomerService.getDetail({ id: id }).subscribe(
+      (res) => {
+        this.isLoading = false;
+        this.customerInfo = res;
+      },
+
+      (error) => {
+        this.isLoading = false;
+      },
+    );
+  }
 }

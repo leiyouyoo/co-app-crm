@@ -69,12 +69,25 @@
     <div nz-col [nzSpan]="4">
       <nz-form-item>
         <nz-form-control style="width: 150px;">
-          <label nz-checkbox>开通主账号</label>
+          <label nz-checkbox formControlName="cspAccount">开通主账号</label>
         </nz-form-control>
       </nz-form-item>
     </div>
   </div>
 
+  <div nz-row [nzGutter]="8" [hidden]="!validateForm.get('cspAccount').value">
+    <div nz-col [nzSpan]="20">
+      <nz-form-item>
+        <nz-form-label>{{ 'Role' | translate }} </nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="role">
+            <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+            <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="20">
       <nz-form-item>

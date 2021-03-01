@@ -117,6 +117,21 @@ export class CRMQuoteEnquiryService extends BaseApi {
 
 
     /**
+     * @param url /CRM/QuoteEnquiry/GetAllForCRMStatistics
+     * CRM获取统计信息
+     */
+
+    @GET('GetAllForCRMStatistics')
+    getAllForCRMStatistics(
+        @Payload
+        _req: {} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/QuoteEnquiry/GetAll
      * 获取列表
      */
