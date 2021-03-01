@@ -10,12 +10,12 @@ import { CRMCustomerService } from 'apps/crm/app/services/crm';
 })
 export class TransactedCustomersComponent extends CoPageBase {
   @ViewChild('st', { static: false }) st: STComponent;
-  @Input() set customerType(v) {
-    this.searchParams.type = v;
-  }
-  get customerType() {
-    return this.searchParams.type;
-  }
+  // @Input() set customerType(v) {
+  //   this.searchParams.type = v;
+  // }
+  // get customerType() {
+  //   return this.searchParams.type;
+  // }
   @Output() customerDetail = new EventEmitter<any>();
   searchParams = {
     pageNo: 1,
@@ -24,16 +24,16 @@ export class TransactedCustomersComponent extends CoPageBase {
     type: 0,
     searchText: '',
     isCooperation: false,
-    customerOwnerIds: [],
-    includeTaxes: false,
-    includeContacts: false,
-    includeShareOwner: false,
-    loadUser: false,
-    isUserContact: false,
-    isOwn: false,
+    customerOwnerIds: null,
+    includeTaxes: null,
+    includeContacts: null,
+    includeShareOwner: null,
+    loadUser: null,
+    isUserContact: null,
+    isOwn: null,
     customerId: '',
-    isPassedAudit: false,
-    customerStatus: 0,
+    isPassedAudit: null,
+    customerStatus: null,
     sorting: '',
     maxResultCount: 10,
     skipCount: 0,
@@ -46,12 +46,32 @@ export class TransactedCustomersComponent extends CoPageBase {
   ngOnInit(): void {
     this.getAll();
   }
+  onSearch() {
+    this.searchParams.searchText = this.searchParams.searchText;
+    this.st.load();
+  }
+
+  onRefresh() {}
+
+  onReset() {
+    this.searchParams.searchText = '';
+    this.onSearch();
+  }
 
   getAll() {
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
       debugger;
       this.customerInfo = res;
     });
+  }
+
+  /**
+   * 获取不同类型下的客户数据
+   */
+  onchangeCustomer(e) {
+    debugger;
+    this.searchParams.type = e;
+    this.st.load();
   }
   columns: STColumn[] = [
     {

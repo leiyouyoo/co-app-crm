@@ -3,6 +3,7 @@ import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzModalService } from 'ng-zorro-antd';
+import { LocationDetailComponent } from '../../location/location-detail/location-detail.component';
 import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 
 @Component({
@@ -100,7 +101,7 @@ export class ContactListComponent extends CoPageBase {
   ];
   onTableChange(e) {}
 
-  //打开新增联系人弹框
+  打开新增联系人弹框;
   onAdd() {
     const modal = this.modal.create({
       nzTitle: this.$L('Correct customer name'),

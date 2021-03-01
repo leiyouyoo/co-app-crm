@@ -4,7 +4,10 @@
       <div style="display: flex; align-items: center; font-weight: 800;">
         <strong style="font-size: 20px;">深圳市木马创意有限公司 </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/icon/Edit.svg" width="25px" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" />
+        </div>
+        <div class="edit-customer">
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" />
         </div>
       </div>
       <div style="display: flex; align-items: center;">
@@ -46,13 +49,14 @@
       <span style="margin-right: 40px;">703 EVANS AVENUE SUITE 300,TORONTO…</span>
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
       <span>李旸</span>
+      <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
   <nz-layout>
     <nz-content nz-row [nzGutter]="32">
       <div nz-col class="gutter-row" [nzSpan]="16">
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
-        <div style="height: 600px; padding-left: 16px; background: #fff;">
+        <div style="padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
             <nz-tab [nzTitle]="'联系人列表' | translate">
               <crm-contact-list></crm-contact-list>

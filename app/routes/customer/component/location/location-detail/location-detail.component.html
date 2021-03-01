@@ -1,0 +1,206 @@
+<form
+  nzLayout="horizontal"
+  nz-form
+  [formGroup]="validateForm"
+  style="display: flex; flex-direction: column; height: 100%; margin-bottom: 16px;"
+>
+  <div style="margin-bottom: 8px;">
+    <button nz-button nzSize="small" nzType="primary">{{ 'Save' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default">{{ 'Cancel' | translate }}</button>
+  </div>
+
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '位置名称' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="firatname" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '选择联系人' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <nz-select
+            #contact
+            style="width: 100%;"
+            formControlName="lastname"
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="'Search Contact' | translate"
+            [nzCustomTemplate]="custom"
+            [nzDropdownRender]="render"
+            (nzOnSearch)="originLocationsearch($event)"
+            (appNzOptionExtraChange)="clearLocation($event, 'origin')"
+            nzOptionHeightPx="54"
+          >
+            <nz-option
+              nzCustomContent
+              [nzValue]="item.id"
+              [nzLabel]="item.name"
+              *ngFor="let item of contactList; let i = index"
+              [appNzOptionExtra]="item"
+            >
+              <div>
+                <div>dsfd</div>
+                <div>sdfd</div>
+              </div>
+            </nz-option>
+          </nz-select>
+          <ng-template #custom let-selected>
+            <!-- <div>
+              <span>
+                <span
+                  >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
+                  >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
+                  >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
+                  >{{ selected.template._appExtra.country }}</span
+                >
+              </span>
+            </div> -->
+          </ng-template>
+          <ng-template #render>
+            <nz-divider></nz-divider>
+            <div class="add-item" (click)="('')">
+              <span nz-icon [nzIconfont]="'icon-add-fill'" class="iconfont icon-add-fill"></span> {{ 'Add Contact' | translate }}
+            </div>
+          </ng-template>
+          <!-- <input nz-input placeholder="Basic usage" formControlName="lastname" /> -->
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '邮政编码' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="tel" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ '港口代码' | translate }} </nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+          <input nz-input placeholder="Basic usage" formControlName="tel" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'Address' | translate }}</nz-form-label>
+        <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
+          <co-cascader
+            style="width: 100%;"
+            [nzValueProperty]="'id'"
+            [nzOptionRender]="renderTpl"
+            [nzLabelRender]="labelTpl"
+            formControlName="country"
+            nzPlaceHolder="{{ 'Please select country-province-city' | translate }}"
+            [nzLoadData]="loadData.bind(this)"
+            [nzLabelProperty]="'nameLocalization'"
+            (ngModelChange)="onCascaderChanges($event)"
+          ></co-cascader>
+          <ng-template #renderTpl let-option let-index="index">{{ option.nameLocalization }}</ng-template>
+          <ng-template #labelTpl>{{ getCountryName }}</ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="8">
+    <!--        详细地址(英文)-->
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'Address(english)' | translate }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="addressErrorTpl">
+          <nz-input-group [nzSuffix]="inputClearTpl4">
+            <input
+              id="address"
+              (blur)="checkRepeatData('address')"
+              nz-input
+              placeholder="{{ 'Please enter' | translate }}"
+              formControlName="address"
+              [nzAutocomplete]="auto"
+              (input)="searchPlace($event)"
+            />
+            <ng-template #inputClearTpl4
+              ><i
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="validateForm.get('address').value"
+                (click)="validateForm.get('address').reset(); hide()"
+              ></i
+            ></ng-template>
+          </nz-input-group>
+          <nz-autocomplete #auto>
+            <nz-auto-option *ngFor="let item of placeList" [nzValue]="item.description" (click)="bindGoogleMapData(item.description)">
+              <span>{{ item.description }}</span>
+            </nz-auto-option>
+          </nz-autocomplete>
+          <ng-template #addressErrorTpl>
+            <ng-container *ngIf="validateForm.get('address').hasError('required')">
+              {{ 'Address cannot be empty!' | translate }}
+            </ng-container>
+            <ng-container *ngIf="validateForm.get('address').hasError('existSame')">
+              {{ 'Address cannot be same!' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="8">
+    <!--        详细地址(本地语言)-->
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-label>{{ 'Address' | translate }}({{ 'Local' | translate }})</nz-form-label>
+        <nz-form-control [nzErrorTip]="localAddressErrorTpl">
+          <nz-input-group [nzSuffix]="inputClearTpl5">
+            <input
+              (blur)="checkRepeatData('addressLocalization')"
+              id="addressLocalization"
+              nz-input
+              placeholder="{{ 'Please enter' | translate }}"
+              formControlName="addressLocalization"
+            />
+            <ng-template #inputClearTpl5
+              ><i
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="validateForm.get('addressLocalization').value"
+                (click)="validateForm.get('addressLocalization').reset(); hide()"
+              ></i
+            ></ng-template>
+          </nz-input-group>
+          <ng-template #localAddressErrorTpl>
+            <ng-container *ngIf="validateForm.get('addressLocalization').hasError('required')">
+              {{ 'Address cannot be empty!' | translate }}
+            </ng-container>
+            <ng-container *ngIf="validateForm.get('addressLocalization').hasError('existSame')">
+              {{ 'Address cannot be same!' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-label>{{ '备注' | translate }}</nz-form-label>
+        <nz-form-control>
+          <textarea formControlName="Reamrk" maxlength="1000" nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
