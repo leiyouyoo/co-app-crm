@@ -56,6 +56,52 @@
       <ng-template st-row="country" let-data>
         {{ data.countryName}}-{{ data.provinceName}}
       </ng-template>
+      <ng-template st-row="customerType" type="tags" let-data>
+        <span>{{CustomerType[data.customerType] | translate}}</span>
+      </ng-template>
+      <ng-template st-row="cooperationState" let-data>
+        <span *ngIf="data.cooperationState == 0">{{ 'All' | translate }}</span>
+        <span *ngIf="data.cooperationState == 1">{{ 'Unsold customers' | translate }}</span>
+        <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="ownerState" let-data>
+        <span *ngIf="!data.owner">{{ '"Unowned client' | translate }}</span>
+        <span *ngIf="data.owner">{{ 'Main customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="examineState" let-data>
+        <span *ngIf="data.examineState == 0">
+          {{ 'NotSet' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 1">
+          {{ 'WaitingExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 2">
+          {{ 'PassExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 3">
+          {{ 'RefuseExamine' | translate }}
+        </span>
+      </ng-template>
+      <ng-template st-row="isRegistered" let-data>
+        <span *ngIf="data.isRegistered">
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+        >
+            <span *ngIf="!data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+          <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+        </span>
+      </ng-template>
+
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'No' | translate }}</span>
+      </ng-template>
+
+      <ng-template st-row="isDeleted" let-data>
+        <span *ngIf="data.isDeleted">{{ 'Invalid' | translate }}</span>
+        <span *ngIf="!data.isDeleted">{{ 'Effective' | translate }}</span>
+      </ng-template>
     </co-st>
   </co-page-main>
 

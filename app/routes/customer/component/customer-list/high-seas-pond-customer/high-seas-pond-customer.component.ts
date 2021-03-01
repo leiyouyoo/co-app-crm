@@ -2,6 +2,7 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
+import { CooperationState, CustomerStatus, CustomerType } from '../../../models/enum';
 
 @Component({
   selector: 'crm-high-seas-pond-customer',
@@ -11,6 +12,7 @@ import { CoPageBase } from '@co/core';
 export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
+  selected = [];
 
   @Input() set customerType(v) {
     this.searchParams.searchType = v;
@@ -20,7 +22,6 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
     return this.searchParams.searchType;
   }
 
-  @Output() customerDetail = new EventEmitter<any>();
   searchParams = {
     pageNo: 1,
     pageSize: 10,
@@ -34,6 +35,9 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   title = 'Add Customer';
   customerInfo: any;
   columns: STColumn[] = [];
+  readonly CooperationState = CooperationState;
+  readonly CustomerStatus = CustomerStatus;
+  readonly CustomerType = CustomerType;
 
   constructor(injector: Injector, private cRMCustomerService: CRMCustomerService) {
     super(injector);
@@ -50,7 +54,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         },
         {
           title: 'Full name(english)',
-          index: 'fullName',
+          index: 'name',
           width: 100,
         },
         {
@@ -61,26 +65,27 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         },
         {
           title: '首次出货时间',
-          index: 'firstShipmentTime',
+          index: 'firstTradeTime',
           type: 'date',
           dateFormat: 'yyyy-MM-dd',
           width: 100,
         },
         {
           title: '转手次数',
-          index: 'approvelStatus',
+          index: 'turnoverCount',
           width: 100,
         },
         {
           title: 'Creation Time',
           type: 'date',
           dateFormat: 'yyyy-MM-dd',
-          index: 'approvelStatus',
+          index: 'creationTime',
           width: 100,
         },
         {
-          title: '客户类型',
-          index: 'approvelStatus',
+          title: 'Customer Type',
+          index: 'customerType',
+          customerType: 'customerType',
           width: 100,
         },
       ];
@@ -93,43 +98,63 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
-          title: 'Full name(english)',
-          index: 'approvelStatus',
-          width: 100,
-        },
-        {
-          title: '国家-省',
+          title: 'Code',
           index: 'code',
-          width: 100,
-        },
-        {
-          title: '成交状态',
-          index: 'code',
-          width: 100,
-        },
-        {
-          title: '潜在客户状态',
-          index: 'code',
-          width: 100,
-        },
-        {
-          title: '审批状态',
-          index: 'approvelStatus',
           width: 100,
         },
         {
           title: 'Full name (local language)',
-          index: 'approvelStatus',
+          index: 'localizationName',
           width: 120,
         },
         {
+          title: 'Full name(english)',
+          index: 'name',
+          width: 100,
+        },
+        {
+          title: '国家-省',
+          index: 'country',
+          render: 'country',
+          width: 100,
+        },
+        {
+          title: 'Cooperation State',
+          index: 'cooperationState',
+          render: 'cooperationState',
+          width: 100,
+        },
+        {
+          title: '首次出货时间',
+          index: 'firstTradeTime',
+          type: 'date',
+          dateFormat: 'yyyy-MM-dd',
+          width: 100,
+        },
+        {
+          title: '转手次数',
+          index: 'turnoverCount',
+          width: 100,
+        },
+        {
+          title: '被退回次数',
+          index: 'returnCount',
+          width: 100,
+        },
+        {
+          title: 'Approval Status',
+          index: 'examineState',
+          render: 'examineState',
+          width: 100,
+        },
+        {
           title: 'Abbreviation(local language)',
-          index: 'approvelStatus',
+          index: 'shortName',
           width: 120,
         },
         {
           title: 'Abbreviation(english)',
-          index: 'approvelStatus',
+          index: 'localizationShortName',
           width: 100,
         },
         {
@@ -145,64 +170,62 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           sort: 'fax',
         },
         {
-          title: 'Country',
-          index: 'approvelStatus',
-          width: 80,
-        },
-        {
-          title: 'Owner',
-          index: 'approvelStatus',
-          width: 80,
-        },
-        {
           title: 'CreateUser',
-          index: 'approvelStatus',
+          index: 'creator',
           width: 80,
         },
         {
           title: 'Customer Type',
-          index: 'CustomerType',
-          width: 80,
+          index: 'customerType',
+          render: 'customerType',
+          width: 70,
         },
         {
           title: 'Creation Time',
-          index: 'approvelStatus',
+          dateFormat: 'yyyy-MM-dd',
+          index: 'creationTime',
           width: 100,
         },
         {
           title: 'Update Time',
-          index: 'approvelStatus',
+          dateFormat: 'yyyy-MM-dd',
+          index: 'lastModificationTime',
           width: 100,
         },
         {
           title: 'Approval date',
-          index: 'approvelStatus',
+          dateFormat: 'yyyy-MM-dd',
+          index: 'auditedDate',
           width: 100,
         },
         {
           title: 'Approver',
-          index: 'approvelStatus',
+          index: 'auditor',
           width: 80,
         },
         {
           title: 'Dangerous customer',
-          index: 'approvelStatus',
-          width: 80,
+          index: 'isDangerFlag',
+          render: 'isDangerFlag',
+          width: 70,
         },
         {
           title: 'Data Status',
-          index: 'approvelStatus',
-          width: 80,
+          index: 'isDeleted',
+          render: 'isDeleted',
+          width: 70,
         },
         {
           title: 'Customer Status',
-          index: 'approvelStatus',
-          width: 80,
+          index: 'ownerState',
+          render: 'ownerState',
+          width: 70,
         },
         {
           title: 'Is the CSP account open',
-          index: 'approvelStatus',
-          width: 100,
+          index: 'isRegistered',
+          render: 'isRegistered',
+          width: 120,
         },
       ];
     }
@@ -214,10 +237,17 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   }
 
   onSearch() {
-    this.st.load();
+    Object.assign(this.searchParams, {
+      pageNo: 1,
+      pageSize: 10,
+      maxResultCount: 10,
+      skipCount: 0,
+    });
+    this.getAll();
   }
 
   onRefresh() {
+    this.getAll();
   }
 
   onReset() {
@@ -241,7 +271,14 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
       this.setColumns('all');
     }
     this.searchParams.searchType = e;
-    this.st.load();
+    Object.assign(this.searchParams, {
+      pageNo: 1,
+      pageSize: 10,
+      maxResultCount: 10,
+      skipCount: 0,
+    });
+    this.searchParams.searchkeywork = null;
+    this.getAll();
   }
 
   //table操作方法
@@ -255,20 +292,17 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         break;
       }
       case 'ps': {
+        this.searchParams.pageNo = 1;
         this.searchParams.pageSize = e.ps;
         this.searchParams.maxResultCount = this.searchParams.pageSize;
         this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
         this.getAll();
         break;
       }
-      case 'click': {
-        this.onShowCustomerDetail(e.click.item);
+      case 'checkbox': {
+        this.selected = e.checkbox;
+        break;
       }
     }
-  }
-
-  //展开客户详情
-  onShowCustomerDetail(data) {
-    this.customerDetail.emit(data);
   }
 }
