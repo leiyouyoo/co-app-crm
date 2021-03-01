@@ -30,8 +30,13 @@
                           [nzMaxTagPlaceholder]="omittedPlaceHolder"
                           [nzAllowClear]="editing" nzHideUnMatched
                           name="personLiableList"
+                          [nzExpandedIcon]="multiExpandedIconTpl"
                           [nzPlaceHolder]="'Please select' | translate"
                           [(ngModel)]="validateForm.personLiableList">
+            <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+              <i nz-icon [nzType]="origin?.dataType==3 ? 'user' : 'plus-square'"
+                 class="ant-tree-switcher-line-icon"></i>
+            </ng-template>
           </nz-tree-select>
           <ng-template #omittedPlaceHolder let-omittedValues> + {{ omittedValues.length }}...</ng-template>
         </nz-form-control>
@@ -80,10 +85,15 @@
                           [nzMultiple]="true"
                           [nzMaxTagPlaceholder]="omittedPlaceHolder1"
                           nzShowLine
+                          [nzExpandedIcon]="multiExpandedIconTpl1"
                           [nzAllowClear]="editing" nzHideUnMatched
                           name="highSeasPondUsers"
                           [nzPlaceHolder]="'Please select' | translate"
                           [(ngModel)]="validateForm.highSeasPondUsers">
+            <ng-template #multiExpandedIconTpl1 let-node let-origin="origin">
+              <i nz-icon [nzType]="origin?.dataType==3 ? 'user' : 'plus-square'"
+                 class="ant-tree-switcher-line-icon"></i>
+            </ng-template>
           </nz-tree-select>
           <ng-template #omittedPlaceHolder1 let-omittedValues> + {{ omittedValues.length }}...</ng-template>
         </nz-form-control>
@@ -193,7 +203,7 @@
       <nz-form-item>
         <nz-form-label class="define-customer-title">设置认领规则</nz-form-label>
         <nz-form-control>
-          <label nz-checkbox [disabled]="!editing" (ngModelChange)="chang($event,1)" name="potential"
+          <label nz-checkbox [disabled]="!editing" (ngModelChange)="chang($event,0)" name="potential"
                  [(ngModel)]="claimRules.potential">潜在客户认领后，潜在客户状态重置；</label>
           <label nz-checkbox [disabled]="!editing" (ngModelChange)="chang($event,1)" name="obtain"
                  [(ngModel)]="claimRules.obtain">已成交客户认领后，保留历史成员的成交记录；</label>
