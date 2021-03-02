@@ -521,7 +521,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   initData(data: any = {}) {
-    debugger;
     // 获取国家
     setTimeout(() => {
       this.pubRegionService
@@ -563,6 +562,9 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       customerOwner: [userId], //客户所有人
       connectionCustomerId: [null], //关联客户
       website: [null], //网址
+      customerConfigure: [null],
+      customerLevel: [null],
+      oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
     this.queryConnectionCustomer('');
@@ -719,6 +721,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
   // tslint:disable-next-line: adjacent-overload-signatures
   async setData(data) {
+    debugger;
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({
@@ -742,8 +745,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
-        customerLevel: data.customerLevel || null,
-        oceanAttachFee: data.oceanAttachFee || null,
+        customerLevel: data.customerConfigure.customerLevel || null,
+        oceanAttachFee: data.customerConfigure.oceanAttachFee || null,
       });
 
       // 绑定地址

@@ -565,6 +565,9 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerOwner: [userId], //客户所有人
       connectionCustomerId: [null], //关联客户
       website: [null], //网址
+      customerConfigure: [null],
+      customerLevel: [null],
+      oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
     this.queryConnectionCustomer('');
@@ -750,6 +753,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             nameLocalization: null,
           },
         ],
+        customerLevel: data.customerConfigure.customerLevel || null,
+        oceanAttachFee: data.customerConfigure.oceanAttachFee || null,
       });
 
       // 绑定地址

@@ -555,6 +555,7 @@
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 2">T2(100-199.99)USD</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 3">T3(200-299.99)USD</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 4">T4(300-499.99)USD</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 5">T5(>=500)USD</span>
               </label>
             </nz-form-control>
           </nz-form-item>

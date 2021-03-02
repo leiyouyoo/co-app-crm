@@ -86,7 +86,7 @@
         <nz-form-label [nzRequired]="validateForm.get('isSignUp').value">{{ 'Role' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select formControlName="role">
-            <nz-option [nzValue]="item.id" [nzLabel]="item.localizationName" *ngFor="let item of roleList"></nz-option>
+            <nz-option [nzValue]="item.localizationName" [nzLabel]="item.localizationName" *ngFor="let item of roleList"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
