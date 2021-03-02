@@ -536,6 +536,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
+      id: [null],
       name: ['', { validators: [Validators.required] }],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
