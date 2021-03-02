@@ -6,6 +6,7 @@ import { CooperationState, CustomerStatus, CustomerType } from '../../../models/
 import { ApproveCodeComponent } from '../../../../../../../fam/app/routes/customer/component/approve-code/approve-code.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DistributionCustomerComponent } from '../../distribution-customer/distribution-customer.component';
+import { PlatformOrganizationUnitService } from '@co/cds';
 
 @Component({
   selector: 'crm-high-seas-pond-customer',
@@ -39,11 +40,12 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   title = 'Add Customer';
   customerInfo: any;
   columns: STColumn[] = [];
+
   readonly CooperationState = CooperationState;
   readonly CustomerStatus = CustomerStatus;
   readonly CustomerType = CustomerType;
 
-  constructor(injector: Injector, private crmCustomerService: CRMCustomerService,private modal:NzModalService) {
+  constructor(injector: Injector, private crmCustomerService: CRMCustomerService, private modal: NzModalService, ) {
     super(injector);
   }
 
@@ -342,8 +344,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
       nzContent: DistributionCustomerComponent,
       nzClosable: false,
       nzWidth: 820,
-
-      nzComponentParams: {  customerIds: list },
+      nzComponentParams: { customerIds: list },
       nzFooter: null,
     });
     const instance = modal.getContentComponent();
