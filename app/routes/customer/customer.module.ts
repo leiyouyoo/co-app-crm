@@ -18,10 +18,6 @@ import { CustomerIndexComponent } from './customer-index.component';
 import { CustomerAuthComponent } from './component-old/customer-auth/customer-auth.component';
 import { CustomerRecordComponent } from './component-old/customer-record/customer-record.component';
 import { ShowImageComponent } from './component-old/customer-record/show-image/show-image.component';
-import { CustomerComponent } from './customer-list/customer.component';
-import { NoDealCustomerComponent } from './customer-list/no-deal-customer/no-deal-customer.component';
-import { UnownedClientComponent } from './customer-list/unowned-client/unowned-client.component';
-import { SharedCustomersComponent } from './customer-list/shared-customers/shared-customers.component';
 import { CustomerMergeComponent } from './component-old/customer-merge/customer-merge.component';
 import { LegalEntityComponent } from './component-old/legal-entity/legal-entity.component';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
@@ -51,9 +47,6 @@ import { UpdateCustomerNameComponent } from './component/update-customer-name/up
 import { CspAccountConfigComponent } from './component/csp-account-config/csp-account-config.component';
 
 const COMPONENTS = [
-  CustomerComponent,
-  NoDealCustomerComponent,
-  NoDealCustomerComponent,
   CustomerDetailsComponent,
   ContactsListComponent,
   LocationListComponent,
@@ -103,8 +96,6 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerCompone
     CustomerLifeCyclePipe,
     CustomerSourceComponent,
     RelationPositionComponent,
-    UnownedClientComponent,
-    SharedCustomersComponent,
     CustomerIndexComponent,
     HighlightPipe,
     HighSeasPondCustomerComponent,
