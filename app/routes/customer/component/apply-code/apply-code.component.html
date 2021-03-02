@@ -1,0 +1,52 @@
+<nz-spin [nzSpinning]="isSpinning">
+  <form nzLayout="horizontal" nz-form [formGroup]="validateForm"
+        style="height: 100%; display: flex; flex-direction: column;">
+    <div style="margin-bottom: 12px;">
+      <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
+              (click)="submit()">{{ 'Submit' | translate }}</button>
+      <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+    </div>
+    <div formArrayName="customerTaxes">
+      <div [formGroupName]="inx"
+           *ngFor="let detail of $any(validateForm.get('customerTaxes')).controls; let inx = index">
+        <div nz-row [nzGutter]="16">
+          <!--            税务登记类型-->
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>{{ 'Tax register type' | translate }}</nz-form-label>
+              <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+                <nz-select
+                  nzShowSearch
+                  formControlName="taxType"
+                  nzPlaceHolder="{{ 'Please select' | translate }}"
+                  (ngModelChange)="onChangeRegistrationType($event)"
+                >
+                  <nz-option
+                    *ngFor="let item of registrationTypes"
+                    [nzLabel]="item.name"
+                    [nzValue]="item.value"
+                    [nzDisabled]="item.checked"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <!--            税务登记号-->
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>{{ 'Tax register Number' | translate }}</nz-form-label>
+              <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
+                <div class="flex_between">
+                  <input [id]="'customerTaxes' + inx" nz-input formControlName="taxNo"
+                         placeholder="{{ 'Please enter' | translate }}"
+                         style="flex: 1;"/>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</nz-spin>

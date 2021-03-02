@@ -1057,5 +1057,12 @@
   "CustomerList": {
     "Yes": "是",
     "No": "否"
-  }
+  },
+  "Assign Customer": "分配客户",
+  "Merge Customer": "合并客户",
+  "Apply Code": "申请代码",
+  "Void": "作废",
+  "Enable": "启用",
+  "Invalid": "无效",
+  "Effective": "有效"
 }

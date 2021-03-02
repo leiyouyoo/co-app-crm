@@ -130,7 +130,7 @@
   </button>
 </div>
 <section>
-  <form id="form" nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+  <form nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
     <h5 id="components-concat-info">
       <i
         nz-icon
@@ -191,7 +191,7 @@
       </div>
 
       <div formArrayName="customerContacts">
-        <div nz-row formGroupName="0" [nzGutter]="16">
+        <div nz-row *ngFor="let detail of validateForm.controls['customerContacts'].controls; let inx = index" [formGroupName]="inx" [nzGutter]="16">
           <div nz-col [nzSpan]="11">
             <div nz-row>
               <div nz-col [nzSpan]="12">

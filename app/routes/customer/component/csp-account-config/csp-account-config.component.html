@@ -1,0 +1,103 @@
+<section>
+  <div>
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
+            (click)="submit()">{{ 'Merge' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+  </div>
+  <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzFor="editionRoleId" nzRequired>{{ 'Role' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
+            <nz-select nzShowSearch nzPlaceHolder="{{ 'Please select' | translate }}" nzAllowClear
+                       formControlName="editionRoleId">
+              <nz-option *ngFor="let item of rolesList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+              >
+            </nz-select
+            >
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzFor="customerLevel"
+          >{{ 'Customer configuration level' | translate }}
+            <span
+              style="color: #ff4d4f;margin-left: 4px;margin-right: 4px;font-size: 14px;font-family: SimSun, sans-serif;line-height: 1;">*</span>
+            <i
+              nz-icon
+              nzType="info-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="
+                  'Set the customer\'s price level, the customer can see the reserve price + the added price after configuring the price in the CSP'
+                    | translate
+                "
+              class="tips"
+            ></i>
+          </nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please choose' | translate }}">
+            <nz-select
+              nzShowSearch
+              nzPlaceHolder="{{ 'Please select' | translate }}"
+              nzAllowClear
+              formControlName="customerLevel"
+              [nzCustomTemplate]="multipleTemplate"
+              (ngModelChange)="changeCustomerLevel($event)"
+            >
+              <nz-option [nzValue]="1" nzCustomContent>
+                T1{{ 'range' | translate }}:(<span style="color: #faad14;">50-99.99</span>)
+              </nz-option>
+              <nz-option [nzValue]="2" nzCustomContent>
+                T2{{ 'range' | translate }}:(<span style="color: #faad14;">100-199.99</span>)
+              </nz-option>
+              <nz-option [nzValue]="3" nzCustomContent>
+                T3{{ 'range' | translate }}:(<span style="color: #faad14;">200-299.99)</span>)
+              </nz-option>
+              <nz-option [nzValue]="4" nzCustomContent>
+                T4{{ 'range' | translate }}:(<span style="color: #faad14;">300-499.99)</span>)
+              </nz-option>
+              <nz-option [nzValue]="5" nzCustomContent>
+                T5{{ 'range' | translate }}:(<span style="color: #faad14;">≥500)</span>)
+              </nz-option>
+              <nz-option [nzValue]="0" nzCustomContent>
+                {{ 'customize' | translate }}
+              </nz-option>
+            </nz-select>
+
+            <ng-template #multipleTemplate let-selected>
+              <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value != 0">
+                T{{ validateForm.get('customerLevel').value }}({{ 'range' | translate }}：<span style="color: #faad14;"
+              ><span *ngIf="!maxPrice">≥</span>{{ minPrice }}<span *ngIf="maxPrice">-{{ maxPrice }}</span></span
+              >)
+              </div>
+
+              <div class="ant-select-selection-item-content" *ngIf="validateForm.get('customerLevel').value == 0">
+                {{ 'customize' | translate }}
+              </div>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Profit' | translate }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="errortips">
+            <nz-input-group nzAddOnAfter="USD">
+              <input type="number" nz-input formControlName="oceanAttachFee"
+                     placeholder="{{ 'Please enter' | translate }}"/>
+            </nz-input-group>
+          </nz-form-control>
+          <ng-template #errortips>
+            {{ 'Please enter the price in the price range' | translate }}
+          </ng-template>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</section>
+

@@ -1,0 +1,146 @@
+<nz-spin [nzSpinning]="loading">
+  <div>
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading" [disabled]="!selectedItem || customerList.length<2"
+            (click)="merge()">{{ 'Merge' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+  </div>
+  <div>
+    <nz-select
+      nzSize="small"
+      style="width: 80%;margin: 8px 8px 8px 0"
+      [nzMaxTagCount]="3"
+      [nzCustomTemplate]="defaultTemplate"
+      [nzMaxTagPlaceholder]="tagPlaceHolder"
+      nzMode="multiple"
+      (nzScrollToBottom)="loadMore()"
+      [nzShowSearch]="true"
+      nzServerSearch
+      (nzOnSearch)="searchCustomer($event)"
+      [nzPlaceHolder]="'Please select' | translate"
+      [(ngModel)]="listOfSelectedValue"
+    >
+      <nz-option nzCustomContent *ngFor="let item of listOfCustomer" [nzLabel]="item?.name?.name?.zh ||item?.name?.name?.en"
+                 [nzValue]="item"><span
+        [innerHTML]="item?.name?.name?.zh || item?.name?.name?.en"></span></nz-option>
+    </nz-select>
+    <ng-template #tagPlaceHolder let-selectedList> + {{ selectedList.length }} </ng-template>
+    <ng-template #defaultTemplate let-selected><span [innerHTML]="selected.nzLabel "></span></ng-template>
+    <button nzSize="small" nz-button [nzType]="listOfSelectedValue.length?'primary':'default'"
+            (click)="add()">{{ 'Adjunction' | translate }}</button>
+  </div>
+  <div>
+    <label>同时合并：</label>
+    <nz-checkbox-group [(ngModel)]="list" [disabled]="true"></nz-checkbox-group>
+  </div>
+
+  <div style="margin-top: 8px;height:300px">
+    <co-st
+      [loading]="stLoading"
+      [data]="customerList"
+      [columns]="customerColumns"
+      (change)="onTableChange($event)"
+      [showFilters]="false"
+      [showCheckbox]="false"
+      virtualScroll
+      calcScroll
+      disableCalcX
+      columnSettingName="merge-customer"
+0    >
+      <ng-template st-row="examineState" let-data>
+        <span *ngIf="data.examineState == 0">
+          {{ '--' }}
+        </span>
+        <span *ngIf="data.examineState == 1">
+          {{ 'WaitingExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 2">
+          {{ 'PassExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 3">
+          {{ 'RefuseExamine' | translate }}
+        </span>
+      </ng-template>
+      <ng-template st-row="cooperationState" let-data>
+        <span *ngIf="data.cooperationState == 0">{{ 'All' | translate }}</span>
+        <span *ngIf="data.cooperationState == 1">{{ 'Unsold customers' | translate }}</span>
+        <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="ownerState" let-data>
+        <span *ngIf="!data.owner">{{ '"Unowned client' | translate }}</span>
+        <span *ngIf="data.owner">{{ 'Main customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isHaveCspAcount" let-data>
+    <span *ngIf="data.isRegistered">
+      <span class="jy-ocean-StartingPlace"
+            [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+    >
+        <span *ngIf="!data.isRegistered">
+      <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+      <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+    </span>
+      </ng-template>
+
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'No' | translate }}</span>
+      </ng-template>
+
+      <ng-template st-row="isDeleted" let-data>
+        <span *ngIf="data.isDeleted">{{ 'Invalid' | translate }}</span>
+        <span *ngIf="!data.isDeleted">{{ 'Effective' | translate }}</span>
+      </ng-template>
+
+    </co-st>
+  </div>
+</nz-spin>
+<nz-modal [(nzVisible)]="isVisible" [nzFooter]="modalFooter" [nzWidth]="1024" nzTitle="合并客户"
+          (nzOnCancel)="handleCancel()">
+  <div style="min-height: 500px;" *ngIf="checkData.length">
+    <h5>重复提示：</h5>
+    <div>正在将{{customerList.length - 1}}个客户合并到{{selectedItem.customerName}}</div>
+    <div *ngFor="let item of checkData">
+      <ng-container *ngTemplateOutlet="typeTpl; context: {item:item}"></ng-container>
+    </div>
+  </div>
+  <ng-template #typeTpl let-item="item">
+    <ng-container [ngSwitch]="item.type">
+      <div *ngSwitchCase="1">
+        <div>检测到{{item.items.length}}个 邮箱或号码重复的联系人，选择保留项：</div>
+        <div *ngFor="let data of item.items">
+          <div>联系人：</div>
+          <nz-radio-group [(ngModel)]="data.value">
+            <label *ngFor="let ra of data" nz-radio
+                   [nzValue]="ra.id">{{ra.name}} {{ra.description}}
+              （{{ra.customerName}}）</label>
+          </nz-radio-group>
+        </div>
+      </div>
+      <div *ngSwitchCase="2">
+        <div>检测到{{item.items.length}}个 重复的位置，选择保留项：</div>
+        <div *ngFor="let data of item.items">
+          <div>位置：</div>
+          <nz-radio-group [(ngModel)]="data.value">
+            <label *ngFor="let ra of data" nz-radio [nzValue]="ra.id">{{ra.description}}
+              （{{ra.customerName}}）</label>
+          </nz-radio-group>
+        </div>
+      </div>
+      <div *ngSwitchCase="3">
+        <div>检测到{{item.items.length}}个 重复的合作伙伴，选择保留项：</div>
+        <div *ngFor="let data of item.items">
+          <div>合作伙伴：</div>
+          <nz-radio-group [(ngModel)]="data.value">
+            <label *ngFor="let ra of data" nz-radio [nzValue]="ra.id">{{ra.description}}
+              （{{ra.customerName}}）</label>
+          </nz-radio-group>
+        </div>
+      </div>
+      <div *ngSwitchCase="4">检测到{{item.items.length}}个 重复的位置，选择保留项：</div>
+      <div *ngSwitchCase="5">检测到{{item.items.length}}个 重复的位置，选择保留项：</div>
+    </ng-container>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">{{ '取消合并' | translate }}</button>
+    <button nz-button nzType="primary" (click)="continueMerge()" [nzLoading]="loading">{{ '继续' | translate }}</button>
+  </ng-template>
+</nz-modal>

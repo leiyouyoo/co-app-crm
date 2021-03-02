@@ -6,7 +6,6 @@ import { ContactsListComponent } from './component-old/contact/contacts-list/con
 import { CustomerPartnerComponent } from './component-old/customer-partner/customer-partner.component';
 import { PartnerBindCustomerComponent } from './component-old/partner-bind-customer/partner-bind-customer.component';
 import { PartnerDetailsComponent } from './component-old/partner-details/partner-details.component';
-import { TransferTocustomerComponent } from './component-old/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerSourceComponent } from './component-old/customer-source/customer-source.component';
 import { RelationPositionComponent } from './component-old/relation-position/relation-position.component';
@@ -43,8 +42,14 @@ import { HighSeasPondCustomerComponent } from './component/customer-list/high-se
 import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 import { PotentailcustomerDetailComponent } from './component/potentailcustomer-info/potentailcustomer-detail/potentailcustomer-detail.component';
 import { DistributionCustomerComponent } from './component/distribution-customer/distribution-customer.component';
+import { TransferTocustomerComponent } from './component/transfer-tocustomer/transfer-tocustomer.component';
 
 import { CreateTransactedCustomersComponent } from './component/customer-list/transacted-customers/create-transacted-customers/create-transacted-customers.component';
+import { ApplyCodeComponent } from './component/apply-code/apply-code.component';
+import { MergeCustomerComponent } from './component/merge-customer/merge-customer.component';
+import { UpdateCustomerNameComponent } from './component/update-customer-name/update-customer-name.component';
+import { CspAccountConfigComponent } from './component/csp-account-config/csp-account-config.component';
+
 const COMPONENTS = [
   CustomerComponent,
   NoDealCustomerComponent,
@@ -83,7 +88,8 @@ const NEWCOMPONENTS = [
   PotentailcustomerDetailComponent,
   CreateTransactedCustomersComponent,
 ];
-const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent, DistributionCustomerComponent];
+const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent,
+  DistributionCustomerComponent, ApplyCodeComponent, MergeCustomerComponent, UpdateCustomerNameComponent,TransferTocustomerComponent];
 
 @NgModule({
   imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule],
@@ -102,6 +108,7 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerCompone
     CustomerIndexComponent,
     HighlightPipe,
     HighSeasPondCustomerComponent,
+    CspAccountConfigComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
