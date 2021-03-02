@@ -1,6 +1,7 @@
 .ant-layout-header {
   padding: 0 16px !important;
 }
+
 nz-header {
   height: 100px;
   margin-bottom: 18px;
@@ -16,6 +17,7 @@ nz-content {
   width: 60%;
   margin-right: 16px;
 }
+
 .customerInfo-right {
   width: 40%;
   margin-left: 16px;
@@ -35,5 +37,21 @@ nz-content {
 
   &:hover {
     color: #1890ff;
+  }
+}
+
+:host {
+}
+
+::ng-deep {
+  nz-tabset {
+    height: 100%;
+
+    .ant-tabs-content {
+      height: calc(100% - 61px);
+      .ant-tabs-tabpane{
+        height: 100%;
+      }
+    }
   }
 }

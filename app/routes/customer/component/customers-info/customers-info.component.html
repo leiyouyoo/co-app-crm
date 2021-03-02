@@ -1,4 +1,4 @@
-<nz-layout>
+<nz-layout style="height: 100%;">
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; align-items: center; font-weight: 800;">
@@ -56,9 +56,9 @@
   </nz-header>
   <nz-layout>
     <nz-content nz-row [nzGutter]="32">
-      <div nz-col class="gutter-row" [nzSpan]="16">
+      <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="16">
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
-        <div style="height: 100%; padding-left: 16px; background: #fff;">
+        <div style="height: calc(100% - 96px);padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
             <nz-tab [nzTitle]="'联系人列表' | translate">
               <crm-contact-list></crm-contact-list>
