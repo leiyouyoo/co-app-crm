@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { CoPageBase } from '@co/core';
+import { CoPageBase, debounce } from '@co/core';
 import { PlatformOrganizationUnitService } from '@co/cds';
 import { NgForm } from '@angular/forms';
 import { CRMCustomerService } from '../../../../services/crm';
@@ -27,13 +27,32 @@ export class DistributionCustomerComponent extends CoPageBase implements OnInit 
 
   ngOnInit(): void {
     const user = JSON.parse(window.localStorage.getItem('co.session'));
+    this.onSearchUser();
+  }
+
+  @debounce(200)
+  onSearchUser(text = null) {
+    const param = {
+      searchText: text,
+      includeOrganization: true,
+      isOwnDepartment: false,
+    };
+    if (!text) {
+      param.isOwnDepartment = true;
+    }
+    if (text === '') {
+      return;
+    }
+
     this.platformOrganizationUnitService
-      .getSaleUsers({
-        isOwnDepartment: true,
-        includeOrganization: true,
-      })
+      .getSaleUsers(param)
       .subscribe((res: any) => {
-        this.listOfCustomer = res.items;
+        this.listOfCustomer = res.items.map(e => {
+          const organization = e.organizationUnits[0].organizationUnitFullName;
+          const organizationName = organization.split('/')[0];
+          const department = organization.split('/')[1];
+          return Object.assign(e, { organizationName, department });
+        });
       });
   }
 

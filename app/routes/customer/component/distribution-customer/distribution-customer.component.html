@@ -11,8 +11,10 @@
         required
         name="user"
         nzShowSearch
+        nzServerSearch
         nzSize="small"
         style="width: 80%;margin: 8px 8px 8px 0"
+        (nzOnSearch)="onSearchUser($event)"
         [nzPlaceHolder]="'Please select' | translate"
         [(ngModel)]="userId"
       >

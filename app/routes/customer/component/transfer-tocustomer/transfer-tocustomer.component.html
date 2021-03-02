@@ -19,7 +19,7 @@
         [(ngModel)]="user"
         (nzOnSearch)="onSearchUser($event)"
       >
-        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.nameLocalization || item.userName"
+        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.surname+item.nameLocalization || item.userName"
                    [nzValue]="item"
                    nzCustomContent>
           <ul class="row">
