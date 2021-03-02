@@ -11,7 +11,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -21,7 +29,11 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -33,9 +45,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   @Input() set customerInfo(v) {
     this.initData(v);
   }
+
   get customerInfo() {
     return this.customerInfo;
   }
+
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
   readonly CooperationState = CooperationState;
@@ -723,25 +737,29 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.validateForm.patchValue({
         id: data.id || this.emptyGuid,
         name: this.name || data.name || '',
-        shortName: null || data.shortName,
-        address: null || data.address,
-        nameLocalization: null || data.localizationName,
-        shortNameLocalization: null || data.localizationShortName,
-        addressLocalization: null || data.localizationAddress,
-        fax: null || data.fax,
-        email: null || data.email,
-        industry: null || data.industry,
-        customerType: null || data.customerType || 3,
-        incoterms: null || data.incoterms,
-        isSalesCustomer: false || data.isSalesCustomer,
-        description: null || data.description,
+        shortName: data.shortName,
+        address: data.address,
+        nameLocalization: data.localizationName,
+        shortNameLocalization: data.localizationShortName,
+        addressLocalization: data.localizationAddress,
+        fax: data.fax,
+        email: data.email,
+        industry: data.industry,
+        customerType: data.customerType || 3,
+        incoterms: data.incoterms,
+        isSalesCustomer: data.isSalesCustomer,
+        description: data.description,
         state: data?.status.toString() || '0',
         countryId: data.countryId || null,
         country: data.country || null,
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
-        customerContacts: data.customerContacts || null,
+        customerContacts: data.customerContacts || [{
+          lastname: null,
+          name: null,
+          nameLocalization: null,
+        }],
       });
 
       // 绑定地址
