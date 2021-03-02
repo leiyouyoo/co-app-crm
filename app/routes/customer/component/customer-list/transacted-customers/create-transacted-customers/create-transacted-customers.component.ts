@@ -365,9 +365,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     }
   }
 
-  ngOnInit() {
-    this.initData();
-  }
+  ngOnInit() {}
 
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -523,15 +521,17 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   initData(data: any = {}) {
+    debugger;
     // 获取国家
-    this.pubRegionService
-      .getAll({
-        parentId: '',
-      })
-      .subscribe((res) => {
-        this.regions = res.items;
-      });
-
+    setTimeout(() => {
+      this.pubRegionService
+        .getAll({
+          parentId: '',
+        })
+        .subscribe((res) => {
+          this.regions = res.items;
+        });
+    }, 1000);
     this.getEditionAll();
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
@@ -722,6 +722,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({
+        id: data.id,
         name: this.name || data.name || '',
         shortName: null || data.shortName,
         address: null || data.address,
@@ -737,9 +738,12 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         description: null || data.description,
         state: data?.status.toString() || '0',
         countryId: data.countryId || null,
+        country: data.countryId || null,
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
+        customerLevel: data.customerLevel || null,
+        oceanAttachFee: data.oceanAttachFee || null,
       });
 
       // 绑定地址
@@ -1175,6 +1179,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   submit(application?: boolean): void {
+    debugger;
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
       tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
@@ -1196,6 +1201,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     }
 
     let entity: CRMCreateOrUpdateCustomerInput = {
+      id: value.id,
       name: value.name,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
@@ -1221,7 +1227,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
     };
     console.log(entity);
-    this.crmCustomerService.fAMCreate(entity).subscribe(
+    this.crmCustomerService.update(entity).subscribe(
       (res) => {
         if (application) {
           this.crmCustomerExamineService

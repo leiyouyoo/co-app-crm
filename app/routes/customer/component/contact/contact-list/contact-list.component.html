@@ -2,8 +2,7 @@
 <co-st
   #st
   [columns]="columns"
-  [data]="contactInfo?.items"
-  [total]="contactInfo?.totalCount"
+  [data]="contacts"
   columnDefaultWidth="100"
   (change)="onTableChange($event)"
   calcScroll
@@ -12,4 +11,12 @@
   [showFilters]="false"
   style="flex: 1;"
 >
+  <ng-template st-row="xm" let-data>
+    {{ data.surname }}
+    {{ data.name }}
+  </ng-template>
+  <ng-template st-row="xml" let-data>
+    {{ data.surnameLocalization }}
+    {{ data.nameLocalization }}
+  </ng-template>
 </co-st>

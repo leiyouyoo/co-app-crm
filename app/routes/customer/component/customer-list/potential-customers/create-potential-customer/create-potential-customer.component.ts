@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -10,14 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder, FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -27,11 +21,7 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import {
-  CRMCreateOrUpdateCustomerInput,
-  CRMCustomerExamineService,
-  CRMCustomerService,
-} from '../../../../../../services/crm';
+import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -72,7 +62,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   scrollTop = 0;
   data: any;
   i = 1;
-
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
   customerTypes = [
     {
       name: 'AirLine',
@@ -524,6 +514,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   initData(data: any = {}) {
+    debugger;
     // 获取国家
     this.pubRegionService
       .getAll({
@@ -537,6 +528,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
+      id: [this.emptyGuid, []],
       name: ['', { validators: [Validators.required] }],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
@@ -545,11 +537,13 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       addressLocalization: [null],
       leadTrackingPhase: [0],
       tel: new FormArray([]),
-      customerContacts: new FormArray([this.fb.group({
-        lastname: [null],
-        name: [null, [Validators.required]],
-        nameLocalization: [null],
-      })]),
+      customerContacts: new FormArray([
+        this.fb.group({
+          lastname: [null],
+          name: [null, [Validators.required]],
+          nameLocalization: [null],
+        }),
+      ]),
       fax: [null, [this.mobileValidator()]],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
@@ -610,12 +604,15 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       return;
     }
     this.isLoading = true;
-    this.crmCustomerService.queryConnectionCustomer({ searchText }).subscribe(r => {
-      console.log(r);
-      this.isLoading = false;
-      this.connectionCustomerList = r;
-      this.cdr.detectChanges();
-    }, e => this.isLoading = false);
+    this.crmCustomerService.queryConnectionCustomer({ searchText }).subscribe(
+      (r) => {
+        console.log(r);
+        this.isLoading = false;
+        this.connectionCustomerList = r;
+        this.cdr.detectChanges();
+      },
+      (e) => (this.isLoading = false),
+    );
   }
 
   loadMore() {
@@ -637,15 +634,18 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.userListParams.name = name;
       this.userList = [];
     }
-    this.httpClient.get('/SSO/User/GetAllActiveUserBySearch', { searchText: name }).subscribe((r: any) => {
-      this.userListParams.isLoading = false;
-      if (loadMore) {
-        this.userList = [...this.userList, ...r];
-      } else {
-        this.userList = r;
-      }
-      this.cdr.detectChanges();
-    }, e => this.userListParams.isLoading = false);
+    this.httpClient.get('/SSO/User/GetAllActiveUserBySearch', { searchText: name }).subscribe(
+      (r: any) => {
+        this.userListParams.isLoading = false;
+        if (loadMore) {
+          this.userList = [...this.userList, ...r];
+        } else {
+          this.userList = r;
+        }
+        this.cdr.detectChanges();
+      },
+      (e) => (this.userListParams.isLoading = false),
+    );
   }
 
   checkRepeatData(key) {
@@ -654,14 +654,29 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   taxNoBlur(e, inx) {
     this.taxNoIndex = inx;
-    this.checkCustomerAsync('customerTaxes', this.validateForm.get('customerTaxes').value.filter(ele => ele.taxNo).map(ele => {
-      return { taxNo: ele.taxNo };
-    }), 'customerTaxes' + inx);
+    this.checkCustomerAsync(
+      'customerTaxes',
+      this.validateForm
+        .get('customerTaxes')
+        .value.filter((ele) => ele.taxNo)
+        .map((ele) => {
+          return { taxNo: ele.taxNo };
+        }),
+      'customerTaxes' + inx,
+    );
   }
 
   telBlur(e, inx) {
     this.taxNoIndex = inx;
-    this.checkCustomerAsync('tel', this.validateForm.get('tel').value.filter(ele => ele.tel).map(ele => ele.tel).join(','), 'tel' + inx);
+    this.checkCustomerAsync(
+      'tel',
+      this.validateForm
+        .get('tel')
+        .value.filter((ele) => ele.tel)
+        .map((ele) => ele.tel)
+        .join(','),
+      'tel' + inx,
+    );
   }
 
   /**
@@ -675,7 +690,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.hide(key);
       return;
     }
-    this.crmCustomerService.customerCheckAsync({ name: null, [key]: value }).subscribe(r => {
+    this.crmCustomerService.customerCheckAsync({ name: null, [key]: value }).subscribe((r) => {
       console.log(r);
       this.verifyMode = r.verifyMode;
       this.isAdopt = r.isAdopt;
@@ -702,9 +717,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   // tslint:disable-next-line: adjacent-overload-signatures
   async setData(data) {
+    debugger;
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({
+        id: data.id || this.emptyGuid,
         name: this.name || data.name || '',
         shortName: null || data.shortName,
         address: null || data.address,
@@ -720,9 +737,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         description: null || data.description,
         state: data?.status.toString() || '0',
         countryId: data.countryId || null,
+        country: data.country || null,
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
+        customerContacts: data.customerContacts || null,
       });
 
       // 绑定地址
@@ -1181,6 +1200,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.cusLoading = true;
     }
     let entity: CRMCreateOrUpdateCustomerInput = {
+      id: value.id,
       name: value.name,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
@@ -1205,20 +1225,24 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerLevel: value.customerLevel,
       website: value.website,
       customerContacts: [Object.assign(value.customerContacts[0], { phone: tel.toString(), email: value.email })],
-      customerTaxes: value.customerTaxes ? value.customerTaxes[0]?.taxType ? value.customerTaxes : null : null,
+      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
     };
     console.log(entity);
     this.crmCustomerService.fAMCreate(entity).subscribe(
       (res) => {
         if (application) {
-          this.crmCustomerExamineService.postCodeAsync({
-            id: res.id,
-            customerTaxes: this.validateForm.value.customerTaxes,
-          }).subscribe(r => {
-              this.codeLoading = false;
-              this.msg.success(this.translate.instant('application success!'));
-            }, e => this.codeLoading = false,
-          );
+          this.crmCustomerExamineService
+            .postCodeAsync({
+              id: res.id,
+              customerTaxes: this.validateForm.value.customerTaxes,
+            })
+            .subscribe(
+              (r) => {
+                this.codeLoading = false;
+                this.msg.success(this.translate.instant('application success!'));
+              },
+              (e) => (this.codeLoading = false),
+            );
         } else {
           this.msg.success(this.translate.instant('Create success!'));
         }
@@ -1237,24 +1261,24 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   get checkRequired() {
     let all = true;
-    !this.validateForm.get('name').value ? all = false : null;
-    !this.validateForm.get('shortName').value ? all = false : null;
-    !this.validateForm.get('country').value ? all = false : null;
-    !this.validateForm.get('address').value ? all = false : null;
-    !this.validateForm.get('customerType').value ? all = false : null;
-    (!this.validateForm.get('fax').value && !this.validateForm.get('email').value) ? all = false : null;
+    !this.validateForm.get('name').value ? (all = false) : null;
+    !this.validateForm.get('shortName').value ? (all = false) : null;
+    !this.validateForm.get('country').value ? (all = false) : null;
+    !this.validateForm.get('address').value ? (all = false) : null;
+    !this.validateForm.get('customerType').value ? (all = false) : null;
+    !this.validateForm.get('fax').value && !this.validateForm.get('email').value ? (all = false) : null;
     if (this.cspInfo) {
-      !this.validateForm.get('customerLevel').value ? all = false : null;
-      !this.validateForm.get('oceanAttachFee').value ? all = false : null;
+      !this.validateForm.get('customerLevel').value ? (all = false) : null;
+      !this.validateForm.get('oceanAttachFee').value ? (all = false) : null;
     }
     if (this.taxInfo) {
-      this.validateForm.get('tel')?.value?.forEach(e => {
+      this.validateForm.get('tel')?.value?.forEach((e) => {
         if (!e.tel) {
           all = false;
         }
       });
     }
-    this.validateForm.get('customerTaxes')?.value?.forEach(e => {
+    this.validateForm.get('customerTaxes')?.value?.forEach((e) => {
       if (!e.taxType || !e.taxNo) {
         all = false;
       }

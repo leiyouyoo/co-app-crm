@@ -56,7 +56,7 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
   minPrice = 50;
   cusLoading: boolean;
   applicationLoading: boolean;
-  edit=false;
+  edit = false;
   constructor(
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
@@ -94,12 +94,8 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     }
   }
 
-  ngOnInit() {
-    this.initData();
-    this.getCustomerDetail(this.customerId);
-  }
+  ngOnInit() {}
 
-  
   editCustomer() {
     this.edit = !this.edit;
   }
@@ -109,18 +105,18 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
       this.edit = false;
     }
   }
-  getCustomerDetail(id) {
-    this.loading = true;
-    this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(
-      (res) => {
-        this.loading = false;
-        this.initData(res);
-      },
-      (error) => {
-        this.loading = false;
-      },
-    );
-  }
+  // getCustomerDetail(id) {
+  //   this.loading = true;
+  //   this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(
+  //     (res) => {
+  //       this.loading = false;
+  //       this.initData(res);
+  //     },
+  //     (error) => {
+  //       this.loading = false;
+  //     },
+  //   );
+  // }
 
   ngScroll() {
     let _scroll = document.querySelector('.head_customer');

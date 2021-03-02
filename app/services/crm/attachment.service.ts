@@ -10,7 +10,7 @@ export class CRMAttachmentService extends BaseApi {
     super(injector);
   }
 
-
+  
     /**
      * @param url /CRM/Attachment/Get
      * 获取附件详情
@@ -19,7 +19,7 @@ export class CRMAttachmentService extends BaseApi {
     @GET('Get')
     get(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMAttachmentDto> {
         return null as any
@@ -34,7 +34,7 @@ export class CRMAttachmentService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,type?:number}
+        _req: {customerId?:string,type?:number} 
 
     ): Observable<CRMListResultDto1<CRMAttachmentListDto>> {
         return null as any
@@ -64,7 +64,7 @@ export class CRMAttachmentService extends BaseApi {
     @POST('BatchCreate')
     batchCreate(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<CRMListResultDto1<CRMAttachmentDto>> {
         return null as any
@@ -79,7 +79,7 @@ export class CRMAttachmentService extends BaseApi {
     @DELETE('Delete')
     delete(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any

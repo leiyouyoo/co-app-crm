@@ -2,8 +2,7 @@
 <co-st
   #st
   [columns]="columns"
-  [data]="contactInfo?.items"
-  [total]="contactInfo?.totalCount"
+  [data]="locations"
   columnDefaultWidth="100"
   (change)="onTableChange($event)"
   calcScroll
@@ -12,4 +11,5 @@
   [showFilters]="false"
   style="flex: 1;"
 >
+  <ng-template st-row="cpc" let-data> {{ data.country }}-{{ data.province }}-{{ data.city }} </ng-template>
 </co-st>

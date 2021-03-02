@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -817,6 +817,36 @@ export class CRMCustomerService extends BaseApi {
         _req: {id?:string} 
 
     ): Observable<CRMCustomerDetailDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/SaveScheduleAsync
+     * 保存日程
+     */
+
+    @POST('SaveScheduleAsync')
+    saveScheduleAsync(
+        @Payload
+        _req:CRMScheduleDto
+
+    ): Observable<CRMScheduleDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/CustomerAutomaticRecovery
+     * 客户自动回收进公海池
+     */
+
+    @POST('CustomerAutomaticRecovery')
+    customerAutomaticRecovery(
+        @Payload
+        _req: {} 
+
+    ): Observable<any> {
         return null as any
     }
 
