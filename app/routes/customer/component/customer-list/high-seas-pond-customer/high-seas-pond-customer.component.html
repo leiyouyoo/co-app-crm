@@ -5,18 +5,21 @@
         <nz-select [(ngModel)]="searchParams.searchType" (ngModelChange)="onchangeCustomer($event)"
                    style="width: 200px; margin-left: 8px;">
           <nz-option [nzValue]="0" [nzLabel]="'分配给我的' | translate"></nz-option>
-          <nz-option [nzValue]="1" [nzLabel]="'分配给我部门的' | translate"></nz-option>
-          <nz-option [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
-          <nz-option [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="1" [nzLabel]="'分配给我部门的' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
         </nz-select>
-        <button [disabled]="!selected.length" (click)="distributionCustomer()" style="margin-left: 8px;" nz-button nzType="primary">
-          {{ '分配' | translate }}
-        </button>
-        <button [disabled]="!selected.length" nz-button (click)="claim()" nzType="normal">
-          {{ '认领' | translate }}
-        </button>
-        <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
-        <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
+        <div style="margin-left: 8px;">
+          <button *ngIf="isManager" [disabled]="!selected.length" (click)="distributionCustomer()" nz-button
+                  nzType="primary">
+            {{ '分配' | translate }}
+          </button>
+          <button [disabled]="!selected.length" nz-button (click)="claim()" nzType="normal">
+            {{ '认领' | translate }}
+          </button>
+          <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
+          <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
+        </div>
       </div>
       <div>
         <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
@@ -87,7 +90,7 @@
           <span class="jy-ocean-StartingPlace"
                 [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
         >
-            <span *ngIf="!data.isRegistered">
+        <span *ngIf="!data.isRegistered">
           <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
           <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
         </span>

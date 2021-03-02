@@ -1,0 +1,65 @@
+<section class="update-customerName">
+  <div>
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading" (click)="save()">{{ 'Submit' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+  </div>
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>{{ '全称(英文)' | translate }}</nz-form-label>
+        <nz-form-control>
+          <span [innerHTML]="nameObj?.name?.en"> </span>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>{{ '全称(本地语言)' | translate }}</nz-form-label>
+        <nz-form-control>
+          <span [innerHTML]="nameObj?.name?.zh"> </span>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div style="margin-bottom: 8px;">更改为</div>
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>{{ '全称(英文)' | translate }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="nameErrorTpl">
+          <input nz-input [formControl]="form.controls.name" (ngModelChange)="isAdopt = true" />
+          <ng-template #nameErrorTpl>
+            <ng-container *ngIf="form.get('name').hasError('maxlength')">
+              {{ 'Length cannot exceed 100' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>{{ '全称(本地语言)' | translate }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="nameLocalizationErrorTpl">
+          <input nz-input [formControl]="form.controls.nameLocalization" (ngModelChange)="isAdopt = true" />
+          <ng-template #nameLocalizationErrorTpl>
+            <ng-container *ngIf="form.get('nameLocalization').hasError('maxlength')">
+              {{ 'Length cannot exceed 100' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <!-- <div>{{ !form.get('name').value && !form.get('nameLocalization').value && isSubmitted }}</div>
+    <div>{{ form.get('name').value }}</div>
+    <div>{{ form.get('nameLocalization').value }}</div>
+    <div>{{ !form.get('name').value }}</div>
+    <div>{{ !form.get('nameLocalization').value }}</div> -->
+
+    <div style="padding-left: 10px; color: #f33155;" *ngIf="!form.get('name').value && !form.get('nameLocalization').value && isSubmitted">
+      {{ 'Please enter at least one' | translate }}
+    </div>
+    <div style="padding-left: 10px; color: #f33155;" *ngIf="!isAdopt">
+      {{ 'Data duplication,please enter again' | translate }}
+    </div>
+  </div>
+</section>

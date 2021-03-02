@@ -7,6 +7,7 @@ import { ApproveCodeComponent } from '../../../../../../../fam/app/routes/custom
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DistributionCustomerComponent } from '../../distribution-customer/distribution-customer.component';
 import { PlatformOrganizationUnitService } from '@co/cds';
+import { ACLService } from '@co/acl';
 
 @Component({
   selector: 'crm-high-seas-pond-customer',
@@ -18,6 +19,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   selected = [];
   loading = false;
+  isManager: boolean;
 
   @Input() set customerType(v) {
     this.searchParams.searchType = v;
@@ -45,7 +47,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   readonly CustomerStatus = CustomerStatus;
   readonly CustomerType = CustomerType;
 
-  constructor(injector: Injector, private crmCustomerService: CRMCustomerService, private modal: NzModalService, ) {
+  constructor(injector: Injector, private crmCustomerService: CRMCustomerService, private modal: NzModalService,private aclService:ACLService) {
     super(injector);
   }
 
@@ -240,6 +242,9 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   ngOnInit(): void {
     this.setColumns('assign');
     this.getAll();
+    if (this.aclService.can(['j:经理'])) {
+      this.isManager = true;
+    }
   }
 
   onSearch() {
@@ -340,7 +345,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
       return;
     }
     const modal = this.modal.create({
-      nzTitle: this.$L('distribution Customer'),
+      nzTitle: this.$L('Assign Customer'),
       nzContent: DistributionCustomerComponent,
       nzClosable: false,
       nzWidth: 820,

@@ -6,24 +6,32 @@
           <nz-option [nzValue]="0" [nzLabel]="'I m in charge' | translate"></nz-option>
           <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
           <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
-          <nz-option [nzValue]="3" [nzLabel]="'All' | translate"></nz-option>
-          <nz-option [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'All' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
           <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item>
+            <li
+              (click)="!(selected.length != 1 || selected[0]?.updateNameExamineState == 1) && applyName()"
+              [nzDisabled]="selected.length != 1 || selected[0]?.updateNameExamineState == 1"
+              nz-menu-item>
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item (click)="selected.length && transferCustomer()" [nzDisabled]="!selected.length">
               {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
+                (nzOnConfirm)="selected.length && bulkTurnCustomerSea()"
+                [nzDisabled]="!selected.length">
               {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ 'merge' | translate }}
+            <li (click)="selected.length && mergeCustomer()"
+                [nzDisabled]="!selected.length" nz-menu-item>
+              {{ 'Merge Customer' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -33,17 +41,18 @@
       </div>
       <div>
         <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
-          <input type="text" nz-input [(ngModel)]="searchParams.searchText" [placeholder]="'Search Code/Customer Name/Tel' | translate" />
+          <input type="text" nz-input [(ngModel)]="searchParams.searchText"
+                 [placeholder]="'Search Code/Customer Name/Tel' | translate"/>
         </nz-input-group>
         <ng-template #inputClearTpl
-          ><i
-            nz-icon
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            *ngIf="searchParams.searchText"
-            (click)="onReset()"
-          ></i
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="searchParams.searchText"
+          (click)="onReset()"
+        ></i
         ></ng-template>
         <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
           <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
@@ -58,6 +67,7 @@
       [columns]="columns"
       [data]="customerInfo?.items"
       [total]="customerInfo?.totalCount"
+      [loading]="loading"
       columnDefaultWidth="100"
       (change)="onTableChange($event)"
       calcScroll
@@ -82,7 +92,8 @@
       </ng-template>
       <ng-template st-row="isRegistered" let-data>
         <span *ngIf="data.isRegistered">
-          <span class="jy-ocean-StartingPlace" [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
         >
         <span *ngIf="!data.isRegistered">
           <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>

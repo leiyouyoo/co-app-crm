@@ -3,6 +3,12 @@ import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CreatePotentialCustomerComponent } from './create-potential-customer/create-potential-customer.component';
+import { ACLService } from '@co/acl';
+import { TransferTocustomerComponent } from '../../transfer-tocustomer/transfer-tocustomer.component';
+import { UpdateCustomerNameComponent } from '../../update-customer-name/update-customer-name.component';
+import { MergeCustomerComponent } from '../../merge-customer/merge-customer.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ApplyCodeComponent } from '../../apply-code/apply-code.component';
 
 @Component({
   selector: 'crm-potential-customers',
@@ -12,12 +18,18 @@ import { CreatePotentialCustomerComponent } from './create-potential-customer/cr
 export class PotentialCustomersComponent extends CoPageBase {
   @ViewChild('st', { static: false }) st: STComponent;
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
+  isManager: boolean;
+  selected = [];
+  loading: boolean;
+
   @Input() set customerType(v) {
     this.searchParams.type = v;
   }
+
   get customerType() {
     return this.searchParams.type;
   }
+
   @Output() customerDetail = new EventEmitter<any>();
   searchParams = {
     pageNo: 1,
@@ -42,16 +54,19 @@ export class PotentialCustomersComponent extends CoPageBase {
   };
   title = 'Add Customer';
   customerInfo: any;
-  constructor(injector: Injector, private cRMCustomerService: CRMCustomerService) {
+
+  constructor(injector: Injector, private modal: NzModalService, private cRMCustomerService: CRMCustomerService, private aclService: ACLService) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.getAll();
+    if (this.aclService.can(['j:经理'])) {
+      this.isManager = true;
+    }
   }
 
   onSearch() {
-    this.searchParams.searchText = this.searchParams.searchText;
     this.st.load();
   }
 
@@ -63,11 +78,16 @@ export class PotentialCustomersComponent extends CoPageBase {
     this.searchParams.searchText = '';
     this.onSearch();
   }
+
   getAll() {
+    this.selected = [];
+    this.loading = true;
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
       this.customerInfo = res;
-    });
+      this.loading = false;
+    }, e => this.loading = false);
   }
+
   /**
    * 获取不同类型下的客户数据
    */
@@ -75,6 +95,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     this.searchParams.type = e;
     this.st.load();
   }
+
   columns: STColumn[] = [
     {
       title: 'NO',
@@ -195,8 +216,9 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Data Status',
-      index: 'approvelStatus',
-      width: 80,
+      index: 'isDeleted',
+      render: 'isDeleted',
+      width: 70,
     },
     // {
     //   title: 'Customer Status',
@@ -320,6 +342,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       ],
     },
   ];
+
   //table操作方法
   onTableChange(e) {
     switch (e.type) {
@@ -337,6 +360,10 @@ export class PotentialCustomersComponent extends CoPageBase {
         this.getAll();
         break;
       }
+      case 'checkbox': {
+        this.selected = e.checkbox;
+        break;
+      }
       case 'click': {
         this.onShowCustomerDetail(e.click.item);
       }
@@ -347,6 +374,7 @@ export class PotentialCustomersComponent extends CoPageBase {
   onShowCustomerDetail(data) {
     this.customerDetail.emit(data);
   }
+
   /**
    * 创建客户
    */
@@ -363,6 +391,149 @@ export class PotentialCustomersComponent extends CoPageBase {
           this.sideDrawer.destroy();
         }, 1000);
       }
+    });
+  }
+
+  /**
+   * 申请改名
+   */
+  transferCustomer() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Transfer customer'),
+      nzContent: TransferTocustomerComponent,
+      nzComponentParams: {
+        customerIds: this.selected.map(e => e.id),
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 申请改名
+   */
+  applyName() {
+    const data = this.selected[0];
+    const modal = this.modal.create({
+      nzTitle: this.$L('Correct customer name'),
+      nzContent: UpdateCustomerNameComponent,
+      nzComponentParams: {
+        customerId: data.id,
+        nameObj: data.name,
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 合并客户
+   */
+  mergeCustomer() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Merge Customer'),
+      nzContent: MergeCustomerComponent,
+      nzClosable: false,
+      nzWidth: 1024,
+      nzClassName: 'crm-customer-modal',
+      nzComponentParams: { customerSelected: this.selected },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+
+  /**
+   * 转移客户到公海池
+   */
+  bulkTurnCustomerSea() {
+    this.loading = true;
+    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map(e => e.id) }).subscribe(r => {
+      this.$message.success(this.$L('Successful operation'));
+      this.loading = false;
+      this.getAll();
+    }, e => this.loading = false);
+  }
+
+  /**
+   * 申请代码
+   */
+  applyCode() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Apply Code'),
+      nzContent: ApplyCodeComponent,
+      nzClosable: false,
+      nzWidth: 820,
+      nzClassName: 'fam-customer-modal',
+      nzComponentParams: { customerId: this.selected[0]?.id },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 作废
+   */
+  setVoid() {
+    const id = this.selected.filter(e => !e.isDeleted)[0]?.id;
+    if (!id) {
+      this.$message.success(this.$L('选择的客户已经被作废，不能重复作废'));
+      return;
+    }
+    this.cRMCustomerService.delete({ id }).subscribe((res) => {
+      this.$message.success(this.$L('作废成功!'));
+      setTimeout(() => {
+        this.getAll();
+      }, 1000);
+    });
+  }
+
+  /**
+   * 启用
+   */
+  recoverDelete() {
+    const id = this.selected.filter(e => e.isDeleted)[0]?.id;
+    if (!id) {
+      this.$message.success(this.$L('选择的客户已经启用，不能重复启用'));
+      return;
+    }
+    this.cRMCustomerService.recoverDelete({ id }).subscribe((res) => {
+      this.$message.success(this.$L('启用成功!'));
+      setTimeout(() => {
+        this.getAll();
+      }, 1000);
     });
   }
 }

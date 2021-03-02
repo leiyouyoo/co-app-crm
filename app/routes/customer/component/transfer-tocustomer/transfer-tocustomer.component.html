@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="loading">
   <div>
     <button nz-button nzSize="small" nzType="primary" [nzLoading]="assignLoading"
-            (click)="confirm()">{{ '分配' | translate }}</button>
+            (click)="confirm()">{{ 'Transfer' | translate }}</button>
     <button nz-button nzSize="small" nzType="default" [disabled]="assignLoading"
             (click)="cancel()">{{ 'Cancel' | translate }}</button>
   </div>
@@ -9,14 +9,26 @@
     <nz-form-control [nzErrorTip]="'Please select' | translate">
       <nz-select
         required
-        name="user"
         nzShowSearch
+        nzServerSearch
+        nzAllowClear
+        name="user"
         nzSize="small"
         style="width: 80%;margin: 8px 8px 8px 0"
         [nzPlaceHolder]="'Please select' | translate"
         [(ngModel)]="userId"
+        (nzOnSearch)="onSearchUser($event)"
       >
-        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.nameLocalization" [nzValue]="item.id"></nz-option>
+        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.nameLocalization || item.userName"
+                   [nzValue]="item.id"
+                   nzCustomContent>
+          <ul class="row">
+            <li> {{ item.nameLocalization || item.userName }} </li>
+            <li> {{ item.name }} </li>
+            <li> {{ item.organizationName || '--' }} </li>
+            <li> {{ item.department || '--' }} </li>
+          </ul>
+        </nz-option>
       </nz-select>
     </nz-form-control>
 

@@ -3,6 +3,12 @@ import { STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { customerType } from '../../../models/enum';
+import { MergeCustomerComponent } from '../../merge-customer/merge-customer.component';
+import { UpdateCustomerNameComponent } from '../../update-customer-name/update-customer-name.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { TransferTocustomerComponent } from '../../transfer-tocustomer/transfer-tocustomer.component';
+import { ACLService } from '@co/acl';
+
 const addlabel = (obj) => {
   const result = {};
   for (const objKey in obj) {
@@ -10,6 +16,7 @@ const addlabel = (obj) => {
   }
   return result;
 };
+
 @Component({
   selector: 'crm-transacted-customers',
   templateUrl: './transacted-customers.component.html',
@@ -47,15 +54,22 @@ export class TransactedCustomersComponent extends CoPageBase {
     skipCount: 0,
   };
   customerInfo: any;
-  constructor(injector: Injector, private cRMCustomerService: CRMCustomerService) {
+  selected = [];
+  loading: boolean;
+  isManager: boolean;
+
+  constructor(injector: Injector, private cRMCustomerService: CRMCustomerService, private modal: NzModalService,private aclService:ACLService) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.getAll();
+    if (this.aclService.can(['j:经理'])) {
+      this.isManager = true;
+    }
   }
+
   onSearch() {
-    this.searchParams.searchText = this.searchParams.searchText;
     this.st.load();
   }
 
@@ -69,9 +83,12 @@ export class TransactedCustomersComponent extends CoPageBase {
   }
 
   getAll() {
+    this.selected = [];
+    this.loading = true;
     this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
       this.customerInfo = res;
-    });
+      this.loading = false;
+    }, e => this.loading = false);
   }
 
   /**
@@ -81,6 +98,7 @@ export class TransactedCustomersComponent extends CoPageBase {
     this.searchParams.type = e;
     this.st.load();
   }
+
   columns: STColumn[] = [
     {
       title: 'Code',
@@ -336,6 +354,10 @@ export class TransactedCustomersComponent extends CoPageBase {
         this.getAll();
         break;
       }
+      case 'checkbox': {
+        this.selected = e.checkbox;
+        break;
+      }
       case 'click': {
         this.onShowCustomerDetail(e.click.item);
       }
@@ -345,5 +367,91 @@ export class TransactedCustomersComponent extends CoPageBase {
   //展开客户详情
   onShowCustomerDetail(data) {
     this.customerDetail.emit(data);
+  }
+
+  /**
+   * 申请改名
+   */
+  transferCustomer() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Transfer customer'),
+      nzContent: TransferTocustomerComponent,
+      nzComponentParams: {
+        customerIds: this.selected.map(e => e.id),
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 申请改名
+   */
+  applyName() {
+    const data = this.selected[0];
+    const modal = this.modal.create({
+      nzTitle: this.$L('Correct customer name'),
+      nzContent: UpdateCustomerNameComponent,
+      nzComponentParams: {
+        customerId: data.id,
+        nameObj: data.name,
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 合并客户
+   */
+  mergeCustomer() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Merge Customer'),
+      nzContent: MergeCustomerComponent,
+      nzClosable: false,
+      nzWidth: 1024,
+      nzClassName: 'crm-customer-modal',
+      nzComponentParams: { customerSelected: this.selected },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+
+  /**
+   * 转移客户到公海池
+   */
+  bulkTurnCustomerSea() {
+    this.loading = true;
+    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map(e => e.id) }).subscribe(r => {
+      this.$message.success(this.$L('Successful operation'));
+      this.loading = false;
+      this.getAll();
+    }, e => this.loading = false);
   }
 }
