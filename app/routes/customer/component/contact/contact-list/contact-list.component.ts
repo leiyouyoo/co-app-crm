@@ -12,12 +12,11 @@ import { ContactDetailComponent } from '../contact-detail/contact-detail.compone
   styleUrls: ['./contact-list.component.less'],
 })
 export class ContactListComponent extends CoPageBase {
-  @Input() contacts = [];
+  @Input() customerInfo: any;
   constructor(injector: Injector, private translate: TranslateService, private modal: NzModalService) {
     super(injector);
   }
 
-  contactInfo: any;
   ngOnInit(): void {}
 
   columns: STColumn[] = [
@@ -102,12 +101,14 @@ export class ContactListComponent extends CoPageBase {
   ];
   onTableChange(e) {}
 
-  打开新增联系人弹框;
+  // 打开新增联系人弹框;
   onAdd() {
     const modal = this.modal.create({
       nzTitle: this.$L('Correct customer name'),
       nzContent: ContactDetailComponent,
-      nzComponentParams: {},
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
       nzClassName: 'crm-contact-detail',
       nzStyle: { width: '40%' },
       nzFooter: null,

@@ -91,6 +91,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       title: 'Name(English)',
       index: 'contactName',
       width: 100,
+      sort: 'Name',
     },
     {
       title: 'Name(Chinese)',
@@ -99,8 +100,9 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Prospect status',
-      index: 'LeadTrackingPhase',
+      index: 'leadTrackingPhase',
       render: 'LeadTrackingPhase',
+      sort: 'leadTrackingPhase',
       width: 100,
     },
     {
@@ -145,6 +147,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       title: 'Country',
       index: 'country',
       width: 80,
+      sort: 'country',
     },
     {
       title: 'Owner',
@@ -167,6 +170,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
       width: 100,
+      sort: 'creationTime',
     },
     {
       title: 'Update Time',
@@ -206,6 +210,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Is the CSP account open',
       index: 'isRegistered',
+      render: 'isRegistered',
       width: 100,
     },
     {
@@ -287,6 +292,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
       width: 100,
+      sort: 'creationTime',
     },
     {
       title: 'Approval date',
@@ -339,6 +345,17 @@ export class PotentialCustomersComponent extends CoPageBase {
       }
       case 'click': {
         this.onShowCustomerDetail(e.click.item);
+        break;
+      }
+      case 'sort': {
+        const map = {
+          descend: 'desc',
+          ascend: 'asc',
+        };
+        const sortValue = map[e.sort.value];
+        this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
+        this.getAll();
+        break;
       }
     }
   }

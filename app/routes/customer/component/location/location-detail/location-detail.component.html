@@ -49,24 +49,16 @@
             </nz-option>
           </nz-select>
           <ng-template #custom let-selected>
-            <!-- <div>
-              <span>
-                <span
-                  >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
-                  >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                  >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
-                  >{{ selected.template._appExtra.country }}</span
-                >
-              </span>
-            </div> -->
           </ng-template>
           <ng-template #render>
             <nz-divider></nz-divider>
             <div class="add-item" (click)="('')">
-              <span nz-icon [nzIconfont]="'icon-add-fill'" class="iconfont icon-add-fill"></span> {{ 'Add Contact' | translate }}
+              <span style="    color: #1890ff;
+              margin-right: 8px;
+              font-size: 18px;" nz-icon [nzIconfont]="'icon-add-fill'" class="iconfont icon-add-fill"></span>
+              <span> {{ 'Add Contact' | translate }}</span>
             </div>
           </ng-template>
-          <!-- <input nz-input placeholder="Basic usage" formControlName="lastname" /> -->
         </nz-form-control>
       </nz-form-item>
     </div>

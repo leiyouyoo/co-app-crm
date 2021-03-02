@@ -102,6 +102,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       title: 'Full name(english)',
       index: 'name',
       width: 100,
+      sort: 'name',
     },
     {
       title: 'Abbreviation(local language)',
@@ -129,6 +130,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       title: 'Country',
       index: 'country',
       width: 80,
+      sort: 'country',
     },
     {
       title: 'Applicant',
@@ -163,6 +165,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
       width: 100,
+      sort: 'creationTime',
     },
     {
       title: 'Update Time',
@@ -198,6 +201,9 @@ export class TransactedCustomersComponent extends CoPageBase {
       title: 'First shipment time',
       index: 'firstTradeTime',
       width: 80,
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
+      sort: 'firstTradeTime',
     },
     {
       title: 'Is the CSP account open',
@@ -338,6 +344,17 @@ export class TransactedCustomersComponent extends CoPageBase {
       }
       case 'click': {
         this.onShowCustomerDetail(e.click.item);
+        break;
+      }
+      case 'sort': {
+        const map = {
+          descend: 'desc',
+          ascend: 'asc',
+        };
+        const sortValue = map[e.sort.value];
+        this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
+        this.getAll();
+        break;
       }
     }
   }
