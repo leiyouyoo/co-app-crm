@@ -1062,5 +1062,7 @@
   "Merge Customer": "合并客户",
   "Apply Code": "申请代码",
   "Void": "作废",
-  "Enable": "启用"
+  "Enable": "启用",
+  "Invalid": "无效",
+  "Effective": "有效"
 }

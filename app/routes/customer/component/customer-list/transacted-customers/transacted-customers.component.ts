@@ -209,8 +209,9 @@ export class TransactedCustomersComponent extends CoPageBase {
     },
     {
       title: 'Data Status',
-      index: 'claimStatus',
-      width: 80,
+      index: 'isDeleted',
+      render: 'isDeleted',
+      width: 70,
     },
     {
       title: 'First shipment time',

@@ -48,6 +48,7 @@ import { CreateTransactedCustomersComponent } from './component/customer-list/tr
 import { ApplyCodeComponent } from './component/apply-code/apply-code.component';
 import { MergeCustomerComponent } from './component/merge-customer/merge-customer.component';
 import { UpdateCustomerNameComponent } from './component/update-customer-name/update-customer-name.component';
+import { CspAccountConfigComponent } from './component/csp-account-config/csp-account-config.component';
 
 const COMPONENTS = [
   CustomerComponent,
@@ -107,6 +108,7 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerCompone
     CustomerIndexComponent,
     HighlightPipe,
     HighSeasPondCustomerComponent,
+    CspAccountConfigComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

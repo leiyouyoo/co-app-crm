@@ -228,6 +228,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Is the CSP account open',
       index: 'isRegistered',
+      render: 'isRegistered',
       width: 100,
     },
     {
@@ -263,12 +264,12 @@ export class PotentialCustomersComponent extends CoPageBase {
     },
     {
       title: 'Full name(english)',
-      index: 'localizationShortName',
+      index: 'name',
       width: 100,
     },
     {
       title: 'Abbreviation(local language)',
-      index: 'name',
+      index: 'localizationShortName',
       width: 120,
     },
     {
