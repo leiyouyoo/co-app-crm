@@ -92,7 +92,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         {
           title: 'Customer Type',
           index: 'customerType',
-          customerType: 'customerType',
+          render: 'customerType',
           width: 100,
         },
       ];

@@ -1068,5 +1068,6 @@
   "CrmCustomer":{
     "DirectClient":"直客"
   },
-  "Used Name":"曾用名"
+  "Used Name":"曾用名",
+  "Are you sure?": "您确定吗？"
 }

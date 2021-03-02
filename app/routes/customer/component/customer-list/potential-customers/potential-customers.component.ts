@@ -412,7 +412,7 @@ export class PotentialCustomersComponent extends CoPageBase {
   }
 
   /**
-   * 申请改名
+   * 转让客户
    */
   transferCustomer() {
     const modal = this.modal.create({
@@ -445,7 +445,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzContent: UpdateCustomerNameComponent,
       nzComponentParams: {
         customerId: data.id,
-        nameObj: data.name,
+        nameObj: data,
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },

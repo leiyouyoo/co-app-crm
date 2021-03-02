@@ -13,13 +13,17 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./customer-detail.component.less'],
 })
 export class CustomerDetailComponent extends CoPageBase {
+  @Output() readonly actionChange = new EventEmitter<any>();
+
   @Input() set customerInfo(v) {
     this.customerDetail = v;
     this.initData(v);
   }
+
   get customerInfo() {
     return this.customerDetail;
   }
+
   customerDetail: any;
   @Input() isLoading = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
@@ -58,6 +62,7 @@ export class CustomerDetailComponent extends CoPageBase {
   cusLoading: boolean;
   applicationLoading: boolean;
   edit = false;
+
   constructor(
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
@@ -95,7 +100,8 @@ export class CustomerDetailComponent extends CoPageBase {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   editCustomer() {
     this.edit = !this.edit;
@@ -191,4 +197,5 @@ export class CustomerDetailComponent extends CoPageBase {
     // let hegiht = document.getElementById('demo' + data).offsetTop;
     // document.getElementsByClassName('head')[0].scrollTo(0, hegiht - 120);
   }
+
 }
