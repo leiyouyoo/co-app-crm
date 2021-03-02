@@ -18,7 +18,7 @@ export class TransferTocustomerComponent extends CoPageBase implements OnInit {
   loading = false;
   assignLoading = false;
   listOfCustomer = [];
-  userId;
+  user;
 
   constructor(private crmCustomerService: CRMCustomerService,
               injector: Injector, private modal: NzModalRef, private platformOrganizationUnitService: PlatformOrganizationUnitService) {
@@ -73,13 +73,13 @@ export class TransferTocustomerComponent extends CoPageBase implements OnInit {
       return;
     }
     const user = JSON.parse(window.localStorage.getItem('co.session'));
-    this.$message.warning(this.$L('不能装让给自己'));
-    if (this.userId == user.session?.user?.id) {
+    if (this.user.id == user.session?.user?.id) {
+      this.$message.warning(this.$L('不能转让给自己'));
       return;
     }
     this.assignLoading = true;
-    this.crmCustomerService.transferCustomer({ customerIds: this.customerIds, userId: this.userId }).subscribe(r => {
-      this.$message.success(this.$L('Successful transfer'));
+    this.crmCustomerService.transferCustomer({ customerIds: this.customerIds, userId: this.user.id }).subscribe(r => {
+      this.$message.success(this.$L('转让成功,共转移给' + this.customerIds.length + '个客户给' + (this.user.nameLocalization || this.user.userName)));
       this.onSubmitted.emit(true);
       this.cancel();
       this.assignLoading = false;

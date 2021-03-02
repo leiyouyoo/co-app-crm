@@ -338,7 +338,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   /**
    * 分配
    */
-  distributionCustomer() {
+  customerDistribution() {
     const list = this.selected.filter(e => !e.isRecycleCustomer).map(e => e.id);
     if (!list.length) {
       this.$message.warning('所选客户包含被回收的客户');

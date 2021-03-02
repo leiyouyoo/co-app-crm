@@ -55,7 +55,10 @@ export class DistributionCustomerComponent extends CoPageBase implements OnInit 
       return;
     }
     this.assignLoading = true;
-    this.crmCustomerService.transferCustomer({ customerIds: this.customerIds, userId: this.userId }).subscribe(r => {
+    this.crmCustomerService.customerDistribution({
+      ids: this.customerIds,
+      allocationUserId: this.userId,
+    }).subscribe(r => {
       this.$message.success(this.$L('Allocation is successful!'));
       this.onSubmitted.emit(true);
       this.cancel();

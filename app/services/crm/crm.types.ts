@@ -1778,6 +1778,29 @@
             /* 客户税务集合 */ 
             customerTaxes?: CRMCustomerTaxDto[];
          
+            /* 客户配置级别
+0 = Customize
+1 = T1
+2 = T2
+3 = T3
+4 = T4 */ 
+            customerLevel?: number;
+         
+            /* 海运费叠加金额 */ 
+            oceanAttachFee?: number;
+         
+            /* 潜在客户追踪阶段
+0 = PreliminaryContact
+1 = DemandDetermination
+2 = QuotedPrice
+3 = Negotiation
+4 = WinTheOrder
+5 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
+            /* 客户网址 */ 
+            website?: string;
+         
             
             id?: string;
         
@@ -2573,6 +2596,22 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMCustomerDistributionInput {
+        [key:string]: any;
+        
+         
+            /* 分配用户 */ 
+            allocationUserId?: number;
+         
+            /* 客户Id是s */ 
+            ids?: any[];
+        
+        
+    }
+ 
+    /**
      * 客户转移到公海
      */
     export class CRMTurnCustomerSeaInput {
@@ -2982,7 +3021,8 @@
          
             /* 
 1 = Csp
-2 = Icp */ 
+2 = Icp
+3 = Crm */ 
             fromSource?: number;
          
             
@@ -3030,6 +3070,40 @@
          
             
             id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMContactCheckDto {
+        [key:string]: any;
+        
+         
+            
+            id?: string;
+         
+            /* 号码 */ 
+            phone?: string;
+         
+            /* 地址 */ 
+            email?: string;
+         
+            /* 姓 */ 
+            lastname?: string;
+         
+            /* 名 */ 
+            name?: string;
+         
+            /* 本地名称 */ 
+            nameLocalization?: string;
+         
+            /* 是否主联系人 */ 
+            isMaster?: boolean;
+         
+            /* 固定电话 */ 
+            tel?: string;
         
         
     }
@@ -3136,7 +3210,7 @@
             traceLogList?: CRMTraceLogListDto[];
          
             /* 客户拥有的联系人集合 */ 
-            contacts?: CRMContactDto[];
+            contacts?: CRMContactCheckDto[];
          
             /* 地点集合 */ 
             locations?: CRMLocationContactsDto[];
@@ -3692,6 +3766,9 @@
          
             
             lastTradeTime?: string;
+         
+            
+            lastQuotationTime?: string;
          
             
             lastTradeSaleUserId?: number;
@@ -4554,31 +4631,6 @@
     }
  
     /**
-     *  No Remark 
-     */
-    export class CRMContactCheckDto {
-        [key:string]: any;
-        
-         
-            /* 号码 */ 
-            phone?: string;
-         
-            /* 地址 */ 
-            email?: string;
-         
-            /* 姓 */ 
-            lastname?: string;
-         
-            /* 名 */ 
-            name?: string;
-         
-            /* 本地名称 */ 
-            nameLocalization?: string;
-        
-        
-    }
- 
-    /**
      * 名称变更审批
      */
     export class CRMCustomerRenamingApprovalInput {
@@ -5094,6 +5146,29 @@
          
             
             id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCustomerOperationEventDto {
+        [key:string]: any;
+        
+         
+            /* 归属业务Id */ 
+            businessId?: string;
+         
+            /* 这里指事件的标题 */ 
+            contentLocalizationText?: string;
+         
+            /* 业务类型
+0 = NotSet
+1 = TeamMember
+2 = CustomerInfo
+3 = TrackRecord */ 
+            businessType?: number;
         
         
     }

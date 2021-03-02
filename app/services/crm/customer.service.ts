@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -702,6 +702,21 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/CustomerDistribution
+     * 分配客户
+     */
+
+    @POST('CustomerDistribution')
+    customerDistribution(
+        @Payload
+        _req:CRMCustomerDistributionInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/BulkTurnCustomerSea
      * 客户转移到公海(多个业务员时，只要有一个转移到公海都解绑)
      */
@@ -845,6 +860,21 @@ export class CRMCustomerService extends BaseApi {
     customerAutomaticRecovery(
         @Payload
         _req: {} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/UpateCustomerQuoteTime
+     * 更新客户询价/报价时间
+     */
+
+    @POST('UpateCustomerQuoteTime')
+    upateCustomerQuoteTime(
+        @Payload
+        _req: {customerId?:string} 
 
     ): Observable<any> {
         return null as any
