@@ -406,6 +406,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.sideDrawer.destroy();
+          this.onReset();
         }, 1000);
       }
     });
