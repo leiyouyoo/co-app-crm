@@ -31,7 +31,7 @@ export class TransactedCustomersComponent extends CoPageBase {
     Sorting: null,
     type: 0,
     searchText: '',
-    isCooperation: false,
+    isCooperation: true,
     customerOwnerIds: null,
     includeTaxes: null,
     includeContacts: null,

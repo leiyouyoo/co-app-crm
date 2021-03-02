@@ -13,6 +13,14 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./potentailcustomer-detail.component.less'],
 })
 export class PotentailcustomerDetailComponent extends CoPageBase {
+  @Input() set customerInfo(v) {
+    this.customerDetail = v;
+    this.initData(v);
+  }
+  get customerInfo() {
+    return this.customerDetail;
+  }
+  customerDetail: any;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @Input() readonly = true;
   @Input() customerId;
@@ -48,7 +56,7 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
   minPrice = 50;
   cusLoading: boolean;
   applicationLoading: boolean;
-
+  edit=false;
   constructor(
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
@@ -91,6 +99,16 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     this.getCustomerDetail(this.customerId);
   }
 
+  
+  editCustomer() {
+    this.edit = !this.edit;
+  }
+
+  onSubmit(e) {
+    if (e) {
+      this.edit = false;
+    }
+  }
   getCustomerDetail(id) {
     this.loading = true;
     this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(

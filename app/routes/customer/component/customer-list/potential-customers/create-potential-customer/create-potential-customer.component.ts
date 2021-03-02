@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Injector,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -39,6 +40,12 @@ import {
   styleUrls: ['./create-potential-customer.component.less'],
 })
 export class CreatePotentialCustomerComponent extends CoPageBase implements OnInit {
+  @Input() set customerInfo(v) {
+    this.initData(v);
+  }
+  get customerInfo() {
+    return this.customerInfo;
+  }
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
   readonly CooperationState = CooperationState;

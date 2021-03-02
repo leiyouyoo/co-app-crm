@@ -1,4 +1,7 @@
-<section class="fam-customer-detail">
+<section style="display: flex; justify-content: flex-end; height: 40px; margin-right: 10px;">
+  <button nzType="primary" *ngIf="!edit" nz-button (click)="editCustomer()">{{ 'Edit' | translate }}</button>
+</section>
+<section class="fam-customer-detail" [hidden]="edit">
   <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."> </nz-spin>
   <form id="form" nzLayout="horizontal" nz-form [formGroup]="validateForm">
     <h5 id="components-basic-info">
@@ -654,3 +657,9 @@
         </nz-anchor>
       </div> -->
 </section>
+
+<crm-create-potential-customer
+  [hidden]="!edit"
+  [customerInfo]="customerInfo"
+  (onSubmitted)="onSubmit($event)"
+></crm-create-potential-customer>
