@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { NzMessageService } from 'ng-zorro-antd';
 
 import { TranslateService } from '@ngx-translate/core';
-import { TransferTocustomerComponent } from '../../component-old/transfer-tocustomer/transfer-tocustomer.component';
 // import { CreateCustomerComponent } from '../../component/create-customer/create-customer.component';
 import { Router } from '@angular/router';
 import { CustomerMergeComponent } from '../../component-old/customer-merge/customer-merge.component';
@@ -12,6 +11,7 @@ import { CreateCustomerComponent } from '../../../../shared/compoents/customer/c
 import { CoPageBase } from '@co/core';
 import { STColumn, STComponent } from '@co/cbc';
 import { NzResizableService, NzResizeEvent } from 'ng-zorro-antd/resizable';
+import { TransferTocustomerComponent } from '../../component/transfer-tocustomer/transfer-tocustomer.component';
 @Component({
   selector: 'app-no-deal-customer',
   templateUrl: './no-deal-customer.component.html',
@@ -277,12 +277,12 @@ export class NoDealCustomerComponent extends CoPageBase {
 
   createTrans() {
     let list = this.st.getCheckedList();
-    if (list?.length > 0) {
-      this.transferCustomer(
-        list.map((e) => e.id),
-        this.tranCustomer.validateForm.get('userId').value,
-      );
-    }
+    // if (list?.length > 0) {
+    //   this.transferCustomer(
+    //     list.map((e) => e.id),
+    //     this.tranCustomer.userForm.get('userId').value,
+    //   );
+    // }
   }
 
   //获取客户数据

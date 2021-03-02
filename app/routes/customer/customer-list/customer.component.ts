@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzMessageService, isTemplateRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-import { TransferTocustomerComponent } from '../component-old/transfer-tocustomer/transfer-tocustomer.component';
 import { CustomerMergeComponent } from '../component-old/customer-merge/customer-merge.component';
 import { Router } from '@angular/router';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { CoPageBase } from '@co/core';
 import { STColumn } from '@co/cbc';
+import { TransferTocustomerComponent } from '../component/transfer-tocustomer/transfer-tocustomer.component';
 
 @Component({
   selector: 'app-customer',
@@ -145,7 +145,6 @@ export class CustomerComponent extends CoPageBase {
 
   transModal() {
     this.isVisibleTrans = true;
-    this.tranCustomer.validateForm.reset();
   }
 
   cancelTrans() {
@@ -153,13 +152,13 @@ export class CustomerComponent extends CoPageBase {
   }
 
   createTrans() {
-    if (!this.tranCustomer.formValid()) {
-      return;
-    }
-    this.transferCustomer(
-      this.choosedData.map((e) => e.id),
-      this.tranCustomer.validateForm.get('userId').value,
-    );
+    // if (!this.tranCustomer.validForm()) {
+    //   return;
+    // }
+    // this.transferCustomer(
+    //   this.choosedData.map((e) => e.id),
+    //   this.tranCustomer.validateForm.get('userId').value,
+    // );
   }
 
   transferCustomer(customerIds: any[], userId: any) {

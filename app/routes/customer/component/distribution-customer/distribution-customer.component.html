@@ -18,7 +18,7 @@
         [nzPlaceHolder]="'Please select' | translate"
         [(ngModel)]="userId"
       >
-        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.nameLocalization" [nzValue]="item.id"></nz-option>
+        <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item.surnameLocalization+item.nameLocalization" [nzValue]="item.id"></nz-option>
       </nz-select>
     </nz-form-control>
 
