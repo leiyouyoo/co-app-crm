@@ -10,7 +10,7 @@
           <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
         </nz-select>
         <div style="margin-left: 8px;">
-          <button *ngIf="isManager" [disabled]="!selected.length" (click)="distributionCustomer()" nz-button
+          <button *ngIf="isManager" [disabled]="!selected.length" (click)="customerDistribution()" nz-button
                   nzType="primary">
             {{ '分配' | translate }}
           </button>

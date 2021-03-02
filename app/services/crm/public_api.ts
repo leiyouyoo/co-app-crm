@@ -7,6 +7,7 @@ export * from './customer-access-allow.service';
 export * from './customer-examine.service';
 export * from './customer-external.service';
 export * from './customer-icp.service';
+export * from './customer-operation-event.service';
 export * from './customer-solution.service';
 export * from './customer-task.service';
 export * from './customer-title.service';
