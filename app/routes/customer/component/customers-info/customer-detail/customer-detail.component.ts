@@ -103,7 +103,9 @@ export class CustomerDetailComponent extends CoPageBase {
 
   onSubmit(e) {
     if (e) {
+      //编辑成功
       this.edit = false;
+      this.onSubmitted.emit(true);
     }
   }
 

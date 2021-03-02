@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import { LocationDetailComponent } from '../location-detail/location-detail.comp
   styleUrls: ['./location-list.component.less'],
 })
 export class LocationListComponent extends CoPageBase {
+  @Input() locations = [];
   constructor(injector: Injector, private translate: TranslateService, private modal: NzModalService) {
     super(injector);
   }
@@ -26,17 +27,17 @@ export class LocationListComponent extends CoPageBase {
     },
     {
       title: '国家-省/州-城市',
-      index: 'name',
+      render: 'cpc',
       width: 100,
     },
     {
       title: '详细地址',
-      index: 'name',
+      index: 'streetAddressLocalization',
       width: 100,
     },
     {
-      title: '邮编地址',
-      index: 'name',
+      title: '邮政编码',
+      index: 'zip',
       width: 100,
     },
     {
@@ -51,7 +52,7 @@ export class LocationListComponent extends CoPageBase {
     },
     {
       title: '关联联系人',
-      index: 'name',
+      index: 'contacts',
       width: 100,
     },
     {

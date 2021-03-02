@@ -1,4 +1,4 @@
-<nz-layout>
+<nz-layout style="height: 100%;">
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; align-items: center; font-weight: 800;">
@@ -109,14 +109,14 @@
           </ng-template>
         </div>
       </div>
-      <div nz-row [nzGutter]="32" style="height: 100%;">
-        <div nz-col class="gutter-row" [nzSpan]="16">
-          <nz-tabset nzAnimated="false" style="padding-left: 16px; background: #fff;">
+      <div nz-row [nzGutter]="32" style="height: calc(100% - 96px);">
+        <div nz-col class="gutter-row" [nzSpan]="16" style="height: 100%;">
+          <nz-tabset nzAnimated="false" style="height: 100%; padding-left: 16px; background: #fff;">
             <nz-tab [nzTitle]="'电子邮件' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
-              <crm-potentailcustomer-detail></crm-potentailcustomer-detail>
+              <crm-potentailcustomer-detail [customerInfo]="customerInfo"></crm-potentailcustomer-detail>
             </nz-tab>
           </nz-tabset>
         </div>

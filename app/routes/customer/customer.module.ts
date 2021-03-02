@@ -110,5 +110,4 @@ const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerCompone
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class CustomerModule {
-}
+export class CustomerModule {}

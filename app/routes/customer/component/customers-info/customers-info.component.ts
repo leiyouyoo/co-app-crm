@@ -18,6 +18,7 @@ export class CustomersInfoComponent implements OnInit {
     this.getCustomerDetail(this.customerId);
   }
 
+  //获取详情
   getCustomerDetail(id) {
     this.isLoading = true;
     this.crmCustomerService.getDetail({ id: id }).subscribe(
@@ -30,5 +31,12 @@ export class CustomersInfoComponent implements OnInit {
         this.isLoading = false;
       },
     );
+  }
+
+  //编辑完之后重新获取详情
+  getDetail(e) {
+    if (e) {
+      this.getCustomerDetail(this.customerId);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { ContactDetailComponent } from '../contact-detail/contact-detail.compone
   styleUrls: ['./contact-list.component.less'],
 })
 export class ContactListComponent extends CoPageBase {
+  @Input() contacts = [];
   constructor(injector: Injector, private translate: TranslateService, private modal: NzModalService) {
     super(injector);
   }
@@ -22,22 +23,22 @@ export class ContactListComponent extends CoPageBase {
   columns: STColumn[] = [
     {
       title: '姓名',
-      index: 'name',
+      render: 'xm',
       width: 100,
     },
     {
       title: '姓名(本地语言)',
-      index: 'name',
+      render: 'xml',
       width: 100,
     },
     {
       title: '邮箱',
-      index: 'name',
+      index: 'email',
       width: 100,
     },
     {
       title: '主联系人',
-      index: 'name',
+      index: 'isMaster',
       width: 100,
     },
     {
@@ -52,7 +53,7 @@ export class ContactListComponent extends CoPageBase {
     },
     {
       title: '角色',
-      index: 'name',
+      index: 'role',
       width: 100,
     },
     {

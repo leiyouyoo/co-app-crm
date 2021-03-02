@@ -13,6 +13,14 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./potentailcustomer-detail.component.less'],
 })
 export class PotentailcustomerDetailComponent extends CoPageBase {
+  @Input() set customerInfo(v) {
+    this.customerDetail = v;
+    this.initData(v);
+  }
+  get customerInfo() {
+    return this.customerDetail;
+  }
+  customerDetail: any;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @Input() readonly = true;
   @Input() customerId;
@@ -48,7 +56,7 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
   minPrice = 50;
   cusLoading: boolean;
   applicationLoading: boolean;
-
+  edit = false;
   constructor(
     private crmCustomerService: CRMCustomerService,
     injector: Injector,
@@ -86,23 +94,29 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     }
   }
 
-  ngOnInit() {
-    this.initData();
-    this.getCustomerDetail(this.customerId);
+  ngOnInit() {}
+
+  editCustomer() {
+    this.edit = !this.edit;
   }
 
-  getCustomerDetail(id) {
-    this.loading = true;
-    this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(
-      (res) => {
-        this.loading = false;
-        this.initData(res);
-      },
-      (error) => {
-        this.loading = false;
-      },
-    );
+  onSubmit(e) {
+    if (e) {
+      this.edit = false;
+    }
   }
+  // getCustomerDetail(id) {
+  //   this.loading = true;
+  //   this.crmCustomerService.fAMGetCustomerDetail({ id: id }).subscribe(
+  //     (res) => {
+  //       this.loading = false;
+  //       this.initData(res);
+  //     },
+  //     (error) => {
+  //       this.loading = false;
+  //     },
+  //   );
+  // }
 
   ngScroll() {
     let _scroll = document.querySelector('.head_customer');

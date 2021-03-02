@@ -58,19 +58,23 @@
     <nz-content nz-row [nzGutter]="32">
       <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="16">
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
-        <div style="height: calc(100% - 96px);padding-left: 16px; background: #fff;">
+        <div style="height: calc(100% - 96px); padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
             <nz-tab [nzTitle]="'联系人列表' | translate">
-              <crm-contact-list></crm-contact-list>
+              <crm-contact-list [contacts]="customerInfo?.contacts"></crm-contact-list>
             </nz-tab>
             <nz-tab [nzTitle]="'位置列表' | translate">
-              <crm-location-list> </crm-location-list>
+              <crm-location-list [locations]="customerInfo?.locations"> </crm-location-list>
             </nz-tab>
             <nz-tab [nzTitle]="'发票抬头' | translate"></nz-tab>
             <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
             <nz-tab [nzTitle]="'文档' | translate"></nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
-              <crm-customer-detail [isLoading]="isLoading" [customerInfo]="customerInfo"></crm-customer-detail>
+              <crm-customer-detail
+                [isLoading]="isLoading"
+                (onSubmitted)="getDetail($event)"
+                [customerInfo]="customerInfo"
+              ></crm-customer-detail>
             </nz-tab>
           </nz-tabset>
         </div>
