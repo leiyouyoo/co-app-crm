@@ -88,11 +88,15 @@
 
       <co-page-main>
         <!-- 成交客户 -->
-        <crm-transacted-customers (customerDetail)="onShowCustomerDetail($event)" [hidden]="selectIndex != 0"> </crm-transacted-customers>
+        <crm-transacted-customers (customerDetail)="onShowCustomerDetail($event)"
+                                  [hidden]="selectIndex != 0"></crm-transacted-customers>
 
         <!-- 潜在客户 -->
         <crm-potential-customers (customerDetail)="onShowpotentialCustomerDetail($event)" [hidden]="selectIndex != 1">
         </crm-potential-customers>
+
+        <!--        公海池-->
+        <crm-high-seas-pond-customer [hidden]="selectIndex != 2"></crm-high-seas-pond-customer>
       </co-page-main>
     </co-page-layout>
   </co-page-main>

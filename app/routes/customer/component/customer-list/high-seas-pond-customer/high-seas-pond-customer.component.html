@@ -1,0 +1,120 @@
+<co-page-layout>
+  <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <div style="display: flex; align-items: center;">
+        <nz-select [(ngModel)]="searchParams.searchType" (ngModelChange)="onchangeCustomer($event)"
+                   style="width: 200px; margin-left: 8px;">
+          <nz-option [nzValue]="0" [nzLabel]="'分配给我的' | translate"></nz-option>
+          <nz-option [nzValue]="1" [nzLabel]="'分配给我部门的' | translate"></nz-option>
+          <nz-option [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
+          <nz-option [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
+        </nz-select>
+        <button [disabled]="!selected.length" (click)="distributionCustomer()" style="margin-left: 8px;" nz-button nzType="primary">
+          {{ '分配' | translate }}
+        </button>
+        <button [disabled]="!selected.length" nz-button (click)="claim()" nzType="normal">
+          {{ '认领' | translate }}
+        </button>
+        <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
+        <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
+      </div>
+      <div>
+        <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
+          <input type="text" nz-input [(ngModel)]="searchParams.searchkeywork"
+                 [placeholder]="'Search Code/Customer Name/Tel' | translate"/>
+        </nz-input-group>
+        <ng-template #inputClearTpl
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="searchParams.searchkeywork"
+          (click)="onReset()"
+        ></i
+        ></ng-template>
+        <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
+          <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
+        </button>
+      </div>
+    </div>
+    <co-st
+      #st
+      [ps]="searchParams.pageSize"
+      [(pi)]="searchParams.pageNo"
+      [columns]="columns"
+      [loading]="loading"
+      [data]="customerInfo?.items"
+      [total]="customerInfo?.totalCount"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      disableCalcX
+      [showFilters]="false"
+      [showCheckbox]="true"
+      style="flex: 1;"
+    >
+      <ng-template st-row="country" let-data>
+        {{ data.countryName}}-{{ data.provinceName}}
+      </ng-template>
+      <ng-template st-row="customerType" type="tags" let-data>
+        <span>{{CustomerType[data.customerType] | translate}}</span>
+      </ng-template>
+      <ng-template st-row="cooperationState" let-data>
+        <span *ngIf="data.cooperationState == 0">{{ 'All' | translate }}</span>
+        <span *ngIf="data.cooperationState == 1">{{ 'Unsold customers' | translate }}</span>
+        <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="ownerState" let-data>
+        <span *ngIf="!data.owner">{{ 'Unowned client' | translate }}</span>
+        <span *ngIf="data.owner">{{ 'Main customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="examineState" let-data>
+        <span *ngIf="data.examineState == 0">
+        </span>
+        <span *ngIf="data.examineState == 1">
+          {{ 'WaitingExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 2">
+          {{ 'PassExamine' | translate }}
+        </span>
+        <span *ngIf="data.examineState == 3">
+          {{ 'RefuseExamine' | translate }}
+        </span>
+      </ng-template>
+      <ng-template st-row="isRegistered" let-data>
+        <span *ngIf="data.isRegistered">
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+        >
+            <span *ngIf="!data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+          <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+        </span>
+      </ng-template>
+
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'CustomerList.Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'CustomerList.No' | translate }}</span>
+      </ng-template>
+
+      <ng-template st-row="isDeleted" let-data>
+        <span *ngIf="data.isDeleted">{{ 'Invalid' | translate }}</span>
+        <span *ngIf="!data.isDeleted">{{ 'Effective' | translate }}</span>
+      </ng-template>
+    </co-st>
+  </co-page-main>
+
+  <co-page-side-drawer
+    coWidthResizable
+    coMinWidth="800px"
+    (coOnClose)="$event.close()"
+    [coTitle]="drawerTitle"
+    #sideDrawer
+  ></co-page-side-drawer>
+  <ng-template #drawerTitle>
+    <div class="drawerTitle">
+      <div class="title" [innerHTML]="title | translate"></div>
+    </div>
+  </ng-template>
+</co-page-layout>
