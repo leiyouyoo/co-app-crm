@@ -11,15 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -29,11 +21,7 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import {
-  CRMCreateOrUpdateCustomerInput,
-  CRMCustomerExamineService,
-  CRMCustomerService,
-} from '../../../../../../services/crm';
+import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -755,11 +743,13 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
-        customerContacts: data.customerContacts || [{
-          lastname: null,
-          name: null,
-          nameLocalization: null,
-        }],
+        customerContacts: data.customerContacts || [
+          {
+            lastname: null,
+            name: null,
+            nameLocalization: null,
+          },
+        ],
       });
 
       // 绑定地址
@@ -1246,31 +1236,44 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
     };
     console.log(entity);
-    this.crmCustomerService.fAMCreate(entity).subscribe(
-      (res) => {
-        if (application) {
-          this.crmCustomerExamineService
-            .postCodeAsync({
-              id: res.id,
-              customerTaxes: this.validateForm.value.customerTaxes,
-            })
-            .subscribe(
-              (r) => {
-                this.codeLoading = false;
-                this.msg.success(this.translate.instant('application success!'));
-              },
-              (e) => (this.codeLoading = false),
-            );
-        } else {
-          this.msg.success(this.translate.instant('Create success!'));
-        }
-        this.cusLoading = false;
-        this.close();
-      },
-      (err) => {
-        this.cusLoading = false;
-      },
-    );
+    if (entity.id == this.emptyGuid) {
+      this.crmCustomerService.fAMCreate(entity).subscribe(
+        (res) => {
+          if (application) {
+            this.crmCustomerExamineService
+              .postCodeAsync({
+                id: res.id,
+                customerTaxes: this.validateForm.value.customerTaxes,
+              })
+              .subscribe(
+                (r) => {
+                  this.codeLoading = false;
+                  this.msg.success(this.translate.instant('application success!'));
+                },
+                (e) => (this.codeLoading = false),
+              );
+          } else {
+            this.msg.success(this.translate.instant('Create success!'));
+          }
+          this.cusLoading = false;
+          this.close();
+        },
+        (err) => {
+          this.cusLoading = false;
+        },
+      );
+    } else {
+      this.crmCustomerService.update(entity).subscribe(
+        (res) => {
+          this.msg.success(this.translate.instant('Update success!'));
+          this.cusLoading = false;
+          this.close();
+        },
+        (error) => {
+          this.cusLoading = false;
+        },
+      );
+    }
   }
 
   close() {

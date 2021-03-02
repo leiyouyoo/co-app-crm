@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { PlatformPositionService } from '@co/cds';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
@@ -57,12 +57,17 @@ export class ContactDetailComponent implements OnInit {
       userName: [null],
       password: [null],
       isSendEmail: [null],
-      role: [null, [Validators.required]],
+      role: [null, []],
       remark: [null],
     });
 
     this.validateForm.get('isSignUp').valueChanges.subscribe((data) => {
       if (data) {
+        this.validateForm.removeControl('role');
+        this.validateForm.addControl('role', new FormControl(null, [Validators.required]));
+      } else {
+        this.validateForm.removeControl('role');
+        this.validateForm.addControl('role', new FormControl(null, []));
       }
     });
   }

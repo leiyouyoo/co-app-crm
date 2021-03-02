@@ -103,6 +103,7 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
   onSubmit(e) {
     if (e) {
       this.edit = false;
+      this.onSubmitted.emit(true);
     }
   }
   // getCustomerDetail(id) {

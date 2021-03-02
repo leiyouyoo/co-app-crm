@@ -2,12 +2,14 @@
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; align-items: center; font-weight: 800;">
-        <strong style="font-size: 20px;">深圳市木马创意有限公司 </strong>
+        <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" />
         </div>
       </div>
       <div style="display: flex; align-items: center;">
@@ -42,13 +44,56 @@
     </div>
     <div style="margin-top: 8px;">
       <span style="margin-right: 10px; color: #999;">客户类型</span>
-      <span style="margin-right: 40px;">直客</span>
+      <span style="margin-right: 40px;">
+        <span *ngIf="customerInfo?.customerType == 1">
+          {{ 'Carrier' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 2">
+          {{ 'AirLine' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 3">
+          {{ 'Forwarding' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 4">
+          {{ 'CrmCustomer.DirectClient' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 5">
+          {{ 'Trucker' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 6">
+          {{ 'CustomsBroker' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 7">
+          {{ 'WareHouse' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 8">
+          {{ 'Storage' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 9">
+          {{ 'RailWay' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 10">
+          {{ 'Express' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 17">
+          {{ 'Terminal' | translate }}
+        </span>
+        <span *ngIf="customerInfo?.customerType == 12">
+          {{ 'Other' | translate }}
+        </span>
+      </span>
       <span style="margin-right: 10px; color: #999;">客户代码</span>
-      <span style="margin-right: 40px;">ALUMN5C5FCA</span>
-      <span style="margin-right: 10px; color: #999;">开单地址</span>
-      <span style="margin-right: 40px;">703 EVANS AVENUE SUITE 300,TORONTO…</span>
+      <span style="margin-right: 40px;">{{ customerInfo?.code || '--' }}</span>
+
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
-      <span>李旸</span>
+      <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
+        (customerInfo?.ownerUserList)[0].allowUserName
+      }}</span>
+      <ng-template #ownerUserListTemplate>
+        <div *ngFor="let item of customerInfo?.ownerUserList">
+          {{ item.allowUserName }}
+        </div>
+      </ng-template>
       <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
@@ -116,7 +161,7 @@
             <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
-              <crm-potentailcustomer-detail [customerInfo]="customerInfo"></crm-potentailcustomer-detail>
+              <crm-potentailcustomer-detail [customerInfo]="customerInfo" (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
             </nz-tab>
           </nz-tabset>
         </div>

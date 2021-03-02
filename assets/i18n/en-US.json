@@ -36,5 +36,8 @@
   "CustomerList": {
     "Yes": "Yes",
     "No": "No"
+  },
+  "CrmCustomer":{
+    "DirectClient":"DirectClient"
   }
 }

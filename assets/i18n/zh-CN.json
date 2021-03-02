@@ -1064,5 +1064,8 @@
   "Void": "作废",
   "Enable": "启用",
   "Invalid": "无效",
-  "Effective": "有效"
+  "Effective": "有效",
+  "CrmCustomer":{
+    "DirectClient":"直客"
+  }
 }

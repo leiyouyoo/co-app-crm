@@ -154,7 +154,7 @@
                     {{ 'Forwarding' | translate }}
                   </span>
                   <span *ngIf="validateForm.get('customerType').value == 4">
-                    {{ 'FamCustomer.DirectClient' | translate }}
+                    {{ 'CrmCustomer.DirectClient' | translate }}
                   </span>
                   <span *ngIf="validateForm.get('customerType').value == 5">
                     {{ 'Trucker' | translate }}
@@ -656,4 +656,8 @@
     </div> -->
 </section>
 
-<crm-create-transacted-customers [hidden]="!edit" [customerInfo]="customerInfo" (onSubmitted)="onSubmit($event)"></crm-create-transacted-customers>
+<crm-create-transacted-customers
+  [hidden]="!edit"
+  [customerInfo]="customerInfo"
+  (onSubmitted)="onSubmit($event)"
+></crm-create-transacted-customers>
