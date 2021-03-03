@@ -77,6 +77,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 转移客户到公海池
    */
   bulkTurnCustomerSea() {
+    this.isLoading = true;
     this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe(r => {
       this.$message.success(this.$L('Successful operation'));
       this.$close();
