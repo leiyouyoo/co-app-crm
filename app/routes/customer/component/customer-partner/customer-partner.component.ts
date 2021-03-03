@@ -152,8 +152,6 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     component.outData.subscribe(r => {
       this.partnerOk(r);
     });
-    component.hasValue = true;
-    component.getCustomerByName(data.name, data.id);
   }
 
   unBindCustomer(id) {

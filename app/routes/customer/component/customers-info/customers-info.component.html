@@ -22,11 +22,11 @@
            nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
                 (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
                 (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
