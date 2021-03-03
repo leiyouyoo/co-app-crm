@@ -26,7 +26,7 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
     personLiableDeptCount: null,//部门数量
     personLiableCount: null,//负责人数量
     highSeasPondType: '0',//设置公海类型
-    highSeasPondType_RandomAllocationNumber: null,//设置公海类型
+    highSeasPondType_RandomAllocationNumber: null,//设置随机分配数量
     highSeasPondType_RandomAllocationUnit: null,//设置公海单位
     highSeasPondUsers: [],//公海用户成员
     highSeasPondDeptCount: null,//公海成员部门数量
@@ -100,6 +100,19 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
     if (!this.validate()) {
       return;
     }
+
+    this.onNzTreeCheckBoxChange();
+    this.loading = true;
+    this.crmCustomerService.saveHighSeasPondSetting(this.validateForm).subscribe((res) => {
+      this.$message.success(this.$L('Save successfully'));
+      this.loading = false;
+      this.editing = false;
+    }, () => this.loading = false);
+  }
+
+  onNzTreeCheckBoxChange() {
+    this.validateForm.personLiableDeptCount = 0;
+    this.validateForm.highSeasPondDeptCount = 0;
     const getChecked = (nodes, arr, type) => {
       nodes.forEach(node => {
         if (node.origin?.dataType == 2) {
@@ -126,12 +139,6 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
     this.validateForm.personLiableCount = this.validateForm.personLiableList.length;
     this.validateForm.highSeasPondUsers = getChecked(this.seasPondUsers.getCheckedNodeList(), [], 2);
     this.validateForm.highSeasPondUserCount = this.validateForm.highSeasPondUsers.length;
-    this.loading = true;
-    this.crmCustomerService.saveHighSeasPondSetting(this.validateForm).subscribe((res) => {
-      this.$message.success(this.$L('Save successfully'));
-      this.loading = false;
-      this.editing = false;
-    }, () => this.loading = false);
   }
 
   // 获取公司内部组织架构员工

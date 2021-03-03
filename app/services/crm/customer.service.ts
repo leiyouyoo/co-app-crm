@@ -282,6 +282,21 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/GetCustomersByNameOrCode
+     * 根据名称或代码搜索客户（新）
+     */
+
+    @GET('GetCustomersByNameOrCode')
+    getCustomersByNameOrCode(
+        @Payload
+        _req: {searchText?:string} 
+
+    ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/GetForUpdate
      * 获取客户用于更新
      */
@@ -829,7 +844,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetBusinessStatistics')
     getBusinessStatistics(
         @Payload
-        _req: {} 
+        _req: {customerId?:string,year?:string} 
 
     ): Observable<any> {
         return null as any

@@ -542,7 +542,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       tel: new FormArray([]),
       customerContacts: new FormArray([
         this.fb.group({
-          lastname: [null],
+          lastname: [null,[Validators.required]],
           name: [null, [Validators.required]],
           nameLocalization: [null],
         }),

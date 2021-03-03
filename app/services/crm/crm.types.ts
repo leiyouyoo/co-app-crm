@@ -3179,6 +3179,9 @@
         [key:string]: any;
         
          
+            /* 是否作废 */ 
+            isDeleted?: boolean;
+         
             /* 归属人列表 */ 
             ownerUserList?: CRMCustomerAccessAllowOutput[];
          
@@ -3843,6 +3846,9 @@
             customerExamines?: any[];
          
             
+            customerHighSeas?: any[];
+         
+            
             enName?: string;
          
             
@@ -4390,6 +4396,94 @@
          
             
             creatorUserId?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCustomerHighSeas {
+        [key:string]: any;
+        
+         
+            
+            customerId?: string;
+         
+            /* 
+0 = HighSeasPonl
+1 = Transfer
+2 = ReturnRecord
+3 = Frozen */ 
+            ascriptionType?: number;
+         
+            
+            oldUserId?: number;
+         
+            
+            newUserId?: number;
+         
+            
+            isValid?: boolean;
+         
+            
+            joinTime?: string;
+         
+            
+            outTime?: string;
+         
+            /* 
+0 = NotFollowed
+1 = Unsettled */ 
+            joinCause?: number;
+         
+            /* 
+0 = AutomaticAllocation
+1 = ActiveDistribution
+2 = ActiveClaim */ 
+            outCause?: number;
+         
+            
+            allocationStatus?: boolean;
+         
+            
+            claimStatus?: boolean;
+         
+            
+            allocationUserId?: number;
+         
+            
+            allocationTime?: string;
+         
+            
+            claimTime?: string;
+         
+            
+            operationRemark?: string;
+         
+            
+            id?: string;
+         
+            
+            creationTime?: string;
+         
+            
+            creatorUserId?: number;
+         
+            
+            lastModificationTime?: string;
+         
+            
+            lastModifierUserId?: number;
+         
+            
+            deletionTime?: string;
+         
+            
+            deleterUserId?: number;
+         
+            
+            isDeleted?: boolean;
         
         
     }

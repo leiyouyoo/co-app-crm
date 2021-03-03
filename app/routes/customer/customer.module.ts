@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../../shared';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerDetailsComponent } from './component-old/customer-details/customer-details.component';
 import { ContactsListComponent } from './component-old/contact/contacts-list/contacts-list.component';
-import { CustomerPartnerComponent } from './component-old/customer-partner/customer-partner.component';
-import { PartnerBindCustomerComponent } from './component-old/partner-bind-customer/partner-bind-customer.component';
+import { CustomerPartnerComponent } from './component/customer-partner/customer-partner.component';
+import { PartnerBindCustomerComponent } from './component/partner-bind-customer/partner-bind-customer.component';
 import { PartnerDetailsComponent } from './component-old/partner-details/partner-details.component';
 import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerSourceComponent } from './component-old/customer-source/customer-source.component';

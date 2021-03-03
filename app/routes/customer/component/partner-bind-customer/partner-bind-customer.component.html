@@ -1,0 +1,48 @@
+<div style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="search()">
+    <nz-form-item>
+      <nz-form-control [nzSpan]="21">
+        <div style="display: flex;">
+          <input [placeholder]="'Search Code/Customer Name' | translate" type="text" nz-input formControlName="name" style="margin-right: 15px;"/>
+          <button nz-button [nzType]="'primary'" class="currency-button">{{ 'Search' | translate }}</button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div style="height: 600px">
+    <co-st
+      #st
+      [columns]="columns"
+      [data]="listOfData.items"
+      [loading]="loading"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      [showFilters]="false"
+      style="flex: 1;"
+    >
+      <ng-template st-row="customerType" type="tags" let-data>
+        <span>{{CustomerType[data.customerType] | translate}}</span>
+      </ng-template>
+      <ng-template st-row="cooperationState" let-data>
+        <span *ngIf="data.cooperationState == 0">{{ 'All' | translate }}</span>
+        <span *ngIf="data.cooperationState == 1">{{ 'Unsold customers' | translate }}</span>
+        <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'CustomerList.Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'CustomerList.No' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isRegistered" let-data>
+        <span *ngIf="data.isRegistered">
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+        >
+        <span *ngIf="!data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+          <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+        </span>
+      </ng-template>
+    </co-st>
+  </div>
+</div>

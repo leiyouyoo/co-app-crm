@@ -1082,6 +1082,12 @@
   "Length cannot exceed 250": "长度不能超过250个字符",
   "Country/Province/State": "国家-省/州-城市",
   "Name(LocationName)": "姓名(本地语言)",
-  "Account status":"账号状态"
-
+  "Account status":"账号状态",
+  "Unsold customers": "未成交客户",
+  "fam": {
+    "Customer": "已成交客户"
+  },
+  "Adjunction": "添加",
+  "Merge": "合并",
+  "Unowned client": "无主客户"
 }

@@ -46,7 +46,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   readonly CustomerStatus = CustomerStatus;
   readonly CustomerType = CustomerType;
 
-  constructor(injector: Injector, private crmCustomerService: CRMCustomerService, private modal: NzModalService,private aclService:ACLService) {
+  constructor(injector: Injector, private crmCustomerService: CRMCustomerService, private modal: NzModalService, private aclService: ACLService) {
     super(injector);
   }
 
@@ -68,6 +68,12 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           title: '国家-省',
           index: 'country',
           render: 'country',
+          width: 100,
+        },
+        {
+          title: 'Cooperation State',
+          index: 'cooperationState',
+          render: 'cooperationState',
           width: 100,
         },
         {
@@ -266,6 +272,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
   }
 
   getAll() {
+    this.selected = [];
     this.loading = true;
     this.crmCustomerService.queryHighSeasPondCustomers(this.searchParams).subscribe((res) => {
       this.customerInfo = res;
