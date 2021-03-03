@@ -17,26 +17,36 @@
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item>
-              {{ '申请客户代码' | translate }}
+            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+                (click)="applyCode()">
+              {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '申请更正客户名' | translate }}
+            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+                (click)="applyName()">
+              {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item (click)="cspAccountConfig()">
               {{ '申请CSP认证' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '转让' | translate }}
+            <li nz-menu-item (click)="transferCustomer()">
+              {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '转移到公海' | translate }}
+            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
+                (nzOnConfirm)="bulkTurnCustomerSea()">
+              {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item *ngIf="customerInfo?.state==0 || customerInfo?.state==1|| customerInfo?.state==4"
+                (click)="cspAccountConfig()">
               {{ 'CSP账号配置' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '作废' | translate }}
+            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
+                (nzOnConfirm)="setVoid()" *ngIf="!customerInfo?.isDeleted">
+              {{ 'Void' | translate }}
+            </li>
+            <li *ngIf="customerInfo?.isDeleted" nz-menu-item (click)="recoverDelete()">
+              {{ 'Enable' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -161,7 +171,7 @@
             <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
-              <crm-potentailcustomer-detail [customerInfo]="customerInfo" (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
+              <crm-potentailcustomer-detail [customerInfo]="customerInfo" (actionChange)="onActionChange($event)" (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
             </nz-tab>
           </nz-tabset>
         </div>

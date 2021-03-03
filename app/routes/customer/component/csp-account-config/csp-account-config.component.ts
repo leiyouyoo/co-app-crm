@@ -40,6 +40,8 @@ export class CspAccountConfigComponent extends CoPageBase implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initData();
+    this.onRolesList();
   }
 
   initData() {

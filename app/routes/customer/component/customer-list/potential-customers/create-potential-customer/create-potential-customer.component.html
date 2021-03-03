@@ -196,7 +196,7 @@
             <div nz-row>
               <div nz-col [nzSpan]="12">
                 <nz-form-item>
-                  <nz-form-label>{{ '姓名（英文）' | translate }}</nz-form-label>
+                  <nz-form-label nzRequired>{{ '姓名（英文）' | translate }}</nz-form-label>
                   <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
                     <input nz-input formControlName="name" maxlength="20" />
                   </nz-form-control>

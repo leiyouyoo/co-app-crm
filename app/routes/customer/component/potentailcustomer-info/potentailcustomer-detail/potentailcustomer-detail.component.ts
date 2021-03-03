@@ -13,6 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./potentailcustomer-detail.component.less'],
 })
 export class PotentailcustomerDetailComponent extends CoPageBase {
+  @Output() readonly actionChange = new EventEmitter<any>();
   @Input() set customerInfo(v) {
     this.customerDetail = v;
     this.initData(v);

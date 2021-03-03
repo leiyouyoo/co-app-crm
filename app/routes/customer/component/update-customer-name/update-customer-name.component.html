@@ -8,7 +8,7 @@
       <nz-form-item>
         <nz-form-label>{{ '全称(英文)' | translate }}</nz-form-label>
         <nz-form-control>
-          <span [innerHTML]="nameObj?.name?.en"> </span>
+          <span [innerHTML]="nameObj?.name"> </span>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -16,7 +16,7 @@
       <nz-form-item>
         <nz-form-label>{{ '全称(本地语言)' | translate }}</nz-form-label>
         <nz-form-control>
-          <span [innerHTML]="nameObj?.name?.zh"> </span>
+          <span [innerHTML]="nameObj?.localizationName"> </span>
         </nz-form-control>
       </nz-form-item>
     </div>

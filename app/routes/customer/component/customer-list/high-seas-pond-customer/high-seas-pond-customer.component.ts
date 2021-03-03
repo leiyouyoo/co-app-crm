@@ -3,7 +3,6 @@ import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../models/enum';
-import { ApproveCodeComponent } from '../../../../../../../fam/app/routes/customer/component/approve-code/approve-code.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DistributionCustomerComponent } from '../../distribution-customer/distribution-customer.component';
 import { PlatformOrganizationUnitService } from '@co/cds';
@@ -93,7 +92,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
         {
           title: 'Customer Type',
           index: 'customerType',
-          customerType: 'customerType',
+          render: 'customerType',
           width: 100,
         },
       ];

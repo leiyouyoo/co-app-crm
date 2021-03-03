@@ -4,8 +4,8 @@
       <div style="display: flex; align-items: center; font-weight: 800;">
         <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered"/>
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered"/>
         </div>
         <div class="edit-customer">
           <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 2" />
@@ -18,29 +18,32 @@
       </div>
       <div style="display: flex; align-items: center;">
         <button nz-button>{{ '查看客户组织结构' | translate }}</button>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item>
-              {{ '申请客户代码' | translate }}
+            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+                (click)="applyCode()">
+              {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '申请更正客户名' | translate }}
+            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
+                (click)="applyName()">
+              {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item (click)="cspAccountConfig()">
               {{ '申请CSP认证' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '转让' | translate }}
+            <li nz-menu-item (click)="transferCustomer()">
+              {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item>
-              {{ '转移到公海' | translate }}
+            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
+                (nzOnConfirm)="bulkTurnCustomerSea()">
+              {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item *ngIf="customerInfo?.state==0 || customerInfo?.state==1|| customerInfo?.state==4"
+                (click)="cspAccountConfig()">
               {{ 'CSP账号配置' | translate }}
-            </li>
-            <li nz-menu-item>
-              {{ '作废' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -92,7 +95,7 @@
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0].allowUserName
-      }}</span>
+        }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item.allowUserName }}
@@ -111,7 +114,7 @@
               <crm-contact-list [customerInfo]="customerInfo"></crm-contact-list>
             </nz-tab>
             <nz-tab [nzTitle]="'位置列表' | translate">
-              <crm-location-list [locations]="customerInfo?.locations"> </crm-location-list>
+              <crm-location-list [locations]="customerInfo?.locations"></crm-location-list>
             </nz-tab>
             <nz-tab [nzTitle]="'发票抬头' | translate"></nz-tab>
             <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
@@ -120,6 +123,7 @@
               <crm-customer-detail
                 [isLoading]="isLoading"
                 (onSubmitted)="getDetail($event)"
+                (actionChange)="onActionChange($event)"
                 [customerInfo]="customerInfo"
               ></crm-customer-detail>
             </nz-tab>
