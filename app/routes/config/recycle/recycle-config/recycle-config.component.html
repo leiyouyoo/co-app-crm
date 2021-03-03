@@ -25,6 +25,7 @@
                           [nzDisabled]="!editing"
                           nzShowLine
                           nzCheckable
+                          (nzTreeCheckBoxChange)="onNzTreeCheckBoxChange()"
                           [nzMaxTagCount]="3"
                           [nzMultiple]="true"
                           [nzMaxTagPlaceholder]="omittedPlaceHolder"
@@ -51,7 +52,7 @@
                      nzValue="0">系统随机分配型（系统主动推送公海客户给成员，公海成员可见可领取公海客户，也可由公海负责人分配）</label>
               <nz-divider nzType="vertical"></nz-divider>
               <label>随机分配数量:
-                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                  name="highSeasPondType_RandomAllocationNumber"
                                  [(ngModel)]="validateForm.highSeasPondType_RandomAllocationNumber"></nz-input-number>
                 条/
@@ -83,6 +84,7 @@
                           [nzDisabled]="!editing"
                           [nzMaxTagCount]="3"
                           [nzMultiple]="true"
+                          (nzTreeCheckBoxChange)="onNzTreeCheckBoxChange()"
                           [nzMaxTagPlaceholder]="omittedPlaceHolder1"
                           nzShowLine
                           [nzExpandedIcon]="multiExpandedIconTpl1"
@@ -108,7 +110,7 @@
         <nz-form-label class="define-customer-title">客资领取上限</nz-form-label>
         <nz-form-control>
           <label>
-            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalNum"
+            <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalNum"
                              [(ngModel)]="validateForm.customerCapitalNum"></nz-input-number>
             个客户/人/
             <nz-select [nzDisabled]="!editing" nzSize="small" style="width: 80px;" name="customerCapitalUnit"
@@ -120,7 +122,7 @@
             <span class="explanation">（客资包含：成交客户、潜在客户）</span>
             <nz-divider nzType="vertical"></nz-divider>
             累计总数不超过：
-            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalTotal"
+            <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="customerCapitalTotal"
                              [(ngModel)]="validateForm.customerCapitalTotal"></nz-input-number>
             个客户/人
           </label>
@@ -131,7 +133,7 @@
         <nz-form-label class="define-customer-title">连续领取规则</nz-form-label>
         <nz-form-control>
           <label>
-            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="dayLimit"
+            <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="dayLimit"
                              [(ngModel)]="validateForm.dayLimit"></nz-input-number>
             天内，不能领取同一个客户
             <span class="explanation">（客户被主动退回或被动回收后一定时间内不能再领取该客户）</span>
@@ -146,16 +148,16 @@
             <div>
               <article>潜在客户:</article>
               <div style="line-height: 32px;">1.获取之后
-                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                  name="recovery_Potential_NotFollowedDays"
                                  [(ngModel)]="validateForm.recovery_Potential_NotFollowedDays"></nz-input-number>
                 天没有持续跟进的客户
                 <span class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
               </div>
               <div style="line-height: 32px;">或
-                <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                <nz-input-number [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                  name="recovery_Potential_NotDealDays"
-                                 [nzMin]="validateForm.recovery_Potential_NotFollowedDays"
+                                 [nzMin]="validateForm.recovery_Potential_NotFollowedDays+1"
                                  [(ngModel)]="validateForm.recovery_Potential_NotDealDays"></nz-input-number>
                 天没有成交的客户<span
                   class="explanation">（设置天数必须大于上一项）</span>
@@ -166,31 +168,31 @@
               <article>成交客户:</article>
               <div>
                 <div style="line-height: 32px;">1.获取之后
-                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                  <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                    name="recovery_Obtain_NotFollowedDays"
                                    [(ngModel)]="validateForm.recovery_Obtain_NotFollowedDays"></nz-input-number>
                   天没有持续跟进的客户<span
                     class="explanation">（跟进行为包含：新建跟进记录、再系统内发送邮件、线上报价）</span>
                 </div>
                 <div style="line-height: 32px;">或
-                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                  <nz-input-number [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                    name="recovery_Obtain_NotDealDays"
-                                   [nzMin]="validateForm.recovery_Obtain_NotFollowedDays"
+                                   [nzMin]="validateForm.recovery_Obtain_NotFollowedDays+1"
                                    [(ngModel)]="validateForm.recovery_Obtain_NotDealDays"></nz-input-number>
                   天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
                 </div>
               </div>
               <div>
                 <div style="line-height: 32px;">2.成交之后
-                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                  <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                    name="recovery_Deal_NotFollowedDays"
                                    [(ngModel)]="validateForm.recovery_Deal_NotFollowedDays"></nz-input-number>
                   天没有持续跟进的客户
                 </div>
                 <div style="line-height: 32px;">或
-                  <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px"
+                  <nz-input-number [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px"
                                    name="recovery_Deal_NotDealDays"
-                                   [nzMin]="validateForm.recovery_Deal_NotFollowedDays"
+                                   [nzMin]="validateForm.recovery_Deal_NotFollowedDays+1"
                                    [(ngModel)]="validateForm.recovery_Deal_NotDealDays"></nz-input-number>
                   天没有成交的客户<span class="explanation">（设置天数必须大于上一项）</span>
                 </div>
@@ -225,7 +227,7 @@
         <nz-form-label class="define-customer-title">即将回收提醒</nz-form-label>
         <nz-form-control>
           <label>提前
-            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="recallReminderDays"
+            <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="recallReminderDays"
                              [(ngModel)]="validateForm.recallReminderDays"></nz-input-number>
             天系统通知客户所有人即将回收客户
           </label>
@@ -236,7 +238,7 @@
         <nz-form-label class="define-customer-title">客户冻结规则</nz-form-label>
         <nz-form-control>
           <label>连续退回
-            <nz-input-number [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="returnTimesFreeze"
+            <nz-input-number [nzMin]="1" [nzPrecision]="0" nzPrecisionMode="toFixed" [nzDisabled]="!editing" nzSize="small" style="width: 60px" name="returnTimesFreeze"
                              [(ngModel)]="validateForm.returnTimesFreeze"></nz-input-number>
             次的客户将被冻结<span
               class="explanation">（被冻结客户，解冻前客户不能分配给用户跟进）</span>
