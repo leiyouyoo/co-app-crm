@@ -156,16 +156,16 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 80,
       sort: 'Country',
     },
-    {
-      title: 'Applicant',
-      index: 'auditor',
-      width: 90,
-    },
-    {
-      title: 'Date of Application',
-      index: 'auditedDate',
-      width: 100,
-    },
+    // {
+    //   title: 'Applicant',
+    //   index: 'auditor',
+    //   width: 90,
+    // },
+    // {
+    //   title: 'Date of Application',
+    //   index: 'auditedDate',
+    //   width: 100,
+    // },
     {
       title: 'Owner',
       index: 'owner',

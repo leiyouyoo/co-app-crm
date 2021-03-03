@@ -111,8 +111,8 @@
   >
     {{ 'Save' | translate }}
   </button>
-  <!-- <button
-    *ngIf="validateForm.controls['customerTaxes']?.value?.length"
+  <button
+    *ngIf="!validateForm.get('code').value || validateForm.controls['customerTaxes']?.value?.length"
     nz-button
     [disabled]="!isAdopt || codeLoading"
     style="border-color: unset;"
@@ -123,7 +123,7 @@
     (click)="submit(true)"
   >
     {{ '保存并申请代码' | translate }}
-  </button> -->
+  </button>
   <button
     nz-button
     nzType="default"

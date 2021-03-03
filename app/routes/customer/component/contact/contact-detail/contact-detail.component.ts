@@ -1,17 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { PlatformPositionService } from '@co/cds';
+import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
-import { NzMessageService, NzModalRef } from 'ng-zorro-antd';
+import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { RoleService } from '../../../../../services/role';
+import { LocationDetailComponent } from '../../location/location-detail/location-detail.component';
 
 @Component({
   selector: 'crm-contact-detail',
   templateUrl: './contact-detail.component.html',
   styleUrls: ['./contact-detail.component.less'],
 })
-export class ContactDetailComponent implements OnInit {
+export class ContactDetailComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   @Input() id;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
@@ -20,6 +22,8 @@ export class ContactDetailComponent implements OnInit {
   roleList = [];
   positionList = [];
   loading = false;
+  isSuccess = true; //邮箱是否被注册过
+  isSubmitted = false;
   emptyGuid = '00000000-0000-0000-0000-000000000000';
   constructor(
     private fb: FormBuilder,
@@ -30,7 +34,11 @@ export class ContactDetailComponent implements OnInit {
     private translate: TranslateService,
     private crmCustomerService: CRMCustomerService,
     private crmContactService: CRMContactService,
-  ) {}
+    private modal: NzModalService,
+    injector: Injector,
+  ) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -40,11 +48,12 @@ export class ContactDetailComponent implements OnInit {
   }
 
   initForm(data?) {
+    debugger;
     this.validateForm = this.fb.group({
-      id: [data ? data.id : this.emptyGuid],
-      surname: [null, [Validators.required]],
+      id: [data ? data.id : null],
+      surname: [null, [Validators.required, Validators.pattern(/^[a-zA-Z'\s]+$/)]],
       surnameLocalization: [null],
-      name: [null, [Validators.required]],
+      name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z'\s]+$/)]],
       nameLocalization: [null, [Validators.required]],
       phone: [null, [Validators.required, this.mobileValidator()]],
       email: [null, [Validators.required, Validators.email]],
@@ -60,17 +69,25 @@ export class ContactDetailComponent implements OnInit {
       userName: [null],
       password: [null],
       isSendEmail: [null],
-      role: [null, []],
-      remark: [null],
+      role: [null],
+      remark: [null, [Validators.maxLength(200)]],
     });
 
-    this.validateForm.get('isSignUp').valueChanges.subscribe((data) => {
-      if (data) {
-        this.validateForm.removeControl('role');
-        this.validateForm.addControl('role', new FormControl(null, [Validators.required]));
-      } else {
-        this.validateForm.removeControl('role');
-        this.validateForm.addControl('role', new FormControl(null, []));
+    this.validateForm.get('surname').valueChanges.subscribe((data) => {
+      debugger;
+      if (this.$i18n._default == 'en-US') {
+        const name =
+          (this.validateForm.get('surname').value ? this.validateForm.get('surname').value : '') +
+          (this.validateForm.get('name').value ? this.validateForm.get('name').value : '');
+        this.validateForm.get('nameLocalization').setValue(name);
+      }
+    });
+    this.validateForm.get('name').valueChanges.subscribe((data) => {
+      if (this.$i18n._default == 'en-US') {
+        const name =
+          (this.validateForm.get('surname').value ? this.validateForm.get('surname').value : '') +
+          (this.validateForm.get('name').value ? this.validateForm.get('name').value : '');
+        this.validateForm.get('nameLocalization').setValue(name);
       }
     });
   }
@@ -114,6 +131,7 @@ export class ContactDetailComponent implements OnInit {
       }
     };
   }
+
   getRoles() {
     this.roleService.getAll({}).subscribe((res) => {
       this.roleList = res.items;
@@ -122,30 +140,57 @@ export class ContactDetailComponent implements OnInit {
 
   getPosition() {
     this.positionService.getAll({}).subscribe((res) => {
+      debugger;
       this.positionList = res.items;
     });
   }
 
+  emailChange() {
+    this.isSuccess = true;
+  }
+
+  isSignUpChange(e) {
+    if (e) {
+      this.validateForm.removeControl('role');
+      this.validateForm.addControl('role', new FormControl(null, [Validators.required]));
+      //验证邮箱是否注册过
+      this.checkEmailRepeat();
+    } else {
+      this.validateForm.removeControl('role');
+      this.validateForm.addControl('role', new FormControl(null, []));
+    }
+  }
+
   checkEmailRepeat() {
+    debugger;
     this.crmContactService
-      .checkEmailRepeat({ customerId: this.customerId, email: this.validateForm.value.email, isSignUp: this.validateForm.value.isSignUp })
+      .checkEmailRepeat({
+        id: this.validateForm.value.id,
+        customerId: this.customerId,
+        email: this.validateForm.value.email,
+        isSignUp: this.validateForm.value.isSignUp,
+      })
       .subscribe((res) => {
+        debugger;
+        this.isSuccess = res.success;
       });
   }
 
   save() {
     this.loading = true;
-    if (!this.validForm(this.validateForm)) {
+    if (!this.validForm(this.validateForm) || !this.isSuccess) {
       this.msg.warning(this.translate.instant('Please check the content'));
       this.loading = false;
+      this.isSubmitted = true;
       return;
     }
-    if (this.validateForm.value.id == this.emptyGuid) {
+    if (!this.validateForm.value.id) {
       this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
         (res) => {
+          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
-          this.msg.info('新增成功');
+          this.msg.info(this.$L('Added successfully!'));
           this.cancel();
         },
         (error) => {
@@ -155,9 +200,10 @@ export class ContactDetailComponent implements OnInit {
     } else {
       this.crmContactService.update(this.validateForm.value).subscribe(
         (res) => {
+          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
-          this.msg.info('编辑成功');
+          this.msg.info(this.$L('Edited successfully!'));
           this.cancel();
         },
         (error) => {

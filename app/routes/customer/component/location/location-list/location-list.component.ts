@@ -1,8 +1,10 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { STComponent } from '@co/cbc';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LocationDetailComponent } from '../location-detail/location-detail.component';
 
 @Component({
@@ -11,8 +13,25 @@ import { LocationDetailComponent } from '../location-detail/location-detail.comp
   styleUrls: ['./location-list.component.less'],
 })
 export class LocationListComponent extends CoPageBase {
-  @Input() locations = [];
-  constructor(injector: Injector, private translate: TranslateService, private modal: NzModalService) {
+  @ViewChild('st', { static: false }) st: STComponent;
+  @Input() set customerInfo(v: any) {
+    this.customerDetail = v;
+    this.getLocation(v?.id);
+  }
+
+  get customerInfo() {
+    return this.customerDetail;
+  }
+  customerDetail: any;
+  locations = [];
+  constructor(
+    injector: Injector,
+    private translate: TranslateService,
+    private modal: NzModalService,
+    private contactService: CRMContactService,
+    private locationService: CRMLocationService,
+    private msg: NzMessageService,
+  ) {
     super(injector);
   }
 
@@ -21,37 +40,37 @@ export class LocationListComponent extends CoPageBase {
 
   columns: STColumn[] = [
     {
-      title: '位置名称',
+      title: 'Location name',
       index: 'name',
       width: 100,
     },
     {
-      title: '国家-省/州-城市',
+      title: 'Country/Province/State',
       render: 'cpc',
       width: 100,
     },
     {
-      title: '详细地址',
-      index: 'streetAddressLocalization',
+      title: 'Address detail',
+      index: 'streetAddress',
       width: 100,
     },
     {
-      title: '邮政编码',
+      title: 'Zip code',
       index: 'zip',
       width: 100,
     },
     {
-      title: '创建人',
-      index: 'name',
+      title: 'CreateUser',
+      index: 'creator',
       width: 100,
     },
     {
-      title: '修改人',
-      index: 'name',
+      title: 'Modified by',
+      index: 'lastModifier',
       width: 100,
     },
     {
-      title: '关联联系人',
+      title: 'Contact',
       index: 'contacts',
       width: 100,
     },
@@ -61,44 +80,72 @@ export class LocationListComponent extends CoPageBase {
       width: 100,
       buttons: [
         {
-          text: '编辑',
-          click: (item) => {},
-        },
-        {
-          text: '作废',
-          click: (item) => {},
-        },
-        {
-          text: '启用',
-          click: (item) => {},
-        },
-        {
-          text: '删除',
-          iif: (item) => item.isDangerFlag,
-          pop: {
-            title: ((data, index) => {
-              return this.translate.instant('Are you sure?');
-            }) as any,
-            okType: 'danger',
-            icon: 'star',
-          },
-          click: (e) => {
-            // this.msg.info('暂未做');
+          text: 'Edit',
+          click: (item) => {
+            this.onAdd('Edit', item);
           },
         },
+        {
+          text: 'Void',
+          click: (item) => {
+            this.delete(item);
+          },
+        },
+        {
+          text: 'Enable',
+          click: (item) => {
+            this.enableAsync(item);
+          },
+        },
+        // {
+        //   text: '删除',
+        //   iif: (item) => item.isDangerFlag,
+        //   pop: {
+        //     title: ((data, index) => {
+        //       return this.translate.instant('Are you sure?');
+        //     }) as any,
+        //     okType: 'danger',
+        //     icon: 'star',
+        //   },
+        //   click: (e) => {
+        //     // this.msg.info('暂未做');
+        //   },
+        // },
       ],
     },
   ];
   onTableChange(e) {}
 
-  onAdd() {
+  onAdd(title, item?) {
     const modal = this.modal.create({
-      nzTitle: this.$L('Correct customer name'),
+      nzTitle: this.$L(title),
       nzContent: LocationDetailComponent,
-      nzComponentParams: {},
+      nzComponentParams: {
+        id: item?.id,
+        customerId: this.customerInfo.id,
+      },
       nzClassName: 'crm-location-detail',
       nzStyle: { width: '40%' },
       nzFooter: null,
+    });
+  }
+
+  delete(item?) {
+    this.locationService.delete({ id: item.id }).subscribe((res) => {
+      this.msg.info(this.$L('Void successfully!'));
+      this.st.load();
+    });
+  }
+
+  enableAsync(item?) {
+    this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
+      this.msg.info(this.$L('Enable successfully!'));
+      this.st.load();
+    });
+  }
+  getLocation(id) {
+    this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
+      this.locations = res.items;
     });
   }
 }
