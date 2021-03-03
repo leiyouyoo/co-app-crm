@@ -1076,5 +1076,8 @@
   "Unsold customers": "未成交客户",
   "fam": {
     "Customer": "已成交客户"
-  }
+  },
+  "Adjunction": "添加",
+  "Merge": "合并",
+  "Unowned client": "无主客户"
 }

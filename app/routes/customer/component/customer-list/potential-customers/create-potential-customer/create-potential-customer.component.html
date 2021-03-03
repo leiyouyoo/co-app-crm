@@ -205,7 +205,7 @@
               <div nz-col [nzSpan]="12">
                 <nz-form-item>
                   <nz-form-label nzRequired style="text-align: right;">{{ '名' | translate }}</nz-form-label>
-                  <nz-form-control>
+                  <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
                     <input nz-input formControlName="lastname" maxlength="20" />
                   </nz-form-control>
                 </nz-form-item>

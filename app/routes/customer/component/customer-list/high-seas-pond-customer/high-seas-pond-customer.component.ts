@@ -71,6 +71,12 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
+          title: 'Cooperation State',
+          index: 'cooperationState',
+          render: 'cooperationState',
+          width: 100,
+        },
+        {
           title: '首次出货时间',
           index: 'firstTradeTime',
           type: 'date',
