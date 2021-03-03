@@ -4,17 +4,20 @@
       <div style="display: flex; align-items: center; font-weight: 800;">
         <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered"/>
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered"/>
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
-          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px"
+               *ngIf="customerInfo?.isEnterpriseAuth"/>
+          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px"
+               *ngIf="!customerInfo?.isEnterpriseAuth"/>
         </div>
       </div>
       <div style="display: flex; align-items: center;">
         <button nz-button>{{ '查看客户组织结构' | translate }}</button>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
@@ -98,7 +101,7 @@
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0].allowUserName
-      }}</span>
+        }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item.allowUserName }}
@@ -109,93 +112,98 @@
   </nz-header>
   <nz-layout>
     <nz-content>
-      <div nz-row [nzGutter]="32">
-        <div nz-col nzSpan="24" class="taskCenter" style="height: 80px; margin-bottom: 16px; margin-left: 16px; background: #fff;">
-          <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
-            <nz-step [nzTitle]="initialcontact" [nzIcon]="initialcontactIcon"></nz-step>
-            <nz-step [nzTitle]="demanddetermination" [nzIcon]="demanddeterminationIcon"></nz-step>
-            <nz-step [nzTitle]="quotation" [nzIcon]="quotationIcon"></nz-step>
-            <nz-step [nzTitle]="negotiation" [nzIcon]="negotiationIcon"></nz-step>
-            <nz-step [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-            <nz-step [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
-            <ng-template #initialcontactIcon><i nz-icon class="iconfont icon-zhangdan" nzIconfont="icon-zhangdan"></i></ng-template>
-            <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-            <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-            <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-            <ng-template #winIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-            <ng-template #loseorderIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-          </nz-steps>
+      <nz-spin [nzSpinning]="isLoading">
+        <div nz-row [nzGutter]="32">
+          <div nz-col nzSpan="24" class="taskCenter"
+               style="height: 80px; margin-bottom: 16px; margin-left: 16px; background: #fff;">
+            <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
+              <nz-step [nzTitle]="initialcontact" [nzIcon]="initialcontactIcon"></nz-step>
+              <nz-step [nzTitle]="demanddetermination" [nzIcon]="demanddeterminationIcon"></nz-step>
+              <nz-step [nzTitle]="quotation" [nzIcon]="quotationIcon"></nz-step>
+              <nz-step [nzTitle]="negotiation" [nzIcon]="negotiationIcon"></nz-step>
+              <nz-step [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
+              <nz-step [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
+              <ng-template #initialcontactIcon><i nz-icon class="iconfont icon-zhangdan" nzIconfont="icon-zhangdan"></i>
+              </ng-template>
+              <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+              <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+              <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+              <ng-template #winIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+              <ng-template #loseorderIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+            </nz-steps>
 
-          <ng-template #initialcontact>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">初步接洽</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==0" ></label></div>
-            </div>
-          </ng-template>
-          <ng-template #demanddetermination>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">需求确定</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==1"></label></div>
-            </div>
-          </ng-template>
-          <ng-template #quotation>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">报价</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==2"></label></div>
-            </div>
-          </ng-template>
-          <ng-template #negotiation>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">谈判</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==3"></label></div>
-            </div>
-          </ng-template>
-          <ng-template #win>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">赢单</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==4" [nzDisabled]="true" ></label></div>
-            </div>
-          </ng-template>
-          <ng-template #loseorder>
-            <div style="display: flex; justify-content: space-between;">
-              <div class="Check">输单</div>
-              <div class="Check"><label nz-checkbox [ngModel]="index==5" [nzDisabled]="true"></label></div>
-            </div>
-          </ng-template>
+            <ng-template #initialcontact>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">初步接洽</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==0"></label></div>
+              </div>
+            </ng-template>
+            <ng-template #demanddetermination>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">需求确定</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==1"></label></div>
+              </div>
+            </ng-template>
+            <ng-template #quotation>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">报价</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==2"></label></div>
+              </div>
+            </ng-template>
+            <ng-template #negotiation>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">谈判</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==3"></label></div>
+              </div>
+            </ng-template>
+            <ng-template #win>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">赢单</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==4" [nzDisabled]="true"></label></div>
+              </div>
+            </ng-template>
+            <ng-template #loseorder>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="Check">输单</div>
+                <div class="Check"><label nz-checkbox [ngModel]="index==5" [nzDisabled]="true"></label></div>
+              </div>
+            </ng-template>
+          </div>
         </div>
-      </div>
-      <div nz-row [nzGutter]="32" style="height: calc(100% - 96px);">
-        <div nz-col class="gutter-row" [nzSpan]="16" style="height: 100%;">
-          <nz-tabset nzAnimated="false" style="height: 100%; padding-left: 16px; background: #fff;">
-            <nz-tab [nzTitle]="'电子邮件' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'详情' | translate">
-              <crm-potentailcustomer-detail [customerInfo]="customerInfo" (actionChange)="onActionChange($event)" (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
-            </nz-tab>
-          </nz-tabset>
+        <div nz-row [nzGutter]="32" style="height: calc(100% - 96px);">
+          <div nz-col class="gutter-row" [nzSpan]="16" style="height: 100%;">
+            <nz-tabset nzAnimated="false" style="height: 100%; padding-left: 16px; background: #fff;">
+              <nz-tab [nzTitle]="'电子邮件' | translate"></nz-tab>
+              <nz-tab [nzTitle]="'跟进记录' | translate"></nz-tab>
+              <nz-tab [nzTitle]="'日程' | translate"></nz-tab>
+              <nz-tab [nzTitle]="'详情' | translate">
+                <crm-potentailcustomer-detail [customerInfo]="customerInfo" (actionChange)="onActionChange($event)"
+                                              (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
+            <div class="inner-box">col-6</div>
+          </div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
-          <div class="inner-box">col-6</div>
-        </div>
-      </div>
-      <!-- <div nz-row nz-col class="gutter-row" [nzSpan]="24" style="height: 80px; margin-bottom: 16px; background: #fff;">ss</div>
+        <!-- <div nz-row nz-col class="gutter-row" [nzSpan]="24" style="height: 80px; margin-bottom: 16px; background: #fff;">ss</div>
 
-      <div nz-row nz-col class="gutter-row" [nzSpan]="24">
-        <div nz-col class="gutter-row" [nzSpan]="16" style="padding-left: 16px; background: #fff;">
-          <nz-tabset nzAnimated="false">
-            <nz-tab [nzTitle]="'电子邮件' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
-            <nz-tab [nzTitle]="'详情' | translate">
-              <crm-potentailcustomer-detail></crm-potentailcustomer-detail>
-            </nz-tab>
-          </nz-tabset>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
-          <div class="inner-box">col-6</div>
-        </div>
-      </div> -->
+        <div nz-row nz-col class="gutter-row" [nzSpan]="24">
+          <div nz-col class="gutter-row" [nzSpan]="16" style="padding-left: 16px; background: #fff;">
+            <nz-tabset nzAnimated="false">
+              <nz-tab [nzTitle]="'电子邮件' | translate"> </nz-tab>
+              <nz-tab [nzTitle]="'跟进记录' | translate"> </nz-tab>
+              <nz-tab [nzTitle]="'日程' | translate"> </nz-tab>
+              <nz-tab [nzTitle]="'详情' | translate">
+                <crm-potentailcustomer-detail></crm-potentailcustomer-detail>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
+            <div class="inner-box">col-6</div>
+          </div>
+        </div> -->
+      </nz-spin>
     </nz-content>
   </nz-layout>
 </nz-layout>

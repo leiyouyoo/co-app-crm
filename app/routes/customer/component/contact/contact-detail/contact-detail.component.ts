@@ -40,7 +40,6 @@ export class ContactDetailComponent implements OnInit {
   }
 
   initForm(data?) {
-    debugger;
     this.validateForm = this.fb.group({
       id: [data ? data.id : this.emptyGuid],
       surname: [null, [Validators.required]],
@@ -123,7 +122,6 @@ export class ContactDetailComponent implements OnInit {
 
   getPosition() {
     this.positionService.getAll({}).subscribe((res) => {
-      debugger;
       this.positionList = res.items;
     });
   }
@@ -132,7 +130,6 @@ export class ContactDetailComponent implements OnInit {
     this.crmContactService
       .checkEmailRepeat({ customerId: this.customerId, email: this.validateForm.value.email, isSignUp: this.validateForm.value.isSignUp })
       .subscribe((res) => {
-        debugger
       });
   }
 
@@ -146,7 +143,6 @@ export class ContactDetailComponent implements OnInit {
     if (this.validateForm.value.id == this.emptyGuid) {
       this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
           this.msg.info('新增成功');
@@ -159,7 +155,6 @@ export class ContactDetailComponent implements OnInit {
     } else {
       this.crmContactService.update(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
           this.msg.info('编辑成功');

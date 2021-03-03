@@ -303,7 +303,6 @@ export class CustomerAuthComponent implements OnInit {
   }
 
   onCreate() {
-    debugger;
     this.isVisible = true;
     if (this.clientMsg.userName) {
       this.showCreateContact = false;

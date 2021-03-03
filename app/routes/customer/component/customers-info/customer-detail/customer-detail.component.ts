@@ -78,7 +78,6 @@ export class CustomerDetailComponent extends CoPageBase {
     private googleMapService: GoogleMapService,
   ) {
     super(injector);
-    debugger;
   }
 
   show(id) {
@@ -140,7 +139,6 @@ export class CustomerDetailComponent extends CoPageBase {
   }
 
   initData(data: any = {}) {
-    debugger;
     this.validateForm = this.fb.group({
       name: [data.name, [Validators.required]],
       code: [data.code, [Validators.required]],

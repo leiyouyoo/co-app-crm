@@ -80,7 +80,6 @@ export class UpdateCustomerNameComponent extends CoPageBase {
       this.cRMCustomerService
         .customerCheckAsync({ name: this.form.get('name').value, nameLocalization: this.form.get('nameLocalization').value })
         .subscribe((res) => {
-          debugger;
           this.isAdopt = res.isAdopt;
           ob.next(this.isAdopt);
           ob.complete();

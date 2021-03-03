@@ -103,7 +103,6 @@ export class TransactedCustomersComponent extends CoPageBase {
    * 获取不同类型下的客户数据
    */
   onchangeCustomer(e) {
-    debugger;
     this.searchParams.type = e;
     this.st.load();
   }

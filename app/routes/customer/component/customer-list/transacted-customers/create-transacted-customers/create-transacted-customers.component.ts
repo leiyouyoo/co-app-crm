@@ -721,7 +721,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
   // tslint:disable-next-line: adjacent-overload-signatures
   async setData(data) {
-    debugger;
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({
@@ -1182,7 +1181,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   submit(application?: boolean): void {
-    debugger;
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
       tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
