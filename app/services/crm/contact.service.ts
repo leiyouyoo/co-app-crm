@@ -192,6 +192,21 @@ export class CRMContactService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Contact/EnableAsync
+     * 启用联系人
+     */
+
+    @POST('EnableAsync')
+    enableAsync(
+        @Payload
+        _req:CRMCoEntityDto
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Contact/Delete
      * 删除联系人
      */

@@ -1,8 +1,8 @@
-<button nz-button nzType="primary" style="margin-bottom: 16px;" (click)="onAdd()">{{ '新增' | translate }}</button>
+<button nz-button nzType="primary" style="margin-bottom: 16px;" (click)="onAdd('Add')">{{ '新增' | translate }}</button>
 <co-st
   #st
   [columns]="columns"
-  [data]="customerInfo?.contacts"
+  [data]="contacts"
   columnDefaultWidth="100"
   (change)="onTableChange($event)"
   calcScroll
@@ -16,7 +16,50 @@
     {{ data.name }}
   </ng-template>
   <ng-template st-row="xml" let-data>
-    {{ data.surnameLocalization }}
-    {{ data.nameLocalization }}
+    {{ data.localizationSurname }}
+    {{ data.localizationName }}
+  </ng-template>
+
+  <ng-template st-row="userId" let-data>
+    <ng-container *ngIf="data.userId; else elseUserIdTemplate">
+      {{ '开通' | translate }}
+    </ng-container>
+    <ng-template #elseUserIdTemplate> {{ '未开通' | translate }} </ng-template>
+  </ng-template>
+  <ng-template st-row="creationTime" let-data>
+    <ng-container *ngIf="data.userId; else elseCreationTimeTemplate">
+      {{ data.userInfo.creationTime | date: 'yyyy-MM-dd' }}
+    </ng-container>
+    <ng-template #elseCreationTimeTemplate> -- </ng-template>
+  </ng-template>
+
+  <ng-template st-row="isActive" let-data>
+    <ng-container *ngIf="data.userId; else elseIsActiveTemplate">
+      <ng-container *ngIf="data.userInfo.isActive; else elseUserInfoActiveTemplate">
+        {{ '已激活' | translate }}
+      </ng-container>
+      <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
+    </ng-container>
+    <ng-template #elseIsActiveTemplate> -- </ng-template>
+  </ng-template>
+
+  <ng-template st-row="locations" let-data>
+    <ng-container *ngIf="data.locations.length > 0; else elseTemplate">
+      <div class="detial_msg" style="width: 130px;">
+        <button nz-button nzSize="small" nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
+          {{ 'Position' | translate }}:{{ data.locations.length }}
+        </button>
+        <ng-template #contentTemplate>
+          <div *ngFor="let item of data.locations" style="padding: 1em 0;">
+            <span>{{ item.name }}&nbsp;</span>
+            <span>{{ item.country }}&nbsp;</span>
+            <span>{{ item.province }}</span>
+          </div>
+        </ng-template>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      0
+    </ng-template>
   </ng-template>
 </co-st>

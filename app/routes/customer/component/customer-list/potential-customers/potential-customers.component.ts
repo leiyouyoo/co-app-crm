@@ -9,7 +9,14 @@ import { UpdateCustomerNameComponent } from '../../update-customer-name/update-c
 import { MergeCustomerComponent } from '../../merge-customer/merge-customer.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplyCodeComponent } from '../../apply-code/apply-code.component';
-
+import { customerType } from '../../../models/enum';
+const addlabel = (obj) => {
+  const result = {};
+  for (const objKey in obj) {
+    result[objKey] = obj[objKey];
+  }
+  return result;
+};
 @Component({
   selector: 'crm-potential-customers',
   templateUrl: './potential-customers.component.html',
@@ -55,7 +62,12 @@ export class PotentialCustomersComponent extends CoPageBase {
   title = 'Add Customer';
   customerInfo: any;
 
-  constructor(injector: Injector, private modal: NzModalService, private cRMCustomerService: CRMCustomerService, private aclService: ACLService) {
+  constructor(
+    injector: Injector,
+    private modal: NzModalService,
+    private cRMCustomerService: CRMCustomerService,
+    private aclService: ACLService,
+  ) {
     super(injector);
   }
 
@@ -82,10 +94,13 @@ export class PotentialCustomersComponent extends CoPageBase {
   getAll() {
     this.selected = [];
     this.loading = true;
-    this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
-      this.customerInfo = res;
-      this.loading = false;
-    }, e => this.loading = false);
+    this.cRMCustomerService.getAllList(this.searchParams).subscribe(
+      (res) => {
+        this.customerInfo = res;
+        this.loading = false;
+      },
+      (e) => (this.loading = false),
+    );
   }
 
   /**
@@ -122,14 +137,14 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Prospect status',
       index: 'leadTrackingPhase',
-      render: 'LeadTrackingPhase',
-      sort: 'leadTrackingPhase',
+      render: 'leadTrackingPhase',
+      sort: 'LeadTrackingPhase',
       width: 100,
     },
     {
       title: 'Approval Status',
-      index: 'state',
-      render: 'state',
+      index: 'examineState',
+      render: 'examineState',
       width: 100,
     },
     {
@@ -156,13 +171,11 @@ export class PotentialCustomersComponent extends CoPageBase {
       title: 'TEL',
       index: 'tel',
       width: 80,
-      sort: 'tel',
     },
     {
       title: 'FAX',
       index: 'fax',
       width: 80,
-      sort: 'fax',
     },
     {
       title: 'Country',
@@ -183,6 +196,8 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Customer Type',
       index: 'customerType',
+      type: 'enum',
+      enum: addlabel(customerType) as any,
       width: 80,
     },
     {
@@ -199,6 +214,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
       width: 100,
+      sort: 'LastModificationTime',
     },
     {
       title: 'Approval date',
@@ -285,6 +301,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       title: 'Country',
       index: 'country',
       width: 80,
+      sort: 'Country',
     },
     {
       title: 'Applicant',
@@ -420,7 +437,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzTitle: this.$L('Transfer customer'),
       nzContent: TransferTocustomerComponent,
       nzComponentParams: {
-        customerIds: this.selected.map(e => e.id),
+        customerIds: this.selected.map((e) => e.id),
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },
@@ -485,17 +502,19 @@ export class PotentialCustomersComponent extends CoPageBase {
     });
   }
 
-
   /**
    * 转移客户到公海池
    */
   bulkTurnCustomerSea() {
     this.loading = true;
-    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map(e => e.id) }).subscribe(r => {
-      this.$message.success(this.$L('Successful operation'));
-      this.loading = false;
-      this.getAll();
-    }, e => this.loading = false);
+    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map((e) => e.id) }).subscribe(
+      (r) => {
+        this.$message.success(this.$L('Successful operation'));
+        this.loading = false;
+        this.getAll();
+      },
+      (e) => (this.loading = false),
+    );
   }
 
   /**
@@ -525,7 +544,7 @@ export class PotentialCustomersComponent extends CoPageBase {
    * 作废
    */
   setVoid() {
-    const id = this.selected.filter(e => !e.isDeleted)[0]?.id;
+    const id = this.selected.filter((e) => !e.isDeleted)[0]?.id;
     if (!id) {
       this.$message.success(this.$L('选择的客户已经被作废，不能重复作废'));
       return;
@@ -542,7 +561,7 @@ export class PotentialCustomersComponent extends CoPageBase {
    * 启用
    */
   recoverDelete() {
-    const id = this.selected.filter(e => e.isDeleted)[0]?.id;
+    const id = this.selected.filter((e) => e.isDeleted)[0]?.id;
     if (!id) {
       this.$message.success(this.$L('选择的客户已经启用，不能重复启用'));
       return;

@@ -58,7 +58,12 @@ export class TransactedCustomersComponent extends CoPageBase {
   loading: boolean;
   isManager: boolean;
 
-  constructor(injector: Injector, private cRMCustomerService: CRMCustomerService, private modal: NzModalService,private aclService:ACLService) {
+  constructor(
+    injector: Injector,
+    private cRMCustomerService: CRMCustomerService,
+    private modal: NzModalService,
+    private aclService: ACLService,
+  ) {
     super(injector);
   }
 
@@ -85,16 +90,20 @@ export class TransactedCustomersComponent extends CoPageBase {
   getAll() {
     this.selected = [];
     this.loading = true;
-    this.cRMCustomerService.getAll(this.searchParams).subscribe((res) => {
-      this.customerInfo = res;
-      this.loading = false;
-    }, e => this.loading = false);
+    this.cRMCustomerService.getAllList(this.searchParams).subscribe(
+      (res) => {
+        this.customerInfo = res;
+        this.loading = false;
+      },
+      (e) => (this.loading = false),
+    );
   }
 
   /**
    * 获取不同类型下的客户数据
    */
   onchangeCustomer(e) {
+    debugger;
     this.searchParams.type = e;
     this.st.load();
   }
@@ -107,8 +116,8 @@ export class TransactedCustomersComponent extends CoPageBase {
     },
     {
       title: 'Approval Status',
-      index: 'state',
-      render: 'state',
+      index: 'examineState',
+      render: 'examineState',
       width: 100,
     },
     {
@@ -120,7 +129,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       title: 'Full name(english)',
       index: 'name',
       width: 100,
-      sort: 'name',
+      sort: 'Name',
     },
     {
       title: 'Abbreviation(local language)',
@@ -136,19 +145,17 @@ export class TransactedCustomersComponent extends CoPageBase {
       title: 'TEL',
       index: 'tel',
       width: 80,
-      sort: 'tel',
     },
     {
       title: 'FAX',
       index: 'fax',
       width: 80,
-      sort: 'fax',
     },
     {
       title: 'Country',
       index: 'country',
       width: 80,
-      sort: 'country',
+      sort: 'Country',
     },
     {
       title: 'Applicant',
@@ -191,6 +198,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
       width: 100,
+      sort: 'LastModificationTime',
     },
     {
       title: 'Approval date',
@@ -222,7 +230,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 80,
       type: 'date',
       dateFormat: 'yyyy-MM-dd',
-      sort: 'firstTradeTime',
+      sort: 'FirstTradeTime',
     },
     {
       title: 'Is the CSP account open',
@@ -395,7 +403,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       nzTitle: this.$L('Transfer customer'),
       nzContent: TransferTocustomerComponent,
       nzComponentParams: {
-        customerIds: this.selected.map(e => e.id),
+        customerIds: this.selected.map((e) => e.id),
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },
@@ -460,16 +468,18 @@ export class TransactedCustomersComponent extends CoPageBase {
     });
   }
 
-
   /**
    * 转移客户到公海池
    */
   bulkTurnCustomerSea() {
     this.loading = true;
-    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map(e => e.id) }).subscribe(r => {
-      this.$message.success(this.$L('Successful operation'));
-      this.loading = false;
-      this.getAll();
-    }, e => this.loading = false);
+    this.cRMCustomerService.bulkTurnCustomerSea({ ids: this.selected.map((e) => e.id) }).subscribe(
+      (r) => {
+        this.$message.success(this.$L('Successful operation'));
+        this.loading = false;
+        this.getAll();
+      },
+      (e) => (this.loading = false),
+    );
   }
 }

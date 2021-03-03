@@ -1065,9 +1065,12 @@
   "Enable": "启用",
   "Invalid": "无效",
   "Effective": "有效",
-  "CrmCustomer":{
-    "DirectClient":"直客"
+  "CrmCustomer": {
+    "DirectClient": "直客"
   },
+  "WaitingExamine": "等待审核",
+  "PassExamine": "通过审核",
+  "RefuseExamine": "驳回",
   "Used Name":"曾用名",
   "Are you sure?": "您确定吗？",
   "Unsold customers": "未成交客户",
