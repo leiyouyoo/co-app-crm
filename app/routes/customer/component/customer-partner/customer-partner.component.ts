@@ -103,7 +103,13 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
   //
   @Output() private outerPartnerDetails = new EventEmitter<string>();
 
-  constructor(private crmPartnerService: CRMPartnerService, injector: Injector, private modal: NzModalService, private message: NzMessageService, private translate: TranslateService) {
+  constructor(
+    private crmPartnerService: CRMPartnerService,
+    injector: Injector,
+    private modal: NzModalService,
+    private message: NzMessageService,
+    private translate: TranslateService,
+  ) {
     super(injector);
   }
 
@@ -118,11 +124,9 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     this.search();
   }
 
-  search(): void {
-  }
+  search(): void {}
 
-  onTableChange(e) {
-  }
+  onTableChange(e) {}
 
   onShowNewCustomer() {
     const modal = this.modal.create({
@@ -134,7 +138,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.outData.subscribe(r => {
+    component.outData.subscribe((r) => {
       this.partnerOk(r);
     });
   }
@@ -149,7 +153,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.outData.subscribe(r => {
+    component.outData.subscribe((r) => {
       this.partnerOk(r);
     });
   }
@@ -178,7 +182,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.outData.subscribe(r => {
+    component.outData.subscribe((r) => {
       this.partnerOk(r);
     });
     component.showSearch = false;
@@ -195,11 +199,12 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     }
     let num = filterObj.SkipCount - 1;
     this.loading = true;
-    this.crmPartnerService.getAll({
-      customerId: filterObj.CustomerId,
-      maxResultCount: filterObj.MaxResultCount,
-      skipCount: num * filterObj.MaxResultCount,
-    })
+    this.crmPartnerService
+      .getAll({
+        customerId: filterObj.CustomerId,
+        maxResultCount: filterObj.MaxResultCount,
+        skipCount: num * filterObj.MaxResultCount,
+      })
       .subscribe(
         (res: any) => {
           this.loading = false;
