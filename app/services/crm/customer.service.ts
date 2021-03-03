@@ -42,6 +42,21 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/GetAllList
+     * 获取客户列表（成交客户、潜在客户）
+     */
+
+    @GET('GetAllList')
+    getAllList(
+        @Payload
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/GetAllForMerge
      * 获取用于合并的客户
      */

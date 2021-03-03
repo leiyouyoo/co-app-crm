@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { PlatformPositionService } from '@co/cds';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,11 +13,14 @@ import { RoleService } from '../../../../../services/role';
 })
 export class ContactDetailComponent implements OnInit {
   @Input() customerId;
+  @Input() id;
+  @Output() readonly onSubmitted = new EventEmitter<boolean>();
   validateForm: FormGroup;
   isShow = false;
   roleList = [];
   positionList = [];
   loading = false;
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
   constructor(
     private fb: FormBuilder,
     private roleService: RoleService,
@@ -33,12 +36,13 @@ export class ContactDetailComponent implements OnInit {
     this.initForm();
     this.getRoles();
     this.getPosition();
+    this.fetchRemoteData();
   }
 
-  initForm() {
+  initForm(data?) {
     debugger;
     this.validateForm = this.fb.group({
-      id: [null],
+      id: [data ? data.id : this.emptyGuid],
       surname: [null, [Validators.required]],
       surnameLocalization: [null],
       name: [null, [Validators.required]],
@@ -72,6 +76,36 @@ export class ContactDetailComponent implements OnInit {
     });
   }
 
+  private fetchRemoteData() {
+    if (this.id) {
+      this.crmContactService.get({ id: this.id }).subscribe((res) => {
+        this.validateForm.reset({
+          id: res.id,
+          surname: res.surname,
+          surnameLocalization: res.surnameLocalization,
+          name: res.name,
+          nameLocalization: res.nameLocalization,
+          phone: res.phone,
+          email: res.email,
+          fax: res.fax,
+          tel: res.tel,
+          position: res.position,
+          isMaster: res.isMaster,
+          customerId: res.customerId,
+          partnerId: res.partnerId,
+          userId: res.userId,
+          txId: res.txId,
+          isSignUp: res.isSignUp,
+          userName: res.userName,
+          password: res.password,
+          isSendEmail: res.isSendEmail,
+          role: res.role,
+          remark: res.remark,
+        });
+      });
+    }
+  }
+
   mobileValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const phoneReg = /([0-9\s\-]{7,20})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
@@ -94,6 +128,14 @@ export class ContactDetailComponent implements OnInit {
     });
   }
 
+  checkEmailRepeat() {
+    this.crmContactService
+      .checkEmailRepeat({ customerId: this.customerId, email: this.validateForm.value.email, isSignUp: this.validateForm.value.isSignUp })
+      .subscribe((res) => {
+        debugger
+      });
+  }
+
   save() {
     this.loading = true;
     if (!this.validForm(this.validateForm)) {
@@ -101,16 +143,33 @@ export class ContactDetailComponent implements OnInit {
       this.loading = false;
       return;
     }
-    this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
-      (res) => {
-        debugger;
-        this.loading = false;
-        this.msg.info('操作成功');
-      },
-      (error) => {
-        this.loading = false;
-      },
-    );
+    if (this.validateForm.value.id == this.emptyGuid) {
+      this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
+        (res) => {
+          debugger;
+          this.loading = false;
+          this.onSubmitted.emit(true);
+          this.msg.info('新增成功');
+          this.cancel();
+        },
+        (error) => {
+          this.loading = false;
+        },
+      );
+    } else {
+      this.crmContactService.update(this.validateForm.value).subscribe(
+        (res) => {
+          debugger;
+          this.loading = false;
+          this.onSubmitted.emit(true);
+          this.msg.info('编辑成功');
+          this.cancel();
+        },
+        (error) => {
+          this.loading = false;
+        },
+      );
+    }
   }
 
   validForm(form) {

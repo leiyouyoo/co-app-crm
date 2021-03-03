@@ -3768,6 +3768,9 @@
             lastTradeTime?: string;
          
             
+            claimTime?: string;
+         
+            
             lastQuotationTime?: string;
          
             

@@ -8,8 +8,12 @@
           <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
-          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 2" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 3" />
+          <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="100px" *ngIf="customerInfo?.examineState == 1" />
+
+          <!-- <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" /> -->
         </div>
       </div>
       <div style="display: flex; align-items: center;">
