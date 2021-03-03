@@ -1079,5 +1079,7 @@
   },
   "Adjunction": "添加",
   "Merge": "合并",
-  "Unowned client": "无主客户"
+  "Unowned client": "无主客户",
+  "Correct customer name": "更正客户名称",
+  "Operates successfully": "操作成功"
 }
