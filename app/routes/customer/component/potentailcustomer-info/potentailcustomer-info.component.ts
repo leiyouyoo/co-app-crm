@@ -19,7 +19,12 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
 
-  constructor(private crmCustomerService: CRMCustomerService, private modal: NzModalService, injector: Injector, public activeRoute: ActivatedRoute) {
+  constructor(
+    private crmCustomerService: CRMCustomerService,
+    private modal: NzModalService,
+    injector: Injector,
+    public activeRoute: ActivatedRoute,
+  ) {
     super(injector);
   }
 
@@ -39,6 +44,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       (res) => {
         this.isLoading = false;
         this.customerInfo = res;
+        this.index = this.customerInfo.leadTrackingPhase;
       },
 
       (error) => {
@@ -83,7 +89,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    * 转移客户到公海池
    */
   bulkTurnCustomerSea() {
-    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe(r => {
+    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe((r) => {
       this.$message.success(this.$L('Successful operation'));
     });
   }
@@ -120,7 +126,6 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     });
     const component = modal.getContentComponent();
   }
-
 
   /**
    * 转让客户

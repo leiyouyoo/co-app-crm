@@ -129,37 +129,37 @@
           <ng-template #initialcontact>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">初步接洽</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==0" ></label></div>
             </div>
           </ng-template>
           <ng-template #demanddetermination>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">需求确定</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==1"></label></div>
             </div>
           </ng-template>
           <ng-template #quotation>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">报价</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==2"></label></div>
             </div>
           </ng-template>
           <ng-template #negotiation>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">谈判</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==3"></label></div>
             </div>
           </ng-template>
           <ng-template #win>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">赢单</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==4" [nzDisabled]="true" ></label></div>
             </div>
           </ng-template>
           <ng-template #loseorder>
             <div style="display: flex; justify-content: space-between;">
               <div class="Check">输单</div>
-              <div class="Check"><label nz-checkbox></label></div>
+              <div class="Check"><label nz-checkbox [ngModel]="index==5" [nzDisabled]="true"></label></div>
             </div>
           </ng-template>
         </div>

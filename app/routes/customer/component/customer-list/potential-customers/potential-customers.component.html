@@ -95,15 +95,18 @@
       [showCheckbox]="true"
       style="flex: 1;"
     >
-      <ng-template st-row="LeadTrackingPhase" let-data>
-        <span *ngIf="data.LeadTrackingPhase == 0">{{ 'PreliminaryContact' | translate }}</span>
-        <span *ngIf="data.LeadTrackingPhase == 1">{{ 'DemandDetermination' | translate }}</span>
-        <span *ngIf="data.LeadTrackingPhase == 2">{{ 'QuotedPrice' | translate }}</span>
-        <span *ngIf="data.LeadTrackingPhase == 3">{{ 'Negotiation' | translate }}</span>
-        <span *ngIf="data.LeadTrackingPhase == 4">{{ 'WinTheOrder' | translate }}</span>
-        <span *ngIf="data.LeadTrackingPhase == 5">{{ 'LostOrder' | translate }}</span>
+      <ng-template st-row="leadTrackingPhase" let-data>
+        <span *ngIf="data.leadTrackingPhase == 0">{{ 'PreliminaryContact' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 1">{{ 'DemandDetermination' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 2">{{ 'QuotedPrice' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 3">{{ 'Negotiation' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 4">{{ 'WinTheOrder' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 5">{{ 'LostOrder' | translate }}</span>
       </ng-template>
       <ng-template st-row="examineState" let-data>
+        <span *ngIf="data.examineState == 0">
+         —— ——
+        </span>
         <span *ngIf="data.examineState == 1">
           {{ 'WaitingExamine' | translate }}
         </span>

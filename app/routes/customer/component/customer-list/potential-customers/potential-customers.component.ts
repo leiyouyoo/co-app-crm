@@ -9,7 +9,14 @@ import { UpdateCustomerNameComponent } from '../../update-customer-name/update-c
 import { MergeCustomerComponent } from '../../merge-customer/merge-customer.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplyCodeComponent } from '../../apply-code/apply-code.component';
-
+import { customerType } from '../../../models/enum';
+const addlabel = (obj) => {
+  const result = {};
+  for (const objKey in obj) {
+    result[objKey] = obj[objKey];
+  }
+  return result;
+};
 @Component({
   selector: 'crm-potential-customers',
   templateUrl: './potential-customers.component.html',
@@ -130,7 +137,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Prospect status',
       index: 'leadTrackingPhase',
-      render: 'LeadTrackingPhase',
+      render: 'leadTrackingPhase',
       sort: 'LeadTrackingPhase',
       width: 100,
     },
@@ -189,6 +196,8 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       title: 'Customer Type',
       index: 'customerType',
+      type: 'enum',
+      enum: addlabel(customerType) as any,
       width: 80,
     },
     {
