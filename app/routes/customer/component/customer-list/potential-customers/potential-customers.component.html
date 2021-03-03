@@ -102,10 +102,12 @@
         <span *ngIf="data.leadTrackingPhase == 3">{{ 'Negotiation' | translate }}</span>
         <span *ngIf="data.leadTrackingPhase == 4">{{ 'WinTheOrder' | translate }}</span>
         <span *ngIf="data.leadTrackingPhase == 5">{{ 'LostOrder' | translate }}</span>
+        <span style="color: rgba(0,0,0,.5);" *ngIf="data.leadTrackingPhase==null"> — —</span>
+
       </ng-template>
       <ng-template st-row="examineState" let-data>
-        <span *ngIf="data.examineState == 0">
-         —— ——
+        <span style="color: rgba(0,0,0,.5);"  *ngIf="data.examineState == 0">
+          — —
         </span>
         <span *ngIf="data.examineState == 1">
           {{ 'WaitingExamine' | translate }}
