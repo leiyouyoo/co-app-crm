@@ -115,7 +115,9 @@
               <crm-location-list [locations]="customerInfo?.locations"></crm-location-list>
             </nz-tab>
             <nz-tab [nzTitle]="'发票抬头' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'合作伙伴' | translate">
+              <customer-partner [customerId]="customerId"></customer-partner>
+            </nz-tab>
             <nz-tab [nzTitle]="'文档' | translate"></nz-tab>
             <nz-tab [nzTitle]="'详情' | translate">
               <crm-customer-detail

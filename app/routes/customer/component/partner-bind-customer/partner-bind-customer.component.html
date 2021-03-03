@@ -1,0 +1,180 @@
+<div style="height: 100%; overflow: hidden; display: flex; flex-direction: column;">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="search()">
+    <nz-form-item>
+      <nz-form-control [nzSpan]="21">
+        <div style="display: flex;">
+          <input [placeholder]="'Search Code/Customer Name' | translate" type="text" nz-input formControlName="name" style="margin-right: 15px;"/>
+          <button nz-button [nzType]="'primary'" class="currency-button">{{ 'Search' | translate }}</button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div style="height: 600px">
+    <co-st
+      #st
+      [columns]="columns"
+      [data]="listOfData.items"
+      [loading]="loading"
+      columnDefaultWidth="100"
+      (change)="onTableChange($event)"
+      calcScroll
+      [showFilters]="false"
+      style="flex: 1;"
+    >
+      <ng-template st-row="customerType" type="tags" let-data>
+        <span>{{CustomerType[data.customerType] | translate}}</span>
+      </ng-template>
+      <ng-template st-row="cooperationState" let-data>
+        <span *ngIf="data.cooperationState == 0">{{ 'All' | translate }}</span>
+        <span *ngIf="data.cooperationState == 1">{{ 'Unsold customers' | translate }}</span>
+        <span *ngIf="data.cooperationState == 2">{{ 'fam.Customer' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isDangerFlag" let-data>
+        <span *ngIf="data.isDangerFlag">{{ 'CustomerList.Yes' | translate }}</span>
+        <span *ngIf="!data.isDangerFlag">{{ 'CustomerList.No' | translate }}</span>
+      </ng-template>
+      <ng-template st-row="isRegistered" let-data>
+        <span *ngIf="data.isRegistered">
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+        >
+        <span *ngIf="!data.isRegistered">
+          <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>
+          <span [ngClass]="{ dangerWord: !data.isRegistered }">{{ 'Nonactivated' | translate }}</span>
+        </span>
+      </ng-template>
+    </co-st>
+  </div>
+  <nz-table
+    [nzScroll]="{ x: '2300px' }"
+    [nzData]="listOfData.items"
+    [nzLoading]="loading"
+    [nzFrontPagination]="false"
+    nzShowPagination="false"
+    [nzNoResult]="noResult"
+    #table
+    *ngIf="false"
+    style="flex: 1; overflow: hidden;"
+  >
+    <thead>
+    <tr>
+      <th nzWidth="200px">
+        {{ 'Code' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Name-Chinese' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Abbreviation-Chinese' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Name-English' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Abbreviation-English' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Telephone number' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Country' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Country English name' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Customer type' | translate }}
+      </th>
+      <th nzWidth="200px">
+        {{ 'Owner' | translate }}
+      </th>
+      <th nzWidth="300px" nzRight="0px">
+        {{ 'Action' | translate }}
+      </th>
+    </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+    <tr *ngFor="let data of table.data; let i = index" [ngClass]="{ ou: i % 2 == 0, ji: i % 2 != 0 }">
+      <td nzEllipsis>
+        {{ data.code }}
+      </td>
+      <td nzEllipsis>
+        {{ data.name }}
+      </td>
+      <td nzEllipsis>
+        {{ data.shortName }}
+      </td>
+      <td nzEllipsis>
+        {{ data.localizationName }}
+      </td>
+      <td nzEllipsis>
+        {{ data.localizationShortName }}
+      </td>
+      <td nzEllipsis>
+        {{ data.tel }}
+      </td>
+      <td nzEllipsis>
+        {{ data.country }}
+      </td>
+      <td nzEllipsis>
+        {{ data.localizationCountry }}
+      </td>
+      <td nzEllipsis>
+        {{ data.claimStatus > 0 ? (data.isShare ? d : data.status > 0 ? a : b) : c }}
+      </td>
+      <td nzEllipsis>
+        {{ data.owner }}
+      </td>
+      <td nzEllipsis nzRight="0px">
+        <ng-container *ngIf="data.claimStatus > 0; else elseTemplate">
+          <a (click)="bindCustomer(0, data.id, false)">{{ 'Bind' | translate }}</a>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <a (click)="bindCustomer(0, data.id, true)">{{ 'Bind and claim' | translate }}</a>
+        </ng-template>
+      </td>
+    </tr>
+    </tbody>
+
+    <ng-template #noResult>
+      <img src="apps\crm\assets\images\nodata.png"
+           style="width: 150px; margin: 0 auto; display: block; padding: 20px 0;"/>
+      <div style="text-align: center;">
+        <button nz-button nzSize="small" nzType="primary"
+                (click)="onShowCreate()">{{ 'New customer' | translate }}</button>
+      </div>
+    </ng-template>
+  </nz-table>
+
+  <div class="pagination" *ngIf="hasValue && listOfData?.totalCount > 0">
+    <nz-pagination
+      [nzPageIndex]="tableSkipCount"
+      [nzPageSize]="tableMaxResultCount"
+      (nzPageIndexChange)="tablePageIndexChange($event)"
+      [nzTotal]="listOfData.totalCount"
+    ></nz-pagination>
+  </div>
+
+  <div style="padding-top: 20px; flex: 1; overflow: hidden;" [ngStyle]="hasValue ? { display: 'none' } : ''">
+    <ng-template #createCustomer></ng-template>
+  </div>
+
+  <div style="text-align: right; margin: 20px 0 0 0;" *ngIf="!hasValue">
+    <button nz-button nzType="primary" (click)="cancelEdit(false, false)" style="margin-right: 20px;">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button nz-button nzType="primary" [nzLoading]="cusLoading" (click)="createOkCustomer()">
+      {{ 'OK' | translate }}
+    </button>
+
+    <button
+      nz-button
+      (click)="createOkCustomer(true)"
+      [nzType]="'primary'"
+      [disabled]="cusLoading || !com?.instance?.validateForm.valid || !com?.instance?.requiredCustomerTaxes()"
+      style="margin-right: 20px;"
+    >
+      {{ 'Application' | translate }}
+    </button>
+  </div>
+</div>

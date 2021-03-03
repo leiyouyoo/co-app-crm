@@ -1069,5 +1069,9 @@
     "DirectClient":"直客"
   },
   "Used Name":"曾用名",
-  "Are you sure?": "您确定吗？"
+  "Are you sure?": "您确定吗？",
+  "Unsold customers": "未成交客户",
+  "fam": {
+    "Customer": "已成交客户"
+  }
 }

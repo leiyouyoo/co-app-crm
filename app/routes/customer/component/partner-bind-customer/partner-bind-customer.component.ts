@@ -15,6 +15,9 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMCustomerService, CRMPartnerService, CRMCreateOrUpdatePartnerDto } from 'apps/crm/app/services/crm';
 import { CreateCustomerComponent } from 'apps/crm/app/shared/compoents/customer/create-customer/create-customer.component';
+import { STColumn } from '@co/cbc';
+import { CooperationState, CustomerStatus, CustomerType } from '../../models/enum';
+
 
 @Component({
   selector: 'partner-bind-customer',
@@ -43,6 +46,103 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
 
   @ViewChild('createCustomer', { static: true, read: ViewContainerRef }) createCustomer: ViewContainerRef;
   hasValue = true;
+  readonly CustomerType = CustomerType;
+  columns: STColumn[] = [
+    {
+      title: 'Code',
+      index: 'code',
+      width: 100,
+    },
+    {
+      title: 'Name-Chinese',
+      index: 'localizationName',
+      width: 200,
+    },
+    {
+      title: 'Name-English',
+      index: 'localizationName',
+      width: 200,
+    },
+    {
+      title: 'Abbreviation-Chinese',
+      index: 'localizationShortName',
+      width: 100,
+    },
+    {
+      title: 'Abbreviation-English',
+      index: 'shortName',
+      width: 100,
+    },
+    {
+      title: 'Owner',
+      index: 'owner',
+      width: 100,
+    },
+
+    {
+      title: 'Is the CSP account open',
+      index: 'isRegistered',
+      render: 'isRegistered',
+      width: 200,
+    },
+    {
+      title: 'country',
+      index: 'country',
+      width: 100,
+    },
+    {
+      title: 'Cooperation State',
+      index: 'cooperationState',
+      render: 'cooperationState',
+      width: 100,
+    },
+    {
+      title: '客户状态',
+      index: 'country',
+      width: 100,
+    },
+    {
+      title: 'Customer Type',
+      index: 'customerType',
+      render: 'customerType',
+      width: 100,
+    },
+    {
+      title: 'Creation Time',
+      index: 'creationTime',
+      type: 'date',
+      dateFormat: 'yyyy-MM-dd',
+      width: 100,
+      sort: 'creationTime',
+    },
+    {
+      title: 'Dangerous customer',
+      index: 'isDangerFlag',
+      render: 'isDangerFlag',
+      width: 80,
+    },
+    {
+      title: 'Action',
+      type: 'action',
+      width: 100,
+      buttons: [
+        {
+          text: 'Bind',
+          iif: (item) => item.owner,
+          click: (e) => {
+            this.bindCustomer(0, e.id, false);
+          },
+        },
+        {
+          text: 'Bind and claim',
+          iif: (item) => !item.owner,
+          click: (e) => {
+            this.bindCustomer(0, e.id, true);
+          },
+        },
+      ],
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +151,8 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     private crmPartnerService: CRMPartnerService,
     private message: NzMessageService,
     private translate: TranslateService,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.createCustomer.clear();
@@ -62,6 +163,14 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     this.validateForm = this.fb.group({
       name: [null],
     });
+  }
+//table操作方法
+  onTableChange(e) {
+    switch (e.type) {
+      case 'click': {
+        break;
+      }
+    }
   }
   ngOnDestroy() {
     this.createCustomer.clear();
@@ -96,12 +205,8 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     let num = this.tableSkipCount - 1;
     this.loading = true;
     this.crmCustomerService
-      .getCustomerByName({
-        customerId: this.customerId,
-        // tslint:disable-next-line: object-literal-shorthand
-        name: name,
-        skipCount: num * this.tableMaxResultCount,
-        maxResultCount: this.tableMaxResultCount,
+      .getCustomerByNameOrCode({
+        searchText: name
       })
       .subscribe(
         (res: any) => {
@@ -143,8 +248,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
   }
 
   bindCustomer(type: number, id: any, isGetCustomer: boolean) {
-    this.crmPartnerService
-      .bindCustomer({
+    this.crmPartnerService.bindCustomer({
         partnerId: this.parentId,
         customerId: this.customerId,
         bindCustomerId: id,
