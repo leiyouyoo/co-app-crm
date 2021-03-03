@@ -2,21 +2,17 @@ import {
   Component,
   OnInit,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  OnDestroy,
+  ComponentFactoryResolver, Injector,
 } from '@angular/core';
-import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-import { CRMCustomerService, CRMPartnerService, CRMCreateOrUpdatePartnerDto } from 'apps/crm/app/services/crm';
-import { CreateCustomerComponent } from 'apps/crm/app/shared/compoents/customer/create-customer/create-customer.component';
 import { STColumn } from '@co/cbc';
 import { CooperationState, CustomerStatus, CustomerType } from '../../models/enum';
+import { CRMCreateOrUpdatePartnerDto, CRMCustomerService, CRMPartnerService } from '../../../../services/crm';
+import { CoPageBase } from '@co/core';
 
 
 @Component({
@@ -24,7 +20,7 @@ import { CooperationState, CustomerStatus, CustomerType } from '../../models/enu
   templateUrl: './partner-bind-customer.component.html',
   styleUrls: ['./partner-bind-customer.component.less'],
 })
-export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
+export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
   validateForm: FormGroup;
   listOfData: any = {};
   loading = false;
@@ -34,7 +30,6 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
   @Input() modalName: string;
   @Input() customerId: any;
   @Output() outData = new EventEmitter<any>();
-  isVisiblePartner = false;
   parentId: any;
   tableMaxResultCount = 7; //页大小
   tableSkipCount = 1; //跳过指定条数
@@ -44,8 +39,6 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
   c = this.translate.instant('Unowned customers');
   d = this.translate.instant('Share customers');
 
-  @ViewChild('createCustomer', { static: true, read: ViewContainerRef }) createCustomer: ViewContainerRef;
-  hasValue = true;
   readonly CustomerType = CustomerType;
   columns: STColumn[] = [
     {
@@ -86,7 +79,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
       width: 200,
     },
     {
-      title: 'country',
+      title: 'Country',
       index: 'country',
       width: 100,
     },
@@ -146,17 +139,17 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    injector: Injector,
     private componentFactoryResolver: ComponentFactoryResolver,
     private crmCustomerService: CRMCustomerService,
     private crmPartnerService: CRMPartnerService,
     private message: NzMessageService,
     private translate: TranslateService,
   ) {
+    super(injector);
   }
 
   ngOnInit() {
-    this.createCustomer.clear();
-    this.hasValue = true;
     this.tableMaxResultCount = 7; //页大小
     this.tableSkipCount = 1; //跳过指定条数
     this.listOfData = {};
@@ -164,6 +157,7 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
       name: [null],
     });
   }
+
 //table操作方法
   onTableChange(e) {
     switch (e.type) {
@@ -171,14 +165,6 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
         break;
       }
     }
-  }
-  ngOnDestroy() {
-    this.createCustomer.clear();
-  }
-
-  show() {
-    this.isVisiblePartner = true;
-    this.validateForm.reset();
   }
 
   search(parentId?: any) {
@@ -189,35 +175,23 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     }
 
     let name = this.validateForm.value.name;
-    this.getCustomerByName(name);
+    this.getCustomersByNameOrCode(name);
   }
 
-  createCancelPartner() {
-    this.modalName = '';
-    this.cancelEdit();
-    this.hasValue = true;
-  }
-
-  getCustomerByName(name: string, parentId?: any) {
+  getCustomersByNameOrCode(name: string, parentId?: any) {
     if (parentId) {
       this.parentId = parentId;
     }
     let num = this.tableSkipCount - 1;
     this.loading = true;
     this.crmCustomerService
-      .getCustomerByNameOrCode({
-        searchText: name
+      .getCustomersByNameOrCode({
+        searchText: name,
       })
       .subscribe(
         (res: any) => {
           this.loading = false;
           this.listOfData = res;
-          this.hasValue = res.items.length > 0;
-          if (!this.hasValue) {
-            this.onShowCreate();
-          } else {
-            this.createCustomer.clear();
-          }
           this.listOfData.items = res.items.filter((item) => item.id !== this.customerId);
         },
         (err) => {
@@ -231,134 +205,21 @@ export class PartnerBindCustomerComponent implements OnInit, OnDestroy {
     this.search();
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.listOfData, event.previousIndex, event.currentIndex);
-  }
-
-  onShowCreate() {
-    this.hasValue = false;
-    this.createCustomer.clear();
-    this.com = this.createCustomer.createComponent(this.componentFactoryResolver.resolveComponentFactory(CreateCustomerComponent));
-
-    this.com.instance.initData();
-    this.com.instance.bindData(this.validateForm.value.name);
-    setTimeout(() => {
-      this.com.instance.ngScroll();
-    }, 500);
-  }
-
   bindCustomer(type: number, id: any, isGetCustomer: boolean) {
     this.crmPartnerService.bindCustomer({
-        partnerId: this.parentId,
-        customerId: this.customerId,
-        bindCustomerId: id,
-        // tslint:disable-next-line: object-literal-shorthand
-        isGetCustomer: isGetCustomer,
-        // tslint:disable-next-line: deprecation
-      })
-      .subscribe((res) => {
-        this.parentId = null;
-        let message = '';
-        if (isGetCustomer) {
-          message = this.translate.instant('Bind and claim success');
-        } else {
-          message = this.translate.instant('New success');
-        }
-        this.cancelEdit(true, true);
-      });
-  }
-
-  createOkCustomer(application) {
-    this.com.instance.validateForm.controls.customerTaxes.controls.forEach((e) => {
-      if (application) {
-        e.controls.taxNo.setValidators([Validators.required]);
-        e.controls.taxType.setValidators([Validators.required]);
-      } else {
-        e.controls.taxNo.setValidators([]);
-        e.controls.taxType.setValidators([]);
-      }
-    });
-    setTimeout(() => {
-      const tmp = document.querySelector('.ant-form-item-explain');
-      tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
-    }, 0);
-    if (!this.com.instance.submitForm()) {
-      this.message.warning(this.translate.instant('Please check the content'));
-      return;
-    }
-    let value = this.com.instance.validateForm.value;
-    let tel = value.tel.map((res) => res.tel);
-
-    if (!value.email && !value.fax) {
-      this.message.warning(this.translate.instant('Fill in at least one email and fax'));
-      return;
-    }
-
-    // if (value.customerType === 3 && value.forwardingType === null) {
-    //   this.message.warning(this.translate.instant('Please fill in the freight forwarding type'));
-    //   return;
-    // }
-
-    // if (this.com.instance.userList && JSON.stringify(this.com.instance.userList) !== '{}') {
-    //   if (this.com.instance.userList.items.length > 0) {
-    //     this.message.warning(this.translate.instant('Duplicate customers already exist'));
-    //     return;
-    //   }
-    // }
-    if (value.isSalesCustomer === null) {
-      value.isSalesCustomer = false;
-    }
-    let entity: CRMCreateOrUpdatePartnerDto = {
-      partnerName: value.name,
+      partnerId: this.parentId,
       customerId: this.customerId,
-      partnerId: this.parentId ? this.parentId : null,
-      partnerCustomer: {
-        name: value.name,
-        nameLocalization: value.nameLocalization,
-        shortName: value.shortName,
-        shortNameLocalization: value.shortNameLocalization,
-        address: value.address,
-        addressLocalization: value.addressLocalization,
-        tel: tel.toString(),
-        fax: value.fax,
-        keyWord: value.keyWord,
-        email: value.email,
-        customerType: value.customerType,
-        isSalesCustomer: value.isSalesCustomer,
-        countryId: value.countryId,
-        provinceId: value.provinceId,
-        cityId: value.cityId,
-        industry: value.industry,
-        description: value.description,
-        customerTaxes: value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null,
-      },
-    };
-
-    if (application) {
-      entity.partnerCustomer.isAudit = true;
-    }
-
-    this.cusLoading = true;
-    this.crmPartnerService.create(entity).subscribe(
-      (res: any) => {
-        this.cusLoading = false;
-        this.showSearch = true;
-        this.cancelEdit(true, true);
-      },
-      (err) => {
-        this.cusLoading = false;
-        this.showSearch = true;
-      },
-    );
-  }
-
-  cancelEdit(update?: boolean, showMsg?: boolean) {
-    this.hasValue = true;
-    this.showSearch = true;
-    this.createCustomer.clear();
-    this.outData.emit({
-      update: update,
-      showMsg: showMsg,
+      bindCustomerId: id,
+      isGetCustomer: isGetCustomer,
+    }).subscribe((res) => {
+      this.parentId = null;
+      let message = '';
+      if (isGetCustomer) {
+        message = this.translate.instant('Bind and claim success');
+      } else {
+        message = this.translate.instant('New success');
+      }
+      this.$message.success(this.$L(message));
     });
   }
 }
