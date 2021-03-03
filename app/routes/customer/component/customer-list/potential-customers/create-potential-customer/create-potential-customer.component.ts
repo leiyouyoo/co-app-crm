@@ -532,6 +532,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     this.validateForm = this.fb.group({
       id: [this.emptyGuid, []],
       name: ['', { validators: [Validators.required] }],
+      code: [null],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
       shortNameLocalization: [null],
@@ -728,6 +729,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.validateForm.patchValue({
         id: data.id || this.emptyGuid,
         name: this.name || data.name || '',
+        code: data.code,
         shortName: data.shortName,
         address: data.address,
         nameLocalization: data.localizationName,
@@ -1241,22 +1243,25 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
     };
     console.log(entity);
+
+    const applyCode = (id) =>
+      this.crmCustomerExamineService
+        .postCodeAsync({
+          id: id,
+          customerTaxes: this.validateForm.value.customerTaxes,
+        })
+        .subscribe(
+          (r) => {
+            this.codeLoading = false;
+            this.msg.success(this.translate.instant('application success!'));
+          },
+          (e) => (this.codeLoading = false),
+        );
     if (entity.id == this.emptyGuid) {
       this.crmCustomerService.fAMCreate(entity).subscribe(
         (res) => {
           if (application) {
-            this.crmCustomerExamineService
-              .postCodeAsync({
-                id: res.id,
-                customerTaxes: this.validateForm.value.customerTaxes,
-              })
-              .subscribe(
-                (r) => {
-                  this.codeLoading = false;
-                  this.msg.success(this.translate.instant('application success!'));
-                },
-                (e) => (this.codeLoading = false),
-              );
+            applyCode(res.id);
           } else {
             this.msg.success(this.translate.instant('Create success!'));
           }
@@ -1270,7 +1275,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     } else {
       this.crmCustomerService.update(entity).subscribe(
         (res) => {
-          this.msg.success(this.translate.instant('Update success!'));
+          if (application) {
+            applyCode(this.validateForm.value.id);
+          } else {
+            this.msg.success(this.translate.instant('Update success!'));
+          }
           this.cusLoading = false;
           this.close();
         },

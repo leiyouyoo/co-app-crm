@@ -1071,6 +1071,17 @@
   "WaitingExamine": "等待审核",
   "PassExamine": "通过审核",
   "RefuseExamine": "驳回",
-  "Used Name":"曾用名",
-  "Are you sure?": "您确定吗？"
+  "Used Name": "曾用名",
+  "Are you sure?": "您确定吗？",
+  "View customer organization structure": "查看客户组织结构",
+  "Apply for CSP certification": "申请CSP认证",
+  "CSP account configuration": "CSP账号配置",
+  "Invoice": "发票",
+  "E-mail": "电子邮件",
+  "Schedule": "日程",
+  "Length cannot exceed 250": "长度不能超过250个字符",
+  "Country/Province/State": "国家-省/州-城市",
+  "Name(LocationName)": "姓名(本地语言)",
+  "Account status":"账号状态"
+
 }

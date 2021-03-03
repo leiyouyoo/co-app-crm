@@ -1,4 +1,5 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { STComponent } from '@co/cbc';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +14,7 @@ import { ContactDetailComponent } from '../contact-detail/contact-detail.compone
   styleUrls: ['./contact-list.component.less'],
 })
 export class ContactListComponent extends CoPageBase {
+  @ViewChild('st', { static: false }) st: STComponent;
   @Input() set customerInfo(v: any) {
     this.customerDetail = v;
     this.getContacts(v?.id);
@@ -37,48 +39,48 @@ export class ContactListComponent extends CoPageBase {
 
   columns: STColumn[] = [
     {
-      title: '姓名',
+      title: 'Name',
       render: 'xm',
       width: 100,
     },
     {
-      title: '姓名(本地语言)',
+      title: 'Name(LocationName)',
       render: 'xml',
       width: 100,
     },
     {
-      title: '邮箱',
+      title: 'Email',
       index: 'email',
       width: 100,
     },
     {
-      title: '主联系人',
+      title: 'Main contact',
       index: 'isMaster',
       width: 100,
     },
     {
-      title: 'CSP账户情况',
+      title: 'CSP Credentials',
       index: 'userId',
       render: 'userId',
       width: 100,
     },
     {
-      title: '开通时间',
+      title: 'Opening time',
       render: 'creationTime',
       width: 100,
     },
     {
-      title: '角色',
+      title: 'Role',
       index: 'role',
       width: 100,
     },
     {
-      title: '账号状态',
+      title: 'Account status',
       render: 'isActive',
       width: 100,
     },
     {
-      title: '关联位置',
+      title: 'Associated location',
       render: 'locations',
       width: 100,
     },
@@ -88,13 +90,13 @@ export class ContactListComponent extends CoPageBase {
       width: 180,
       buttons: [
         {
-          text: '编辑',
+          text: 'Edit',
           click: (item) => {
             this.onAdd('Edit', item);
           },
         },
         {
-          text: '作废',
+          text: 'Void',
           pop: {
             title: ((data, index) => {
               return this.translate.instant('Are you sure?');
@@ -108,7 +110,7 @@ export class ContactListComponent extends CoPageBase {
           },
         },
         {
-          text: '启用',
+          text: 'Enable',
           pop: {
             title: ((data, index) => {
               return this.translate.instant('Are you sure?');
@@ -129,10 +131,10 @@ export class ContactListComponent extends CoPageBase {
   // 打开新增联系人弹框;
   onAdd(title, item?) {
     const modal = this.modal.create({
-      nzTitle: this.$L('Correct customer name'),
+      nzTitle: this.$L(title),
       nzContent: ContactDetailComponent,
       nzComponentParams: {
-        id: item.id,
+        id: item?.id,
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-contact-detail',
@@ -141,6 +143,7 @@ export class ContactListComponent extends CoPageBase {
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res) {
+        // this.st.load();
         this.getContacts(this.customerInfo.id);
       }
     });
@@ -154,13 +157,29 @@ export class ContactListComponent extends CoPageBase {
 
   delete(item?) {
     this.contactService.delete({ id: item.id }).subscribe((res) => {
-      this.msg.info('作废成功');
+      this.msg.info(this.$L('Void successfully!'));
+      this.st.load();
     });
   }
 
   enableAsync(item?) {
     this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
-      this.msg.info('启用成功');
+      this.msg.info(this.$L('Enable successfully!'));
+      this.st.load();
+    });
+  }
+
+  bingLocation(title, item?) {
+    const modal = this.modal.create({
+      nzTitle: this.$L(title),
+      nzContent: LocationDetailComponent,
+      nzComponentParams: {
+        contactIds: [item.id],
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
     });
   }
 }

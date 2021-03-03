@@ -4,8 +4,8 @@
       <div style="display: flex; align-items: center; font-weight: 800;">
         <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered"/>
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered"/>
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
         </div>
         <div class="edit-customer">
           <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 2" />
@@ -17,40 +17,45 @@
         </div>
       </div>
       <div style="display: flex; align-items: center;">
-        <button nz-button>{{ '查看客户组织结构' | translate }}</button>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
-           nzTheme="outline"></i>
+        <button nz-button>{{ 'View customer organization structure' | translate }}</button>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
-                (click)="applyCode()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState == 0 || customerInfo?.examineState == 3" (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.examineState==0 || customerInfo?.examineState==3"
-                (click)="applyName()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState == 0 || customerInfo?.examineState == 3" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
             <li nz-menu-item (click)="cspAccountConfig()">
-              {{ '申请CSP认证' | translate }}
+              {{ 'Apply for CSP certification' | translate }}
             </li>
             <li nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
-                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-                (nzOnConfirm)="bulkTurnCustomerSea()">
+            <li
+              nz-menu-item
+              nz-popconfirm
+              [nzPopconfirmTitle]="'Are you sure?' | translate"
+              [nzOkText]="'Confirm' | translate"
+              [nzCancelText]="'Cancel' | translate"
+              (nzOnConfirm)="bulkTurnCustomerSea()"
+            >
               {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.state==0 || customerInfo?.state==1|| customerInfo?.state==4"
-                (click)="cspAccountConfig()">
-              {{ 'CSP账号配置' | translate }}
+            <li
+              nz-menu-item
+              *ngIf="customerInfo?.state == 0 || customerInfo?.state == 1 || customerInfo?.state == 4"
+              (click)="cspAccountConfig()"
+            >
+              {{ 'CSP account configuration' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
       </div>
     </div>
     <div style="margin-top: 8px;">
-      <span style="margin-right: 10px; color: #999;">客户类型</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer type' | translate }}</span>
       <span style="margin-right: 40px;">
         <span *ngIf="customerInfo?.customerType == 1">
           {{ 'Carrier' | translate }}
@@ -89,13 +94,13 @@
           {{ 'Other' | translate }}
         </span>
       </span>
-      <span style="margin-right: 10px; color: #999;">客户代码</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer code' | translate }}</span>
       <span style="margin-right: 40px;">{{ customerInfo?.code || '--' }}</span>
 
-      <span style="margin-right: 10px; color: #999;">客户所有人</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0].allowUserName
-        }}</span>
+      }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item.allowUserName }}
@@ -110,16 +115,16 @@
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
         <div style="height: calc(100% - 96px); padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
-            <nz-tab [nzTitle]="'联系人列表' | translate">
+            <nz-tab [nzTitle]="'Contact list' | translate">
               <crm-contact-list [customerInfo]="customerInfo"></crm-contact-list>
             </nz-tab>
-            <nz-tab [nzTitle]="'位置列表' | translate">
-              <crm-location-list [locations]="customerInfo?.locations"></crm-location-list>
+            <nz-tab [nzTitle]="'Location list' | translate">
+              <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
-            <nz-tab [nzTitle]="'发票抬头' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'合作伙伴' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'文档' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'详情' | translate">
+            <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'Partner' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'Document' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'Details' | translate">
               <crm-customer-detail
                 [isLoading]="isLoading"
                 (onSubmitted)="getDetail($event)"
@@ -131,7 +136,7 @@
         </div>
       </div>
       <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
-        <div class="inner-box">col-6</div>
+        <div class="inner-box"></div>
       </div>
     </nz-content>
   </nz-layout>

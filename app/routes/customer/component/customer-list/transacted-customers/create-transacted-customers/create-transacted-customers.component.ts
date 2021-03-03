@@ -537,6 +537,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     this.validateForm = this.fb.group({
       id: [null],
       name: ['', { validators: [Validators.required] }],
+      code: [null],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
       shortNameLocalization: [null],
@@ -727,6 +728,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       this.validateForm.patchValue({
         id: data.id,
         name: this.name || data.name || '',
+        code: data.code,
         shortName: null || data.shortName,
         address: null || data.address,
         nameLocalization: null || data.localizationName,
@@ -1182,7 +1184,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   submit(application?: boolean): void {
-    debugger;
     setTimeout(() => {
       const tmp = document.querySelector('.ant-form-item-explain');
       tmp && (tmp as any).scrollIntoView({ block: 'end', mode: 'smooth' });
@@ -1235,7 +1236,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         if (application) {
           this.crmCustomerExamineService
             .postCodeAsync({
-              id: res.id,
+              id: value.id,
               customerTaxes: this.validateForm.value.customerTaxes,
             })
             .subscribe(
@@ -1246,7 +1247,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
               (e) => (this.codeLoading = false),
             );
         } else {
-          this.msg.success(this.translate.instant('Create success!'));
+          this.msg.success(this.translate.instant('Update success!'));
         }
         this.cusLoading = false;
         this.close();

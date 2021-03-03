@@ -39,5 +39,8 @@
   },
   "CrmCustomer":{
     "DirectClient":"DirectClient"
-  }
+  },
+  "Delete successfully!": "删除成功!",
+  "Enable successfully!": "启用成功!",
+  "Void successfully!": "作废成功!"
 }

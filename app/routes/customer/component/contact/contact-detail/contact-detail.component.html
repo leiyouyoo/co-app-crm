@@ -13,12 +13,28 @@
     <div nz-col [nzSpan]="20" style="display: flex; align-items: center;">
       <nz-form-item>
         <nz-form-label nzRequired>{{ '姓名(英文)' | translate }} </nz-form-label>
-        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+        <nz-form-control [nzErrorTip]="surnameErrorTpl">
           <input nz-input placeholder="Basic usage" formControlName="surname" />
+          <ng-template #surnameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              {{ 'Please enter the correct English name' | translate }}
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              {{ 'Please input' | translate }}
+            </ng-container>
+          </ng-template>
         </nz-form-control>
         <span style="width: 110px; text-align: center;">-</span>
-        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+        <nz-form-control [nzErrorTip]="nameErrorTpl">
           <input nz-input placeholder="Basic usage" formControlName="name" />
+          <ng-template #nameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              {{ 'Please enter the correct English name' | translate }}
+            </ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              {{ 'Please input' | translate }}
+            </ng-container>
+          </ng-template>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -34,7 +50,7 @@
     <div nz-col [nzSpan]="20">
       <nz-form-item>
         <nz-form-label nzRequired>{{ '姓名(本地语言)' | translate }} </nz-form-label>
-        <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
+        <nz-form-control nzErrorTip="{{ 'Please Input' | translate }}">
           <input nz-input placeholder="Basic usage" formControlName="nameLocalization" />
         </nz-form-control>
       </nz-form-item>
@@ -48,7 +64,7 @@
           <input
             nz-input
             formControlName="phone"
-            maxlength="20"
+            maxlength="11"
             type="string"
             placeholder="{{ 'Please enter' | translate }}"
             style="flex: 1;"
@@ -56,7 +72,9 @@
 
           <ng-template #phoneErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter' | translate }} ! </ng-container>
-            <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter the correct phone number!' | translate }} ! </ng-container>
+            <ng-container *ngIf="control.hasError('existSameCode')">
+              {{ 'Please enter the correct phone number!' | translate }} !
+            </ng-container>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -66,15 +84,20 @@
     <div nz-col [nzSpan]="20">
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Email' | translate }} </nz-form-label>
-        <nz-form-control nzErrorTip="{{ 'Please Input' | translate }}">
-          <input nz-input formControlName="email" placeholder="{{ 'Please enter Email' | translate }}" />
+        <nz-form-control [nzErrorTip]="emailErrorTpl" nzErrorTip="{{ 'Please Input' | translate }}">
+          <input nz-input formControlName="email" (ngModelChange)="emailChange()" />
+          <ng-template #emailErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter Email' | translate }}! </ng-container>
+            <ng-container *ngIf="control.hasError('email')"> {{ 'Please enter the correct Email' | translate }} ! </ng-container>
+          </ng-template>
+          <div class="error" *ngIf="!isSuccess && isSubmitted">{{ '邮箱已被注册' | translate }}</div>
         </nz-form-control>
       </nz-form-item>
     </div>
     <div nz-col [nzSpan]="4">
       <nz-form-item>
         <nz-form-control style="width: 150px;">
-          <label nz-checkbox formControlName="isSignUp">开通主账号</label>
+          <label nz-checkbox formControlName="isSignUp" (ngModelChange)="isSignUpChange($event)">开通主账号</label>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -85,7 +108,7 @@
       <nz-form-item>
         <nz-form-label [nzRequired]="validateForm.get('isSignUp').value">{{ 'Role' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
-          <nz-select formControlName="role">
+          <nz-select formControlName="role" nzAllowClear="true">
             <nz-option [nzValue]="item.localizationName" [nzLabel]="item.localizationName" *ngFor="let item of roleList"></nz-option>
           </nz-select>
         </nz-form-control>
@@ -145,7 +168,7 @@
     <div nz-col [nzSpan]="20">
       <nz-form-item>
         <nz-form-label>{{ '备注' | translate }}</nz-form-label>
-        <nz-form-control>
+        <nz-form-control nzErrorTip="{{ 'Length cannot exceed 250' | translate }}">
           <textarea formControlName="remark" maxlength="1000" nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }"></textarea>
         </nz-form-control>
       </nz-form-item>

@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PUBPlaceService, PUBRegionService } from '@co/cds';
 import { GoogleMapService } from '@co/common';
 import { CoPageBase, debounce } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NzCascaderOption } from 'ng-zorro-antd';
+import { NzCascaderOption, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import { createPopper, Placement } from '@popperjs/core';
 import { STComponent } from '@co/cbc';
+import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
 @Component({
   selector: 'crm-location-detail',
   templateUrl: './location-detail.component.html',
   styleUrls: ['./location-detail.component.less'],
 })
-export class LocationDetailComponent implements OnInit {
+export class LocationDetailComponent extends CoPageBase implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
+  @Input() id;
+  @Input() customerId;
+  @Input() contactIds = [];
   validateForm: FormGroup;
   isShow = false;
   isAdopt = true;
@@ -22,18 +26,33 @@ export class LocationDetailComponent implements OnInit {
   provinces: any[];
   citys: any[];
   placeList = [];
-  contactList = [{}, {}];
+  contactList = [];
+  @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  roleList = [];
+  positionList = [];
+  loading = false;
+  isSuccess = true; //邮箱是否被注册过
+  isSubmitted = false;
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
   constructor(
     private fb: FormBuilder,
     private googleMapService: GoogleMapService,
     public translate: TranslateService,
     private pubRegionService: PUBRegionService,
     private pubPlaceService: PUBPlaceService,
-  ) {}
+    private crmContactService: CRMContactService,
+    private crmLocationService: CRMLocationService,
+    private modalRef: NzModalRef,
+    private msg: NzMessageService,
+    injector: Injector,
+  ) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.initData();
+    this.getContacts(this.customerId);
   }
 
   initData() {
@@ -47,16 +66,34 @@ export class LocationDetailComponent implements OnInit {
       });
   }
 
+  getContacts(id) {
+    this.crmContactService.getByCustomerOrPartner({ customerId: id, maxResultCount: 999 }).subscribe((res: any) => {
+      this.contactList = res.items;
+    });
+  }
+
   initForm() {
     this.validateForm = this.fb.group({
-      firatname: [null, [Validators.required]],
-      lastname: [null, [Validators.required]],
-      tel: [null, [Validators.required]],
-      position: [null, [Validators.required]],
-      Reamrk: [null, [Validators.required]],
-      addressLocalization: [null, [Validators.required]],
-      address: [null, [Validators.required]],
+      id: [null],
+      name: [null, [Validators.required]],
+      streetAddressLocalization: [null, [Validators.required]],
+      streetAddress: [null, [Validators.required]],
+      streetAddress2: [null],
+      zip: [null, [Validators.required]],
+      countryId: [null, [Validators.required]],
       country: [null, [Validators.required]],
+      provinceId: [null],
+      cityId: [null],
+      encountryId: [null],
+      enprovinceId: [null],
+      encityId: [null],
+      viewableType: [null],
+      locationAddition: [null],
+      portCode: [null],
+      partnerId: [null],
+      contactIds: [this.contactIds],
+      customerId: [null],
+      reamrk: [null],
     });
   }
 
@@ -343,7 +380,7 @@ export class LocationDetailComponent implements OnInit {
         })
         .toPromise();
       this.validateForm.patchValue({
-        addressLocalization: detialMsg?.result?.formatted_address,
+        streetAddressLocalization: detialMsg?.result?.formatted_address,
       });
     }
   }
@@ -355,9 +392,62 @@ export class LocationDetailComponent implements OnInit {
     let country = this.regions.filter((item) => item.id === form.countryId)[0] || { nameLocalization: '' };
     let province = (this.provinces || []).filter((item) => item.id === form.provinceId)[0] || { nameLocalization: '' };
     let city = (this.citys || []).filter((item) => item.id === form.cityId)[0] || { nameLocalization: '' };
-    const address = `${country.nameLocalization}${province.nameLocalization}${city.nameLocalization}`;
-    this.googleMapService.autocomplete(address + value.target.value, language).subscribe((res: any) => {
+    const streetAddress = `${country.nameLocalization}${province.nameLocalization}${city.nameLocalization}`;
+    this.googleMapService.autocomplete(streetAddress + value.target.value, language).subscribe((res: any) => {
       this.placeList = res.predictions;
     });
+  }
+
+  save() {
+    this.loading = true;
+    if (!this.validForm(this.validateForm) || !this.isSuccess) {
+      this.msg.warning(this.translate.instant('Please check the content'));
+      this.loading = false;
+      this.isSubmitted = true;
+      return;
+    }
+    if (!this.validateForm.value.id) {
+      this.crmLocationService.createCustomerLocation(this.validateForm.value).subscribe(
+        (res) => {
+          debugger;
+          this.loading = false;
+          this.onSubmitted.emit(true);
+          this.msg.info(this.$L('Added successfully!'));
+          this.cancel();
+        },
+        (error) => {
+          this.loading = false;
+        },
+      );
+    } else {
+      this.crmLocationService.update(this.validateForm.value).subscribe(
+        (res) => {
+          debugger;
+          this.loading = false;
+          this.onSubmitted.emit(true);
+          this.msg.info(this.$L('Edited successfully!'));
+          this.cancel();
+        },
+        (error) => {
+          this.loading = false;
+        },
+      );
+    }
+  }
+
+  validForm(form) {
+    for (const key in form.controls) {
+      const control = form.controls[key] as AbstractControl;
+      control.markAsDirty();
+      control.markAsTouched();
+      control.updateValueAndValidity(); // updateValueAndValidity方法会触发控件的valueChanges
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.validForm(control);
+      }
+    }
+    return this.validateForm.valid;
+  }
+  cancel() {
+    this.modalRef.destroy();
   }
 }

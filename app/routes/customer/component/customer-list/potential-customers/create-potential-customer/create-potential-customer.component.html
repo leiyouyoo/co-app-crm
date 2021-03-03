@@ -111,11 +111,19 @@
   >
     {{ 'Save' | translate }}
   </button>
-  <!-- <button *ngIf="validateForm.controls['customerTaxes']?.value?.length" nz-button [disabled]="!isAdopt || codeLoading"
-          style="border-color:unset"
-          [style.background-color]="checkRequired?'#1890ff':'#1890ff50'" nzType="primary" nzSize="small"
-          [nzLoading]="codeLoading"
-          (click)="submit(true)">{{ '保存并申请代码' | translate }}</button> -->
+  <button
+    *ngIf="!validateForm.get('code').value || validateForm.controls['customerTaxes']?.value?.length"
+    nz-button
+    [disabled]="!isAdopt || codeLoading"
+    style="border-color: unset;"
+    [style.background-color]="checkRequired ? '#1890ff' : '#1890ff50'"
+    nzType="primary"
+    nzSize="small"
+    [nzLoading]="codeLoading"
+    (click)="submit(true)"
+  >
+    {{ '保存并申请代码' | translate }}
+  </button>
   <button
     nz-button
     nzType="default"
@@ -191,7 +199,12 @@
       </div>
 
       <div formArrayName="customerContacts">
-        <div nz-row *ngFor="let detail of validateForm.controls['customerContacts'].controls; let inx = index" [formGroupName]="inx" [nzGutter]="16">
+        <div
+          nz-row
+          *ngFor="let detail of validateForm.controls['customerContacts'].controls; let inx = index"
+          [formGroupName]="inx"
+          [nzGutter]="16"
+        >
           <div nz-col [nzSpan]="11">
             <div nz-row>
               <div nz-col [nzSpan]="12">
