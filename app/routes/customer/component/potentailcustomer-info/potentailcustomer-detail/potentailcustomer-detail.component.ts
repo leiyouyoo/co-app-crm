@@ -73,7 +73,6 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     private googleMapService: GoogleMapService,
   ) {
     super(injector);
-    debugger;
   }
 
   show(id) {

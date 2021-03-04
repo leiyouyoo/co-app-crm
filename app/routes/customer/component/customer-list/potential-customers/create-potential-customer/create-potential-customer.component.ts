@@ -516,7 +516,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   initData(data: any = {}) {
-    debugger;
     // 获取国家
     this.pubRegionService
       .getAll({
@@ -723,7 +722,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   // tslint:disable-next-line: adjacent-overload-signatures
   async setData(data) {
-    debugger;
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({

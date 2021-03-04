@@ -722,7 +722,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
   // tslint:disable-next-line: adjacent-overload-signatures
   async setData(data) {
-    debugger;
     if (JSON.stringify(data) !== '{}') {
       this.data = data;
       this.validateForm.patchValue({

@@ -29,7 +29,6 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   }
 
   ngOnInit(): void {
-    debugger;
     this.getCustomerDetail(this.customerId);
   }
 
@@ -82,6 +81,14 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         this.cspAccountConfig();
         break;
       }
+      case 'setVoid': {
+        this.setVoid();
+        break;
+      }
+      case 'recoverDelete': {
+        this.recoverDelete();
+        break;
+      }
     }
   }
 
@@ -89,7 +96,8 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    * 转移客户到公海池
    */
   bulkTurnCustomerSea() {
-    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe((r) => {
+    this.isLoading = true;
+    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerId] }).subscribe((r) => {
       this.$message.success(this.$L('Successful operation'));
       this.$close();
     });
@@ -105,7 +113,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
-      nzComponentParams: { customerId: this.customerInfo.id },
+      nzComponentParams: { customerId: this.customerId },
       nzFooter: null,
     });
   }
@@ -118,7 +126,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzTitle: this.$L('Correct customer name'),
       nzContent: UpdateCustomerNameComponent,
       nzComponentParams: {
-        customerId: this.customerInfo.id,
+        customerId: this.customerId,
         nameObj: this.customerInfo,
       },
       nzClassName: 'crm-customer-modal',
@@ -136,7 +144,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzTitle: this.$L('Transfer customer'),
       nzContent: TransferTocustomerComponent,
       nzComponentParams: {
-        customerIds: [this.customerInfo.id],
+        customerIds: [this.customerId],
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },
@@ -150,7 +158,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzTitle: this.$L('CSP账号配置'),
       nzContent: CspAccountConfigComponent,
       nzComponentParams: {
-        customerId: this.customerInfo.id,
+        customerId: this.customerId,
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },
@@ -163,17 +171,23 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    * 作废
    */
   setVoid() {
-    this.crmCustomerService.delete({ id: this.customerInfo.id }).subscribe((res) => {
+    this.isLoading = true;
+    this.crmCustomerService.delete({ id: this.customerId }).subscribe((res) => {
+      this.isLoading = false;
+      this.getCustomerDetail(this.customerId);
       this.$message.success(this.$L('作废成功!'));
-    });
+    }, e => this.isLoading = false);
   }
 
   /**
    * 启用
    */
   recoverDelete() {
-    this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe((res) => {
+    this.isLoading = true;
+    this.crmCustomerService.recoverDelete({ id: this.customerId }).subscribe((res) => {
+      this.isLoading = false;
+      this.getCustomerDetail(this.customerId);
       this.$message.success(this.$L('启用成功!'));
-    });
+    }, e => this.isLoading = false);
   }
 }
