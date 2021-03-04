@@ -42,7 +42,6 @@ export class FavoriteRouteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    debugger;
     this.buildForm();
     this.initData();
   }

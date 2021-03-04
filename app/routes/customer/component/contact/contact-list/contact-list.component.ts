@@ -4,9 +4,10 @@ import { STComponent } from '@co/cbc';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CRMContactService } from 'apps/crm/app/services/crm';
+import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LocationDetailComponent } from '../../location/location-detail/location-detail.component';
+import { BindLocationComponent } from '../bind-location/bind-location.component';
 import { ContactDetailComponent } from '../contact-detail/contact-detail.component';
 
 @Component({
@@ -32,6 +33,7 @@ export class ContactListComponent extends CoPageBase {
     private msg: NzMessageService,
     private modal: NzModalService,
     private contactService: CRMContactService,
+    private locationService: CRMLocationService,
   ) {
     super(injector);
   }
@@ -146,7 +148,7 @@ export class ContactListComponent extends CoPageBase {
       nzFooter: null,
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
-      if (res) {
+      if (res.isSucccess) {
         // this.st.load();
         this.getContacts(this.customerInfo.id);
       }
@@ -167,26 +169,39 @@ export class ContactListComponent extends CoPageBase {
     });
   }
 
+  deleteLocation(item?) {
+    this.locationService.delete({ id: item.id }).subscribe((res) => {
+      this.msg.info(this.$L('Void successfully!'));
+      // this.st.load();
+      this.getContacts(this.customerInfo.id);
+    });
+  }
+
   enableAsync(item?) {
     this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Enable successfully!'));
       // this.st.load();
       this.getContacts(this.customerInfo.id);
-
     });
   }
 
   bingLocation(title, item?) {
     const modal = this.modal.create({
       nzTitle: this.$L(title),
-      nzContent: LocationDetailComponent,
+      nzContent: BindLocationComponent,
       nzComponentParams: {
+        customerInfo: this.customerInfo,
         contactIds: [item.id],
-        customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-location-detail',
-      nzStyle: { width: '40%' },
+      nzStyle: { width: '50%' },
       nzFooter: null,
+    });
+    modal.componentInstance.onBindSubmitted.subscribe((res) => {
+      if (res) {
+        // this.st.load();
+        this.getContacts(this.customerInfo.id);
+      }
     });
   }
 }

@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { PlatformPositionService } from '@co/cds';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CRMContactService, CRMCustomerService, CRMLocationService } from 'apps/crm/app/services/crm';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { RoleService } from '../../../../../services/role';
 import { LocationDetailComponent } from '../../location/location-detail/location-detail.component';
@@ -14,9 +14,12 @@ import { LocationDetailComponent } from '../../location/location-detail/location
   styleUrls: ['./contact-detail.component.less'],
 })
 export class ContactDetailComponent extends CoPageBase implements OnInit {
+  @Input() isbingContact = false;
   @Input() customerId;
+  @Input() locationId;
   @Input() id;
-  @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  @Output() readonly onSubmitted = new EventEmitter<any>();
+  @Output() readonly bingLocation = new EventEmitter<boolean>();
   validateForm: FormGroup;
   isShow = false;
   roleList = [];
@@ -34,6 +37,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     private translate: TranslateService,
     private crmCustomerService: CRMCustomerService,
     private crmContactService: CRMContactService,
+    private crmLocationService: CRMLocationService,
     private modal: NzModalService,
     injector: Injector,
   ) {
@@ -48,7 +52,6 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   }
 
   initForm(data?) {
-    debugger;
     this.validateForm = this.fb.group({
       id: [data ? data.id : null],
       surname: [null, [Validators.required, Validators.pattern(/^[a-zA-Z'\s]+$/)]],
@@ -74,7 +77,6 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     });
 
     this.validateForm.get('surname').valueChanges.subscribe((data) => {
-      debugger;
       if (this.$i18n._default == 'en-US') {
         const name =
           (this.validateForm.get('surname').value ? this.validateForm.get('surname').value : '') +
@@ -140,7 +142,6 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
 
   getPosition() {
     this.positionService.getAll({}).subscribe((res) => {
-      debugger;
       this.positionList = res.items;
     });
   }
@@ -158,11 +159,11 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     } else {
       this.validateForm.removeControl('role');
       this.validateForm.addControl('role', new FormControl(null, []));
+      this.isSuccess = true;
     }
   }
 
   checkEmailRepeat() {
-    debugger;
     this.crmContactService
       .checkEmailRepeat({
         id: this.validateForm.value.id,
@@ -171,7 +172,6 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
         isSignUp: this.validateForm.value.isSignUp,
       })
       .subscribe((res) => {
-        debugger;
         this.isSuccess = res.success;
       });
   }
@@ -187,11 +187,16 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     if (!this.validateForm.value.id) {
       this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
-          this.onSubmitted.emit(true);
-          this.msg.info(this.$L('Added successfully!'));
-          this.cancel();
+          if (this.isbingContact) {
+            //从绑定入口进
+            this.onBind(res.id);
+          } else {
+            this.msg.info(this.$L('Added successfully!'));
+            this.onSubmitted.emit({ isSucccess: true, id: res.id });
+            this.cancel();
+          }
+          this.isbingContact = false; //false 直接关闭窗口
         },
         (error) => {
           this.loading = false;
@@ -200,10 +205,10 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     } else {
       this.crmContactService.update(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
-          this.onSubmitted.emit(true);
+          this.onSubmitted.emit({ isSucccess: true, id: res.id });
           this.msg.info(this.$L('Edited successfully!'));
+          this.isbingContact = false; //false 直接关闭窗口
           this.cancel();
         },
         (error) => {
@@ -211,6 +216,19 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
         },
       );
     }
+  }
+
+  //绑定
+  onBind(contactId) {
+    this.crmLocationService.assignUsersToLocation({ locationId: this.locationId, contactIds: [contactId] }).subscribe(
+      (res) => {
+        this.onSubmitted.emit({ isSucccess: true });
+        this.cancel();
+      },
+      (error) => {
+        this.onSubmitted.emit({ isSucccess: false });
+      },
+    );
   }
 
   validForm(form) {
@@ -225,7 +243,12 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     }
     return this.validateForm.valid;
   }
+
   cancel() {
-    this.modalRef.destroy();
+    if (this.isbingContact) {
+      this.bingLocation.emit(true);
+    } else {
+      this.modalRef.destroy();
+    }
   }
 }

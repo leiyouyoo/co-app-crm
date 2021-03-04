@@ -4,10 +4,11 @@ import { PUBPlaceService, PUBRegionService } from '@co/cds';
 import { GoogleMapService } from '@co/common';
 import { CoPageBase, debounce } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NzCascaderOption, NzMessageService, NzModalRef } from 'ng-zorro-antd';
+import { NzCascaderOption, NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { createPopper, Placement } from '@popperjs/core';
 import { STComponent } from '@co/cbc';
 import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
+import { ContactDetailComponent } from '../../contact/contact-detail/contact-detail.component';
 @Component({
   selector: 'crm-location-detail',
   templateUrl: './location-detail.component.html',
@@ -15,6 +16,7 @@ import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm
 })
 export class LocationDetailComponent extends CoPageBase implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
+  @Input() isbingLocation = false;
   @Input() id;
   @Input() customerId;
   @Input() contactIds = [];
@@ -22,12 +24,14 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
   isShow = false;
   isAdopt = true;
   popperInstance = null;
-  regions: any[];
-  provinces: any[];
-  citys: any[];
+  regions: any[] = [];
+  provinces: any[] = [];
+  citys: any[] = [];
   placeList = [];
   contactList = [];
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  @Output() readonly bingLocation = new EventEmitter<boolean>();
+
   roleList = [];
   positionList = [];
   loading = false;
@@ -44,6 +48,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     private crmLocationService: CRMLocationService,
     private modalRef: NzModalRef,
     private msg: NzMessageService,
+    private modal: NzModalService,
     injector: Injector,
   ) {
     super(injector);
@@ -53,6 +58,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     this.initForm();
     this.initData();
     this.getContacts(this.customerId);
+    this.fetchRemoteData();
   }
 
   initData() {
@@ -97,6 +103,35 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     });
   }
 
+  private fetchRemoteData() {
+    if (this.id) {
+      this.crmLocationService.get({ id: this.id }).subscribe((res) => {
+        this.validateForm.reset({
+          id: res.id,
+          name: res.name,
+          streetAddressLocalization: res.streetAddressLocalization,
+          streetAddress: res.streetAddress,
+          streetAddress2: res.streetAddress2,
+          zip: res.zip,
+          countryId: res.countryId,
+          country: [res.countryId, res.provinceId, res.cityId],
+          provinceId: res.provinceId,
+          cityId: res.cityId,
+          encountryId: res.encountryId,
+          enprovinceId: res.provinceId,
+          encityId: res.cityId,
+          viewableType: res.viewableType,
+          locationAddition: res.locationAddition,
+          portCode: res.locationAddition.unlocode,
+          partnerId: res.partnerId,
+          contactIds: res.contactIds,
+          customerId: res.customerId,
+          reamrk: res.reamrk,
+        });
+      });
+    }
+  }
+
   /** load data async execute by `nzLoadData` method */
   loadData(node: NzCascaderOption, index: number): PromiseLike<void> {
     return new Promise((resolve) => {
@@ -135,13 +170,15 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
 
   async selectedCountry(event) {
     if (event) {
-      this.validateForm.patchValue({
-        encountryId: event,
-        provinceId: null,
-        enprovinceId: null,
-        encityId: null,
-        cityId: null,
-      });
+      event != this.validateForm.value.encountryId &&
+        this.validateForm.patchValue({
+          encountryId: event,
+          countryId: event,
+          provinceId: null,
+          enprovinceId: null,
+          encityId: null,
+          cityId: null,
+        });
       let res = await this.pubRegionService
         .getAll({
           parentId: event,
@@ -154,11 +191,13 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
 
   async selectedProvinces(event) {
     if (event) {
-      this.validateForm.patchValue({
-        enprovinceId: event,
-        encityId: null,
-        cityId: null,
-      });
+      event != this.validateForm.value.enprovinceId &&
+        this.validateForm.patchValue({
+          enprovinceId: event,
+          encityId: null,
+          cityId: null,
+          provinceId: event,
+        });
       let res = await this.pubPlaceService
         .getAll({
           maxResultCount: 1000,
@@ -407,12 +446,16 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
       return;
     }
     if (!this.validateForm.value.id) {
+      //处理数据
+      if (this.validateForm.value.portCode) {
+        this.validateForm.get('locationAddition').setValue({ unlocode: this.validateForm.value.portCode });
+      }
       this.crmLocationService.createCustomerLocation(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
           this.msg.info(this.$L('Added successfully!'));
+          this.isbingLocation = false; //false 直接关闭窗口
           this.cancel();
         },
         (error) => {
@@ -422,10 +465,10 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     } else {
       this.crmLocationService.update(this.validateForm.value).subscribe(
         (res) => {
-          debugger;
           this.loading = false;
           this.onSubmitted.emit(true);
           this.msg.info(this.$L('Edited successfully!'));
+          this.isbingLocation = false; //false 直接关闭窗口
           this.cancel();
         },
         (error) => {
@@ -448,6 +491,31 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     return this.validateForm.valid;
   }
   cancel() {
-    this.modalRef.destroy();
+    //是否直接关闭弹窗
+    if (this.isbingLocation) {
+      this.bingLocation.emit(true);
+    } else {
+      this.modalRef.destroy();
+    }
+  }
+
+  onAddContact(title, item?) {
+    const modal = this.modal.create({
+      nzTitle: this.$L(title),
+      nzContent: ContactDetailComponent,
+      nzComponentParams: {
+        id: item?.id,
+        customerId: this.customerId,
+      },
+      nzClassName: 'crm-contact-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res) {
+        // this.st.load();
+        this.getContacts(this.customerId);
+      }
+    });
   }
 }

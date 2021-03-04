@@ -1,10 +1,12 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { STComponent } from '@co/cbc';
+import { STComponent, STData } from '@co/cbc';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { ContactDetailComponent } from '../../contact/contact-detail/contact-detail.component';
+import { BindContactsComponent } from '../bind-contacts/bind-contacts.component';
 import { LocationDetailComponent } from '../location-detail/location-detail.component';
 
 @Component({
@@ -72,6 +74,7 @@ export class LocationListComponent extends CoPageBase {
     {
       title: 'Contact',
       index: 'contacts',
+      render: 'contacts',
       width: 100,
     },
     {
@@ -87,30 +90,35 @@ export class LocationListComponent extends CoPageBase {
         },
         {
           text: 'Void',
+          pop: {
+            title: ((data, index) => {
+              return this.translate.instant('Are you sure?');
+            }) as any,
+            okType: 'danger',
+            icon: 'star',
+          },
+          iif: (item) => !item.isDeleted,
+          className: (record: STData) => {
+            return `st__btn--red`;
+          },
           click: (item) => {
             this.delete(item);
           },
         },
         {
           text: 'Enable',
+          pop: {
+            title: ((data, index) => {
+              return this.translate.instant('Are you sure?');
+            }) as any,
+            okType: 'danger',
+            icon: 'star',
+          },
+          iif: (item) => item.isDeleted,
           click: (item) => {
             this.enableAsync(item);
           },
         },
-        // {
-        //   text: '删除',
-        //   iif: (item) => item.isDangerFlag,
-        //   pop: {
-        //     title: ((data, index) => {
-        //       return this.translate.instant('Are you sure?');
-        //     }) as any,
-        //     okType: 'danger',
-        //     icon: 'star',
-        //   },
-        //   click: (e) => {
-        //     // this.msg.info('暂未做');
-        //   },
-        // },
       ],
     },
   ];
@@ -128,24 +136,60 @@ export class LocationListComponent extends CoPageBase {
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res) {
+        // this.st.load();
+        this.getLocation(this.customerInfo.id);
+      }
+    });
   }
 
   delete(item?) {
     this.locationService.delete({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Void successfully!'));
-      this.st.load();
+      // this.st.load();
+      this.getLocation(this.customerInfo.id);
+    });
+  }
+
+  deleteContact(item?) {
+    this.contactService.delete({ id: item.id }).subscribe((res) => {
+      this.msg.info(this.$L('Void successfully!'));
+      // this.st.load();
+      this.getLocation(this.customerInfo.id);
     });
   }
 
   enableAsync(item?) {
     this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Enable successfully!'));
-      this.st.load();
+      // this.st.load();
+      this.getLocation(this.customerInfo.id);
     });
   }
   getLocation(id) {
     this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
       this.locations = res.items;
+    });
+  }
+
+  bingContact(title, item?) {
+    const modal = this.modal.create({
+      nzTitle: this.$L(title),
+      nzContent: BindContactsComponent,
+      nzComponentParams: {
+        locationId: item.id,
+        customerInfo: this.customerInfo,
+      },
+      nzClassName: 'crm-contact-detail',
+      nzStyle: { width: '50%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onBindSubmitted.subscribe((res) => {
+      if (res.isSucccess) {
+        // this.st.load();
+        this.getLocation(this.customerInfo.id);
+      }
     });
   }
 }

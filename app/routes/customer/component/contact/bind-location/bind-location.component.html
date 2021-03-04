@@ -1,0 +1,31 @@
+<button nz-button nzType="primary" style="margin-bottom: 16px;" *ngIf="!isAdd" (click)="isAdd = true">{{ '新增' | translate }}</button>
+<button nz-button nzType="primary" style="margin-bottom: 16px;" *ngIf="!isAdd && selected.length > 0" (click)="onBind()">
+  {{ '绑定' | translate }}
+</button>
+
+<section [hidden]="isAdd">
+  <co-st
+    #st
+    [columns]="columns"
+    [data]="locations"
+    columnDefaultWidth="100"
+    (change)="onTableChange($event)"
+    calcScroll
+    disableCalcX
+    virtualScroll
+    [showFilters]="false"
+    style="flex: 1;"
+  >
+    <ng-template st-row="cpc" let-data> {{ data.country }}-{{ data.province }}-{{ data.city }} </ng-template>
+  </co-st>
+</section>
+
+<section [hidden]="!isAdd">
+  <crm-location-detail
+    [isbingLocation]="true"
+    [customerId]="customerInfo.id"
+    [contactIds]="contactIds"
+    (bingLocation)="bingLocationCancel($event)"
+    (onSubmitted)="reloadContactList($event)"
+  ></crm-location-detail>
+</section>

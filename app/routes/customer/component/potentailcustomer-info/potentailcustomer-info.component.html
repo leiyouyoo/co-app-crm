@@ -1,31 +1,26 @@
 <nz-layout style="height: 100%;">
   <nz-header>
     <div class="customerInfo-header">
-      <div style="display: flex; align-items: center; font-weight: 800;">
-        <strong style="font-size: 20px;">{{ customerInfo?.name }} </strong>
+      <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
+        <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered"/>
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered"/>
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px"
-               *ngIf="customerInfo?.isEnterpriseAuth"/>
-          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px"
-               *ngIf="!customerInfo?.isEnterpriseAuth"/>
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
+          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" />
         </div>
       </div>
       <div style="display: flex; align-items: center;">
         <button nz-button>{{ '查看客户组织结构' | translate }}</button>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
-           nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
-                (click)="applyCode()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
-                (click)="applyName()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
             <li nz-menu-item (click)="cspAccountConfig()">
@@ -34,18 +29,32 @@
             <li nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
-                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-                (nzOnConfirm)="bulkTurnCustomerSea()">
+            <li
+              nz-menu-item
+              nz-popconfirm
+              [nzPopconfirmTitle]="'Are you sure?' | translate"
+              [nzOkText]="'Confirm' | translate"
+              [nzCancelText]="'Cancel' | translate"
+              (nzOnConfirm)="bulkTurnCustomerSea()"
+            >
               {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.state==0 || customerInfo?.state==1|| customerInfo?.state==4"
-                (click)="cspAccountConfig()">
+            <li
+              nz-menu-item
+              *ngIf="customerInfo?.state == 0 || customerInfo?.state == 1 || customerInfo?.state == 4"
+              (click)="cspAccountConfig()"
+            >
               {{ 'CSP账号配置' | translate }}
             </li>
-            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
-                [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-                (nzOnConfirm)="setVoid()" *ngIf="!customerInfo?.isDeleted">
+            <li
+              nz-menu-item
+              nz-popconfirm
+              [nzPopconfirmTitle]="'Are you sure?' | translate"
+              [nzOkText]="'Confirm' | translate"
+              [nzCancelText]="'Cancel' | translate"
+              (nzOnConfirm)="setVoid()"
+              *ngIf="!customerInfo?.isDeleted"
+            >
               {{ 'Void' | translate }}
             </li>
             <li *ngIf="customerInfo?.isDeleted" nz-menu-item (click)="recoverDelete()">
@@ -101,7 +110,7 @@
       <span style="margin-right: 10px; color: #999;">客户所有人</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0].allowUserName
-        }}</span>
+      }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item.allowUserName }}
@@ -114,8 +123,7 @@
     <nz-content>
       <nz-spin [nzSpinning]="isLoading">
         <div nz-row [nzGutter]="32">
-          <div nz-col nzSpan="24" class="taskCenter"
-               style="height: 80px; margin-bottom: 16px; margin-left: 16px; background: #fff;">
+          <div nz-col nzSpan="24" class="taskCenter" style="height: 70px; margin-bottom: 16px; margin-left: 16px; background: #fff;">
             <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
               <nz-step [nzTitle]="initialcontact" [nzIcon]="initialcontactIcon"></nz-step>
               <nz-step [nzTitle]="demanddetermination" [nzIcon]="demanddeterminationIcon"></nz-step>
@@ -123,8 +131,7 @@
               <nz-step [nzTitle]="negotiation" [nzIcon]="negotiationIcon"></nz-step>
               <nz-step [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
               <nz-step [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
-              <ng-template #initialcontactIcon><i nz-icon class="iconfont icon-zhangdan" nzIconfont="icon-zhangdan"></i>
-              </ng-template>
+              <ng-template #initialcontactIcon><i nz-icon class="iconfont icon-zhangdan" nzIconfont="icon-zhangdan"></i> </ng-template>
               <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
               <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
               <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
@@ -135,37 +142,37 @@
             <ng-template #initialcontact>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">初步接洽</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==0"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 0"></label></div>
               </div>
             </ng-template>
             <ng-template #demanddetermination>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">需求确定</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==1"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 1"></label></div>
               </div>
             </ng-template>
             <ng-template #quotation>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">报价</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==2"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 2"></label></div>
               </div>
             </ng-template>
             <ng-template #negotiation>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">谈判</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==3"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 3"></label></div>
               </div>
             </ng-template>
             <ng-template #win>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">赢单</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==4" [nzDisabled]="true"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 4" [nzDisabled]="true"></label></div>
               </div>
             </ng-template>
             <ng-template #loseorder>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">输单</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==5" [nzDisabled]="true"></label></div>
+                <div class="Check"><label nz-checkbox [ngModel]="index == 5" [nzDisabled]="true"></label></div>
               </div>
             </ng-template>
           </div>
@@ -177,8 +184,11 @@
               <nz-tab [nzTitle]="'跟进记录' | translate"></nz-tab>
               <nz-tab [nzTitle]="'日程' | translate"></nz-tab>
               <nz-tab [nzTitle]="'详情' | translate">
-                <crm-potentailcustomer-detail [customerInfo]="customerInfo" (actionChange)="onActionChange($event)"
-                                              (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
+                <crm-potentailcustomer-detail
+                  [customerInfo]="customerInfo"
+                  (actionChange)="onActionChange($event)"
+                  (onSubmitted)="getDetail($event)"
+                ></crm-potentailcustomer-detail>
               </nz-tab>
             </nz-tabset>
           </div>

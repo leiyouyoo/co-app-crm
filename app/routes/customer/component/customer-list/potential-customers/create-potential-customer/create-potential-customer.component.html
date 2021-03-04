@@ -112,7 +112,7 @@
     {{ 'Save' | translate }}
   </button>
   <button
-    *ngIf="!validateForm.get('code').value || validateForm.controls['customerTaxes']?.value?.length"
+    *ngIf="!validateForm.get('code').value && validateForm.controls['customerTaxes']?.value?.length"
     nz-button
     [disabled]="!isAdopt || codeLoading"
     style="border-color: unset;"

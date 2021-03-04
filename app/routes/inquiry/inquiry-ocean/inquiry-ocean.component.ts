@@ -263,7 +263,6 @@ export class InquiryListOceanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     this.id = null;
     this.initData();
     this.id = this.activeRoute.snapshot.params.id;
@@ -583,7 +582,6 @@ export class InquiryListOceanComponent implements OnInit {
 
   esParams: any;
   paramsProcess = (requestOptions: STRequestOptions) => {
-    debugger;
     let datas = cloneDeep(this.searchForm.value);
 
     let data: any = {

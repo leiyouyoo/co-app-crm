@@ -1091,5 +1091,11 @@
   "Merge": "合并",
   "Unowned client": "无主客户",
   "Correct customer name": "更正客户名称",
-  "Operates successfully": "操作成功"
+  "Operates successfully": "操作成功",
+  "Address name":"地址名称",
+  "Registered address":"注册地址",
+  "Remove":"移除",
+  "Email has been registered":"邮箱已被注册",
+  "Please enter the correct English name":"请输入正确的英文名",
+  "Please input":"请输入"
 }

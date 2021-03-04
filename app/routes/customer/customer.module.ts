@@ -45,7 +45,8 @@ import { ApplyCodeComponent } from './component/apply-code/apply-code.component'
 import { MergeCustomerComponent } from './component/merge-customer/merge-customer.component';
 import { UpdateCustomerNameComponent } from './component/update-customer-name/update-customer-name.component';
 import { CspAccountConfigComponent } from './component/csp-account-config/csp-account-config.component';
-
+import { BindLocationComponent } from './component/contact/bind-location/bind-location.component';
+import { BindContactsComponent } from './component/location/bind-contacts/bind-contacts.component';
 const COMPONENTS = [
   CustomerDetailsComponent,
   ContactsListComponent,
@@ -80,9 +81,18 @@ const NEWCOMPONENTS = [
   PotentailcustomerInfoComponent,
   PotentailcustomerDetailComponent,
   CreateTransactedCustomersComponent,
+  BindLocationComponent,
+  BindContactsComponent,
 ];
-const COMPONENTS_NOROUNT = [LegalEntityComponent, CreatePotentialCustomerComponent,
-  DistributionCustomerComponent, ApplyCodeComponent, MergeCustomerComponent, UpdateCustomerNameComponent,TransferTocustomerComponent];
+const COMPONENTS_NOROUNT = [
+  LegalEntityComponent,
+  CreatePotentialCustomerComponent,
+  DistributionCustomerComponent,
+  ApplyCodeComponent,
+  MergeCustomerComponent,
+  UpdateCustomerNameComponent,
+  TransferTocustomerComponent,
+];
 
 @NgModule({
   imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule],

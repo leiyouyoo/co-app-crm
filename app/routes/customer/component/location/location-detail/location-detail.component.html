@@ -12,7 +12,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ '位置名称' | translate }} </nz-form-label>
+        <nz-form-label nzRequired>{{ 'Location name' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please input' | translate }}">
           <input nz-input placeholder="Basic usage" formControlName="name" />
         </nz-form-control>
@@ -20,7 +20,7 @@
     </div>
     <div nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label>{{ '选择联系人' | translate }} </nz-form-label>
+        <nz-form-label>{{ 'Choose contact' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select
             #contact
@@ -51,11 +51,11 @@
             </nz-option>
           </nz-select>
           <ng-template #custom let-selected>
-            {{ selected.template._appExtra.surname }}
+            {{ selected.template._appExtra.localizationName }}
           </ng-template>
           <ng-template #render>
             <nz-divider></nz-divider>
-            <div style="display: flex; align-items: center; padding-left: 16px;" (click)="('')">
+            <div style="display: flex; align-items: center; padding-left: 16px;" (click)="onAddContact('Add')">
               <span
                 style="margin-right: 8px; color: #1890ff; font-size: 18px;"
                 nz-icon
@@ -72,7 +72,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ '邮政编码' | translate }} </nz-form-label>
+        <nz-form-label nzRequired>{{ 'Zip code' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please input' | translate }}">
           <input nz-input placeholder="Basic usage" formControlName="zip" />
         </nz-form-control>
@@ -80,7 +80,7 @@
     </div>
     <div nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label>{{ '港口代码' | translate }} </nz-form-label>
+        <nz-form-label>{{ 'Port code' | translate }} </nz-form-label>
         <nz-form-control>
           <input nz-input placeholder="Basic usage" formControlName="portCode" />
         </nz-form-control>
@@ -194,7 +194,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="24">
       <nz-form-item>
-        <nz-form-label>{{ '备注' | translate }}</nz-form-label>
+        <nz-form-label>{{ 'Remark' | translate }}</nz-form-label>
         <nz-form-control>
           <textarea formControlName="reamrk" nz-input [nzAutosize]="{ minRows: 3, maxRows: 3 }"></textarea>
         </nz-form-control>

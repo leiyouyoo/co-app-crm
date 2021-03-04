@@ -22,9 +22,9 @@
 
   <ng-template st-row="userId" let-data>
     <ng-container *ngIf="data.userId; else elseUserIdTemplate">
-      {{ '开通' | translate }}
+      {{ 'Open account' | translate }}
     </ng-container>
-    <ng-template #elseUserIdTemplate> {{ '未开通' | translate }} </ng-template>
+    <ng-template #elseUserIdTemplate> {{ 'Nonactivated' | translate }} </ng-template>
   </ng-template>
   <ng-template st-row="creationTime" let-data>
     <ng-container *ngIf="data.userId; else elseCreationTimeTemplate">
@@ -36,9 +36,9 @@
   <ng-template st-row="isActive" let-data>
     <ng-container *ngIf="data.userId; else elseIsActiveTemplate">
       <ng-container *ngIf="data?.userInfo?.isActive; else elseUserInfoActiveTemplate">
-        {{ '已激活' | translate }}
+        {{ 'Activated' | translate }}
       </ng-container>
-      <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
+      <ng-template #elseUserInfoActiveTemplate> {{ 'Inactivated' | translate }}</ng-template>
     </ng-container>
     <ng-template #elseIsActiveTemplate> -- </ng-template>
   </ng-template>
@@ -50,11 +50,28 @@
       </button>
       <ng-template #contentTemplate>
         <div *ngFor="let item of data.locations" style="padding: 1em 0;">
-          <span>{{ item.name }}&nbsp;</span>
-          <span>{{ item.country }}&nbsp;</span>
-          <span>{{ item.province }}</span>
+          <div>
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <span style="margin-right: 20px;">{{ 'Registered address' | translate }}:</span>
+                <span>{{ item.counry }}&nbsp;</span>
+                <span>{{ item.province }}&nbsp;</span>
+                <span>{{ item.city }}&nbsp;</span>
+                <span>{{ item.streetAddress }}&nbsp;</span>
+              </div>
+              <div>
+                <button nzType="default" nz-button (click)="deleteLocation(item)">{{ 'Remove' | translate }}</button>
+              </div>
+            </div>
+            <div>
+              <span style="margin-right: 20px;">{{ 'Address name' | translate }}:</span>
+              <span>{{ item.name }}&nbsp;</span>
+            </div>
+          </div>
         </div>
-        <div style="color: #1890ff;" (click)="bingLocation('Add', data)">绑定更多位置</div>
+        <div style="color: #1890ff; text-align: center;" [ngClass]="{ disable: data.isDeleted }" (click)="bingLocation('Add', data)">
+          {{ 'Bind more locations' | translate }}
+        </div>
       </ng-template>
     </div>
   </ng-template>

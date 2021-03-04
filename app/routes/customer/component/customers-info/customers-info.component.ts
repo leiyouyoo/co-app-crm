@@ -1,12 +1,14 @@
 import { Component, Injector, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
 import { ApplyCodeComponent } from '../apply-code/apply-code.component';
 import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
 import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
 import { CspAccountConfigComponent } from '../csp-account-config/csp-account-config.component';
 import { CoPageBase } from '@co/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
+import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 
 @Component({
   selector: 'crm-customers-info',
@@ -18,7 +20,13 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
 
-  constructor(private crmCustomerService: CRMCustomerService, private modal: NzModalService, injector: Injector, public activeRoute: ActivatedRoute) {
+  constructor(
+    private crmCustomerService: CRMCustomerService,
+    private modal: NzModalService,
+    injector: Injector,
+    public activeRoute: ActivatedRoute,
+    private contactService: CRMContactService,
+  ) {
     super(injector);
   }
 
@@ -78,7 +86,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   bulkTurnCustomerSea() {
     this.isLoading = true;
-    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe(r => {
+    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe((r) => {
       this.$message.success(this.$L('Successful operation'));
       this.$close();
     });
@@ -117,7 +125,6 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
   }
 
-
   /**
    * 转让客户
    */
@@ -147,6 +154,44 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+  }
+
+  addContact() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: ContactDetailComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-contact-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res.isSucccess) {
+        // this.st.load();
+        this.getCustomerDetail(this.customerId);
+      }
+    });
+  }
+
+  addLocation() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: LocationDetailComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res) {
+        // this.st.load();
+        this.getCustomerDetail(this.customerId);
+      }
+    });
   }
 
   /**
