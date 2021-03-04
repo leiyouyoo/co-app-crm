@@ -6,7 +6,7 @@
 >
   <div style="margin-bottom: 8px;">
     <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading" (click)="save()">{{ 'Save' | translate }}</button>
-    <button nz-button nzSize="small" nzType="default" (click)="c()">{{ 'Cancel' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
   </div>
 
   <div nz-row [nzGutter]="8">
@@ -24,8 +24,10 @@
         <nz-form-control nzErrorTip="{{ 'Please select' | translate }}">
           <nz-select
             #contact
+            nzMode="multiple"
             style="width: 100%;"
             formControlName="contactIds"
+            [nzMaxTagCount]="1"
             nzShowSearch
             nzAllowClear
             [nzPlaceHolder]="'Search Contact' | translate"
@@ -48,7 +50,9 @@
               </div>
             </nz-option>
           </nz-select>
-          <ng-template #custom let-selected> </ng-template>
+          <ng-template #custom let-selected>
+            {{ selected.template._appExtra.surname }}
+          </ng-template>
           <ng-template #render>
             <nz-divider></nz-divider>
             <div style="display: flex; align-items: center; padding-left: 16px;" (click)="('')">

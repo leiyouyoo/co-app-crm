@@ -92,7 +92,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
       portCode: [null],
       partnerId: [null],
       contactIds: [this.contactIds],
-      customerId: [null],
+      customerId: [this.customerId],
       reamrk: [null],
     });
   }

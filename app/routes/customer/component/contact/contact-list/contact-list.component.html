@@ -28,14 +28,14 @@
   </ng-template>
   <ng-template st-row="creationTime" let-data>
     <ng-container *ngIf="data.userId; else elseCreationTimeTemplate">
-      {{ data.userInfo.creationTime | date: 'yyyy-MM-dd' }}
+      {{ data?.userInfo?.creationTime | date: 'yyyy-MM-dd' }}
     </ng-container>
     <ng-template #elseCreationTimeTemplate> -- </ng-template>
   </ng-template>
 
   <ng-template st-row="isActive" let-data>
     <ng-container *ngIf="data.userId; else elseIsActiveTemplate">
-      <ng-container *ngIf="data.userInfo.isActive; else elseUserInfoActiveTemplate">
+      <ng-container *ngIf="data?.userInfo?.isActive; else elseUserInfoActiveTemplate">
         {{ '已激活' | translate }}
       </ng-container>
       <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
