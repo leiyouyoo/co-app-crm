@@ -754,6 +754,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         fax: data.fax,
         email: data.email,
         industry: data.industry,
+        leadTrackingPhase: data.leadTrackingPhase,
         customerType: data.customerType || 3,
         incoterms: data.incoterms,
         isSalesCustomer: data.isSalesCustomer,

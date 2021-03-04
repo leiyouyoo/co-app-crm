@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Injector,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { GoogleMapService, _HttpClient } from '@co/common';
@@ -70,7 +80,7 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     private pubDataDictionaryService: PUBDataDictionaryService,
     private msg: NzMessageService,
     private el: ElementRef,
-    private googleMapService: GoogleMapService,
+    public cdr: ChangeDetectorRef,
   ) {
     super(injector);
   }

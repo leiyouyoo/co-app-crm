@@ -115,16 +115,16 @@
       <nz-spin [nzSpinning]="isLoading">
         <div nz-row [nzGutter]="32">
           <div nz-col nzSpan="24" class="taskCenter"
-               style="height: 80px; margin-bottom: 16px; margin-left: 16px; background: #fff;">
+               style="margin: 0 0 8px 8px;background: rgb(255, 255, 255);padding: 0 16px;">
             <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
               <nz-step [nzTitle]="initialcontact" [nzIcon]="initialcontactIcon"></nz-step>
               <nz-step [nzTitle]="demanddetermination" [nzIcon]="demanddeterminationIcon"></nz-step>
               <nz-step [nzTitle]="quotation" [nzIcon]="quotationIcon"></nz-step>
               <nz-step [nzTitle]="negotiation" [nzIcon]="negotiationIcon"></nz-step>
-              <nz-step [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-              <nz-step [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
-              <ng-template #initialcontactIcon><i nz-icon class="iconfont icon-zhangdan" nzIconfont="icon-zhangdan"></i>
-              </ng-template>
+              <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
+              <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
+                       style="margin-right: 30px !important;"></nz-step>
+              <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
               <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
               <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
               <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
@@ -135,37 +135,41 @@
             <ng-template #initialcontact>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">初步接洽</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==0"></label></div>
+                <div class="Check"><i nz-icon [style.color]="index>=0?'#1890ff':'#00000050'"
+                                      [nzIconfont]="index>=0?'icon-gouxuan':'icon-quan'"></i></div>
               </div>
             </ng-template>
             <ng-template #demanddetermination>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">需求确定</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==1"></label></div>
+                <div class="Check"><i nz-icon [style.color]="index>=1?'#1890ff':'#00000050'"
+                                      [nzIconfont]="index>=1?'icon-gouxuan':'icon-quan'"></i></div>
               </div>
             </ng-template>
             <ng-template #quotation>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">报价</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==2"></label></div>
+                <div class="Check"><i nz-icon [style.color]="index>=2?'#1890ff':'#00000050'"
+                                      [nzIconfont]="index>=2?'icon-gouxuan':'icon-quan'"></i></div>
               </div>
             </ng-template>
             <ng-template #negotiation>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">谈判</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==3"></label></div>
+                <div class="Check"><i nz-icon [style.color]="index>=3?'#1890ff':'#00000050'"
+                                      [nzIconfont]="index>=3?'icon-gouxuan':'icon-quan'"></i></div>
               </div>
             </ng-template>
             <ng-template #win>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">赢单</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==4" [nzDisabled]="true"></label></div>
+                <div class="Check"></div>
               </div>
             </ng-template>
             <ng-template #loseorder>
               <div style="display: flex; justify-content: space-between;">
                 <div class="Check">输单</div>
-                <div class="Check"><label nz-checkbox [ngModel]="index==5" [nzDisabled]="true"></label></div>
+                <div class="Check"></div>
               </div>
             </ng-template>
           </div>
@@ -177,7 +181,8 @@
               <nz-tab [nzTitle]="'跟进记录' | translate"></nz-tab>
               <nz-tab [nzTitle]="'日程' | translate"></nz-tab>
               <nz-tab [nzTitle]="'详情' | translate">
-                <crm-potentailcustomer-detail [customerInfo]="customerInfo" (actionChange)="onActionChange($event)"
+                <crm-potentailcustomer-detail #customerDetail [customerInfo]="customerInfo"
+                                              (actionChange)="onActionChange($event)"
                                               (onSubmitted)="getDetail($event)"></crm-potentailcustomer-detail>
               </nz-tab>
             </nz-tabset>

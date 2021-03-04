@@ -3,7 +3,7 @@
     <nz-form-item>
       <nz-form-control [nzSpan]="21">
         <div style="display: flex;">
-          <input [placeholder]="'Search Name/Code' | translate" type="text" nz-input formControlName="name"
+          <input (keyup.enter)="search()" [placeholder]="'Search Name/Code' | translate" type="text" nz-input formControlName="name"
                  style="margin-right: 15px;width: 30%;"/>
           <button nz-button [nzType]="'primary'" class="currency-button">{{ 'Search' | translate }}</button>
         </div>

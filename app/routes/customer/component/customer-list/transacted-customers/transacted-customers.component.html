@@ -45,7 +45,7 @@
       </div>
       <div>
         <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
-          <input type="text" nz-input [(ngModel)]="searchParams.searchText" [placeholder]="'Search Code/Customer Name/Tel' | translate" />
+          <input type="text" (keyup.enter)="onSearch()" nz-input [(ngModel)]="searchParams.searchText" [placeholder]="'Search Code/Customer Name/Tel' | translate" />
         </nz-input-group>
         <ng-template #inputClearTpl
           ><i
@@ -90,7 +90,7 @@
           {{ 'RefuseExamine' | translate }}
         </span>
       </ng-template>
-      
+
       <ng-template st-row="isRegistered" let-data>
         <span *ngIf="data.isRegistered">
           <span class="jy-ocean-StartingPlace" [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span

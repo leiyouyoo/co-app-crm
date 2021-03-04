@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { ApplyCodeComponent } from '../apply-code/apply-code.component';
@@ -7,6 +7,8 @@ import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-toc
 import { CspAccountConfigComponent } from '../csp-account-config/csp-account-config.component';
 import { CoPageBase } from '@co/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { CRMCustomerDetailDto } from '../../../../services/crm';
+import { PotentailcustomerDetailComponent } from './potentailcustomer-detail/potentailcustomer-detail.component';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -14,8 +16,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./potentailcustomer-info.component.less'],
 })
 export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit {
+  @ViewChild(PotentailcustomerDetailComponent, { static: false }) customerDetail!: PotentailcustomerDetailComponent;
   index = 0;
-  customerInfo: any;
+  customerInfo: CRMCustomerDetailDto;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
 
@@ -33,7 +36,12 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   }
 
   onIndexChange(e) {
-    this.index = e;
+    this.crmCustomerService.upateLeadTrackingPhase({ leadTrackingPhase: e, id: this.customerId }).subscribe(r => {
+      this.index = e;
+      this.customerInfo.leadTrackingPhase = e;
+      this.customerInfo = { ...this.customerInfo };
+      this.customerDetail.cdr.detectChanges();
+    });
   }
 
   //获取详情
@@ -45,7 +53,6 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         this.customerInfo = res;
         this.index = this.customerInfo.leadTrackingPhase;
       },
-
       (error) => {
         this.isLoading = false;
       },

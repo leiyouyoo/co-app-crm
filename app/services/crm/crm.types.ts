@@ -266,6 +266,9 @@
             /* 用户Id，如果有值则表示为租户用户 */ 
             userId?: number;
          
+            /* 是否删除 */ 
+            isDeleted?: boolean;
+         
             /* 用户信息 */ 
             userInfo?: CRMUserListResponse;
          
@@ -1466,6 +1469,12 @@
             /* 是否删除 （是否有效） */ 
             isDeleted?: boolean;
          
+            /* 客户列表分类
+0 = Cooperative
+1 = Potential
+2 = Public */ 
+            classification?: number;
+         
             
             id?: string;
         
@@ -2396,6 +2405,12 @@
             /* 税务登记信息 */ 
             customerTaxes?: CRMCustomerTaxDto[];
          
+            /* 客户列表分类
+0 = Cooperative
+1 = Potential
+2 = Public */ 
+            classification?: number;
+         
             
             id?: string;
         
@@ -2903,6 +2918,12 @@
             /* 是否删除 （是否有效） */ 
             isDeleted?: boolean;
          
+            /* 客户列表分类
+0 = Cooperative
+1 = Potential
+2 = Public */ 
+            classification?: number;
+         
             
             id?: string;
         
@@ -3214,6 +3235,9 @@
          
             /* 客户拥有的联系人集合 */ 
             contacts?: CRMContactCheckDto[];
+         
+            /* 客户联系人 */ 
+            customerContact?: CRMContactCheckDto;
          
             /* 地点集合 */ 
             locations?: CRMLocationContactsDto[];
@@ -4489,6 +4513,28 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMUpateLeadTrackingPhaseInput {
+        [key:string]: any;
+        
+         
+            /* 潜在客户追踪阶段
+0 = PreliminaryContact
+1 = DemandDetermination
+2 = QuotedPrice
+3 = Negotiation
+4 = WinTheOrder
+5 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
      * 获取可关联客户列表
      */
     export class CRMQueryConnectionCustomerInput {
@@ -5266,6 +5312,27 @@
 2 = CustomerInfo
 3 = TrackRecord */ 
             businessType?: number;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCreateInput {
+        [key:string]: any;
+        
+         
+            
+            customerId?: string;
+         
+            /* 
+1 = CancelLocation
+2 = EnableLocation
+3 = DownloadDocument
+4 = DeleteDocument
+5 = PrintDocument */ 
+            customerOperatorType?: number;
         
         
     }

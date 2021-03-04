@@ -2,22 +2,29 @@
   .taskCenter {
     width: 100%;
     margin-bottom: 16px;
+
     .ant-checkbox-inner {
       border-radius: 100% !important;
     }
+
     .ant-steps-item {
       margin-right: 50px !important;
       background: #fff !important;
       border: 1px solid #d9d9d9;
       border-radius: 4px !important;
     }
+
     .ant-steps-item:last-child {
       margin-right: 10px !important;
     }
-    .ant-steps-item-container {
-      padding-top: 12px !important;
-    }
 
+    .ant-steps-item-container {
+      padding-bottom: 0;
+    }
+    .ant-steps-navigation{
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
     .ant-steps-navigation .ant-steps-item::after {
       margin-top: -6px;
       margin-left: 15px;
@@ -40,8 +47,9 @@
       display: inline-flex;
       align-items: center;
       width: 80% !important;
+
       .ant-steps-item-icon .ant-steps-icon {
-        font-size: 20px;
+        font-size: 14px;
       }
     }
 
@@ -52,9 +60,10 @@
     .ant-steps-item-title {
       width: 100% !important;
       color: rgba(0, 0, 0, 0.65);
-      font-size: 16px;
+      font-size: 14px;
     }
   }
+
   .Check {
     color: #17191a;
   }
@@ -63,18 +72,27 @@
 ::ng-deep {
   nz-tabset {
     height: 100%;
-
+    .ant-steps{
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
     .ant-tabs-content {
       height: calc(100% - 61px);
+  .ant-steps-icon{
+    font-size: 14px;
+  }
       .ant-tabs-tabpane {
         height: 100%;
       }
     }
   }
 }
+
 .ant-layout-header {
   padding: 0 16px !important;
+  margin-bottom: 8px;
 }
+
 nz-header {
   height: 100px;
   margin-bottom: 18px;
@@ -89,6 +107,7 @@ nz-content {
   width: 60%;
   margin-right: 16px;
 }
+
 .customerInfo-right {
   width: 40%;
   margin-left: 16px;

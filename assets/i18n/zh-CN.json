@@ -1096,5 +1096,6 @@
   "Correct customer name": "更正客户名称",
   "Operates successfully": "操作成功",
   "Search Name/Code": "搜索名称、代码",
-  "Must least 3 character": "至少三个字符"
+  "Must least 3 character": "至少三个字符",
+  "Search Code/Customer Name/Tel": "搜索代码/客户名称/电话"
 }
