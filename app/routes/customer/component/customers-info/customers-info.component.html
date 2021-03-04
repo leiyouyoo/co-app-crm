@@ -54,7 +54,8 @@
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyCode()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code"
+                (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyName()">
@@ -155,7 +156,9 @@
               <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
             <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'Partner' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'Partner' | translate">
+              <customer-partner [customerId]="customerId"></customer-partner>
+            </nz-tab>
             <nz-tab [nzTitle]="'Document' | translate"></nz-tab>
             <nz-tab [nzTitle]="'Details' | translate">
               <crm-customer-detail

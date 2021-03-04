@@ -39,7 +39,7 @@
                  class="ant-tree-switcher-line-icon"></i>
             </ng-template>
           </nz-tree-select>
-          <ng-template #omittedPlaceHolder let-omittedValues> + {{ omittedValues.length }}...</ng-template>
+          <ng-template #omittedPlaceHolder let-omittedValues> <span [title]="getHidden(omittedValues)">+{{ omittedValues.length }}...</span></ng-template>
         </nz-form-control>
       </nz-form-item>
 
@@ -97,7 +97,7 @@
                  class="ant-tree-switcher-line-icon"></i>
             </ng-template>
           </nz-tree-select>
-          <ng-template #omittedPlaceHolder1 let-omittedValues> + {{ omittedValues.length }}...</ng-template>
+          <ng-template #omittedPlaceHolder1 let-omittedValues> <span [title]="getHidden(omittedValues)">+{{ omittedValues.length }}...</span></ng-template>
         </nz-form-control>
       </nz-form-item>
     </ng-container>

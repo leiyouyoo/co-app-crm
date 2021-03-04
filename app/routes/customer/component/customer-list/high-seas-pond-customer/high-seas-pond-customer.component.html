@@ -23,7 +23,7 @@
       </div>
       <div>
         <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
-          <input type="text" nz-input [(ngModel)]="searchParams.searchkeywork"
+          <input type="text" nz-input [(ngModel)]="searchParams.searchkeywork" (keyup.enter)="onSearch()"
                  [placeholder]="'Search Code/Customer Name/Tel' | translate"/>
         </nz-input-group>
         <ng-template #inputClearTpl
@@ -55,6 +55,7 @@
       disableCalcX
       [showFilters]="false"
       [showCheckbox]="true"
+      columnSettingName="highSeasPondCustomerComponent"
       style="flex: 1;"
     >
       <ng-template st-row="country" let-data>

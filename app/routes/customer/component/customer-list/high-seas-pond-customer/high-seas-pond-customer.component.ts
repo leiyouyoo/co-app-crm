@@ -101,6 +101,11 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           render: 'customerType',
           width: 100,
         },
+        {
+          type: 'action',
+          fixed: 'right',
+          width: 80,
+        },
       ];
     } else {
       this.columns = [
@@ -239,6 +244,11 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           index: 'isRegistered',
           render: 'isRegistered',
           width: 120,
+        },
+        {
+          type: 'action',
+          fixed: 'right',
+          width: 80,
         },
       ];
     }
