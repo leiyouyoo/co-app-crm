@@ -123,9 +123,11 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     this.search();
   }
 
-  search(): void {}
+  search(): void {
+  }
 
-  onTableChange(e) {}
+  onTableChange(e) {
+  }
 
   onShowNewCustomer() {
     const modal = this.modal.create({
@@ -158,17 +160,19 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
   }
 
   unBindCustomer(id) {
+    this.loading = true;
     this.crmPartnerService
       .unBindCustomer({
         // tslint:disable-next-line: radix
         partnerId: id,
       })
       .subscribe((res) => {
+        this.loading = false;
         this.getPartnerByPageList(this.filterPartner);
         this.message.success(this.translate.instant('Unbound success'), {
           nzDuration: 3000,
         });
-      });
+      }, e => this.loading = false);
   }
 
   transferToCustomer(id, name) {

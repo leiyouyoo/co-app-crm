@@ -96,13 +96,13 @@
       style="flex: 1;"
     >
       <ng-template st-row="leadTrackingPhase" let-data>
-        <span *ngIf="data.leadTrackingPhase == 0">{{ 'PreliminaryContact' | translate }}</span>
-        <span *ngIf="data.leadTrackingPhase == 1">{{ 'DemandDetermination' | translate }}</span>
-        <span *ngIf="data.leadTrackingPhase == 2">{{ 'QuotedPrice' | translate }}</span>
-        <span *ngIf="data.leadTrackingPhase == 3">{{ 'Negotiation' | translate }}</span>
-        <span *ngIf="data.leadTrackingPhase == 4">{{ 'WinTheOrder' | translate }}</span>
-        <span *ngIf="data.leadTrackingPhase == 5">{{ 'LostOrder' | translate }}</span>
-        <span style="color: rgba(0,0,0,.5);" *ngIf="data.leadTrackingPhase==null"> — —</span>
+        <span *ngIf="data.leadTrackingPhase == 1">{{ 'PreliminaryContact' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 2">{{ 'DemandDetermination' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 3">{{ 'QuotedPrice' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 4">{{ 'Negotiation' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 5">{{ 'WinTheOrder' | translate }}</span>
+        <span *ngIf="data.leadTrackingPhase == 6">{{ 'LostOrder' | translate }}</span>
+        <span style="color: rgba(0,0,0,.5);" *ngIf="!data.leadTrackingPhase"> — —</span>
 
       </ng-template>
       <ng-template st-row="examineState" let-data>

@@ -20,26 +20,28 @@
            nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code"
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code && !customerInfo?.isDeleted"
                 (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.isDeleted"
                 (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item (click)="cspAccountConfig()">
+            <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="cspAccountConfig()">
               {{ '申请CSP认证' | translate }}
             </li>
-            <li nz-menu-item (click)="transferCustomer()">
+            <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
             </li>
-            <li nz-menu-item nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+            <li *ngIf="!customerInfo?.isDeleted" nz-menu-item nz-popconfirm
+                [nzPopconfirmTitle]="'Are you sure?' | translate"
                 [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
                 (nzOnConfirm)="bulkTurnCustomerSea()">
               {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.state==0 || customerInfo?.state==1|| customerInfo?.state==4"
+            <li nz-menu-item
+                *ngIf="(customerInfo?.state==0 || customerInfo?.state==1 || customerInfo?.state==4) &&!customerInfo?.isDeleted"
                 (click)="cspAccountConfig()">
               {{ 'CSP账号配置' | translate }}
             </li>
@@ -116,62 +118,73 @@
         <div nz-row [nzGutter]="32">
           <div nz-col nzSpan="24" class="taskCenter"
                style="margin: 0 0 8px 8px;background: rgb(255, 255, 255);padding: 0 16px;">
-            <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
-              <nz-step [nzTitle]="initialcontact" [nzIcon]="initialcontactIcon"></nz-step>
-              <nz-step [nzTitle]="demanddetermination" [nzIcon]="demanddeterminationIcon"></nz-step>
-              <nz-step [nzTitle]="quotation" [nzIcon]="quotationIcon"></nz-step>
-              <nz-step [nzTitle]="negotiation" [nzIcon]="negotiationIcon"></nz-step>
-              <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-              <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
-                       style="margin-right: 30px !important;"></nz-step>
-              <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-              <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-              <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-              <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-              <ng-template #winIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-              <ng-template #loseorderIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
-            </nz-steps>
+            <nz-spin [nzSpinning]="stepLoading">
+              <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index-1">
+                <nz-step (click)="onIndexChange(1)" [nzDisabled]="customerInfo?.isDeleted" [nzTitle]="initialcontact"
+                         [nzIcon]="initialcontactIcon"></nz-step>
+                <nz-step (click)="onIndexChange(2)" [nzDisabled]="customerInfo?.isDeleted"
+                         [nzTitle]="demanddetermination"
+                         [nzIcon]="demanddeterminationIcon"></nz-step>
+                <nz-step (click)="onIndexChange(3)" [nzDisabled]="customerInfo?.isDeleted" [nzTitle]="quotation"
+                         [nzIcon]="quotationIcon"></nz-step>
+                <nz-step (click)="onIndexChange(4)" [nzDisabled]="customerInfo?.isDeleted" [nzTitle]="negotiation"
+                         [nzIcon]="negotiationIcon"></nz-step>
+                <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
+                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
+                         style="margin-right: 30px !important;"></nz-step>
+                <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+                <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+                <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+                <ng-template #negotiationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+                <ng-template #winIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+                <ng-template #loseorderIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
+              </nz-steps>
 
-            <ng-template #initialcontact>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">初步接洽</div>
-                <div class="Check"><i nz-icon [style.color]="index>=0?'#1890ff':'#00000050'"
-                                      [nzIconfont]="index>=0?'icon-gouxuan':'icon-quan'"></i></div>
-              </div>
-            </ng-template>
-            <ng-template #demanddetermination>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">需求确定</div>
-                <div class="Check"><i nz-icon [style.color]="index>=1?'#1890ff':'#00000050'"
-                                      [nzIconfont]="index>=1?'icon-gouxuan':'icon-quan'"></i></div>
-              </div>
-            </ng-template>
-            <ng-template #quotation>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">报价</div>
-                <div class="Check"><i nz-icon [style.color]="index>=2?'#1890ff':'#00000050'"
-                                      [nzIconfont]="index>=2?'icon-gouxuan':'icon-quan'"></i></div>
-              </div>
-            </ng-template>
-            <ng-template #negotiation>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">谈判</div>
-                <div class="Check"><i nz-icon [style.color]="index>=3?'#1890ff':'#00000050'"
-                                      [nzIconfont]="index>=3?'icon-gouxuan':'icon-quan'"></i></div>
-              </div>
-            </ng-template>
-            <ng-template #win>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">赢单</div>
-                <div class="Check"></div>
-              </div>
-            </ng-template>
-            <ng-template #loseorder>
-              <div style="display: flex; justify-content: space-between;">
-                <div class="Check">输单</div>
-                <div class="Check"></div>
-              </div>
-            </ng-template>
+              <ng-template #initialcontact>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">初步接洽</div>
+                  <div class="Check"><i nz-icon [style.color]="index>=1 && index>=1?'#1890ff':'#00000050'"
+                                        [nzIconfont]="index>=1 && index>=1?'icon-gouxuan':'icon-quan'"></i></div>
+                </div>
+              </ng-template>
+              <ng-template #demanddetermination>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">需求确定</div>
+                  <div class="Check"><i nz-icon [style.color]="index>=2?'#1890ff':'#00000050'"
+                                        [nzIconfont]="index>=2?'icon-gouxuan':'icon-quan'"></i></div>
+                </div>
+              </ng-template>
+              <ng-template #quotation>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">报价</div>
+                  <div class="Check"><i nz-icon [style.color]="index>=3?'#1890ff':'#00000050'"
+                                        [nzIconfont]="index>=3?'icon-gouxuan':'icon-quan'"></i></div>
+                </div>
+              </ng-template>
+              <ng-template #negotiation>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">谈判</div>
+                  <div class="Check"><i nz-icon [style.color]="index>=4?'#1890ff':'#00000050'"
+                                        [nzIconfont]="index>=4?'icon-gouxuan':'icon-quan'"></i></div>
+                </div>
+              </ng-template>
+              <ng-template #win>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">赢单</div>
+                  <div class="Check"><i nz-icon *ngIf="index>=5" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #loseorder>
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="Check">输单</div>
+                  <div class="Check"><i nz-icon *ngIf="index>=6" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i>
+                  </div>
+                </div>
+              </ng-template>
+            </nz-spin>
           </div>
         </div>
         <div nz-row [nzGutter]="32" style="height: calc(100% - 96px);">

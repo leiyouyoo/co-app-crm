@@ -20,6 +20,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   index = 0;
   customerInfo: CRMCustomerDetailDto;
   isLoading = false;
+  stepLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
 
   constructor(
@@ -36,12 +37,15 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   }
 
   onIndexChange(e) {
+    e == this.index && --e;
+    this.stepLoading = true;
     this.crmCustomerService.upateLeadTrackingPhase({ leadTrackingPhase: e, id: this.customerId }).subscribe(r => {
       this.index = e;
       this.customerInfo.leadTrackingPhase = e;
       this.customerInfo = { ...this.customerInfo };
+      this.stepLoading = false;
       this.customerDetail.cdr.detectChanges();
-    });
+    }, e => this.stepLoading = false);
   }
 
   //获取详情

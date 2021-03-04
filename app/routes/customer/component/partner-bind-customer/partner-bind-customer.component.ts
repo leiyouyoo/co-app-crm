@@ -7,12 +7,13 @@ import {
   ComponentFactoryResolver, Injector,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { STColumn } from '@co/cbc';
 import { CooperationState, CustomerStatus, CustomerType } from '../../models/enum';
 import { CRMCreateOrUpdatePartnerDto, CRMCustomerService, CRMPartnerService } from '../../../../services/crm';
 import { CoPageBase } from '@co/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 
 @Component({
@@ -118,6 +119,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
     {
       title: 'Action',
       type: 'action',
+      fixed: 'right',
       width: 100,
       buttons: [
         {
@@ -146,6 +148,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
     private crmPartnerService: CRMPartnerService,
     private message: NzMessageService,
     private translate: TranslateService,
+    private modal: NzModalRef,
   ) {
     super(injector);
   }
@@ -227,7 +230,8 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
         message = this.translate.instant('New success');
       }
       this.$message.success(this.$L(message));
-      this.search();
+      this.outData.emit({ update: true });
+      this.modal.destroy()
     }, e => this.loading = false);
   }
 }
