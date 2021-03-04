@@ -241,4 +241,8 @@ export class RecycleConfigComponent extends CoPageBase implements OnInit {
       this.cdr.detectChanges();
     }, e => this.userListParams.isLoading = false);
   }
+
+  getHidden(data) {
+    return data.map(e => e.title).join(',');
+  }
 }

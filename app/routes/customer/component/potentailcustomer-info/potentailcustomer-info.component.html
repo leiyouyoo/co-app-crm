@@ -20,7 +20,7 @@
            nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1"
+            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code"
                 (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
