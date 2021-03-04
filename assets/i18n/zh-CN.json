@@ -7,6 +7,8 @@
   "English name": "英文名",
   "First name": "名",
   "Last name": "姓",
+  "First name(English)": "名(英文)",
+  "Last name(Chinese)": "姓(本地语言)",
   "Job Capacity": "职位",
   "inquirylist": "运价查询",
   "Follower": "跟进人",
@@ -997,6 +999,7 @@
   "Check all": "全选",
   "Transacted customers": "成交客户",
   "High sea Pond": "公海池",
+  "High sea Pond customers": "公海池客户",
   "I m in charge": "我负责的客户",
   "I participate in": "我参与跟进的",
   "I claimed": "我认领的客户",
@@ -1091,5 +1094,7 @@
   "Merge": "合并",
   "Unowned client": "无主客户",
   "Correct customer name": "更正客户名称",
-  "Operates successfully": "操作成功"
+  "Operates successfully": "操作成功",
+  "Search Name/Code": "搜索名称、代码",
+  "Must least 3 character": "至少三个字符"
 }

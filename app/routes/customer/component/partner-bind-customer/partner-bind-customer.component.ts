@@ -91,7 +91,8 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
     },
     {
       title: '客户状态',
-      index: 'country',
+      index: 'classification',
+      render: 'classification',
       width: 100,
     },
     {
@@ -175,6 +176,10 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
     }
 
     let name = this.validateForm.value.name;
+    if (!/^\s*$|.{3,}|[\u4e00-\u9fa5]{2,}/gi.test(name)) {
+      this.$message.warning(this.$L('Must least 3 character'));
+      return;
+    }
     this.getCustomersByNameOrCode(name);
   }
 
@@ -206,6 +211,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
   }
 
   bindCustomer(type: number, id: any, isGetCustomer: boolean) {
+    this.loading = true;
     this.crmPartnerService.bindCustomer({
       partnerId: this.parentId,
       customerId: this.customerId,
@@ -213,6 +219,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
       isGetCustomer: isGetCustomer,
     }).subscribe((res) => {
       this.parentId = null;
+      this.loading = false;
       let message = '';
       if (isGetCustomer) {
         message = this.translate.instant('Bind and claim success');
@@ -220,6 +227,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
         message = this.translate.instant('New success');
       }
       this.$message.success(this.$L(message));
-    });
+      this.search();
+    }, e => this.loading = false);
   }
 }

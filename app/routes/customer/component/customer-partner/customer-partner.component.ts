@@ -12,7 +12,6 @@ import { CoPageBase } from '@co/core';
   styleUrls: ['./customer-partner.component.less'],
 })
 export class CustomerPartnerComponent extends CoPageBase implements OnInit {
-  @Input() isOwner = true;
   @Input() customerId: any;
   sortName: string | null = null;
   sortValue: string | null = null;

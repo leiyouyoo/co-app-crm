@@ -11,6 +11,7 @@ import { CustomersInfoComponent } from '../customers-info/customers-info.compone
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { PotentialCustomersComponent } from './potential-customers/potential-customers.component';
 import { TransactedCustomersComponent } from './transacted-customers/transacted-customers.component';
+import { CreatePotentialCustomerComponent } from './potential-customers/create-potential-customer/create-potential-customer.component';
 
 @Component({
   selector: 'crm-customer-list',
@@ -54,15 +55,6 @@ export class CustomerListComponent extends CoPageBase {
     }
   }
 
-  updateCustomerName() {}
-
-  applyName(data) {}
-
-  /**
-   * 创建客户
-   */
-  createCustomer() {}
-
   onShowCustomerDetail(item) {
     this.$navigate(['/crm/customers/customerdetails', item.id], { queryParams: { _title: `${item?.name}` } });
   }
@@ -72,35 +64,24 @@ export class CustomerListComponent extends CoPageBase {
   }
 
   /**
-   * 申请代码
+   * 创建客户
    */
-  applyCode() {}
-
-  /**
-   * 合并客户
-   */
-  mergeCustomer() {}
-
-  //客户table操作
-  //获取选中的客户数据
-  getCheckDetail(e: any[]) {}
-
-  /**
-   * 申请改名
-   */
-  approveName(customerInfo) {}
-
-  // //打开新增联系人弹框
-  // onAdd() {
-  //   const modal = this.modal.create({
-  //     nzTitle: this.$L('add Contact'),
-  //     nzContent: ContactDetailComponent,
-  //     nzComponentParams: {},
-  //     nzClassName: 'crm-contact-detail',
-  //     nzStyle: { width: '38%' },
-  //     nzFooter: null,
-  //   });
-  // }
+  createCustomer() {
+    const contentParams = {
+      sideDrawer: this.sideDrawer,
+    };
+    this.title = 'Add Customer';
+    this.sideDrawer.open(CreatePotentialCustomerComponent, contentParams);
+    const component = this.sideDrawer.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.sideDrawer.destroy();
+          this.potentialCustomersComponent.onReset();
+        }, 1000);
+      }
+    });
+  }
 
   //打开新增位置弹框
   onAdd() {

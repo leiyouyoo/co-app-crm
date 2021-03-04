@@ -124,7 +124,9 @@
               <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
             <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>
-            <nz-tab [nzTitle]="'Partner' | translate"></nz-tab>
+            <nz-tab [nzTitle]="'Partner' | translate">
+              <customer-partner [customerId]="customerId"></customer-partner>
+            </nz-tab>
             <nz-tab [nzTitle]="'Document' | translate"></nz-tab>
             <nz-tab [nzTitle]="'Details' | translate">
               <crm-customer-detail

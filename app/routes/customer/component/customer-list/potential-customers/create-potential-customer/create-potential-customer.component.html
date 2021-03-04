@@ -207,17 +207,17 @@
         >
           <div nz-col [nzSpan]="11">
             <div nz-row>
-              <div nz-col [nzSpan]="12">
-                <nz-form-item>
-                  <nz-form-label nzRequired>{{ '姓名（英文）' | translate }}</nz-form-label>
+              <div nz-col [nzSpan]="13">
+                <nz-form-item style="flex-wrap: nowrap;">
+                  <nz-form-label nzRequired>{{ 'Last name(Chinese)' | translate }}</nz-form-label>
                   <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
                     <input nz-input formControlName="name" maxlength="20" />
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="12">
-                <nz-form-item>
-                  <nz-form-label nzRequired style="text-align: right;">{{ '名' | translate }}</nz-form-label>
+              <div nz-col [nzSpan]="11">
+                <nz-form-item style="flex-wrap: nowrap;">
+                  <nz-form-label nzRequired style="text-align: right;width: 90px;">{{ 'First name(English)' | translate }}</nz-form-label>
                   <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
                     <input nz-input formControlName="lastname" maxlength="20" />
                   </nz-form-control>
@@ -229,7 +229,7 @@
           <!--        姓名（本地语言）-->
           <div nz-col [nzSpan]="11">
             <nz-form-item>
-              <nz-form-label>{{ '姓名（本地语言）' | translate }}</nz-form-label>
+              <nz-form-label>{{ 'Name(LocationName)' | translate }}</nz-form-label>
               <nz-form-control>
                 <input nz-input formControlName="nameLocalization" maxlength="20" />
               </nz-form-control>

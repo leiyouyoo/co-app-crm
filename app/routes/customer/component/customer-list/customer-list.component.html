@@ -1,39 +1,5 @@
 <co-page-layout>
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
-    <!-- <co-page-layout style="flex: none; height: auto !important;" class="bill-top">
-      <co-search-area-layout class="bank-search">
-        <co-search-area-item [coWidth]="250">
-          <nz-form-item>
-            <nz-form-control>
-              <nz-input-group [nzSuffix]="inputClearTpl">
-                <input
-                  type="text"
-                  nz-input
-                  [(ngModel)]="searchParams.searchText"
-                  [placeholder]="'Search Code/Customer Name/Tel' | translate"
-                />
-              </nz-input-group>
-              <ng-template #inputClearTpl
-                ><i
-                  nz-icon
-                  class="ant-input-clear-icon"
-                  nzTheme="fill"
-                  nzType="close-circle"
-                  *ngIf="searchParams.searchText"
-                  (click)="onReset()"
-                ></i
-              ></ng-template>
-            </nz-form-control>
-          </nz-form-item>
-        </co-search-area-item>
-        <co-search-area-item coWidth="auto">
-          <button nz-button nzType="primary" (click)="onSearch()">
-            <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
-          </button>
-        </co-search-area-item>
-      </co-search-area-layout>
-    </co-page-layout> -->
-
     <co-page-layout style="padding-top: 0;" class="bill-top">
       <co-toolbar>
         <co-toolbar-item>
@@ -43,47 +9,6 @@
             <nz-tab [nzTitle]="'High sea Pond' | translate"></nz-tab>
           </nz-tabset>
         </co-toolbar-item>
-        <!-- <co-toolbar-item style="margin-right: 0;">
-          <button *ngIf="selectIndex == 1" style="margin-left: 20px;" nz-button nzType="primary" (click)="createCustomer()">
-            {{ 'Add Customer' | translate }}
-          </button>
-          <nz-select
-            [(ngModel)]="customerType"
-            style="margin-left: 8px;"
-            [hidden]="selectIndex == 2"
-            (ngModelChange)="onchangeCustomer($event)"
-          >
-            <nz-option [nzValue]="0" [nzLabel]="'我负责的客户' | translate"></nz-option>
-            <nz-option [nzValue]="1" [nzLabel]="'我参与跟进的客户' | translate"></nz-option>
-            <nz-option [nzValue]="2" [nzLabel]="'我认领的客户' | translate"></nz-option>
-            <nz-option [nzValue]="3" [nzLabel]="'全部' | translate"></nz-option>
-            <nz-option [nzValue]="4" [nzLabel]="'我部门的客户' | translate"></nz-option>
-            <nz-option [nzValue]="5" [nzLabel]="'待审批客户' | translate"></nz-option>
-          </nz-select>
-          <nz-select [(ngModel)]="highseaPondType" style="margin-left: 8px;" [hidden]="selectIndex == 0 || selectIndex == 1">
-            <nz-option [nzValue]="1" [nzLabel]="'分配给我的' | translate"></nz-option>
-            <nz-option [nzValue]="2" [nzLabel]="'分配给我部门的' | translate"></nz-option>
-            <nz-option [nzValue]="3" [nzLabel]="'全部' | translate"></nz-option>
-            <nz-option [nzValue]="4" [nzLabel]="'客户回收站' | translate"></nz-option>
-          </nz-select>
-          <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
-          <nz-dropdown-menu #moreButton="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item>
-                {{ '申请变更客户名' | translate }}
-              </li>
-              <li nz-menu-item>
-                {{ '转让' | translate }}
-              </li>
-              <li nz-menu-item>
-                {{ '转移到公海' | translate }}
-              </li>
-              <li nz-menu-item>
-                {{ '合并' | translate }}
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-        </co-toolbar-item> -->
       </co-toolbar>
 
       <co-page-main>
@@ -92,7 +17,7 @@
                                   [hidden]="selectIndex != 0"></crm-transacted-customers>
 
         <!-- 潜在客户 -->
-        <crm-potential-customers (customerDetail)="onShowpotentialCustomerDetail($event)" [hidden]="selectIndex != 1">
+        <crm-potential-customers #potentialCustomers (onCreateCustomer)="createCustomer()" (customerDetail)="onShowpotentialCustomerDetail($event)" [hidden]="selectIndex != 1">
         </crm-potential-customers>
 
         <!--        公海池-->

@@ -38,6 +38,7 @@ export class PotentialCustomersComponent extends CoPageBase {
   }
 
   @Output() customerDetail = new EventEmitter<any>();
+  @Output() onCreateCustomer = new EventEmitter<any>();
   searchParams = {
     pageNo: 1,
     pageSize: 10,
@@ -413,20 +414,7 @@ export class PotentialCustomersComponent extends CoPageBase {
    * 创建客户
    */
   createCustomer() {
-    const contentParams = {
-      sideDrawer: this.sideDrawer,
-    };
-    this.title = 'Add Customer';
-    this.sideDrawer.open(CreatePotentialCustomerComponent, contentParams);
-    const component = this.sideDrawer.getContentComponent();
-    component.onSubmitted.subscribe((e) => {
-      if (e) {
-        setTimeout(() => {
-          this.sideDrawer.destroy();
-          this.onReset();
-        }, 1000);
-      }
-    });
+    this.onCreateCustomer.emit()
   }
 
   /**

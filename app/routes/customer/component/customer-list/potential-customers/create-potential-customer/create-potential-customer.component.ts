@@ -11,7 +11,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -21,7 +29,11 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -529,7 +541,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
-      id: [this.emptyGuid, []],
+      id: [this.emptyGuid],
       name: ['', { validators: [Validators.required] }],
       code: [null],
       shortName: [null, { validators: [Validators.required] }],
@@ -541,7 +553,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       tel: new FormArray([]),
       customerContacts: new FormArray([
         this.fb.group({
-          lastname: [null,[Validators.required]],
+          lastname: [null, [Validators.required]],
           name: [null, [Validators.required]],
           nameLocalization: [null],
         }),
@@ -695,7 +707,13 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       this.hide(key);
       return;
     }
-    this.crmCustomerService.customerCheckAsync({ name: null, [key]: value }).subscribe((r) => {
+    let customerId = null;
+    this.emptyGuid == this.validateForm.value.id ? customerId = null : customerId = this.validateForm.value.id;
+    this.crmCustomerService.customerCheckAsync({
+      name: null,
+      [key]: value,
+      id: customerId,
+    }).subscribe((r) => {
       console.log(r);
       this.verifyMode = r.verifyMode;
       this.isAdopt = r.isAdopt;
