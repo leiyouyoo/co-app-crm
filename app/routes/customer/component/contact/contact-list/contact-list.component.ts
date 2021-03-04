@@ -1,4 +1,5 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { STData } from '@co/cbc';
 import { STComponent } from '@co/cbc';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
@@ -104,7 +105,10 @@ export class ContactListComponent extends CoPageBase {
             okType: 'danger',
             icon: 'star',
           },
-          iif: (item) => item.isDelete,
+          className: (record: STData) => {
+            return `st__btn--red`;
+          },
+          iif: (item) => !item.isDeleted,
           click: (item) => {
             this.delete(item);
           },
@@ -118,7 +122,7 @@ export class ContactListComponent extends CoPageBase {
             okType: 'danger',
             icon: 'star',
           },
-          iif: (item) => !item.isDelete,
+          iif: (item) => item.isDeleted,
           click: (item) => {
             this.enableAsync(item);
           },
@@ -158,14 +162,17 @@ export class ContactListComponent extends CoPageBase {
   delete(item?) {
     this.contactService.delete({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Void successfully!'));
-      this.st.load();
+      // this.st.load();
+      this.getContacts(this.customerInfo.id);
     });
   }
 
   enableAsync(item?) {
     this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Enable successfully!'));
-      this.st.load();
+      // this.st.load();
+      this.getContacts(this.customerInfo.id);
+
     });
   }
 
