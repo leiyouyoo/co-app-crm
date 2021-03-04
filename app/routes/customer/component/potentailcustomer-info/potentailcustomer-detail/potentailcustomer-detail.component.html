@@ -1,20 +1,20 @@
 <section *ngIf="!edit" style="display: flex; height: 40px; margin-right: 10px;">
   <button nzType="primary" nz-button (click)="editCustomer()">{{ 'Edit' | translate }}</button>
-  <button nzType="primary" nz-button *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code" (click)="actionChange.emit('applyCode')">{{ 'Apply Code' | translate }}</button>
-  <button nzType="primary" nz-button
+  <button nzType="default" nz-button *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code" (click)="actionChange.emit('applyCode')">{{ 'Apply Code' | translate }}</button>
+  <button nzType="default" nz-button
           (click)="actionChange.emit('transferCustomer')">{{ 'Transfer' | translate }}</button>
-  <button nzType="primary" *ngIf="customerInfo?.examineState!=1" nz-button (click)="actionChange.emit('applyName')">{{ 'Apply Name' | translate }}</button>
-  <button nzType="primary" nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
+  <button nzType="default" *ngIf="customerInfo?.examineState!=1" nz-button (click)="actionChange.emit('applyName')">{{ 'Apply Name' | translate }}</button>
+  <button nzType="default" nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
           [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
           (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')"
           nz-button>{{ 'Transfer to the high seas' | translate }}</button>
-  <button nzType="primary" nz-button
+  <button nzType="default" nz-button
           (click)="actionChange.emit('cspAccountConfig')">{{ 'CSP账号配置' | translate }}</button>
-  <button *ngIf="!customerInfo?.isDeleted" nzType="primary" nz-popconfirm
+  <button *ngIf="!customerInfo?.isDeleted" nzType="default" nz-popconfirm
           [nzPopconfirmTitle]="'Are you sure?' | translate"
           [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
           (nzOnConfirm)="actionChange.emit('setVoid')" nz-button>{{ 'Void' | translate }}</button>
-  <button nzType="primary" *ngIf="customerInfo?.isDeleted" nz-button
+  <button nzType="default" *ngIf="customerInfo?.isDeleted" nz-button
           (click)="actionChange.emit('recoverDelete')">{{ 'Enable' | translate }}</button>
 </section>
 <section class="fam-customer-detail" [hidden]="edit">

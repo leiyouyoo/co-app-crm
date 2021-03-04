@@ -12,6 +12,7 @@ import { LocationDetailComponent } from '../location/location-detail/location-de
 import { PotentialCustomersComponent } from './potential-customers/potential-customers.component';
 import { TransactedCustomersComponent } from './transacted-customers/transacted-customers.component';
 import { CreatePotentialCustomerComponent } from './potential-customers/create-potential-customer/create-potential-customer.component';
+import { HighSeasPondCustomerComponent } from './high-seas-pond-customer/high-seas-pond-customer.component';
 
 @Component({
   selector: 'crm-customer-list',
@@ -22,9 +23,11 @@ export class CustomerListComponent extends CoPageBase {
   @ViewChild(PageSideDrawerComponent, { static: false }) sideDrawer!: PageSideDrawerComponent;
   @ViewChild(TransactedCustomersComponent, { static: false }) transactedCustomersList!: TransactedCustomersComponent;
   @ViewChild(PotentialCustomersComponent, { static: false }) potentialCustomersComponent!: PotentialCustomersComponent;
+  @ViewChild(HighSeasPondCustomerComponent, { static: false }) highSeasPondCustomers!: HighSeasPondCustomerComponent;
   highseaPondType = 1;
   title = '客户详情';
   selectIndex = 0;
+
   constructor(
     injector: Injector,
     private msg: NzMessageService,
@@ -42,16 +45,25 @@ export class CustomerListComponent extends CoPageBase {
     this.init();
   }
 
-  init() {}
+  coOnActived() {
+    this.selectedIndexChange();
+  }
+
+  init() {
+  }
 
   //#endregion
 
-  selectedIndexChange(e) {
-    this.selectIndex = e;
+  selectedIndexChange(e = null) {
+    if (e !== null) {
+      this.selectIndex = e;
+    }
     if (this.selectIndex == 0) {
       this.transactedCustomersList.st.load();
     } else if (this.selectIndex == 1) {
       this.potentialCustomersComponent.st.load();
+    } else if (this.selectIndex == 2) {
+      this.highSeasPondCustomers.st.load();
     }
   }
 

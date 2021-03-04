@@ -151,6 +151,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.$close();
+    });
   }
 
   cspAccountConfig() {
