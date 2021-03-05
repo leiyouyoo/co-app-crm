@@ -100,7 +100,7 @@
   "Create success!": "创建成功!",
   "Opening time": "开通时间",
   "Input location/port": "输入位置/港口",
-  "Detial": "详情",
+  "Detail": "详情",
   "Time": "时间",
   "failed to delete:": "删除失败：",
   "Successful transfer": "转让成功",
@@ -405,6 +405,7 @@
   "Pending assign": "待分配",
   "Please select an address": "请选择地址",
   "Assigned": "已分配",
+  "Distribution": "分配",
   "Clear": "清空",
   "Dreft": "草稿",
   "Delivery": "交货地",
@@ -1084,6 +1085,7 @@
   "Schedule": "日程",
   "Length cannot exceed 250": "长度不能超过250个字符",
   "Country/Province/State": "国家-省/州-城市",
+  "Country/Province": "国家-省",
   "Name(LocationName)": "姓名(本地语言)",
   "Account status":"账号状态",
   "Unsold customers": "未成交客户",
@@ -1116,5 +1118,10 @@
   "CSP not certified":"CSP未认证",
   "Enterprise certification passed":"企业认证通过",
   "Enterprise not certified":"企业未认证",
-  "Enterprise certificationing":"企业认证中"
+  "Enterprise certificationing":"企业认证中",
+  "Assigned to me": "分配给我的",
+  "Assigned to My department's": "分配给我部门的",
+  "Customer Recycling Station": "客户回收站",
+  "Change hands": "转手次数",
+  "Number of returned": "被退回次数"
 }

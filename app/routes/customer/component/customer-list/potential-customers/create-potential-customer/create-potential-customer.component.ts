@@ -52,7 +52,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   @Input() showAnchor = true;
   @Input() sideDrawer: PageSideDrawerComponent;
-  @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  @Output() readonly onSubmitted = new EventEmitter<any>();
   @ViewChild('st', { static: false }) st: STComponent;
   readonly CooperationState = CooperationState;
   readonly CustomerStatus = CustomerStatus;
@@ -887,7 +887,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           this.loading = false;
           this.msg.success(this.translate.instant('Claim success'));
           this.destroy();
-          this.close();
+          this.close(true,true);
         },
         (err) => {
           this.loading = false;
@@ -1285,7 +1285,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Create success!'));
           }
           this.cusLoading = false;
-          this.close();
+          this.close(true,true);
         },
         (err) => {
           this.cusLoading = false;
@@ -1300,7 +1300,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Update success!'));
           }
           this.cusLoading = false;
-          this.close();
+          this.close(true,true);
         },
         (error) => {
           this.cusLoading = false;
@@ -1309,9 +1309,9 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     }
   }
 
-  close() {
+  close(update = false, isClose = false) {
     this.sideDrawer?.destroy();
-    this.onSubmitted.emit(false);
+    this.onSubmitted.emit({ update: update, isClose: isClose });
   }
 
   get checkRequired() {

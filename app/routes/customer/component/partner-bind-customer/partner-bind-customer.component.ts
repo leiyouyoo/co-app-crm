@@ -237,7 +237,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
 
   onSubmitted(e) {
     this.showAdd = false;
-    if (e) {
+    if (e && e.update) {
       this.search();
     }
   }
