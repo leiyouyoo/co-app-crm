@@ -145,7 +145,7 @@
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item (click)="cspAccountConfig()">
+            <li *ngIf="!customerInfo?.isRegistered" nz-menu-item (click)="cspAccountConfig()">
               {{ 'Apply for CSP certification' | translate }}
             </li>
             <li nz-menu-item (click)="transferCustomer()">
