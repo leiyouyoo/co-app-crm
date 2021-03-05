@@ -4,7 +4,8 @@
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
         <div class="edit-customer">
-          <!-- <nz-tag
+          <nz-tag
+            *ngIf="customerInfo?.isRegistered"
             style="
               position: relative;
               width: 100%;
@@ -18,21 +19,103 @@
               border-radius: 10px;
             "
           >
-            <img src="apps/crm/assets/images/csp-certification.png" width="20px" *ngIf="customerInfo?.isRegistered" />
-            <span nz-icon class="iconfont icon-zuzhijiagou" [nzIconfont]="'icon-zuzhijiagou'"></span>
-            <span>CSP认证通过</span></nz-tag
-          > -->
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
-
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
+            <img
+              src="apps/crm/assets/images/csp-certification.png"
+              width="20px"
+              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+            />
+            <span style="margin-left: 10px; font-size: 12px;">CSP认证通过</span></nz-tag
+          >
+          <nz-tag
+            *ngIf="!customerInfo?.isRegistered"
+            style="
+              position: relative;
+              width: 100%;
+              height: 25px;
+              margin-left: 8px;
+              color: #000;
+              font-size: 10px;
+              text-align: center;
+              background-color: #fff;
+              border-color: #000 15%;
+              border-radius: 10px;
+            "
+          >
+            <img
+              src="apps/crm/assets/images/un-csp-certification.png"
+              width="20px"
+              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+            />
+            <span style="margin-left: 10px; font-size: 12px;">CSP未认证</span></nz-tag
+          >
         </div>
-        <div class="edit-customer">
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 2" />
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 3" />
-          <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="100px" *ngIf="customerInfo?.examineState == 1" />
-
-          <!-- <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
-          <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" /> -->
+        <div class="edit-customer" style="margin-left: 8px;">
+          <nz-tag
+            *ngIf="customerInfo?.examineState == 2"
+            style="
+              position: relative;
+              width: 100%;
+              height: 25px;
+              margin-left: 8px;
+              color: #000;
+              font-size: 10px;
+              text-align: center;
+              background-color: #fffbe6;
+              border-color: #ffe58f;
+              border-radius: 10px;
+            "
+          >
+            <img
+              src="apps/crm/assets/images/enterpris-certification.png"
+              width="20px"
+              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+            />
+            <span style="margin-left: 10px; font-size: 12px;">企业认证通过</span></nz-tag
+          >
+          <nz-tag
+            *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
+            style="
+              position: relative;
+              width: 100%;
+              height: 25px;
+              margin-left: 8px;
+              color: #000;
+              font-size: 10px;
+              text-align: center;
+              background-color: #fff;
+              border-color: #000 15%;
+              border-radius: 10px;
+            "
+          >
+            <img
+              src="apps/crm/assets/images/enterpris-certification-ing.png"
+              width="20px"
+              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+            />
+            <span style="margin-left: 10px; font-size: 12px;">企业未认证</span></nz-tag
+          >
+          <nz-tag
+            *ngIf="customerInfo?.examineState == 1"
+            style="
+              position: relative;
+              width: 100%;
+              height: 25px;
+              margin-left: 8px;
+              color: #000;
+              font-size: 10px;
+              text-align: center;
+              background-color: #fff;
+              border-color: #000 15%;
+              border-radius: 10px;
+            "
+          >
+            <img
+              src="apps/crm/assets/images/enterpris-certification-ing.png"
+              width="20px"
+              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+            />
+            <span style="margin-left: 10px; font-size: 12px;">企业认证中</span></nz-tag
+          >
         </div>
       </div>
       <div style="display: flex; align-items: center;">
@@ -54,8 +137,7 @@
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code"
-                (click)="applyCode()">
+            <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.code" (click)="applyCode()">
               {{ 'Apply Code' | translate }}
             </li>
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1" (click)="applyName()">
@@ -148,7 +230,7 @@
       <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="16">
         <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
         <div style="height: calc(100% - 96px); padding-left: 16px; background: #fff;">
-          <nz-tabset nzAnimated="false">
+          <nz-tabset nzAnimated="false" (nzSelectChange)="onSelectChange($event)">
             <nz-tab [nzTitle]="'Contact list' | translate">
               <crm-contact-list [customerInfo]="customerInfo"></crm-contact-list>
             </nz-tab>

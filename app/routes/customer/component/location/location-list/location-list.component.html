@@ -3,6 +3,8 @@
   #st
   [columns]="columns"
   [data]="locations"
+  [loading]="loading"
+  [rowClassName]="getRowClassName"
   columnDefaultWidth="100"
   (change)="onTableChange($event)"
   calcScroll

@@ -27,6 +27,7 @@ export class ContactListComponent extends CoPageBase {
   }
   customerDetail: any;
   contacts = [];
+  loading = false;
   constructor(
     injector: Injector,
     private translate: TranslateService,
@@ -59,6 +60,7 @@ export class ContactListComponent extends CoPageBase {
     {
       title: 'Main contact',
       index: 'isMaster',
+      render: 'isMaster',
       width: 100,
     },
     {
@@ -74,7 +76,7 @@ export class ContactListComponent extends CoPageBase {
     },
     {
       title: 'Role',
-      index: 'role',
+      render: 'role',
       width: 100,
     },
     {
@@ -91,9 +93,11 @@ export class ContactListComponent extends CoPageBase {
       title: 'Action',
       type: 'action',
       width: 180,
+      className: 'no-line-through',
       buttons: [
         {
           text: 'Edit',
+          iif: (item) => !item.isDeleted,
           click: (item) => {
             this.onAdd('Edit', item);
           },
@@ -142,9 +146,10 @@ export class ContactListComponent extends CoPageBase {
       nzComponentParams: {
         id: item?.id,
         customerId: this.customerInfo.id,
+        isAdd: title,
       },
       nzClassName: 'crm-contact-detail',
-      nzStyle: { width: '40%' },
+      nzStyle: { width: '40%', height: '40%' },
       nzFooter: null,
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
@@ -156,9 +161,16 @@ export class ContactListComponent extends CoPageBase {
   }
 
   getContacts(id) {
-    this.contactService.getByCustomerOrPartner({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
-      this.contacts = res.items;
-    });
+    this.loading = true;
+    this.contactService.getByCustomerOrPartner({ customerId: id, maxResultCount: 999 }).subscribe(
+      (res) => {
+        this.contacts = res.items;
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+      },
+    );
   }
 
   delete(item?) {
@@ -204,4 +216,18 @@ export class ContactListComponent extends CoPageBase {
       }
     });
   }
+
+  /**
+   * 获取行样式
+   *
+   * @param record
+   * @param index
+   */
+  getRowClassName = (record: STData, index: number) => {
+    if (record.isDeleted) {
+      return `st-row-line-through`;
+    } else {
+      return ``;
+    }
+  };
 }

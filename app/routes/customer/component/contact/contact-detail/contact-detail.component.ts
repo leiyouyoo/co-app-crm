@@ -18,6 +18,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   @Input() locationId;
   @Input() id;
+  @Input() isAdd: string;
   @Output() readonly onSubmitted = new EventEmitter<any>();
   @Output() readonly bingLocation = new EventEmitter<boolean>();
   validateForm: FormGroup;
@@ -27,6 +28,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   loading = false;
   isSuccess = true; //邮箱是否被注册过
   isSubmitted = false;
+  isMainContact = false; //是否有主联系人
   emptyGuid = '00000000-0000-0000-0000-000000000000';
   constructor(
     private fb: FormBuilder,
@@ -49,6 +51,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     this.getRoles();
     this.getPosition();
     this.fetchRemoteData();
+    this.checkHasMainContact();
   }
 
   initForm(data?) {
@@ -250,5 +253,12 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     } else {
       this.modalRef.destroy();
     }
+  }
+
+  //验证是否已有主联系人
+  checkHasMainContact() {
+    this.crmContactService.checkHasMainContact({ customerId: this.customerId }).subscribe((res) => {
+      this.isMainContact = res.success;
+    });
   }
 }

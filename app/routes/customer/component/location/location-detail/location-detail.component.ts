@@ -446,7 +446,6 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
       return;
     }
     //处理数据
-    debugger;
     if (this.validateForm.value.portCode) {
       this.validateForm.get('locationAddition').setValue({ unlocode: this.validateForm.value.portCode });
     }

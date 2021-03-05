@@ -14,7 +14,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Name(English)' | translate }} </nz-form-label>
         <nz-form-control [nzErrorTip]="surnameErrorTpl">
-          <input nz-input formControlName="surname" />
+          <input nz-input [placeholder]="'Please Input' | translate" formControlName="surname" />
           <ng-template #surnameErrorTpl let-control>
             <ng-container *ngIf="control.hasError('pattern')">
               {{ 'Please enter the correct English name' | translate }}
@@ -26,7 +26,7 @@
         </nz-form-control>
         <span style="width: 110px; text-align: center;">-</span>
         <nz-form-control [nzErrorTip]="nameErrorTpl">
-          <input nz-input formControlName="name" />
+          <input nz-input [placeholder]="'Please Input' | translate" formControlName="name" />
           <ng-template #nameErrorTpl let-control>
             <ng-container *ngIf="control.hasError('pattern')">
               {{ 'Please enter the correct English name' | translate }}
@@ -41,7 +41,9 @@
     <div nz-col [nzSpan]="4">
       <nz-form-item>
         <nz-form-control style="width: 150px;">
-          <label nz-checkbox formControlName="isMaster">{{ 'Main contact' | translate }}</label>
+          <label [nzDisabled]="isMainContact && isAdd == 'Add'" nz-checkbox formControlName="isMaster">{{
+            'Main contact' | translate
+          }}</label>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -51,7 +53,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Name(LocationName)' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please Input' | translate }}">
-          <input nz-input placeholder="Basic usage" formControlName="nameLocalization" />
+          <input nz-input [placeholder]="'Please Input' | translate" formControlName="nameLocalization" />
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -85,10 +87,17 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Email' | translate }} </nz-form-label>
         <nz-form-control [nzErrorTip]="emailErrorTpl" nzErrorTip="{{ 'Please Input' | translate }}">
-          <input nz-input formControlName="email" (ngModelChange)="emailChange()" />
+          <!-- userId有值就禁用掉邮箱和开通CSP账号按钮 -->
+          <input
+            nz-input
+            [ngClass]="{ disable: !!validateForm.get('userId').value }"
+            placeholder="{{ 'Please enter' | translate }}"
+            formControlName="email"
+            (ngModelChange)="emailChange()"
+          />
           <ng-template #emailErrorTpl let-control>
-            <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter Email' | translate }}! </ng-container>
-            <ng-container *ngIf="control.hasError('email')"> {{ 'Please enter the correct Email' | translate }} ! </ng-container>
+            <ng-container *ngIf="control.hasError('required')"> {{ 'Please Input' | translate }}! </ng-container>
+            <ng-container *ngIf="control.hasError('email')"> {{ 'Please enter the correct Email!' | translate }} </ng-container>
           </ng-template>
           <div class="error" *ngIf="!isSuccess && isSubmitted">{{ 'Email has been registered' | translate }}</div>
         </nz-form-control>
@@ -97,9 +106,13 @@
     <div nz-col [nzSpan]="4">
       <nz-form-item>
         <nz-form-control style="width: 150px;">
-          <label nz-checkbox formControlName="isSignUp" (ngModelChange)="isSignUpChange($event)">{{
-            'Open the main account' | translate
-          }}</label>
+          <label
+            nz-checkbox
+            [nzDisabled]="!!validateForm.get('userId').value"
+            formControlName="isSignUp"
+            (ngModelChange)="isSignUpChange($event)"
+            >{{ 'Open a CSP account' | translate }}</label
+          >
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -130,7 +143,7 @@
     </div>
   </div>
   <div nz-row style="color: #1890ff;" (click)="isShow = !isShow">
-    More Information
+    {{ 'More Information' | translate }}
   </div>
   <div nz-row *ngIf="isShow" [nzGutter]="8">
     <div nz-col [nzSpan]="20">

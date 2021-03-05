@@ -14,7 +14,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Location name' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please input' | translate }}">
-          <input nz-input placeholder="Basic usage" formControlName="name" />
+          <input nz-input placeholder="{{ 'Please input' | translate }}" formControlName="name" />
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -30,7 +30,7 @@
             [nzMaxTagCount]="1"
             nzShowSearch
             nzAllowClear
-            [nzPlaceHolder]="'Search Contact' | translate"
+            [nzPlaceHolder]="'Search' | translate"
             [nzCustomTemplate]="custom"
             [nzDropdownRender]="render"
             (nzOnSearch)="originLocationsearch($event)"
@@ -62,7 +62,7 @@
                 [nzIconfont]="'icon-add-fill'"
                 class="iconfont icon-add-fill"
               ></span>
-              <span> {{ 'Add Contact' | translate }}</span>
+              <span> {{ 'New Contact' | translate }}</span>
             </div>
           </ng-template>
         </nz-form-control>
@@ -74,7 +74,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Zip code' | translate }} </nz-form-label>
         <nz-form-control nzErrorTip="{{ 'Please input' | translate }}">
-          <input nz-input placeholder="Basic usage" formControlName="zip" />
+          <input nz-input placeholder="{{ 'Please input' | translate }}" formControlName="zip" />
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -82,7 +82,7 @@
       <nz-form-item>
         <nz-form-label>{{ 'Port code' | translate }} </nz-form-label>
         <nz-form-control>
-          <input nz-input placeholder="Basic usage" formControlName="portCode" />
+          <input nz-input placeholder="{{ 'Please input' | translate }}" formControlName="portCode" />
         </nz-form-control>
       </nz-form-item>
     </div>

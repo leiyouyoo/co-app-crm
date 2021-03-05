@@ -1103,5 +1103,13 @@
   "Please input":"请输入",
   "Search Name/Code": "搜索名称、代码",
   "Must least 3 character": "至少三个字符",
-  "Search Code/Customer Name/Tel": "搜索代码/客户名称/电话"
+  "Search Code/Customer Name/Tel": "搜索代码/客户名称/电话",
+  "Audit Status": "审核状态",
+  "Review date": "审核日期",
+  "Update success!":"更新成功!",
+  "Please enter the correct Email!":"请输入正确邮箱!",
+  "Open a CSP account":"开通CSP账号",
+  "Delete successfully!": "删除成功!",
+  "Enable successfully!": "启用成功!",
+  "Void successfully!": "作废成功!"
 }

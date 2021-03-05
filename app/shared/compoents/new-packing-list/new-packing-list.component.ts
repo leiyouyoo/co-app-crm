@@ -73,7 +73,6 @@ export class NewPackingListComponent implements OnInit {
         this.loading = false;
         //导入成功
         this.datas = res.data;
-        debugger;
         let addressIds = this.datas?.cartons.filter((e) => e.address?.id);
         if (this.orderInfo?.destinationAddressId) {
           addressIds.push(this.orderInfo.destinationAddressId);

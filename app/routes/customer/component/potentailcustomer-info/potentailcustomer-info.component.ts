@@ -9,6 +9,8 @@ import { CoPageBase } from '@co/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CRMCustomerDetailDto } from '../../../../services/crm';
 import { PotentailcustomerDetailComponent } from './potentailcustomer-detail/potentailcustomer-detail.component';
+import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
+import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -39,13 +41,16 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   onIndexChange(e) {
     e == this.index && --e;
     this.stepLoading = true;
-    this.crmCustomerService.upateLeadTrackingPhase({ leadTrackingPhase: e, id: this.customerId }).subscribe(r => {
-      this.index = e;
-      this.customerInfo.leadTrackingPhase = e;
-      this.customerInfo = { ...this.customerInfo };
-      this.stepLoading = false;
-      this.customerDetail.cdr.detectChanges();
-    }, e => this.stepLoading = false);
+    this.crmCustomerService.upateLeadTrackingPhase({ leadTrackingPhase: e, id: this.customerId }).subscribe(
+      (r) => {
+        this.index = e;
+        this.customerInfo.leadTrackingPhase = e;
+        this.customerInfo = { ...this.customerInfo };
+        this.stepLoading = false;
+        this.customerDetail.cdr.detectChanges();
+      },
+      (e) => (this.stepLoading = false),
+    );
   }
 
   //获取详情
@@ -162,7 +167,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.onSubmitted.subscribe(r => {
+    component.onSubmitted.subscribe((r) => {
       this.$close();
     });
   }
@@ -186,11 +191,14 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    */
   setVoid() {
     this.isLoading = true;
-    this.crmCustomerService.delete({ id: this.customerId }).subscribe((res) => {
-      this.isLoading = false;
-      this.getCustomerDetail(this.customerId);
-      this.$message.success(this.$L('作废成功!'));
-    }, e => this.isLoading = false);
+    this.crmCustomerService.delete({ id: this.customerId }).subscribe(
+      (res) => {
+        this.isLoading = false;
+        this.getCustomerDetail(this.customerId);
+        this.$message.success(this.$L('作废成功!'));
+      },
+      (e) => (this.isLoading = false),
+    );
   }
 
   /**
@@ -198,10 +206,57 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    */
   recoverDelete() {
     this.isLoading = true;
-    this.crmCustomerService.recoverDelete({ id: this.customerId }).subscribe((res) => {
-      this.isLoading = false;
-      this.getCustomerDetail(this.customerId);
-      this.$message.success(this.$L('启用成功!'));
-    }, e => this.isLoading = false);
+    this.crmCustomerService.recoverDelete({ id: this.customerId }).subscribe(
+      (res) => {
+        this.isLoading = false;
+        this.getCustomerDetail(this.customerId);
+        this.$message.success(this.$L('启用成功!'));
+      },
+      (e) => (this.isLoading = false),
+    );
+  }
+
+  /**
+   * 新增联系人
+   */
+  addContact() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: ContactDetailComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-contact-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res.isSucccess) {
+        // this.st.load();
+        this.getCustomerDetail(this.customerId);
+      }
+    });
+  }
+
+  /**
+   * 新增地址
+   */
+  addLocation() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: LocationDetailComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSubmitted.subscribe((res) => {
+      if (res) {
+        // this.st.load();
+        this.getCustomerDetail(this.customerId);
+      }
+    });
   }
 }

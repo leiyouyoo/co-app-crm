@@ -26,6 +26,7 @@ export class LocationListComponent extends CoPageBase {
   }
   customerDetail: any;
   locations = [];
+  loading = false;
   constructor(
     injector: Injector,
     private translate: TranslateService,
@@ -80,10 +81,12 @@ export class LocationListComponent extends CoPageBase {
     {
       title: 'Action',
       type: 'action',
+      className: 'no-line-through',
       width: 100,
       buttons: [
         {
           text: 'Edit',
+          iif: (item) => !item.isDeleted,
           click: (item) => {
             this.onAdd('Edit', item);
           },
@@ -168,9 +171,16 @@ export class LocationListComponent extends CoPageBase {
     });
   }
   getLocation(id) {
-    this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
-      this.locations = res.items;
-    });
+    this.loading = true;
+    this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe(
+      (res) => {
+        this.locations = res.items;
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+      },
+    );
   }
 
   bingContact(title, item?) {
@@ -192,4 +202,18 @@ export class LocationListComponent extends CoPageBase {
       }
     });
   }
+
+  /**
+   * 获取行样式
+   *
+   * @param record
+   * @param index
+   */
+  getRowClassName = (record: STData, index: number) => {
+    if (record.isDeleted) {
+      return `st-row-line-through`;
+    } else {
+      return ``;
+    }
+  };
 }

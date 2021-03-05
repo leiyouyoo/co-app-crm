@@ -5,12 +5,23 @@
   [data]="contacts"
   columnDefaultWidth="100"
   (change)="onTableChange($event)"
+  [loading]="loading"
+  [rowClassName]="getRowClassName"
   calcScroll
   disableCalcX
   virtualScroll
   [showFilters]="false"
   style="flex: 1;"
 >
+  <ng-template st-row="isMaster" let-data>
+    <ng-container *ngIf="data.isMaster; else elseIsMasterTemplate">
+      {{ 'CustomerList.Yes' | translate }}
+    </ng-container>
+    <ng-template #elseIsMasterTemplate>
+      {{ 'CustomerList.No' | translate }}
+    </ng-template>
+  </ng-template>
+
   <ng-template st-row="xm" let-data>
     {{ data.surname }}
     {{ data.name }}
@@ -18,6 +29,20 @@
   <ng-template st-row="xml" let-data>
     {{ data.localizationSurname }}
     {{ data.localizationName }}
+  </ng-template>
+
+  <ng-template st-row="role" let-data>
+    <ng-container *ngIf="data.userId; else elseRoleTemplate">
+      <ng-container *ngIf="data?.userInfo?.roles.length > 0; else elseRoleInfoActiveTemplate">
+        {{ (data?.userInfo?.roles)[0].roleName }}
+      </ng-container>
+      <ng-template #elseRoleInfoActiveTemplate>
+        — —
+      </ng-template>
+    </ng-container>
+    <ng-template #elseRoleTemplate>
+      — —
+    </ng-template>
   </ng-template>
 
   <ng-template st-row="userId" let-data>

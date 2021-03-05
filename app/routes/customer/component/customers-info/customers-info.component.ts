@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
 import { ApplyCodeComponent } from '../apply-code/apply-code.component';
@@ -9,6 +9,8 @@ import { CoPageBase } from '@co/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
+import { ContactListComponent } from '../contact/contact-list/contact-list.component';
+import { LocationListComponent } from '../location/location-list/location-list.component';
 
 @Component({
   selector: 'crm-customers-info',
@@ -16,6 +18,8 @@ import { LocationDetailComponent } from '../location/location-detail/location-de
   styleUrls: ['./customers-info.component.less'],
 })
 export class CustomersInfoComponent extends CoPageBase implements OnInit {
+  @ViewChild(ContactListComponent, { static: false }) contactList: ContactListComponent;
+  @ViewChild(LocationListComponent, { static: false }) locationList: LocationListComponent;
   customerInfo: any;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
@@ -156,6 +160,9 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
   }
 
+  /**
+   * 新增联系人
+   */
   addContact() {
     const modal = this.modal.create({
       nzTitle: this.$L('Add'),
@@ -175,6 +182,9 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     });
   }
 
+  /**
+   * 新增地址
+   */
   addLocation() {
     const modal = this.modal.create({
       nzTitle: this.$L('Add'),
@@ -210,5 +220,15 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe((res) => {
       this.$message.success(this.$L('启用成功!'));
     });
+  }
+
+  //选项卡切换更新table
+  onSelectChange(e) {
+    debugger;
+    if (e.index == 0) {
+      this.contactList.getContacts(this.customerId);
+    } else if (e.index == 1) {
+      this.locationList.getLocation(this.customerId);
+    }
   }
 }
