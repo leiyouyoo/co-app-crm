@@ -149,7 +149,7 @@ export class ContactListComponent extends CoPageBase {
         isAdd: title,
       },
       nzClassName: 'crm-contact-detail',
-      nzStyle: { width: '40%', height: '40%' },
+      nzStyle: { width: '40%' },
       nzFooter: null,
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
