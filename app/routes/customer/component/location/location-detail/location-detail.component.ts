@@ -445,11 +445,12 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
       this.isSubmitted = true;
       return;
     }
+    //处理数据
+    debugger;
+    if (this.validateForm.value.portCode) {
+      this.validateForm.get('locationAddition').setValue({ unlocode: this.validateForm.value.portCode });
+    }
     if (!this.validateForm.value.id) {
-      //处理数据
-      if (this.validateForm.value.portCode) {
-        this.validateForm.get('locationAddition').setValue({ unlocode: this.validateForm.value.portCode });
-      }
       this.crmLocationService.createCustomerLocation(this.validateForm.value).subscribe(
         (res) => {
           this.loading = false;
