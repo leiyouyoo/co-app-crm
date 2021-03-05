@@ -127,6 +127,10 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzComponentParams: { customerId: this.customerId },
       nzFooter: null,
     });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.getCustomerDetail(this.customerId);
+    });
   }
 
   /**
@@ -145,6 +149,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.getCustomerDetail(this.customerId);
+    });
   }
 
   /**
