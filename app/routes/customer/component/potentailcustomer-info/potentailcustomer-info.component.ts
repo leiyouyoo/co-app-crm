@@ -132,6 +132,10 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzComponentParams: { customerId: this.customerId },
       nzFooter: null,
     });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.getCustomerDetail(this.customerId);
+    });
   }
 
   /**
@@ -150,6 +154,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.getCustomerDetail(this.customerId);
+    });
   }
 
   /**
@@ -174,7 +181,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
 
   cspAccountConfig() {
     const modal = this.modal.create({
-      nzTitle: this.$L('CSP账号配置'),
+      nzTitle: this.$L('CSP account configuration'),
       nzContent: CspAccountConfigComponent,
       nzComponentParams: {
         customerId: this.customerId,

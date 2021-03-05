@@ -6,11 +6,11 @@
   <button nzType="default" nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
           [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
           (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')" nz-button>{{ 'Transfer to the high seas' | translate }}</button>
-  <button nzType="default" nz-button (click)="actionChange.emit('cspAccountConfig')">{{ 'CSP账号配置' | translate }}</button>
+  <button nzType="default" *ngIf="!customerInfo?.isRegistered" nz-button (click)="actionChange.emit('cspAccountConfig')">{{ 'CSP account configuration' | translate }}</button>
 </section>
 <section class="fam-customer-detail" [hidden]="edit">
   <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."></nz-spin>
-  <form id="form" nzLayout="horizontal" nz-form [formGroup]="validateForm">
+  <form nzLayout="horizontal" nz-form [formGroup]="validateForm">
     <h5 id="components-basic-info">
       <i
         nz-icon
