@@ -26,7 +26,7 @@ import { _HttpClient, GoogleMapService } from '@co/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzCascaderOption } from 'ng-zorro-antd';
-import { STColumn, STComponent } from '@co/cbc';
+import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
 import {
@@ -50,6 +50,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     return this.customerInfo;
   }
 
+  @Input() showAnchor = true;
+  @Input() sideDrawer: PageSideDrawerComponent;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
   readonly CooperationState = CooperationState;
@@ -1308,7 +1310,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   close() {
-    this.onSubmitted.emit(true);
+    this.sideDrawer?.destroy();
+    this.onSubmitted.emit(false);
   }
 
   get checkRequired() {

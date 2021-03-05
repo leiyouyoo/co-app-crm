@@ -221,7 +221,7 @@
         }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
-          {{ item.allowUserName }}
+          {{ item?.allowUserName }}
         </div>
       </ng-template>
       <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
