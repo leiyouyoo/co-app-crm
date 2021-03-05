@@ -1,5 +1,5 @@
-<div>
-  <form nz-form>
+<div style="margin-left: -24px;overflow: hidden;">
+  <form nz-form style="width: calc(100% + 34px);">
 
     <div *ngIf="data">
 
@@ -26,7 +26,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item style="margin-bottom: 12px;">
+      <nz-form-item style="margin-bottom: 12px;margin-left: -10px;">
         <nz-form-label [nzSm]="3" nzFor="email">申请备注
         </nz-form-label>
         <nz-form-control [nzSm]="20" [nzErrorTip]="'Please enter' | translate">
@@ -36,7 +36,7 @@
 
     </div>
 
-    <nz-form-item style="margin-bottom: 12px;">
+    <nz-form-item style="margin-bottom: 12px;margin-left: -10px;">
       <nz-form-label [nzSm]="3" nzFor="email">回复结果
       </nz-form-label>
       <nz-form-control [nzSm]="20" [nzErrorTip]="'Please enter' | translate">
@@ -46,7 +46,7 @@
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item style="margin-bottom: 12px;" *ngIf="isPass">
+    <nz-form-item style="margin-bottom: 12px;margin-left: -10px;" *ngIf="isPass">
       <nz-form-label [nzSm]="3" [nzXs]="24" nzFor="email">选择代理
       </nz-form-label>
       <nz-form-control [nzSm]="20" [nzXs]="24" [nzErrorTip]="'Please enter' | translate">
@@ -55,10 +55,11 @@
         </co-customer-picker>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item style="margin-bottom: 12px;">
-      <nz-form-label [nzSm]="3" [nzXs]="24" nzFor="email">{{ 'Remark' | translate }}</nz-form-label>
+    <nz-form-item style="margin-bottom: 12px;margin-left: -10px;">
+      <nz-form-label [nzSm]="3" [nzXs]="24" nzFor="email">{{ 'Remark' | translate }}
+      </nz-form-label>
       <nz-form-control [nzSm]="20" [nzXs]="24">
-        <textarea rows="4" nz-input [(ngModel)]="remark" [ngModelOptions]="{standalone: true}"
+        <textarea rows="4" nz-input style="width:100%;" [(ngModel)]="remark" [ngModelOptions]="{standalone: true}"
           [placeholder]="'Please enter' | translate"></textarea>
       </nz-form-control>
     </nz-form-item>

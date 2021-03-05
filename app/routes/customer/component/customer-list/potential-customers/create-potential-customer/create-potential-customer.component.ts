@@ -11,15 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -29,11 +21,7 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import {
-  CRMCreateOrUpdateCustomerInput,
-  CRMCustomerExamineService,
-  CRMCustomerService,
-} from '../../../../../../services/crm';
+import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -52,7 +40,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   @Input() showAnchor = true;
   @Input() sideDrawer: PageSideDrawerComponent;
-  @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  @Output() readonly onSubmitted = new EventEmitter<any>();
   @ViewChild('st', { static: false }) st: STComponent;
   readonly CooperationState = CooperationState;
   readonly CustomerStatus = CustomerStatus;
@@ -710,30 +698,32 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       return;
     }
     let customerId = null;
-    this.emptyGuid == this.validateForm.value.id ? customerId = null : customerId = this.validateForm.value.id;
-    this.crmCustomerService.customerCheckAsync({
-      name: null,
-      [key]: value,
-      id: customerId,
-    }).subscribe((r) => {
-      console.log(r);
-      this.verifyMode = r.verifyMode;
-      this.isAdopt = r.isAdopt;
-      if (!r.isAdopt) {
-        this.validateForm.get(key).setErrors({ existSame: true });
-        this.repeatList = r.validationErrors[key];
-        if (r.validationErrors[key]) {
-          this.columnConfig = Object.keys(r.validationErrors[key][0]);
-        } else {
-          this.columnConfig = [];
+    this.emptyGuid == this.validateForm.value.id ? (customerId = null) : (customerId = this.validateForm.value.id);
+    this.crmCustomerService
+      .customerCheckAsync({
+        name: null,
+        [key]: value,
+        id: customerId,
+      })
+      .subscribe((r) => {
+        console.log(r);
+        this.verifyMode = r.verifyMode;
+        this.isAdopt = r.isAdopt;
+        if (!r.isAdopt) {
+          this.validateForm.get(key).setErrors({ existSame: true });
+          this.repeatList = r.validationErrors[key];
+          if (r.validationErrors[key]) {
+            this.columnConfig = Object.keys(r.validationErrors[key][0]);
+          } else {
+            this.columnConfig = [];
+          }
+          this.show(id, key);
+        } else if (r.isAdopt) {
+          this.validateForm.get(key).setErrors(null);
+          this.hide(key);
         }
-        this.show(id, key);
-      } else if (r.isAdopt) {
-        this.validateForm.get(key).setErrors(null);
-        this.hide(key);
-      }
-      this.validateForm.updateValueAndValidity();
-    });
+        this.validateForm.updateValueAndValidity();
+      });
   }
 
   requiredCustomerTaxes() {
@@ -767,7 +757,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
-        customerContacts: data.customerContacts || [
+        customerContacts: data.contacts || [
           {
             lastname: null,
             name: null,
@@ -776,8 +766,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         ],
         customerLevel: data.customerConfigure.customerLevel || null,
         oceanAttachFee: data.customerConfigure.oceanAttachFee || null,
+        connectionCustomerId: data.connectionCustomerId,
       });
-
       // 绑定地址
       if (data.address) {
         this.placeList.push({
@@ -799,6 +789,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       });
     }
   }
+
 
   async selectedCountry(event) {
     if (event) {
@@ -887,7 +878,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           this.loading = false;
           this.msg.success(this.translate.instant('Claim success'));
           this.destroy();
-          this.close();
+          this.close(true, true);
         },
         (err) => {
           this.loading = false;
@@ -1285,10 +1276,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Create success!'));
           }
           this.cusLoading = false;
-          this.close(true);
+          this.close(true, true);
         },
         (err) => {
           this.cusLoading = false;
+          this.close();
         },
       );
     } else {
@@ -1300,23 +1292,19 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Update success!'));
           }
           this.cusLoading = false;
-          this.close(true);
+          this.close(true, true);
         },
         (error) => {
           this.cusLoading = false;
+          this.close();
         },
       );
     }
   }
 
-  close(refresh=false) {
+  close(update = false, isClose = false) {
     this.sideDrawer?.destroy();
-    this.onSubmitted.emit(refresh);
-  }
-
-  refresh(){
-    this.sideDrawer?.destroy();
-    this.onSubmitted.emit(true);
+    this.onSubmitted.emit({ update: update, isClose: isClose });
   }
 
   get checkRequired() {

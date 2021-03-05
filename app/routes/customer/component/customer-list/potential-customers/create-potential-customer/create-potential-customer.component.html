@@ -132,7 +132,7 @@
     [nzPopconfirmTitle]="'Are you sure?' | translate"
     [nzOkText]="'Confirm' | translate"
     [nzCancelText]="'Cancel' | translate"
-    (nzOnConfirm)="close()"
+    (nzOnConfirm)="close(false,true)"
   >
     {{ 'Cancel' | translate }}
   </button>

@@ -4,18 +4,18 @@
       <div style="display: flex; align-items: center;">
         <nz-select [(ngModel)]="searchParams.searchType" (ngModelChange)="onchangeCustomer($event)"
                    style="width: 200px; margin-left: 8px;">
-          <nz-option [nzValue]="0" [nzLabel]="'分配给我的' | translate"></nz-option>
-          <nz-option *ngIf="isManager" [nzValue]="1" [nzLabel]="'分配给我部门的' | translate"></nz-option>
-          <nz-option *ngIf="isManager" [nzValue]="2" [nzLabel]="'全部' | translate"></nz-option>
-          <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'客户回收站' | translate"></nz-option>
+          <nz-option [nzValue]="0" [nzLabel]="'Assigned to me' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="1" [nzLabel]="'Assigned to My department\'s' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="2" [nzLabel]="'ALL' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'Customer Recycling Station' | translate"></nz-option>
         </nz-select>
         <div style="margin-left: 8px;">
           <button *ngIf="isManager" [disabled]="!selected.length" (click)="customerDistribution()" nz-button
                   nzType="primary">
-            {{ '分配' | translate }}
+            {{ 'Distribution' | translate }}
           </button>
           <button [disabled]="!selected.length" nz-button (click)="claim()" nzType="normal">
-            {{ '认领' | translate }}
+            {{ 'claim' | translate }}
           </button>
           <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
           <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>

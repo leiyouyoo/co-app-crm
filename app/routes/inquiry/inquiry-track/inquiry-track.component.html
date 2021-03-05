@@ -452,7 +452,7 @@
   [(nzVisible)]="detialVisible"
   (nzOnCancel)="detialVisible = false"
   nzWidth="70%"
-  nzTitle="{{ 'Detial' | translate }}"
+  nzTitle="{{ 'Detail' | translate }}"
   [nzFooter]="null"
 >
   <app-track-detial #detial></app-track-detial>
@@ -472,7 +472,7 @@
 </nz-drawer>
 
 <ng-template #drawerTitle>
-  <span style="margin-left: 14px;">{{ 'Detial' | translate }}</span>
+  <span style="margin-left: 14px;">{{ 'Detail' | translate }}</span>
   <span *ngIf="busType?.businessType == 2" class="drawer-tag">{{ 'Contract price' | translate }}</span>
   <span *ngIf="busType?.businessType == 3">
     <span *ngIf="busType?.status == null" class="drawer-tag tag-orange">{{ 'Inquiry-to be quoted' | translate }}</span>

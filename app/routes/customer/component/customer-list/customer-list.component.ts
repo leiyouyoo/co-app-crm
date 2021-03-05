@@ -86,7 +86,7 @@ export class CustomerListComponent extends CoPageBase {
     this.sideDrawer.open(CreatePotentialCustomerComponent, contentParams);
     const component = this.sideDrawer.getContentComponent();
     component.onSubmitted.subscribe((e) => {
-      if (e) {
+      if (e && e.update) {
         setTimeout(() => {
           this.sideDrawer.destroy();
           this.potentialCustomersComponent.onReset();

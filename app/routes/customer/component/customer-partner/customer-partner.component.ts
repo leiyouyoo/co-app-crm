@@ -52,7 +52,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       width: 100,
     },
     {
-      title: '客户创建人',
+      title: 'Created by',
       index: 'creator',
       width: 100,
     },
@@ -74,7 +74,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       width: 100,
       buttons: [
         {
-          text: '解绑',
+          text: this.$L('Unbind'),
           iif: (item) => item.bindUserName,
           pop: {
             title: ((data, index) => {

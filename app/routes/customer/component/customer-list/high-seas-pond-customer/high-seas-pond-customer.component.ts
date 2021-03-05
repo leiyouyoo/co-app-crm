@@ -5,7 +5,6 @@ import { CoPageBase } from '@co/core';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../models/enum';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DistributionCustomerComponent } from '../../distribution-customer/distribution-customer.component';
-import { PlatformOrganizationUnitService } from '@co/cds';
 import { ACLService } from '@co/acl';
 
 @Component({
@@ -65,7 +64,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
-          title: '国家-省',
+          title: 'Country/Province',
           index: 'country',
           render: 'country',
           width: 100,
@@ -77,14 +76,14 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
-          title: '首次出货时间',
+          title: 'First shipment time',
           index: 'firstTradeTime',
           type: 'date',
           dateFormat: 'yyyy-MM-dd',
           width: 100,
         },
         {
-          title: '转手次数',
+          title: 'Change hands',
           index: 'turnoverCount',
           width: 100,
         },
@@ -131,7 +130,7 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
-          title: '国家-省',
+          title: 'Country/Province',
           index: 'country',
           render: 'country',
           width: 100,
@@ -143,19 +142,19 @@ export class HighSeasPondCustomerComponent extends CoPageBase implements OnInit 
           width: 100,
         },
         {
-          title: '首次出货时间',
+          title: 'First shipment time',
           index: 'firstTradeTime',
           type: 'date',
           dateFormat: 'yyyy-MM-dd',
           width: 100,
         },
         {
-          title: '转手次数',
+          title: 'Change hands',
           index: 'turnoverCount',
           width: 100,
         },
         {
-          title: '被退回次数',
+          title: 'Number of returned',
           index: 'returnCount',
           width: 100,
         },
