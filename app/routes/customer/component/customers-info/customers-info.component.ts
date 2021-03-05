@@ -144,7 +144,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
 
   cspAccountConfig() {
     const modal = this.modal.create({
-      nzTitle: this.$L('CSP账号配置'),
+      nzTitle: this.$L('CSP account configuration'),
       nzContent: CspAccountConfigComponent,
       nzComponentParams: {
         customerId: this.customerInfo.id,

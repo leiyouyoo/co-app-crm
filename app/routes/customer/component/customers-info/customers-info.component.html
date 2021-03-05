@@ -22,22 +22,26 @@
             <span nz-icon class="iconfont icon-zuzhijiagou" [nzIconfont]="'icon-zuzhijiagou'"></span>
             <span>CSP认证通过</span></nz-tag
           > -->
-          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/csp-certification.png" width="100px" *ngIf="customerInfo?.isRegistered"/>
 
-          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered" />
+          <img src="apps/crm/assets/images/un-csp-certification.png" width="100px" *ngIf="!customerInfo?.isRegistered"/>
         </div>
         <div class="edit-customer">
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 2" />
-          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.examineState == 3" />
-          <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="100px" *ngIf="customerInfo?.examineState == 1" />
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px"
+               *ngIf="customerInfo?.examineState == 2"/>
+          <img src="apps/crm/assets/images/enterpris-certification.png" width="100px"
+               *ngIf="customerInfo?.examineState == 3"/>
+          <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="100px"
+               *ngIf="customerInfo?.examineState == 1"/>
 
           <!-- <img src="apps/crm/assets/images/enterpris-certification.png" width="100px" *ngIf="customerInfo?.isEnterpriseAuth" />
           <img src="apps/crm/assets/images/un-enterpris-certification.png" width="100px" *ngIf="!customerInfo?.isEnterpriseAuth" /> -->
         </div>
       </div>
       <div style="display: flex; align-items: center;">
-        <button nz-button>{{ 'View customer organization structure' | translate }}</button>
-        <button nz-button nz-dropdown [nzDropdownMenu]="moreOperateButton" nz-icon nzType="default">
+        <!--          勿删，暂未实现-->
+        <!--        <button nz-button>{{ 'View customer organization structure' | translate }}</button>-->
+        <button nz-button nz-dropdown [nzDropdownMenu]="moreOperateButton" nzType="default">
           {{ 'New' | translate }}
         </button>
         <nz-dropdown-menu #moreOperateButton="nzDropdownMenu">
@@ -51,7 +55,8 @@
           </ul>
         </nz-dropdown-menu>
 
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code"
@@ -79,7 +84,7 @@
             </li>
             <li
               nz-menu-item
-              *ngIf="customerInfo?.state == 0 || customerInfo?.state == 1 || customerInfo?.state == 4"
+              *ngIf="!customerInfo?.isRegistered"
               (click)="cspAccountConfig()"
             >
               {{ 'CSP account configuration' | translate }}
@@ -134,7 +139,7 @@
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0].allowUserName
-      }}</span>
+        }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item.allowUserName }}
@@ -145,9 +150,10 @@
   </nz-header>
   <nz-layout>
     <nz-content nz-row [nzGutter]="32">
-      <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="16">
-        <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>
-        <div style="height: calc(100% - 96px); padding-left: 16px; background: #fff;">
+      <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="24">
+        <!--          勿删，暂未实现-->
+        <!--        <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>-->
+        <div style="height: 100%; padding-left: 16px; background: #fff;">
           <nz-tabset nzAnimated="false">
             <nz-tab [nzTitle]="'Contact list' | translate">
               <crm-contact-list [customerInfo]="customerInfo"></crm-contact-list>
@@ -155,11 +161,13 @@
             <nz-tab [nzTitle]="'Location list' | translate">
               <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
-            <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>
+            <!--          勿删，暂未实现-->
+            <!--            <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>-->
             <nz-tab [nzTitle]="'Partner' | translate">
               <customer-partner [customerId]="customerId"></customer-partner>
             </nz-tab>
-            <nz-tab [nzTitle]="'Document' | translate"></nz-tab>
+            <!--          勿删，暂未实现-->
+            <!--            <nz-tab [nzTitle]="'Document' | translate"></nz-tab>-->
             <nz-tab [nzTitle]="'Details' | translate">
               <crm-customer-detail
                 [isLoading]="isLoading"
@@ -171,6 +179,7 @@
           </nz-tabset>
         </div>
       </div>
+      <!--          勿删，暂未实现-->
       <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
         <div class="inner-box"></div>
       </div>
