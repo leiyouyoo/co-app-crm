@@ -138,11 +138,11 @@
 
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
-        (customerInfo?.ownerUserList)[0].allowUserName
+        (customerInfo?.ownerUserList)[0]?.allowUserName
         }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
-          {{ item.allowUserName }}
+          {{ item?.allowUserName }}
         </div>
       </ng-template>
       <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>

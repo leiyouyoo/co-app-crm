@@ -39,7 +39,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
   b = this.translate.instant('Potential customers');
   c = this.translate.instant('Unowned customers');
   d = this.translate.instant('Share customers');
-
+  showAdd = false;
   readonly CustomerType = CustomerType;
   columns: STColumn[] = [
     {
@@ -179,7 +179,7 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
     }
 
     let name = this.validateForm.value.name;
-    if (!/^\s*$|.{3,}|[\u4e00-\u9fa5]{2,}/gi.test(name)) {
+    if (!name || !/^\s*$|.{3,}|[\u4e00-\u9fa5]{2,}/gi.test(name)) {
       this.$message.warning(this.$L('Must least 3 character'));
       return;
     }
@@ -231,7 +231,14 @@ export class PartnerBindCustomerComponent extends CoPageBase implements OnInit {
       }
       this.$message.success(this.$L(message));
       this.outData.emit({ update: true });
-      this.modal.destroy()
+      this.modal.destroy();
     }, e => this.loading = false);
+  }
+
+  onSubmitted(e) {
+    this.showAdd = false;
+    if (e) {
+      this.search();
+    }
   }
 }
