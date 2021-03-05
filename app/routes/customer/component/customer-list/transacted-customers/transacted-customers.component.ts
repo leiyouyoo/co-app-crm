@@ -240,7 +240,7 @@ export class TransactedCustomersComponent extends CoPageBase {
     {
       type: 'action',
       fixed: 'right',
-      width: 150,
+      width: 100,
       buttons: [
         {
           text: 'View',

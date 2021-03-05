@@ -254,7 +254,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     {
       type: 'action',
       fixed: 'right',
-      width: 230,
+      width: 100,
       buttons: [
         {
           text: 'View',

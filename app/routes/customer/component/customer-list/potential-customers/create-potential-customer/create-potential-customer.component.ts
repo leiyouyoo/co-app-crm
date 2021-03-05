@@ -1285,7 +1285,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Create success!'));
           }
           this.cusLoading = false;
-          this.close();
+          this.close(true);
         },
         (err) => {
           this.cusLoading = false;
@@ -1300,7 +1300,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Update success!'));
           }
           this.cusLoading = false;
-          this.close();
+          this.close(true);
         },
         (error) => {
           this.cusLoading = false;
@@ -1309,9 +1309,14 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     }
   }
 
-  close() {
+  close(refresh=false) {
     this.sideDrawer?.destroy();
-    this.onSubmitted.emit(false);
+    this.onSubmitted.emit(refresh);
+  }
+
+  refresh(){
+    this.sideDrawer?.destroy();
+    this.onSubmitted.emit(true);
   }
 
   get checkRequired() {
