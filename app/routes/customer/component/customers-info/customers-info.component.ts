@@ -109,6 +109,12 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzComponentParams: { customerId: this.customerInfo.id },
       nzFooter: null,
     });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.getCustomerDetail(this.customerId);
+      }
+    });
   }
 
   /**
@@ -127,6 +133,11 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.getCustomerDetail(this.customerId);
+      }
+    });
   }
 
   /**
@@ -144,6 +155,11 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.$close();
+      }
+    });
   }
 
   cspAccountConfig() {
@@ -158,6 +174,11 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((res) => {
+      if (res) {
+        this.getCustomerDetail(this.customerId);
+      }
+    });
   }
 
   /**
