@@ -347,7 +347,7 @@
           </div>
         </div>
         <div nz-row [nzGutter]="32" style="height: 100%;">
-          <div nz-col class="gutter-row" [nzSpan]="24" style="height: 100%;">
+          <div nz-col class="gutter-row" [nzSpan]="24" style="height: calc(100% - 50px);">
             <nz-tabset nzAnimated="false" style="height: 100%; padding-left: 16px; background: #fff;">
               <nz-tab [nzTitle]="'Contact list' | translate">
                 <crm-contact-list [customerInfo]="customerInfo"></crm-contact-list>
