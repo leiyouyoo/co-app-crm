@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CRMPartnerService } from 'apps/crm/app/services/crm';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
+import { CreatePotentialCustomerComponent } from '../customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
 
 @Component({
   selector: 'customer-partner',
@@ -131,16 +132,16 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
 
   onShowNewCustomer() {
     const modal = this.modal.create({
-      nzTitle: this.$L('Bind customer'),
-      nzContent: PartnerBindCustomerComponent,
-      nzComponentParams: { customerId: this.customerId },
+      nzTitle: this.$L('Add Customer'),
+      nzContent: CreatePotentialCustomerComponent,
+      nzComponentParams: { },
       nzClassName: 'crm-location-detail',
-      nzStyle: { width: '80%' },
+      nzWidth:'60%',
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.outData.subscribe((r) => {
-      this.partnerOk(r);
+    component.onSubmitted.subscribe((r) => {
+      this.getPartnerByPageList(this.filterPartner);
     });
   }
 
@@ -148,9 +149,9 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     const modal = this.modal.create({
       nzTitle: this.translate.instant('Bind customer'),
       nzContent: PartnerBindCustomerComponent,
-      nzComponentParams: { modalName: data.name, customerId: this.customerId },
+      nzComponentParams: { customerId: this.customerId },
       nzClassName: 'crm-location-detail',
-      nzStyle: { width: '80%' },
+      nzWidth:'60%',
       nzFooter: null,
     });
     const component = modal.getContentComponent();

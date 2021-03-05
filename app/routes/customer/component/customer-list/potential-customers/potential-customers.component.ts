@@ -2,7 +2,6 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CRMCustomerService } from 'apps/crm/app/services/crm';
-import { CreatePotentialCustomerComponent } from './create-potential-customer/create-potential-customer.component';
 import { ACLService } from '@co/acl';
 import { TransferTocustomerComponent } from '../../transfer-tocustomer/transfer-tocustomer.component';
 import { UpdateCustomerNameComponent } from '../../update-customer-name/update-customer-name.component';

@@ -235,7 +235,7 @@
             <nz-form-control>
               <ng-container *ngIf="validateForm.get('ownerUserList').value?.length > 0; else elseTemplate">
                 <span *ngFor="let item of validateForm.get('ownerUserList').value">
-                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.allowUserName }}</label>
+                  <label *ngIf="readonly" style="margin-right: 8px;"> {{ item?.allowUserName }}</label>
                 </span>
               </ng-container>
               <ng-template #elseTemplate>

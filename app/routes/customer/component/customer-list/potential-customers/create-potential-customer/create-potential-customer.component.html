@@ -138,7 +138,7 @@
   </button>
 </div>
 <section>
-  <form nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+  <form style="min-height: 600px;" nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
     <h5 id="components-concat-info">
       <i
         nz-icon
@@ -908,7 +908,7 @@
     </ng-container>
   </form>
   <!--  锚点-->
-  <div style="z-index: 1; margin-left: 12px;">
+  <div *ngIf="showAnchor" style="z-index: 1; margin-left: 12px;">
     <nz-anchor nzContainer="form">
       <nz-link nzHref="#components-basic-info" [nzTitle]="'Basic Information' | translate"></nz-link>
       <nz-link nzHref="#components-concat-info" [nzTitle]="'Contact Information' | translate"></nz-link>
