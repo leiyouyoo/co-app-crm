@@ -2,10 +2,7 @@
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
       <div style="display: flex; align-items: center;">
-        <button nz-button nzType="primary" (click)="createCustomer()">
-          {{ 'Add Customer' | translate }}
-        </button>
-        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin-left: 8px;">
+        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin:0 8px;">
           <nz-option [nzValue]="0" [nzLabel]="'I m in charge' | translate"></nz-option>
           <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
           <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
@@ -13,6 +10,9 @@
           <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
           <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
+        <button nz-button nzType="primary" (click)="createCustomer()">
+          {{ 'Add Customer' | translate }}
+        </button>
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
@@ -55,7 +55,6 @@
             </li>
           </ul>
         </nz-dropdown-menu>
-
         <nz-divider nzType="vertical" style="height: 28px; margin: 0 8px 0 8px;"></nz-divider>
         <button nz-button (click)="onRefresh()">{{ 'Refresh' | translate }}</button>
       </div>
