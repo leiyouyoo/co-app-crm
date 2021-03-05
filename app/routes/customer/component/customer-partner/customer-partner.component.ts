@@ -145,7 +145,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     });
   }
 
-  bindCustomer(data) {
+  bindCustomer() {
     const modal = this.modal.create({
       nzTitle: this.translate.instant('Bind customer'),
       nzContent: PartnerBindCustomerComponent,
