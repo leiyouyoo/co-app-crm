@@ -1111,5 +1111,10 @@
   "Open a CSP account":"开通CSP账号",
   "Delete successfully!": "删除成功!",
   "Enable successfully!": "启用成功!",
-  "Void successfully!": "作废成功!"
+  "Void successfully!": "作废成功!",
+  "CSP certification passed":"CSP认证通过",
+  "CSP not certified":"CSP未认证",
+  "Enterprise certification passed":"企业认证通过",
+  "Enterprise not certified":"企业未认证",
+  "Enterprise certificationing":"企业认证中"
 }
