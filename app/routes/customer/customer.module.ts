@@ -6,6 +6,8 @@ import { PartnerBindCustomerComponent } from './component/partner-bind-customer/
 import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerIndexComponent } from './customer-index.component';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
+import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
+
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { TransactedCustomersComponent } from './component/customer-list/transacted-customers/transacted-customers.component';
 import { PotentialCustomersComponent } from './component/customer-list/potential-customers/potential-customers.component';
@@ -59,7 +61,7 @@ const COMPONENTS_NOROUNT = [CreatePotentialCustomerComponent,
   DistributionCustomerComponent, ApplyCodeComponent, MergeCustomerComponent, UpdateCustomerNameComponent,TransferTocustomerComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule],
+  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule,NzNoAnimationModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
