@@ -439,7 +439,7 @@
           <nz-form-item style="flex-wrap: nowrap;">
             <nz-form-label style="flex-shrink: 0;">{{ 'Related company' | translate }}</nz-form-label>
             <nz-form-control style="overflow: hidden;">
-              <div class="common_select">
+              <div class="common_select" [hidden]="isEdit">
                 <nz-select
                   nzAllowClear
                   nzShowSearch
@@ -458,6 +458,8 @@
                   ></nz-option>
                 </nz-select>
               </div>
+              <span [hidden]="!isEdit" style="color: #1890ff;" nz-icon [nzIconfont]="'icon-orgnization'" class="iconfont icon-orgnization">
+              </span>
             </nz-form-control>
           </nz-form-item>
         </div>

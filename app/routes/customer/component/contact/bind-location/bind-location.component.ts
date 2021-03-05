@@ -104,14 +104,13 @@ export class BindLocationComponent extends CoPageBase implements OnInit {
   }
 
   getLocation(id) {
-    this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
+    this.locationService.getAll({ customerId: id, bindContactId:this.contactIds[0],maxResultCount: 999 }).subscribe((res) => {
       this.locations = res.items;
     });
   }
 
   //取消隐藏新增弹框
   bingLocationCancel() {
-    debugger;
     this.getLocation(this.customerInfo.id);
     this.isAdd = false;
   }

@@ -245,7 +245,6 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
 
   //选项卡切换更新table
   onSelectChange(e) {
-    debugger;
     if (e.index == 0) {
       this.contactList.getContacts(this.customerId);
     } else if (e.index == 1) {

@@ -1,21 +1,59 @@
 <section *ngIf="!edit" style="display: flex; height: 40px; margin-right: 10px;">
   <button nzType="primary" nz-button *ngIf="!customerInfo?.isDeleted" (click)="editCustomer()">{{ 'Edit' | translate }}</button>
-  <button nzType="default" nz-button *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code && !customerInfo?.isDeleted" (click)="actionChange.emit('applyCode')">{{ 'Apply Code' | translate }}</button>
-  <button nzType="default" nz-button *ngIf="!customerInfo?.isDeleted"
-          (click)="actionChange.emit('transferCustomer')">{{ 'Transfer' | translate }}</button>
-  <button nzType="default" *ngIf="customerInfo?.examineState!=1 && !customerInfo?.isDeleted" nz-button (click)="actionChange.emit('applyName')">{{ 'Apply Name' | translate }}</button>
-  <button nzType="default" *ngIf="!customerInfo?.isDeleted" nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
-          [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-          (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')"
-          nz-button>{{ 'Transfer to the high seas' | translate }}</button>
-  <button nzType="default" nz-button *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered"
-          (click)="actionChange.emit('cspAccountConfig')">{{ 'CSP account configuration' | translate }}</button>
-  <button *ngIf="!customerInfo?.isDeleted" nzType="default" nz-popconfirm
-          [nzPopconfirmTitle]="'Are you sure?' | translate"
-          [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-          (nzOnConfirm)="actionChange.emit('setVoid')" nz-button>{{ 'Void' | translate }}</button>
-  <button nzType="default" *ngIf="customerInfo?.isDeleted" nz-button
-          (click)="actionChange.emit('recoverDelete')">{{ 'Enable' | translate }}</button>
+  <button
+    nzType="default"
+    nz-button
+    *ngIf="customerInfo?.examineState != 1 && !customerInfo?.code && !customerInfo?.isDeleted"
+    (click)="actionChange.emit('applyCode')"
+  >
+    {{ 'Apply Code' | translate }}
+  </button>
+  <button nzType="default" nz-button *ngIf="!customerInfo?.isDeleted" (click)="actionChange.emit('transferCustomer')">
+    {{ 'Transfer' | translate }}
+  </button>
+  <button
+    nzType="default"
+    *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted"
+    nz-button
+    (click)="actionChange.emit('applyName')"
+  >
+    {{ 'Apply Name' | translate }}
+  </button>
+  <button
+    nzType="default"
+    *ngIf="!customerInfo?.isDeleted"
+    nz-popconfirm
+    [nzPopconfirmTitle]="'Are you sure?' | translate"
+    [nzOkText]="'Confirm' | translate"
+    [nzCancelText]="'Cancel' | translate"
+    (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')"
+    nz-button
+  >
+    {{ 'Transfer to the high seas' | translate }}
+  </button>
+  <button
+    nzType="default"
+    nz-button
+    *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered"
+    (click)="actionChange.emit('cspAccountConfig')"
+  >
+    {{ 'CSP account configuration' | translate }}
+  </button>
+  <button
+    *ngIf="!customerInfo?.isDeleted"
+    nzType="default"
+    nz-popconfirm
+    [nzPopconfirmTitle]="'Are you sure?' | translate"
+    [nzOkText]="'Confirm' | translate"
+    [nzCancelText]="'Cancel' | translate"
+    (nzOnConfirm)="actionChange.emit('setVoid')"
+    nz-button
+  >
+    {{ 'Void' | translate }}
+  </button>
+  <button nzType="default" *ngIf="customerInfo?.isDeleted" nz-button (click)="actionChange.emit('recoverDelete')">
+    {{ 'Enable' | translate }}
+  </button>
 </section>
 <section class="fam-customer-detail" [hidden]="edit">
   <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."></nz-spin>
@@ -265,14 +303,15 @@
           <nz-form-item>
             <nz-form-label>{{ 'Related company' | translate }}</nz-form-label>
             <nz-form-control>
-              <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
+              <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-orgnization'" class="iconfont icon-orgnization"> </span>
+              <!-- <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
                 <span *ngFor="let item of validateForm.get('relatedCustomers').value">
                   <label *ngIf="readonly" style="margin-right: 8px;"> {{ item.zhName }}</label>
                 </span>
               </ng-container>
               <ng-template #elserelatedCustomersTemplate>
                 --
-              </ng-template>
+              </ng-template> -->
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -677,6 +716,7 @@
 
 <crm-create-potential-customer
   [hidden]="!edit"
+  [isEdit]="edit"
   [customerInfo]="customerInfo"
   (onSubmitted)="onSubmit($event)"
 ></crm-create-potential-customer>

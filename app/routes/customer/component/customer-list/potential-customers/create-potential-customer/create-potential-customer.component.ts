@@ -39,6 +39,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   @Input() showAnchor = true;
+  @Input() isEdit=false;
   @Input() sideDrawer: PageSideDrawerComponent;
   @Output() readonly onSubmitted = new EventEmitter<any>();
   @ViewChild('st', { static: false }) st: STComponent;
@@ -1284,6 +1285,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         },
       );
     } else {
+      //编辑不处理关联公司字段
+      delete entity.connectionCustomerId;
       this.crmCustomerService.update(entity).subscribe(
         (res) => {
           if (application) {

@@ -1,12 +1,31 @@
 <section *ngIf="!edit" style="display: flex; height: 40px; margin-right: 10px;">
   <button nzType="primary" nz-button (click)="editCustomer()">{{ 'Edit' | translate }}</button>
-  <button nzType="default" nz-button *ngIf="customerInfo?.examineState!=1 && !customerInfo?.code" (click)="actionChange.emit('applyCode')">{{ 'Apply Code' | translate }}</button>
+  <button
+    nzType="default"
+    nz-button
+    *ngIf="customerInfo?.examineState != 1 && !customerInfo?.code"
+    (click)="actionChange.emit('applyCode')"
+  >
+    {{ 'Apply Code' | translate }}
+  </button>
   <button nzType="default" nz-button (click)="actionChange.emit('transferCustomer')">{{ 'Transfer' | translate }}</button>
-  <button nzType="default" *ngIf="customerInfo?.examineState!=1" nz-button (click)="actionChange.emit('applyName')">{{ 'Apply Name' | translate }}</button>
-  <button nzType="default" nz-popconfirm [nzPopconfirmTitle]="'Are you sure?' | translate"
-          [nzOkText]="'Confirm' | translate" [nzCancelText]="'Cancel' | translate"
-          (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')" nz-button>{{ 'Transfer to the high seas' | translate }}</button>
-  <button nzType="default" *ngIf="!customerInfo?.isRegistered" nz-button (click)="actionChange.emit('cspAccountConfig')">{{ 'CSP account configuration' | translate }}</button>
+  <button nzType="default" *ngIf="customerInfo?.examineState != 1" nz-button (click)="actionChange.emit('applyName')">
+    {{ 'Apply Name' | translate }}
+  </button>
+  <button
+    nzType="default"
+    nz-popconfirm
+    [nzPopconfirmTitle]="'Are you sure?' | translate"
+    [nzOkText]="'Confirm' | translate"
+    [nzCancelText]="'Cancel' | translate"
+    (nzOnConfirm)="actionChange.emit('bulkTurnCustomerSea')"
+    nz-button
+  >
+    {{ 'Transfer to the high seas' | translate }}
+  </button>
+  <button nzType="default" *ngIf="!customerInfo?.isRegistered" nz-button (click)="actionChange.emit('cspAccountConfig')">
+    {{ 'CSP account configuration' | translate }}
+  </button>
 </section>
 <section class="fam-customer-detail" [hidden]="edit">
   <nz-spin [nzSpinning]="loading" nzTip="{{ 'Loading' | translate }}..."></nz-spin>
@@ -256,15 +275,16 @@
           <nz-form-item>
             <nz-form-label>{{ 'Related company' | translate }}</nz-form-label>
             <nz-form-control>
-              <ng-container
-                *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
+              <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-orgnization'" class="iconfont icon-orgnization"> </span>
+
+              <!-- <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
                 <span *ngFor="let item of validateForm.get('relatedCustomers').value">
                   <label style="margin-right: 8px;"> {{ item.zhName }}</label>
                 </span>
               </ng-container>
               <ng-template #elserelatedCustomersTemplate>
                 --
-              </ng-template>
+              </ng-template> -->
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -273,8 +293,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Used Name' | translate }}</nz-form-label>
             <nz-form-control>
-              <ng-container
-                *ngIf="validateForm.get('beforeNames')?.value?.length > 0; else elseCustomerRenamingsTemplate">
+              <ng-container *ngIf="validateForm.get('beforeNames')?.value?.length > 0; else elseCustomerRenamingsTemplate">
                 {{ (validateForm.get('beforeNames')?.value)[0].nameLocalization }}
                 <span
                   style="color: #1890ff; font-size: 20px;"
@@ -429,8 +448,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
             <nz-form-control>
-              <ng-container
-                *ngIf="validateForm.get('customerConfigure').value?.website; else elsecustomerConfigureTemplate">
+              <ng-container *ngIf="validateForm.get('customerConfigure').value?.website; else elsecustomerConfigureTemplate">
                 <label>
                   {{ validateForm.get('customerConfigure').value?.website }}
                 </label>
@@ -560,8 +578,7 @@
             <nz-form-label>{{ 'Customer grand' | translate }}</nz-form-label>
             <nz-form-control>
               <label>
-                <span
-                  *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 0">{{ 'Customize' | translate }}</span>
+                <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 0">{{ 'Customize' | translate }}</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 1">T1(50-99.99)USD</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 2">T2(100-199.99)USD</span>
                 <span *ngIf="validateForm.get('customerConfigure').value?.customerLevel == 3">T3(200-299.99)USD</span>
@@ -670,6 +687,7 @@
 
 <crm-create-transacted-customers
   [hidden]="!edit"
+  [isEdit]="edit"
   [customerInfo]="customerInfo"
   (onSubmitted)="onSubmit($event)"
 ></crm-create-transacted-customers>

@@ -44,6 +44,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   get customerInfo() {
     return this.customerInfo;
   }
+  @Input() isEdit=false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
   @ViewChild('ngForm', { static: false }) ngForm: FormGroupDirective;
@@ -1223,7 +1224,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       description: value.description,
       incoterms: value.incoterms,
       oceanAttachFee: value.oceanAttachFee,
-      connectionCustomerId: value.connectionCustomerId,
+      // connectionCustomerId: value.connectionCustomerId,
       customerOwner: value.customerOwner,
       customerLevel: value.customerLevel,
       website: value.website,

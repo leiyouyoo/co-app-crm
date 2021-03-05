@@ -19,7 +19,7 @@ export class CRMCustomerOperationEventService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {searchKey?:string,businessType?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,searchKey?:string,businessType?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerOperationEventDto>> {
         return null as any

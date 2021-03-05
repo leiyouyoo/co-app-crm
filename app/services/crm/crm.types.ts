@@ -1337,12 +1337,13 @@
             isDangerFlag?: boolean;
          
             /* 潜在客户状态
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
             leadTrackingPhase?: number;
          
             /* 成交状态
@@ -1703,6 +1704,40 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMContactCheckDto {
+        [key:string]: any;
+        
+         
+            
+            id?: string;
+         
+            /* 号码 */ 
+            phone?: string;
+         
+            /* 地址 */ 
+            email?: string;
+         
+            /* 姓 */ 
+            lastname?: string;
+         
+            /* 名 */ 
+            name?: string;
+         
+            /* 本地名称 */ 
+            nameLocalization?: string;
+         
+            /* 是否主联系人 */ 
+            isMaster?: boolean;
+         
+            /* 固定电话 */ 
+            tel?: string;
+        
+        
+    }
+ 
+    /**
      * 创建或更新客户
      */
     export class CRMCreateOrUpdateCustomerInput {
@@ -1799,13 +1834,17 @@
             oceanAttachFee?: number;
          
             /* 潜在客户追踪阶段
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
             leadTrackingPhase?: number;
+         
+            /* 客户联系人 */ 
+            customerContacts?: CRMContactCheckDto[];
          
             /* 客户网址 */ 
             website?: string;
@@ -2276,12 +2315,13 @@
             isDangerFlag?: boolean;
          
             /* 潜在客户状态
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
             leadTrackingPhase?: number;
          
             /* 成交状态
@@ -2786,12 +2826,13 @@
             isDangerFlag?: boolean;
          
             /* 潜在客户状态
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
             leadTrackingPhase?: number;
          
             /* 成交状态
@@ -3098,40 +3139,6 @@
     /**
      *  No Remark 
      */
-    export class CRMContactCheckDto {
-        [key:string]: any;
-        
-         
-            
-            id?: string;
-         
-            /* 号码 */ 
-            phone?: string;
-         
-            /* 地址 */ 
-            email?: string;
-         
-            /* 姓 */ 
-            lastname?: string;
-         
-            /* 名 */ 
-            name?: string;
-         
-            /* 本地名称 */ 
-            nameLocalization?: string;
-         
-            /* 是否主联系人 */ 
-            isMaster?: boolean;
-         
-            /* 固定电话 */ 
-            tel?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
     export class CRMLocationContactsDto {
         [key:string]: any;
         
@@ -3200,6 +3207,16 @@
         [key:string]: any;
         
          
+            /* 潜在客户阶段
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
+            leadTrackingPhase?: number;
+         
             /* 是否作废 */ 
             isDeleted?: boolean;
          
@@ -3237,7 +3254,7 @@
             contacts?: CRMContactCheckDto[];
          
             /* 客户联系人 */ 
-            customerContact?: CRMContactCheckDto;
+            customerContacts?: CRMContactCheckDto[];
          
             /* 地点集合 */ 
             locations?: CRMLocationContactsDto[];
@@ -3424,1112 +3441,46 @@
     /**
      *  No Remark 
      */
-    export class CRMContactLocation {
-        [key:string]: any;
-        
-         
-            
-            contactId?: string;
-         
-            
-            contact?: CRMContact;
-         
-            
-            locationId?: string;
-         
-            
-            location?: CRMLocation;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMContact {
-        [key:string]: any;
-        
-         
-            
-            name: string;
-         
-            
-            surname?: string;
-         
-            
-            phone?: string;
-         
-            
-            fax?: string;
-         
-            
-            email?: string;
-         
-            
-            remark?: string;
-         
-            
-            tel?: string;
-         
-            
-            position?: string;
-         
-            
-            msn?: string;
-         
-            
-            isMaster?: boolean;
-         
-            
-            customerId?: string;
-         
-            
-            partnerId?: string;
-         
-            
-            userId?: number;
-         
-            
-            sellerUserId?: number;
-         
-            
-            localizationText?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            roles?: string;
-         
-            
-            txId?: string;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            partner?: CRMPartner;
-         
-            
-            locations?: any[];
-         
-            
-            contactUserConnections?: any[];
-         
-            
-            userInfo?: object;
-         
-            
-            registerUserId?: number;
-         
-            
-            registerUser?: object;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMLocation {
-        [key:string]: any;
-        
-         
-            
-            streetAddress: string;
-         
-            
-            name: string;
-         
-            
-            zip?: string;
-         
-            
-            streetAddress2?: string;
-         
-            
-            countryId?: string;
-         
-            
-            provinceId?: string;
-         
-            
-            cityId?: string;
-         
-            /* 
-0 = Normal
-1 = FBA */ 
-            locationType?: number;
-         
-            /* 
-0 = OnlyMyOrganization
-1 = MyConnections
-2 = SpecificConnections */ 
-            viewableType?: number;
-         
-            
-            localizationText?: string;
-         
-            
-            longitude?: string;
-         
-            
-            latitude?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            txId?: string;
-         
-            
-            locationAddition?: CRMLocationAddition;
-         
-            
-            country?: object;
-         
-            
-            province?: object;
-         
-            
-            city?: object;
-         
-            
-            contacts?: any[];
-         
-            
-            customerLocations?: any[];
-         
-            
-            creator?: object;
-         
-            
-            lastModifier?: object;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomer {
-        [key:string]: any;
-        
-         
-            
-            name: string;
-         
-            
-            shortName?: string;
-         
-            
-            tel?: string;
-         
-            
-            fax?: string;
-         
-            
-            keyWord?: string;
-         
-            
-            email?: string;
-         
-            
-            code?: string;
-         
-            /* 
-1 = Carrier
-2 = AirLine
-3 = Forwarding
-4 = DirectClient
-5 = Trucker
-6 = CustomsBroker
-7 = WareHouse
-8 = Storage
-9 = RailWay
-10 = Express
-11 = Terminal
-12 = Other */ 
-            customerType?: number;
-         
-            
-            isSalesCustomer?: boolean;
-         
-            
-            incoterms?: string;
-         
-            
-            industry?: string;
-         
-            
-            description?: string;
-         
-            
-            isShare?: boolean;
-         
-            /* 
-0 = NoneCooperation
-1 = Cooperation
-2 = Share
-3 = Ownerless */ 
-            status?: number;
-         
-            /* 
-0 = NoSet
-1 = UnApply
-2 = Processing
-3 = Passed
-4 = Unpassed */ 
-            state?: number;
-         
-            /* 
-0 = NotSet
-1 = WaitingExamine
-2 = PassExamine
-3 = RefuseExamine */ 
-            examineState?: number;
-         
-            
-            examineTime?: string;
-         
-            
-            examineUserId?: number;
-         
-            
-            isDangerFlag?: boolean;
-         
-            /* 
-0 = NotSet
-1 = NoneCooperation
-2 = HaveCooperation */ 
-            cooperationState?: number;
-         
-            /* 
-0 = NotSet
-1 = NoneOwner
-2 = HaveOwner */ 
-            ownerState?: number;
-         
-            /* 
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
-            leadTrackingPhase?: number;
-         
-            
-            countryId?: string;
-         
-            
-            provinceId?: string;
-         
-            
-            cityId?: string;
-         
-            
-            address?: string;
-         
-            
-            firstTradeTime?: string;
-         
-            
-            lastTradeTime?: string;
-         
-            
-            claimTime?: string;
-         
-            
-            lastQuotationTime?: string;
-         
-            
-            lastTradeSaleUserId?: number;
-         
-            
-            editionRoleId?: number;
-         
-            
-            mergerId?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            localizationText?: string;
-         
-            
-            customerConfigure?: CRMCustomerConfigure;
-         
-            
-            customerAccessAllows?: any[];
-         
-            
-            customerConnections?: any[];
-         
-            
-            connectionCustomers?: any[];
-         
-            
-            partners?: any[];
-         
-            
-            parentCustomers?: any[];
-         
-            
-            contacts?: any[];
-         
-            
-            customerLifeCycles?: any[];
-         
-            
-            traceLogs?: any[];
-         
-            
-            customerTaxes?: any[];
-         
-            
-            incotermsCache?: object;
-         
-            
-            industryCache?: object;
-         
-            
-            country?: object;
-         
-            
-            province?: object;
-         
-            
-            city?: object;
-         
-            
-            creator?: object;
-         
-            
-            lastModifier?: object;
-         
-            
-            customerExamines?: any[];
-         
-            
-            customerHighSeas?: any[];
-         
-            
-            enName?: string;
-         
-            
-            zhName?: string;
-         
-            
-            enShortName?: string;
-         
-            
-            zhShortName?: string;
-         
-            
-            enAddress?: string;
-         
-            
-            zhAddress?: string;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMPartner {
-        [key:string]: any;
-        
-         
-            
-            name: string;
-         
-            
-            customerId?: string;
-         
-            
-            partnerCustomerId?: string;
-         
-            
-            bindUserId?: number;
-         
-            
-            bindTime?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            partnerCustomer?: CRMCustomer;
-         
-            
-            bindUser?: object;
-         
-            
-            creator?: object;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMContactUserConnection {
-        [key:string]: any;
-        
-         
-            
-            contactId?: string;
-         
-            
-            userId?: number;
-         
-            
-            isMerge?: boolean;
-         
-            
-            originalCustomerId?: string;
-         
-            
-            contact?: CRMContact;
-         
-            
-            connectionUserInfo?: object;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMLocationAddition {
-        [key:string]: any;
-        
-         
-            
-            unlocode?: string;
-         
-            
-            timezone?: string;
-         
-            
-            isResidential?: boolean;
-         
-            
-            isDock?: boolean;
-         
-            
-            isUnloading?: boolean;
-         
-            
-            isAppointment?: boolean;
-         
-            
-            isLiveUnload?: boolean;
-         
-            
-            unloadCompanyId?: string;
-         
-            
-            isLiveLoad?: boolean;
-         
-            
-            loadCompanyId?: string;
-         
-            
-            description?: string;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerLocation {
-        [key:string]: any;
-        
-         
-            
-            customerId?: string;
-         
-            
-            locationId?: string;
-         
-            
-            partnerId?: string;
-         
-            
-            sharePartnerCustomerId?: string;
-         
-            
-            isOwner?: boolean;
-         
-            
-            location?: CRMLocation;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            partner?: CRMPartner;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerAccessAllow {
-        [key:string]: any;
-        
-         
-            
-            customerId?: string;
-         
-            
-            allowUserId?: number;
-         
-            
-            isOwner?: boolean;
-         
-            
-            tenantId?: number;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            userInfo?: object;
-         
-            
-            creator?: object;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerConnection {
-        [key:string]: any;
-        
-         
-            
-            sourceCustomerId?: string;
-         
-            
-            connectionCustomerId?: string;
-         
-            
-            connectionTime?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            sourceCustomer?: CRMCustomer;
-         
-            
-            connectionCustomer?: CRMCustomer;
-         
-            
-            id?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerLifeCycle {
-        [key:string]: any;
-        
-         
-            
-            customerId?: string;
-         
-            /* 
-0 = Created
-1 = Registered
-2 = FirsttimeShip
-3 = Cooperation
-4 = NoneCooperation
-5 = Shared
-6 = Ownerless
-7 = Partner */ 
-            status?: number;
-         
-            
-            remark?: string;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            tenantId?: number;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMTraceLogItem {
-        [key:string]: any;
-        
-         
-            
-            tenantId?: number;
-         
-            
-            traceLogId?: string;
-         
-            
-            traceLog?: CRMTraceLog;
-         
-            
-            fileId?: string;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMTraceLog {
-        [key:string]: any;
-        
-         
-            
-            content?: string;
-         
-            
-            praiseCount?: number;
-         
-            
-            customerId?: string;
-         
-            
-            traceLogTypeId?: string;
-         
-            
-            followUpRecord?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            traceLogType?: object;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            creatorUser?: object;
-         
-            
-            traceLogItems?: CRMTraceLogItem[];
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerTax {
-        [key:string]: any;
-        
-         
-            /* 
-0 = EIN
-1 = SSN
-2 = ITIN
-3 = ATIN */ 
-            taxType?: number;
-         
-            
-            taxNo?: string;
-         
-            
-            customerId?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            customer?: CRMCustomer;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerExamine {
-        [key:string]: any;
-        
-         
-            
-            customerId?: string;
-         
-            
-            customer?: CRMCustomer;
-         
-            /* 
-0 = NoteSet
-1 = UpdateName
-2 = PostCode */ 
-            examineType?: number;
-         
-            /* 
-0 = NotSet
-1 = WaitingExamine
-2 = PassExamine
-3 = RefuseExamine */ 
-            examineState?: number;
-         
-            
-            examineTime?: string;
-         
-            
-            examineUserId?: number;
-         
-            
-            examineUser?: object;
-         
-            
-            creator?: object;
-         
-            
-            refuseReason?: string;
-         
-            
-            tenantId?: number;
-         
-            
-            beforeContent?: string;
-         
-            
-            approvalContent?: string;
-         
-            
-            applyRemark?: string;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCustomerHighSeas {
-        [key:string]: any;
-        
-         
-            
-            customerId?: string;
-         
-            /* 
-0 = HighSeasPonl
-1 = Transfer
-2 = ReturnRecord
-3 = Frozen */ 
-            ascriptionType?: number;
-         
-            
-            oldUserId?: number;
-         
-            
-            newUserId?: number;
-         
-            
-            isValid?: boolean;
-         
-            
-            joinTime?: string;
-         
-            
-            outTime?: string;
-         
-            /* 
-0 = NotFollowed
-1 = Unsettled */ 
-            joinCause?: number;
-         
-            /* 
-0 = AutomaticAllocation
-1 = ActiveDistribution
-2 = ActiveClaim */ 
-            outCause?: number;
-         
-            
-            allocationStatus?: boolean;
-         
-            
-            claimStatus?: boolean;
-         
-            
-            allocationUserId?: number;
-         
-            
-            allocationTime?: string;
-         
-            
-            claimTime?: string;
-         
-            
-            operationRemark?: string;
-         
-            
-            id?: string;
-         
-            
-            creationTime?: string;
-         
-            
-            creatorUserId?: number;
-         
-            
-            lastModificationTime?: string;
-         
-            
-            lastModifierUserId?: number;
-         
-            
-            deletionTime?: string;
-         
-            
-            deleterUserId?: number;
-         
-            
-            isDeleted?: boolean;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
     export class CRMUpateLeadTrackingPhaseInput {
         [key:string]: any;
         
          
             /* 潜在客户追踪阶段
-0 = PreliminaryContact
-1 = DemandDetermination
-2 = QuotedPrice
-3 = Negotiation
-4 = WinTheOrder
-5 = LostOrder */ 
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
             leadTrackingPhase?: number;
          
             
             id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMSetCustomerDealTimeInput {
+        [key:string]: any;
+        
+         
+            
+            customerId?: string;
+         
+            
+            dealTime?: string;
+         
+            /* 
+0 = Waybill
+1 = Order */ 
+            dealType?: number;
+         
+            
+            saleUserId?: number;
         
         
     }
@@ -5310,7 +4261,9 @@
 0 = NotSet
 1 = TeamMember
 2 = CustomerInfo
-3 = TrackRecord */ 
+3 = TrackRecord
+4 = Schedule
+5 = Email */ 
             businessType?: number;
         
         
