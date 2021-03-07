@@ -137,7 +137,8 @@
             </li>
           </ul>
         </nz-dropdown-menu>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li
@@ -150,8 +151,10 @@
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" nz-menu-item (click)="cspAccountConfig()">
-              {{ 'Apply for CSP certification' | translate }}
+            <li nz-menu-item
+                *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered"
+                (click)="cspAccountConfig()">
+              {{ 'CSP account configuration' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
@@ -166,13 +169,6 @@
               (nzOnConfirm)="bulkTurnCustomerSea()"
             >
               {{ 'Transfer to the high seas' | translate }}
-            </li>
-            <li
-              nz-menu-item
-              *ngIf="(customerInfo?.state == 0 || customerInfo?.state == 1 || customerInfo?.state == 4) && !customerInfo?.isDeleted"
-              (click)="cspAccountConfig()"
-            >
-              {{ 'CSP account configuration' | translate }}
             </li>
             <li
               nz-menu-item
@@ -244,14 +240,16 @@
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
+      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'"
+            class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
   <nz-layout>
     <nz-content>
       <nz-spin [nzSpinning]="isLoading">
-        <div nz-row [nzGutter]="32">
-          <div nz-col nzSpan="24" class="taskCenter" style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
+        <div *ngIf="false" nz-row [nzGutter]="32">
+          <div nz-col nzSpan="24" class="taskCenter"
+               style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
             <nz-spin [nzSpinning]="stepLoading">
               <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index - 1">
                 <nz-step
@@ -279,7 +277,8 @@
                   [nzIcon]="negotiationIcon"
                 ></nz-step>
                 <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
+                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
+                         style="margin-right: 30px !important;"></nz-step>
                 <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
@@ -339,13 +338,15 @@
               <ng-template #win>
                 <div style="display: flex; justify-content: space-between;">
                   <div class="Check">赢单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
               <ng-template #loseorder>
                 <div style="display: flex; justify-content: space-between;">
                   <div class="Check">输单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
             </nz-spin>
