@@ -44,8 +44,10 @@
       <ng-container *ngIf="data?.userInfo?.isActive; else elseUserInfoActiveTemplate">
         {{ '已激活' | translate }}
       </ng-container>
-      <ng-template #elseIsActiveTemplate> -- </ng-template>
-    </ng-template>
+      <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
+    </ng-container>
+    <ng-template #elseIsActiveTemplate> -- </ng-template>
+  </ng-template>
 
     <ng-template st-row="isMaster" let-data>
       <ng-container *ngIf="data.isMaster; else elseIsMasterTemplate">
