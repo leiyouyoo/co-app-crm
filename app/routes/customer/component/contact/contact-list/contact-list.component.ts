@@ -206,8 +206,8 @@ export class ContactListComponent extends CoPageBase {
         customerInfo: this.customerInfo,
         contactIds: [item.id],
       },
-      nzClassName: 'crm-location-detail',
-      nzStyle: { width: '50%' },
+      nzClassName: 'crm-bingContact',
+      nzStyle: { width: '50%',height:'500px' },
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {

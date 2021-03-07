@@ -4,59 +4,57 @@
   {{ 'Bind' | translate }}
 </button>
 
-<section [hidden]="isAdd">
-  <co-st
-    #st
-    [columns]="columns"
-    [data]="contacts"
-    columnDefaultWidth="100"
-    (change)="onTableChange($event)"
-    calcScroll
-    disableCalcX
-    virtualScroll
-    [showFilters]="false"
-    style="flex: 1;"
-  >
-    <ng-template st-row="xm" let-data>
-      {{ data.surname }}
-      {{ data.name }}
-    </ng-template>
-    <ng-template st-row="xml" let-data>
-      {{ data.localizationSurname }}
-      {{ data.localizationName }}
-    </ng-template>
+<co-st
+  #st
+  [hidden]="isAdd"
+  [columns]="columns"
+  [data]="contacts"
+  columnDefaultWidth="100"
+  (change)="onTableChange($event)"
+  calcScroll
+  disableCalcX
+  virtualScroll
+  [showFilters]="false"
+  style="flex: 1;"
+>
+  <ng-template st-row="xm" let-data>
+    {{ data.surname }}
+    {{ data.name }}
+  </ng-template>
+  <ng-template st-row="xml" let-data>
+    {{ data.localizationSurname }}
+    {{ data.localizationName }}
+  </ng-template>
 
-    <ng-template st-row="userId" let-data>
-      <ng-container *ngIf="data.userId; else elseUserIdTemplate">
-        {{ '开通' | translate }}
-      </ng-container>
-      <ng-template #elseUserIdTemplate> {{ '未开通' | translate }} </ng-template>
-    </ng-template>
-    <ng-template st-row="creationTime" let-data>
-      <ng-container *ngIf="data.userId; else elseCreationTimeTemplate">
-        {{ data?.userInfo?.creationTime | date: 'yyyy-MM-dd' }}
-      </ng-container>
-      <ng-template #elseCreationTimeTemplate> -- </ng-template>
-    </ng-template>
+  <ng-template st-row="userId" let-data>
+    <ng-container *ngIf="data.userId; else elseUserIdTemplate">
+      {{ '开通' | translate }}
+    </ng-container>
+    <ng-template #elseUserIdTemplate> {{ '未开通' | translate }} </ng-template>
+  </ng-template>
+  <ng-template st-row="creationTime" let-data>
+    <ng-container *ngIf="data.userId; else elseCreationTimeTemplate">
+      {{ data?.userInfo?.creationTime | date: 'yyyy-MM-dd' }}
+    </ng-container>
+    <ng-template #elseCreationTimeTemplate> -- </ng-template>
+  </ng-template>
 
-    <ng-template st-row="isActive" let-data>
-      <ng-container *ngIf="data.userId; else elseIsActiveTemplate">
-        <ng-container *ngIf="data?.userInfo?.isActive; else elseUserInfoActiveTemplate">
-          {{ '已激活' | translate }}
-        </ng-container>
-        <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
+  <ng-template st-row="isActive" let-data>
+    <ng-container *ngIf="data.userId; else elseIsActiveTemplate">
+      <ng-container *ngIf="data?.userInfo?.isActive; else elseUserInfoActiveTemplate">
+        {{ '已激活' | translate }}
       </ng-container>
-      <ng-template #elseIsActiveTemplate> -- </ng-template>
-    </ng-template>
-  </co-st>
-</section>
+      <ng-template #elseUserInfoActiveTemplate> {{ '未激活' | translate }}</ng-template>
+    </ng-container>
+    <ng-template #elseIsActiveTemplate> -- </ng-template>
+  </ng-template>
+</co-st>
 
-<section [hidden]="!isAdd">
-  <crm-contact-detail
-    [isbingContact]="true"
-    [customerId]="customerInfo.id"
-    [locationId]="locationId"
-    (bingLocation)="bingContactCancel()"
-    (onSubmitted)="reloadLocationList($event)"
-  ></crm-contact-detail>
-</section>
+<crm-contact-detail
+  [hidden]="!isAdd"
+  [isbingContact]="true"
+  [customerId]="customerInfo.id"
+  [locationId]="locationId"
+  (bingLocation)="bingContactCancel()"
+  (onSubmitted)="reloadLocationList($event)"
+></crm-contact-detail>
