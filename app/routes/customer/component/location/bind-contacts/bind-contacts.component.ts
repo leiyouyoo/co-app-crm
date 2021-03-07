@@ -63,6 +63,7 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
     {
       title: 'Main contact',
       index: 'isMaster',
+      render: 'isMaster',
       width: 100,
     },
     {

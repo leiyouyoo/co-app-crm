@@ -48,6 +48,15 @@
       </ng-container>
       <ng-template #elseIsActiveTemplate> -- </ng-template>
     </ng-template>
+
+    <ng-template st-row="isMaster" let-data>
+      <ng-container *ngIf="data.isMaster; else elseIsMasterTemplate">
+        {{ 'CustomerList.Yes' | translate }}
+      </ng-container>
+      <ng-template #elseIsMasterTemplate>
+        {{ 'CustomerList.No' | translate }}
+      </ng-template>
+    </ng-template>
   </co-st>
 </section>
 
