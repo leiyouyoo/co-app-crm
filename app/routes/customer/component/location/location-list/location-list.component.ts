@@ -155,8 +155,8 @@ export class LocationListComponent extends CoPageBase {
     });
   }
 
-  deleteContact(item?) {
-    this.contactService.delete({ id: item.id }).subscribe((res) => {
+  deleteContact(item?,data?) {
+    this.locationService.unbindUserLocation({locationId:data.id,contactId:item.id }).subscribe((res) => {
       this.msg.info(this.$L('Void successfully!'));
       // this.st.load();
       this.getLocation(this.customerInfo.id);
