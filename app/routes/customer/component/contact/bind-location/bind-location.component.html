@@ -3,8 +3,8 @@
   {{ '绑定' | translate }}
 </button>
 
-<section [hidden]="isAdd">
   <co-st
+  [hidden]="isAdd"
     #st
     [columns]="columns"
     [data]="locations"
@@ -18,14 +18,12 @@
   >
     <ng-template st-row="cpc" let-data> {{ data.country }}-{{ data.province }}-{{ data.city }} </ng-template>
   </co-st>
-</section>
 
-<section [hidden]="!isAdd">
   <crm-location-detail
     [isbingLocation]="true"
+    [hidden]="!isAdd"
     [customerId]="customerInfo.id"
     [contactIds]="contactIds"
     (bingLocation)="bingLocationCancel()"
     (onSubmitted)="reloadContactList($event)"
   ></crm-location-detail>
-</section>
