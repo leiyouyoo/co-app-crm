@@ -108,7 +108,7 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   //绑定
   onBind() {
     const contactIds = this.selected.map((c) => c.id);
-    this.locationService.assignUsersToLocation({ locationId: this.locationId, contactIds: contactIds }).subscribe(
+    this.locationService.assignUsersToLocation({ locationId: this.locationId,  contactIds: contactIds }).subscribe(
       (res) => {
         this.msg.info(this.$L('Bind success'));
         this.onBindSubmitted.emit(true);
@@ -124,7 +124,7 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   }
 
   getContacts(id) {
-    this.contactService.getByCustomerOrPartner({ customerId: id, maxResultCount: 999 }).subscribe((res) => {
+    this.contactService.getByCustomerOrPartner({ customerId: id, bindLocationId:this.locationId, maxResultCount: 999 }).subscribe((res) => {
       this.contacts = res.items;
     });
   }

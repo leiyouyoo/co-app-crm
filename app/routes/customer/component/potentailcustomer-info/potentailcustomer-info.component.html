@@ -119,7 +119,7 @@
         </div>
       </div>
       <div style="display: flex; align-items: center;">
-        <button nz-button>{{ '查看客户组织结构' | translate }}</button>
+        <button nz-button>{{ 'View customer organization structure' | translate }}</button>
         <button nz-button nz-dropdown [nzDropdownMenu]="moreOperateButton" nzType="default">
           {{ 'New' | translate }}
         </button>
@@ -148,7 +148,7 @@
             </li>
             <li *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" nz-menu-item
                 (click)="cspAccountConfig()">
-              {{ '申请CSP认证' | translate }}
+              {{ 'Apply for CSP certification' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
@@ -188,7 +188,7 @@
       </div>
     </div>
     <div style="margin-top: 8px;">
-      <span style="margin-right: 10px; color: #999;">客户类型</span>
+      <span style="margin-right: 10px; color: #999;">{{'Customer Type'|translate}}</span>
       <span style="margin-right: 40px;">
         <span *ngIf="customerInfo?.customerType == 1">
           {{ 'Carrier' | translate }}
@@ -227,10 +227,10 @@
           {{ 'Other' | translate }}
         </span>
       </span>
-      <span style="margin-right: 10px; color: #999;">客户代码</span>
+      <span style="margin-right: 10px; color: #999;">{{'Customer code'|translate}}</span>
       <span style="margin-right: 40px;">{{ customerInfo?.code || '--' }}</span>
 
-      <span style="margin-right: 10px; color: #999;">客户所有人</span>
+      <span style="margin-right: 10px; color: #999;">{{'Customer owned'|translate}}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
         }}</span>
@@ -239,7 +239,7 @@
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
+      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
   <nz-layout>

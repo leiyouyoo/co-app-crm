@@ -49,7 +49,7 @@ export class CRMContactService extends BaseApi {
     @GET('GetAllByCustomer')
     getAllByCustomer(
         @Payload
-        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,bindLocationId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMListResultDto1<CRMContactListDto>> {
         return null as any
@@ -64,7 +64,7 @@ export class CRMContactService extends BaseApi {
     @GET('GetByCustomerOrPartner')
     getByCustomerOrPartner(
         @Payload
-        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,bindLocationId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMContactListDto>> {
         return null as any

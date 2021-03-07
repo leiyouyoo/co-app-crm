@@ -715,6 +715,9 @@
             /* 是否共享地点里的 */ 
             isShare?: boolean;
          
+            
+            isMaster?: boolean;
+         
             /* 地点集合 */ 
             locations?: any[];
          
