@@ -16,7 +16,6 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   @Output() readonly onBindSubmitted = new EventEmitter<boolean>();
   @Input() set customerInfo(v: any) {
     this.customerDetail = v;
-    this.getContacts(v?.id);
   }
 
   get customerInfo() {
@@ -39,7 +38,12 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
     super(injector);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    debugger;
+    if (this.customerInfo.id && this.locationId) {
+      this.getContacts(this.customerInfo.id);
+    }
+  }
 
   columns: STColumn[] = [
     {
@@ -108,7 +112,7 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   //绑定
   onBind() {
     const contactIds = this.selected.map((c) => c.id);
-    this.locationService.assignUsersToLocation({ locationId: this.locationId,  contactIds: contactIds }).subscribe(
+    this.locationService.assignUsersToLocation({ locationId: this.locationId, contactIds: contactIds }).subscribe(
       (res) => {
         this.msg.info(this.$L('Bind success'));
         this.onBindSubmitted.emit(true);
@@ -124,8 +128,10 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   }
 
   getContacts(id) {
-    this.contactService.getByCustomerOrPartner({ customerId: id, bindLocationId:this.locationId, maxResultCount: 999 }).subscribe((res) => {
-      this.contacts = res.items;
-    });
+    this.contactService
+      .getByCustomerOrPartner({ customerId: id, bindLocationId: this.locationId, maxResultCount: 999 })
+      .subscribe((res) => {
+        this.contacts = res.items;
+      });
   }
 }

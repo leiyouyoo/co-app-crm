@@ -266,7 +266,7 @@
             /* 用户Id，如果有值则表示为租户用户 */ 
             userId?: number;
          
-            /* 是否删除 */ 
+            
             isDeleted?: boolean;
          
             /* 用户信息 */ 

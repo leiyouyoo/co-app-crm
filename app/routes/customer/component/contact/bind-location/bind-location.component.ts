@@ -12,15 +12,15 @@ import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 })
 export class BindLocationComponent extends CoPageBase implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
+  @Input() contactIds = [];
   @Input() set customerInfo(v: any) {
     this.customerDetail = v;
-    this.getLocation(v?.id);
   }
 
   get customerInfo() {
     return this.customerDetail;
   }
-  @Input() contactIds = [];
+
   @Output() readonly onBindSubmitted = new EventEmitter<boolean>();
   customerDetail: any;
   locations = [];
@@ -42,7 +42,11 @@ export class BindLocationComponent extends CoPageBase implements OnInit {
   }
 
   contactInfo: any;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.customerInfo.id && this.contactIds.length > 0) {
+      this.getLocation(this.customerInfo.id);
+    }
+  }
 
   columns: STColumn[] = [
     {
@@ -104,7 +108,8 @@ export class BindLocationComponent extends CoPageBase implements OnInit {
   }
 
   getLocation(id) {
-    this.locationService.getAll({ customerId: id, bindContactId:this.contactIds[0],maxResultCount: 999 }).subscribe((res) => {
+    debugger;
+    this.locationService.getAll({ customerId: id, bindContactId: this.contactIds[0], maxResultCount: 999 }).subscribe((res) => {
       this.locations = res.items;
     });
   }
