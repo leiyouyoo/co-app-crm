@@ -117,7 +117,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
           country: [res.countryId, res.provinceId, res.cityId],
           provinceId: res.provinceId,
           cityId: res.cityId,
-          encountryId: res.encountryId,
+          encountryId: res.countryId,
           enprovinceId: res.provinceId,
           encityId: res.cityId,
           viewableType: res.viewableType,
