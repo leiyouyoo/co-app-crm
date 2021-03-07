@@ -108,7 +108,6 @@ export class BindLocationComponent extends CoPageBase implements OnInit {
   }
 
   getLocation(id) {
-    debugger;
     this.locationService.getAll({ customerId: id, bindContactId: this.contactIds[0], maxResultCount: 999 }).subscribe((res) => {
       this.locations = res.items;
     });

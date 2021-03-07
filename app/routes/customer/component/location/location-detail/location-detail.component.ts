@@ -514,7 +514,6 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res.isSucccess) {
         // this.st.load();
-        debugger;
         //获取联系人数据
         let myArray = [];
         myArray = this.validateForm.get('contactIds').value;

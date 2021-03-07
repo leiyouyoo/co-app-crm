@@ -196,7 +196,7 @@ export class LocationListComponent extends CoPageBase {
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {
-      if (res.isSucccess) {
+      if (res) {
         // this.st.load();
         this.getLocation(this.customerInfo.id);
       }

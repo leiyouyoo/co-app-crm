@@ -39,7 +39,6 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
     if (this.customerInfo.id && this.locationId) {
       this.getContacts(this.customerInfo.id);
     }
