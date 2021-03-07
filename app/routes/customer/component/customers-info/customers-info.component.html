@@ -145,7 +145,7 @@
               {{ 'Apply Name' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isRegistered" nz-menu-item (click)="cspAccountConfig()">
-              {{ 'Apply for CSP certification' | translate }}
+              {{ 'CSP account configuration' | translate }}
             </li>
             <li nz-menu-item (click)="transferCustomer()">
               {{ 'Transfer' | translate }}
@@ -159,9 +159,6 @@
               (nzOnConfirm)="bulkTurnCustomerSea()"
             >
               {{ 'Transfer to the high seas' | translate }}
-            </li>
-            <li nz-menu-item *ngIf="!customerInfo?.isRegistered" (click)="cspAccountConfig()">
-              {{ 'CSP account configuration' | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>

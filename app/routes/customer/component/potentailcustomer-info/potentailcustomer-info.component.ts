@@ -191,6 +191,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
+    component.onSubmitted.subscribe(r => {
+      this.getCustomerDetail(this.customerId);
+    });
   }
 
   /**
@@ -202,7 +205,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       (res) => {
         this.isLoading = false;
         this.getCustomerDetail(this.customerId);
-        this.$message.success(this.$L('作废成功!'));
+        this.$message.success(this.$L('Void successfully!'));
       },
       (e) => (this.isLoading = false),
     );
@@ -217,7 +220,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       (res) => {
         this.isLoading = false;
         this.getCustomerDetail(this.customerId);
-        this.$message.success(this.$L('启用成功!'));
+        this.$message.success(this.$L('Enable successfully!'));
       },
       (e) => (this.isLoading = false),
     );

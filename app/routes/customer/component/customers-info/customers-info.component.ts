@@ -230,7 +230,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   setVoid() {
     this.crmCustomerService.delete({ id: this.customerInfo.id }).subscribe((res) => {
-      this.$message.success(this.$L('作废成功!'));
+      this.$message.success(this.$L('Void successfully!'));
     });
   }
 
@@ -239,7 +239,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   recoverDelete() {
     this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe((res) => {
-      this.$message.success(this.$L('启用成功!'));
+      this.$message.success(this.$L('Enable successfully!'));
     });
   }
 

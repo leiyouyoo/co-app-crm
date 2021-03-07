@@ -537,7 +537,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       return;
     }
     this.cRMCustomerService.delete({ id }).subscribe((res) => {
-      this.$message.success(this.$L('作废成功!'));
+      this.$message.success(this.$L('Void successfully!'));
       setTimeout(() => {
         this.getAll();
       }, 1000);
@@ -554,7 +554,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       return;
     }
     this.cRMCustomerService.recoverDelete({ id }).subscribe((res) => {
-      this.$message.success(this.$L('启用成功!'));
+      this.$message.success(this.$L('Enable successfully!'));
       setTimeout(() => {
         this.getAll();
       }, 1000);
