@@ -3,7 +3,7 @@
     <div class="customerInfo-header">
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
-        <div class="edit-customer">
+        <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag
             *ngIf="customerInfo?.isRegistered"
             style="
@@ -21,10 +21,10 @@
           >
             <img
               src="apps/crm/assets/images/csp-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="!customerInfo?.isRegistered"
@@ -43,13 +43,13 @@
           >
             <img
               src="apps/crm/assets/images/un-csp-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{ 'CSP not certified' | translate }}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span></nz-tag
           >
         </div>
-        <div class="edit-customer" style="margin-left: 8px;">
+        <div class="edit-customer" style="display: flex; align-items: center; margin-left: 8px;">
           <nz-tag
             *ngIf="customerInfo?.examineState == 2"
             style="
@@ -67,10 +67,12 @@
           >
             <img
               src="apps/crm/assets/images/enterpris-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{ 'Enterprise certification passed' | translate }}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
+              'Enterprise certification passed' | translate
+            }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
@@ -89,10 +91,10 @@
           >
             <img
               src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 1"
@@ -111,10 +113,12 @@
           >
             <img
               src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{ 'Enterprise certificationing' | translate }}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
+              'Enterprise certificationing' | translate
+            }}</span></nz-tag
           >
         </div>
       </div>

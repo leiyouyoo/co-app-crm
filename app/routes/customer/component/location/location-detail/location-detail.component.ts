@@ -512,8 +512,15 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
       nzFooter: null,
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
-      if (res) {
+      if (res.isSucccess) {
         // this.st.load();
+        debugger;
+        //获取联系人数据
+        let myArray = [];
+        myArray = this.validateForm.get('contactIds').value;
+        //联系人新增成功之后默认选中当前新增联系人到下拉框
+        myArray.push(res.id);
+        this.validateForm.get('contactIds').setValue(myArray);
         this.getContacts(this.customerId);
       }
     });

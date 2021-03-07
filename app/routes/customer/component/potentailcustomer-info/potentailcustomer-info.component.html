@@ -3,7 +3,7 @@
     <div class="customerInfo-header">
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
-        <div class="edit-customer">
+        <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag
             *ngIf="customerInfo?.isRegistered"
             style="
@@ -21,10 +21,10 @@
           >
             <img
               src="apps/crm/assets/images/csp-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{'CSP certification passed'|translate}}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="!customerInfo?.isRegistered"
@@ -43,13 +43,13 @@
           >
             <img
               src="apps/crm/assets/images/un-csp-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{'CSP not certified'|translate}}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span></nz-tag
           >
         </div>
-        <div class="edit-customer" style="margin-left: 8px;">
+        <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag
             *ngIf="customerInfo?.examineState == 2"
             style="
@@ -67,10 +67,12 @@
           >
             <img
               src="apps/crm/assets/images/enterpris-certification.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{'Enterprise certification passed'|translate}}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
+              'Enterprise certification passed' | translate
+            }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
@@ -89,10 +91,10 @@
           >
             <img
               src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{'Enterprise not certified'|translate}}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 1"
@@ -104,17 +106,19 @@
               color: #000;
               font-size: 10px;
               text-align: center;
-              background-color: #CBD5DD;
+              background-color: #cbd5dd;
               border-color: #000 15%;
               border-radius: 10px;
             "
           >
             <img
               src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="20px"
-              style="position: absolute; top: 0; left: 5px; width: 20px; height: 20px;"
+              width="25px"
+              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 10px; font-size: 12px;">{{'Enterprise certificationing'|translate}}</span></nz-tag
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
+              'Enterprise certificationing' | translate
+            }}</span></nz-tag
           >
         </div>
       </div>
@@ -146,8 +150,7 @@
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" nz-menu-item
-                (click)="cspAccountConfig()">
+            <li *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" nz-menu-item (click)="cspAccountConfig()">
               {{ 'Apply for CSP certification' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
@@ -164,9 +167,11 @@
             >
               {{ 'Transfer to the high seas' | translate }}
             </li>
-            <li nz-menu-item
-                *ngIf="(customerInfo?.state==0 || customerInfo?.state==1 || customerInfo?.state==4) &&!customerInfo?.isDeleted"
-                (click)="cspAccountConfig()">
+            <li
+              nz-menu-item
+              *ngIf="(customerInfo?.state == 0 || customerInfo?.state == 1 || customerInfo?.state == 4) && !customerInfo?.isDeleted"
+              (click)="cspAccountConfig()"
+            >
               {{ 'CSP account configuration' | translate }}
             </li>
             <li
@@ -188,7 +193,7 @@
       </div>
     </div>
     <div style="margin-top: 8px;">
-      <span style="margin-right: 10px; color: #999;">{{'Customer Type'|translate}}</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer Type' | translate }}</span>
       <span style="margin-right: 40px;">
         <span *ngIf="customerInfo?.customerType == 1">
           {{ 'Carrier' | translate }}
@@ -227,13 +232,13 @@
           {{ 'Other' | translate }}
         </span>
       </span>
-      <span style="margin-right: 10px; color: #999;">{{'Customer code'|translate}}</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer code' | translate }}</span>
       <span style="margin-right: 40px;">{{ customerInfo?.code || '--' }}</span>
 
-      <span style="margin-right: 10px; color: #999;">{{'Customer owned'|translate}}</span>
+      <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
-        }}</span>
+      }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item?.allowUserName }}
@@ -355,7 +360,7 @@
               <nz-tab [nzTitle]="'Location list' | translate">
                 <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
               </nz-tab>
-                <!--          勿删，暂未实现-->
+              <!--          勿删，暂未实现-->
               <!-- <nz-tab [nzTitle]="'电子邮件' | translate"></nz-tab>
               <nz-tab [nzTitle]="'跟进记录' | translate"></nz-tab>
               <nz-tab [nzTitle]="'日程' | translate"></nz-tab> -->

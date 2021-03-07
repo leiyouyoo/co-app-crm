@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { PlatformPositionService } from '@co/cds';
+import { PlatformPositionService, SSORoleService } from '@co/cds';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMCustomerService, CRMLocationService } from 'apps/crm/app/services/crm';
@@ -32,7 +32,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   emptyGuid = '00000000-0000-0000-0000-000000000000';
   constructor(
     private fb: FormBuilder,
-    private roleService: RoleService,
+    private roleService: SSORoleService,
     private positionService: PlatformPositionService,
     private modalRef: NzModalRef,
     private msg: NzMessageService,
@@ -138,7 +138,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   }
 
   getRoles() {
-    this.roleService.getAll({}).subscribe((res) => {
+    this.roleService.getAll({ isInside: false }).subscribe((res) => {
       this.roleList = res.items;
     });
   }
