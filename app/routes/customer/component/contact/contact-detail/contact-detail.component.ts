@@ -19,6 +19,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   @Input() locationId;
   @Input() id;
   @Input() isAdd: string;
+  @Input() editionRoleId:number;
   @Output() readonly onSubmitted = new EventEmitter<any>();
   @Output() readonly bingLocation = new EventEmitter<boolean>();
   validateForm: FormGroup;
@@ -139,7 +140,9 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
 
   getRoles() {
     this.roleService.getAll({ isInside: false }).subscribe((res) => {
+      debugger
       this.roleList = res.items;
+      this.roleList=this.roleList.filter(c=>c.parentId==this.editionRoleId)
     });
   }
 

@@ -147,6 +147,7 @@ export class ContactListComponent extends CoPageBase {
         id: item?.id,
         customerId: this.customerInfo.id,
         isAdd: title,
+        editionRoleId:this.customerInfo.editionRoleId
       },
       nzClassName: 'crm-contact-detail',
       nzStyle: { width: '40%' },
