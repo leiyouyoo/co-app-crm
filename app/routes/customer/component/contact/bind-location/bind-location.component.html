@@ -1,6 +1,6 @@
-<button nz-button nzType="primary" style="margin-bottom: 16px;" *ngIf="!isAdd" (click)="isAdd = true">{{ '新增' | translate }}</button>
+<button nz-button nzType="primary" style="margin-bottom: 16px;" *ngIf="!isAdd" (click)="isAdd = true">{{ 'New' | translate }}</button>
 <button nz-button nzType="primary" style="margin-bottom: 16px;" *ngIf="!isAdd && selected.length > 0" (click)="onBind()">
-  {{ '绑定' | translate }}
+  {{ 'Bind' | translate }}
 </button>
 
   <co-st

@@ -192,7 +192,7 @@ export class LocationListComponent extends CoPageBase {
         customerInfo: this.customerInfo,
       },
       nzClassName: 'crm-bingContact',
-      nzStyle: { width: '50%',height:'500px' },
+      nzStyle: { width: '45%',height:'520px' },
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {

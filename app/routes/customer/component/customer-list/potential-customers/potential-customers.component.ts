@@ -112,12 +112,12 @@ export class PotentialCustomersComponent extends CoPageBase {
   }
 
   columns: STColumn[] = [
-    {
-      title: 'NO',
-      index: '',
-      type: 'no',
-      width: 100,
-    },
+    // {
+    //   title: 'NO',
+    //   index: '',
+    //   type: 'no',
+    //   width: 100,
+    // },
     {
       title: 'Code',
       index: 'code',

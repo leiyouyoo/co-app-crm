@@ -150,7 +150,7 @@ export class ContactListComponent extends CoPageBase {
         editionRoleId:this.customerInfo.editionRoleId
       },
       nzClassName: 'crm-contact-detail',
-      nzStyle: { width: '40%' },
+      nzStyle: { width: '42%' },
       nzFooter: null,
     });
     modal.componentInstance.onSubmitted.subscribe((res) => {
@@ -207,7 +207,7 @@ export class ContactListComponent extends CoPageBase {
         contactIds: [item.id],
       },
       nzClassName: 'crm-bingContact',
-      nzStyle: { width: '50%',height:'500px' },
+      nzStyle: { width: '45%',height:'500px' },
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {
