@@ -164,7 +164,7 @@ export class LocationListComponent extends CoPageBase {
   }
 
   enableAsync(item?) {
-    this.contactService.enableAsync({ id: item.id }).subscribe((res) => {
+    this.locationService.enableAsync({ id: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Enable successfully!'));
       // this.st.load();
       this.getLocation(this.customerInfo.id);

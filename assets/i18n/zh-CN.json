@@ -1122,5 +1122,9 @@
   "Assigned to My department's": "分配给我部门的",
   "Customer Recycling Station": "客户回收站",
   "Change hands": "转手次数",
-  "Number of returned": "被退回次数"
+  "Number of returned": "被退回次数",
+  "EIN": "雇主编号",
+  "SSN": "社会安全号码",
+  "ITIN": "个人税务编号",
+  "ATIN": "纳税人识别号"
 }

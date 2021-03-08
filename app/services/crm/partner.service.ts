@@ -116,5 +116,20 @@ export class CRMPartnerService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/Partner/GetAllForFam
+     * 分页获取客户下的合作伙伴
+     */
+
+    @GET('GetAllForFam')
+    getAllForFam(
+        @Payload
+        _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
+        return null as any
+    }
+
+
 
   }

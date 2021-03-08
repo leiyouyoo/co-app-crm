@@ -86,5 +86,20 @@ export class CRMAttachmentService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/Attachment/GetAllForFam
+     * 获取附件列表
+     */
+
+    @GET('GetAllForFam')
+    getAllForFam(
+        @Payload
+        _req: {customerId?:string,type?:number} 
+
+    ): Observable<CRMListResultDto1<CRMAttachmentListDto>> {
+        return null as any
+    }
+
+
 
   }

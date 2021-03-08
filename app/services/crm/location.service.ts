@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCreateOrUpdateLocationInput,CRMPagedResultDto1,CRMLocationListDto,CRMListResultDto1,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto } from './crm.types';
+import { CRMCreateOrUpdateLocationInput,CRMPagedResultDto1,CRMLocationListDto,CRMListResultDto1,CRMCoEntityDto,CRMAssignUsersToLocationDto,CRMAssignLocationsToUserDto,CRMUnbindUsersLocationDto } from './crm.types';
 
 @BaseUrl('/CRM/Location')
 @Injectable({ providedIn: 'root' })
@@ -67,6 +67,21 @@ export class CRMLocationService extends BaseApi {
         _req: {contactId?:string} 
 
     ): Observable<CRMListResultDto1<CRMLocationListDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Location/EnableAsync
+     * 作废后启用
+     */
+
+    @POST('EnableAsync')
+    enableAsync(
+        @Payload
+        _req:CRMCoEntityDto
+
+    ): Observable<any> {
         return null as any
     }
 
@@ -187,6 +202,21 @@ export class CRMLocationService extends BaseApi {
         _req: {} 
 
     ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Location/GetAllForFam
+     * FAM-分页获取地点列表（客户的或者合作伙伴的）
+     */
+
+    @GET('GetAllForFam')
+    getAllForFam(
+        @Payload
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMLocationListDto>> {
         return null as any
     }
 

@@ -86,5 +86,20 @@ export class CRMCustomerTitleService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/CustomerTitle/GetAllForFam
+     * FAM-获取发票抬头列表
+     */
+
+    @GET('GetAllForFam')
+    getAllForFam(
+        @Payload
+        _req: {customerId?:string,searchText?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMCustomerTitleListDto>> {
+        return null as any
+    }
+
+
 
   }

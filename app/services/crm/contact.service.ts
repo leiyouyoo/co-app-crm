@@ -251,5 +251,20 @@ export class CRMContactService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/Contact/GetAllForFam
+     * FAM-分页获取客户或合作伙伴的联系人
+     */
+
+    @GET('GetAllForFam')
+    getAllForFam(
+        @Payload
+        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,bindLocationId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMContactListDto>> {
+        return null as any
+    }
+
+
 
   }

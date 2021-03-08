@@ -1440,6 +1440,9 @@
             /* 最后修改时间 */ 
             lastModificationTime?: string;
          
+            /* 最后修改时间 */ 
+            lastModificationOrderTime?: string;
+         
             /* 审核人 */ 
             auditor?: string;
          
@@ -1585,6 +1588,9 @@
          
             /* 国家id */ 
             countryId?: string;
+         
+            /* 是否带出地点 */ 
+            includeLocations?: boolean;
          
             
             ids?: any[];
@@ -2418,6 +2424,9 @@
             /* 最后修改时间 */ 
             lastModificationTime?: string;
          
+            /* 最后修改时间 */ 
+            lastModificationOrderTime?: string;
+         
             /* 审核人 */ 
             auditor?: string;
          
@@ -2928,6 +2937,9 @@
          
             /* 最后修改时间 */ 
             lastModificationTime?: string;
+         
+            /* 最后修改时间 */ 
+            lastModificationOrderTime?: string;
          
             /* 审核人 */ 
             auditor?: string;
@@ -5442,6 +5454,9 @@
          
             /* 是否海外仓 */ 
             isForeign?: boolean;
+         
+            
+            isDeleted?: boolean;
          
             /* 查看权限
 0 = OnlyMyOrganization
