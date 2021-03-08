@@ -16,6 +16,7 @@ import { LocationDetailComponent } from '../location-detail/location-detail.comp
 })
 export class LocationListComponent extends CoPageBase {
   @ViewChild('st', { static: false }) st: STComponent;
+
   @Input() set customerInfo(v: any) {
     this.customerDetail = v;
     this.getLocation(v?.id);
@@ -24,9 +25,11 @@ export class LocationListComponent extends CoPageBase {
   get customerInfo() {
     return this.customerDetail;
   }
+
   customerDetail: any;
   locations = [];
   loading = false;
+
   constructor(
     injector: Injector,
     private translate: TranslateService,
@@ -39,7 +42,9 @@ export class LocationListComponent extends CoPageBase {
   }
 
   contactInfo: any;
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+  }
 
   columns: STColumn[] = [
     {
@@ -125,7 +130,9 @@ export class LocationListComponent extends CoPageBase {
       ],
     },
   ];
-  onTableChange(e) {}
+
+  onTableChange(e) {
+  }
 
   onAdd(title, item?) {
     const modal = this.modal.create({
@@ -155,8 +162,8 @@ export class LocationListComponent extends CoPageBase {
     });
   }
 
-  deleteContact(item?,data?) {
-    this.locationService.unbindUserLocation({locationId:data.id,contactId:item.id }).subscribe((res) => {
+  deleteContact(item?, data?) {
+    this.locationService.unbindUserLocation({ locationId: data.id, contactId: item.id }).subscribe((res) => {
       this.msg.info(this.$L('Void successfully!'));
       // this.st.load();
       this.getLocation(this.customerInfo.id);
@@ -170,9 +177,10 @@ export class LocationListComponent extends CoPageBase {
       this.getLocation(this.customerInfo.id);
     });
   }
+
   getLocation(id) {
     this.loading = true;
-    this.locationService.getAll({ customerId: id, maxResultCount: 999 }).subscribe(
+    this.locationService.getAll({ customerId: id, maxResultCount: 999, isAll: true }).subscribe(
       (res) => {
         this.locations = res.items;
         this.loading = false;
@@ -192,7 +200,7 @@ export class LocationListComponent extends CoPageBase {
         customerInfo: this.customerInfo,
       },
       nzClassName: 'crm-bingContact',
-      nzStyle: { width: '45%',height:'520px' },
+      nzStyle: { width: '45%', height: '520px' },
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {
