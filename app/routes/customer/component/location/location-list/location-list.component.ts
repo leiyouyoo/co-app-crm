@@ -43,8 +43,7 @@ export class LocationListComponent extends CoPageBase {
 
   contactInfo: any;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   columns: STColumn[] = [
     {
@@ -78,7 +77,7 @@ export class LocationListComponent extends CoPageBase {
       width: 100,
     },
     {
-      title: 'Contact',
+      title: 'Associate contacts',
       index: 'contacts',
       render: 'contacts',
       width: 100,
@@ -131,8 +130,7 @@ export class LocationListComponent extends CoPageBase {
     },
   ];
 
-  onTableChange(e) {
-  }
+  onTableChange(e) {}
 
   onAdd(title, item?) {
     const modal = this.modal.create({

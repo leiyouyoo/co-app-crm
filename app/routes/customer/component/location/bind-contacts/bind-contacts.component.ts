@@ -56,6 +56,16 @@ export class BindContactsComponent extends CoPageBase implements OnInit {
       width: 100,
     },
     {
+      title: 'Job Capacity',
+      index: 'position',
+      width: 100,
+    },
+    {
+      title: 'Phone',
+      index: 'phone',
+      width: 100,
+    },
+    {
       title: 'Email',
       index: 'email',
       width: 100,
