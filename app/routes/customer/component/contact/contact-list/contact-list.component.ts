@@ -53,6 +53,16 @@ export class ContactListComponent extends CoPageBase {
       width: 100,
     },
     {
+      title: 'Job Capacity',
+      index: 'position',
+      width: 100,
+    },
+    {
+      title: 'Phone',
+      index: 'phone',
+      width: 100,
+    },
+    {
       title: 'Email',
       index: 'email',
       width: 100,
@@ -147,7 +157,7 @@ export class ContactListComponent extends CoPageBase {
         id: item?.id,
         customerId: this.customerInfo.id,
         isAdd: title,
-        editionRoleId:this.customerInfo.editionRoleId
+        editionRoleId: this.customerInfo.editionRoleId,
       },
       nzClassName: 'crm-contact-detail',
       nzStyle: { width: '42%' },
@@ -182,8 +192,8 @@ export class ContactListComponent extends CoPageBase {
     });
   }
 
-  deleteLocation(item?,data?) {
-    this.locationService.unbindUserLocation({ locationId:item.id,contactId:data.id }).subscribe((res) => {
+  deleteLocation(item?, data?) {
+    this.locationService.unbindUserLocation({ locationId: item.id, contactId: data.id }).subscribe((res) => {
       this.msg.info(this.$L('Void successfully!'));
       // this.st.load();
       this.getContacts(this.customerInfo.id);
@@ -207,7 +217,7 @@ export class ContactListComponent extends CoPageBase {
         contactIds: [item.id],
       },
       nzClassName: 'crm-bingContact',
-      nzStyle: { width: '45%',height:'500px' },
+      nzStyle: { width: '45%', height: '500px' },
       nzFooter: null,
     });
     modal.componentInstance.onBindSubmitted.subscribe((res) => {

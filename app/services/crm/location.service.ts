@@ -10,7 +10,7 @@ export class CRMLocationService extends BaseApi {
     super(injector);
   }
 
-
+  
     /**
      * @param url /CRM/Location/Get
      * 地点详情
@@ -19,7 +19,7 @@ export class CRMLocationService extends BaseApi {
     @GET('Get')
     get(
         @Payload
-        _req: {id?:string,partnerId?:string}
+        _req: {id?:string,partnerId?:string} 
 
     ): Observable<CRMCreateOrUpdateLocationInput> {
         return null as any
@@ -34,7 +34,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,partnerId?:string,bindContactId?:string,sorting?:string,maxResultCount?:number,isAll?:boolean,skipCount?:number}
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMLocationListDto>> {
         return null as any
@@ -49,7 +49,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetAllByCustomerOrPartner')
     getAllByCustomerOrPartner(
         @Payload
-        _req: {customerId?:string,partnerId?:string,bindContactId?:string,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMListResultDto1<CRMLocationListDto>> {
         return null as any
@@ -64,7 +64,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetByContactId')
     getByContactId(
         @Payload
-        _req: {contactId?:string}
+        _req: {contactId?:string} 
 
     ): Observable<CRMListResultDto1<CRMLocationListDto>> {
         return null as any
@@ -184,7 +184,7 @@ export class CRMLocationService extends BaseApi {
     @DELETE('Delete')
     delete(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any
@@ -199,7 +199,7 @@ export class CRMLocationService extends BaseApi {
     @POST('QuartzSaveLatAndLngAsync')
     quartzSaveLatAndLngAsync(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<any> {
         return null as any
@@ -214,7 +214,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetAllForFam')
     getAllForFam(
         @Payload
-        _req: {customerId?:string,partnerId?:string,bindContactId?:string,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMLocationListDto>> {
         return null as any

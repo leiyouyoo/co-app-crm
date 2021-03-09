@@ -61,13 +61,13 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       index: 'bindUserName',
       width: 100,
     },
-    {
-      title: 'Binding time',
-      index: 'bindTime',
-      type: 'date',
-      dateFormat: 'yyyy-MM-dd',
-      width: 100,
-    },
+    // {
+    //   title: 'Binding time',
+    //   index: 'bindTime',
+    //   type: 'date',
+    //   dateFormat: 'yyyy-MM-dd',
+    //   width: 100,
+    // },
     {
       title: 'Action',
       type: 'action',

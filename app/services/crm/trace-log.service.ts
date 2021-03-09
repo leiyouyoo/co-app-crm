@@ -34,7 +34,7 @@ export class CRMTraceLogService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,userId?:number,traceLogTypeId?:string,content?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,userId?:number,traceLogTypeId?:string,content?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMTraceLogListDto>> {
         return null as any

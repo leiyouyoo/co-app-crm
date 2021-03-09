@@ -49,8 +49,7 @@ export class CustomerListComponent extends CoPageBase {
     this.selectedIndexChange();
   }
 
-  init() {
-  }
+  init() {}
 
   //#endregion
 
@@ -68,6 +67,7 @@ export class CustomerListComponent extends CoPageBase {
   }
 
   onShowCustomerDetail(item) {
+    debugger;
     this.$navigate(['/crm/customers/customerdetails', item.id], { queryParams: { _title: `${item?.name}` } });
   }
 
