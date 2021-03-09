@@ -79,7 +79,7 @@ export class CRMLocationExternalService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {partnerId?:string,customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {partnerId?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMExternalLocationListDto>> {
         return null as any
@@ -124,7 +124,7 @@ export class CRMLocationExternalService extends BaseApi {
     @GET('GetSharedList')
     getSharedList(
         @Payload
-        _req: {sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMExternalLocationListDto>> {
         return null as any

@@ -1524,6 +1524,9 @@
             excludeCustomerIds?: any[];
          
             
+            isAll?: boolean;
+         
+            
             sorting?: string;
          
             
@@ -1953,6 +1956,9 @@
          
             /* 不传则取当前登录客户 */ 
             customerId?: string;
+         
+            
+            isAll?: boolean;
          
             
             sorting?: string;
@@ -2751,6 +2757,9 @@
          
             /* 搜索关键字 */ 
             searchkeywork?: string;
+         
+            
+            isAll?: boolean;
          
             
             sorting?: string;
@@ -6050,6 +6059,9 @@
          
             /* 不传则取当前登录客户 */ 
             customerId?: string;
+         
+            
+            isAll?: boolean;
          
             
             sorting?: string;

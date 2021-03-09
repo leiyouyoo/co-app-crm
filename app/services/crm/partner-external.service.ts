@@ -34,7 +34,7 @@ export class CRMPartnerExternalService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {sorting?:string,maxResultCount?:number,skipCount?:number,isAll?:boolean} 
 
     ): Observable<CRMPagedResultDto1<CRMExternalPartnerListDto>> {
         return null as any

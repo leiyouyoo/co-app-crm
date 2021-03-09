@@ -34,7 +34,7 @@ export class CRMPartnerService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
         return null as any
@@ -124,7 +124,7 @@ export class CRMPartnerService extends BaseApi {
     @GET('GetAllForFam')
     getAllForFam(
         @Payload
-        _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMPartnerListDto>> {
         return null as any

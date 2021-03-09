@@ -124,7 +124,7 @@ export class CRMCustomerExternalService extends BaseApi {
     @GET('GetAgentCustomers')
     getAgentCustomers(
         @Payload
-        _req: {ids?:any[],name?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {ids?:any[],name?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any

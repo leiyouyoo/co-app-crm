@@ -34,7 +34,7 @@ export class CRMCustomerAccessAllowService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerAccessAllowOutput>> {
         return null as any
