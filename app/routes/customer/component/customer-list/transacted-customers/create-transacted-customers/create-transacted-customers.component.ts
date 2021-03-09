@@ -1206,6 +1206,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
     let entity: CRMCreateOrUpdateCustomerInput = {
       id: value.id,
+      code:value.code,
       name: value.name,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
