@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerPartnerComponent } from './component/customer-partner/customer-partner.component';
-import { PartnerBindCustomerComponent } from './component/partner-bind-customer/partner-bind-customer.component';
+import { PartnerBindCustomerComponent } from './component/customer-partner/partner-bind-customer/partner-bind-customer.component';
 import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerIndexComponent } from './customer-index.component';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';

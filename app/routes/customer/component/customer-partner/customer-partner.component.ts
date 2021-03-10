@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, EventEmitter, Output, Injector } from '@angular/core';
-import { PartnerBindCustomerComponent } from '../partner-bind-customer/partner-bind-customer.component';
+import { PartnerBindCustomerComponent } from './partner-bind-customer/partner-bind-customer.component';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMPartnerService } from 'apps/crm/app/services/crm';

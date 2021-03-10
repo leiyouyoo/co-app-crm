@@ -10,8 +10,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { STColumn } from '@co/cbc';
-import { CooperationState, CustomerStatus, CustomerType } from '../../models/enum';
-import { CRMCreateOrUpdatePartnerDto, CRMCustomerService, CRMPartnerService } from '../../../../services/crm';
+import { CooperationState, CustomerStatus, CustomerType } from '../../../models/enum';
+import { CRMCreateOrUpdatePartnerDto, CRMCustomerService, CRMPartnerService } from '../../../../../services/crm';
 import { CoPageBase } from '@co/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
