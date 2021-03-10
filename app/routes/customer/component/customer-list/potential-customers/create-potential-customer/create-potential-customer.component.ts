@@ -1228,6 +1228,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     let entity: CRMCreateOrUpdateCustomerInput = {
       id: value.id,
       name: value.name,
+      code:value.code,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
