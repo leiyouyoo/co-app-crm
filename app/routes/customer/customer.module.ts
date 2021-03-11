@@ -38,6 +38,7 @@ import { BindContactsComponent } from './component/location/bind-contacts/bind-c
 import { FollowUpRecordComponent } from './component/follow-up-record/follow-up-record.component';
 import { InvoiceListComponent } from './component/invoice/invoice-list/invoice-list.component';
 import { InvoiceDetailComponent } from './component/invoice/invoice-detail/invoice-detail.component';
+import { FollowUpRecordListComponent } from './component/follow-up-record-list/follow-up-record-list.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -92,6 +93,7 @@ const COMPONENTS_NOROUNT = [
     HighSeasPondCustomerComponent,
     CspAccountConfigComponent,
     FollowUpRecordComponent,
+    FollowUpRecordListComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

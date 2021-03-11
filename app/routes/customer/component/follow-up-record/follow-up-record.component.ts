@@ -123,6 +123,7 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
     this.crmTraceLogService.create({ ...params, traceLogItems: traceLogItems }).subscribe(r => {
       this.loading = false;
       this.$message.success(this.$L('Publish success'));
+      this.cancel();
       this.onSuccess.emit(true);
     }, e => this.loading = false);
   }
