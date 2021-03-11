@@ -200,7 +200,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
         });
       let res = await this.pubPlaceService
         .getAll({
-          maxResultCount: 1000,
+          maxResultCount: 2000,
           regionId: event,
           isCity: true,
         })

@@ -5,13 +5,14 @@ import { ApplyCodeComponent } from '../apply-code/apply-code.component';
 import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
 import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
 import { CspAccountConfigComponent } from '../csp-account-config/csp-account-config.component';
-import { CoPageBase } from '@co/core';
+import { CoConfigManager, CoPageBase } from '@co/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { ContactListComponent } from '../contact/contact-list/contact-list.component';
 import { LocationListComponent } from '../location/location-list/location-list.component';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
+import { NzUploadFile } from 'ng-zorro-antd/upload/interface';
 
 @Component({
   selector: 'crm-customers-info',
@@ -31,7 +32,13 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     businessType: 0,
     maxResultCount: 10,
     skipCount: 0,
+    totalCount: 0,
   };
+  downLoadUrl = CoConfigManager.getValue('downloadUrl');
+  previewImage: string | undefined = '';
+  previewVisible = false;
+  logLoading = false;
+  refreshLogLoading = false;
 
   constructor(
     private crmCustomerService: CRMCustomerService,
@@ -39,6 +46,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     injector: Injector,
     public activeRoute: ActivatedRoute,
     private crmCustomerOperationEventService: CRMCustomerOperationEventService,
+    private crmTraceLogService: CRMTraceLogService,
   ) {
     super(injector);
   }
@@ -46,17 +54,6 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   ngOnInit(): void {
     this.getCustomerDetail(this.customerId);
     this.getCustomerOperationEvent();
-  }
-
-
-  /**
-   * 获取跟进记录
-   */
-  getCustomerOperationEvent() {
-    this.crmCustomerOperationEventService.getAll(this.param).subscribe(r => {
-      this.traceLogList = r.items;
-      console.log(this.traceLogList);
-    });
   }
 
   //获取详情
@@ -273,7 +270,76 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     }
   }
 
+  /**
+   * 发布跟进记录回调
+   */
   onRecordSuccess(e) {
     e && this.getCustomerOperationEvent();
+  }
+
+  /**
+   * 获取跟进记录详情
+   */
+  getLogDetail(item) {
+    item.isShow = !item.isShow;
+    if (item.detail) {
+      return;
+    }
+    item.loading = true;
+    this.crmTraceLogService.get({ id: item.businessId }).subscribe(r => {
+      item.loading = false;
+      item.detail = r;
+    }, e => item.loading = false);
+  }
+
+  /**
+   * 获取跟进记录
+   */
+  getCustomerOperationEvent(isNext = false) {
+    this.crmCustomerOperationEventService.getAll(this.param).subscribe(r => {
+      if (isNext) {
+        this.traceLogList = this.traceLogList.concat(r.items);
+      } else {
+        this.traceLogList = r.items;
+      }
+      this.logLoading = false;
+      this.refreshLogLoading = false;
+      this.param.totalCount = r.totalCount;
+      console.log(this.traceLogList);
+    }, e => {
+      this.logLoading = false;
+      this.refreshLogLoading = false;
+    });
+  }
+
+  getImgUrl(pic: any) {
+    return this.downLoadUrl + `?FileId=${pic.fileId}&Handler=image`;
+  }
+
+  /**
+   * 图片预览
+   */
+  handlePreview = async (item) => {
+    this.previewImage = this.getImgUrl(item);
+    this.previewVisible = true;
+  };
+
+  /**
+   * 获取下一页事件
+   */
+  getNextLog() {
+    this.param.skipCount++;
+    this.logLoading = true;
+    this.getCustomerOperationEvent(true);
+  }
+
+  /**
+   * 搜索事件
+   */
+  searchLog() {
+    this.param.skipCount = 0;
+    this.param.totalCount = 0;
+    this.traceLogList = [];
+    this.getCustomerOperationEvent();
   }
 }

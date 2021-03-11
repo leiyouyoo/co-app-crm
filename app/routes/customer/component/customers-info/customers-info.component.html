@@ -276,39 +276,70 @@
       <div nz-col class="gutter-row" [nzSpan]="8" style="height: 100%;background: #fff;">
         <div style="height: 100%; padding-left: 16px; background: #fff;">
           <nz-tabset style="height: 50%;" nzAnimated="false">
-            <nz-tab [nzTitle]="'跟进记录' | translate">
+            <nz-tab [nzTitle]="'Follow up record' | translate">
               <crm-follow-up-record (onSuccess)="onRecordSuccess($event)"
                                     [customerId]="customerId"></crm-follow-up-record>
             </nz-tab>
           </nz-tabset>
-          <nz-divider style="margin: 8px 0;"></nz-divider>
-
+          <nz-divider style="margin: 0 0 8px 0"></nz-divider>
           <section style="height: calc(50% - 17px);">
             <div class="search_area">
               <nz-input-group nzSize="small" [nzSuffix]="suffixIconSearch">
-                <input type="text" [(ngModel)]="param.searchKey" nz-input placeholder="input search text"/>
+                <input type="text" [(ngModel)]="param.searchKey" (enterKeydown)="searchLog()" nz-input
+                       [placeholder]="'Search keyword' | translate"/>
               </nz-input-group>
               <ng-template #suffixIconSearch>
-                <i nz-icon nzType="search"></i>
+                <i nz-icon (click)="searchLog()" nzType="search"></i>
               </ng-template>
-              <button nz-button nzSize="small" nzType="default">{{ 'refresh' | translate }}</button>
+              <button [nzLoading]="refreshLogLoading" (click)="refreshLogLoading=true;param.searchKey=null;searchLog()"
+                      nz-button nzSize="small"
+                      nzType="default">{{ 'Refresh' | translate }}</button>
             </div>
-            <div class="trace_log" style="overflow: auto;height: calc(100% - 24px);">
-              <div style="border-bottom: 1px solid #E9E9E9;" *ngFor="let item of traceLogList">
-                  <h5 *ngIf="item.businessType == 1">添加团队成员</h5>
-                  <h5 *ngIf="item.businessType == 2">CustomerInfo</h5>
-                  <h5 *ngIf="item.businessType == 3">跟进记录</h5>
-                  <h5 *ngIf="item.businessType == 4">跟进记录</h5>
-                  <h5 *ngIf="item.businessType == 5">跟进记录</h5>
+            <div class="event_log" style="overflow: auto;height: calc(100% - 24px);">
+              <div class="event_log__content" *ngFor="let item of traceLogList">
+                <nz-spin [nzSpinning]="item.loading">
+                  <h5 *ngIf="item.businessType == 1">{{"Team member" | translate}}</h5>
+                  <h5 *ngIf="item.businessType == 2">{{"Customer information" | translate}}</h5>
+                  <h5 *ngIf="item.businessType == 3">{{"Follow up record" | translate}}</h5>
+                  <h5 *ngIf="item.businessType == 4">{{"Schedule" | translate}}</h5>
+                  <h5 *ngIf="item.businessType == 5">{{"E-mail" | translate}}</h5>
                   <p>
-                    <span>{{item.contentLocalizationText}}</span>
-                    <span>上午10:14/昨天</span>
+                  <span class="event_log__content__title">
+                    <i *ngIf="item.businessType == 3"
+                       (click)="getLogDetail(item)" nz-icon
+                       nzType="down"
+                       [style.transform]="item.isShow?'rotate(180deg)':'unset'"
+                       nzTheme="outline"></i>
+                    {{item.contentLocalizationText}}
+                  </span>
+                    <span>{{item.creationTime | date:"yyyy-MM-dd HH:mm:ss" }}</span>
                   </p>
-                  <div class="trace_log__content">
-
+                  <div *ngIf="item.businessType == 3 && item.isShow" class="trace_log__content">
+                     <span style="display: flex;align-items: center;">
+                       <i nz-icon [nzIconfont]="'icon-youjian'" *ngIf="item.detail?.traceLogTypeCode=='Email'"></i>
+                       <i nz-icon [nzIconfont]="'icon-weixin1'" *ngIf="item.detail?.traceLogTypeCode=='WeChat'"></i>
+                       <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'"
+                          *ngIf="item.detail?.traceLogTypeCode=='QQ'"></i>
+                       <i nz-icon [nzIconfont]="'icon-OA-ohter-6'" *ngIf="item.detail?.traceLogTypeCode=='Other'"></i>
+                       <i nz-icon [nzIconfont]="'icon-cooperation-full2'"
+                          *ngIf="item.detail?.traceLogTypeCode=='Visit'"></i>
+                       <i nz-icon [nzIconfont]="'icon-shouji'" *ngIf="item.detail?.traceLogTypeCode=='Phone'"></i>
+                       {{item.detail?.followUpRecord | date:"yyyy-MM-dd HH:mm:ss"}}
+                    </span>
+                    <span>{{item.detail?.content}}</span>
+                    <div *ngIf="item?.detail?.traceLogItems?.length">
+                      <div *ngFor="let pic of item?.detail?.traceLogItems"
+                           style="padding: 8px;float: left;border: 1px solid #d9d9d9;border-radius: 2px;margin: 0 8px 8px 0;">
+                        <img (click)="handlePreview(pic)" [src]="getImgUrl(pic)" alt="">
+                      </div>
+                    </div>
                   </div>
+                </nz-spin>
               </div>
-
+              <button (click)="getNextLog()" [nzLoading]="logLoading" *ngIf="param.totalCount>traceLogList.length"
+                      class="event_log__more"
+                      nz-button nzType="text" nzBlock>{{"Show More" | translate}}
+              </button>
             </div>
           </section>
         </div>
@@ -316,3 +347,9 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
+<nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+  </ng-template>
+</nz-modal>

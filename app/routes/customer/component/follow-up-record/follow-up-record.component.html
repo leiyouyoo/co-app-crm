@@ -9,7 +9,7 @@
       <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
         <nz-radio-group (ngModelChange)="traceChange($event)" class="custom-radio-group" style="margin-right: 12px;"
                         formControlName="traceLogTypeId">
-          <label *ngFor="let item of typeLists" nz-radio-button [nzValue]="item.id">{{ item.name }}</label>
+          <label *ngFor="let item of typeLists" nz-radio-button [nzValue]="item.id">{{ item.code | translate }}</label>
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
@@ -25,7 +25,7 @@
     <nz-form-item>
       <nz-form-label> {{ 'Time' | translate }}</nz-form-label>
       <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
-        <nz-date-picker  nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [nzDisabledDate]="disabledAEndDate"
+        <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [nzDisabledDate]="disabledAEndDate"
                         formControlName="followUpRecord"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
@@ -44,7 +44,7 @@
         <div style="margin-top: 8px">Upload</div>
       </div>
     </nz-upload>
-    <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+    <nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
               (nzOnCancel)="previewVisible = false">
       <ng-template #modalContent>
         <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>

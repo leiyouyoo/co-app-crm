@@ -584,7 +584,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '006',
       })
       .subscribe((res) => {
@@ -594,7 +594,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     // 行业的
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '098',
       })
       .subscribe((res) => {
@@ -820,7 +820,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       });
       let res = await this.pubPlaceService
         .getAll({
-          maxResultCount: 1000,
+          maxResultCount: 2000,
           regionId: event,
           isCity: true,
         })

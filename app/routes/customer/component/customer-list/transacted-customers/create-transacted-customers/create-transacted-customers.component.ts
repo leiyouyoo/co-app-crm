@@ -582,7 +582,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '006',
       })
       .subscribe((res) => {
@@ -592,7 +592,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     // 行业的
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '098',
       })
       .subscribe((res) => {
@@ -801,7 +801,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       });
       let res = await this.pubPlaceService
         .getAll({
-          maxResultCount: 1000,
+          maxResultCount: 2000,
           regionId: event,
           isCity: true,
         })

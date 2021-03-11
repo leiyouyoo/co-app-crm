@@ -54,7 +54,7 @@ export class TruckingFromToComponent implements OnInit, OnChanges {
     if (!value && !id) {
       return;
     }
-    const params = { searchText: value, isPort: isPort, id: id, maxResultCount: 1000 };
+    const params = { searchText: value, isPort: isPort, id: id, maxResultCount: 2000 };
     this.pubPlace.getFromToList(params).subscribe((res: any) => {
       this.countyList = res.items;
       if (res.items.length === 0) {
@@ -68,7 +68,7 @@ export class TruckingFromToComponent implements OnInit, OnChanges {
     if (!value && !id) {
       return;
     }
-    const params = { searchText: value, isPort: isPort, id: id, maxResultCount: 1000 };
+    const params = { searchText: value, isPort: isPort, id: id, maxResultCount: 2000 };
     this.pubPlace.getFromToList(params).subscribe((res: any) => {
       this.toList = res.items;
       if (res.items.length === 0) {

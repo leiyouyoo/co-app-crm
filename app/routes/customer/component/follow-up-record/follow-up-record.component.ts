@@ -12,7 +12,7 @@ import { PUBDataDictionaryService } from '../../../../services/pub';
   styleUrls: ['./follow-up-record.component.less'],
 })
 export class FollowUpRecordComponent extends CoPageBase implements OnInit {
-  @Output() readonly onSuccess = new EventEmitter<boolean>()
+  @Output() readonly onSuccess = new EventEmitter<boolean>();
   @Input() customerId;
   loading = false;
   validateForm: FormGroup;
@@ -47,14 +47,15 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataDictionaryService.getListByType({ typeId: '3D569F80-B818-41B9-881A-1F3AC7F1990A' }).subscribe(r => {
-      this.typeLists = r;
-    });
     this.validateForm = this.fb.group({
-      traceLogTypeId: ['1', [Validators.required]],//日志类型id
+      traceLogTypeId: [null, [Validators.required]],//日志类型id
       followUpRecord: [new Date(), [Validators.required]],//内容
       content: ['我刚刚电话联系了这个客户'],//跟进时间
       customerId: [this.customerId],
+    });
+    this.dataDictionaryService.getListByType({ typeId: '3D569F80-B818-41B9-881A-1F3AC7F1990A' }).subscribe(r => {
+      this.typeLists = r;
+      this.validateForm.patchValue({ traceLogTypeId: this.typeLists.filter(e => e.code == 'Phone')[0].id });
     });
   }
 
@@ -81,20 +82,24 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
 
   traceChange(e) {
     let str = '';
-    switch (e) {
-      case 1:
-        str = '我刚刚电话联系了这个客户';
+    const code = this.typeLists.filter(ele => ele.id == e)[0].code;
+    switch (code) {
+      case 'Email':
+        str = '我刚刚邮件联系了这个客户';
         break;
-      case 2:
+      case 'QQ':
         str = '我刚刚QQ联系了这个客户';
         break;
-      case 3:
+      case 'WeChat':
         str = '我刚刚微信联系了这个客户';
         break;
-      case 4:
+      case 'Visit':
         str = '我刚刚拜访了这个客户';
         break;
-      case 5:
+      case 'Phone':
+        str = '我刚刚电话联系了这个客户';
+        break;
+      case 'Other':
         str = '我刚刚联系了这个客户';
         break;
     }
@@ -106,7 +111,6 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
       return;
     }
     const params = this.validateForm.value;
-    // params.followUpRecord = format(params.followUpRecord, 'yyyy-MM-dd');
     const traceLogItems = [];
     this.loading = true;
     this.fileList.forEach((item) => {
@@ -119,7 +123,7 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
     this.crmTraceLogService.create({ ...params, traceLogItems: traceLogItems }).subscribe(r => {
       this.loading = false;
       this.$message.success(this.$L('Publish success'));
-      this.onSuccess.emit(true)
+      this.onSuccess.emit(true);
     }, e => this.loading = false);
   }
 
