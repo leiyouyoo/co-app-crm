@@ -39,5 +39,8 @@
   },
   "CrmCustomer":{
     "DirectClient":"DirectClient"
+  },
+  "CRM":{
+    "Name":"Name"
   }
 }

@@ -246,8 +246,9 @@
             <nz-tab [nzTitle]="'Location list' | translate">
               <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
-            <!--          勿删，暂未实现-->
-            <!--            <nz-tab [nzTitle]="'Invoice' | translate"></nz-tab>-->
+            <nz-tab [nzTitle]="'Invoice' | translate">
+              <crm-invoice-list [customerInfo]="customerInfo"></crm-invoice-list>
+            </nz-tab>
             <nz-tab [nzTitle]="'Partner' | translate">
               <customer-partner [customerId]="customerId"></customer-partner>
             </nz-tab>
