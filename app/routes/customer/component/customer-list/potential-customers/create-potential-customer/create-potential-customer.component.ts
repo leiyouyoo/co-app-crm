@@ -31,6 +31,8 @@ import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerS
 })
 export class CreatePotentialCustomerComponent extends CoPageBase implements OnInit {
   @Input() set customerInfo(v) {
+    //详情展开全部
+    this.showBasicInfo = true;
     this.initData(v);
   }
 
@@ -39,7 +41,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   @Input() showAnchor = true;
-  @Input() isEdit=false;
+  @Input() isEdit = false;
   @Input() sideDrawer: PageSideDrawerComponent;
   @Output() readonly onSubmitted = new EventEmitter<any>();
   @ViewChild('st', { static: false }) st: STComponent;
@@ -788,9 +790,11 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         provinceId: data.provinceId || null,
         cityId: data.cityId || null,
       });
+      if (data.customerConfigure.customerLevel) {
+        this.changeCustomerLevel(data.customerConfigure.customerLevel);
+      }
     }
   }
-
 
   async selectedCountry(event) {
     if (event) {
@@ -1228,7 +1232,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     let entity: CRMCreateOrUpdateCustomerInput = {
       id: value.id,
       name: value.name,
-      code:value.code,
+      code: value.code,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
