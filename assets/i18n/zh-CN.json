@@ -194,6 +194,7 @@
   "Set the customer's price level, the customer can see the reserve price + the added price after configuring the price in the CSP": "设置客户的价格等级，客户可在CSP看到底价+配置价格后的加成价格",
   "After the customer level configuration is released, customers who have opened tenants can log in to the CSP platform to view the added ocean freight rates": "客户级别配置发布后，已开通租户的客户可登录CSP平台，查看加成后的海运运价",
   "Publish": "发布",
+  "Publish success": "发布成功",
   "Customer configuration level": "客户配置级别",
   "Please choose": "请选择",
   "Shipping fee": "海运费",

@@ -7,6 +7,7 @@ import { CustomerLifeCyclePipe } from './pipe/customer-life-cycle.pipe';
 import { CustomerIndexComponent } from './customer-index.component';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { TransactedCustomersComponent } from './component/customer-list/transacted-customers/transacted-customers.component';
@@ -34,6 +35,7 @@ import { UpdateCustomerNameComponent } from './component/update-customer-name/up
 import { CspAccountConfigComponent } from './component/csp-account-config/csp-account-config.component';
 import { BindLocationComponent } from './component/contact/bind-location/bind-location.component';
 import { BindContactsComponent } from './component/location/bind-contacts/bind-contacts.component';
+import { FollowUpRecordComponent } from './component/follow-up-record/follow-up-record.component';
 const COMPONENTS = [
   LocationListComponent,
   CustomerPartnerComponent,
@@ -61,7 +63,7 @@ const COMPONENTS_NOROUNT = [CreatePotentialCustomerComponent,
   DistributionCustomerComponent, ApplyCodeComponent, MergeCustomerComponent, UpdateCustomerNameComponent,TransferTocustomerComponent];
 
 @NgModule({
-  imports: [SharedModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule,NzNoAnimationModule],
+  imports: [SharedModule,NzDividerModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule,NzNoAnimationModule],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
@@ -73,6 +75,7 @@ const COMPONENTS_NOROUNT = [CreatePotentialCustomerComponent,
     HighlightPipe,
     HighSeasPondCustomerComponent,
     CspAccountConfigComponent,
+    FollowUpRecordComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

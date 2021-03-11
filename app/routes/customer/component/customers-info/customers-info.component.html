@@ -26,7 +26,9 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span></nz-tag
+            <span
+              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
+          </nz-tag
           >
           <nz-tag
             *ngIf="!customerInfo?.isRegistered"
@@ -50,7 +52,9 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span></nz-tag
+            <span
+              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span>
+          </nz-tag
           >
         </div>
         <div class="edit-customer" style="display: flex; align-items: center; margin-left: 8px;">
@@ -78,7 +82,7 @@
             />
             <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
               'Enterprise certification passed' | translate
-            }}</span></nz-tag
+              }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
@@ -102,7 +106,9 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span></nz-tag
+            <span
+              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span>
+          </nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 1"
@@ -128,7 +134,7 @@
             />
             <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
               'Enterprise certificationing' | translate
-            }}</span></nz-tag
+              }}</span></nz-tag
           >
         </div>
       </div>
@@ -149,7 +155,8 @@
           </ul>
         </nz-dropdown-menu>
 
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.code" (click)="applyCode()">
@@ -224,18 +231,19 @@
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
-      }}</span>
+        }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'" class="iconfont icon-zhuanyi"></span>
+      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'"
+            class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
   <nz-layout>
     <nz-content nz-row [nzGutter]="32">
-      <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="24">
+      <div style="height: 100%;" nz-col class="gutter-row" [nzSpan]="16">
         <!--          勿删，暂未实现-->
         <!--        <div style="height: 80px; margin-bottom: 16px; background: #fff;"></div>-->
         <div style="height: 100%; padding-left: 16px; background: #fff;">
@@ -264,9 +272,46 @@
           </nz-tabset>
         </div>
       </div>
-      <!--          勿删，暂未实现-->
-      <div nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;">
-        <div class="inner-box"></div>
+
+      <div nz-col class="gutter-row" [nzSpan]="8" style="height: 100%;background: #fff;">
+        <div style="height: 100%; padding-left: 16px; background: #fff;">
+          <nz-tabset style="height: 50%;" nzAnimated="false">
+            <nz-tab [nzTitle]="'跟进记录' | translate">
+              <crm-follow-up-record (onSuccess)="onRecordSuccess($event)"
+                                    [customerId]="customerId"></crm-follow-up-record>
+            </nz-tab>
+          </nz-tabset>
+          <nz-divider style="margin: 8px 0;"></nz-divider>
+
+          <section style="height: calc(50% - 17px);">
+            <div class="search_area">
+              <nz-input-group nzSize="small" [nzSuffix]="suffixIconSearch">
+                <input type="text" [(ngModel)]="param.searchKey" nz-input placeholder="input search text"/>
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+              <button nz-button nzSize="small" nzType="default">{{ 'refresh' | translate }}</button>
+            </div>
+            <div class="trace_log" style="overflow: auto;height: calc(100% - 24px);">
+              <div style="border-bottom: 1px solid #E9E9E9;" *ngFor="let item of traceLogList">
+                  <h5 *ngIf="item.businessType == 1">添加团队成员</h5>
+                  <h5 *ngIf="item.businessType == 2">CustomerInfo</h5>
+                  <h5 *ngIf="item.businessType == 3">跟进记录</h5>
+                  <h5 *ngIf="item.businessType == 4">跟进记录</h5>
+                  <h5 *ngIf="item.businessType == 5">跟进记录</h5>
+                  <p>
+                    <span>{{item.contentLocalizationText}}</span>
+                    <span>上午10:14/昨天</span>
+                  </p>
+                  <div class="trace_log__content">
+
+                  </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
       </div>
     </nz-content>
   </nz-layout>

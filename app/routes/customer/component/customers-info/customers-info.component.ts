@@ -11,6 +11,7 @@ import { ContactDetailComponent } from '../contact/contact-detail/contact-detail
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { ContactListComponent } from '../contact/contact-list/contact-list.component';
 import { LocationListComponent } from '../location/location-list/location-list.component';
+import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 
 @Component({
   selector: 'crm-customers-info',
@@ -23,19 +24,39 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   customerInfo: any;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
+  traceLogList = [];
+  param = {
+    customerId: this.customerId,
+    searchKey: null,
+    businessType: 0,
+    maxResultCount: 10,
+    skipCount: 0,
+  };
 
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
     injector: Injector,
     public activeRoute: ActivatedRoute,
-    private contactService: CRMContactService,
+    private crmCustomerOperationEventService: CRMCustomerOperationEventService,
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.getCustomerDetail(this.customerId);
+    this.getCustomerOperationEvent();
+  }
+
+
+  /**
+   * 获取跟进记录
+   */
+  getCustomerOperationEvent() {
+    this.crmCustomerOperationEventService.getAll(this.param).subscribe(r => {
+      this.traceLogList = r.items;
+      console.log(this.traceLogList);
+    });
   }
 
   //获取详情
@@ -250,5 +271,9 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     } else if (e.index == 1) {
       this.locationList.getLocation(this.customerId);
     }
+  }
+
+  onRecordSuccess(e) {
+    e && this.getCustomerOperationEvent();
   }
 }
