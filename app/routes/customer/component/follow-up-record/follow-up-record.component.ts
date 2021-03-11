@@ -128,6 +128,8 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
   }
 
   cancel() {
-
+    this.fileList = [];
+    this.validateForm.patchValue({ followUpRecord: new Date() });
+    this.traceChange(this.validateForm.value.traceLogTypeId);
   }
 }

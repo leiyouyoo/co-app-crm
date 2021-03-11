@@ -36,11 +36,6 @@ import { CspAccountConfigComponent } from './component/csp-account-config/csp-ac
 import { BindLocationComponent } from './component/contact/bind-location/bind-location.component';
 import { BindContactsComponent } from './component/location/bind-contacts/bind-contacts.component';
 import { FollowUpRecordComponent } from './component/follow-up-record/follow-up-record.component';
-const COMPONENTS = [
-  LocationListComponent,
-  CustomerPartnerComponent,
-  PartnerBindCustomerComponent,
-];
 import { InvoiceListComponent } from './component/invoice/invoice-list/invoice-list.component';
 import { InvoiceDetailComponent } from './component/invoice/invoice-detail/invoice-detail.component';
 
