@@ -1,0 +1,48 @@
+@import '../../../../../../styles/variables.less';
+
+:host {
+  ::ng-deep {
+    .ant-form-item {
+      margin-bottom: 8px;
+    }
+
+    .ant-form-item-label {
+      width: 130px;
+      padding: 0;
+      text-align: left;
+    }
+
+    .ant-row {
+      justify-content: space-between;
+      max-width: 100%;
+    }
+  }
+}
+.invoicetitle-width {
+  width: 100%;
+}
+.invoicetitle-new-bank {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  border-radius: 4px;
+  .invoicetitle-new-bankinfo {
+    width: 100%;
+    min-height: 80px;
+  }
+  .invoicetitle-new-info {
+    display: flex;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+  }
+}
+
+.invoicetitle-new-default {
+  margin-top: 24px;
+  margin-left: 0 !important;
+}
+
+::ng-deep .ant-btn-dashed {
+  color: @primary-color;
+  border-color: @primary-color;
+}

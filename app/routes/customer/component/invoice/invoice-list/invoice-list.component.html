@@ -1,0 +1,36 @@
+<button nz-button nzType="primary" style="margin-bottom: 16px;" (click)="onAdd('Add')">{{ '新增' | translate }}</button>
+<co-st
+  #st
+  [columns]="columns"
+  [data]="invoiceTitleList"
+  columnDefaultWidth="100"
+  (change)="onTableChange($event)"
+  [loading]="loading"
+  [rowClassName]="getRowClassName"
+  calcScroll
+  disableCalcX
+  virtualScroll
+  [showFilters]="false"
+  style="flex: 1;"
+>
+  <ng-template st-row="type" let-data>
+    <span *ngIf="data.type == 1">
+      {{ 'SpecialVAT' | translate }}
+    </span>
+    <span *ngIf="data.type == 2">
+      {{ 'PaperVAT' | translate }}
+    </span>
+    <span *ngIf="data.type == 3">
+      {{ 'EVAT' | translate }}
+    </span>
+  </ng-template>
+
+  <ng-template st-row="isValid" let-data>
+    <ng-container *ngIf="data.isValid; else elseisValidTemplate">
+      {{ 'effective' | translate }}
+    </ng-container>
+    <ng-template #elseisValidTemplate>
+      {{ 'invalid' | translate }}
+    </ng-template>
+  </ng-template>
+</co-st>
