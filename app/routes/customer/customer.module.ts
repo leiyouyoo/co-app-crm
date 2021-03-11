@@ -20,7 +20,7 @@ import { ContactDetailComponent } from './component/contact/contact-detail/conta
 import { LocationDetailComponent } from './component/location/location-detail/location-detail.component';
 import { CreatePotentialCustomerComponent } from './component/customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
 import { HighlightPipe } from './pipe/heightLight';
-import { CoCascaderModule } from '@co/cbc';
+import { CoCascaderModule, NetworkSharedModule } from '@co/cbc';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { HighSeasPondCustomerComponent } from './component/customer-list/high-seas-pond-customer/high-seas-pond-customer.component';
 import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
@@ -41,6 +41,10 @@ const COMPONENTS = [
   CustomerPartnerComponent,
   PartnerBindCustomerComponent,
 ];
+import { InvoiceListComponent } from './component/invoice/invoice-list/invoice-list.component';
+import { InvoiceDetailComponent } from './component/invoice/invoice-detail/invoice-detail.component';
+
+const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
 const NEWCOMPONENTS = [
   CustomerListComponent,
@@ -57,13 +61,30 @@ const NEWCOMPONENTS = [
   CreateTransactedCustomersComponent,
   BindLocationComponent,
   BindContactsComponent,
+  InvoiceListComponent,
+  InvoiceDetailComponent,
 ];
 
-const COMPONENTS_NOROUNT = [CreatePotentialCustomerComponent,
-  DistributionCustomerComponent, ApplyCodeComponent, MergeCustomerComponent, UpdateCustomerNameComponent,TransferTocustomerComponent];
+const COMPONENTS_NOROUNT = [
+  CreatePotentialCustomerComponent,
+  DistributionCustomerComponent,
+  ApplyCodeComponent,
+  MergeCustomerComponent,
+  UpdateCustomerNameComponent,
+  TransferTocustomerComponent,
+];
 
 @NgModule({
-  imports: [SharedModule,NzDividerModule, NzResizableModule, CustomerRoutingModule, CoCascaderModule, NzAnchorModule,NzNoAnimationModule],
+  imports: [
+    SharedModule,
+    NzResizableModule,
+    CustomerRoutingModule,
+    NzDividerModule,
+    CoCascaderModule,
+    NzAnchorModule,
+    NzNoAnimationModule,
+    NetworkSharedModule,
+  ],
   declarations: [
     // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,

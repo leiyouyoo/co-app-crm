@@ -44,7 +44,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   get customerInfo() {
     return this.customerInfo;
   }
-  @Input() isEdit=false;
+  @Input() isEdit = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
   @ViewChild('ngForm', { static: false }) ngForm: FormGroupDirective;
@@ -770,6 +770,9 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         provinceId: data.provinceId || null,
         cityId: data.cityId || null,
       });
+      if (data.customerConfigure.customerLevel) {
+        this.changeCustomerLevel(data.customerConfigure.customerLevel);
+      }
     }
   }
 
@@ -1206,7 +1209,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
     let entity: CRMCreateOrUpdateCustomerInput = {
       id: value.id,
-      code:value.code,
+      code: value.code,
       name: value.name,
       nameLocalization: value.nameLocalization,
       shortName: value.shortName,

@@ -1133,5 +1133,22 @@
   "Show More": "查看更多",
   "Team member": "团队成员",
   "Search keyword": "搜索关键词",
-  "Visit": "拜访"
+  "Visit": "拜访",
+  "CompanyName": "公司名称",
+  "TFN": "税号",
+  "Tel": "电话",
+  "Bank Information": "银行信息",
+  "Bank Information2": "银行信息2",
+  "Bank": "银行",
+  "Set as the default invoice header": "设置为默认抬头",
+  "CRM": {
+    "Name": "名称"
+  },
+  "Invoice type": "发票类型",
+  "EVAT": "电子发票",
+  "PaperVAT": "纸质发票",
+  "SpecialVAT": "专用发票",
+  "BankAccount": "银行账号",
+  "Bank account number must be filled in":"银行账号必填一个",
+  "Create Date":"创建日期"
 }
