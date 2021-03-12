@@ -500,6 +500,7 @@
           <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
             <co-cascader
               style="width: 100%;"
+              nzChangeOnSelect
               [nzValueProperty]="'id'"
               [nzOptionRender]="renderTpl"
               [nzLabelRender]="labelTpl"
