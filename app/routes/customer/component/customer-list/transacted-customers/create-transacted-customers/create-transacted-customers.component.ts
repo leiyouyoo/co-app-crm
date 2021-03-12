@@ -77,7 +77,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   name: string;
   scrollTop = 0;
   data: any;
-  checkKey: any;
+  checkKey: any; //当前验重的字段
+  checkRepeatLoading: boolean;
 
   customerTypes = [
     {
@@ -724,6 +725,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       skipCount: this.searchParams.skipCount,
     }).subscribe((r) => {
       console.log(r);
+      this.checkRepeatLoading = false;
+      this.searchParams.totalCount = r.totalCount;
       this.verifyMode = r.verifyMode;
       this.isAdopt = r.isAdopt;
       if (!r.isAdopt) {
@@ -740,7 +743,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         this.hide(key);
       }
       this.validateForm.updateValueAndValidity();
-    });
+    }, e => this.checkRepeatLoading = false);
   }
 
   requiredCustomerTaxes() {
