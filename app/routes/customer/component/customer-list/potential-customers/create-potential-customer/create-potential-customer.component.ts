@@ -51,6 +51,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   get customerInfo() {
     return this.customerInfo;
   }
+
   checkRepeatLoading: boolean;
   checkKey: any;//当前验重的字段
   searchParams = {
@@ -563,7 +564,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
       id: [this.emptyGuid],
-      name: ['', { validators: [Validators.required] }],
+      name: ['', Validators.required],
       code: [null],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
@@ -759,7 +760,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           this.hide(key);
         }
         this.validateForm.updateValueAndValidity();
-      },e=>this.checkRepeatLoading = false);
+      }, e => this.checkRepeatLoading = false);
   }
 
   requiredCustomerTaxes() {

@@ -32,6 +32,7 @@
           >
           <nz-tag
             *ngIf="!customerInfo?.isRegistered"
+            (click)="!customerInfo?.isDeleted && cspAccountConfig()"
             style="
               position: relative;
               display: flex;
@@ -86,6 +87,7 @@
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
+            (click)="!customerInfo?.isDeleted && applyCode()"
             style="
               position: relative;
               display: flex;
@@ -237,7 +239,9 @@
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'"
+      <span nz-popover *ngIf="!customerInfo?.isDeleted" (click)="transferCustomer()" [nzPopoverTitle]="null"
+            [nzPopoverContent]="'Transfer customer' | translate" style="margin-left: 8px; color: #1890ff;" nz-icon
+            [nzIconfont]="'icon-zhuanyi'"
             class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>

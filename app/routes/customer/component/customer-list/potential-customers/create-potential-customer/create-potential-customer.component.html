@@ -343,6 +343,7 @@
                 nz-input
                 (blur)="checkRepeatData('name')"
                 formControlName="name"
+                [readonly]="isEdit"
                 placeholder="{{ 'Please enter full name' | translate }}"
               />
               <ng-template #inputClearTpl
@@ -383,6 +384,7 @@
               <input
                 id="nameLocalization"
                 nz-input
+                [readonly]="isEdit"
                 formControlName="nameLocalization"
                 (blur)="checkRepeatData('nameLocalization')"
                 placeholder="{{ 'Please enter' | translate }}"
@@ -418,6 +420,7 @@
             <nz-input-group [nzSuffix]="inputClearTpl2">
               <input
                 id="shortName"
+                [readonly]="isEdit"
                 (blur)="checkRepeatData('shortName')"
                 nz-input
                 formControlName="shortName"
@@ -463,6 +466,7 @@
                 (blur)="checkRepeatData('shortNameLocalization')"
                 id="shortNameLocalization"
                 nz-input
+                [readonly]="isEdit"
                 formControlName="shortNameLocalization"
                 type="text"
                 placeholder="{{ 'Please enter short name' | translate }}"

@@ -30,6 +30,7 @@
               style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
           </nz-tag>
           <nz-tag
+            (click)="!customerInfo?.isDeleted && cspAccountConfig()"
             *ngIf="!customerInfo?.isRegistered"
             style="
               position: relative;
@@ -84,6 +85,7 @@
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
+            (click)="!customerInfo?.isDeleted && applyCode()"
             style="
               position: relative;
               display: flex;
@@ -253,7 +255,9 @@
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span style="margin-left: 8px; color: #1890ff;" nz-icon [nzIconfont]="'icon-zhuanyi'"
+      <span nz-popover *ngIf="!customerInfo?.isDeleted" (click)="transferCustomer()" [nzPopoverTitle]="null"
+            [nzPopoverContent]="'Transfer customer' | translate" style="margin-left: 8px; color: #1890ff;" nz-icon
+            [nzIconfont]="'icon-zhuanyi'"
             class="iconfont icon-zhuanyi"></span>
     </div>
   </nz-header>
