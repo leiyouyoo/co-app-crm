@@ -719,7 +719,10 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       this.hide(key);
       return;
     }
-    this.crmCustomerService.customerCheckAsync({ name: null, id: this.validateForm.value.id, [key]: value }).subscribe((r) => {
+    this.crmCustomerService.customerCheckAsync({
+      name: null, id: this.validateForm.value.id, [key]: value, maxResultCount: this.searchParams.pageSize,
+      skipCount: this.searchParams.skipCount,
+    }).subscribe((r) => {
       console.log(r);
       this.verifyMode = r.verifyMode;
       this.isAdopt = r.isAdopt;
