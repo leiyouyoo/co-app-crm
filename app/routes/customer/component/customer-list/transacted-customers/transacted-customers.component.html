@@ -3,11 +3,11 @@
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
       <div style="display: flex; align-items: center;">
         <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px;">
-          <nz-option [nzValue]="0" [nzLabel]="'I m in charge' | translate"></nz-option>
+          <nz-option [nzValue]="0" [nzLabel]="'I\'m in charge' | translate"></nz-option>
           <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
           <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
           <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'All' | translate"></nz-option>
-          <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department\'s' | translate"></nz-option>
           <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
         <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>

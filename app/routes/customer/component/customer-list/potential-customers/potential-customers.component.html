@@ -2,12 +2,12 @@
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
       <div style="display: flex; align-items: center;">
-        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin:0 8px;">
-          <nz-option [nzValue]="0" [nzLabel]="'I m in charge' | translate"></nz-option>
+        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin: 0 8px;">
+          <nz-option [nzValue]="0" [nzLabel]="'I\'m in charge' | translate"></nz-option>
           <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
           <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
           <nz-option *ngIf="isManager" [nzValue]="3" [nzLabel]="'All' | translate"></nz-option>
-          <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department' | translate"></nz-option>
+          <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department\'s' | translate"></nz-option>
           <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
         <button nz-button nzType="primary" (click)="createCustomer()">
@@ -60,7 +60,13 @@
       </div>
       <div>
         <nz-input-group [nzSuffix]="inputClearTpl" style="width: 300px;">
-          <input type="text" nz-input (keyup.enter)="onSearch()" [(ngModel)]="searchParams.searchText" [placeholder]="'Search Code/Customer Name/Tel' | translate" />
+          <input
+            type="text"
+            nz-input
+            (keyup.enter)="onSearch()"
+            [(ngModel)]="searchParams.searchText"
+            [placeholder]="'Search Code/Customer Name/Tel' | translate"
+          />
         </nz-input-group>
         <ng-template #inputClearTpl
           ><i
@@ -102,11 +108,10 @@
         <span *ngIf="data.leadTrackingPhase == 4">{{ 'Negotiation' | translate }}</span>
         <span *ngIf="data.leadTrackingPhase == 5">{{ 'WinTheOrder' | translate }}</span>
         <span *ngIf="data.leadTrackingPhase == 6">{{ 'LostOrder' | translate }}</span>
-        <span style="color: rgba(0,0,0,.5);" *ngIf="!data.leadTrackingPhase"> — —</span>
-
+        <span style="color: rgba(0, 0, 0, 0.5);" *ngIf="!data.leadTrackingPhase"> — —</span>
       </ng-template>
       <ng-template st-row="examineState" let-data>
-        <span style="color: rgba(0,0,0,.5);"  *ngIf="data.examineState == 0">
+        <span style="color: rgba(0, 0, 0, 0.5);" *ngIf="data.examineState == 0">
           — —
         </span>
         <span *ngIf="data.examineState == 1">
