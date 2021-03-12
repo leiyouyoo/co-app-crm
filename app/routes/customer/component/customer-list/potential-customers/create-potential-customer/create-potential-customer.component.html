@@ -127,7 +127,7 @@
     [nzLoading]="codeLoading"
     (click)="submit(true)"
   >
-    {{ '保存并申请代码' | translate }}
+    {{ 'Save and Apply Code' | translate }}
   </button>
   <button
     nz-button
@@ -160,7 +160,7 @@
         <!--        潜在客户阶段-->
         <div nz-col [nzSpan]="11">
           <nz-form-item>
-            <nz-form-label>{{ '潜在客户阶段' | translate }}</nz-form-label>
+            <nz-form-label>{{ 'Potential customers stage' | translate }}</nz-form-label>
             <nz-form-control>
               <div class="common_select">
                 <nz-select formControlName="leadTrackingPhase" nzPlaceHolder="{{ 'Please select' | translate }}">
@@ -248,7 +248,7 @@
         <div nz-col [nzSpan]="11" *ngFor="let detail of validateForm.controls['tel'].controls; let inx = index"
              [formGroupName]="inx">
           <nz-form-item>
-            <nz-form-label nzRequired
+            <nz-form-label
             >{{ 'Phone' | translate }}
               <a *ngIf="validateForm.controls['tel'].controls.length === 1" (click)="addPhone()">
                 <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
@@ -352,7 +352,7 @@
                 class="ant-input-clear-icon"
                 nzTheme="fill"
                 nzType="close-circle"
-                *ngIf="validateForm.get('name').value"
+                *ngIf="validateForm.get('name').value && !isEdit"
                 (click)="validateForm.get('name').reset(); hide()"
               ></i
               ></ng-template>
@@ -396,7 +396,7 @@
                 class="ant-input-clear-icon"
                 nzTheme="fill"
                 nzType="close-circle"
-                *ngIf="validateForm.get('nameLocalization').value"
+                *ngIf="validateForm.get('nameLocalization').value && !isEdit"
                 (click)="validateForm.get('nameLocalization').reset(); hide()"
               ></i
               ></ng-template>
@@ -433,7 +433,7 @@
                 class="ant-input-clear-icon"
                 nzTheme="fill"
                 nzType="close-circle"
-                *ngIf="validateForm.get('shortName').value"
+                *ngIf="validateForm.get('shortName').value && !isEdit"
                 (click)="validateForm.get('shortName').reset(); hide()"
               ></i
               ></ng-template>
@@ -477,7 +477,7 @@
                 class="ant-input-clear-icon"
                 nzTheme="fill"
                 nzType="close-circle"
-                *ngIf="validateForm.get('shortNameLocalization').value"
+                *ngIf="validateForm.get('shortNameLocalization').value && !isEdit"
                 (click)="validateForm.get('shortNameLocalization').reset(); hide()"
               ></i
               ></ng-template>
@@ -500,6 +500,7 @@
           <nz-form-control nzErrorTip="{{ 'Country / region cannot be empty!' | translate }}">
             <co-cascader
               style="width: 100%;"
+              nzChangeOnSelect
               [nzValueProperty]="'id'"
               [nzOptionRender]="renderTpl"
               [nzLabelRender]="labelTpl"

@@ -144,22 +144,22 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   registrationTypes = [
     {
-      name: this.$L('雇主编号'),
+      name: this.$L('Employer Identification Number'),
       value: 0,
       checked: false,
     },
     {
-      name: this.$L('社会安全号码'),
+      name: this.$L('Social Security Number'),
       value: 1,
       checked: false,
     },
     {
-      name: this.$L('个人税务编号'),
+      name: this.$L('Individual Taxpayer Identification Number'),
       value: 2,
       checked: false,
     },
     {
-      name: this.$L('纳税人识别号'),
+      name: this.$L('Adopted Tax Payer Identification Number'),
       value: 3,
       checked: false,
     },
@@ -183,7 +183,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       iif: (item) => this.columnConfig.includes('name'),
     },
     {
-      title: '纳税人识别号',
+      title: 'Adopted Tax Payer Identification Number',
       index: 'customerTaxes',
       render: 'customerTaxes',
       width: 100,
@@ -510,7 +510,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           });
         } else {
           data = this.fb.group({
-            tel: [e, { validators: [Validators.required, this.mobileValidator()] }],
+            tel: [e, { validators: [this.mobileValidator()] }],
           });
         }
         (this.validateForm.controls.tel as FormArray).push(data);
@@ -523,7 +523,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         });
       } else {
         data = this.fb.group({
-          tel: [null, { validators: [Validators.required, this.mobileValidator()] }],
+          tel: [null, { validators: [this.mobileValidator()] }],
         });
       }
       (this.validateForm.controls.tel as FormArray).push(data);
@@ -1253,9 +1253,9 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       return;
     }
     let value = this.validateForm.value;
-    let tel = value.tel.map((res) => res.tel);
-    if (!value.email && !value.fax) {
-      this.msg.warning(this.$L('Please enter email or fax'));
+    let tel = value.tel.filter(e => e.tel).map((res) => res.tel);
+    if (!value.email && value.tel.every(e => !e.tel)) {
+      this.msg.warning(this.$L('Please enter email or tel'));
       return;
     }
     if (application) {
@@ -1356,17 +1356,9 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     !this.validateForm.get('country').value ? (all = false) : null;
     !this.validateForm.get('address').value ? (all = false) : null;
     !this.validateForm.get('customerType').value ? (all = false) : null;
-    !this.validateForm.get('fax').value && !this.validateForm.get('email').value ? (all = false) : null;
     if (this.cspInfo) {
       !this.validateForm.get('customerLevel').value ? (all = false) : null;
       !this.validateForm.get('oceanAttachFee').value ? (all = false) : null;
-    }
-    if (this.taxInfo) {
-      this.validateForm.get('tel')?.value?.forEach((e) => {
-        if (!e.tel) {
-          all = false;
-        }
-      });
     }
     this.validateForm.get('customerTaxes')?.value?.forEach((e) => {
       if (!e.taxType || !e.taxNo) {
