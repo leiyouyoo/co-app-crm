@@ -112,6 +112,7 @@
   "Please fill in the freight forwarding type": "请填写货代类型",
   "New success": "添加成功",
   "Please enter email or fax": "请输入邮件地址或传真",
+  "Please enter email or tel": "请输入邮箱或者号码",
   "The account will no longer log in, whether to continue operation?": "此账号将不能再登录，是否继续操作?",
   "Modify success": "修改成功",
   "Modify": "修改",
@@ -1150,5 +1151,7 @@
   "SpecialVAT": "专用发票",
   "BankAccount": "银行账号",
   "Bank account number must be filled in":"银行账号必填一个",
-  "Create Date":"创建日期"
+  "Create Date":"创建日期",
+  "Save and Apply Code": "保存并申请代码",
+  "Potential customers stage": "潜在客户阶段"
 }

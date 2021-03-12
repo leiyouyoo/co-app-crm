@@ -126,7 +126,7 @@
     [nzLoading]="codeLoading"
     (click)="submit(true)"
   >
-    {{ '保存并申请代码' | translate }}
+    {{ 'Save and Apply Code' | translate }}
   </button>
   <button
     nz-button
@@ -541,7 +541,7 @@
         <!--        号码-->
         <div nz-col [nzSpan]="11" *ngFor="let detail of validateForm.controls['tel'].controls; let inx = index" [formGroupName]="inx">
           <nz-form-item>
-            <nz-form-label nzRequired
+            <nz-form-label
               >{{ 'Phone' | translate }}
               <a *ngIf="validateForm.controls['tel'].controls.length === 1" (click)="addPhone()">
                 <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>

@@ -14,22 +14,22 @@ export class ApplyCodeComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   registrationTypes = [
     {
-      name: this.$L('雇主编号'),
+      name: this.$L('Employer Identification Number'),
       value: 0,
       checked: false,
     },
     {
-      name: this.$L('社会安全号码'),
+      name: this.$L('Social Security Number'),
       value: 1,
       checked: false,
     },
     {
-      name: this.$L('个人税务编号'),
+      name: this.$L('Individual Taxpayer Identification Number'),
       value: 2,
       checked: false,
     },
     {
-      name: this.$L('纳税人识别号'),
+      name: this.$L('Adopted Tax Payer Identification Number'),
       value: 3,
       checked: false,
     },

@@ -21,7 +21,7 @@ export class CustomerInspectionComponent extends CoPageBase implements OnInit {
           list: [
             { label: '客户全称（英文）', value: '1', checked: true },
             { label: '客户全称（本地语言）', value: '2', checked: false },
-            { label: '纳税人识别号', value: '3', checked: false },
+            { label: 'Adopted Tax Payer Identification Number', value: '3', checked: false },
             { label: '曾用名', value: '4', checked: false },
             { label: '号码', value: '5', checked: false },
             { label: '客户简称（英文）', value: '6', checked: false },
@@ -84,7 +84,7 @@ export class CustomerInspectionComponent extends CoPageBase implements OnInit {
           list: [
             { label: '客户全称（英文）', value: '1', checked: true },
             { label: '客户全称（本地语言）', value: '2', checked: false },
-            { label: '纳税人识别号', value: '3', checked: false },
+            { label: 'Adopted Tax Payer Identification Number', value: '3', checked: false },
             { label: '曾用名', value: '4', checked: false },
             { label: '号码', value: '5', checked: false },
             { label: '客户简称（英文）', value: '6', checked: false },
