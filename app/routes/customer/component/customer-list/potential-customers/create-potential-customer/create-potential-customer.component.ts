@@ -11,7 +11,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -21,7 +29,11 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -40,6 +52,15 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     return this.customerInfo;
   }
 
+  checkRepeatLoading: boolean;
+  checkKey: any;//当前验重的字段
+  searchParams = {
+    maxResultCount: 10,
+    skipCount: 0,
+    totalCount: 0,
+    pageNo: 1,
+    pageSize: 10,
+  };
   @Input() showAnchor = true;
   @Input() isEdit = false;
   @Input() sideDrawer: PageSideDrawerComponent;
@@ -298,9 +319,17 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   onTableChange(e) {
     switch (e.type) {
       case 'pi': {
+        this.searchParams.pageNo = e.pi;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.checkRepeatData(this.checkKey);
         break;
       }
       case 'ps': {
+        this.searchParams.pageSize = e.ps;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.checkRepeatData(this.checkKey);
         break;
       }
     }
@@ -535,7 +564,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
       id: [this.emptyGuid],
-      name: ['', { validators: [Validators.required] }],
+      name: ['', Validators.required],
       code: [null],
       shortName: [null, { validators: [Validators.required] }],
       nameLocalization: [null],
@@ -586,7 +615,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '006',
       })
       .subscribe((res) => {
@@ -596,7 +625,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     // 行业的
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '098',
       })
       .subscribe((res) => {
@@ -696,20 +725,25 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
    * @param id
    */
   checkCustomerAsync(key, value, id?) {
+    this.checkKey = key;
     if (!value) {
       this.hide(key);
       return;
     }
     let customerId = null;
+    this.checkRepeatLoading = true;
     this.emptyGuid == this.validateForm.value.id ? (customerId = null) : (customerId = this.validateForm.value.id);
     this.crmCustomerService
       .customerCheckAsync({
         name: null,
         [key]: value,
         id: customerId,
+        maxResultCount: this.searchParams.pageSize,
+        skipCount: this.searchParams.skipCount,
       })
       .subscribe((r) => {
-        console.log(r);
+        this.checkRepeatLoading = false;
+        this.searchParams.totalCount = r.totalCount;
         this.verifyMode = r.verifyMode;
         this.isAdopt = r.isAdopt;
         if (!r.isAdopt) {
@@ -726,7 +760,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           this.hide(key);
         }
         this.validateForm.updateValueAndValidity();
-      });
+      }, e => this.checkRepeatLoading = false);
   }
 
   requiredCustomerTaxes() {
@@ -824,7 +858,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       });
       let res = await this.pubPlaceService
         .getAll({
-          maxResultCount: 1000,
+          maxResultCount: 2000,
           regionId: event,
           isCity: true,
         })

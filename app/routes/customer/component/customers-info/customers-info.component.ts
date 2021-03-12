@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CRMContactService, CRMCustomerService } from 'apps/crm/app/services/crm';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { ApplyCodeComponent } from '../apply-code/apply-code.component';
 import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
 import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
@@ -11,6 +11,7 @@ import { ContactDetailComponent } from '../contact/contact-detail/contact-detail
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { ContactListComponent } from '../contact/contact-list/contact-list.component';
 import { LocationListComponent } from '../location/location-list/location-list.component';
+import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 
 @Component({
   selector: 'crm-customers-info',
@@ -20,6 +21,7 @@ import { LocationListComponent } from '../location/location-list/location-list.c
 export class CustomersInfoComponent extends CoPageBase implements OnInit {
   @ViewChild(ContactListComponent, { static: false }) contactList: ContactListComponent;
   @ViewChild(LocationListComponent, { static: false }) locationList: LocationListComponent;
+  @ViewChild(FollowUpRecordListComponent, { static: false }) recordList: FollowUpRecordListComponent;
   customerInfo: any;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
@@ -29,7 +31,6 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     private modal: NzModalService,
     injector: Injector,
     public activeRoute: ActivatedRoute,
-    private contactService: CRMContactService,
   ) {
     super(injector);
   }
@@ -250,5 +251,12 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     } else if (e.index == 1) {
       this.locationList.getLocation(this.customerId);
     }
+  }
+
+  /**
+   * 发布跟进记录回调
+   */
+  onRecordSuccess(e) {
+    e && this.recordList.getCustomerOperationEvent();
   }
 }

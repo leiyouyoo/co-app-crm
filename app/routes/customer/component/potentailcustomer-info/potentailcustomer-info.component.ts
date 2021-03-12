@@ -11,6 +11,7 @@ import { CRMCustomerDetailDto } from '../../../../services/crm';
 import { PotentailcustomerDetailComponent } from './potentailcustomer-detail/potentailcustomer-detail.component';
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
+import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -18,6 +19,7 @@ import { ContactDetailComponent } from '../contact/contact-detail/contact-detail
   styleUrls: ['./potentailcustomer-info.component.less'],
 })
 export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit {
+  @ViewChild(FollowUpRecordListComponent, { static: false }) recordList: FollowUpRecordListComponent;
   @ViewChild(PotentailcustomerDetailComponent, { static: false }) customerDetail!: PotentailcustomerDetailComponent;
   index = 0;
   customerInfo: CRMCustomerDetailDto;
@@ -268,5 +270,12 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         this.getCustomerDetail(this.customerId);
       }
     });
+  }
+
+  /**
+   * 发布跟进记录回调
+   */
+  onRecordSuccess(e) {
+    e && this.recordList.getCustomerOperationEvent();
   }
 }

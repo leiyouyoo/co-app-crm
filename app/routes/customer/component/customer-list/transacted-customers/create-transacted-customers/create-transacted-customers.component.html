@@ -7,12 +7,16 @@
     #st
     [loading]="loading"
     [data]="repeatList"
+    [ps]="searchParams.pageSize"
+    [(pi)]="searchParams.pageNo"
+    [total]="searchParams.totalCount"
     [columns]="columns"
     (change)="onTableChange($event)"
     [showFilters]="false"
     [showCheckbox]="false"
     calcScroll
     disableCalcX
+    style="flex: 1;height: calc(100% - 42px);"
     columnSettingName="check-repeat"
   >
     <ng-template st-row="nameLocalization" type="tags" let-item>
@@ -161,6 +165,7 @@
                 <input
                   id="name"
                   nz-input
+                  [readonly]="isEdit"
                   (blur)="checkRepeatData('name')"
                   formControlName="name"
                   placeholder="{{ 'Please enter full name' | translate }}"
@@ -203,6 +208,7 @@
                 <input
                   id="nameLocalization"
                   nz-input
+                  [readonly]="isEdit"
                   formControlName="nameLocalization"
                   (blur)="checkRepeatData('nameLocalization')"
                   placeholder="{{ 'Please enter' | translate }}"
@@ -237,6 +243,7 @@
             <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl2">
                 <input
+                  [readonly]="isEdit"
                   id="shortName"
                   (blur)="checkRepeatData('shortName')"
                   nz-input
@@ -280,6 +287,7 @@
             <nz-form-control [nzErrorTip]="shortNameErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl3">
                 <input
+                  [readonly]="isEdit"
                   (blur)="checkRepeatData('shortNameLocalization')"
                   id="shortNameLocalization"
                   nz-input

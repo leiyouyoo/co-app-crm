@@ -21,7 +21,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 import { CoPageBase, debounce } from '@co/core';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
@@ -41,9 +45,11 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   @Input() set customerInfo(v) {
     this.initData(v);
   }
+
   get customerInfo() {
     return this.customerInfo;
   }
+
   @Input() isEdit = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
@@ -71,7 +77,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   name: string;
   scrollTop = 0;
   data: any;
-  i = 1;
+  checkKey: any;
 
   customerTypes = [
     {
@@ -277,6 +283,13 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     name: null,
   };
   isLoading: boolean;
+  searchParams = {
+    maxResultCount: 10,
+    skipCount: 0,
+    totalCount: 0,
+    pageNo: 1,
+    pageSize: 10,
+  };
 
   constructor(
     private crmCustomerService: CRMCustomerService,
@@ -301,9 +314,17 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   onTableChange(e) {
     switch (e.type) {
       case 'pi': {
+        this.searchParams.pageNo = e.pi;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.checkRepeatData(this.checkKey);
         break;
       }
       case 'ps': {
+        this.searchParams.pageSize = e.ps;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.checkRepeatData(this.checkKey);
         break;
       }
     }
@@ -366,7 +387,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -582,7 +604,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '006',
       })
       .subscribe((res) => {
@@ -592,7 +614,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     // 行业的
     this.pubDataDictionaryService
       .getAll({
-        maxResultCount: 1000,
+        maxResultCount: 2000,
         typeCode: '098',
       })
       .subscribe((res) => {
@@ -692,11 +714,12 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
    * @param id
    */
   checkCustomerAsync(key, value, id?) {
+    this.checkKey = key;
     if (!value) {
       this.hide(key);
       return;
     }
-    this.crmCustomerService.customerCheckAsync({ name: null, [key]: value }).subscribe((r) => {
+    this.crmCustomerService.customerCheckAsync({ name: null, id: this.validateForm.value.id, [key]: value }).subscribe((r) => {
       console.log(r);
       this.verifyMode = r.verifyMode;
       this.isAdopt = r.isAdopt;
@@ -729,18 +752,18 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         id: data.id,
         name: this.name || data.name || '',
         code: data.code,
-        shortName: null || data.shortName,
-        address: null || data.address,
-        nameLocalization: null || data.localizationName,
-        shortNameLocalization: null || data.localizationShortName,
-        addressLocalization: null || data.localizationAddress,
-        fax: null || data.fax,
-        email: null || data.email,
-        industry: null || data.industry,
-        customerType: null || data.customerType || 3,
-        incoterms: null || data.incoterms,
-        isSalesCustomer: false || data.isSalesCustomer,
-        description: null || data.description,
+        shortName: data.shortName,
+        address: data.address,
+        nameLocalization: data.localizationName,
+        shortNameLocalization: data.localizationShortName,
+        addressLocalization: data.localizationAddress,
+        fax: data.fax,
+        email: data.email,
+        industry: data.industry,
+        customerType: data.customerType || 3,
+        incoterms: data.incoterms,
+        isSalesCustomer: data.isSalesCustomer,
+        description: data.description,
         state: data?.status.toString() || '0',
         countryId: data.countryId || null,
         country: data.countryId || null,
@@ -804,7 +827,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       });
       let res = await this.pubPlaceService
         .getAll({
-          maxResultCount: 1000,
+          maxResultCount: 2000,
           regionId: event,
           isCity: true,
         })

@@ -1,0 +1,54 @@
+<section style="height: 100%;overflow: auto;">
+  <div style="margin-bottom: 8px;">
+    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
+            (click)="submit()">{{ 'Publish' | translate }}</button>
+    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+  </div>
+  <form nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+        <nz-radio-group (ngModelChange)="traceChange($event)" class="custom-radio-group" style="margin-right: 12px;"
+                        formControlName="traceLogTypeId">
+          <label *ngFor="let item of typeLists" nz-radio-button [nzValue]="item.id">{{ item.code | translate }}</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+          <textarea nz-input formControlName="content" [placeholder]="'Please enter' | translate"
+                    [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+          ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label> {{ 'Time' | translate }}</nz-form-label>
+      <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+        <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [nzDisabledDate]="disabledAEndDate"
+                        formControlName="followUpRecord"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+  <div class="clearfix">
+    <nz-upload
+      [nzAction]="uploadUrl"
+      nzListType="picture-card"
+      [(nzFileList)]="fileList"
+      [nzShowButton]="fileList.length < 8"
+      [nzPreview]="handlePreview"
+    >
+      <div>
+        <i nz-icon nzType="plus"></i>
+        <div style="margin-top: 8px">Upload</div>
+      </div>
+    </nz-upload>
+    <nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
+              (nzOnCancel)="previewVisible = false">
+      <ng-template #modalContent>
+        <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+      </ng-template>
+    </nz-modal>
+  </div>
+</section>
