@@ -176,7 +176,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('name').value"
+                    *ngIf="validateForm.get('name').value && !isEdit"
                     (click)="validateForm.get('name').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -220,7 +220,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('nameLocalization').value"
+                    *ngIf="validateForm.get('nameLocalization').value && !isEdit"
                     (click)="validateForm.get('nameLocalization').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -257,7 +257,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('shortName').value"
+                    *ngIf="validateForm.get('shortName').value && !isEdit"
                     (click)="validateForm.get('shortName').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -301,7 +301,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('shortNameLocalization').value"
+                    *ngIf="validateForm.get('shortNameLocalization').value && !isEdit"
                     (click)="validateForm.get('shortNameLocalization').reset(); hide()"
                   ></i
                 ></ng-template>
