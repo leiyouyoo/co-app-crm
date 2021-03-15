@@ -264,8 +264,9 @@
             <nz-tab [nzTitle]="'Partner' | translate">
               <customer-partner [customerId]="customerId"></customer-partner>
             </nz-tab>
-            <!--          勿删，暂未实现-->
-            <!--            <nz-tab [nzTitle]="'Document' | translate"></nz-tab>-->
+            <nz-tab [nzTitle]="'Document' | translate">
+              <crm-attachment-list [customerId]="customerId"></crm-attachment-list>
+            </nz-tab>
             <nz-tab [nzTitle]="'Details' | translate">
               <crm-customer-detail
                 [isLoading]="isLoading"
