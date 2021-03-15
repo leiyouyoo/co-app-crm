@@ -381,6 +381,9 @@
               <nz-tab [nzTitle]="'Invoice' | translate">
                 <crm-invoice-list [customerInfo]="customerInfo"></crm-invoice-list>
               </nz-tab>
+              <nz-tab [nzTitle]="'Document' | translate">
+                <crm-attachment-list [customerId]="customerId"></crm-attachment-list>
+              </nz-tab>
               <nz-tab [nzTitle]="'Details' | translate">
                 <crm-potentailcustomer-detail
                   #customerDetail

@@ -86,7 +86,6 @@ const COMPONENTS_NOROUNT = [
     NetworkSharedModule,
   ],
   declarations: [
-    // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
     ...NEWCOMPONENTS,
     ...COMPONENTS,
