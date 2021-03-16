@@ -287,6 +287,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   columnConfig: string[] = [];
   connectionCustomerList = [];
   taxNoIndex = 0;
+  telIndex = 0;
   isAdopt = true;
   userListParams = {
     isLoading: true,
@@ -706,7 +707,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   telBlur(e, inx) {
-    this.taxNoIndex = inx;
+    this.telIndex = inx;
     this.checkCustomerAsync(
       'tel',
       this.validateForm

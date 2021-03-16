@@ -1,0 +1,23 @@
+<section style="height: 73vh;">
+  <div class="btn-box">
+    <button nz-button nzType="primary" (click)="showModal()"><i nz-icon nzType="upload" nzTheme="outline"></i>{{ 'Upload' | translate
+      }}</button>
+  </div>
+
+  <co-st #st [data]="listOfData" [loading]="tableLoading" [columns]="columns" columnDefaultWidth="100"
+         style="height: 80%;" [scroll]="{ x: '1000px' }" [showFilters]="false" [page]="{ front: false }"
+         (change)="checkChange($event)" calcScroll>
+    <ng-template st-row="type" let-data let-index="index">
+      <span *ngIf="data?.type==1">{{'MonthlyClosing' }}</span>
+      <span *ngIf="data?.type==2">{{'TelexRelease' }}</span>
+    </ng-template>
+
+    <ng-template st-row="name" let-data>
+      <div style="display: flex; align-items: center;">
+        <img [src]="getImgSrc(data.extensionName)" *ngIf="getImgSrc(data.extensionName)"
+             style="display: block; width: 14px; margin-right: 6px; height: 14px;"/>
+        <span>{{ data.fileName }}.{{ data.extensionName }}</span>
+      </div>
+    </ng-template>
+  </co-st>
+</section>

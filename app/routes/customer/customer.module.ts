@@ -39,6 +39,8 @@ import { FollowUpRecordComponent } from './component/follow-up-record/follow-up-
 import { InvoiceListComponent } from './component/invoice/invoice-list/invoice-list.component';
 import { InvoiceDetailComponent } from './component/invoice/invoice-detail/invoice-detail.component';
 import { FollowUpRecordListComponent } from './component/follow-up-record-list/follow-up-record-list.component';
+import { AttachmentListComponent } from './component/attachment-list/attachment-list.component';
+import { AttachmentTypeComponent } from './component/attachment-list/attachment-type/attachment-type.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -59,6 +61,7 @@ const NEWCOMPONENTS = [
   BindContactsComponent,
   InvoiceListComponent,
   InvoiceDetailComponent,
+  AttachmentListComponent
 ];
 
 const COMPONENTS_NOROUNT = [
@@ -68,6 +71,7 @@ const COMPONENTS_NOROUNT = [
   MergeCustomerComponent,
   UpdateCustomerNameComponent,
   TransferTocustomerComponent,
+  AttachmentTypeComponent
 ];
 
 @NgModule({
@@ -82,7 +86,6 @@ const COMPONENTS_NOROUNT = [
     NetworkSharedModule,
   ],
   declarations: [
-    // ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
     ...NEWCOMPONENTS,
     ...COMPONENTS,

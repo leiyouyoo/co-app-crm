@@ -8,7 +8,7 @@
     </div>
     <div formArrayName="customerTaxes">
       <div [formGroupName]="inx"
-           *ngFor="let detail of $any(validateForm.get('customerTaxes')).controls; let inx = index">
+           *ngFor="let detail of $any(validateForm.get('customerTaxes'))?.controls; let inx = index">
         <div nz-row [nzGutter]="16">
           <!--            税务登记类型-->
           <div nz-col [nzSpan]="12">
@@ -46,6 +46,36 @@
             </nz-form-item>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="16" formArrayName="phone">
+      <div nz-col [nzSpan]="12" [formGroupName]="inx"
+           *ngFor="let detail of $any(validateForm.get('phone'))?.controls; let inx = index">
+        <!--            号码-->
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Phone' | translate }}
+            <a *ngIf="validateForm.controls['phone'].controls.length === 1" (click)="addPhone()">
+              <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
+            </a>
+            <a>
+              <i
+                *ngIf="inx !== 0"
+                style="margin-left: 6px; font-size: 20px;"
+                nz-icon
+                nzType="delete"
+                nzTheme="outline"
+                (click)="delete('phone', inx)"
+              ></i>
+            </a></nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please enter the correct phone number!' | translate }}">
+            <div class="flex_between">
+              <input [id]="'tel' + inx" nz-input formControlName="tel"
+                     placeholder="{{ 'Please enter' | translate }}"
+                     style="flex: 1;"/>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
   </form>

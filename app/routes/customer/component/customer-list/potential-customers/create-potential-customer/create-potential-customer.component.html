@@ -153,7 +153,7 @@
         [style.transform]="concatInfo ? 'rotate(180deg)' : 'unset'"
         (click)="concatInfo = !concatInfo"
       ></i
-      >{{ 'Contact Information' | translate }} ({{ 'Fill in at least one email and fax' | translate }})
+      >{{ 'Contact Information' | translate }} ({{ 'Fill in at least one email and phone' | translate }})
     </h5>
     <ng-container *ngIf="concatInfo">
       <div nz-row [nzGutter]="16">
@@ -250,12 +250,12 @@
           <nz-form-item>
             <nz-form-label
             >{{ 'Phone' | translate }}
-              <a *ngIf="validateForm.controls['tel'].controls.length === 1" (click)="addPhone()">
+              <a *ngIf="validateForm.controls['tel'].controls.length === 1 && !validateForm.get('code').value" (click)="addPhone()">
                 <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
               </a>
               <a>
                 <i
-                  *ngIf="inx !== 0"
+                  *ngIf="inx !== 0 && !validateForm.get('code').value"
                   style="margin-left: 6px; font-size: 20px;"
                   nz-icon
                   nzType="delete"
@@ -270,6 +270,7 @@
                   (blur)="telBlur('tel', inx)"
                   [id]="'tel' + inx"
                   nz-input
+                  [readOnly]="validateForm.get('code').value"
                   formControlName="tel"
                   maxlength="20"
                   type="string"

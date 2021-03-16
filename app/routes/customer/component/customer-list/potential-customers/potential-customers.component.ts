@@ -514,7 +514,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
-      nzComponentParams: { customerId: this.selected[0]?.id },
+      nzComponentParams: { customerInfo: this.selected[0] },
       nzFooter: null,
     });
     const component = modal.getContentComponent();
