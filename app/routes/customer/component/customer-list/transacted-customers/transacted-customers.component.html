@@ -22,8 +22,8 @@
               {{ 'Apply Name' | translate }}
             </li>
             <li
-              (click)="!(selected.length != 1 || !selected[0]?.code) && applyPhone()"
-              [nzDisabled]="selected.length != 1  || !selected[0]?.code"
+              (click)="!(selected.length != 1 || !selected[0]?.code || selected[0]?.isChangePhone) && applyPhone()"
+              [nzDisabled]="selected.length != 1  || !selected[0]?.code || selected[0]?.isChangePhone"
               nz-menu-item
             >
               {{ 'Apply Change Phone' | translate }}
