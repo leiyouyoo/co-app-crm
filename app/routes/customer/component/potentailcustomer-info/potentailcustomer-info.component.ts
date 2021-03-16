@@ -131,7 +131,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
-      nzComponentParams: { customerId: this.customerId },
+      nzComponentParams: { customerInfo: this.customerInfo },
       nzFooter: null,
     });
     const component = modal.getContentComponent();
