@@ -61,9 +61,9 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
       surname: [null, [Validators.required, Validators.pattern(/^[a-zA-Z'\s]+$/)]],
       surnameLocalization: [null],
       name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z'\s]+$/)]],
-      nameLocalization: [null, [Validators.required]],
-      phone: [null, [Validators.required, this.mobileValidator()]],
-      email: [null, [Validators.required, Validators.email]],
+      nameLocalization: [null],
+      phone: [null, [this.mobileValidator()]],
+      email: [null, [Validators.email]],
       fax: [null, []],
       tel: [null, []],
       position: [null],
@@ -189,6 +189,13 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
       this.isSubmitted = true;
       return;
     }
+    if (!this.validateForm.get('phone').value && !this.validateForm.get('email').value) {
+      this.loading = false;
+      this.isSubmitted = true;
+      this.onSubmitted.emit({ isSucccess: false});
+      this.msg.warning(this.translate.instant('Please enter email or tel'));
+      return false;
+    }
     if (!this.validateForm.value.id) {
       this.crmContactService.createForCustomer(this.validateForm.value).subscribe(
         (res) => {
@@ -218,6 +225,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
         },
         (error) => {
           this.loading = false;
+          this.onSubmitted.emit({ isSucccess: false});
         },
       );
     }

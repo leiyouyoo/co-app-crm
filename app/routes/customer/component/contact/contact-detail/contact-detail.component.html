@@ -52,7 +52,7 @@
     <div nz-col [nzSpan]="18">
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'Name(LocationName)' | translate }} </nz-form-label>
-        <nz-form-control nzErrorTip="{{ 'Please Input' | translate }}">
+        <nz-form-control >
           <input nz-input [placeholder]="'Please Input' | translate" formControlName="nameLocalization" />
         </nz-form-control>
       </nz-form-item>
@@ -61,7 +61,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="18">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'Phone number' | translate }}</nz-form-label>
+        <nz-form-label >{{ 'Phone number' | translate }}</nz-form-label>
         <nz-form-control [nzErrorTip]="phoneErrorTpl">
           <input
             nz-input
@@ -73,7 +73,7 @@
           />
 
           <ng-template #phoneErrorTpl let-control>
-            <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter' | translate }} ! </ng-container>
+            <!-- <ng-container *ngIf="control.hasError('required')"> {{ 'Please enter' | translate }} ! </ng-container> -->
             <ng-container *ngIf="control.hasError('existSameCode')">
               {{ 'Please enter the correct phone number!' | translate }} !
             </ng-container>
@@ -85,7 +85,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="18">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'Email' | translate }} </nz-form-label>
+        <nz-form-label >{{ 'Email' | translate }} </nz-form-label>
         <nz-form-control [nzErrorTip]="emailErrorTpl" nzErrorTip="{{ 'Please Input' | translate }}">
           <!-- userId有值就禁用掉邮箱和开通CSP账号按钮 -->
           <input
@@ -96,7 +96,7 @@
             (ngModelChange)="emailChange()"
           />
           <ng-template #emailErrorTpl let-control>
-            <ng-container *ngIf="control.hasError('required')"> {{ 'Please Input' | translate }}! </ng-container>
+            <!-- <ng-container *ngIf="control.hasError('required')"> {{ 'Please Input' | translate }}! </ng-container> -->
             <ng-container *ngIf="control.hasError('email')"> {{ 'Please enter the correct Email!' | translate }} </ng-container>
           </ng-template>
           <div class="error" *ngIf="!isSuccess && isSubmitted">{{ 'Email has been registered' | translate }}</div>
