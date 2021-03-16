@@ -41,6 +41,7 @@ import { InvoiceDetailComponent } from './component/invoice/invoice-detail/invoi
 import { FollowUpRecordListComponent } from './component/follow-up-record-list/follow-up-record-list.component';
 import { AttachmentListComponent } from './component/attachment-list/attachment-list.component';
 import { AttachmentTypeComponent } from './component/attachment-list/attachment-type/attachment-type.component';
+import { ApplyChangePhoneComponent } from './component/apply-change-phone/apply-change-phone.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -97,6 +98,7 @@ const COMPONENTS_NOROUNT = [
     CspAccountConfigComponent,
     FollowUpRecordComponent,
     FollowUpRecordListComponent,
+    ApplyChangePhoneComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

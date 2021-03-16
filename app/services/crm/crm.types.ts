@@ -126,6 +126,9 @@
             /* 所属客户名称（如果是合作伙伴联系人，则代表合作伙伴绑定的客户名称） */ 
             customerName?: string;
          
+            /* 所属客户地址 */ 
+            customerAddress?: string;
+         
             /* 如果是给客户的合作伙伴创建的location,这个字段才有值 */ 
             partnerId?: string;
          
@@ -829,9 +832,6 @@
             /* 名 */ 
             name: string;
          
-            /* 电子邮件 */ 
-            email: string;
-         
             /* 客户Id(只有当前是业务员登录才需要传) */ 
             customerId?: string;
          
@@ -850,11 +850,17 @@
             /* 职位 */ 
             position?: string;
          
+            /* 电子邮件 */ 
+            email?: string;
+         
             /* 如果是给客户的合作伙伴创建的location,这个字段才有值 */ 
             partnerId?: string;
          
             /* 地点Id(如果是直接给地点添加联系人才需要传值) */ 
             locationId?: string;
+         
+            /* 仅仅只修改联系人，不同步修改账号 */ 
+            onlyUpdateContact?: boolean;
          
             /* 是否开通ICP账号 */ 
             isSignUp?: boolean;
@@ -1380,7 +1386,8 @@
             /* 审批类型-业务类型
 0 = NoteSet
 1 = UpdateName
-2 = PostCode */ 
+2 = PostCode
+3 = UpdatePhone */ 
             examineType?: number;
          
             /* 申请人 */ 
@@ -1860,6 +1867,9 @@
          
             /* 客户网址 */ 
             website?: string;
+         
+            /* 客户角色版本id */ 
+            editionRoleId?: number;
          
             
             id?: string;
@@ -2370,7 +2380,8 @@
             /* 审批类型-业务类型
 0 = NoteSet
 1 = UpdateName
-2 = PostCode */ 
+2 = PostCode
+3 = UpdatePhone */ 
             examineType?: number;
          
             /* 申请人 */ 
@@ -2887,7 +2898,8 @@
             /* 审批类型-业务类型
 0 = NoteSet
 1 = UpdateName
-2 = PostCode */ 
+2 = PostCode
+3 = UpdatePhone */ 
             examineType?: number;
          
             /* 申请人 */ 
@@ -3135,6 +3147,9 @@
          
             /* 跟进类型 */ 
             traceLogType?: string;
+         
+            /* 跟进类型Code */ 
+            traceLogTypeCode?: string;
          
             /* 更进记录 */ 
             followUpRecord?: string;
@@ -3510,6 +3525,73 @@
     }
  
     /**
+     * 客户变更电话输入
+     */
+    export class CRMCustomerChangePhoneInput {
+        [key:string]: any;
+        
+         
+            /* 客户ID */ 
+            customerId?: string;
+         
+            /* 申请备注 */ 
+            applyRemark?: string;
+         
+            /* 客户电话 */ 
+            phone?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMChangePhoneDetailDto {
+        [key:string]: any;
+        
+         
+            
+            customerId?: string;
+         
+            /* 申请备注 */ 
+            applyRemark?: string;
+         
+            
+            beforePhone?: string;
+         
+            /* 改后数据 */ 
+            afterPhone?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 客户变更电话审批
+     */
+    export class CRMCustomerChangePhoneApprovalInput {
+        [key:string]: any;
+        
+         
+            /* 审批备注 */ 
+            approvalReamrk?: string;
+         
+            /* 审批状态
+0 = NotSet
+1 = WaitingExamine
+2 = PassExamine
+3 = RefuseExamine */ 
+            approvalState?: number;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
      * 获取可关联客户列表
      */
     export class CRMQueryConnectionCustomerInput {
@@ -3553,6 +3635,9 @@
          
             
             isAllowAdd?: boolean;
+         
+            
+            totalCount?: number;
          
             /* 重复数据 */ 
             validationErrors?: object;
@@ -3898,6 +3983,31 @@
          
             /* 税务列表 */ 
             customerTaxes?: CRMCustomerTaxInput[];
+         
+            /* 客户电话 */ 
+            phone?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     * 审批代码详情内容
+     */
+    export class CRMExcmineCodeDto {
+        [key:string]: any;
+        
+         
+            
+            customerTaxs?: CRMCustomerTaxDto[];
+         
+            /* 电话 */ 
+            phone?: string;
+         
+            /* 客户Id */ 
+            customerId?: string;
          
             
             id?: string;
@@ -4289,6 +4399,9 @@
 4 = Schedule
 5 = Email */ 
             businessType?: number;
+         
+            /* 创建时间 */ 
+            creationTime?: string;
         
         
     }
@@ -4490,9 +4603,6 @@
             /* 名称 */ 
             name: string;
          
-            /* 代码 */ 
-            code: string;
-         
             /* 税号 */ 
             tfn: string;
          
@@ -4510,6 +4620,9 @@
          
             /* 币种1 */ 
             currency1: string;
+         
+            /* 代码 */ 
+            code?: string;
          
             /* 是否默认 */ 
             isDefault?: boolean;
@@ -4592,6 +4705,19 @@
          
             /* 创建时间 */ 
             creationTime?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMCustomerTitleSetValidDto {
+        [key:string]: any;
+        
          
             
             id?: string;
@@ -5134,7 +5260,8 @@
             /* 
 0 = NoteSet
 1 = UpdateName
-2 = PostCode */ 
+2 = PostCode
+3 = UpdatePhone */ 
             examineType?: number;
          
             
@@ -5966,6 +6093,37 @@
          
             /* 客户传真 */ 
             customerFax?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMEditForComponentInput {
+        [key:string]: any;
+        
+         
+            /* 所属客户id */ 
+            customerId?: string;
+         
+            /* 地址id */ 
+            locationId?: string;
+         
+            /* 地点名称 */ 
+            name?: string;
+         
+            /* 国家 */ 
+            countryId?: string;
+         
+            /* 省份 */ 
+            provinceId?: string;
+         
+            /* 城市 */ 
+            cityId?: string;
+         
+            /* 街道地址 */ 
+            streetAddress?: string;
         
         
     }

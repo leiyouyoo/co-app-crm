@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMPostCodeInput,CRMExamineCodeInput } from './crm.types';
+import { CRMPostCodeInput,CRMExcmineCodeDto,CRMExamineCodeInput } from './crm.types';
 
 @BaseUrl('/CRM/CustomerExamine')
 @Injectable({ providedIn: 'root' })
@@ -37,6 +37,21 @@ export class CRMCustomerExamineService extends BaseApi {
         _req: {id?:string} 
 
     ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/CustomerExamine/GetExamineDetailNew
+     * 获取代码审批页数据
+     */
+
+    @GET('GetExamineDetailNew')
+    getExamineDetailNew(
+        @Payload
+        _req: {id?:string} 
+
+    ): Observable<CRMExcmineCodeDto> {
         return null as any
     }
 

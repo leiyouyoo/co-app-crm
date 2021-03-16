@@ -9,6 +9,7 @@ import { MergeCustomerComponent } from '../../merge-customer/merge-customer.comp
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplyCodeComponent } from '../../apply-code/apply-code.component';
 import { customerType } from '../../../models/enum';
+import { ApplyChangePhoneComponent } from '../../apply-change-phone/apply-change-phone.component';
 const addlabel = (obj) => {
   const result = {};
   for (const objKey in obj) {
@@ -451,6 +452,31 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzComponentParams: {
         customerId: data.id,
         nameObj: data,
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
+  }
+
+  /**
+   * 申请改电话
+   */
+  applyPhone() {
+    const data = this.selected[0];
+    const modal = this.modal.create({
+      nzTitle: this.$L('Apply Change Phone'),
+      nzContent: ApplyChangePhoneComponent,
+      nzComponentParams: {
+        customerInfo: data
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },

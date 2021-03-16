@@ -10,7 +10,8 @@
           <nz-option *ngIf="isManager" [nzValue]="4" [nzLabel]="'My department\'s' | translate"></nz-option>
           <nz-option [nzValue]="5" [nzLabel]="'Awaiting approval' | translate"></nz-option>
         </nz-select>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li
@@ -19,6 +20,13 @@
               nz-menu-item
             >
               {{ 'Apply Name' | translate }}
+            </li>
+            <li
+              (click)="!(selected.length != 1 || !selected[0]?.code) && applyPhone()"
+              [nzDisabled]="selected.length != 1  || !selected[0]?.code"
+              nz-menu-item
+            >
+              {{ 'Apply Change Phone' | translate }}
             </li>
             <li nz-menu-item (click)="selected.length && transferCustomer()" [nzDisabled]="!selected.length">
               {{ 'Transfer' | translate }}
@@ -54,14 +62,14 @@
           />
         </nz-input-group>
         <ng-template #inputClearTpl
-          ><i
-            nz-icon
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            *ngIf="searchParams.searchText"
-            (click)="onReset()"
-          ></i
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="searchParams.searchText"
+          (click)="onReset()"
+        ></i
         ></ng-template>
         <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
           <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
@@ -100,7 +108,8 @@
 
       <ng-template st-row="isRegistered" let-data>
         <span *ngIf="data.isRegistered">
-          <span class="jy-ocean-StartingPlace" [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
         >
         <span *ngIf="!data.isRegistered">
           <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMCustomerChangePhoneInput,CRMChangePhoneDetailDto,CRMCustomerChangePhoneApprovalInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -10,7 +10,7 @@ export class CRMCustomerService extends BaseApi {
     super(injector);
   }
 
-
+  
     /**
      * @param url /CRM/Customer/Get
      * 客户详情
@@ -19,7 +19,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('Get')
     get(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMCustomerDto> {
         return null as any
@@ -34,7 +34,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -49,7 +49,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetAllList')
     getAllList(
         @Payload
-        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -94,7 +94,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetMyCustomerAndPartners')
     getMyCustomerAndPartners(
         @Payload
-        _req: {includeLocations?:boolean}
+        _req: {includeLocations?:boolean} 
 
     ): Observable<CRMListResultDto1<CRMExternalPartnerAndCustomerDto>> {
         return null as any
@@ -109,7 +109,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetMyCustomerAndPartnersWithLocationsAndContacts')
     getMyCustomerAndPartnersWithLocationsAndContacts(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -124,7 +124,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetShares')
     getShares(
         @Payload
-        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -139,7 +139,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetShareSources')
     getShareSources(
         @Payload
-        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -154,7 +154,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetOwnerlessCustomer')
     getOwnerlessCustomer(
         @Payload
-        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {type?:number,searchText?:string,isCooperation?:boolean,customerOwnerIds?:any[],includeTaxes?:boolean,includeContacts?:boolean,includeShareOwner?:boolean,loadUser?:boolean,isUserContact?:boolean,isOwn?:boolean,customerId?:string,isPassedAudit?:boolean,customerStatus?:number,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMOwnerLessPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -169,7 +169,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetOwnerCustomers')
     getOwnerCustomers(
         @Payload
-        _req: {userId?:number}
+        _req: {userId?:number} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -184,7 +184,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetOwnerCustomersBySalesId')
     getOwnerCustomersBySalesId(
         @Payload
-        _req: {userId?:number,isRegistered?:boolean}
+        _req: {userId?:number,isRegistered?:boolean} 
 
     ): Observable<CRMListResultDto1<CRMCustomerDto>> {
         return null as any
@@ -199,7 +199,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetAllBySearch')
     getAllBySearch(
         @Payload
-        _req: {ids?:any[],name?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {ids?:any[],name?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -214,7 +214,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetPeerAndDirectClient')
     getPeerAndDirectClient(
         @Payload
-        _req: {customerType?:number,ids?:any[],name?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {customerType?:number,ids?:any[],name?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -229,7 +229,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetForwardingCompanies')
     getForwardingCompanies(
         @Payload
-        _req: {searchText?:string,includeDefault?:boolean,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {searchText?:string,includeDefault?:boolean,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMSearchCustomerOutput>> {
         return null as any
@@ -244,7 +244,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerPartners')
     getCustomerPartners(
         @Payload
-        _req: {customerId?:string}
+        _req: {customerId?:string} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -259,7 +259,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerByName')
     getCustomerByName(
         @Payload
-        _req: {name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -274,7 +274,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerByNameOrCode')
     getCustomerByNameOrCode(
         @Payload
-        _req: {searchText?:string,customerStatus?:number,isShared?:boolean,isOwnerLess?:boolean}
+        _req: {searchText?:string,customerStatus?:number,isShared?:boolean,isOwnerLess?:boolean} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -289,7 +289,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomersByNameOrCode')
     getCustomersByNameOrCode(
         @Payload
-        _req: {searchText?:string}
+        _req: {searchText?:string} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -364,7 +364,7 @@ export class CRMCustomerService extends BaseApi {
     @POST('CheckDelete')
     checkDelete(
         @Payload
-        _req: {customerId?:string}
+        _req: {customerId?:string} 
 
     ): Observable<CRMCheckDeleteOutput> {
         return null as any
@@ -379,7 +379,7 @@ export class CRMCustomerService extends BaseApi {
     @DELETE('Delete')
     delete(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<any> {
         return null as any
@@ -484,7 +484,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerByType')
     getCustomerByType(
         @Payload
-        _req: {customerType:number,name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {customerType:number,name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMListResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -499,7 +499,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetPageCustomerByType')
     getPageCustomerByType(
         @Payload
-        _req: {customerType:number,name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {customerType:number,name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -514,7 +514,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetDepartmentCustomer')
     getDepartmentCustomer(
         @Payload
-        _req: {name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number}
+        _req: {name?:string,customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
@@ -529,7 +529,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCurrentCustomerAndPartner')
     getCurrentCustomerAndPartner(
         @Payload
-        _req: {includePartner?:boolean}
+        _req: {includePartner?:boolean} 
 
     ): Observable<CRMListResultDto1<CRMCustomerAndPartnerListDto>> {
         return null as any
@@ -544,7 +544,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetUserOwnCompanyCustomer')
     getUserOwnCompanyCustomer(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<CRMListResultDto1<CRMShortCustomerDto>> {
         return null as any
@@ -559,7 +559,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerConfigure')
     getCustomerConfigure(
         @Payload
-        _req: {customerId?:string}
+        _req: {customerId?:string} 
 
     ): Observable<CRMCustomerAuthenticateDto> {
         return null as any
@@ -634,7 +634,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerMergeLogs')
     getCustomerMergeLogs(
         @Payload
-        _req: {customerId?:string}
+        _req: {customerId?:string} 
 
     ): Observable<any> {
         return null as any
@@ -664,7 +664,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCheckConfigure')
     getCheckConfigure(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<CRMCheckConfigure> {
         return null as any
@@ -679,7 +679,7 @@ export class CRMCustomerService extends BaseApi {
     @POST('UpdateCheckConfigureStatus')
     updateCheckConfigureStatus(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<any> {
         return null as any
@@ -709,7 +709,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetHighSeasPondSetting')
     getHighSeasPondSetting(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<CRMCustomerHighSeasPondSettingDto> {
         return null as any
@@ -784,7 +784,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetCustomerOrganization')
     getCustomerOrganization(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMListResultDto1<CRMGetCustomerOrganizationOutput>> {
         return null as any
@@ -814,7 +814,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetLeadTrackingPhase')
     getLeadTrackingPhase(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<any> {
         return null as any
@@ -829,7 +829,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetBusinessStatistics')
     getBusinessStatistics(
         @Payload
-        _req: {customerId?:string,year?:string}
+        _req: {customerId?:string,year?:string} 
 
     ): Observable<any> {
         return null as any
@@ -844,7 +844,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetDetail')
     getDetail(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMCustomerDetailDto> {
         return null as any
@@ -874,7 +874,7 @@ export class CRMCustomerService extends BaseApi {
     @POST('CustomerAutomaticRecovery')
     customerAutomaticRecovery(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<any> {
         return null as any
@@ -889,7 +889,7 @@ export class CRMCustomerService extends BaseApi {
     @POST('UpateCustomerQuoteTime')
     upateCustomerQuoteTime(
         @Payload
-        _req: {customerId?:string}
+        _req: {customerId?:string} 
 
     ): Observable<any> {
         return null as any
@@ -919,7 +919,7 @@ export class CRMCustomerService extends BaseApi {
     @POST('CustomerAutomaticAllocation')
     customerAutomaticAllocation(
         @Payload
-        _req: {}
+        _req: {} 
 
     ): Observable<any> {
         return null as any
@@ -934,7 +934,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetDataDictionaries')
     getDataDictionaries(
         @Payload
-        _req: {code?:string}
+        _req: {code?:string} 
 
     ): Observable<any> {
         return null as any
@@ -950,6 +950,51 @@ export class CRMCustomerService extends BaseApi {
     setCustomerDealTime(
         @Payload
         _req:CRMSetCustomerDealTimeInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/ApplyChangePhone
+     * 客户变更电话申请
+     */
+
+    @POST('ApplyChangePhone')
+    applyChangePhone(
+        @Payload
+        _req:CRMCustomerChangePhoneInput
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/CustomerChangePhoneDetail
+     * 变更电话详情
+     */
+
+    @GET('CustomerChangePhoneDetail')
+    customerChangePhoneDetail(
+        @Payload
+        _req: {id?:string} 
+
+    ): Observable<CRMChangePhoneDetailDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/ApprovalChangePhone
+     * 审批修改电话
+     */
+
+    @POST('ApprovalChangePhone')
+    approvalChangePhone(
+        @Payload
+        _req:CRMCustomerChangePhoneApprovalInput
 
     ): Observable<any> {
         return null as any
@@ -994,7 +1039,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('FAMGetCustomerDetail')
     fAMGetCustomerDetail(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMFAMCustomerDto> {
         return null as any
@@ -1069,7 +1114,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('ApplyRenamingDetail')
     applyRenamingDetail(
         @Payload
-        _req: {id?:string}
+        _req: {id?:string} 
 
     ): Observable<CRMRenamingDetailDto> {
         return null as any

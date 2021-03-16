@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerTitleDto,CRMPagedResultDto1,CRMCustomerTitleListDto } from './crm.types';
+import { CRMCustomerTitleDto,CRMPagedResultDto1,CRMCustomerTitleListDto,CRMCustomerTitleSetValidDto } from './crm.types';
 
 @BaseUrl('/CRM/CustomerTitle')
 @Injectable({ providedIn: 'root' })
@@ -64,7 +64,7 @@ export class CRMCustomerTitleService extends BaseApi {
     @POST('SetValid')
     setValid(
         @Payload
-        _req: {id?:string} 
+        _req:CRMCustomerTitleSetValidDto
 
     ): Observable<any> {
         return null as any

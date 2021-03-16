@@ -2,7 +2,8 @@
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
       <div style="display: flex; align-items: center;">
-        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)" style="width: 200px; margin: 0 8px;">
+        <nz-select [(ngModel)]="searchParams.type" (ngModelChange)="onchangeCustomer($event)"
+                   style="width: 200px; margin: 0 8px;">
           <nz-option [nzValue]="0" [nzLabel]="'I\'m in charge' | translate"></nz-option>
           <nz-option [nzValue]="1" [nzLabel]="'I participate in' | translate"></nz-option>
           <nz-option [nzValue]="2" [nzLabel]="'I claimed' | translate"></nz-option>
@@ -13,7 +14,8 @@
         <button nz-button nzType="primary" (click)="createCustomer()">
           {{ 'Add Customer' | translate }}
         </button>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li
@@ -30,7 +32,15 @@
             >
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item (click)="selected.length && transferCustomer()" [nzDisabled]="!selected.length">
+            <li
+              (click)="!(selected.length != 1 || !selected[0]?.code) && applyPhone()"
+              [nzDisabled]="selected.length != 1 || !selected[0]?.code"
+              nz-menu-item
+            >
+              {{ 'Apply Change Phone' | translate }}
+            </li>
+            <li nz-menu-item (click)="selected.length && transferCustomer()"
+                [nzDisabled]="!selected.length">
               {{ 'Transfer' | translate }}
             </li>
             <li
@@ -69,14 +79,14 @@
           />
         </nz-input-group>
         <ng-template #inputClearTpl
-          ><i
-            nz-icon
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            *ngIf="searchParams.searchText"
-            (click)="onReset()"
-          ></i
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="searchParams.searchText"
+          (click)="onReset()"
+        ></i
         ></ng-template>
         <button nz-button nzType="primary" (click)="onSearch()" style="margin-left: 8px;">
           <i nz-icon nzType="search" nzTheme="outline"></i>{{ 'Search' | translate }}
@@ -130,7 +140,8 @@
       </ng-template>
       <ng-template st-row="isRegistered" let-data>
         <span *ngIf="data.isRegistered">
-          <span class="jy-ocean-StartingPlace" [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
+          <span class="jy-ocean-StartingPlace"
+                [ngClass]="{ primary: data.isRegistered }"> </span>{{ 'Open' | translate }}</span
         >
         <span *ngIf="!data.isRegistered">
           <span class="jy-ocean-StartingPlace" [ngClass]="{ danger: !data.isRegistered }"> </span>

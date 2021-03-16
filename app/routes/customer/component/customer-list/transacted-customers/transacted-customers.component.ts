@@ -8,6 +8,7 @@ import { UpdateCustomerNameComponent } from '../../update-customer-name/update-c
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TransferTocustomerComponent } from '../../transfer-tocustomer/transfer-tocustomer.component';
 import { ACLService } from '@co/acl';
+import { ApplyChangePhoneComponent } from '../../apply-change-phone/apply-change-phone.component';
 
 const addlabel = (obj) => {
   const result = {};
@@ -354,42 +355,37 @@ export class TransactedCustomersComponent extends CoPageBase {
   //table操作方法
   onTableChange(e) {
     switch (e.type) {
-      case 'pi':
-        {
-          this.searchParams.pageNo = e.pi;
-          this.searchParams.maxResultCount = this.searchParams.pageSize;
-          this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
-          this.getAll();
-        }
+      case 'pi': {
+        this.searchParams.pageNo = e.pi;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.getAll();
+      }
         break;
-      case 'ps':
-        {
-          this.searchParams.pageSize = e.ps;
-          this.searchParams.maxResultCount = this.searchParams.pageSize;
-          this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
-          this.getAll();
-        }
+      case 'ps': {
+        this.searchParams.pageSize = e.ps;
+        this.searchParams.maxResultCount = this.searchParams.pageSize;
+        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+        this.getAll();
+      }
         break;
-      case 'checkbox':
-        {
-          this.selected = e.checkbox;
-        }
+      case 'checkbox': {
+        this.selected = e.checkbox;
+      }
         break;
-      case 'click':
-        {
-          this.onShowCustomerDetail(e.click.item);
-        }
+      case 'click': {
+        this.onShowCustomerDetail(e.click.item);
+      }
         break;
-      case 'sort':
-        {
-          const map = {
-            descend: 'desc',
-            ascend: 'asc',
-          };
-          const sortValue = map[e.sort.value];
-          this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
-          this.getAll();
-        }
+      case 'sort': {
+        const map = {
+          descend: 'desc',
+          ascend: 'asc',
+        };
+        const sortValue = map[e.sort.value];
+        this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
+        this.getAll();
+      }
         break;
     }
   }
@@ -487,5 +483,30 @@ export class TransactedCustomersComponent extends CoPageBase {
       },
       (e) => (this.loading = false),
     );
+  }
+
+  /**
+   * 申请改电话
+   */
+  applyPhone() {
+    const data = this.selected[0];
+    const modal = this.modal.create({
+      nzTitle: this.$L('Apply Change Phone'),
+      nzContent: ApplyChangePhoneComponent,
+      nzComponentParams: {
+        customerInfo: data,
+      },
+      nzClassName: 'crm-customer-modal',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    const component = modal.getContentComponent();
+    component.onSubmitted.subscribe((e) => {
+      if (e) {
+        setTimeout(() => {
+          this.getAll();
+        }, 1000);
+      }
+    });
   }
 }
