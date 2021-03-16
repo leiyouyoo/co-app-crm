@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { CoPageBase } from '@co/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CRMCustomerExamineService } from '../../../../services/crm';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
@@ -11,7 +11,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 })
 export class ApplyCodeComponent extends CoPageBase implements OnInit {
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
-  @Input() customerId;
+  @Input() customerInfo;
   registrationTypes = [
     {
       name: this.$L('Employer Identification Number'),
@@ -37,6 +37,7 @@ export class ApplyCodeComponent extends CoPageBase implements OnInit {
   customerTaxes = [];
   validateForm = this.fb.group({
     customerTaxes: new FormArray([]),
+    phone: new FormArray([]),
   });
   addRegistrationButton = true;
   loading: boolean;
@@ -99,9 +100,60 @@ export class ApplyCodeComponent extends CoPageBase implements OnInit {
     }
   }
 
+  mobileValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const phoneReg = /([0-9\s\-]{7,20})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
+      if (!!control.value) {
+        const valid = phoneReg.test(control.value);
+        return valid ? null : { existSameCode: true };
+      }
+    };
+  }
+
+  /**
+   * 删除
+   */
+  delete(name, index) {
+    (this.validateForm.controls[name] as FormArray).removeAt(index);
+  }
+
+  addPhone(tel?: any) {
+    let data: any;
+
+    if (tel) {
+      let arr = tel.split(',');
+      arr.forEach((e, index) => {
+        // tslint:disable-next-line: no-shadowed-variable
+        if (index >= 1) {
+          data = this.fb.group({
+            tel: [e, [Validators.required, this.mobileValidator()]],
+          });
+        } else {
+          data = this.fb.group({
+            tel: [e, { validators: [Validators.required, this.mobileValidator()] }],
+          });
+        }
+        (this.validateForm.controls.phone as FormArray).push(data);
+      });
+      return;
+    } else {
+      if ((this.validateForm.controls.phone as FormArray).length >= 1) {
+        data = this.fb.group({
+          tel: [null, { validators: [Validators.required, this.mobileValidator()] }],
+        });
+      } else {
+        data = this.fb.group({
+          tel: [null, { validators: [Validators.required, this.mobileValidator()] }],
+        });
+      }
+      (this.validateForm.controls.phone as FormArray).push(data);
+    }
+  }
+
   initData() {
+    this.addPhone(this.customerInfo?.tel);
     this.isSpinning = true;
-    this.crmCustomerExamineService.getExamineDetail({ id: this.customerId }).subscribe(r => {
+    this.crmCustomerExamineService.getExamineDetail({ id: this.customerInfo?.id }).subscribe(r => {
       console.log(r);
       this.isSpinning = false;
       this.customerTaxes = r;
@@ -141,7 +193,8 @@ export class ApplyCodeComponent extends CoPageBase implements OnInit {
     console.log(this.validateForm.value);
     this.crmCustomerExamineService.postCodeAsync({
       customerTaxes: this.validateForm.value.customerTaxes,
-      id: this.customerId,
+      phone: this.validateForm.value.phone.map(e => e.tel).join(','),
+      id: this.customerInfo?.id,
     }).subscribe(r => {
       this.loading = false;
       this.onSubmitted.emit(true);
