@@ -55,7 +55,7 @@ export class ContactListComponent extends CoPageBase {
     {
       title: 'Job Capacity',
       index: 'position',
-      width: 100,
+      width: 80,
     },
     {
       title: 'Phone',
@@ -71,13 +71,13 @@ export class ContactListComponent extends CoPageBase {
       title: 'Main contact',
       index: 'isMaster',
       render: 'isMaster',
-      width: 100,
+      width: 60,
     },
     {
       title: 'CSP Credentials',
       index: 'userId',
       render: 'userId',
-      width: 100,
+      width: 80,
     },
     {
       title: 'Opening time',
@@ -87,12 +87,12 @@ export class ContactListComponent extends CoPageBase {
     {
       title: 'Role',
       render: 'role',
-      width: 100,
+      width: 80,
     },
     {
       title: 'Account status',
       render: 'isActive',
-      width: 100,
+      width: 70,
     },
     {
       title: 'Associated location',
@@ -100,9 +100,9 @@ export class ContactListComponent extends CoPageBase {
       width: 100,
     },
     {
-      title: 'Action',
       type: 'action',
-      width: 180,
+      fixed: 'right',
+      width: 130,
       className: 'no-line-through',
       buttons: [
         {
