@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import { GoogleMapService, _HttpClient } from '@co/common';
@@ -111,11 +101,11 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
   }
 
   onSubmit(e) {
-    if (e&&e.update) {
-      this.onSubmitted.emit(true)
+    if (e && e.update) {
+      this.onSubmitted.emit(true);
       this.edit = false;
     }
-    if (e&&e.isClose) {
+    if (e && e.isClose) {
       this.edit = false;
     }
   }
@@ -194,6 +184,8 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
       beforeNames: [data.beforeNames],
       ownerUserList: [data.ownerUserList],
       examineState: [data.examineState],
+      editionRoleId: [data.editionRoleId],
+      editionRoleName: [data.editionRoleName],
     });
   }
 

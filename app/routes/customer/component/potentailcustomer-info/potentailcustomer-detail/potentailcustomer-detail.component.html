@@ -601,6 +601,12 @@
     </h5>
     <ng-container *ngIf="cspInfo">
       <div nz-row [nzGutter]="16">
+        <nz-form-label>{{ 'Role' | translate }}</nz-form-label>
+        <nz-form-control>
+          {{ validateForm.get('editionRoleName').value }}
+        </nz-form-control>
+      </div>
+      <div nz-row [nzGutter]="16">
         <!--        客户配置级别-->
         <div nz-col [nzSpan]="12">
           <nz-form-item>

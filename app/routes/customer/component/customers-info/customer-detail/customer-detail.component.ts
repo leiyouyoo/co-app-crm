@@ -99,8 +99,7 @@ export class CustomerDetailComponent extends CoPageBase {
     }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   editCustomer() {
     this.edit = !this.edit;
@@ -178,6 +177,8 @@ export class CustomerDetailComponent extends CoPageBase {
       customerRenamings: [data.customerRenamings],
       beforeNames: [data.beforeNames],
       examineState: [data.examineState],
+      editionRoleId: [data.editionRoleId],
+      editionRoleName: [data.editionRoleName],
     });
   }
 
@@ -195,5 +196,4 @@ export class CustomerDetailComponent extends CoPageBase {
     // let hegiht = document.getElementById('demo' + data).offsetTop;
     // document.getElementsByClassName('head')[0].scrollTo(0, hegiht - 120);
   }
-
 }

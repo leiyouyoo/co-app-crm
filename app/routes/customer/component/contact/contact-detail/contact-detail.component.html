@@ -2,16 +2,16 @@
   nzLayout="horizontal"
   nz-form
   [formGroup]="validateForm"
-  style="display: flex; flex-direction: column; height: 100%; margin-bottom: 16px;"
+  style="display: flex; flex-direction: column; height: 100%; margin-bottom: 16px"
 >
-  <div style="margin-bottom: 8px;">
+  <div style="margin-bottom: 8px">
     <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading" (click)="save()">{{ 'Save' | translate }}</button>
     <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
   </div>
 
   <div nz-row [nzGutter]="8">
-    <div nz-col [nzSpan]="18" style="display: flex; align-items: center;">
-      <nz-form-item style="width: 100%;">
+    <div nz-col [nzSpan]="18" style="display: flex; align-items: center">
+      <nz-form-item style="width: 100%">
         <nz-form-label nzRequired>{{ 'Name(English)' | translate }} </nz-form-label>
         <nz-form-control [nzErrorTip]="surnameErrorTpl">
           <input nz-input [placeholder]="'Please Input' | translate" formControlName="surname" />
@@ -24,7 +24,7 @@
             </ng-container>
           </ng-template>
         </nz-form-control>
-        <span style="width: 50px; text-align: center;">-</span>
+        <span style="width: 50px; text-align: center">-</span>
         <nz-form-control [nzErrorTip]="nameErrorTpl">
           <input nz-input [placeholder]="'Please Input' | translate" formControlName="name" />
           <ng-template #nameErrorTpl let-control>
@@ -40,7 +40,7 @@
     </div>
     <div nz-col [nzSpan]="6">
       <nz-form-item>
-        <nz-form-control style="width: 150px;">
+        <nz-form-control style="width: 150px">
           <label [nzDisabled]="isMainContact && isAdd == 'Add'" nz-checkbox formControlName="isMaster">{{
             'Main contact' | translate
           }}</label>
@@ -52,7 +52,7 @@
     <div nz-col [nzSpan]="18">
       <nz-form-item>
         <nz-form-label>{{ 'Name(LocationName)' | translate }} </nz-form-label>
-        <nz-form-control >
+        <nz-form-control>
           <input nz-input [placeholder]="'Please Input' | translate" formControlName="nameLocalization" />
         </nz-form-control>
       </nz-form-item>
@@ -61,7 +61,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="18">
       <nz-form-item>
-        <nz-form-label >{{ 'Phone number' | translate }}</nz-form-label>
+        <nz-form-label>{{ 'Phone number' | translate }}</nz-form-label>
         <nz-form-control [nzErrorTip]="phoneErrorTpl">
           <input
             nz-input
@@ -69,7 +69,7 @@
             maxlength="11"
             type="string"
             placeholder="{{ 'Please enter' | translate }}"
-            style="flex: 1;"
+            style="flex: 1"
           />
 
           <ng-template #phoneErrorTpl let-control>
@@ -85,7 +85,7 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="18">
       <nz-form-item>
-        <nz-form-label >{{ 'Email' | translate }} </nz-form-label>
+        <nz-form-label>{{ 'Email' | translate }} </nz-form-label>
         <nz-form-control [nzErrorTip]="emailErrorTpl" nzErrorTip="{{ 'Please Input' | translate }}">
           <!-- userId有值就禁用掉邮箱和开通CSP账号按钮 -->
           <input
@@ -105,7 +105,7 @@
     </div>
     <div nz-col [nzSpan]="6">
       <nz-form-item>
-        <nz-form-control style="width: 150px;">
+        <nz-form-control style="width: 150px">
           <label
             nz-checkbox
             [nzDisabled]="!!validateForm.get('userId').value"
@@ -142,7 +142,7 @@
       </nz-form-item>
     </div>
   </div>
-  <div nz-row style="color: #1890ff;" (click)="isShow = !isShow">
+  <div nz-row style="color: #1890ff" (click)="isShow = !isShow">
     {{ 'More Information' | translate }}
   </div>
   <div nz-row *ngIf="isShow" [nzGutter]="8">
@@ -156,7 +156,7 @@
             maxlength="20"
             type="string"
             placeholder="{{ 'Please enter' | translate }}"
-            style="flex: 1;"
+            style="flex: 1"
           />
         </nz-form-control>
       </nz-form-item>
@@ -173,7 +173,7 @@
             maxlength="20"
             type="string"
             placeholder="{{ 'Please enter' | translate }}"
-            style="flex: 1;"
+            style="flex: 1"
           />
         </nz-form-control>
       </nz-form-item>
