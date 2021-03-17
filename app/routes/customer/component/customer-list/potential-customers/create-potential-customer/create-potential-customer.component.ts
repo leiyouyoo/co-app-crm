@@ -165,7 +165,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     },
   ];
 
-  repeatList = [{}];
+  repeatList = [];
   verifyMode = ''; // 验证是否为重复客户还是相似客户
   columns: STColumn[] = [
     {
@@ -727,7 +727,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
    */
   checkCustomerAsync(key, value, id?) {
     this.checkKey = key;
-    if (!value) {
+    if (!value || (this.validateForm.value.code && key == 'tel') || (this.isEdit && (key == 'name' || key == 'nameLocalization' || key == 'shortName' || key == 'shortNameLocalization'))) {
       this.hide(key);
       return;
     }

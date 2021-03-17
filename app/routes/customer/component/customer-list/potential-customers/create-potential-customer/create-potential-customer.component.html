@@ -250,7 +250,8 @@
           <nz-form-item>
             <nz-form-label
             >{{ 'Phone' | translate }}
-              <a *ngIf="validateForm.controls['tel'].controls.length === 1 && !validateForm.get('code').value" (click)="addPhone()">
+              <a *ngIf="validateForm.controls['tel'].controls.length === 1 && !validateForm.get('code').value"
+                 (click)="addPhone()">
                 <i style="margin-left: 6px; font-size: 20px;" nz-icon nzType="plus" nzTheme="outline"></i>
               </a>
               <a>
@@ -266,17 +267,28 @@
             </nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter the correct phone number!' | translate }}">
               <div class="flex_between">
-                <input
-                  (blur)="telBlur('tel', inx)"
-                  [id]="'tel' + inx"
-                  nz-input
-                  [readOnly]="validateForm.get('code').value"
-                  formControlName="tel"
-                  maxlength="20"
-                  type="string"
-                  placeholder="{{ 'Please enter' | translate }}"
-                  style="flex: 1;"
-                />
+                <nz-input-group [nzSuffix]="inputClearTpl7">
+                  <input
+                    (blur)="telBlur('tel', inx)"
+                    [id]="'tel' + inx"
+                    nz-input
+                    [readOnly]="validateForm.get('code').value"
+                    formControlName="tel"
+                    maxlength="20"
+                    placeholder="{{ 'Please enter' | translate }}"
+                    style="flex: 1;"
+                  />
+                  <ng-template #inputClearTpl7
+                  ><i
+                    nz-icon
+                    class="ant-input-clear-icon"
+                    nzTheme="fill"
+                    nzType="close-circle"
+                    *ngIf="detail.value.tel"
+                    (click)="detail.reset(); hide()"
+                  ></i
+                  ></ng-template>
+                </nz-input-group>
               </div>
             </nz-form-control>
           </nz-form-item>
@@ -302,8 +314,8 @@
                   class="ant-input-clear-icon"
                   nzTheme="fill"
                   nzType="close-circle"
-                  *ngIf="validateForm.get('addressLocalization').value"
-                  (click)="validateForm.get('addressLocalization').reset(); hide()"
+                  *ngIf="validateForm.get('email').value"
+                  (click)="validateForm.get('email').reset(); hide()"
                 ></i
                 ></ng-template>
               </nz-input-group>
