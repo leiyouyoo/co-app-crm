@@ -1230,6 +1230,9 @@
             /* 客户角色版本Id */ 
             editionRoleId?: number;
          
+            /* 客户角色名称 */ 
+            editionRoleName?: string;
+         
             /* 是否开通了主账号 */ 
             isRegistered?: boolean;
          
@@ -1489,6 +1492,12 @@
 2 = Public */ 
             classification?: number;
          
+            /* 是否改名中 */ 
+            isRenaming?: boolean;
+         
+            /* 是否修改电话中 */ 
+            isChangePhone?: boolean;
+         
             
             id?: string;
         
@@ -1601,6 +1610,9 @@
          
             /* 是否带出地点 */ 
             includeLocations?: boolean;
+         
+            /* 包含没有Code的客户 */ 
+            includeNoCode?: boolean;
          
             
             ids?: any[];
@@ -2480,6 +2492,12 @@
 2 = Public */ 
             classification?: number;
          
+            /* 是否改名中 */ 
+            isRenaming?: boolean;
+         
+            /* 是否修改电话中 */ 
+            isChangePhone?: boolean;
+         
             
             id?: string;
         
@@ -3001,6 +3019,12 @@
 2 = Public */ 
             classification?: number;
          
+            /* 是否改名中 */ 
+            isRenaming?: boolean;
+         
+            /* 是否修改电话中 */ 
+            isChangePhone?: boolean;
+         
             
             id?: string;
         
@@ -3434,6 +3458,9 @@
             /* 客户角色版本Id */ 
             editionRoleId?: number;
          
+            /* 客户角色名称 */ 
+            editionRoleName?: string;
+         
             /* 是否开通了主账号 */ 
             isRegistered?: boolean;
          
@@ -3808,6 +3835,9 @@
          
             /* 客户角色版本Id */ 
             editionRoleId?: number;
+         
+            /* 客户角色名称 */ 
+            editionRoleName?: string;
          
             /* 是否开通了主账号 */ 
             isRegistered?: boolean;

@@ -21,13 +21,9 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {
-  CRMCreateOrUpdateCustomerInput,
-  CRMCustomerExamineService,
-  CRMCustomerService,
-} from '../../../../../../services/crm';
+import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
 import { CoPageBase, debounce } from '@co/core';
-import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
+import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService, SSORoleService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -74,6 +70,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   incotermList: any[];
   // 常用条款
   industryList: any[];
+  //角色
+  rolesList = [];
   name: string;
   scrollTop = 0;
   data: any;
@@ -308,6 +306,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     private el: ElementRef,
     private googleMapService: GoogleMapService,
     private cdr: ChangeDetectorRef,
+    private ssoRoleService: SSORoleService,
   ) {
     super(injector);
   }
@@ -389,8 +388,18 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   ngOnInit() {
+    this.onRolesList();
   }
 
+  onRolesList() {
+    this.ssoRoleService
+      .getParentRoles({
+        type: 1,
+      })
+      .subscribe((res: any) => {
+        this.rolesList = res.items;
+      });
+  }
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
@@ -589,6 +598,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       website: [null], //网址
       customerConfigure: [null],
       customerLevel: [null],
+      editionRoleId: [null],
       oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
@@ -720,30 +730,38 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       this.hide(key);
       return;
     }
-    this.crmCustomerService.customerCheckAsync({
-      name: null, id: this.validateForm.value.id, [key]: value, maxResultCount: this.searchParams.pageSize,
-      skipCount: this.searchParams.skipCount,
-    }).subscribe((r) => {
-      console.log(r);
-      this.checkRepeatLoading = false;
-      this.searchParams.totalCount = r.totalCount;
-      this.verifyMode = r.verifyMode;
-      this.isAdopt = r.isAdopt;
-      if (!r.isAdopt) {
-        this.validateForm.get(key).setErrors({ existSame: true });
-        this.repeatList = r.validationErrors[key];
-        if (r.validationErrors[key]) {
-          this.columnConfig = Object.keys(r.validationErrors[key][0]);
-        } else {
-          this.columnConfig = [];
-        }
-        this.show(id, key);
-      } else if (r.isAdopt) {
-        this.validateForm.get(key).setErrors(null);
-        this.hide(key);
-      }
-      this.validateForm.updateValueAndValidity();
-    }, e => this.checkRepeatLoading = false);
+    this.crmCustomerService
+      .customerCheckAsync({
+        name: null,
+        id: this.validateForm.value.id,
+        [key]: value,
+        maxResultCount: this.searchParams.pageSize,
+        skipCount: this.searchParams.skipCount,
+      })
+      .subscribe(
+        (r) => {
+          console.log(r);
+          this.checkRepeatLoading = false;
+          this.searchParams.totalCount = r.totalCount;
+          this.verifyMode = r.verifyMode;
+          this.isAdopt = r.isAdopt;
+          if (!r.isAdopt) {
+            this.validateForm.get(key).setErrors({ existSame: true });
+            this.repeatList = r.validationErrors[key];
+            if (r.validationErrors[key]) {
+              this.columnConfig = Object.keys(r.validationErrors[key][0]);
+            } else {
+              this.columnConfig = [];
+            }
+            this.show(id, key);
+          } else if (r.isAdopt) {
+            this.validateForm.get(key).setErrors(null);
+            this.hide(key);
+          }
+          this.validateForm.updateValueAndValidity();
+        },
+        (e) => (this.checkRepeatLoading = false),
+      );
   }
 
   requiredCustomerTaxes() {
@@ -777,6 +795,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
         customerLevel: data.customerConfigure.customerLevel || null,
+        editionRoleId: data.editionRoleId,
         oceanAttachFee: data.customerConfigure.oceanAttachFee || null,
       });
 
@@ -1225,8 +1244,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       return;
     }
     let value = this.validateForm.value;
-    let tel = value.tel.filter(e => e.tel).map((res) => res.tel);
-    if (!value.email && value.tel.every(e => !e.tel)) {
+    let tel = value.tel.filter((e) => e.tel).map((res) => res.tel);
+    if (!value.email && value.tel.every((e) => !e.tel)) {
       this.msg.warning(this.$L('Please enter email or tel'));
       return;
     }
@@ -1262,6 +1281,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       customerLevel: value.customerLevel,
       website: value.website,
       customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
+      editionRoleId: value.editionRoleId,
     };
     console.log(entity);
     this.crmCustomerService.update(entity).subscribe(

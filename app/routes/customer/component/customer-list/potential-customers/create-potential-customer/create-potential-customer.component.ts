@@ -11,17 +11,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
-import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService } from '@co/cds';
+import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService, SSORoleService } from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -29,11 +21,7 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import {
-  CRMCreateOrUpdateCustomerInput,
-  CRMCustomerExamineService,
-  CRMCustomerService,
-} from '../../../../../../services/crm';
+import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -53,7 +41,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   checkRepeatLoading: boolean;
-  checkKey: any;//当前验重的字段
+  checkKey: any; //当前验重的字段
   searchParams = {
     maxResultCount: 10,
     skipCount: 0,
@@ -91,6 +79,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   data: any;
   i = 1;
   emptyGuid = '00000000-0000-0000-0000-000000000000';
+  //角色
+  rolesList = [];
   customerTypes = [
     {
       name: 'AirLine',
@@ -313,6 +303,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     private el: ElementRef,
     private googleMapService: GoogleMapService,
     private cdr: ChangeDetectorRef,
+    private ssoRoleService: SSORoleService,
   ) {
     super(injector);
   }
@@ -395,8 +386,18 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
 
   ngOnInit() {
     this.initData();
+    this.onRolesList();
   }
 
+  onRolesList() {
+    this.ssoRoleService
+      .getParentRoles({
+        type: 1,
+      })
+      .subscribe((res: any) => {
+        this.rolesList = res.items;
+      });
+  }
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
@@ -602,6 +603,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       website: [null], //网址
       customerConfigure: [null],
       customerLevel: [null],
+      editionRoleId: [null],
       oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
@@ -742,26 +744,29 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         maxResultCount: this.searchParams.pageSize,
         skipCount: this.searchParams.skipCount,
       })
-      .subscribe((r) => {
-        this.checkRepeatLoading = false;
-        this.searchParams.totalCount = r.totalCount;
-        this.verifyMode = r.verifyMode;
-        this.isAdopt = r.isAdopt;
-        if (!r.isAdopt) {
-          this.validateForm.get(key).setErrors({ existSame: true });
-          this.repeatList = r.validationErrors[key];
-          if (r.validationErrors[key]) {
-            this.columnConfig = Object.keys(r.validationErrors[key][0]);
-          } else {
-            this.columnConfig = [];
+      .subscribe(
+        (r) => {
+          this.checkRepeatLoading = false;
+          this.searchParams.totalCount = r.totalCount;
+          this.verifyMode = r.verifyMode;
+          this.isAdopt = r.isAdopt;
+          if (!r.isAdopt) {
+            this.validateForm.get(key).setErrors({ existSame: true });
+            this.repeatList = r.validationErrors[key];
+            if (r.validationErrors[key]) {
+              this.columnConfig = Object.keys(r.validationErrors[key][0]);
+            } else {
+              this.columnConfig = [];
+            }
+            this.show(id, key);
+          } else if (r.isAdopt) {
+            this.validateForm.get(key).setErrors(null);
+            this.hide(key);
           }
-          this.show(id, key);
-        } else if (r.isAdopt) {
-          this.validateForm.get(key).setErrors(null);
-          this.hide(key);
-        }
-        this.validateForm.updateValueAndValidity();
-      }, e => this.checkRepeatLoading = false);
+          this.validateForm.updateValueAndValidity();
+        },
+        (e) => (this.checkRepeatLoading = false),
+      );
   }
 
   requiredCustomerTaxes() {
@@ -804,6 +809,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         ],
         customerLevel: data.customerConfigure.customerLevel || null,
         oceanAttachFee: data.customerConfigure.oceanAttachFee || null,
+        editionRoleId: data.editionRoleId,
         connectionCustomerId: data.connectionCustomerId,
       });
       // 绑定地址
@@ -1254,8 +1260,8 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       return;
     }
     let value = this.validateForm.value;
-    let tel = value.tel.filter(e => e.tel).map((res) => res.tel);
-    if (!value.email && value.tel.every(e => !e.tel)) {
+    let tel = value.tel.filter((e) => e.tel).map((res) => res.tel);
+    if (!value.email && value.tel.every((e) => !e.tel)) {
       this.msg.warning(this.$L('Please enter email or tel'));
       return;
     }
@@ -1291,6 +1297,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       customerLevel: value.customerLevel,
       website: value.website,
       customerContacts: [Object.assign(value.customerContacts[0], { phone: tel.toString(), email: value.email })],
+      editionRoleId: value.editionRoleId,
       customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
     };
     console.log(entity);

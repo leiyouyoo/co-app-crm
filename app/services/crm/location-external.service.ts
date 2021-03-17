@@ -42,6 +42,21 @@ export class CRMLocationExternalService extends BaseApi {
 
 
     /**
+     * @param url /CRM/LocationExternal/GetLocationByCustomers
+     * 获取客户自己的全部地址
+     */
+
+    @GET('GetLocationByCustomers')
+    getLocationByCustomers(
+        @Payload
+        _req: {customerIds?:any[]} 
+
+    ): Observable<CRMListResultDto1<CRMExternalLocationListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/LocationExternal/Get
      * 根据Id查location
      */
