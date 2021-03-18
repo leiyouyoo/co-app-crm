@@ -2,7 +2,7 @@
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
-        <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
+        <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.localizationName }}</p>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag
             *ngIf="customerInfo?.isRegistered"
@@ -26,8 +26,7 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
           </nz-tag>
           <nz-tag
             (click)="!customerInfo?.isDeleted && cspAccountConfig()"
@@ -52,8 +51,7 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span>
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span>
           </nz-tag>
         </div>
         <div class="edit-customer" style="display: flex; align-items: center;">
@@ -81,7 +79,7 @@
             />
             <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
               'Enterprise certification passed' | translate
-              }}</span></nz-tag
+            }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
@@ -106,8 +104,7 @@
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span>
+            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span>
           </nz-tag>
           <nz-tag
             *ngIf="customerInfo?.examineState == 1"
@@ -133,7 +130,7 @@
             />
             <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
               'Enterprise certificationing' | translate
-              }}</span></nz-tag
+            }}</span></nz-tag
           >
         </div>
       </div>
@@ -153,8 +150,7 @@
             </li>
           </ul>
         </nz-dropdown-menu>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
-           nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li
@@ -167,8 +163,7 @@
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered"
-                (click)="cspAccountConfig()">
+            <li nz-menu-item *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" (click)="cspAccountConfig()">
               {{ 'CSP account configuration' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
@@ -249,24 +244,30 @@
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
-        }}</span>
+      }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span nz-popover *ngIf="!customerInfo?.isDeleted" (click)="transferCustomer()" [nzPopoverTitle]="null"
-            [nzPopoverContent]="'Transfer customer' | translate" style="margin-left: 8px; color: #1890ff;" nz-icon
-            [nzIconfont]="'icon-zhuanyi'"
-            class="iconfont icon-zhuanyi"></span>
+      <span
+        nz-popover
+        *ngIf="!customerInfo?.isDeleted"
+        (click)="transferCustomer()"
+        [nzPopoverTitle]="null"
+        [nzPopoverContent]="'Transfer customer' | translate"
+        style="margin-left: 8px; color: #1890ff;"
+        nz-icon
+        [nzIconfont]="'icon-zhuanyi'"
+        class="iconfont icon-zhuanyi"
+      ></span>
     </div>
   </nz-header>
   <nz-layout>
     <nz-content>
       <nz-spin [nzSpinning]="isLoading">
         <div nz-row [nzGutter]="32">
-          <div nz-col nzSpan="24" class="taskCenter"
-               style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
+          <div nz-col nzSpan="24" class="taskCenter" style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
             <nz-spin [nzSpinning]="stepLoading">
               <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index - 1">
                 <nz-step
@@ -294,8 +295,7 @@
                   [nzIcon]="negotiationIcon"
                 ></nz-step>
                 <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
-                         style="margin-right: 30px !important;"></nz-step>
+                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
                 <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
@@ -355,15 +355,13 @@
               <ng-template #win>
                 <div style="display: flex; justify-content: space-between;">
                   <div class="Check">赢单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'"
-                                        nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
               <ng-template #loseorder>
                 <div style="display: flex; justify-content: space-between;">
                   <div class="Check">输单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'"
-                                        nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
             </nz-spin>
@@ -394,15 +392,14 @@
               </nz-tab>
             </nz-tabset>
           </div>
-          <div  nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;height: calc(100% - 50px);">
+          <div nz-col class="gutter-row" [nzSpan]="8" style="height: calc(100% - 50px); background: #fff;">
             <div style="height: 100%; padding-left: 16px; background: #fff;">
               <nz-tabset style="height: 50%;" nzAnimated="false">
                 <!--          勿删，暂未实现-->
                 <!--              <nz-tab [nzTitle]="'电子邮件' | translate"></nz-tab>-->
                 <!--              <nz-tab [nzTitle]="'日程' | translate"></nz-tab>-->
                 <nz-tab [nzTitle]="'Follow up record' | translate">
-                  <crm-follow-up-record (onSuccess)="onRecordSuccess($event)"
-                                        [customerId]="customerId"></crm-follow-up-record>
+                  <crm-follow-up-record (onSuccess)="onRecordSuccess($event)" [customerId]="customerId"></crm-follow-up-record>
                 </nz-tab>
               </nz-tabset>
               <crm-follow-up-record-list [customerId]="customerId" #recordList></crm-follow-up-record-list>
