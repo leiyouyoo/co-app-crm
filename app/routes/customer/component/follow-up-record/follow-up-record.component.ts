@@ -13,6 +13,7 @@ import { PUBDataDictionaryService } from '../../../../services/pub';
 })
 export class FollowUpRecordComponent extends CoPageBase implements OnInit {
   @Output() readonly onSuccess = new EventEmitter<boolean>();
+  @Output() readonly onExpand = new EventEmitter<boolean>();
   @Input() customerId;
   loading = false;
   validateForm: FormGroup;
@@ -21,6 +22,7 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
   previewImage: string | undefined = '';
   previewVisible = false;
   uploadUrl = CoConfigManager.getValue('serverUrl') + '/Storage/File/Upload';
+  expanded = true; // 是否展示操作区
 
   getBase64(file: File): Promise<string | ArrayBuffer | null> {
     return new Promise((resolve, reject) => {

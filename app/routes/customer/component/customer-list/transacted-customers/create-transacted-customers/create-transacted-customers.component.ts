@@ -80,14 +80,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
   customerTypes = [
     {
-      name: 'AirLine',
-      value: 2,
-    },
-    {
-      name: 'Carrier',
-      value: 1,
-    },
-    {
       name: 'CustomsBroker',
       value: 6,
     },
@@ -1263,7 +1255,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
       address: value.address,
-      addressLocalization: value.address,
+      addressLocalization: value.addressLocalization,
       tel: tel.toString(),
       fax: value.fax,
       email: value.email,

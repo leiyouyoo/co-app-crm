@@ -126,7 +126,7 @@ export class AttachmentListComponent extends CoPageBase implements OnInit {
 
   deleted(id) {
     this.crmAttachmentService.delete({ id: id }).subscribe((res) => {
-      this.message.success(this.$L('Success'));
+      this.message.success(this.$L('Successful operation'));
       this.getData();
     });
   }

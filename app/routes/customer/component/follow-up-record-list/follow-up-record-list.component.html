@@ -1,5 +1,5 @@
 <nz-divider style="margin: 0 0 8px 0"></nz-divider>
-<section style="height: calc(50% - 17px);">
+<section style="height: calc(100% - 17px);">
   <div class="search_area">
     <nz-input-group nzSize="small" [nzSuffix]="suffixIconSearch">
       <input type="text" [(ngModel)]="param.searchKey" (enterKeydown)="searchLog()" nz-input
@@ -21,14 +21,14 @@
         <h5 *ngIf="item.businessType == 4">{{"Schedule" | translate}}</h5>
         <h5 *ngIf="item.businessType == 5">{{"E-mail" | translate}}</h5>
         <p>
-                  <span class="event_log__content__title">
-                    <i *ngIf="item.businessType == 3"
-                       (click)="getLogDetail(item)" nz-icon
-                       nzType="down"
-                       [style.transform]="item.isShow?'rotate(180deg)':'unset'"
-                       nzTheme="outline"></i>
-                    {{item.contentLocalizationText}}
-                  </span>
+          <span (click)="item.businessType == 3 && getLogDetail(item)" class="event_log__content__title">
+            <i *ngIf="item.businessType == 3"
+               nz-icon
+               nzType="down"
+               [style.transform]="item.isShow?'rotate(180deg)':'unset'"
+               nzTheme="outline"></i>
+            {{item.contentLocalizationText}}
+          </span>
           <span>{{item.creationTime | date:"yyyy-MM-dd HH:mm:ss" }}</span>
         </p>
         <div *ngIf="item.businessType == 3 && item.isShow" class="trace_log__content">

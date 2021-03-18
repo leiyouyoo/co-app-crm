@@ -576,7 +576,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="detail.value.tel"
+                    *ngIf="detail.value.tel && !validateForm.get('code').value"
                     (click)="detail.reset(); hide()"
                   ></i
                   ></ng-template>

@@ -1,6 +1,7 @@
 <section style="height: 73vh;">
   <div class="btn-box">
-    <button nz-button nzType="primary" (click)="showModal()"><i nz-icon nzType="upload" nzTheme="outline"></i>{{ 'Upload' | translate
+    <button nz-button nzType="primary" (click)="showModal()"><i nz-icon nzType="upload"
+                                                                nzTheme="outline"></i>{{ 'Upload' | translate
       }}</button>
   </div>
 
@@ -8,8 +9,8 @@
          style="height: 80%;" [scroll]="{ x: '1000px' }" [showFilters]="false" [page]="{ front: false }"
          (change)="checkChange($event)" calcScroll>
     <ng-template st-row="type" let-data let-index="index">
-      <span *ngIf="data?.type==1">{{'MonthlyClosing' }}</span>
-      <span *ngIf="data?.type==2">{{'TelexRelease' }}</span>
+      <span *ngIf="data?.type==1">{{'MonthlyClosing' | translate}}</span>
+      <span *ngIf="data?.type==2">{{'TelexRelease' | translate }}</span>
     </ng-template>
 
     <ng-template st-row="name" let-data>
