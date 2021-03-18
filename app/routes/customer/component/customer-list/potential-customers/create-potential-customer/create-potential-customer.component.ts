@@ -1270,7 +1270,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
       address: value.address,
-      addressLocalization: value.address,
+      addressLocalization: value.addressLocalization,
       tel: tel.toString(),
       fax: value.fax,
       leadTrackingPhase: value.leadTrackingPhase,

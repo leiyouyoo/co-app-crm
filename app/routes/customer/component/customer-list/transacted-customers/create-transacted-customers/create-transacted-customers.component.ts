@@ -1255,7 +1255,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       shortName: value.shortName,
       shortNameLocalization: value.shortNameLocalization,
       address: value.address,
-      addressLocalization: value.address,
+      addressLocalization: value.addressLocalization,
       tel: tel.toString(),
       fax: value.fax,
       email: value.email,
