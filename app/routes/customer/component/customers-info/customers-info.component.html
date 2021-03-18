@@ -2,7 +2,7 @@
   <nz-header>
     <div class="customerInfo-header">
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
-        <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.name }}</p>
+        <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.localizationName }}</p>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag
             *ngIf="customerInfo?.isRegistered"
