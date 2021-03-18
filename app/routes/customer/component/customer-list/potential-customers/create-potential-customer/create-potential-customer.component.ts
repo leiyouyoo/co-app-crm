@@ -83,14 +83,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   rolesList = [];
   customerTypes = [
     {
-      name: 'AirLine',
-      value: 2,
-    },
-    {
-      name: 'Carrier',
-      value: 1,
-    },
-    {
       name: 'CustomsBroker',
       value: 6,
     },

@@ -25,6 +25,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   customerInfo: any;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
+  recordExpand = true;
 
   constructor(
     private crmCustomerService: CRMCustomerService,
@@ -258,5 +259,9 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   onRecordSuccess(e) {
     e && this.recordList.getCustomerOperationEvent();
+  }
+
+  onExpand(e) {
+    this.recordExpand = e;
   }
 }

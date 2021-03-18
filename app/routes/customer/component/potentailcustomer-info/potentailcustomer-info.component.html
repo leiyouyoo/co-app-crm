@@ -395,17 +395,19 @@
             </nz-tabset>
           </div>
           <div  nz-col class="gutter-row" [nzSpan]="8" style="background: #fff;height: calc(100% - 50px);">
-            <div style="height: 100%; padding-left: 16px; background: #fff;">
-              <nz-tabset style="height: 50%;" nzAnimated="false">
-                <!--          勿删，暂未实现-->
-                <!--              <nz-tab [nzTitle]="'电子邮件' | translate"></nz-tab>-->
-                <!--              <nz-tab [nzTitle]="'日程' | translate"></nz-tab>-->
+            <div style="height: 100%; padding-left: 16px; background: #fff;display: flex;flex-direction: column;">
+              <nz-tabset [ngStyle]="{flex:recordExpand?'1':'none',height:recordExpand?'50%':'auto'}"
+                         nzAnimated="false">
                 <nz-tab [nzTitle]="'Follow up record' | translate">
-                  <crm-follow-up-record (onSuccess)="onRecordSuccess($event)"
-                                        [customerId]="customerId"></crm-follow-up-record>
+                  <crm-follow-up-record
+                    (onExpand)="onExpand($event)" (onSuccess)="onRecordSuccess($event)"
+                    [customerId]="customerId"></crm-follow-up-record>
                 </nz-tab>
               </nz-tabset>
-              <crm-follow-up-record-list [customerId]="customerId" #recordList></crm-follow-up-record-list>
+              <crm-follow-up-record-list style="overflow: hidden;"
+                                         [ngStyle]="{flex:recordExpand?'1':'unset',height:recordExpand?'50%':'auto'}"
+                                         [customerId]="customerId"
+                                         #recordList></crm-follow-up-record-list>
             </div>
           </div>
         </div>

@@ -26,6 +26,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   isLoading = false;
   stepLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
+  recordExpand = true;
 
   constructor(
     private crmCustomerService: CRMCustomerService,
@@ -277,5 +278,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    */
   onRecordSuccess(e) {
     e && this.recordList.getCustomerOperationEvent();
+  }
+
+  onExpand(e) {
+    this.recordExpand = e;
   }
 }

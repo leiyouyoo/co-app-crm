@@ -1,10 +1,13 @@
 <section style="height: 100%;overflow: auto;">
   <div style="margin-bottom: 8px;">
-    <button nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
+    <button *ngIf="expanded" nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
             (click)="submit()">{{ 'Publish' | translate }}</button>
-    <button nz-button nzSize="small" nzType="default" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+    <button *ngIf="expanded" nz-button nzSize="small" nzType="default"
+            (click)="expanded=false;onExpand.emit(false);cancel()">{{ 'Cancel' | translate }}</button>
+    <button *ngIf="!expanded" nz-button nzSize="small" nzType="default"
+            (click)="expanded=true;onExpand.emit(true);">{{ 'Unfold' | translate }}</button>
   </div>
-  <form nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+  <form *ngIf="expanded" nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
     <nz-form-item>
       <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
         <nz-radio-group (ngModelChange)="traceChange($event)" class="custom-radio-group" style="margin-right: 12px;"
@@ -31,7 +34,7 @@
     </nz-form-item>
 
   </form>
-  <div class="clearfix">
+  <div *ngIf="expanded" class="clearfix">
     <nz-upload
       [nzAction]="uploadUrl"
       nzListType="picture-card"

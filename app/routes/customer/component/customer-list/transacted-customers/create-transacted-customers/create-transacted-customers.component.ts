@@ -80,14 +80,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
 
   customerTypes = [
     {
-      name: 'AirLine',
-      value: 2,
-    },
-    {
-      name: 'Carrier',
-      value: 1,
-    },
-    {
       name: 'CustomsBroker',
       value: 6,
     },
