@@ -21,9 +21,19 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 import { CoPageBase, debounce } from '@co/core';
-import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService, SSORoleService } from '@co/cds';
+import {
+  PlatformEditionService,
+  PUBDataDictionaryService,
+  PUBPlaceService,
+  PUBRegionService,
+  SSORoleService,
+} from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -39,7 +49,7 @@ import { CooperationState, CustomerStatus, CustomerType } from '../../../../mode
 })
 export class CreateTransactedCustomersComponent extends CoPageBase implements OnInit {
   @Input() set customerInfo(v) {
-    this.initData(v);
+    this.initForm(v);
   }
 
   get customerInfo() {
@@ -380,7 +390,8 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   }
 
   ngOnInit() {
-    this.onRolesList();
+    this.initForm();
+    this.initData();
   }
 
   onRolesList() {
@@ -392,6 +403,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         this.rolesList = res.items;
       });
   }
+
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
@@ -545,18 +557,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     }
   }
 
-  initData(data: any = {}) {
-    // 获取国家
-    setTimeout(() => {
-      this.pubRegionService
-        .getAll({
-          parentId: '',
-        })
-        .subscribe((res) => {
-          this.regions = res.items;
-        });
-    }, 1000);
-    this.getEditionAll();
+  initForm(data: any = {}) {
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
@@ -594,8 +595,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
-    this.queryConnectionCustomer('');
-    this.getCityOceanUsers('');
     if (data?.customerTaxes?.length > 0) {
       data.customerTaxes.forEach((item) => {
         this.addRegistration(item);
@@ -603,7 +602,20 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     } else {
       this.addRegistration(null);
     }
+    if (data?.id) {
+      this.setData(data);
+    }
+  }
 
+  initData() {
+    this.onRolesList();
+    // 获取国家
+    this.pubRegionService.getAll({ parentId: '' }).subscribe((res) => {
+      this.regions = res.items;
+    });
+    this.getEditionAll();
+    this.queryConnectionCustomer('');
+    this.getCityOceanUsers('');
     //贸易方式
     this.pubDataDictionaryService
       .getAll({
@@ -623,10 +635,6 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       .subscribe((res) => {
         this.industryList = res.items;
       });
-
-    if (data) {
-      this.setData(data);
-    }
   }
 
   @debounce(1000)
