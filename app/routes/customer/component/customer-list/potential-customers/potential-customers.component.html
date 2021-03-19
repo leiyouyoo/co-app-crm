@@ -26,8 +26,8 @@
               {{ 'Apply Code' | translate }}
             </li>
             <li
-              (click)="!(selected.length != 1 || selected[0]?.updateNameExamineState == 1) && applyName()"
-              [nzDisabled]="selected.length != 1 || selected[0]?.updateNameExamineState == 1"
+              (click)="!(selected.length != 1 || selected[0]?.isRenaming) && applyName()"
+              [nzDisabled]="selected.length != 1 || selected[0]?.isRenaming"
               nz-menu-item
             >
               {{ 'Apply Name' | translate }}

@@ -160,7 +160,7 @@
             >
               {{ 'Apply Code' | translate }}
             </li>
-            <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted" (click)="applyName()">
+            <li nz-menu-item *ngIf="!customerInfo?.isRenaming && !customerInfo?.isDeleted" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
             <li nz-menu-item *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" (click)="cspAccountConfig()">

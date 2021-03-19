@@ -9,7 +9,7 @@
     {{ 'Apply Code' | translate }}
   </button>
   <button nzType="default" nz-button (click)="actionChange.emit('transferCustomer')">{{ 'Transfer' | translate }}</button>
-  <button nzType="default" *ngIf="customerInfo?.examineState != 1" nz-button (click)="actionChange.emit('applyName')">
+  <button nzType="default" *ngIf="!customerInfo?.isRenaming" nz-button (click)="actionChange.emit('applyName')">
     {{ 'Apply Name' | translate }}
   </button>
   <button
