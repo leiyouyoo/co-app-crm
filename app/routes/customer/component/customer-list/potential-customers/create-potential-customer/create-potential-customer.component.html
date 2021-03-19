@@ -266,6 +266,7 @@
               <div class="flex_between">
                 <nz-input-group [nzSuffix]="inputClearTpl7">
                   <input
+                    coLimitInput replace="notChinese"
                     (blur)="telBlur('tel', inx)"
                     [id]="'tel' + inx"
                     nz-input
@@ -299,6 +300,7 @@
             <nz-form-control [nzErrorTip]="emailAddressErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl6">
                 <input
+                  coLimitInput replace="notChinese"
                   (blur)="checkRepeatData('email')"
                   id="email"
                   nz-input
@@ -332,7 +334,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter the correct fax!' | translate }}">
-              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}" />
+              <input   coLimitInput replace="notChinese"  nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -805,6 +807,7 @@
                       <input
                         [id]="'customerTaxes' + inx"
                         nz-input
+                        coLimitInput replace="notChinese"
                         formControlName="taxNo"
                         (blur)="taxNoBlur($event, inx)"
                         placeholder="{{ 'Please enter' | translate }}"
@@ -935,7 +938,7 @@
               <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Addition in sea freight' | translate }}</nz-form-label>
               <nz-form-control [nzErrorTip]="errortips">
                 <nz-input-group nzAddOnAfter="USD">
-                  <input type="number" nz-input formControlName="oceanAttachFee" placeholder="{{ 'Please enter' | translate }}" />
+                  <input   coLimitInput replace="notChinese"  type="number" nz-input formControlName="oceanAttachFee" placeholder="{{ 'Please enter' | translate }}" />
                 </nz-input-group>
               </nz-form-control>
               <ng-template #errortips>

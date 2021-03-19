@@ -65,6 +65,7 @@
         <nz-form-control [nzErrorTip]="phoneErrorTpl">
           <input
             nz-input
+            coLimitInput replace="notChinese"
             formControlName="phone"
             maxlength="11"
             type="string"
@@ -90,6 +91,7 @@
           <!-- userId有值就禁用掉邮箱和开通CSP账号按钮 -->
           <input
             nz-input
+            coLimitInput replace="notChinese"
             [ngClass]="{ disable: !!validateForm.get('userId').value }"
             placeholder="{{ 'Please enter' | translate }}"
             formControlName="email"
@@ -152,6 +154,7 @@
         <nz-form-control>
           <input
             nz-input
+            coLimitInput replace="notChinese"
             formControlName="tel"
             maxlength="20"
             type="string"
@@ -169,6 +172,7 @@
         <nz-form-control>
           <input
             nz-input
+            coLimitInput replace="notChinese"
             formControlName="fax"
             maxlength="20"
             type="string"

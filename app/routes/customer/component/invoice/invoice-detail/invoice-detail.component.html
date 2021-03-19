@@ -40,7 +40,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>{{ 'Tel' | translate }}</nz-form-label>
           <nz-form-control [nzErrorTip]="telErrorTpl">
-            <input nz-input placeholder="{{ 'Please enter' | translate }}" formControlName="tel" [maxLength]="20" />
+            <input coLimitInput replace="notChinese" nz-input placeholder="{{ 'Please enter' | translate }}" formControlName="tel" [maxLength]="20" />
             <ng-template #telErrorTpl let-control>
               <ng-container *ngIf="control.hasError('required')">
                 {{ 'Please enter' | translate }}
@@ -86,6 +86,7 @@
           <nz-form-control [nzErrorTip]="'Please Select correct BankAccount'">
             <input
               nz-input
+              coLimitInput replace="notChinese"
               placeholder="{{ 'Please enter' | translate }}"
               [formControlName]="item.accountControlInstance"
               [maxLength]="25"
