@@ -27,7 +27,7 @@
             </a></nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please enter the correct phone number!' | translate }}">
             <div class="flex_between">
-              <input [id]="'tel' + inx" nz-input formControlName="tel"
+              <input  coLimitInput replace="notChinese" [id]="'tel' + inx" nz-input formControlName="tel"
                      placeholder="{{ 'Please enter' | translate }}"
                      style="flex: 1;"/>
             </div>

@@ -111,7 +111,7 @@ export class AttachmentTypeComponent extends CoPageBase {
     });
     this.loading = true;
     this.crmAttachmentService.batchCreate(arr).subscribe((res) => {
-      this.message.success(this.$L('Success'));
+      this.message.success(this.$L('Successful operation'));
       this.loading = false;
       this.modalRef.close(this.getData ? res : true);
     }, e => this.loading = false);

@@ -564,6 +564,7 @@
                     (blur)="telBlur('tel', inx)"
                     [id]="'tel' + inx"
                     nz-input
+                    coLimitInput replace="notChinese"
                     [readOnly]="validateForm.get('code').value"
                     formControlName="tel"
                     maxlength="20"
@@ -599,6 +600,7 @@
                 <input
                   (blur)="checkRepeatData('email')"
                   id="email"
+                  coLimitInput replace="notChinese"
                   nz-input
                   formControlName="email"
                   placeholder="{{ 'Please enter Email' | translate }}"
@@ -630,7 +632,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Fax' | translate }}</nz-form-label>
             <nz-form-control nzErrorTip="{{ 'Please enter the correct fax!' | translate }}">
-              <input nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}" />
+              <input coLimitInput replace="notChinese" nz-input formControlName="fax" maxlength="20" placeholder="{{ 'Please enter Fax' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -666,7 +668,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Website' | translate }} </nz-form-label>
             <nz-form-control>
-              <input nz-input formControlName="website" placeholder="{{ 'Please enter' | translate }}" />
+              <input coLimitInput replace="notChinese" nz-input formControlName="website" placeholder="{{ 'Please enter' | translate }}" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -740,6 +742,7 @@
                 <nz-form-control nzErrorTip="{{ 'Please enter' | translate }}">
                   <div class="flex_between">
                     <input
+                      coLimitInput replace="notChinese"
                       [id]="'customerTaxes' + inx"
                       nz-input
                       formControlName="taxNo"
@@ -871,7 +874,7 @@
             <nz-form-label nzRequired nzFor="oceanAttachFee">{{ 'Addition in sea freight' | translate }}</nz-form-label>
             <nz-form-control [nzErrorTip]="errortips">
               <nz-input-group nzAddOnAfter="USD">
-                <input type="number" nz-input formControlName="oceanAttachFee" placeholder="{{ 'Please enter' | translate }}" />
+                <input coLimitInput replace="notChinese" type="number" nz-input formControlName="oceanAttachFee" placeholder="{{ 'Please enter' | translate }}" />
               </nz-input-group>
             </nz-form-control>
             <ng-template #errortips>

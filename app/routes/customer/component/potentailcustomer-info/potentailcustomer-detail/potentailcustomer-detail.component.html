@@ -13,7 +13,7 @@
   </button>
   <button
     nzType="default"
-    *ngIf="customerInfo?.examineState != 1 && !customerInfo?.isDeleted"
+    *ngIf="!customerInfo?.isRenaming && !customerInfo?.isDeleted"
     nz-button
     (click)="actionChange.emit('applyName')"
   >
