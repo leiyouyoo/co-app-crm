@@ -241,6 +241,12 @@ export class PotentialCustomersComponent extends CoPageBase {
       render: 'isDeleted',
       width: 70,
     },
+    {
+      title: 'Reason for rejection',
+      index: 'refuseReason',
+      width: 70,
+      sort: 'refuseReason',
+    },
     // {
     //   title: 'Customer Status',
     //   index: 'approvelStatus',
@@ -347,12 +353,6 @@ export class PotentialCustomersComponent extends CoPageBase {
       width: 80,
     },
     {
-      title: 'Reason for rejection',
-      index: 'refuseReason',
-      width: 70,
-      sort: 'refuseReason',
-    },
-    {
       type: 'action',
       fixed: 'right',
       width: 230,
@@ -414,7 +414,7 @@ export class PotentialCustomersComponent extends CoPageBase {
    * 创建客户
    */
   createCustomer() {
-    this.onCreateCustomer.emit()
+    this.onCreateCustomer.emit();
   }
 
   /**
@@ -476,7 +476,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzTitle: this.$L('Apply Change Phone'),
       nzContent: ApplyChangePhoneComponent,
       nzComponentParams: {
-        customerInfo: data
+        customerInfo: data,
       },
       nzClassName: 'crm-customer-modal',
       nzStyle: { width: '40%' },
