@@ -225,6 +225,12 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 70,
     },
     {
+      title: 'Reason for rejection',
+      index: 'refuseReason',
+      width: 70,
+      sort: 'refuseReason',
+    },
+    {
       title: 'First shipment time',
       index: 'firstTradeTime',
       width: 80,
@@ -332,12 +338,6 @@ export class TransactedCustomersComponent extends CoPageBase {
       width: 80,
     },
     {
-      title: 'Reason for rejection',
-      index: 'refuseReason',
-      width: 70,
-      sort: 'refuseReason',
-    },
-    {
       type: 'action',
       fixed: 'right',
       width: 150,
@@ -355,37 +355,42 @@ export class TransactedCustomersComponent extends CoPageBase {
   //table操作方法
   onTableChange(e) {
     switch (e.type) {
-      case 'pi': {
-        this.searchParams.pageNo = e.pi;
-        this.searchParams.maxResultCount = this.searchParams.pageSize;
-        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
-        this.getAll();
-      }
+      case 'pi':
+        {
+          this.searchParams.pageNo = e.pi;
+          this.searchParams.maxResultCount = this.searchParams.pageSize;
+          this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+          this.getAll();
+        }
         break;
-      case 'ps': {
-        this.searchParams.pageSize = e.ps;
-        this.searchParams.maxResultCount = this.searchParams.pageSize;
-        this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
-        this.getAll();
-      }
+      case 'ps':
+        {
+          this.searchParams.pageSize = e.ps;
+          this.searchParams.maxResultCount = this.searchParams.pageSize;
+          this.searchParams.skipCount = (this.searchParams.pageNo - 1) * this.searchParams.pageSize;
+          this.getAll();
+        }
         break;
-      case 'checkbox': {
-        this.selected = e.checkbox;
-      }
+      case 'checkbox':
+        {
+          this.selected = e.checkbox;
+        }
         break;
-      case 'click': {
-        this.onShowCustomerDetail(e.click.item);
-      }
+      case 'click':
+        {
+          this.onShowCustomerDetail(e.click.item);
+        }
         break;
-      case 'sort': {
-        const map = {
-          descend: 'desc',
-          ascend: 'asc',
-        };
-        const sortValue = map[e.sort.value];
-        this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
-        this.getAll();
-      }
+      case 'sort':
+        {
+          const map = {
+            descend: 'desc',
+            ascend: 'asc',
+          };
+          const sortValue = map[e.sort.value];
+          this.searchParams.Sorting = e.sort.column.indexKey + ' ' + sortValue;
+          this.getAll();
+        }
         break;
     }
   }
