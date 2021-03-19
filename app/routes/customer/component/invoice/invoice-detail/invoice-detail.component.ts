@@ -92,7 +92,6 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   onSave() {
-    debugger;
     this.isLoading = true;
     if (!this.validForm(this.validateForm) || (!this.validateForm.value.bankAccount1 && !this.validateForm.value.bankAccount2)) {
       this.message.warning(this.translate.instant('Please check the content'));

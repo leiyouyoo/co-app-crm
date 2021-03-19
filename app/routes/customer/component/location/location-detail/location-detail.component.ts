@@ -16,10 +16,14 @@ import { ContactDetailComponent } from '../../contact/contact-detail/contact-det
 })
 export class LocationDetailComponent extends CoPageBase implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
+  @ViewChild('contact', { static: false }) contact: any;
   @Input() isbingLocation = false;
   @Input() id;
   @Input() customerId;
   @Input() contactIds = [];
+  @Output() readonly onSubmitted = new EventEmitter<boolean>();
+  @Output() readonly bingLocation = new EventEmitter<boolean>();
+
   validateForm: FormGroup;
   isShow = false;
   isAdopt = true;
@@ -29,15 +33,13 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
   citys: any[] = [];
   placeList = [];
   contactList = [];
-  @Output() readonly onSubmitted = new EventEmitter<boolean>();
-  @Output() readonly bingLocation = new EventEmitter<boolean>();
-
   roleList = [];
   positionList = [];
   loading = false;
   isSuccess = true; //邮箱是否被注册过
   isSubmitted = false;
   emptyGuid = '00000000-0000-0000-0000-000000000000';
+  isOpenContact = false; //是否显示新增联系人弹框
   constructor(
     private fb: FormBuilder,
     private googleMapService: GoogleMapService,
@@ -500,28 +502,42 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
   }
 
   onAddContact(title, item?) {
-    const modal = this.modal.create({
-      nzTitle: this.$L(title),
-      nzContent: ContactDetailComponent,
-      nzComponentParams: {
-        id: item?.id,
-        customerId: this.customerId,
-      },
-      nzClassName: 'crm-contact-detail',
-      nzStyle: { width: '40%' },
-      nzFooter: null,
-    });
-    modal.componentInstance.onSubmitted.subscribe((res) => {
-      if (res.isSucccess) {
-        // this.st.load();
-        //获取联系人数据
-        let myArray = [];
-        myArray = this.validateForm.get('contactIds').value;
-        //联系人新增成功之后默认选中当前新增联系人到下拉框
-        myArray.push(res.id);
-        this.validateForm.get('contactIds').setValue(myArray);
-        this.getContacts(this.customerId);
-      }
-    });
+    this.isOpenContact = true;
+    this.contact.nzOpen = false;
+    // const modal = this.modal.create({
+    //   nzTitle: this.$L(title),
+    //   nzContent: ContactDetailComponent,
+    //   nzComponentParams: {
+    //     id: item?.id,
+    //     customerId: this.customerId,
+    //   },
+    //   nzClassName: 'crm-contact-detail',
+    //   nzStyle: { width: '40%' },
+    //   nzFooter: null,
+    // });
+    // modal.componentInstance.onSubmitted.subscribe((res) => {
+    //   if (res.isSucccess) {
+    //     // this.st.load();
+    //     //获取联系人数据
+    //     let myArray = [];
+    //     myArray = this.validateForm.get('contactIds').value;
+    //     //联系人新增成功之后默认选中当前新增联系人到下拉框
+    //     myArray.push(res.id);
+    //     this.validateForm.get('contactIds').setValue(myArray);
+    //     this.getContacts(this.customerId);
+    //   }
+    // });
+  }
+
+  cancelContact(e) {
+    if (e) {
+      this.isOpenContact = false;
+      // this.getContacts(this.customerId);
+    }
+  }
+  reloadContact(e) {
+    if (e.isSucccess) {
+      this.getContacts(this.customerId);
+    }
   }
 }

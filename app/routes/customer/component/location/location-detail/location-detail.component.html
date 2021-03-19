@@ -1,4 +1,5 @@
 <form
+  [hidden]="isOpenContact"
   nzLayout="horizontal"
   nz-form
   [formGroup]="validateForm"
@@ -203,3 +204,12 @@
     </div>
   </div>
 </form>
+
+<crm-contact-detail
+  [hidden]="!isOpenContact"
+  [customerId]="customerId"
+  [isAddContact]="true"
+  (onSubmitted)="reloadContact($event)"
+  (cancelContactSubmitted)="cancelContact($event)"
+>
+</crm-contact-detail>

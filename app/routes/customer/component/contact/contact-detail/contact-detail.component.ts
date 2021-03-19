@@ -15,13 +15,15 @@ import { LocationDetailComponent } from '../../location/location-detail/location
 })
 export class ContactDetailComponent extends CoPageBase implements OnInit {
   @Input() isbingContact = false;
+  @Input() isAddContact = false;
   @Input() customerId;
   @Input() locationId;
   @Input() id;
   @Input() isAdd: string;
-  @Input() editionRoleId:number;
+  @Input() editionRoleId: number;
   @Output() readonly onSubmitted = new EventEmitter<any>();
   @Output() readonly bingLocation = new EventEmitter<boolean>();
+  @Output() readonly cancelContactSubmitted = new EventEmitter<boolean>();
   validateForm: FormGroup;
   isShow = false;
   roleList = [];
@@ -141,7 +143,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   getRoles() {
     this.roleService.getAll({ isInside: false }).subscribe((res) => {
       this.roleList = res.items;
-      this.roleList=this.roleList.filter(c=>c.parentId==this.editionRoleId)
+      this.roleList = this.roleList.filter((c) => c.parentId == this.editionRoleId);
     });
   }
 
@@ -192,7 +194,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     if (!this.validateForm.get('phone').value && !this.validateForm.get('email').value) {
       this.loading = false;
       this.isSubmitted = true;
-      this.onSubmitted.emit({ isSucccess: false});
+      this.onSubmitted.emit({ isSucccess: false });
       this.msg.warning(this.translate.instant('Please enter email or tel'));
       return false;
     }
@@ -225,7 +227,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
         },
         (error) => {
           this.loading = false;
-          this.onSubmitted.emit({ isSucccess: false});
+          this.onSubmitted.emit({ isSucccess: false });
         },
       );
     }
@@ -258,10 +260,14 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
   }
 
   cancel() {
-    if (this.isbingContact) {
+    if (this.isbingContact) {//是否是绑定联系人
       this.bingLocation.emit(true);
     } else {
-      this.modalRef.destroy();
+      if (this.isAddContact) {//是否是添加联系人
+        this.cancelContactSubmitted.emit(true);
+      } else {
+        this.modalRef.destroy();
+      }
     }
   }
 
