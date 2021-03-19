@@ -41,16 +41,17 @@
       [(nzFileList)]="fileList"
       [nzShowButton]="fileList.length < 8"
       [nzPreview]="handlePreview"
+      [nzDownload]="handleDownload"
     >
       <div>
         <i nz-icon nzType="plus"></i>
-        <div style="margin-top: 8px">Upload</div>
+        <div style="margin-top: 8px">{{"Upload" | translate}}</div>
       </div>
     </nz-upload>
     <nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
               (nzOnCancel)="previewVisible = false">
       <ng-template #modalContent>
-        <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+        <img [src]="previewImage"/>
       </ng-template>
     </nz-modal>
   </div>

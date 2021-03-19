@@ -135,4 +135,11 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
     this.validateForm.patchValue({ followUpRecord: new Date() });
     this.traceChange(this.validateForm.value.traceLogTypeId);
   }
+
+  handleDownload = (file: NzUploadFile) => {
+    const anchor = document.createElement('a');
+    anchor.download = `${file.response.result.fileName}.${file.response.result.extensionName}`;
+    anchor.href = `${file.response.result.url}&Handler=raw`;
+    anchor.click();
+  };
 }

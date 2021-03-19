@@ -11,9 +11,23 @@ import {
   ViewChild,
 } from '@angular/core';
 import { createPopper, Placement } from '@popperjs/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CoPageBase, debounce } from '@co/core';
-import { PlatformEditionService, PUBDataDictionaryService, PUBPlaceService, PUBRegionService, SSORoleService } from '@co/cds';
+import {
+  PlatformEditionService,
+  PUBDataDictionaryService,
+  PUBPlaceService,
+  PUBRegionService,
+  SSORoleService,
+} from '@co/cds';
 import { _HttpClient, GoogleMapService } from '@co/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -21,7 +35,11 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { PageSideDrawerComponent, STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
-import { CRMCreateOrUpdateCustomerInput, CRMCustomerExamineService, CRMCustomerService } from '../../../../../../services/crm';
+import {
+  CRMCreateOrUpdateCustomerInput,
+  CRMCustomerExamineService,
+  CRMCustomerService,
+} from '../../../../../../services/crm';
 
 @Component({
   selector: 'crm-create-potential-customer',
@@ -33,7 +51,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   @Input() set customerInfo(v) {
     //详情展开全部
     this.showBasicInfo = true;
-    this.initData(v);
+    this.initForm(v);
   }
 
   get customerInfo() {
@@ -377,8 +395,42 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   ngOnInit() {
+    this.initForm();
     this.initData();
+  }
+
+  initData() {
     this.onRolesList();
+    this.queryConnectionCustomer('');
+    this.getCityOceanUsers('');
+    // 获取国家
+    this.pubRegionService
+      .getAll({
+        parentId: '',
+      })
+      .subscribe((res) => {
+        this.regions = res.items;
+      });
+    this.getEditionAll();
+    //贸易方式
+    this.pubDataDictionaryService
+      .getAll({
+        maxResultCount: 2000,
+        typeCode: '006',
+      })
+      .subscribe((res) => {
+        this.incotermList = res.items;
+      });
+
+    // 行业的
+    this.pubDataDictionaryService
+      .getAll({
+        maxResultCount: 2000,
+        typeCode: '098',
+      })
+      .subscribe((res) => {
+        this.industryList = res.items;
+      });
   }
 
   onRolesList() {
@@ -390,6 +442,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         this.rolesList = res.items;
       });
   }
+
   checkCspKeyWordData(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.validateForm) {
@@ -543,17 +596,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     }
   }
 
-  initData(data: any = {}) {
-    // 获取国家
-    this.pubRegionService
-      .getAll({
-        parentId: '',
-      })
-      .subscribe((res) => {
-        this.regions = res.items;
-      });
-
-    this.getEditionAll();
+  initForm(data: any = {}) {
     const user = JSON.parse(window.localStorage.getItem('co.session'));
     const userId = user.session?.user?.id;
     this.validateForm = this.fb.group({
@@ -599,35 +642,12 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       oceanAttachFee: [null],
     });
     this.addPhone(data.tel);
-    this.queryConnectionCustomer('');
-    this.getCityOceanUsers('');
     if (data?.customerTaxes?.length > 0) {
       data.customerTaxes.forEach((item) => {
         this.addRegistration(item);
       });
     }
-
-    //贸易方式
-    this.pubDataDictionaryService
-      .getAll({
-        maxResultCount: 2000,
-        typeCode: '006',
-      })
-      .subscribe((res) => {
-        this.incotermList = res.items;
-      });
-
-    // 行业的
-    this.pubDataDictionaryService
-      .getAll({
-        maxResultCount: 2000,
-        typeCode: '098',
-      })
-      .subscribe((res) => {
-        this.industryList = res.items;
-      });
-
-    if (data) {
+    if (data?.id) {
       this.setData(data);
     }
   }
@@ -792,7 +812,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
         encountryId: data.countryId || null,
         enprovinceId: data.provinceId || null,
         encityId: data.cityId || null,
-        customerContacts: data.contacts || [
+        customerContacts: data.contacts?.filter(e => e.isMaster)?.length ? data.contacts.filter(e => e.isMaster) : [
           {
             lastname: null,
             name: null,
