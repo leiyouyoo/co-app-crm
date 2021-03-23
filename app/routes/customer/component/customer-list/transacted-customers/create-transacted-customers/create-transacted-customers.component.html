@@ -462,7 +462,7 @@
                   </nz-option>
                   <nz-option
                     *ngFor="let item of connectionCustomerList"
-                    [nzLabel]="item.enName + '(' + item.zhName + ')'"
+                    [nzLabel]="item.enName || '' + '(' + item.zhName + ')'"
                     [nzValue]="item.id"
                   ></nz-option>
                 </nz-select>
