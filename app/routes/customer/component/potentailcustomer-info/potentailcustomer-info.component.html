@@ -5,58 +5,34 @@
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.localizationName }}</p>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag *ngIf="customerInfo?.isRegistered" class="customerInfo-registered">
-            <img
-              src="apps/crm/assets/images/csp-certification.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
+            <img src="apps/crm/assets/images/csp-certification.png" width="25px" />
+            <span class="customer-title">{{ 'CSP certification passed' | translate }}</span>
           </nz-tag>
           <nz-tag
             (click)="!customerInfo?.isDeleted && cspAccountConfig()"
             *ngIf="!customerInfo?.isRegistered"
             class="customerInfo-unRegistered"
           >
-            <img
-              src="apps/crm/assets/images/un-csp-certification.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span>
+            <img src="apps/crm/assets/images/un-csp-certification.png" width="25px" />
+            <span class="customer-title">{{ 'CSP not certified' | translate }}</span>
           </nz-tag>
         </div>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag *ngIf="customerInfo?.examineState == 2" class="customerInfo-registered">
-            <img
-              src="apps/crm/assets/images/enterpris-certification.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
-              'Enterprise certification passed' | translate
-            }}</span></nz-tag
+            <img src="apps/crm/assets/images/enterpris-certification.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise certification passed' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
             (click)="!customerInfo?.isDeleted && applyCode()"
             class="customerinfo-noCertified"
           >
-            <img
-              src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span>
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise not certified' | translate }}</span>
           </nz-tag>
           <nz-tag *ngIf="customerInfo?.examineState == 1" class="customerinfo-certificing">
-            <img
-              src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
-              'Enterprise certificationing' | translate
-            }}</span></nz-tag
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise certificationing' | translate }}</span></nz-tag
           >
         </div>
       </div>
