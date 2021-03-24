@@ -12,6 +12,7 @@ import { LocationDetailComponent } from '../location/location-detail/location-de
 import { ContactListComponent } from '../contact/contact-list/contact-list.component';
 import { LocationListComponent } from '../location/location-list/location-list.component';
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
+import { CustomerType } from '../../models/enum';
 
 @Component({
   selector: 'crm-customers-info',
@@ -26,6 +27,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
   recordExpand = true;
+  readonly CustomerType = CustomerType;
 
   constructor(
     private crmCustomerService: CRMCustomerService,

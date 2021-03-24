@@ -4,139 +4,39 @@
       <div style="display: flex; height: 32px; font-weight: 800; line-height: 32px;">
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.localizationName }}</p>
         <div class="edit-customer" style="display: flex; align-items: center;">
+          <nz-tag class="customerInfo-registered" *ngIf="customerInfo?.isRegistered">
+            <img src="apps/crm/assets/images/csp-certification.png" width="25px" />
+            <span>{{ 'CSP certification passed' | translate }}</span>
+          </nz-tag>
           <nz-tag
-            *ngIf="customerInfo?.isRegistered"
-            style="
-              position: relative;
-              display: flex;
-              align-items: center;
-              width: 100%;
-              height: 25px;
-              margin-left: 8px;
-              color: #000;
-              font-size: 10px;
-              text-align: center;
-              background-color: #fffbe6;
-              border-color: #ffe58f;
-              border-radius: 10px;
-            "
-          >
-            <img
-              src="apps/crm/assets/images/csp-certification.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP certification passed' | translate }}</span>
-          </nz-tag
-          >
-          <nz-tag
+            class="customerInfo-unRegistered"
             *ngIf="!customerInfo?.isRegistered"
             (click)="!customerInfo?.isDeleted && cspAccountConfig()"
-            style="
-              position: relative;
-              display: flex;
-              align-items: center;
-              width: 100%;
-              height: 25px;
-              margin-left: 8px;
-              color: #000;
-              font-size: 10px;
-              text-align: center;
-              background-color: #fff;
-              border-color: rgba(0, 0, 0, 0.15);
-              border-radius: 10px;
-            "
           >
             <img
               src="apps/crm/assets/images/un-csp-certification.png"
               width="25px"
               style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
             />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'CSP not certified' | translate }}</span>
-          </nz-tag
-          >
+            <span class="customer-title">{{ 'CSP not certified' | translate }}</span>
+          </nz-tag>
         </div>
         <div class="edit-customer" style="display: flex; align-items: center; margin-left: 8px;">
-          <nz-tag
-            *ngIf="customerInfo?.examineState == 2"
-            style="
-              position: relative;
-              display: flex;
-              align-items: center;
-              width: 100%;
-              height: 25px;
-              margin-left: 8px;
-              color: #000;
-              font-size: 10px;
-              text-align: center;
-              background-color: #fffbe6;
-              border-color: #ffe58f;
-              border-radius: 10px;
-            "
-          >
-            <img
-              src="apps/crm/assets/images/enterpris-certification.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
-              'Enterprise certification passed' | translate
-              }}</span></nz-tag
+          <nz-tag *ngIf="customerInfo?.examineState == 2" class="customerInfo-registered">
+            <img src="apps/crm/assets/images/enterpris-certification.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise certification passed' | translate }}</span></nz-tag
           >
           <nz-tag
             *ngIf="customerInfo?.examineState == 3 || customerInfo?.examineState == 0"
             (click)="!customerInfo?.isDeleted && applyCode()"
-            style="
-              position: relative;
-              display: flex;
-              align-items: center;
-              width: 100%;
-              height: 25px;
-              margin-left: 8px;
-              color: #000;
-              font-size: 10px;
-              text-align: center;
-              background-color: #fff;
-              border-color: rgba(0, 0, 0, 0.15);
-              border-radius: 10px;
-            "
+            class="customerinfo-noCertified"
           >
-            <img
-              src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span
-              style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{ 'Enterprise not certified' | translate }}</span>
-          </nz-tag
-          >
-          <nz-tag
-            *ngIf="customerInfo?.examineState == 1"
-            style="
-              position: relative;
-              display: flex;
-              align-items: center;
-              width: 100%;
-              height: 25px;
-              margin-left: 8px;
-              color: #000;
-              font-size: 10px;
-              text-align: center;
-              background-color: #edeff1;
-              border-color: #cbd5dd;
-              border-radius: 10px;
-            "
-          >
-            <img
-              src="apps/crm/assets/images/enterpris-certification-ing.png"
-              width="25px"
-              style="position: absolute; top: 0; left: 5px; width: 25px; height: 25px;"
-            />
-            <span style="margin-left: 25px; font-weight: 400; font-size: 12px;">{{
-              'Enterprise certificationing' | translate
-              }}</span></nz-tag
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise not certified' | translate }}</span>
+          </nz-tag>
+          <nz-tag *ngIf="customerInfo?.examineState == 1" class="customerinfo-certificing">
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <span class="customer-title">{{ 'Enterprise certificationing' | translate }}</span></nz-tag
           >
         </div>
       </div>
@@ -157,8 +57,7 @@
           </ul>
         </nz-dropdown-menu>
 
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
-           nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item *ngIf="customerInfo?.examineState != 1 && !customerInfo?.code" (click)="applyCode()">
@@ -190,42 +89,7 @@
     <div style="margin-top: 8px;">
       <span style="margin-right: 10px; color: #999;">{{ 'Customer type' | translate }}</span>
       <span style="margin-right: 40px;">
-        <span *ngIf="customerInfo?.customerType == 1">
-          {{ 'Carrier' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 2">
-          {{ 'AirLine' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 3">
-          {{ 'Forwarding' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 4">
-          {{ 'CrmCustomer.DirectClient' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 5">
-          {{ 'Trucker' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 6">
-          {{ 'CustomsBroker' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 7">
-          {{ 'WareHouse' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 8">
-          {{ 'Storage' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 9">
-          {{ 'RailWay' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 10">
-          {{ 'Express' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 17">
-          {{ 'Terminal' | translate }}
-        </span>
-        <span *ngIf="customerInfo?.customerType == 12">
-          {{ 'Other' | translate }}
-        </span>
+        <span>{{ CustomerType[customerInfo?.customerType] | translate }}</span>
       </span>
       <span style="margin-right: 10px; color: #999;">{{ 'Customer code' | translate }}</span>
       <span style="margin-right: 40px;">{{ customerInfo?.code || '--' }}</span>
@@ -233,16 +97,23 @@
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
-        }}</span>
+      }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item?.allowUserName }}
         </div>
       </ng-template>
-      <span nz-popover *ngIf="!customerInfo?.isDeleted" (click)="transferCustomer()" [nzPopoverTitle]="null"
-            [nzPopoverContent]="'Transfer customer' | translate" style="margin-left: 8px; color: #1890ff;" nz-icon
-            [nzIconfont]="'icon-zhuanyi'"
-            class="iconfont icon-zhuanyi"></span>
+      <span
+        nz-popover
+        *ngIf="!customerInfo?.isDeleted"
+        (click)="transferCustomer()"
+        [nzPopoverTitle]="null"
+        [nzPopoverContent]="'Transfer customer' | translate"
+        style="margin-left: 8px; color: #1890ff;"
+        nz-icon
+        [nzIconfont]="'icon-zhuanyi'"
+        class="iconfont icon-zhuanyi"
+      ></span>
     </div>
   </nz-header>
   <nz-layout>
@@ -279,23 +150,25 @@
         </div>
       </div>
 
-      <div nz-col class="gutter-row" [nzSpan]="8" style="height: 100%;background: #fff;">
-        <div style="height: 100%; padding-left: 16px; background: #fff;display: flex;flex-direction: column;">
-          <nz-tabset [ngStyle]="{flex:recordExpand?'1':'none',height:recordExpand?'50%':'auto'}"
-                     nzAnimated="false">
+      <div nz-col class="gutter-row" [nzSpan]="8" style="height: 100%; background: #fff;">
+        <div style="display: flex; flex-direction: column; height: 100%; padding-left: 16px; background: #fff;">
+          <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false">
             <nz-tab [nzTitle]="'Follow up record' | translate">
               <crm-follow-up-record
-                (onExpand)="onExpand($event)" (onSuccess)="onRecordSuccess($event)"
-                [customerId]="customerId"></crm-follow-up-record>
+                (onExpand)="onExpand($event)"
+                (onSuccess)="onRecordSuccess($event)"
+                [customerId]="customerId"
+              ></crm-follow-up-record>
             </nz-tab>
           </nz-tabset>
-          <crm-follow-up-record-list style="overflow: hidden;"
-                                     [ngStyle]="{flex:recordExpand?'1':'unset',height:recordExpand?'50%':'auto'}"
-                                     [customerId]="customerId"
-                                     #recordList></crm-follow-up-record-list>
+          <crm-follow-up-record-list
+            style="overflow: hidden;"
+            [ngStyle]="{ flex: recordExpand ? '1' : 'unset', height: recordExpand ? '50%' : 'auto' }"
+            [customerId]="customerId"
+            #recordList
+          ></crm-follow-up-record-list>
         </div>
       </div>
     </nz-content>
   </nz-layout>
 </nz-layout>
-

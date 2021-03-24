@@ -12,6 +12,7 @@ import { PotentailcustomerDetailComponent } from './potentailcustomer-detail/pot
 import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
+import { CustomerType } from '../../models/enum';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -27,7 +28,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   stepLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
   recordExpand = true;
-
+  readonly CustomerType = CustomerType;
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -136,7 +137,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.onSubmitted.subscribe(r => {
+    component.onSubmitted.subscribe((r) => {
       this.getCustomerDetail(this.customerId);
     });
   }
@@ -157,7 +158,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.onSubmitted.subscribe(r => {
+    component.onSubmitted.subscribe((r) => {
       this.getCustomerDetail(this.customerId);
     });
   }
@@ -194,7 +195,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzFooter: null,
     });
     const component = modal.getContentComponent();
-    component.onSubmitted.subscribe(r => {
+    component.onSubmitted.subscribe((r) => {
       this.getCustomerDetail(this.customerId);
     });
   }
