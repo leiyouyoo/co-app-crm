@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { CustomersInfoComponent } from './component/customers-info/customers-info.component';
 import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
+import { FollowUpRecordListComponent } from './component/follow-up-record-list/follow-up-record-list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'followuprecord/:id',
+    component: FollowUpRecordListComponent,
+    data: {
+      titleI18n: 'crm:Follow up record',
+      reuse: true,
+    },
+  },
+  {
     path: 'potentailcustomerdetails/:id',
     component: PotentailcustomerInfoComponent,
     data: {
@@ -35,4 +44,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CustomerRoutingModule {}
+export class CustomerRoutingModule {
+}

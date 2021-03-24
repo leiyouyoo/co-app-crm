@@ -348,7 +348,7 @@ export class MergeCustomerComponent extends CoPageBase implements OnInit {
       this.params.searchText = searchText;
       this.listOfCustomer = [];
     }
-    this.crmEsQueryService.getAllCustomerForES({
+    this.crmCustomerService.getAllList({
       searchText: this.params.searchText,
       maxResultCount: this.params.maxResultCount,
       skipCount: this.params.maxResultCount * this.params.skipCount,
