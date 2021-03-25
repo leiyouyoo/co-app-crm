@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CoConfigManager } from '@co/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
+import { CoConfigManager, CoPageBase } from '@co/core';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 
 @Component({
@@ -7,7 +7,7 @@ import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../.
   templateUrl: './follow-up-record-list.component.html',
   styleUrls: ['./follow-up-record-list.component.less'],
 })
-export class FollowUpRecordListComponent implements OnInit {
+export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   traceLogList = [];
   param: any;
@@ -17,8 +17,9 @@ export class FollowUpRecordListComponent implements OnInit {
   logLoading = false;
   refreshLogLoading = false;
 
-  constructor(private crmCustomerOperationEventService: CRMCustomerOperationEventService,
+  constructor(injector: Injector, private crmCustomerOperationEventService: CRMCustomerOperationEventService,
               private crmTraceLogService: CRMTraceLogService) {
+    super(injector);
   }
 
   ngOnInit(): void {
@@ -98,5 +99,11 @@ export class FollowUpRecordListComponent implements OnInit {
     this.param.totalCount = 0;
     this.traceLogList = [];
     this.getCustomerOperationEvent();
+  }
+
+  showAll() {
+    this.$navigate(['/crm/customers/followuprecord', this.customerId], {
+      queryParams: { _title: this.$L('Follow up record') },
+    });
   }
 }

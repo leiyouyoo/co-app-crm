@@ -9,7 +9,6 @@
       nzSize="small"
       style="width: 80%;margin: 8px 8px 8px 0"
       [nzMaxTagCount]="3"
-      [nzCustomTemplate]="defaultTemplate"
       [nzMaxTagPlaceholder]="tagPlaceHolder"
       nzMode="multiple"
       (nzScrollToBottom)="loadMore()"
@@ -19,9 +18,11 @@
       [nzPlaceHolder]="'Please select' | translate"
       [(ngModel)]="listOfSelectedValue"
     >
-      <nz-option nzCustomContent *ngFor="let item of listOfCustomer" [nzLabel]="item?.name?.name?.zh ||item?.name?.name?.en"
-                 [nzValue]="item"><span
-        [innerHTML]="item?.name?.name?.zh || item?.name?.name?.en"></span></nz-option>
+      <nz-option *ngIf="params.isLoading" nzDisabled nzCustomContent>
+        <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
+      </nz-option>
+      <nz-option *ngFor="let item of listOfCustomer" [nzLabel]="item?.name ||item?.localizationName"
+                 [nzValue]="item"></nz-option>
     </nz-select>
     <ng-template #tagPlaceHolder let-selectedList> + {{ selectedList.length }} </ng-template>
     <ng-template #defaultTemplate let-selected><span [innerHTML]="selected.nzLabel "></span></ng-template>

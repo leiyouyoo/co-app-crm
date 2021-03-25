@@ -11,6 +11,8 @@
     <button [nzLoading]="refreshLogLoading" (click)="refreshLogLoading=true;param.searchKey=null;searchLog()"
             nz-button nzSize="small"
             nzType="default">{{ 'Refresh' | translate }}</button>
+    <button (click)="showAll()" nz-button nzSize="small"
+            nzType="default">{{ '查看全部' | translate }}</button>
   </div>
   <div class="event_log" style="overflow: auto;height: calc(100% - 24px);">
     <div class="event_log__content" *ngFor="let item of traceLogList">
