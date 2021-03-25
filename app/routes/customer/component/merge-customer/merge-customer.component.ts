@@ -376,6 +376,7 @@ export class MergeCustomerComponent extends CoPageBase implements OnInit {
   }
 
   handleCancel(): void {
+    this.checkData = [];
     this.isVisible = false;
   }
 }
