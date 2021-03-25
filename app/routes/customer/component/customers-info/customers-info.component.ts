@@ -13,6 +13,7 @@ import { ContactListComponent } from '../contact/contact-list/contact-list.compo
 import { LocationListComponent } from '../location/location-list/location-list.component';
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 import { CustomerType } from '../../models/enum';
+import { differenceInCalendarDays } from 'date-fns';
 
 @Component({
   selector: 'crm-customers-info',
@@ -28,7 +29,9 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   customerId = this.activeRoute.snapshot.params.id;
   recordExpand = true;
   readonly CustomerType = CustomerType;
-
+  today = new Date();
+  date = new Date();
+  statisticsInfo: any;
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -40,6 +43,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
 
   ngOnInit(): void {
     this.getCustomerDetail(this.customerId);
+    this.getBusinessStatistics();
   }
 
   //获取详情
@@ -265,5 +269,47 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
 
   onExpand(e) {
     this.recordExpand = e;
+  }
+
+  /**
+   * 获取统计信息
+   */
+  getBusinessStatistics() {
+    const year = this.date.getFullYear() + '';
+    this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year: year }).subscribe((res) => {
+      this.statisticsInfo = res;
+    });
+  }
+
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+  /**
+   * 跳转询价
+   */
+  onLinkQuote() {
+    //处理时间
+    // let requestTime = [];
+    // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
+    const year=this.date.getFullYear();
+    this.$navigate(['/crm/quotes'], {
+      queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
+    });
+  }
+  /**
+   * 跳转订单
+   */
+  onLinkBooking() {
+    //处理时间
+    let requestTime = [];
+    requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
+    this.$navigate([`fcm/booking`], {
+      queryParams: {
+        customerId: this.customerId,
+        customerName: this.customerInfo.localizationName,
+        requestTime: requestTime,
+      },
+    });
   }
 }

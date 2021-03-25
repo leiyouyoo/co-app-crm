@@ -56,5 +56,20 @@ export class CRMCustomerAccessAllowService extends BaseApi {
     }
 
 
+    /**
+     * @param url /CRM/CustomerAccessAllow/Delete
+     * 删除客户访问权限
+     */
+
+    @DELETE('Delete')
+    delete(
+        @Payload
+        _req: {customerId?:string,accessAllowUserId?:number,accessAllowType?:number,id?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
 
   }

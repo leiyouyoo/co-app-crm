@@ -259,7 +259,26 @@
               </nz-tab>
             </nz-tabset>
           </div>
-          <div nz-col class="gutter-row" [nzSpan]="8" style="height: calc(100% - 50px); background: #fff;">
+          <div nz-col class="gutter-row" [nzSpan]="8" style="height: calc(100% - 50px);">
+            <div class="customerinfo-top_link">
+              <div class="customerinfo-top_linkleft">
+                <div class="customerinfo-top_Tips">{{ 'Related list shortcut links' | translate }}</div>
+                <div class="customerinfo-top_linkinfo">
+                  <div (click)="onLinkQuote()">
+                    <span nz-icon [nzIconfont]="'icon-dock-building'" class="iconfont icon-dock-building"></span
+                    >{{ 'Quotes' | translate }}({{ statisticsInfo?.Quote }})
+                  </div>
+                  <div (click)="toFCMBooking()">
+                    <span nz-icon [nzIconfont]="'icon-zhangdan'" class="iconfont icon-zhangdan"> </span>{{ 'Booking' | translate }}({{
+                      statisticsInfo?.Booking
+                    }})
+                  </div>
+                </div>
+              </div>
+              <div class="customerinfo-top_linkright">
+                <nz-date-picker nzMode="year" [(ngModel)]="date" nzFormat="yyyy" [nzDisabledDate]="disabledDate"></nz-date-picker>
+              </div>
+            </div>
             <div style="display: flex; flex-direction: column; height: 100%; padding-left: 16px; background: #fff;">
               <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false">
                 <nz-tab [nzTitle]="'Follow up record' | translate">

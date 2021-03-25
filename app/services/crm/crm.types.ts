@@ -1522,6 +1522,10 @@
          
             /* 用户Id */ 
             allowUserId?: number;
+         
+            /* 客户关联关系类型
+0 = CustomerOwner */ 
+            accessAllowType?: number;
         
         
     }
@@ -3050,6 +3054,10 @@
             
             allowUserName?: string;
          
+            /* 客户关联关系类型
+0 = CustomerOwner */ 
+            accessAllowType?: number;
+         
             
             id?: string;
         
@@ -3321,6 +3329,12 @@
          
             /* 地点集合 */ 
             locations?: CRMLocationContactsDto[];
+         
+            /* 是否改名中 */ 
+            isRenaming?: boolean;
+         
+            /* 是否修改电话中 */ 
+            isChangePhone?: boolean;
          
             /* 全称 */ 
             name?: string;
@@ -3619,6 +3633,22 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMRelationCustomerInput {
+        [key:string]: any;
+        
+         
+            /* 客户Id */ 
+            mainCustomerId?: string;
+         
+            /* 关联客户id */ 
+            relationCustomerIds?: any[];
+        
+        
+    }
+ 
+    /**
      * 获取可关联客户列表
      */
     export class CRMQueryConnectionCustomerInput {
@@ -3699,6 +3729,22 @@
          
             /* 客户名称修改列表 */ 
             beforeNames?: CRMbeforeName[];
+         
+            /* 是否改名中 */ 
+            isRenaming?: boolean;
+         
+            /* 是否修改电话中 */ 
+            isChangePhone?: boolean;
+         
+            /* 潜在客户阶段
+0 = NoSet
+1 = PreliminaryContact
+2 = DemandDetermination
+3 = QuotedPrice
+4 = Negotiation
+5 = WinTheOrder
+6 = LostOrder */ 
+            leadTrackingPhase?: number;
          
             /* 全称 */ 
             name?: string;
@@ -3864,6 +3910,25 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMCheckRepeatNameInput {
+        [key:string]: any;
+        
+         
+            /* 名称 */ 
+            name?: string;
+         
+            /* 本地化语言名称 */ 
+            nameLocalization?: string;
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
      * 名称变更审批
      */
     export class CRMCustomerRenamingApprovalInput {
@@ -3977,6 +4042,10 @@
          
             /* 是否拥有者 */ 
             isOwner?: boolean;
+         
+            /* 客户客户访问权限角色类型
+0 = CustomerOwner */ 
+            accessAllowType?: number;
          
             
             id?: string;
@@ -4758,9 +4827,12 @@
     /**
      *  No Remark 
      */
-    export class CRMEsPageQueryInput {
+    export class CRMQueryCrmEnquiryInput {
         [key:string]: any;
         
+         
+            /* 年份 */ 
+            year?: number;
          
             
             searchText?: string;
@@ -5108,6 +5180,34 @@
          
             
             display?: string;
+        
+        
+    }
+ 
+    /**
+     *  No Remark 
+     */
+    export class CRMEsPageQueryInput {
+        [key:string]: any;
+        
+         
+            
+            searchText?: string;
+         
+            
+            orderBy?: object;
+         
+            
+            dynamicQuery?: object;
+         
+            
+            incluedFields?: any[];
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
         
         
     }

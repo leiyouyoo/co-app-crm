@@ -13,6 +13,7 @@ import { LocationDetailComponent } from '../location/location-detail/location-de
 import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 import { CustomerType } from '../../models/enum';
+import { differenceInCalendarDays } from 'date-fns';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -29,6 +30,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   customerId = this.activeRoute.snapshot.params.id;
   recordExpand = true;
   readonly CustomerType = CustomerType;
+  today = new Date();
+  date = new Date();
+  statisticsInfo: any;
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -40,6 +44,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
 
   ngOnInit(): void {
     this.getCustomerDetail(this.customerId);
+    this.getBusinessStatistics();
   }
 
   onIndexChange(e) {
@@ -283,5 +288,49 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
 
   onExpand(e) {
     this.recordExpand = e;
+  }
+
+  onDateChange(e) {}
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+
+  /**
+   * 获取统计信息
+   */
+  getBusinessStatistics() {
+    const year = this.date.getFullYear() + '';
+    this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year: year }).subscribe((res) => {
+      this.statisticsInfo = res;
+    });
+  }
+
+  /**
+   * 跳转询价
+   */
+  onLinkQuote() {
+    //处理时间
+    const year = this.date.getFullYear();
+    // let requestTime = [];
+    // requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
+    this.$navigate(['/crm/quotes'], {
+      queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
+    });
+  }
+  /**
+   * 跳转订单
+   */
+  toFCMBooking() {
+    //处理时间
+    let requestTime = [];
+    requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
+    this.$navigate([`fcm/booking`], {
+      queryParams: {
+        customerId: this.customerId,
+        customerName: this.customerInfo.localizationName,
+        requestTime: requestTime,
+      },
+    });
   }
 }

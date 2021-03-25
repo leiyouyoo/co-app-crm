@@ -1,0 +1,74 @@
+<section style="height: 100%; overflow: auto;">
+  <div style="margin-bottom: 8px;">
+    <button *ngIf="expanded" nz-button nzSize="small" nzType="primary" [nzLoading]="loading" (click)="submit()">
+      {{ 'Publish' | translate }}
+    </button>
+    <button *ngIf="expanded" nz-button nzSize="small" nzType="default" (click)="expanded = false; onExpand.emit(false); cancel()">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button *ngIf="!expanded" nz-button nzSize="small" nzType="default" (click)="expanded = true; onExpand.emit(true)">
+      {{ 'Unfold' | translate }}
+    </button>
+  </div>
+  <form *ngIf="expanded" nzLayout="horizontal" #ngForm="ngForm" nz-form [formGroup]="validateForm">
+    <div nz-row>
+      <div nz-col class="gutter-row" [nzSpan]="24">
+        <nz-form-item>
+          <nz-form-label nzRequired> {{ '主题' | translate }}</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="title" [placeholder]="'Please enter' | translate" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col class="gutter-row" [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzRequired> {{ '开始时间' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              [nzDisabledDate]="disabledAEndDate"
+              formControlName="remindStartTime"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col class="gutter-row" [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzRequired> {{ '到期时间' | translate }}</nz-form-label>
+          <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              [nzDisabledDate]="disabledAEndDate"
+              formControlName="remindEndTime"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col class="gutter-row" [nzSpan]="24">
+        <nz-form-item>
+          <nz-form-label nzRequired> {{ '被发配人' | translate }}</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="remindPeople" [placeholder]="'Please enter' | translate" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <nz-form-control>
+        <textarea
+          nz-input
+          formControlName="content"
+          [placeholder]="'Please enter' | translate"
+          [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+        ></textarea>
+      </nz-form-control>
+    </div>
+  </form>
+</section>

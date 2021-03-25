@@ -1,6 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { bookingStatus } from '../../../../shared/types/booking/bookingStatus';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookingQueryEntity } from '../../../../shared/types/booking/bookingQuery-entity';
 import { FreightMethodType } from '../../../../shared/types/booking/FreightMethodType';
 import { CSPBookingService, CSPSureServiceCompanyInput } from '../../../../services/csp';
@@ -40,6 +40,7 @@ export class BookingComponent extends CoPageBase {
 
   user = JSON.parse(window.localStorage.getItem('co.session'));
   userId = this.user.session.user.id;
+  public custometId: string = this.activatedRoute.snapshot.queryParams.custometId;
   columns: STColumn[] = [
     { title: 'BookNo', index: 'bookingNo', render: 'no' },
     { title: 'BookName', index: 'name', render: '' },
@@ -71,12 +72,17 @@ export class BookingComponent extends CoPageBase {
     private companyConfigureService: PlatformCompanyConfigureService,
     private bookingService: CSPBookingService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
     super(injector);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    //客户路由跳转
+    if (this.custometId) {
+      // this.bookingInputParams= this.custometId;
+    }
     setTimeout(() => {
       this.onDivHeight();
     }, 500);

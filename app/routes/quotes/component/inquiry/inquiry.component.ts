@@ -23,18 +23,6 @@ import { STColumn, STComponent } from '@co/cbc/web/st';
 })
 export class InquiryComponent extends CoPageBase {
   @ViewChild('st', { static: false }) st: STComponent;
-  constructor(
-    private router: Router,
-    public quoteService: QuotesService,
-    private message: NzMessageService,
-    private nzModalService: NzModalService,
-    private clipboardService: ClipboardService,
-    private translate: TranslateService,
-    private activatedRoute: ActivatedRoute,
-    injector: Injector,
-  ) {
-    super(injector);
-  }
   small: 'small';
   bordered = false;
   isShowcreatequotes: boolean = false;
@@ -52,6 +40,7 @@ export class InquiryComponent extends CoPageBase {
     dynamicQuery: {},
     orderBy: { CreationTime: 0 },
     id: null,
+    year: null,
   };
   //报价状态枚举
   QuoteState: typeof quoteState = quoteState;
@@ -72,9 +61,22 @@ export class InquiryComponent extends CoPageBase {
   freightMethodTypeValue: typeof FreightMethodType = FreightMethodType;
   height = 500;
   user = JSON.parse(window.localStorage.getItem('co.session'));
-
   userId = this.user.session.user.id;
   imgUrl = environment.SERVER_URL;
+  public custometId: string = this.activatedRoute.snapshot.queryParams.custometId;
+  public year = this.activatedRoute.snapshot.queryParams.year;
+  constructor(
+    private router: Router,
+    public quoteService: QuotesService,
+    private message: NzMessageService,
+    private nzModalService: NzModalService,
+    private clipboardService: ClipboardService,
+    private translate: TranslateService,
+    private activatedRoute: ActivatedRoute,
+    injector: Injector,
+  ) {
+    super(injector);
+  }
   columns: STColumn[] = [
     {
       title: 'NO_table',
@@ -160,6 +162,13 @@ export class InquiryComponent extends CoPageBase {
   ];
 
   coOnInit() {
+    //客户路由跳转
+    if (this.custometId) {
+      this.quoteInputParams.dynamicQuery.ownerCustomerId = this.custometId;
+    }
+    if (this.year) {
+      this.quoteInputParams.year = Number(this.year);
+    }
     setTimeout(() => {
       this.onDivHeight();
     }, 500);
@@ -186,7 +195,6 @@ export class InquiryComponent extends CoPageBase {
   }
 
   GetAllForCRM() {
-    // delete this.quoteInputParams.dynamicQuery.id;
     this.st.resetColumns();
   }
 
@@ -291,6 +299,7 @@ export class InquiryComponent extends CoPageBase {
         break;
     }
   }
+
   pageIndexChange(event): void {
     if (event.pi > 1) this.quoteInputParams.skipCount = this.quoteInputParams.maxResultCount * (event - 1);
     else this.quoteInputParams.skipCount = 0;
