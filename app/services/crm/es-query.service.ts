@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMEsPageQueryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMCrmCustomerModel,CRMCrmCustomerExamineModel,CRMEntityDto1,CRMCrmCustomerChangeEventDto,CRMCrmCustomerExamineChangeEventDto,CRMCrmEsPageQueryInput } from './crm.types';
+import { CRMQueryCrmEnquiryInput,CRMPagedResultDto1,CRMCrmEnquiryModel,CRMEsPageQueryInput,CRMCrmCustomerModel,CRMGetAllForUiPickerInput,CRMCustomerListDto,CRMCrmCustomerExamineModel,CRMEntityDto1,CRMCrmCustomerChangeEventDto,CRMCrmCustomerExamineChangeEventDto,CRMCrmEsPageQueryInput } from './crm.types';
 
 @BaseUrl('/CRM/EsQuery')
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class CRMEsQueryService extends BaseApi {
     @POST('GetAllForES')
     getAllForES(
         @Payload
-        _req:CRMEsPageQueryInput
+        _req:CRMQueryCrmEnquiryInput
 
     ): Observable<CRMPagedResultDto1<CRMCrmEnquiryModel>> {
         return null as any
@@ -37,6 +37,21 @@ export class CRMEsQueryService extends BaseApi {
         _req:CRMEsPageQueryInput
 
     ): Observable<CRMPagedResultDto1<CRMCrmCustomerModel>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/EsQuery/GetAllForUiPickerForES
+     * ES获取客户列表，用于前端客户选择器
+     */
+
+    @POST('GetAllForUiPickerForES')
+    getAllForUiPickerForES(
+        @Payload
+        _req:CRMGetAllForUiPickerInput
+
+    ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
         return null as any
     }
 

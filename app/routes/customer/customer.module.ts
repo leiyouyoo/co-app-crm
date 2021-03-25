@@ -42,6 +42,7 @@ import { FollowUpRecordListComponent } from './component/follow-up-record-list/f
 import { AttachmentListComponent } from './component/attachment-list/attachment-list.component';
 import { AttachmentTypeComponent } from './component/attachment-list/attachment-type/attachment-type.component';
 import { ApplyChangePhoneComponent } from './component/apply-change-phone/apply-change-phone.component';
+import { ScheduleComponent } from './component/schedule/schedule.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -62,7 +63,8 @@ const NEWCOMPONENTS = [
   BindContactsComponent,
   InvoiceListComponent,
   InvoiceDetailComponent,
-  AttachmentListComponent
+  AttachmentListComponent,
+  ScheduleComponent,
 ];
 
 const COMPONENTS_NOROUNT = [
@@ -72,7 +74,7 @@ const COMPONENTS_NOROUNT = [
   MergeCustomerComponent,
   UpdateCustomerNameComponent,
   TransferTocustomerComponent,
-  AttachmentTypeComponent
+  AttachmentTypeComponent,
 ];
 
 @NgModule({
@@ -99,6 +101,7 @@ const COMPONENTS_NOROUNT = [
     FollowUpRecordComponent,
     FollowUpRecordListComponent,
     ApplyChangePhoneComponent,
+    ScheduleComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
