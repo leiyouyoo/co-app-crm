@@ -97,7 +97,7 @@
           (nzOnCancel)="handleCancel()">
   <div style="min-height: 500px;" *ngIf="checkData.length">
     <h5>重复提示：</h5>
-    <div>正在将{{customerList.length - 1}}个客户合并到{{selectedItem.customerName}}</div>
+    <div>正在将{{customerList.length - 1}}个客户合并到{{selectedItem.name}}</div>
     <div *ngFor="let item of checkData">
       <ng-container *ngTemplateOutlet="typeTpl; context: {item:item}"></ng-container>
     </div>
