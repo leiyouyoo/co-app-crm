@@ -68,6 +68,8 @@
       </ng-template>
     </div>
   </div>
+  <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
+           style="overflow: auto;height: calc(100% - 62px)!important;">
   <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
     <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
     <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
@@ -125,7 +127,7 @@
     >
       {{ 'Show More' | translate }}
     </button>
-  </div>
+  </nz-spin>
 </section>
 
 <nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
