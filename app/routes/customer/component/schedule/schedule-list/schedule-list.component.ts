@@ -30,7 +30,7 @@ export class ScheduleListComponent implements OnInit {
       offsetDay: 0,
       sorting: null,
       skipCount: 0,
-      maxResultCount: 3,
+      maxResultCount: 2,
       totalCount: 0,
     };
     this.getAllScheduleForCrm();

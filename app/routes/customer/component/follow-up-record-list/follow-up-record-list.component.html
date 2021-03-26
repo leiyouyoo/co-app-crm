@@ -8,11 +8,16 @@
       <i nz-icon (click)="searchLog()" nzType="search"></i>
     </ng-template>
     <div>
-      <button [nzLoading]="refreshLogLoading" (click)="refreshLogLoading=true;param.searchKey=null;searchLog()"
-              nz-button nzSize="small"
-              nzType="default">{{ 'Refresh' | translate }}</button>
-      <button (click)="showAll()" nz-button nzSize="small"
-              nzType="default">{{ '查看全部' | translate }}</button>
+      <button
+        [nzLoading]="refreshLogLoading"
+        (click)="refreshLogLoading = true; param.searchKey = null; searchLog()"
+        nz-button
+        nzSize="small"
+        nzType="default"
+      >
+        {{ 'Refresh' | translate }}
+      </button>
+      <button (click)="showAll()" nz-button nzSize="small" nzType="default">{{ '查看全部' | translate }}</button>
     </div>
     <div class="search_area__filter">
       <ng-container [ngSwitch]="param.offsetDay">
@@ -21,7 +26,7 @@
         <span *ngSwitchCase="-30">过去30天</span>
         <span *ngSwitchCase="7">未来7天</span>
       </ng-container>
-      <ng-container *ngIf="param.businessTypes[0]==0">
+      <ng-container *ngIf="param.businessTypes[0] == 0">
         <span>全部活动</span>
       </ng-container>
       <ng-container *ngFor="let i of param.businessTypes">
@@ -33,10 +38,15 @@
           <span *ngSwitchCase="5">电子邮件</span>
         </ng-container>
       </ng-container>
-      <i nz-popover
-         [(nzPopoverVisible)]="visible"
-         nzPopoverTrigger="click"
-         [nzPopoverContent]="contentTemplate" nz-icon nzType="filter" nzTheme="outline"></i>
+      <i
+        nz-popover
+        [(nzPopoverVisible)]="visible"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="contentTemplate"
+        nz-icon
+        nzType="filter"
+        nzTheme="outline"
+      ></i>
       <ng-template #contentTemplate>
         <h5>日期范围</h5>
         <nz-radio-group [(ngModel)]="offsetDay">
@@ -47,8 +57,7 @@
         </nz-radio-group>
         <h5>活动类型</h5>
         <div>
-          <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()"
-                 [nzIndeterminate]="indeterminate">全部</label>
+          <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">全部</label>
           <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
         </div>
         <div class="search_area__filter__button">
@@ -56,10 +65,10 @@
           <button (click)="apply()" nz-button nzSize="small" nzType="primary">{{ '应用' | translate }}</button>
         </div>
       </ng-template>
-
     </div>
   </div>
-  <div class="event_log" style="overflow: auto;height: calc(100% - 62px);">
+  <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
+    <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
     <div class="event_log__content" *ngFor="let item of traceLogList">
       <nz-spin [nzSpinning]="item.loading">
         <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
