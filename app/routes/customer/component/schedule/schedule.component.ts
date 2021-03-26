@@ -2,9 +2,11 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angul
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzUploadFile } from 'ng-zorro-antd/upload/interface';
 import { CoConfigManager, CoPageBase } from '@co/core';
-import { CRMTraceLogService } from '../../../../services/crm';
+import { CRMCustomerService, CRMTraceLogService } from '../../../../services/crm';
 import format from 'date-fns/format';
 import { PUBDataDictionaryService } from '../../../../services/pub';
+import { SSOUserService } from '@co/cds';
+import { differenceInCalendarDays } from 'date-fns';
 
 @Component({
   selector: 'crm-schedule',
@@ -12,17 +14,22 @@ import { PUBDataDictionaryService } from '../../../../services/pub';
   styleUrls: ['./schedule.component.less'],
 })
 export class ScheduleComponent extends CoPageBase implements OnInit {
+  @Input() customerId;
   @Output() readonly onSuccess = new EventEmitter<boolean>();
   @Output() readonly onExpand = new EventEmitter<boolean>();
   loading = false;
   validateForm: FormGroup;
   expanded = true; // 是否展示操作区
-
+  listOfOption = [];
+  today = new Date();
+  //日期验证
+  isDateMatch = true;
   constructor(
     private fb: FormBuilder,
     injector: Injector,
-    private crmTraceLogService: CRMTraceLogService,
     public dataDictionaryService: PUBDataDictionaryService,
+    public customerService: CRMCustomerService,
+    public ssoUserService: SSOUserService,
   ) {
     super(injector);
   }
@@ -32,17 +39,36 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
       title: [null, [Validators.required]],
       remindStartTime: [null, [Validators.required]],
       remindEndTime: [null, [Validators.required]],
-      remindPeople: [null, [Validators.required]],
+      remindPeople: [null],
+      beAssigned: [[], [Validators.required]],
       content: [null], //跟进时间
+      businessNo: [this.customerId],
     });
+    this.getCityOceanUsers();
   }
 
-  disabledAEndDate = (endValue: Date): boolean => {
-    if (!endValue) {
-      return false;
-    }
-    return endValue.getTime() >= new Date().getTime();
+  //不可用时间
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) < 0;
   };
+
+  //比较日期
+  compareDate(start: Date, end: Date) {
+    if (start && end) {
+      let num = differenceInCalendarDays(start, end);
+      if (num > 0) this.isDateMatch = false;
+      else this.isDateMatch = true;
+    }
+  }
+
+  //获取被分配人
+  getCityOceanUsers() {
+    this.ssoUserService.getCityOceanUsers({}).subscribe((res: any) => {
+      debugger;
+      this.listOfOption = res.items;
+    });
+  }
 
   validForm(form) {
     for (const key in form.controls) {
@@ -61,10 +87,12 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
     if (!this.validForm(this.validateForm)) {
       return;
     }
+    //处理被分配人数据
+    const remindPeople = this.validateForm.get('beAssigned').value.join(',');
+    this.validateForm.get('remindPeople').setValue(remindPeople);
     const params = this.validateForm.value;
-    const traceLogItems = [];
     this.loading = true;
-    this.crmTraceLogService.create({ ...params, traceLogItems: traceLogItems }).subscribe(
+    this.customerService.saveScheduleAsync({ ...params }).subscribe(
       (r) => {
         this.loading = false;
         this.$message.success(this.$L('Publish success'));

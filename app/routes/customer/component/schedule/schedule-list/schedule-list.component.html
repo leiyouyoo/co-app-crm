@@ -1,0 +1,51 @@
+<div class="schedule">
+  <div class="schedule__content" *ngFor="let item of scheduleList">
+    <nz-spin [nzSpinning]="item.loading">
+      <h5>
+        <span nz-icon class="iconfont icon-date" [nzIconfont]="'icon-date'"></span
+        ><span>
+          {{ item.title }}
+        </span>
+      </h5>
+      <p>
+        <span class="schedule__content__title">
+          <i
+            nz-icon
+            nzType="down-square"
+            nzTheme="fill"
+            style="margin-right: 4px; color: #1890ff; font-size: 14px;"
+            [style.transform]="item.isShow ? 'rotate(180deg)' : 'unset'"
+            (click)="item.isShow = !item.isShow"
+          ></i>
+          <span> {{ '您有即将开始的日程' | translate }}</span>
+        </span>
+        <span>{{ item.creationTime | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+      </p>
+      <div *ngIf="item.isShow" class="schedule__content">
+        <div class="schedule_info">
+          <span>{{ '主题' | translate }} </span>
+          <span>{{ item?.title }}</span>
+        </div>
+        <div class="schedule_info">
+          <span>{{ '开始时间' | translate }} </span>
+          <span>{{ item?.remindStartTime | date: 'yyyy-MM-dd' }}</span>
+        </div>
+        <div class="schedule_info">
+          <span>{{ '内容' | translate }} </span>
+          <span>{{ item?.content }}</span>
+        </div>
+      </div>
+    </nz-spin>
+  </div>
+  <button
+    *ngIf="param.totalCount > scheduleList.length"
+    (click)="getNextLog()"
+    [nzLoading]="logLoading"
+    class="schedule__more"
+    nz-button
+    nzType="text"
+    nzBlock
+  >
+    {{ 'Show More' | translate }}
+  </button>
+</div>

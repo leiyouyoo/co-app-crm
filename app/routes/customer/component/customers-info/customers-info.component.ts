@@ -24,6 +24,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   @ViewChild(ContactListComponent, { static: false }) contactList: ContactListComponent;
   @ViewChild(LocationListComponent, { static: false }) locationList: LocationListComponent;
   @ViewChild(FollowUpRecordListComponent, { static: false }) recordList: FollowUpRecordListComponent;
+
   customerInfo: any;
   isLoading = false;
   customerId = this.activeRoute.snapshot.params.id;
@@ -32,6 +33,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   today = new Date();
   date = new Date();
   statisticsInfo: any;
+  index = 0;
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -261,6 +263,13 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   }
 
   /**
+   * 右侧tabs选项卡切换事件
+   */
+  selectedIndexChange(e) {
+    this.index = e;
+  }
+
+  /**
    * 发布跟进记录回调
    */
   onRecordSuccess(e) {
@@ -281,6 +290,14 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     });
   }
 
+  /**
+   * 发布日程回调
+   */
+  onScheduleSuccess(e) {
+    debugger;
+    e && this.recordList.scheduleList.getAllScheduleForCrm();
+  }
+
   disabledDate = (current: Date): boolean => {
     // Can not select days before today and today
     return differenceInCalendarDays(current, this.today) > 0;
@@ -292,7 +309,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     //处理时间
     // let requestTime = [];
     // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
-    const year=this.date.getFullYear();
+    const year = this.date.getFullYear();
     this.$navigate(['/crm/quotes'], {
       queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
     });
