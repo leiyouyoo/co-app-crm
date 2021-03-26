@@ -13,7 +13,15 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   @Input() index;
   traceLogList = [];
-  param: any;
+  param = {
+    customerId: this.customerId,
+    searchKey: null,
+    offsetDay: 0,
+    businessTypes: [0],
+    maxResultCount: 10,
+    skipCount: 0,
+    totalCount: 0,
+  };
   offsetDay = 0;
   downLoadUrl = CoConfigManager.getValue('downloadUrl');
   previewImage: string | undefined = '';
@@ -40,15 +48,6 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   ngOnInit(): void {
-    this.param = {
-      customerId: this.customerId,
-      searchKey: null,
-      offsetDay: 0,
-      businessType: [0],
-      maxResultCount: 10,
-      skipCount: 0,
-      totalCount: 0,
-    };
     this.getCustomerOperationEvent();
   }
 
@@ -167,13 +166,13 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   cancel() {
     this.visible = false;
     this.offsetDay = this.param.offsetDay;
-    if (this.param.businessType.some(e => e == 0)) {
+    if (this.param.businessTypes.some(e => e == 0)) {
       this.checkOptionsOne.forEach(e => e.checked = true);
     } else {
       this.checkOptionsOne.forEach(ele => {
         ele.checked = false;
       });
-      this.param.businessType.forEach(e => {
+      this.param.businessTypes.forEach(e => {
         this.checkOptionsOne.forEach(ele => {
           if (e == ele.value) {
             ele.checked = true;
@@ -187,10 +186,11 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   apply() {
     this.param.offsetDay = this.offsetDay;
     if (this.allChecked) {
-      this.param.businessType = [0];
+      this.param.businessTypes = [0];
     } else {
-      this.param.businessType = this.checkOptionsOne.filter(e => e.checked).map(e => e.value);
+      this.param.businessTypes = this.checkOptionsOne.filter(e => e.checked).map(e => e.value);
     }
     this.visible = false;
+    this.searchLog();
   }
 }
