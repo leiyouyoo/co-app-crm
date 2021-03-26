@@ -24,15 +24,15 @@ steps:
       restore: true
       mount:
         - ./node_modules
-  - name: code-analysis
-    image: aosapps/drone-sonar-plugin
-    commands:
-      - echo 'begin scan'
-      - sonar-scanner -Dsonar.projectBaseDir=. -Dproject.settings=./sonar-project.properties
-    settings:
-      sonar_host: http://sonar.cityocean.com/
-      sonar_token:
-        from_secret: sonar
+  # - name: code-analysis
+  #   image: aosapps/drone-sonar-plugin
+  #   commands:
+  #     - echo 'begin scan'
+  #     - sonar-scanner -Dsonar.projectBaseDir=. -Dproject.settings=./sonar-project.properties
+  #   settings:
+  #     sonar_host: http://sonar.cityocean.com/
+  #     sonar_token:
+  #       from_secret: sonar
   - name: build-package
     image: node:latest
     commands:
