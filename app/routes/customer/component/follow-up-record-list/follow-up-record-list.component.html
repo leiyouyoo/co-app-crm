@@ -2,7 +2,8 @@
 <section style="height: calc(100% - 17px);">
   <div class="search_area">
     <nz-input-group nzSize="small" [nzSuffix]="suffixIconSearch">
-      <input type="text" [(ngModel)]="param.searchKey" (enterKeydown)="searchLog()" nz-input [placeholder]="'Search keyword' | translate" />
+      <input type="text" [(ngModel)]="param.searchKey" (enterKeydown)="searchLog()" nz-input
+             [placeholder]="'Search keyword' | translate"/>
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <i nz-icon (click)="searchLog()" nzType="search"></i>
@@ -60,6 +61,7 @@
     </div>
   </div>
   <div class="event_log" style="overflow: auto;height: calc(100% - 62px);">
+    <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
     <div class="event_log__content" *ngFor="let item of traceLogList">
       <nz-spin [nzSpinning]="item.loading">
         <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
@@ -84,7 +86,8 @@
           <span style="display: flex; align-items: center;">
             <i nz-icon [nzIconfont]="'icon-youjian'" *ngIf="item.detail?.traceLogTypeCode == 'Email'"></i>
             <i nz-icon [nzIconfont]="'icon-weixin1'" *ngIf="item.detail?.traceLogTypeCode == 'WeChat'"></i>
-            <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'" *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
+            <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'"
+               *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
             <i nz-icon [nzIconfont]="'icon-OA-ohter-6'" *ngIf="item.detail?.traceLogTypeCode == 'Other'"></i>
             <i nz-icon [nzIconfont]="'icon-cooperation-full2'" *ngIf="item.detail?.traceLogTypeCode == 'Visit'"></i>
             <i nz-icon [nzIconfont]="'icon-shouji'" *ngIf="item.detail?.traceLogTypeCode == 'Phone'"></i>
@@ -96,7 +99,7 @@
               *ngFor="let pic of item?.detail?.traceLogItems"
               style="float: left; margin: 0 8px 8px 0; padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;"
             >
-              <img (click)="handlePreview(pic)" [src]="getImgUrl(pic)" alt="" />
+              <img (click)="handlePreview(pic)" [src]="getImgUrl(pic)" alt=""/>
             </div>
           </div>
         </div>
@@ -116,8 +119,9 @@
   </div>
 </section>
 
-<nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+<nz-modal [nzVisible]="previewVisible" [nzWidth]="1000" [nzContent]="modalContent" [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false">
   <ng-template #modalContent>
-    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
   </ng-template>
 </nz-modal>
