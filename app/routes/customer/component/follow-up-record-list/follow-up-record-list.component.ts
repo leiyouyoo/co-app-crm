@@ -14,11 +14,22 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @Input() index;
   traceLogList = [];
   param: any;
+  offsetDay = 0;
   downLoadUrl = CoConfigManager.getValue('downloadUrl');
   previewImage: string | undefined = '';
   previewVisible = false;
   logLoading = false;
   refreshLogLoading = false;
+  visible: boolean = false;
+  allChecked = true;
+  indeterminate = false;
+  checkOptionsOne = [
+    { label: '电子邮件', value: 5, checked: true },
+    { label: '跟进记录', value: 3, checked: true },
+    { label: '日程', value: 4, checked: true },
+    { label: '事件', value: 2, checked: true },
+    { label: '团队成员', value: 1, checked: true },
+  ];
 
   constructor(
     injector: Injector,
@@ -32,7 +43,8 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.param = {
       customerId: this.customerId,
       searchKey: null,
-      businessType: 0,
+      offsetDay: 0,
+      businessTypes: [0],
       maxResultCount: 10,
       skipCount: 0,
       totalCount: 0,
@@ -111,12 +123,85 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.traceLogList = [];
     this.getCustomerOperationEvent();
     this.scheduleList.param.searchText = this.param.searchKey;
+    this.scheduleList.param.offsetDay = this.param.offsetDay;
     this.scheduleList.getAllScheduleForCrm();
+  }
+
+  get  getBusinessType(){
+    debugger
+   return this.param.businessTypes.some((e) => e == 4);
   }
 
   showAll() {
     this.$navigate(['/crm/customers/followuprecord', this.customerId], {
       queryParams: { _title: this.$L('Follow up record') },
     });
+  }
+
+  updateAllChecked(): void {
+    this.indeterminate = false;
+    if (this.allChecked) {
+      this.checkOptionsOne = this.checkOptionsOne.map((item) => {
+        return {
+          ...item,
+          checked: true,
+        };
+      });
+    } else {
+      this.checkOptionsOne = this.checkOptionsOne.map((item) => {
+        return {
+          ...item,
+          checked: false,
+        };
+      });
+    }
+  }
+
+  updateSingleChecked(): void {
+    if (this.checkOptionsOne.every((item) => !item.checked)) {
+      this.allChecked = false;
+      this.indeterminate = false;
+    } else if (this.checkOptionsOne.every((item) => item.checked)) {
+      this.allChecked = true;
+      this.indeterminate = false;
+    } else {
+      this.allChecked = false;
+      this.indeterminate = true;
+    }
+  }
+
+  cancel() {
+    this.visible = false;
+    this.offsetDay = this.param.offsetDay;
+    if (this.param.businessTypes.some((e) => e == 0)) {
+      this.checkOptionsOne.forEach((e) => (e.checked = true));
+    } else {
+      this.checkOptionsOne.forEach((ele) => {
+        ele.checked = false;
+      });
+      this.param.businessTypes.forEach((e) => {
+        this.checkOptionsOne.forEach((ele) => {
+          if (e == ele.value) {
+            ele.checked = true;
+          }
+        });
+      });
+    }
+    this.updateSingleChecked();
+  }
+
+  apply() {
+    this.param.offsetDay = this.offsetDay;
+    if (this.checkOptionsOne.every(e => !e.checked)) {
+      this.allChecked = true;
+      this.updateAllChecked();
+    }
+    if (this.allChecked) {
+      this.param.businessTypes = [0];
+    } else {
+      this.param.businessTypes = this.checkOptionsOne.filter((e) => e.checked).map((e) => e.value);
+    }
+    this.visible = false;
+    this.searchLog();
   }
 }

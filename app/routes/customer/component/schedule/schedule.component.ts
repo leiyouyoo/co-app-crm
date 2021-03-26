@@ -70,6 +70,12 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
     });
   }
 
+  onSearch(e) {
+    this.ssoUserService.getCityOceanUsers({ name: e }).subscribe((res: any) => {
+      this.listOfOption = res.items;
+    });
+  }
+
   validForm(form) {
     for (const key in form.controls) {
       const control = form.controls[key] as AbstractControl;
@@ -96,6 +102,7 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
       (r) => {
         this.loading = false;
         this.$message.success(this.$L('Publish success'));
+        this.validateForm.reset();
         this.cancel();
         this.onSuccess.emit(true);
       },

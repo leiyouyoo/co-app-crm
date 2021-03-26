@@ -296,6 +296,13 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     return differenceInCalendarDays(current, this.today) > 0;
   };
 
+    /**
+   * 发布日程回调
+   */
+     onScheduleSuccess(e) {
+      debugger;
+      e && this.recordList.scheduleList.getAllScheduleForCrm();
+    }
   /**
    * 获取统计信息
    */

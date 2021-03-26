@@ -159,7 +159,7 @@
         <!--    全称(英文)-->
         <div nz-col class="gutter-row" [nzSpan]="11">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Full name' | translate }}</nz-form-label>
+            <nz-form-label nzRequired>{{ 'Full name' | translate }}({{"English" | translate}})</nz-form-label>
             <nz-form-control nzValidatingTip="{{ 'Checking...' | translate }}" [nzErrorTip]="customerErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl">
                 <input
@@ -239,7 +239,7 @@
         <!--        简称(英文)-->
         <div nz-col class="gutter-row" [nzSpan]="11">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Abbreviation' | translate }}</nz-form-label>
+            <nz-form-label nzRequired>{{ 'Abbreviation' | translate }}({{"English" | translate}})</nz-form-label>
             <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl2">
                 <input
