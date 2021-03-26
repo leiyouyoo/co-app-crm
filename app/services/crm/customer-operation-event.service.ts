@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMPagedResultDto1,CRMCustomerOperationEventDto,CRMCreateInput } from './crm.types';
+import { CRMGetAllInput,CRMPagedResultDto1,CRMCustomerOperationEventDto,CRMCreateInput } from './crm.types';
 
 @BaseUrl('/CRM/CustomerOperationEvent')
 @Injectable({ providedIn: 'root' })
@@ -13,13 +13,13 @@ export class CRMCustomerOperationEventService extends BaseApi {
   
     /**
      * @param url /CRM/CustomerOperationEvent/GetAll
-     * 暂无备注
+     * 获取操作事件列表
      */
 
-    @GET('GetAll')
+    @POST('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,searchKey?:string,businessType?:number,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req:CRMGetAllInput
 
     ): Observable<CRMPagedResultDto1<CRMCustomerOperationEventDto>> {
         return null as any
@@ -28,7 +28,7 @@ export class CRMCustomerOperationEventService extends BaseApi {
 
     /**
      * @param url /CRM/CustomerOperationEvent/Create
-     * 暂无备注
+     * 创建操作事件
      */
 
     @POST('Create')
