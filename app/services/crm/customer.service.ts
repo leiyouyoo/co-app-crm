@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMCustomerChangePhoneInput,CRMChangePhoneDetailDto,CRMCustomerChangePhoneApprovalInput,CRMRelationCustomerInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCheckRepeatNameInput,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMCustomerChangePhoneInput,CRMChangePhoneDetailDto,CRMCustomerChangePhoneApprovalInput,CRMQueryConnectionCustomersInput,CRMRelationCustomerInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCheckRepeatNameInput,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -1002,8 +1002,23 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/GetAllConnectionCustomers
+     * 获取客户组织结构列表（关联客户）
+     */
+
+    @POST('GetAllConnectionCustomers')
+    getAllConnectionCustomers(
+        @Payload
+        _req:CRMQueryConnectionCustomersInput
+
+    ): Observable<CRMPagedResultDto1<CRMCustomerListDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/RelationCustomer
-     * 暂无备注
+     * 关联客户关联关系
      */
 
     @POST('RelationCustomer')
@@ -1018,13 +1033,13 @@ export class CRMCustomerService extends BaseApi {
 
     /**
      * @param url /CRM/Customer/DeleteRelationCustomer
-     * 暂无备注
+     * 删除客户关联关系
      */
 
     @DELETE('DeleteRelationCustomer')
     deleteRelationCustomer(
         @Payload
-        _req: {mainCustomerId?:string,relationCustomerId?:string,id?:string} 
+        _req: {sourceCustomerId?:string,deleteCustomerId?:string} 
 
     ): Observable<any> {
         return null as any

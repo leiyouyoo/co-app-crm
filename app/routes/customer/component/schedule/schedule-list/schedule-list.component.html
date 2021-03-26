@@ -1,4 +1,5 @@
 <div class="schedule">
+  <nz-empty *ngIf="scheduleList.length == 0" nzNotFoundImage="simple"></nz-empty>
   <div class="schedule__content" *ngFor="let item of scheduleList">
     <nz-spin [nzSpinning]="item.loading">
       <h5>

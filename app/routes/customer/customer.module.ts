@@ -8,6 +8,7 @@ import { CustomerIndexComponent } from './customer-index.component';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { TransactedCustomersComponent } from './component/customer-list/transacted-customers/transacted-customers.component';
@@ -89,6 +90,7 @@ const COMPONENTS_NOROUNT = [
     NzAnchorModule,
     NzNoAnimationModule,
     NetworkSharedModule,
+    NzEmptyModule
   ],
   declarations: [
     ...COMPONENTS_NOROUNT,

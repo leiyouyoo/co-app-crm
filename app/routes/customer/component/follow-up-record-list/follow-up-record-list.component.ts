@@ -13,15 +13,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @Input() customerId;
   @Input() index;
   traceLogList = [];
-  param = {
-    customerId: this.customerId,
-    searchKey: null,
-    offsetDay: 0,
-    businessTypes: [0],
-    maxResultCount: 10,
-    skipCount: 0,
-    totalCount: 0,
-  };
+  param: any;
   offsetDay = 0;
   downLoadUrl = CoConfigManager.getValue('downloadUrl');
   previewImage: string | undefined = '';
@@ -48,6 +40,15 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   ngOnInit(): void {
+    this.param = {
+      customerId: this.customerId,
+      searchKey: null,
+      offsetDay: 0,
+      businessTypes: [0],
+      maxResultCount: 10,
+      skipCount: 0,
+      totalCount: 0,
+    };
     this.getCustomerOperationEvent();
   }
 
@@ -191,6 +192,10 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
 
   apply() {
     this.param.offsetDay = this.offsetDay;
+    if (this.checkOptionsOne.every(e => !e.checked)) {
+      this.allChecked = true;
+      this.updateAllChecked();
+    }
     if (this.allChecked) {
       this.param.businessTypes = [0];
     } else {
