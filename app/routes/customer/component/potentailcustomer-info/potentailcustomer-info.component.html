@@ -288,6 +288,10 @@
                     [customerId]="customerId"
                   ></crm-follow-up-record>
                 </nz-tab>
+
+                <nz-tab [nzTitle]="'日程' | translate">
+                  <crm-schedule (onSuccess)="onScheduleSuccess($event)" [customerId]="customerId"></crm-schedule>
+                </nz-tab>
               </nz-tabset>
               <crm-follow-up-record-list
                 style="overflow: hidden;"
