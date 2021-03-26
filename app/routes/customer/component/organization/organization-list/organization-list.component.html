@@ -1,9 +1,9 @@
 <co-page-layout>
   <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
     <co-toolbar [coMarginRight]='20'>
-      <co-toolbar-item>关联公司:&nbsp;</co-toolbar-item>
+      <co-toolbar-item>{{ 'Related company' | translate }}:&nbsp;</co-toolbar-item>
       <co-toolbar-item [coWidth]='600'>
-        <ng-template #tagPlaceHolder let-selectedList> and {{ selectedList.length }} more selected </ng-template>
+        <ng-template #tagPlaceHolder let-selectedList>+{{ selectedList.length }}</ng-template>
         <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode='multiple' (nzOnSearch)='search($event)' [(ngModel)]='selectCustomers' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="tagPlaceHolder" nzPlaceHolder="{{ 'Please select' | translate }}">
           <nz-option *ngIf="customerLoading | async" nzDisabled nzCustomContent>
             <i nz-icon nzType="loading" class="loading-icon"></i> {{ 'Loading Data...' | translate }}
@@ -12,7 +12,7 @@
         </nz-select>
       </co-toolbar-item>
       <co-toolbar-item>
-        <button nz-button [disabled]='selectCustomers.length < 1' (click)='add()'>添加</button>
+        <button nz-button [disabled]='selectCustomers.length < 1' (click)='add()'>{{ 'Add' | translate }}</button>
       </co-toolbar-item>
     </co-toolbar>
 

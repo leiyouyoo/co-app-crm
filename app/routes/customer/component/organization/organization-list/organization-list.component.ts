@@ -10,7 +10,7 @@ import { debounce, map, shareReplay, switchMap, take, tap } from 'rxjs/operators
 import { CRMCustomerListDto, CRMCustomerService, CRMQueryConnectionCustomerDto } from '../../../../../services/crm';
 
 interface QueryParam {
-  contactId?: string;
+  customerId?: string;
 }
 
 @Component({
@@ -33,37 +33,37 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
 
   readonly columns: STColumn[] = [
     {
-      title: '公司名称',
+      title: this.$L('CompanyName'),
       render: 'name',
       width: 100
     },
     {
-      title: '国家-省',
+      title: this.$L('Location name'),
       render: 'location',
       width: 100
     },
     {
-      title: '客户所有人',
+      title: this.$L('Owner'),
       render: 'people',
       width: 100
     },
     {
-      title: '号码',
+      title: this.$L('Phone'),
       render: 'number',
       width: 100
     },
     {
-      title: '首次出货时间',
+      title: this.$L('First shipment time'),
       render: 'time',
       width: 100
     },
     {
-      title: '操作',
+      title: this.$L('Operating'),
       type: 'action',
       width: 100,
       buttons: [
         {
-          text: '删除',
+          text: this.$L('Delete'),
           type: 'delay',
           click: record => {
             return this.remove(record).then(() => ({
@@ -83,14 +83,13 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super(injector);
-    this.queryParam = this.activatedRoute.queryParamMap.pipe(
+    this.queryParam = this.activatedRoute.paramMap.pipe(
       map(m => {
         const q: QueryParam = {};
 
-        // if (m.has('contact_id')){
-        //   q.contactId = m.get('contact_id');
-        // }
-        q.contactId = 'f6453048-deb0-4ae8-a4bc-d8ed72ee2b11';
+        if (m.has('customer_id')){
+          q.customerId = m.get('customer_id');
+        }
 
         return q;
       }),
@@ -124,7 +123,7 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
         switchMap(() => {
           this.connectionCustomersLoading.next(true);
           return this.crmCustomerService.getAllConnectionCustomers({
-            sourceCustomerId: query.contactId,
+            sourceCustomerId: query.customerId,
             maxResultCount: this.maxTotal
           });
         })
@@ -154,11 +153,11 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
   }
 
   add(): void{
-    this.nzMessageService.loading('添加中');
+    this.nzMessageService.loading(this.$L('Processing'));
     this.queryParam.pipe(
       take(1),
       switchMap(query => this.crmCustomerService.relationCustomer({
-        mainCustomerId: query.contactId,
+        mainCustomerId: query.customerId,
         relationCustomerIds: this.selectCustomers
       }))
     ).subscribe(() => {
@@ -166,20 +165,20 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
       this.changeDetectorRef.detectChanges();
       this.reloadConnectionCustomers$.next();
       this.nzMessageService.remove();
-      this.nzMessageService.success('添加成功');
+      this.nzMessageService.success(this.$L('New success'));
     });
   }
 
   remove(item: CRMCustomerListDto): Promise<any>{
-    this.nzMessageService.loading('删除中');
+    this.nzMessageService.loading(this.$L('Processing'));
     return this.queryParam.pipe(
       take(1),
       switchMap(query => this.crmCustomerService.deleteRelationCustomer({
-        sourceCustomerId: query.contactId,
+        sourceCustomerId: query.customerId,
         deleteCustomerId: item.id
       })),
       tap(() => {
-        this.nzMessageService.success('删除成功');
+        this.nzMessageService.success(this.$L('Delete success'));
       })
     ).toPromise();
   }

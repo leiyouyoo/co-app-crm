@@ -40,8 +40,12 @@ const routes: Routes = [
     },
   },
   {
-    path: 'organization',
-    component: OrganizationListComponent
+    path: 'organization/:customer_id',
+    component: OrganizationListComponent,
+    data: {
+      titleI18n: 'crm:organization',
+      reuse: true,
+    },
   },
 ];
 

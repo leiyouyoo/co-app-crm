@@ -203,4 +203,12 @@ export class PotentailcustomerDetailComponent extends CoPageBase {
     // let hegiht = document.getElementById('demo' + data).offsetTop;
     // document.getElementsByClassName('head')[0].scrollTo(0, hegiht - 120);
   }
+
+  openOrganization(): void{
+    this.$navigate(['/crm', 'customers', 'organization', this.customerInfo.id], {
+      queryParams: {
+        _title: this.$L('Organization structure')
+      }
+    });
+  }
 }
