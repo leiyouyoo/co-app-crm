@@ -1,6 +1,7 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CoConfigManager, CoPageBase } from '@co/core';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
+import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -8,7 +9,9 @@ import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../.
   styleUrls: ['./follow-up-record-list.component.less'],
 })
 export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
+  @ViewChild(ScheduleListComponent, { static: false }) scheduleList: ScheduleListComponent;
   @Input() customerId;
+  @Input() index;
   traceLogList = [];
   param: any;
   offsetDay = 0;
@@ -28,8 +31,11 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     { label: '团队成员', value: 1, checked: true },
   ];
 
-  constructor(injector: Injector, private crmCustomerOperationEventService: CRMCustomerOperationEventService,
-              private crmTraceLogService: CRMTraceLogService) {
+  constructor(
+    injector: Injector,
+    private crmCustomerOperationEventService: CRMCustomerOperationEventService,
+    private crmTraceLogService: CRMTraceLogService,
+  ) {
     super(injector);
   }
 
@@ -46,7 +52,6 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.getCustomerOperationEvent();
   }
 
-
   /**
    * 获取跟进记录详情
    */
@@ -56,30 +61,36 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
       return;
     }
     item.loading = true;
-    this.crmTraceLogService.get({ id: item.businessId }).subscribe(r => {
-      item.loading = false;
-      item.detail = r;
-    }, e => item.loading = false);
+    this.crmTraceLogService.get({ id: item.businessId }).subscribe(
+      (r) => {
+        item.loading = false;
+        item.detail = r;
+      },
+      (e) => (item.loading = false),
+    );
   }
 
   /**
    * 获取跟进记录
    */
   getCustomerOperationEvent(isNext = false) {
-    this.crmCustomerOperationEventService.getAll(this.param).subscribe(r => {
-      if (isNext) {
-        this.traceLogList = this.traceLogList.concat(r.items);
-      } else {
-        this.traceLogList = r.items;
-      }
-      this.logLoading = false;
-      this.refreshLogLoading = false;
-      this.param.totalCount = r.totalCount;
-      console.log(this.traceLogList);
-    }, e => {
-      this.logLoading = false;
-      this.refreshLogLoading = false;
-    });
+    this.crmCustomerOperationEventService.getAll(this.param).subscribe(
+      (r) => {
+        if (isNext) {
+          this.traceLogList = this.traceLogList.concat(r.items);
+        } else {
+          this.traceLogList = r.items;
+        }
+        this.logLoading = false;
+        this.refreshLogLoading = false;
+        this.param.totalCount = r.totalCount;
+        console.log(this.traceLogList);
+      },
+      (e) => {
+        this.logLoading = false;
+        this.refreshLogLoading = false;
+      },
+    );
   }
 
   getImgUrl(pic: any) {
@@ -111,6 +122,8 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.param.totalCount = 0;
     this.traceLogList = [];
     this.getCustomerOperationEvent();
+    this.scheduleList.param.searchText = this.param.searchKey;
+    this.scheduleList.getAllScheduleForCrm();
   }
 
   showAll() {

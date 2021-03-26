@@ -167,7 +167,11 @@
 
       <div nz-col class="gutter-row" [nzSpan]="8" style="height: 100%; background: #fff;">
         <div style="display: flex; flex-direction: column; height: 100%; padding-left: 16px; background: #fff;">
-          <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false">
+          <nz-tabset
+            [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }"
+            nzAnimated="false"
+            (nzSelectedIndexChange)="selectedIndexChange($event)"
+          >
             <nz-tab [nzTitle]="'Follow up record' | translate">
               <crm-follow-up-record
                 (onExpand)="onExpand($event)"
@@ -176,13 +180,14 @@
               ></crm-follow-up-record>
             </nz-tab>
             <nz-tab [nzTitle]="'日程' | translate">
-              <crm-schedule></crm-schedule>
+              <crm-schedule (onSuccess)="onScheduleSuccess($event)" [customerId]="customerId"></crm-schedule>
             </nz-tab>
           </nz-tabset>
           <crm-follow-up-record-list
             style="overflow: hidden;"
             [ngStyle]="{ flex: recordExpand ? '1' : 'unset', height: recordExpand ? '50%' : 'auto' }"
             [customerId]="customerId"
+            [index]="index"
             #recordList
           ></crm-follow-up-record-list>
         </div>

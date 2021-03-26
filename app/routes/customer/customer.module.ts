@@ -43,6 +43,7 @@ import { AttachmentListComponent } from './component/attachment-list/attachment-
 import { AttachmentTypeComponent } from './component/attachment-list/attachment-type/attachment-type.component';
 import { ApplyChangePhoneComponent } from './component/apply-change-phone/apply-change-phone.component';
 import { ScheduleComponent } from './component/schedule/schedule.component';
+import { ScheduleListComponent } from './component/schedule/schedule-list/schedule-list.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -65,6 +66,7 @@ const NEWCOMPONENTS = [
   InvoiceDetailComponent,
   AttachmentListComponent,
   ScheduleComponent,
+  ScheduleListComponent,
 ];
 
 const COMPONENTS_NOROUNT = [
@@ -102,6 +104,7 @@ const COMPONENTS_NOROUNT = [
     FollowUpRecordListComponent,
     ApplyChangePhoneComponent,
     ScheduleComponent,
+    ScheduleListComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
