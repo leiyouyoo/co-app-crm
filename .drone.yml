@@ -1,0 +1,143 @@
+---
+kind: pipeline
+name: crm-publish
+type: kubernetes
+
+clone: 
+  disable: true
+
+steps:
+  - name: clone
+    image: alpine/git
+    commands:
+      - echo '192.168.4.63 gitlab.cityocean.com'>>/etc/hosts
+      - git init
+      - git remote add origin ${DRONE_GIT_HTTP_URL}
+      - git fetch origin +refs/tags/${DRONE_TAG}
+      - git checkout -qf FETCH_HEAD
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+  - name: code-analysis
+    image: aosapps/drone-sonar-plugin
+    commands:
+      - echo 'begin scan'
+      - sonar-scanner -Dsonar.projectBaseDir=. -Dproject.settings=./sonar-project.properties
+    settings:
+      sonar_host: http://sonar.cityocean.com/
+      sonar_token:
+        from_secret: sonar
+  - name: build-package
+    image: node:latest
+    commands:
+      - npm install --legacy-peer-deps --registry=http://npm.dev.com 
+      - npm run build:crm:prod  
+  - name: ftp-upload-dev
+    image: cschlosser/drone-ftps
+    environment:
+      FTP_USERNAME: co
+      FTP_PASSWORD:
+        from_secret: ftp-pwd-dev
+      PLUGIN_HOSTNAME: 192.168.4.42:21
+      PLUGIN_SECURE: false
+      PLUGIN_VERIFY: false
+      PLUGIN_CHMOD: false
+      PLUGIN_DEST_DIR: /
+      PLUGIN_SRC_DIR: /dist/crm
+    when:
+      ref:
+      - refs/tags/*-alpha
+  - name: ftp-upload-test
+    image: cschlosser/drone-ftps
+    environment:
+      FTP_USERNAME: co
+      FTP_PASSWORD:
+        from_secret: ftp-pwd-test
+      PLUGIN_HOSTNAME: 192.168.4.62:21
+      PLUGIN_SECURE: false
+      PLUGIN_VERIFY: false
+      PLUGIN_CHMOD: false
+      PLUGIN_DEST_DIR: /
+      PLUGIN_SRC_DIR: /dist/crm
+      #PLUGIN_EXCLUDE: ^\.git/$
+    when:
+      ref:
+      - refs/tags/*-beta
+  - name: ftp-upload-prod
+    image: cschlosser/drone-ftps
+    environment:
+      FTP_USERNAME: devops
+      FTP_PASSWORD:
+        from_secret: ftp-pwd-prd
+      PLUGIN_HOSTNAME: 47.107.133.59:20009
+      PLUGIN_SECURE: false
+      PLUGIN_VERIFY: false
+      PLUGIN_CHMOD: false
+      PLUGIN_DEST_DIR: /CO.Web_ICP/apps/crm
+      PLUGIN_SRC_DIR: /dist/crm
+      #PLUGIN_EXCLUDE: ^\.git/$
+    when:
+      ref:
+      - refs/tags/*-release
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+  - name: notify-deploy-dev
+    image: reg.cityocean.com/library/webhook
+    settings:
+      url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=cf411112-5e02-4fb4-ba05-6dc778c15967
+      method: get
+      body: |
+         {"msgtype": "markdown", "markdown": {"content": "### 发布(<font color=\"warning\">${DRONE_REPO_NAME}</font>)   \n >**环境**: <font color=\"info\">开发环境</font> \n >**发布人**: <font color=\"info\">${CI_COMMIT_AUTHOR}</font> \n  >**状态**: <font color=\"info\">${DRONE_STAGE_STATUS}</font> \n >**日志**: ${DRONE_BUILD_LINK}"}}
+    when:
+      ref:
+      - refs/tags/*-alpha
+    status:
+      - failure
+      - success
+  - name: notify-deploy-test
+    image: reg.cityocean.com/library/webhook
+    settings:
+      url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=cf411112-5e02-4fb4-ba05-6dc778c15967
+      method: get
+      body: |
+        {"msgtype": "markdown", "markdown": {"content": "### 发布(<font color=\"warning\">${DRONE_REPO_NAME}</font>)   \n >**环境**: <font color=\"info\">测试环境</font> \n >**发布人**: <font color=\"info\">${CI_COMMIT_AUTHOR}</font> \n  >**状态**: <font color=\"info\">${DRONE_STAGE_STATUS}</font> \n >**日志**: ${DRONE_BUILD_LINK}"}}
+    when:
+      ref:
+      - refs/tags/*-beta
+      status:
+      - failure
+      - success
+  - name: notify-deploy-prd
+    image: reg.cityocean.com/library/webhook
+    settings:
+      url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=cf411112-5e02-4fb4-ba05-6dc778c15967
+      method: get
+      body: |
+        {"msgtype": "markdown", "markdown": {"content": "### 发布(<font color=\"warning\">${DRONE_REPO_NAME}</font>)   \n >**环境**: <font color=\"info\">生产环境</font> \n >**发布人**: <font color=\"info\">${CI_COMMIT_AUTHOR}</font> \n  >**状态**: <font color=\"info\">${DRONE_STAGE_STATUS}</font> \n >**日志**: ${DRONE_BUILD_LINK}"}}
+    when:
+      ref:
+      - refs/tags/*-release
+      status:
+      - failure
+      - success
+volumes:
+  - name: cache
+    host: 
+      path: /home/cache
+trigger:
+  event:
+  - tag
+
