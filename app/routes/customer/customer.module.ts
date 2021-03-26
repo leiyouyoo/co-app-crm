@@ -3,6 +3,7 @@ import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { SharedModule } from '../../shared';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CustomerPartnerComponent } from './component/customer-partner/customer-partner.component';
 import { PartnerBindCustomerComponent } from './component/customer-partner/partner-bind-customer/partner-bind-customer.component';
 import { CustomerIndexComponent } from './customer-index.component';
@@ -92,6 +93,7 @@ const COMPONENTS_NOROUNT = [
     NzAnchorModule,
     NzNoAnimationModule,
     NetworkSharedModule,
+    NzEmptyModule
   ],
   declarations: [
     ...COMPONENTS_NOROUNT,
