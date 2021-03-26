@@ -8,11 +8,57 @@
     <ng-template #suffixIconSearch>
       <i nz-icon (click)="searchLog()" nzType="search"></i>
     </ng-template>
-    <button [nzLoading]="refreshLogLoading" (click)="refreshLogLoading=true;param.searchKey=null;searchLog()"
-            nz-button nzSize="small"
-            nzType="default">{{ 'Refresh' | translate }}</button>
-    <button (click)="showAll()" nz-button nzSize="small"
-            nzType="default">{{ '查看全部' | translate }}</button>
+    <div>
+      <button [nzLoading]="refreshLogLoading" (click)="refreshLogLoading=true;param.searchKey=null;searchLog()"
+              nz-button nzSize="small"
+              nzType="default">{{ 'Refresh' | translate }}</button>
+      <button (click)="showAll()" nz-button nzSize="small"
+              nzType="default">{{ '查看全部' | translate }}</button>
+    </div>
+    <div class="search_area__filter">
+      <ng-container [ngSwitch]="param.offsetDay">
+        <span *ngSwitchCase="0">全部日期</span>
+        <span *ngSwitchCase="-7">过去7天</span>
+        <span *ngSwitchCase="-30">过去30天</span>
+        <span *ngSwitchCase="7">未来7天</span>
+      </ng-container>
+      <ng-container *ngIf="param.businessType[0]==0">
+        <span>全部活动</span>
+      </ng-container>
+      <ng-container *ngFor="let i of param.businessType">
+        <ng-container [ngSwitch]="i">
+          <span *ngSwitchCase="1">团队成员</span>
+          <span *ngSwitchCase="2">事件</span>
+          <span *ngSwitchCase="3">跟进记录</span>
+          <span *ngSwitchCase="4">日程</span>
+          <span *ngSwitchCase="5">电子邮件</span>
+        </ng-container>
+      </ng-container>
+      <i nz-popover
+         [(nzPopoverVisible)]="visible"
+         nzPopoverTrigger="click"
+         [nzPopoverContent]="contentTemplate" nz-icon nzType="filter" nzTheme="outline"></i>
+      <ng-template #contentTemplate>
+        <h5>日期范围</h5>
+        <nz-radio-group [(ngModel)]="offsetDay">
+          <label nz-radio [nzValue]="0">全部</label>
+          <label nz-radio [nzValue]="-7">过去7天</label>
+          <label nz-radio [nzValue]="-30">过去30天</label>
+          <label nz-radio [nzValue]="7">未来7天</label>
+        </nz-radio-group>
+        <h5>活动类型</h5>
+        <div>
+          <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()"
+                 [nzIndeterminate]="indeterminate">全部</label>
+          <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
+        </div>
+        <div class="search_area__filter__button">
+          <button nz-button (click)="cancel()" nzSize="small" nzType="default">{{ '取消' | translate }}</button>
+          <button (click)="apply()" nz-button nzSize="small" nzType="primary">{{ '应用' | translate }}</button>
+        </div>
+      </ng-template>
+
+    </div>
   </div>
   <div class="event_log" style="overflow: auto;height: calc(100% - 24px);">
     <div class="event_log__content" *ngFor="let item of traceLogList">
