@@ -3633,6 +3633,46 @@
     }
  
     /**
+     * 客户关联客户列表查询 组织结构
+     */
+    export class CRMQueryConnectionCustomersInput {
+        [key:string]: any;
+        
+         
+            /* 源客户id */ 
+            sourceCustomerId?: string;
+         
+            /* 是否带出税务信息 */ 
+            includeTaxes?: boolean;
+         
+            /* 是否带出联系人集合 */ 
+            includeContacts?: boolean;
+         
+            /* 是否带出共享人 */ 
+            includeShareOwner?: boolean;
+         
+            /* 是否加载SSO用户信息 */ 
+            loadUser?: boolean;
+         
+            /* 带出的联系人是否开通CSP账号 */ 
+            isUserContact?: boolean;
+         
+            /* 是否获取所有用户 默认获取已经删除客户 */ 
+            isAll?: boolean;
+         
+            
+            sorting?: string;
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
      *  No Remark 
      */
     export class CRMRelationCustomerInput {
@@ -4478,6 +4518,37 @@
     }
  
     /**
+     * 获取活动记录列表输入对象
+     */
+    export class CRMGetAllInput {
+        [key:string]: any;
+        
+         
+            /* 客户Id必传 */ 
+            customerId: string;
+         
+            /* 搜索关键词 */ 
+            searchKey?: string;
+         
+            /* 偏移天数 */ 
+            offsetDay?: number;
+         
+            /* 业务类型 */ 
+            businessTypes?: any[];
+         
+            
+            sorting?: string;
+         
+            
+            maxResultCount?: number;
+         
+            
+            skipCount?: number;
+        
+        
+    }
+ 
+    /**
      *  No Remark 
      */
     export class CRMCustomerOperationEventDto {
@@ -4921,8 +4992,7 @@
             /* 
 0 = NotSet
 1 = General
-2 = FBA
-3 = FBM */ 
+2 = ECommerce */ 
             tradeType?: number;
          
             
@@ -6569,8 +6639,7 @@
             /* 贸易类型(单选取字典)
 0 = NotSet
 1 = General
-2 = FBA
-3 = FBM */ 
+2 = ECommerce */ 
             tradeType?: number;
          
             /* 运输条款
@@ -6620,6 +6689,28 @@
             /* 是否清关 */ 
             isClearance?: boolean;
          
+            /* 渠道 */ 
+            channelId?: string;
+         
+            /* 上门取件方式, 客户自送、Cityocean上门取件
+0 = NotSet
+1 = DeliveryGoodsByMyself
+2 = PickUpByCityocean */ 
+            fbaPickUpMethodType?: number;
+         
+            /* 交货方式
+0 = FBA
+1 = Overseas
+2 = Customer
+3 = LAZADA */ 
+            fbaDeliveryMethodType?: number;
+         
+            /* 起始仓库地址 */ 
+            originWarehouseId?: string;
+         
+            /* 送货地国家Id */ 
+            countryId?: string;
+         
             /* 是否处理税收(仅针对FBA) */ 
             isTaxIncluded?: boolean;
          
@@ -6654,6 +6745,12 @@
 0 = Imperial
 1 = Metric */ 
             unitConvertType?: number;
+         
+            /* 海关编码 */ 
+            hsCodes?: string;
+         
+            /* 品名 */ 
+            commodity?: string;
          
             /* 是否包含特殊品 */ 
             isContainsSpecialGoods?: boolean;
@@ -6701,6 +6798,9 @@
          
             /* 目的港口 */ 
             destinationPort?: CRMPortModel;
+         
+            /* 渠道名称 */ 
+            channelName?: string;
          
             /* 数量显示 */ 
             quantityDisplay?: string;
@@ -7280,6 +7380,24 @@
 4 = ViewExperidQuotes
 5 = ViewRejectedQuotes */ 
             action?: number;
+         
+            /* 渠道 */ 
+            channelId?: string;
+         
+            /* 渠道名称 */ 
+            channelName?: string;
+         
+            /* 海关编码 */ 
+            hsCodes?: string;
+         
+            /* 品名 */ 
+            commodity?: string;
+         
+            /* 创建时间 */ 
+            creationTime?: string;
+         
+            /* 更新时间 */ 
+            lastModificationTime?: string;
          
             /* 运输费用总价 */ 
             totalCharge?: string;
