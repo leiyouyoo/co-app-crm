@@ -275,7 +275,7 @@
           <nz-form-item>
             <nz-form-label>{{ 'Related company' | translate }}</nz-form-label>
             <nz-form-control>
-              <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-orgnization'" class="iconfont icon-orgnization"> </span>
+              <span style="color: #1890ff;cursor: pointer;" nz-icon [nzIconfont]="'icon-orgnization'" class="iconfont icon-orgnization" (click)='openOrganization()'></span>
 
               <!-- <ng-container *ngIf="validateForm.get('relatedCustomers').value?.length > 0; else elserelatedCustomersTemplate">
                 <span *ngFor="let item of validateForm.get('relatedCustomers').value">

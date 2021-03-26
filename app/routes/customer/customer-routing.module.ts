@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CustomerListComponent } from './component/customer-list/customer-list.component';
 import { CustomersInfoComponent } from './component/customers-info/customers-info.component';
-import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 import { FollowUpRecordListComponent } from './component/follow-up-record-list/follow-up-record-list.component';
+import { OrganizationListComponent } from './component/organization/organization-list/organization-list.component';
+import { PotentailcustomerInfoComponent } from './component/potentailcustomer-info/potentailcustomer-info.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,14 @@ const routes: Routes = [
     component: PotentailcustomerInfoComponent,
     data: {
       titleI18n: 'crm:customerdetails',
+      reuse: true,
+    },
+  },
+  {
+    path: 'organization/:customer_id',
+    component: OrganizationListComponent,
+    data: {
+      titleI18n: 'crm:organization',
       reuse: true,
     },
   },
