@@ -21,10 +21,10 @@
         <span *ngSwitchCase="-30">过去30天</span>
         <span *ngSwitchCase="7">未来7天</span>
       </ng-container>
-      <ng-container *ngIf="param.businessType[0]==0">
+      <ng-container *ngIf="param.businessTypes[0]==0">
         <span>全部活动</span>
       </ng-container>
-      <ng-container *ngFor="let i of param.businessType">
+      <ng-container *ngFor="let i of param.businessTypes">
         <ng-container [ngSwitch]="i">
           <span *ngSwitchCase="1">团队成员</span>
           <span *ngSwitchCase="2">事件</span>
@@ -59,10 +59,7 @@
 
     </div>
   </div>
-
-  <div class="event_log" style="height: calc(100% - 24px); overflow: auto;">
-    <crm-schedule-list [hidden]="index != 1" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
-    <div style="height: 32px;"></div>
+  <div class="event_log" style="overflow: auto;height: calc(100% - 62px);">
     <div class="event_log__content" *ngFor="let item of traceLogList">
       <nz-spin [nzSpinning]="item.loading">
         <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
