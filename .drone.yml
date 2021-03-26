@@ -12,6 +12,9 @@ steps:
     commands:
       - echo '192.168.4.63 gitlab.cityocean.com'>>/etc/hosts
       - git init
+      - git clone https://gitlab.cityocean.com/frontend/co-portal-ms.git
+      - cd apps/crm
+      - git init
       - git remote add origin ${DRONE_GIT_HTTP_URL}
       - git fetch origin +refs/tags/${DRONE_TAG}
       - git checkout -qf FETCH_HEAD
