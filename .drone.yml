@@ -12,9 +12,11 @@ steps:
     commands:
       - echo '192.168.4.63 gitlab.cityocean.com'>>/etc/hosts
       - git init
-      - git clone https://gitlab.cityocean.com/frontend/co-portal-ms.git co-portal
-      - mkdir -p co-portal/apps/crm
-      - cd co-portal/apps/crm
+      - git remote add origin https://gitlab.cityocean.com/frontend/co-portal-ms.git
+      - git fetch origin master
+      - git checkout -qf FETCH_HEAD
+      - mkdir -p apps/crm
+      - cd apps/crm
       - git init
       - git remote add origin ${DRONE_GIT_HTTP_URL}
       - git fetch origin +refs/tags/${DRONE_TAG}
@@ -28,7 +30,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./co-portal/node_modules
+        - ./node_modules
   # - name: code-analysis
   #   image: aosapps/drone-sonar-plugin
   #   commands:
@@ -41,7 +43,6 @@ steps:
   - name: build-package
     image: node:latest
     commands:
-      - cd co-portal
       - npm install --legacy-peer-deps --registry=http://npm.dev.com 
       - npm run build:crm:prod  
   - name: ftp-upload-dev
