@@ -12,9 +12,16 @@ steps:
     commands:
       - echo '192.168.4.63 gitlab.cityocean.com'>>/etc/hosts
       - git init
+      - git remote add origin https://gitlab.cityocean.com/frontend/co-portal-ms.git
+      - git fetch origin master
+      - git checkout -qf FETCH_HEAD
+      - mkdir -p apps/crm
+      - cd apps/crm
+      - git init
       - git remote add origin ${DRONE_GIT_HTTP_URL}
       - git fetch origin +refs/tags/${DRONE_TAG}
       - git checkout -qf FETCH_HEAD
+      - cd ../../
   - name: restore-cache
     image: drillster/drone-volume-cache
     volumes:
@@ -49,7 +56,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
     when:
       ref:
       - refs/tags/*-alpha
@@ -64,7 +71,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
       #PLUGIN_EXCLUDE: ^\.git/$
     when:
       ref:
@@ -80,7 +87,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /CO.Web_ICP/apps/crm
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
       #PLUGIN_EXCLUDE: ^\.git/$
     when:
       ref:
