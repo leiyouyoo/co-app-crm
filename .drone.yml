@@ -28,7 +28,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./node_modules
+        - ./co-portal/node_modules
   # - name: code-analysis
   #   image: aosapps/drone-sonar-plugin
   #   commands:
@@ -41,6 +41,7 @@ steps:
   - name: build-package
     image: node:latest
     commands:
+      - cd co-portal
       - npm install --legacy-peer-deps --registry=http://npm.dev.com 
       - npm run build:crm:prod  
   - name: ftp-upload-dev
