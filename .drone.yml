@@ -56,7 +56,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
     when:
       ref:
       - refs/tags/*-alpha
@@ -71,7 +71,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
       #PLUGIN_EXCLUDE: ^\.git/$
     when:
       ref:
@@ -87,7 +87,7 @@ steps:
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
       PLUGIN_DEST_DIR: /CO.Web_ICP/apps/crm
-      PLUGIN_SRC_DIR: /dist/crm
+      PLUGIN_SRC_DIR: /dist/apps/crm
       #PLUGIN_EXCLUDE: ^\.git/$
     when:
       ref:
