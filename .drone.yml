@@ -11,6 +11,7 @@ steps:
     image: alpine/git
     commands:
       - echo '192.168.4.63 gitlab.cityocean.com'>>/etc/hosts
+      - pwd
       - git init
       - git remote add origin https://gitlab.cityocean.com/frontend/co-portal-ms.git
       - git fetch origin master
@@ -22,6 +23,7 @@ steps:
       - git fetch origin +refs/tags/${DRONE_TAG}
       - git checkout -qf FETCH_HEAD
       - cd ../../
+      - pwd
   - name: restore-cache
     image: drillster/drone-volume-cache
     commands:
@@ -45,6 +47,7 @@ steps:
   - name: build-package
     image: node:latest
     commands:
+      - pwd
       - npm install --legacy-peer-deps --registry=http://npm.dev.com 
       - npm run build:crm:prod  
   - name: ftp-upload-dev
