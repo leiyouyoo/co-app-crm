@@ -19,6 +19,7 @@ steps:
       - git remote add origin ${DRONE_GIT_HTTP_URL}
       - git fetch origin +refs/tags/${DRONE_TAG}
       - git checkout -qf FETCH_HEAD
+      - cd ../../
   - name: restore-cache
     image: drillster/drone-volume-cache
     volumes:
