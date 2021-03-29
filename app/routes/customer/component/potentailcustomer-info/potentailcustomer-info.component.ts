@@ -24,6 +24,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   @ViewChild(FollowUpRecordListComponent, { static: false }) recordList: FollowUpRecordListComponent;
   @ViewChild(PotentailcustomerDetailComponent, { static: false }) customerDetail!: PotentailcustomerDetailComponent;
   index = 0;
+  selectIndex=0;
   customerInfo: CRMCustomerDetailDto;
   isLoading = false;
   stepLoading = false;
@@ -285,6 +286,13 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   onRecordSuccess(e) {
     e && this.recordList.getCustomerOperationEvent();
   }
+
+   /**
+   * 右侧tabs选项卡切换事件
+   */
+    selectedIndexChange(e) {
+      this.selectIndex = e;
+    }
 
   onExpand(e) {
     this.recordExpand = e;

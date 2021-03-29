@@ -279,8 +279,13 @@
                 <nz-date-picker nzMode="year" [(ngModel)]="date" nzFormat="yyyy" [nzDisabledDate]="disabledDate"></nz-date-picker>
               </div>
             </div>
+<<<<<<< HEAD
+            <div style="display: flex; flex-direction: column; height: 100%; padding-left: 16px; background: #fff;">
+              <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false"  (nzSelectedIndexChange)="selectedIndexChange($event)">
+=======
             <div style="display: flex; flex-direction: column; height: 100%; background: #fff;">
               <nz-tabset style="padding-left: 16px; " [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false">
+>>>>>>> c569f11b9682cebd761e49a1a8a33855f284aec9
                 <nz-tab [nzTitle]="'Follow up record' | translate">
                   <crm-follow-up-record
                     (onExpand)="onExpand($event)"
@@ -297,6 +302,7 @@
                 style="overflow: hidden;"
                 [ngStyle]="{ flex: recordExpand ? '1' : 'unset', height: recordExpand ? '50%' : 'auto' }"
                 [customerId]="customerId"
+                [index]="selectIndex"
                 #recordList
               ></crm-follow-up-record-list>
             </div>

@@ -128,7 +128,6 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   get  getBusinessType(){
-    debugger
    return this.param.businessTypes.some((e) => e == 4);
   }
 
