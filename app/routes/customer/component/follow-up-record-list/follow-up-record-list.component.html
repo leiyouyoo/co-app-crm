@@ -70,19 +70,18 @@
     </div>
   </div>
   <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
-           style="overflow: auto;height: calc(100% - 62px)!important;">
-    <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
-      <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param"
-                         #scheduleList></crm-schedule-list>
-      <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
-      <div class="event_log__content" *ngFor="let item of traceLogList">
-        <nz-spin [nzSpinning]="item.loading">
-          <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 2">{{ 'Customer information' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 3">{{ 'Follow up record' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 4">{{ 'Schedule' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 5">{{ 'E-mail' | translate }}</h5>
-          <p>
+           style="height: calc(100% - 62px) !important;overflow: auto;">
+  <div class="event_log" style=" height: calc(100% - 62px);overflow: auto;">
+    <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
+    <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
+    <div class="event_log__content" *ngFor="let item of traceLogList">
+      <nz-spin [nzSpinning]="item.loading">
+        <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
+        <h5 *ngIf="item.businessType == 2">{{ 'Customer information' | translate }}</h5>
+        <h5 *ngIf="item.businessType == 3">{{ 'Follow up record' | translate }}</h5>
+        <h5 *ngIf="item.businessType == 4">{{ 'Schedule' | translate }}</h5>
+        <h5 *ngIf="item.businessType == 5">{{ 'E-mail' | translate }}</h5>
+        <p>
           <span (click)="item.businessType == 3 && getLogDetail(item)" class="event_log__content__title">
             <i
               *ngIf="item.businessType == 3"
