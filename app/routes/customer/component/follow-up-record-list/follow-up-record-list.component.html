@@ -70,7 +70,6 @@
     </div>
   </div>
   <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
-<<<<<<< HEAD
            style="height: calc(100% - 62px) !important;overflow: auto;">
   <div class="event_log" style=" height: calc(100% - 62px);overflow: auto;">
     <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
@@ -83,21 +82,6 @@
         <h5 *ngIf="item.businessType == 4">{{ 'Schedule' | translate }}</h5>
         <h5 *ngIf="item.businessType == 5">{{ 'E-mail' | translate }}</h5>
         <p>
-=======
-           style="overflow: auto;height: calc(100% - 62px)!important;">
-    <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
-      <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param"
-                         #scheduleList></crm-schedule-list>
-      <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
-      <div class="event_log__content" *ngFor="let item of traceLogList">
-        <nz-spin [nzSpinning]="item.loading">
-          <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 2">{{ 'Customer information' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 3">{{ 'Follow up record' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 4">{{ 'Schedule' | translate }}</h5>
-          <h5 *ngIf="item.businessType == 5">{{ 'E-mail' | translate }}</h5>
-          <p>
->>>>>>> c569f11b9682cebd761e49a1a8a33855f284aec9
           <span (click)="item.businessType == 3 && getLogDetail(item)" class="event_log__content__title">
             <i
               *ngIf="item.businessType == 3"
@@ -145,21 +129,6 @@
         {{ 'Show More' | translate }}
       </button>
     </div>
-<<<<<<< HEAD
-    <button
-      (click)="getNextLog()"
-      [nzLoading]="logLoading"
-      *ngIf="param.totalCount > traceLogList.length"
-      class="event_log__more"
-      nz-button
-      nzType="text"
-      nzBlock
-    >
-      {{ 'Show More' | translate }}
-    </button>
-    </div>
-=======
->>>>>>> c569f11b9682cebd761e49a1a8a33855f284aec9
   </nz-spin>
 </section>
 
