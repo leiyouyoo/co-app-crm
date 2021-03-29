@@ -165,7 +165,7 @@
                 <input
                   id="name"
                   nz-input
-                  [readonly]="isEdit"
+                  [readonly]="validateForm.get('code').value"
                   (blur)="checkRepeatData('name')"
                   formControlName="name"
                   placeholder="{{ 'Please enter full name' | translate }}"
@@ -176,7 +176,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('name').value && !isEdit"
+                    *ngIf="validateForm.get('name').value && !validateForm.get('code').value"
                     (click)="validateForm.get('name').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -208,7 +208,7 @@
                 <input
                   id="nameLocalization"
                   nz-input
-                  [readonly]="isEdit"
+                  [readonly]="validateForm.get('code').value"
                   formControlName="nameLocalization"
                   (blur)="checkRepeatData('nameLocalization')"
                   placeholder="{{ 'Please enter' | translate }}"
@@ -220,7 +220,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('nameLocalization').value && !isEdit"
+                    *ngIf="validateForm.get('nameLocalization').value && !validateForm.get('code').value"
                     (click)="validateForm.get('nameLocalization').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -243,7 +243,7 @@
             <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl2">
                 <input
-                  [readonly]="isEdit"
+                  [readonly]="validateForm.get('code').value"
                   id="shortName"
                   (blur)="checkRepeatData('shortName')"
                   nz-input
@@ -257,7 +257,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('shortName').value && !isEdit"
+                    *ngIf="validateForm.get('shortName').value && !validateForm.get('code').value"
                     (click)="validateForm.get('shortName').reset(); hide()"
                   ></i
                 ></ng-template>
@@ -287,7 +287,7 @@
             <nz-form-control [nzErrorTip]="shortNameErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl3">
                 <input
-                  [readonly]="isEdit"
+                  [readonly]="validateForm.get('code').value"
                   (blur)="checkRepeatData('shortNameLocalization')"
                   id="shortNameLocalization"
                   nz-input
@@ -301,7 +301,7 @@
                     class="ant-input-clear-icon"
                     nzTheme="fill"
                     nzType="close-circle"
-                    *ngIf="validateForm.get('shortNameLocalization').value && !isEdit"
+                    *ngIf="validateForm.get('shortNameLocalization').value && !validateForm.get('code').value"
                     (click)="validateForm.get('shortNameLocalization').reset(); hide()"
                   ></i
                 ></ng-template>
