@@ -1,0 +1,29 @@
+<co-page-layout>
+  <co-page-main coMinWidth="500px" style="display: flex; flex-direction: column;">
+    <co-toolbar [coMarginRight]='20'>
+      <co-toolbar-item>{{ 'Related company' | translate }}:&nbsp;</co-toolbar-item>
+      <co-toolbar-item [coWidth]='600'>
+        <ng-template #tagPlaceHolder let-selectedList>+{{ selectedList.length }}</ng-template>
+        <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode='multiple' (nzOnSearch)='search($event)' [(ngModel)]='selectCustomers' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="tagPlaceHolder" nzPlaceHolder="{{ 'Please select' | translate }}">
+          <nz-option *ngIf="customerLoading | async" nzDisabled nzCustomContent>
+            <i nz-icon nzType="loading" class="loading-icon"></i> {{ 'Loading Data...' | translate }}
+          </nz-option>
+          <nz-option *ngFor="let item of customers | async" [nzLabel]="item.enName || '' + '(' + item.zhName + ')'" [nzValue]="item.id"></nz-option>
+        </nz-select>
+      </co-toolbar-item>
+      <co-toolbar-item>
+        <button nz-button [disabled]='selectCustomers.length < 1' (click)='add()'>{{ 'Add' | translate }}</button>
+      </co-toolbar-item>
+    </co-toolbar>
+
+    <div class='table'>
+      <co-st virtualScroll calcScroll [showFilters]='false' [columns]='columns' [loading]='connectionCustomersLoading | async' [data]='connectionCustomers | async' style='height: 100%;'>
+        <ng-template st-row='name' let-data>{{ data.name }}</ng-template>
+        <ng-template st-row='location' let-data>{{ data.country + data.province + data.city }}</ng-template>
+        <ng-template st-row='people' let-data>{{ data?.owner || '---' }}</ng-template>
+        <ng-template st-row='number' let-data>{{ data?.contactTel || '---' }}</ng-template>
+        <ng-template st-row='time' let-data>{{ data?.firstTradeTime || '---' }}</ng-template>
+      </co-st>
+    </div>
+  </co-page-main>
+</co-page-layout>
