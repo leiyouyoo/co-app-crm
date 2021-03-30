@@ -1,0 +1,66 @@
+@import '../../../../../styles/variables';
+
+:host{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
+}
+
+.members{
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
+.member{
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-gap: 5px;
+  cursor: pointer;
+  position: relative;
+  margin: 0 10px 10px 0;
+
+  &::before{
+    content: '';
+    width: 12px;
+    height: 12px;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 100px;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    font-size: 6px;
+    line-height: 12px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &.selected::before{
+    content: '✓';
+    color: #ffffff;
+    border-color: @primary-color;
+    background-color: @primary-color;
+  }
+
+  img{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+  }
+
+  p{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    line-height: 17px;
+    font-size: 12px;
+    margin: 0;
+  }
+}

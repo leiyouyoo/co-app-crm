@@ -14,6 +14,7 @@ import { LocationListComponent } from '../location/location-list/location-list.c
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 import { CustomerType } from '../../models/enum';
 import { differenceInCalendarDays } from 'date-fns';
+import { FollowUpRecordComponent } from '../follow-up-record/follow-up-record.component';
 
 @Component({
   selector: 'crm-customers-info',
@@ -34,6 +35,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   date = new Date();
   statisticsInfo: any;
   index = 0;
+
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -214,6 +216,29 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   }
 
   /**
+   * 跟进记录
+   */
+  addFollowUpRecord() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: FollowUpRecordComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSuccess.subscribe((res) => {
+      this.onRecordSuccess(res);
+      modal.destroy();
+    });
+    modal.componentInstance.onExpand.subscribe((res) => {
+      modal.destroy();
+    });
+  }
+
+  /**
    * 新增地址
    */
   addLocation() {
@@ -302,6 +327,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     // Can not select days before today and today
     return differenceInCalendarDays(current, this.today) > 0;
   };
+
   /**
    * 跳转询价
    */
@@ -314,6 +340,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
     });
   }
+
   /**
    * 跳转订单
    */

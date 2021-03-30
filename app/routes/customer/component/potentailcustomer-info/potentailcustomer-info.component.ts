@@ -14,6 +14,7 @@ import { ContactDetailComponent } from '../contact/contact-detail/contact-detail
 import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 import { CustomerType } from '../../models/enum';
 import { differenceInCalendarDays } from 'date-fns';
+import { FollowUpRecordComponent } from '../follow-up-record/follow-up-record.component';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -24,7 +25,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   @ViewChild(FollowUpRecordListComponent, { static: false }) recordList: FollowUpRecordListComponent;
   @ViewChild(PotentailcustomerDetailComponent, { static: false }) customerDetail!: PotentailcustomerDetailComponent;
   index = 0;
-  selectIndex=0;
+  selectIndex = 0;
   customerInfo: CRMCustomerDetailDto;
   isLoading = false;
   stepLoading = false;
@@ -34,6 +35,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   today = new Date();
   date = new Date();
   statisticsInfo: any;
+
   constructor(
     private crmCustomerService: CRMCustomerService,
     private modal: NzModalService,
@@ -237,6 +239,29 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   }
 
   /**
+   * 跟进记录
+   */
+  addFollowUpRecord() {
+    const modal = this.modal.create({
+      nzTitle: this.$L('Add'),
+      nzContent: FollowUpRecordComponent,
+      nzComponentParams: {
+        customerId: this.customerInfo.id,
+      },
+      nzClassName: 'crm-location-detail',
+      nzStyle: { width: '40%' },
+      nzFooter: null,
+    });
+    modal.componentInstance.onSuccess.subscribe((res) => {
+      this.onRecordSuccess(res);
+      modal.destroy();
+    });
+    modal.componentInstance.onExpand.subscribe((res) => {
+      modal.destroy();
+    });
+  }
+
+  /**
    * 新增联系人
    */
   addContact() {
@@ -287,30 +312,33 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     e && this.recordList.getCustomerOperationEvent();
   }
 
-   /**
+  /**
    * 右侧tabs选项卡切换事件
    */
-    selectedIndexChange(e) {
-      this.selectIndex = e;
-    }
+  selectedIndexChange(e) {
+    this.selectIndex = e;
+  }
 
   onExpand(e) {
     this.recordExpand = e;
   }
 
-  onDateChange(e) {}
+  onDateChange(e) {
+  }
+
   disabledDate = (current: Date): boolean => {
     // Can not select days before today and today
     return differenceInCalendarDays(current, this.today) > 0;
   };
 
-    /**
+  /**
    * 发布日程回调
    */
-     onScheduleSuccess(e) {
-      debugger;
-      e && this.recordList.scheduleList.getAllScheduleForCrm();
-    }
+  onScheduleSuccess(e) {
+    debugger;
+    e && this.recordList.scheduleList.getAllScheduleForCrm();
+  }
+
   /**
    * 获取统计信息
    */
@@ -333,6 +361,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
     });
   }
+
   /**
    * 跳转订单
    */
