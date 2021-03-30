@@ -2,7 +2,7 @@
   <div>
     <nz-form-label>选择员工:</nz-form-label>
     <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzMaxTagCount]='1' nzPlaceHolder='选择成员' nzMode='multiple' [(ngModel)]='selected' [nzLoading]='customersLoading | async'>
-      <nz-option *ngFor='let item of customers | async' [nzLabel]='item.userName' [nzValue]='item.id'></nz-option>
+      <nz-option *ngFor='let item of userList | async' [nzLabel]='item.userName' [nzValue]='item.id'></nz-option>
     </nz-select>
   </div>
 
