@@ -181,6 +181,9 @@
             nzAnimated="false"
             (nzSelectedIndexChange)="selectedIndexChange($event)"
           >
+            <nz-tab [nzTitle]="'Email' | translate">
+              <crm-custmormer-email [customerId]="customerId"></crm-custmormer-email>
+            </nz-tab>
             <nz-tab [nzTitle]="'Follow up record' | translate">
               <crm-follow-up-record
                 (onExpand)="onExpand($event)"
@@ -190,6 +193,9 @@
             </nz-tab>
             <nz-tab [nzTitle]="'日程' | translate">
               <crm-schedule (onSuccess)="onScheduleSuccess($event)" [customerId]="customerId"></crm-schedule>
+            </nz-tab>
+            <nz-tab [nzTitle]="'Team members' | translate">
+              <crm-team-members [customerId]="customerId"></crm-team-members>
             </nz-tab>
           </nz-tabset>
           <crm-follow-up-record-list

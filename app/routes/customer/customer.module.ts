@@ -46,7 +46,10 @@ import { MergeCustomerComponent } from './component/merge-customer/merge-custome
 import { OrganizationListComponent } from './component/organization/organization-list/organization-list.component';
 import { ScheduleListComponent } from './component/schedule/schedule-list/schedule-list.component';
 import { ScheduleComponent } from './component/schedule/schedule.component';
+import { TeamMembersComponent } from './component/team-members/team-members.component';
 import { UpdateCustomerNameComponent } from './component/update-customer-name/update-customer-name.component';
+import { AddTeamMembersModalComponent } from './component/add-team-members-modal/add-team-members-modal.component';
+import { CustomerEmailComponent } from './component/customer-email/customer-email.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -110,6 +113,9 @@ const COMPONENTS_NOROUNT = [
     ApplyChangePhoneComponent,
     ScheduleComponent,
     ScheduleListComponent,
+    TeamMembersComponent,
+    AddTeamMembersModalComponent,
+    CustomerEmailComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

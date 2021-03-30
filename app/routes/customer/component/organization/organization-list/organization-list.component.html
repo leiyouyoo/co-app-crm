@@ -17,7 +17,7 @@
     </co-toolbar>
 
     <div class='table'>
-      <co-st virtualScroll calcScroll [showFilters]='false' [columns]='columns' [loading]='connectionCustomersLoading | async' [data]='connectionCustomers | async' style='height: 100%;'>
+      <co-st virtualScroll calcScroll [showFilters]='false' [showCheckbox]='false' [columns]='columns' [loading]='connectionCustomersLoading | async' [data]='connectionCustomers | async' [total]='total | async' (change)='changeTable($event)' [ps]='pageSize | async' [pi]='(pageIndex | async) + 1' style='height: 100%;'>
         <ng-template st-row='name' let-data>{{ data.name }}</ng-template>
         <ng-template st-row='location' let-data>{{ data.country + data.province + data.city }}</ng-template>
         <ng-template st-row='people' let-data>{{ data?.owner || '---' }}</ng-template>
