@@ -11,6 +11,7 @@ export * from './customer-operation-event.service';
 export * from './customer-solution.service';
 export * from './customer-task.service';
 export * from './customer-title.service';
+export * from './email.service';
 export * from './es-query.service';
 export * from './location.service';
 export * from './location-external.service';
