@@ -3,7 +3,6 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { NzUploadFile } from 'ng-zorro-antd/upload/interface';
 import { CoConfigManager, CoPageBase } from '@co/core';
 import { CRMTraceLogService } from '../../../../services/crm';
-import format from 'date-fns/format';
 import { PUBDataDictionaryService } from '../../../../services/pub';
 
 @Component({
