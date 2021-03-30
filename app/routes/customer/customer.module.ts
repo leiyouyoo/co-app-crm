@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CoEditorModule } from '@co/cbc/basic/editor';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
@@ -96,7 +97,8 @@ const COMPONENTS_NOROUNT = [
     NzAnchorModule,
     NzNoAnimationModule,
     NetworkSharedModule,
-    NzEmptyModule
+    NzEmptyModule,
+    CoEditorModule,
   ],
   declarations: [
     ...COMPONENTS_NOROUNT,

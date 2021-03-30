@@ -1,0 +1,36 @@
+@import '../../../../../styles/variables';
+
+:host{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
+  overflow-y: auto;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}
+
+.space{
+  flex: 1 1 auto;
+}
+
+.email-option{
+  display: flex;
+
+  .func{
+    cursor: pointer;
+    color: @primary-color;
+    margin: 0 0 0 10px;
+    user-select: none;
+  }
+}
+
+.email-container{
+  border: 1px solid #cecece;
+  overflow: hidden;
+  flex: 1 1 auto;
+}

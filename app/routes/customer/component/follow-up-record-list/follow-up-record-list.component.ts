@@ -2,6 +2,7 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { CoConfigManager, CoPageBase } from '@co/core';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -11,7 +12,7 @@ import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.c
 export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @ViewChild(ScheduleListComponent, { static: false }) scheduleList: ScheduleListComponent;
   @Input() customerId;
-  @Input() index;
+  @Input() index = null;
   traceLogList = [];
   param: any;
   offsetDay = 0;
@@ -35,8 +36,12 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     injector: Injector,
     private crmCustomerOperationEventService: CRMCustomerOperationEventService,
     private crmTraceLogService: CRMTraceLogService,
+    private activatedRoute: ActivatedRoute,
   ) {
     super(injector);
+    if (this.activatedRoute.snapshot.params.id) {
+      this.customerId = this.activatedRoute.snapshot.params.id;
+    }
   }
 
   ngOnInit(): void {
@@ -127,8 +132,8 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.scheduleList.getAllScheduleForCrm();
   }
 
-  get  getBusinessType(){
-   return this.param.businessTypes.some((e) => e == 4);
+  get getBusinessType() {
+    return this.param.businessTypes.some((e) => e == 4);
   }
 
   showAll() {

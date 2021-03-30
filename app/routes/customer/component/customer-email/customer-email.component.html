@@ -1,1 +1,52 @@
-<p>customer-email works!</p>
+<div class='toolbar'>
+  <button nz-button nzType='primary'>发送</button>
+</div>
+
+<form nz-form>
+  <nz-form-item>
+    <nz-form-label nzSpan='4' nzRequired>发件人</nz-form-label>
+    <nz-form-control>
+      <nz-select>
+        <nz-option *ngFor='let item of sender | async' [nzLabel]='item' [nzValue]='item'></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan='4' nzRequired>收件人</nz-form-label>
+    <nz-form-control>
+      <nz-select>
+        <nz-option></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class='email-option'>
+    <div class='space'></div>
+    <div class='func'>抄送</div>
+    <div class='func'>密送</div>
+  </div>
+
+  <nz-form-item>
+    <nz-form-label nzSpan='4'>抄送</nz-form-label>
+    <nz-form-control>
+      <nz-select>
+        <nz-option></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan='4' nzRequired>主题</nz-form-label>
+    <nz-form-control>
+      <input nz-input />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzSpan='4'>正文</nz-form-label>
+    <div class='email-container'>
+      <coeditor [html]='value' (coChange)='updateMail($event)'></coeditor>
+    </div>
+  </nz-form-item>
+</form>
