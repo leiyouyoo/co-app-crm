@@ -18,7 +18,8 @@
       >
         {{ 'Refresh' | translate }}
       </button>
-      <button (click)="showAll()" nz-button nzSize="small" nzType="default">{{ '查看全部' | translate }}</button>
+      <button *ngIf="index!==null" (click)="showAll()" nz-button nzSize="small"
+              nzType="default">{{ '查看全部' | translate }}</button>
     </div>
     <div class="search_area__filter">
       <ng-container [ngSwitch]="param.offsetDay">
@@ -43,6 +44,7 @@
         nz-popover
         [(nzPopoverVisible)]="visible"
         nzPopoverTrigger="click"
+        nzPopoverPlacement="bottomLeft"
         [nzPopoverContent]="contentTemplate"
         nz-icon
         nzType="filter"

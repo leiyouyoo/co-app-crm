@@ -4,6 +4,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload/interface';
 import { CoConfigManager, CoPageBase } from '@co/core';
 import { CRMTraceLogService } from '../../../../services/crm';
 import { PUBDataDictionaryService } from '../../../../services/pub';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crm-follow-up-record',
@@ -45,13 +46,15 @@ export class FollowUpRecordComponent extends CoPageBase implements OnInit {
               private crmTraceLogService: CRMTraceLogService,
               public dataDictionaryService: PUBDataDictionaryService) {
     super(injector);
+
   }
+
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       traceLogTypeId: [null, [Validators.required]],//日志类型id
-      followUpRecord: [new Date(), [Validators.required]],//内容
-      content: ['我刚刚电话联系了这个客户'],//跟进时间
+      followUpRecord: [new Date(), [Validators.required]],//跟进时间
+      content: ['我刚刚电话联系了这个客户'],//内容
       customerId: [this.customerId],
     });
     this.dataDictionaryService.getListByType({ typeId: '3D569F80-B818-41B9-881A-1F3AC7F1990A' }).subscribe(r => {
