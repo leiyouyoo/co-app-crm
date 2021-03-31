@@ -117,7 +117,7 @@ steps:
   - name: notify-deploy-test
     image: reg.cityocean.com/library/webhook
     settings:
-      url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=cf411112-5e02-4fb4-ba05-6dc778c15967
+      url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=616e51b4-fc02-40f2-8461-144b24ae1e52
       method: get
       body: |
         {"msgtype": "markdown", "markdown": {"content": "### 发布(<font color=\"warning\">${DRONE_REPO_NAME}</font>)   \n >**环境**: <font color=\"info\">测试环境</font> \n >**发布人**: <font color=\"info\">${CI_COMMIT_AUTHOR}</font> \n  >**状态**: <font color=\"info\">${DRONE_STAGE_STATUS}</font> \n >**日志**: ${DRONE_BUILD_LINK}"}}
