@@ -366,7 +366,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
   toFCMBooking() {
     //处理时间
     let requestTime = [];
-    requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
+    requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
     this.$navigate([`fcm/crm-booking`], {
       queryParams: {
         customerId: this.customerId,
@@ -375,4 +375,19 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       },
     });
   }
+  
+ /**
+   * 跳转我的审批
+   */
+  onLinkWorkFlow(){
+    // //处理时间
+    // let requestTime = [];
+    // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
+    this.$navigate([`wf/application`], {
+      queryParams: {
+        customerId: this.customerId,
+        requestTime: this.date.getFullYear(),
+      },
+    });
+}
 }
