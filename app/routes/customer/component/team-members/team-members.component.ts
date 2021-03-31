@@ -4,8 +4,8 @@ import { FormControl } from '@angular/forms';
 import { CRMCustomerAccessAllowOutput, CRMCustomerAccessAllowService } from 'apps/crm/app/services/crm';
 // tslint:disable-next-line:import-blacklist
 import { NzModalService } from 'ng-zorro-antd';
-import { merge, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap, catchError } from 'rxjs/operators';
 import { AddTeamMembersModalComponent } from '../add-team-members-modal/add-team-members-modal.component';
 
 @Component({
@@ -20,6 +20,7 @@ export class TeamMembersComponent implements OnInit {
   keyword = new FormControl('');
   members: Observable<CRMCustomerAccessAllowOutput[]>;
   reload$ = new Subject<void>();
+  isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private crmCustomerAccessAllowService: CRMCustomerAccessAllowService,
@@ -28,16 +29,25 @@ export class TeamMembersComponent implements OnInit {
     this.members = merge(
       of(null),
       this.keyword.valueChanges.pipe(
-        debounceTime(300),
+        debounceTime(600),
         distinctUntilChanged()
       ),
       this.reload$
     ).pipe(
-      switchMap((value: string | undefined | null) => this.crmCustomerAccessAllowService.getAll({
-        customerId: this.customerId,
-        name: value
-      })),
-      map(result => result.items),
+      switchMap((value: string | undefined | null) => {
+        this.isLoading.next(true);
+
+        return this.crmCustomerAccessAllowService.getAll({
+          customerId: this.customerId,
+          name: value
+        }).pipe(
+          map(result => result.items),
+          catchError(() => of([])),
+        );
+      }),
+      tap(() => {
+        this.isLoading.next(false);
+      }),
       shareReplay({
         bufferSize: 1,
         refCount: true
