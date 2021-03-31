@@ -43,7 +43,7 @@ export class AddTeamMembersModalComponent implements OnInit {
   selected: number[] = [];
   userList: Observable<User[]>;
   customersLoading = new BehaviorSubject<boolean>(true);
-  adding = new BehaviorSubject<boolean>(false);
+  saving = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: _HttpClient,
@@ -102,21 +102,38 @@ export class AddTeamMembersModalComponent implements OnInit {
    * 5、根据结果关闭弹窗
    */
   save(): void{
-    forkJoin([
-      this.crmCustomerAccessAllowService.create(this.selected.map(item => {
-        const data: CRMCreateOrUpdateAccessAllowInput = {
-          customerId: this.customerId,
-          allowUserId: item
-        };
+    const req: Observable<any>[] = [];
+    const delData = this.getDeleteUserId();
+    const addData = this.getAddUserId().map(item => {
+      const data: CRMCreateOrUpdateAccessAllowInput = {
+        customerId: this.customerId,
+        allowUserId: item
+      };
 
-        return data;
-      })),
-      this.crmCustomerAccessAllowService.delete({
+      return data;
+    });
+
+    if (delData.length > 0){
+      req.push(this.crmCustomerAccessAllowService.delete({
         customerId: this.customerId,
         accessAllowUserIds: this.getDeleteUserId()
-      })
-    ]).subscribe(() => {
-      this.nzModalRef.close(true);
+      }));
+    }
+
+    if (addData.length > 0){
+      req.push(this.crmCustomerAccessAllowService.create(addData));
+    }
+
+    this.saving.next(true);
+
+    forkJoin(req).subscribe({
+      next: () => {
+        this.nzModalRef.close(true);
+        this.saving.next(false);
+      },
+      error: () => {
+        this.saving.next(false);
+      }
     });
   }
 }
