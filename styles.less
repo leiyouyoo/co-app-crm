@@ -15,3 +15,102 @@
 .st .ant-table-small .ant-table-tbody>tr:not(.ant-table-measure-now)>td:not(.ant-table-cell-fix-right) {
   padding: 4px !important;
 }
+
+crm-root {
+  .nz-radio-group-button {
+    box-shadow   : none;
+    color        : rgba(0, 0, 0, 0.25);
+    display      : inline-flex;
+    font-size    : 14px;
+    border: 1px solid #D9D9D9;
+    padding: 2px !important;
+    border-radius: 4px;
+
+    .ant-radio-button-wrapper {
+      height       : 26px;
+      text-align   : center;
+      color        : rgba(191, 191, 191, 1);
+      border       : none;
+      border-radius: 4px;
+      line-height: 26px;
+      flex         : 1;
+    }
+
+    .ant-radio-button-wrapper-checked {
+      box-shadow: none !important;
+    }
+
+    .ant-radio-button-wrapper:not(:first-child):before {
+      display: none;
+    }
+
+    /* select */
+
+    nz-select {
+      @height: 26px;
+      height : @height;
+
+      &>div {
+        height: @height;
+        border: none;
+      }
+
+      &.select-checked {
+        .ant-select-arrow svg {
+          color: #fff;
+        }
+      }
+
+      .ant-select-selection__clear {
+        color: #fff;
+
+        &:before {
+          color: #fff;
+        }
+      }
+
+      .ant-select-selection__rendered {
+        line-height: @height;
+      }
+
+      .ant-select-selector {
+        height: 28px !important;
+        border: none !important;
+      }
+
+      .ant-select-clear {
+        border-radius: 50%;
+      }
+
+      .ant-select-close-icon {
+        vertical-align: initial;
+      }
+    }
+
+    .select-checked .ant-select-selector {
+      background   : @primary-color;
+      color        : #fff;
+      border-radius: 8px;
+
+      & .ant-select-selection__clear {
+        background: @primary-color;
+      }
+
+      & .ant-select-arrow-icon {
+        color: rgba(0, 0, 0, 0.25);
+      }
+
+      & .ant-select-selection__placeholder {
+        color: rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    &.ant-radio-group-small {
+      .ant-radio-button-wrapper {
+        height: 18px;
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+  }
+}

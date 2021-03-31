@@ -1,0 +1,180 @@
+@containerColor: rgba(249, 250, 252, 1);
+
+* {
+  font-size: 12px !important;
+}
+
+h4 {
+  font-size: 16px !important;
+}
+
+.iconfont::before {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 22px;
+}
+
+.jy-ocean-StartingPlace {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  font-size: 18px;
+  line-height: 10px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  border-radius: 100%;
+}
+
+.zise {
+  color: #6269e8;
+  background-color: #6269e8;
+}
+
+.accept {
+  color: #52a000;
+  background-color: #52a000;
+}
+
+.expired {
+  color: #f7b500;
+  background-color: #f7b500;
+}
+
+.reject {
+  color: #f6573a;
+  background-color: #f6573a;
+}
+
+.active_tuijian {
+  padding: 8px 16px;
+}
+
+.active_bg {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 2px;
+  padding: 16px;
+}
+
+.active_ocean_bg {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 2px;
+  padding: 0px 16px 16px 16px;
+}
+
+.table-input {
+  min-height: 0;
+  line-height: 30px;
+}
+
+.table-red {
+  position: absolute;
+  height: 20px;
+  color: red;
+  line-height: 20px;
+}
+
+.errorBorder {
+  height: 64px !important;
+}
+
+.icon-plus,
+.icon-Delete {
+  color: #9cb2cd;
+  font-size: 12px;
+
+  &::before {
+    margin-right: 12px;
+  }
+}
+
+.notClickn {
+  pointer-events: none;
+}
+
+.originlocation {
+  min-width: 576px;
+  min-height: 100px;
+}
+
+.originFee {
+  margin-top: 16px;
+}
+
+.desinationFee {
+  margin-top: 16px;
+}
+
+.freightOcean {
+  h1 {
+    height: 30px;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+  }
+}
+
+.validDate {
+  h1 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: rgba(0, 0, 0, 0.85) !important;
+  }
+}
+
+.a-form {
+  nz-form-label {
+    min-width: 100px;
+    text-align: right;
+  }
+
+  nz-select, input {
+    width: 100% !important;
+  }
+}
+
+.form-box {
+  padding: 12px 20px;
+
+  margin-bottom: 12px;
+  border-width: 0;
+  border-style: solid;
+  border-color: #E9E9E9;
+  border-bottom-width: 1px;
+
+  & > div {
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__title {
+    margin-bottom: 8px !important;
+    padding-left: 8px;
+    border-left: 4px solid #188FFE;
+  }
+
+  .title {
+    font-size: 14px !important;
+    margin-bottom: 8px;
+
+    * {
+      font-size: 14px !important;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .freightOcean {
+    .ant-input-number {
+      width: 80px !important;
+    }
+  }
+}

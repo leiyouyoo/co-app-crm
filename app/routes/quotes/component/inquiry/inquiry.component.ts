@@ -232,11 +232,9 @@ export class InquiryComponent extends CoPageBase {
     this.$navigate(['/crm/quotes/create-quote'], { queryParams: { _title: `${this.$L('Add Quotes')}` } });
   }
   createinitiativequotesCancel() {
-    this.initiativeCreatequotesComponent.clearDate();
     this.isShowinitiativecreatequotes = false;
   }
   createinitiativequotesOk() {
-    this.initiativeCreatequotesComponent.ngSubmit();
   }
 
   //主动报价返回成功更新列表

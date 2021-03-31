@@ -27,7 +27,13 @@
   "booking": {
     "Name": "Name",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "Normal": "Normal",
+    "EC": "EC",
+    "Accepted": "Accepted",
+    "Pending Accept": "Pending Accept",
+    "Booking": "Booking",
+    "Delivery date": "Delivery date"
   },
   "Whether to leave or not": "Whether to leave or not",
   "The related local charge is only for reference": "The related local charge is only for reference, not inclusive or not  limited the local charges actually happened but not shown here, or happened but is not  proveded services by CITY OCEAN. All the local charges should be calculated according to final debit notes.",
