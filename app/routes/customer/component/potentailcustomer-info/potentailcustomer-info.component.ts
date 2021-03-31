@@ -341,7 +341,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    * 获取统计信息
    */
   getBusinessStatistics() {
-    const year = this.date.getFullYear() + '';
+    const year = this.date.getFullYear();
     this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year: year }).subscribe((res) => {
       this.statisticsInfo = res;
     });
@@ -375,7 +375,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       },
     });
   }
-  
+
  /**
    * 跳转我的审批
    */
