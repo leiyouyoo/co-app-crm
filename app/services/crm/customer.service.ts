@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMCustomerChangePhoneInput,CRMChangePhoneDetailDto,CRMCustomerChangePhoneApprovalInput,CRMQueryConnectionCustomersInput,CRMRelationCustomerInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCheckRepeatNameInput,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
+import { CRMCustomerDto,CRMPagedResultDto1,CRMCustomerListDto,CRMMergeCustomerListInput,CRMGetAllForUiPickerInput,CRMListResultDto1,CRMExternalPartnerAndCustomerDto,CRMOwnerLessPagedResultDto1,CRMSearchCustomerOutput,CRMCreateOrUpdateCustomerInput,CRMCustomerOutput,CRMGetCustomerByNameInput,CRMCheckDeleteOutput,CRMCoEntityDto,CRMFollowCustomerInput,CRMAssignCustomerInput,CRMCustomerAndPartnerListDto,CRMShortCustomerDto,CRMCustomerAuthenticateDto,CRMCustomerConfigureDto,CRMAuditCustomerInput,CRMMergeCustomerInput,CRMRemergeCustomerInput,CRMCheckConfigure,CRMCustomerHighSeasPondSettingDto,CRMClaimCustomerInput,CRMCustomerDistributionInput,CRMTurnCustomerSeaInput,CRMCustomerAccountConfigureInput,CRMGetCustomerOrganizationOutput,CRMQueryHighSeasPondCustomerInput,CRMQueryHighSeasPondCustomerDto,CRMCustomerDetailDto,CRMScheduleDto,CRMUpateLeadTrackingPhaseInput,CRMSetCustomerDealTimeInput,CRMCustomerChangePhoneInput,CRMChangePhoneDetailDto,CRMCustomerChangePhoneApprovalInput,CRMQueryConnectionCustomersInput,CRMRelationCustomerInput,CRMQueryConnectionCustomerInput,CRMCustomerCommunalCheckInput,CRMCheckCustomerDto,CRMFAMCustomerDto,CRMCheckRepeatNameInput,CRMCustomerRenamingApprovalInput,CRMRenamingDetailDto,CRMCustomerApplyModifyNameInput } from './crm.types';
 
 @BaseUrl('/CRM/Customer')
 @Injectable({ providedIn: 'root' })
@@ -312,6 +312,51 @@ export class CRMCustomerService extends BaseApi {
 
 
     /**
+     * @param url /CRM/Customer/GetMergerCustomerIdByCustomerId
+     * 根据客户id获取MergeId
+     */
+
+    @GET('GetMergerCustomerIdByCustomerId')
+    getMergerCustomerIdByCustomerId(
+        @Payload
+        _req: {customerId?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetMergerCustomerIdsByCustomerId
+     * 根据客户id返回被合并的客户id集合（包含传入id）
+     */
+
+    @GET('GetMergerCustomerIdsByCustomerId')
+    getMergerCustomerIdsByCustomerId(
+        @Payload
+        _req: {customerId?:string} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetMergerCustomerIdsByCustomerIds
+     * 根据客户id集合获取合并客户ids
+     */
+
+    @POST('GetMergerCustomerIdsByCustomerIds')
+    getMergerCustomerIdsByCustomerIds(
+        @Payload
+        _req: {} 
+
+    ): Observable<any> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/Customer/Create
      * 创建客户
      */
@@ -562,6 +607,21 @@ export class CRMCustomerService extends BaseApi {
         _req: {customerId?:string} 
 
     ): Observable<CRMCustomerAuthenticateDto> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Customer/GetCustomerLevel
+     * 获取客户级别
+     */
+
+    @GET('GetCustomerLevel')
+    getCustomerLevel(
+        @Payload
+        _req: {customerId?:string} 
+
+    ): Observable<CRMCustomerConfigureDto> {
         return null as any
     }
 

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMGetAccessAllowsByCustomerInput,CRMListResultDto1,CRMCustomerAccessAllowOutput,CRMPagedResultDto1 } from './crm.types';
+import { CRMGetAccessAllowsByCustomerInput,CRMListResultDto1,CRMCustomerAccessAllowOutput,CRMQueryCustomerAccessAllowDto,CRMPagedResultDto1 } from './crm.types';
 
 @BaseUrl('/CRM/CustomerAccessAllow')
 @Injectable({ providedIn: 'root' })
@@ -31,10 +31,10 @@ export class CRMCustomerAccessAllowService extends BaseApi {
      * 客户访问权限列表
      */
 
-    @GET('GetAll')
+    @POST('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req:CRMQueryCustomerAccessAllowDto
 
     ): Observable<CRMPagedResultDto1<CRMCustomerAccessAllowOutput>> {
         return null as any
@@ -64,7 +64,7 @@ export class CRMCustomerAccessAllowService extends BaseApi {
     @DELETE('Delete')
     delete(
         @Payload
-        _req: {customerId?:string,accessAllowUserId?:number,accessAllowType?:number,id?:string} 
+        _req: {customerId?:string,accessAllowUserIds?:any[],accessAllowType?:number,id?:string} 
 
     ): Observable<any> {
         return null as any

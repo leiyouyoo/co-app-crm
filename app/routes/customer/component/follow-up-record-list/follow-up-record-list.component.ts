@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CoConfigManager, CoPageBase } from '@co/core';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
 
@@ -20,7 +22,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   previewVisible = false;
   logLoading = false;
   refreshLogLoading = false;
-  visible: boolean = false;
+  visible = false;
   allChecked = true;
   indeterminate = false;
   checkOptionsOne = [
@@ -103,7 +105,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   handlePreview = async (item) => {
     this.previewImage = this.getImgUrl(item);
     this.previewVisible = true;
-  };
+  }
 
   /**
    * 获取下一页事件
@@ -127,8 +129,8 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     this.scheduleList.getAllScheduleForCrm();
   }
 
-  get  getBusinessType(){
-   return this.param.businessTypes.some((e) => e == 4);
+  get getBusinessType() {
+    return this.param.businessTypes.some((e) => e === 4);
   }
 
   showAll() {
@@ -172,7 +174,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   cancel() {
     this.visible = false;
     this.offsetDay = this.param.offsetDay;
-    if (this.param.businessTypes.some((e) => e == 0)) {
+    if (this.param.businessTypes.some((e) => e === 0)) {
       this.checkOptionsOne.forEach((e) => (e.checked = true));
     } else {
       this.checkOptionsOne.forEach((ele) => {
@@ -180,7 +182,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
       });
       this.param.businessTypes.forEach((e) => {
         this.checkOptionsOne.forEach((ele) => {
-          if (e == ele.value) {
+          if (e === ele.value) {
             ele.checked = true;
           }
         });

@@ -18,7 +18,8 @@
       >
         {{ 'Refresh' | translate }}
       </button>
-      <button (click)="showAll()" nz-button nzSize="small" nzType="default">{{ '查看全部' | translate }}</button>
+      <button *ngIf="index!==null" (click)="showAll()" nz-button nzSize="small"
+              nzType="default">{{ '查看全部' | translate }}</button>
     </div>
     <div class="search_area__filter">
       <ng-container [ngSwitch]="param.offsetDay">
@@ -43,6 +44,7 @@
         nz-popover
         [(nzPopoverVisible)]="visible"
         nzPopoverTrigger="click"
+        nzPopoverPlacement="bottomLeft"
         [nzPopoverContent]="contentTemplate"
         nz-icon
         nzType="filter"
@@ -70,51 +72,23 @@
     </div>
   </div>
   <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
-           style="height: calc(100% - 62px) !important;overflow: auto;">
-  <div class="event_log" style=" height: calc(100% - 62px);overflow: auto;">
-    <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
-    <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
-    <div class="event_log__content" *ngFor="let item of traceLogList">
-      <nz-spin [nzSpinning]="item.loading">
-        <h5 *ngIf="item.businessType == 1">{{ 'Team member' | translate }}</h5>
-        <h5 *ngIf="item.businessType == 2">{{ 'Customer information' | translate }}</h5>
-        <h5 *ngIf="item.businessType == 3">{{ 'Follow up record' | translate }}</h5>
-        <h5 *ngIf="item.businessType == 4">{{ 'Schedule' | translate }}</h5>
-        <h5 *ngIf="item.businessType == 5">{{ 'E-mail' | translate }}</h5>
-        <p>
-          <span (click)="item.businessType == 3 && getLogDetail(item)" class="event_log__content__title">
-            <i
-              *ngIf="item.businessType == 3"
-              nz-icon
-              nzType="down"
-              [style.transform]="item.isShow ? 'rotate(180deg)' : 'unset'"
-              nzTheme="outline"
-            ></i>
-            {{ item.contentLocalizationText }}
-          </span>
-            <span>{{ item.creationTime | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
-          </p>
-          <div *ngIf="item.businessType == 3 && item.isShow" class="trace_log__content">
-          <span style="display: flex; align-items: center;">
-            <i nz-icon [nzIconfont]="'icon-youjian'" *ngIf="item.detail?.traceLogTypeCode == 'Email'"></i>
-            <i nz-icon [nzIconfont]="'icon-weixin1'" *ngIf="item.detail?.traceLogTypeCode == 'WeChat'"></i>
-            <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'"
-               *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
-            <i nz-icon [nzIconfont]="'icon-OA-ohter-6'" *ngIf="item.detail?.traceLogTypeCode == 'Other'"></i>
-            <i nz-icon [nzIconfont]="'icon-cooperation-full2'" *ngIf="item.detail?.traceLogTypeCode == 'Visit'"></i>
-            <i nz-icon [nzIconfont]="'icon-shouji'" *ngIf="item.detail?.traceLogTypeCode == 'Phone'"></i>
-            {{ item.detail?.followUpRecord | date: 'yyyy-MM-dd HH:mm:ss' }}
-          </span>
-            <span>{{ item.detail?.content }}</span>
-            <div *ngIf="item?.detail?.traceLogItems?.length">
-              <div
-                *ngFor="let pic of item?.detail?.traceLogItems"
-                style="float: left; margin: 0 8px 8px 0; padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;"
-              >
-                <img (click)="handlePreview(pic)" [src]="getImgUrl(pic)" alt=""/>
-              </div>
-            </div>
-          </div>
+           style="overflow: auto;height: calc(100% - 62px)!important;">
+    <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
+      <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
+      <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
+      <div class="event_log__content" *ngFor="let item of traceLogList">
+        <nz-spin [nzSpinning]="item.loading">
+          <ng-container [ngSwitch]='item.businessType'>
+            <ng-container *ngSwitchCase='5'>
+              <ng-container *ngTemplateOutlet="EmailTpl; context: {$implicit: item}"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase='3'>
+              <ng-container *ngTemplateOutlet="TrackRecordTpl; context: {$implicit: item}"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <ng-container *ngTemplateOutlet="MessageTpl; context: {$implicit: item}"></ng-container>
+            </ng-container>
+          </ng-container>
         </nz-spin>
       </div>
       <button
@@ -138,3 +112,83 @@
     <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
   </ng-template>
 </nz-modal>
+
+<ng-template #MessageTpl let-item>
+  <ng-container [ngSwitch]='item.businessType'>
+    <h5 *ngSwitchCase='1'>{{ 'Team member' | translate }}</h5>
+    <h5 *ngSwitchCase='2'>{{ 'Customer information' | translate }}</h5>
+    <h5 *ngSwitchCase='4'>{{ 'Schedule' | translate }}</h5>
+  </ng-container>
+  <p>
+    <span class='event_log__content__title'>{{ item.contentLocalizationText }}</span>
+    <span>{{ item.creationTime | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+  </p>
+</ng-template>
+
+<ng-template #TrackRecordTpl let-item>
+  <h5>{{ 'Follow up record' | translate }}</h5>
+  <p>
+    <span (click)='item.businessType == 3 && getLogDetail(item)' class='event_log__content__title'>
+      <i nz-icon nzType='down' [style.transform]="item.isShow ? 'rotate(180deg)' : 'unset'" nzTheme='outline'></i>
+      {{ item.contentLocalizationText }}
+    </span>
+    <span>{{ item.creationTime | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+  </p>
+  <div *ngIf='item.isShow' class='trace_log__content'>
+    <span style='display: flex; align-items: center;'>
+      <i nz-icon [nzIconfont]="'icon-youjian'" *ngIf="item.detail?.traceLogTypeCode == 'Email'"></i>
+      <i nz-icon [nzIconfont]="'icon-weixin1'" *ngIf="item.detail?.traceLogTypeCode == 'WeChat'"></i>
+      <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'" *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
+      <i nz-icon [nzIconfont]="'icon-OA-ohter-6'" *ngIf="item.detail?.traceLogTypeCode == 'Other'"></i>
+      <i nz-icon [nzIconfont]="'icon-cooperation-full2'" *ngIf="item.detail?.traceLogTypeCode == 'Visit'"></i>
+      <i nz-icon [nzIconfont]="'icon-shouji'" *ngIf="item.detail?.traceLogTypeCode == 'Phone'"></i>
+      {{ item.detail?.followUpRecord | date: 'yyyy-MM-dd HH:mm:ss' }}
+    </span>
+    <span>{{ item.detail?.content }}</span>
+    <div *ngIf='item?.detail?.traceLogItems?.length'>
+      <div *ngFor='let pic of item?.detail?.traceLogItems' style='float: left; margin: 0 8px 8px 0; padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;'>
+        <img (click)='handlePreview(pic)' [src]='getImgUrl(pic)' alt='' />
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #EmailTpl let-item>
+  <h5>{{ 'Email' | translate }}</h5>
+  <p>
+    <span (click)='item.isShow = !item.isShow' class='event_log__content__title'>
+      <i nz-icon nzType='down' [style.transform]="item.isShow ? 'rotate(180deg)' : 'unset'" nzTheme='outline'></i>
+      {{ item.contentLocalizationText }}
+    </span>
+    <span>{{ item.creationTime | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+  </p>
+  <div *ngIf='item.isShow' class='email-content'>
+    <div class='header'>
+      <div class='item'>
+        <div class='line label'>发件人:</div>
+        <div class='line value'>jackypeng@cityocean.com [mailto:jackypeng@cityocean.com]</div>
+      </div>
+      <div class='item'>
+        <div class='line label'>发送时间:</div>
+        <div class='line value'>2021-01-09 15:49</div>
+      </div>
+      <div class='item'>
+        <div class='line label'>收件人:</div>
+        <div class='line value'>'poppyhu'; lilyyan</div>
+      </div>
+      <div class='item'>
+        <div class='line label'>抄送:</div>
+        <div class='line value'>lisaluo@cityocean.com</div>
+      </div>
+      <div class='item'>
+        <div class='line label'>主题:</div>
+        <div class='line value'>客户代码审核</div>
+      </div>
+    </div>
+    <div class='email-body'>好的，非常感谢。</div>
+    <div class='email-func'>
+      <button nz-button>回复</button>
+      <button nz-button>转发</button>
+    </div>
+  </div>
+</ng-template>

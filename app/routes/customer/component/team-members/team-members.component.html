@@ -1,0 +1,16 @@
+<div class='toolbar'>
+  <button nz-button nzType='primary' *ngIf='members | async as items' (click)='openAddTeamMembersModal(items)'>添加</button>
+  <ng-container *ngIf='selected.hasValue()'>
+    <button nz-button (click)='openRemoveModal()'>删除</button>
+    <button nz-button>发起聊天</button>
+  </ng-container>
+</div>
+<div class='filter-bar'>
+  <input nz-input [formControl]='keyword' placeholder='搜索姓名、职位、团队角色' />
+</div>
+<div class='members'>
+  <div class='member' *ngFor='let item of members | async' [class.selected]='selected.isSelected(item.allowUserId)' (click)='selected.toggle(item.allowUserId)'>
+    <img src='https://tva2.sinaimg.cn/crop.0.0.749.749.180/aef54a81jw8f5y5vh5427j20ku0ktgm4.jpg'>
+    <p>{{ item.allowUserName }}</p>
+  </div>
+</div>

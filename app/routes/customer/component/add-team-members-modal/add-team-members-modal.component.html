@@ -1,0 +1,20 @@
+<div class='content'>
+  <div>
+    <nz-form-label>选择员工:</nz-form-label>
+    <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzMaxTagCount]='1' nzPlaceHolder='选择成员' nzMode='multiple' [(ngModel)]='selected' [nzLoading]='customersLoading | async'>
+      <nz-option *ngFor='let item of userList | async' [nzLabel]='item.userName' [nzValue]='item.id'></nz-option>
+    </nz-select>
+  </div>
+
+  <div>
+    <nz-form-label>成员角色:</nz-form-label>
+    <nz-select style='width: 240px;' nzShowSearch nzAllowClear nzPlaceHolder='成员角色' nzDisabled>
+      <nz-option nzLabel='客户所有人'></nz-option>
+    </nz-select>
+  </div>
+</div>
+
+<ng-template nzModalFooter>
+  <button nz-button (click)='close()'>取消</button>
+  <button nz-button nzType='primary' [nzLoading]='adding | async' [disabled]='adding | async' (click)='save()'>添加</button>
+</ng-template>

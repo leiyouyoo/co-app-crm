@@ -55,7 +55,7 @@ steps:
       PLUGIN_SECURE: false
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
-      PLUGIN_DEST_DIR: /apps/crm
+      PLUGIN_DEST_DIR: /CO.Web.ICP/apps/crm
       PLUGIN_SRC_DIR: /dist/apps/crm
     when:
       ref:
@@ -70,7 +70,7 @@ steps:
       PLUGIN_SECURE: false
       PLUGIN_VERIFY: false
       PLUGIN_CHMOD: false
-      PLUGIN_DEST_DIR: /apps/crm
+      PLUGIN_DEST_DIR: /CO.Web.ICP/apps/crm
       PLUGIN_SRC_DIR: /dist/apps/crm
       #PLUGIN_EXCLUDE: ^\.git/$
     when:

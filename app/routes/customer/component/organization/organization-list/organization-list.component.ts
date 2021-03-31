@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDest
 import { ActivatedRoute } from '@angular/router';
 // tslint:disable-next-line:import-blacklist
 import { STColumn } from '@co/cbc';
+import { STChange } from '@co/cbc/web/st/st.interfaces';
 import { CoPageBase } from '@co/core';
 // tslint:disable-next-line:import-blacklist
 import { NzMessageService } from 'ng-zorro-antd';
@@ -26,9 +27,11 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
   keyword = new Subject<string>();
   customerLoading = new BehaviorSubject<boolean>(false);
   connectionCustomersLoading = new BehaviorSubject<boolean>(true);
+  total = new BehaviorSubject<number>(0);
+  pageIndex = new BehaviorSubject<number>(0);
+  pageSize = new BehaviorSubject<number>(2);
   private unsubscribe = new Subject<void>();
   queryParam: Observable<QueryParam>;
-  readonly maxTotal: number = 20;
   private reloadConnectionCustomers$ = new Subject<void>();
 
   readonly columns: STColumn[] = [
@@ -104,7 +107,9 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
       switchMap((value: string | undefined | null) => {
         if (value && value.length >= 3){
           this.customerLoading.next(true);
-          return this.crmCustomerService.queryConnectionCustomer({ searchText: value });
+          return this.crmCustomerService.queryConnectionCustomer({
+            searchText: value
+          });
         }else {
           return of([]);
         }
@@ -124,11 +129,15 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
           this.connectionCustomersLoading.next(true);
           return this.crmCustomerService.getAllConnectionCustomers({
             sourceCustomerId: query.customerId,
-            maxResultCount: this.maxTotal
+            maxResultCount: this.pageSize.getValue(),
+            skipCount: this.pageIndex.getValue() * this.pageSize.getValue()
           });
         })
       )),
-      map(result => result.items),
+      map(result => {
+        this.total.next(result.totalCount);
+        return result.items;
+      }),
       tap(() => {
         this.connectionCustomersLoading.next(false);
       }),
@@ -181,5 +190,20 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
         this.nzMessageService.success(this.$L('Delete success'));
       })
     ).toPromise();
+  }
+
+  changeTable(event: STChange): void{
+    switch (event.type) {
+      case 'pi':
+        this.pageIndex.next(event.pi - 1);
+        this.reloadConnectionCustomers$.next();
+        break;
+      case 'ps':
+        this.pageIndex.next(0);
+        this.pageSize.next(event.ps);
+        /** 修改index的时候会触发change，会重复调用，所以在这里触发reload，以上面为准 */
+        // this.reloadConnectionCustomers$.next();
+        break;
+    }
   }
 }

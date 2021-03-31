@@ -5,7 +5,7 @@
         <p style="font-weight: 400; font-size: 20px;">{{ customerInfo?.localizationName }}</p>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag *ngIf="customerInfo?.isRegistered" class="customerInfo-registered">
-            <img src="apps/crm/assets/images/csp-certification.png" width="25px" />
+            <img src="apps/crm/assets/images/csp-certification.png" width="25px"/>
             <span class="customer-title">{{ 'CSP certification passed' | translate }}</span>
           </nz-tag>
           <nz-tag
@@ -13,13 +13,13 @@
             *ngIf="!customerInfo?.isRegistered"
             class="customerInfo-unRegistered"
           >
-            <img src="apps/crm/assets/images/un-csp-certification.png" width="25px" />
+            <img src="apps/crm/assets/images/un-csp-certification.png" width="25px"/>
             <span class="customer-title">{{ 'CSP not certified' | translate }}</span>
           </nz-tag>
         </div>
         <div class="edit-customer" style="display: flex; align-items: center;">
           <nz-tag *ngIf="customerInfo?.examineState == 2" class="customerInfo-registered">
-            <img src="apps/crm/assets/images/enterpris-certification.png" width="25px" />
+            <img src="apps/crm/assets/images/enterpris-certification.png" width="25px"/>
             <span class="customer-title">{{ 'Enterprise certification passed' | translate }}</span></nz-tag
           >
           <nz-tag
@@ -27,18 +27,19 @@
             (click)="!customerInfo?.isDeleted && applyCode()"
             class="customerinfo-noCertified"
           >
-            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px"/>
             <span class="customer-title">{{ 'Enterprise not certified' | translate }}</span>
           </nz-tag>
           <nz-tag *ngIf="customerInfo?.examineState == 1" class="customerinfo-certificing">
-            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px" />
+            <img src="apps/crm/assets/images/enterpris-certification-ing.png" width="25px"/>
             <span class="customer-title">{{ 'Enterprise certificationing' | translate }}</span></nz-tag
           >
         </div>
       </div>
       <div style="display: flex; align-items: center;">
-        <!--          勿删，暂未实现-->
-        <!--        <button nz-button>{{ 'View customer organization structure' | translate }}</button>-->
+        <button
+          (click)="$navigate(['/crm/customers/organization', customerId], {queryParams: { _title: this.$L('Organization structure')}})"
+          nz-button>{{ 'View customer organization structure' | translate }}</button>
         <button nz-button nz-dropdown [nzDropdownMenu]="moreOperateButton" nzType="default">
           {{ 'New' | translate }}
         </button>
@@ -50,9 +51,13 @@
             <li nz-menu-item (click)="addLocation()">
               {{ 'Add Location' | translate }}
             </li>
+            <li nz-menu-item (click)="addFollowUpRecord()">
+              {{ 'Follow up record' | translate }}
+            </li>
           </ul>
         </nz-dropdown-menu>
-        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list" nzTheme="outline"></i>
+        <i class="button-more" nz-dropdown [nzDropdownMenu]="moreButton" nz-icon nzType="unordered-list"
+           nzTheme="outline"></i>
         <nz-dropdown-menu #moreButton="nzDropdownMenu">
           <ul nz-menu>
             <li
@@ -65,7 +70,8 @@
             <li nz-menu-item *ngIf="!customerInfo?.isRenaming && !customerInfo?.isDeleted" (click)="applyName()">
               {{ 'Apply Name' | translate }}
             </li>
-            <li nz-menu-item *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered" (click)="cspAccountConfig()">
+            <li nz-menu-item *ngIf="!customerInfo?.isDeleted && !customerInfo?.isRegistered"
+                (click)="cspAccountConfig()">
               {{ 'CSP account configuration' | translate }}
             </li>
             <li *ngIf="!customerInfo?.isDeleted" nz-menu-item (click)="transferCustomer()">
@@ -111,7 +117,7 @@
       <span style="margin-right: 10px; color: #999;">{{ 'Customer owned' | translate }}</span>
       <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="ownerUserListTemplate">{{
         (customerInfo?.ownerUserList)[0]?.allowUserName
-      }}</span>
+        }}</span>
       <ng-template #ownerUserListTemplate>
         <div *ngFor="let item of customerInfo?.ownerUserList">
           {{ item?.allowUserName }}
@@ -134,7 +140,8 @@
     <nz-content>
       <nz-spin [nzSpinning]="isLoading">
         <div nz-row [nzGutter]="32">
-          <div nz-col nzSpan="24" class="taskCenter" style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
+          <div nz-col nzSpan="24" class="taskCenter"
+               style="margin: 0 0 8px 8px; padding: 0 16px; background: rgb(255, 255, 255);">
             <nz-spin [nzSpinning]="stepLoading">
               <nz-steps nzType="navigation" nzSize="small" [nzCurrent]="index - 1">
                 <nz-step
@@ -162,7 +169,8 @@
                   [nzIcon]="negotiationIcon"
                 ></nz-step>
                 <nz-step nzDisabled [nzTitle]="win" [nzIcon]="winIcon"></nz-step>
-                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon" style="margin-right: 30px !important;"></nz-step>
+                <nz-step nzDisabled [nzTitle]="loseorder" [nzIcon]="loseorderIcon"
+                         style="margin-right: 30px !important;"></nz-step>
                 <ng-template #initialcontactIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #demanddeterminationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
                 <ng-template #quotationIcon><i nz-icon nzIconfont="icon-zhangdan"></i></ng-template>
@@ -222,13 +230,15 @@
               <ng-template #win>
                 <div class="step-bar">
                   <div class="Check">赢单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 5" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
               <ng-template #loseorder>
                 <div class="step-bar">
                   <div class="Check">输单</div>
-                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'" nzIconfont="icon-gouxuan"></i></div>
+                  <div class="Check"><i nz-icon *ngIf="index >= 6" [style.color]="'#1890ff'"
+                                        nzIconfont="icon-gouxuan"></i></div>
                 </div>
               </ng-template>
             </nz-spin>
@@ -269,18 +279,21 @@
                     >{{ 'Quotes' | translate }}({{ statisticsInfo?.Quote }})
                   </div>
                   <div (click)="toFCMBooking()">
-                    <span nz-icon [nzIconfont]="'icon-zhangdan'" class="iconfont icon-zhangdan"> </span>{{ 'Booking' | translate }}({{
-                      statisticsInfo?.Booking
+                    <span nz-icon [nzIconfont]="'icon-zhangdan'"
+                          class="iconfont icon-zhangdan"> </span>{{ 'Booking' | translate }}({{
+                    statisticsInfo?.Booking
                     }})
                   </div>
                 </div>
               </div>
               <div class="customerinfo-top_linkright">
-                <nz-date-picker nzMode="year" [(ngModel)]="date" nzFormat="yyyy" [nzDisabledDate]="disabledDate"></nz-date-picker>
+                <nz-date-picker nzMode="year" [(ngModel)]="date" nzFormat="yyyy"
+                                [nzDisabledDate]="disabledDate"></nz-date-picker>
               </div>
             </div>
             <div style="display: flex; flex-direction: column; height: 100%; padding-left: 16px; background: #fff;">
-              <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }" nzAnimated="false"  (nzSelectedIndexChange)="selectedIndexChange($event)">
+              <nz-tabset [ngStyle]="{ flex: recordExpand ? '1' : 'none', height: recordExpand ? '50%' : 'auto' }"
+                         nzAnimated="false" (nzSelectedIndexChange)="selectedIndexChange($event)">
                 <nz-tab [nzTitle]="'Follow up record' | translate">
                   <crm-follow-up-record
                     (onExpand)="onExpand($event)"

@@ -80,4 +80,44 @@
       cursor: pointer;
     }
   }
+
+  .email-content{
+    display: flex;
+    flex-direction: column;
+
+    .header{
+      display: flex;
+      flex-direction: column;
+
+      .item{
+        display: flex;
+        align-items: baseline;
+
+        .line{
+          line-height: 18px;
+        }
+
+        .label{
+          margin: 0 5px 0 0;
+        }
+
+        .value{
+          flex: 1 0 0%;
+        }
+      }
+    }
+
+    .email-body{
+      margin: 10px 0;
+    }
+
+    .email-func {
+      display: flex;
+
+      .func{
+        cursor: pointer;
+        margin: 0 10px 0 0;
+      }
+    }
+  }
 }
