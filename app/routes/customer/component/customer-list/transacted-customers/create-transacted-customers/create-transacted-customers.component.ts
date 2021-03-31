@@ -41,6 +41,7 @@ import { NzCascaderOption } from 'ng-zorro-antd';
 import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
+import { cloneDeep, merge } from 'lodash';
 
 @Component({
   selector: 'crm-create-transacted-customers',
@@ -50,12 +51,14 @@ import { CooperationState, CustomerStatus, CustomerType } from '../../../../mode
 export class CreateTransactedCustomersComponent extends CoPageBase implements OnInit {
   @Input() set customerInfo(v) {
     this.initForm(v);
+    //暂存 防止取消的时候更新数据
+    this.storageCustomerInfo=cloneDeep(v);
   }
 
   get customerInfo() {
     return this.customerInfo;
   }
-
+  storageCustomerInfo:any;
   @Input() isEdit = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;

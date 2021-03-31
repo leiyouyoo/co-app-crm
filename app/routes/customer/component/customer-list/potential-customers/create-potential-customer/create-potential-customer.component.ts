@@ -40,7 +40,7 @@ import {
   CRMCustomerExamineService,
   CRMCustomerService,
 } from '../../../../../../services/crm';
-
+import { cloneDeep, merge } from 'lodash';
 @Component({
   selector: 'crm-create-potential-customer',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,13 +51,15 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   @Input() set customerInfo(v) {
     //详情展开全部
     this.showBasicInfo = true;
+    //暂存 防止取消的时候更新数据
+    this.storageCustomerInfo=cloneDeep(v);
     this.initForm(v);
   }
 
   get customerInfo() {
     return this.customerInfo;
   }
-
+  storageCustomerInfo:any;
   checkRepeatLoading: boolean;
   checkKey: any; //当前验重的字段
   searchParams = {
@@ -1365,8 +1367,13 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   close(update = false, isClose = false) {
+    debugger
     this.sideDrawer?.destroy();
     this.onSubmitted.emit({ update: update, isClose: isClose });
+    if(isClose){
+      //如果是取消 将不更新值
+      this.setData(this.storageCustomerInfo);
+    }
   }
 
   get checkRequired() {
