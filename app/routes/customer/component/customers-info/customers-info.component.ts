@@ -294,7 +294,6 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 发布日程回调
    */
   onScheduleSuccess(e) {
-    debugger;
     e && this.recordList.scheduleList.getAllScheduleForCrm();
   }
 
@@ -320,13 +319,28 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   onLinkBooking() {
     //处理时间
     let requestTime = [];
-    requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
-    this.$navigate([`fcm/booking`], {
+    requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
+    this.$navigate([`fcm/crm-booking`], {
       queryParams: {
         customerId: this.customerId,
         customerName: this.customerInfo.localizationName,
         requestTime: requestTime,
       },
     });
+  }
+
+ /**
+   * 跳转我的审批
+   */
+  onLinkWorkFlow(){
+        // //处理时间
+        // let requestTime = [];
+        // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
+        this.$navigate([`wf/application`], {
+          queryParams: {
+            customerId: this.customerId,
+            requestTime: this.date.getFullYear(),
+          },
+        });
   }
 }

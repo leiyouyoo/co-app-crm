@@ -1310,7 +1310,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       website: value.website,
       customerContacts: [Object.assign(value.customerContacts[0], { phone: tel.toString(), email: value.email })],
       editionRoleId: value.editionRoleId,
-      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
+      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType!=null ? value.customerTaxes : null) : null,
     };
     console.log(entity);
 

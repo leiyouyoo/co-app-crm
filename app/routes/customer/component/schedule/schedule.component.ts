@@ -65,7 +65,6 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
   //获取被分配人
   getCityOceanUsers() {
     this.ssoUserService.getCityOceanUsers({}).subscribe((res: any) => {
-      debugger;
       this.listOfOption = res.items;
     });
   }

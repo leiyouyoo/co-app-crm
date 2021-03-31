@@ -146,6 +146,7 @@ export class InvoiceListComponent extends CoPageBase {
     const modal = this.modal.create({
       nzTitle: this.$L(title),
       nzContent: InvoiceDetailComponent,
+      nzMaskClosable:false,
       nzComponentParams: {
         id: item?.id,
         customerId: this.customerInfo.id,

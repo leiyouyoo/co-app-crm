@@ -136,6 +136,7 @@ export class LocationListComponent extends CoPageBase {
     const modal = this.modal.create({
       nzTitle: this.$L(title),
       nzContent: LocationDetailComponent,
+      nzMaskClosable:false,
       nzComponentParams: {
         id: item?.id,
         customerId: this.customerInfo.id,
@@ -193,6 +194,7 @@ export class LocationListComponent extends CoPageBase {
     const modal = this.modal.create({
       nzTitle: this.$L(title),
       nzContent: BindContactsComponent,
+      nzMaskClosable:false,
       nzComponentParams: {
         locationId: item.id,
         customerInfo: this.customerInfo,

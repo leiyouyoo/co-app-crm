@@ -21,7 +21,6 @@ export class ScheduleListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    debugger
     this.param = {
       customerId: this.customerId,
       searchText: this.searchParam.searchKey,

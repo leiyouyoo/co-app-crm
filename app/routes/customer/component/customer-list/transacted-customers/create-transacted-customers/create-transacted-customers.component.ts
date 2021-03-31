@@ -1280,7 +1280,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       customerOwner: value.customerOwner,
       customerLevel: value.customerLevel,
       website: value.website,
-      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType ? value.customerTaxes : null) : null,
+      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType!=null ? value.customerTaxes : null) : null,
       editionRoleId: value.editionRoleId,
     };
     console.log(entity);

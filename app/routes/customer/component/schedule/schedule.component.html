@@ -28,6 +28,7 @@
           <nz-form-label nzRequired> {{ '开始时间' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
             <nz-date-picker
+            nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"
               [nzDisabledDate]="disabledDate"
               (ngModelChange)="compareDate(validateForm.get('remindStartTime').value, validateForm.get('remindEndTime').value)"
               formControlName="remindStartTime"
@@ -43,6 +44,7 @@
           <nz-form-label nzRequired> {{ '到期时间' | translate }}</nz-form-label>
           <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
             <nz-date-picker
+            nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"
               [nzDisabledDate]="disabledDate"
               (ngModelChange)="compareDate(validateForm.get('remindStartTime').value, validateForm.get('remindEndTime').value)"
               formControlName="remindEndTime"
