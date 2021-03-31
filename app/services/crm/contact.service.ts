@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApi, BaseUrl, DELETE, FORM, GET, Payload, POST, PUT } from '@co/common';
-import { CRMContactDto,CRMListResultDto1,CRMContactListDto,CRMPagedResultDto1,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMCreateOrUpdateContactOutput,CRMCoEntityDto,CRMResetUserPasswordInput } from './crm.types';
+import { CRMContactDto,CRMListResultDto1,CRMContactListDto,CRMPagedResultDto1,CRMGetAllSalesAndContactsOutput,CRMCheckContactEmailInput,CRMCheckContactEmailOutput,CRMCheckMainContact,CRMCommonResponse,CRMCreateOrUpdateContactInput,CRMCreateOrUpdateContactOutput,CRMCoEntityDto,CRMResetUserPasswordInput } from './crm.types';
 
 @BaseUrl('/CRM/Contact')
 @Injectable({ providedIn: 'root' })
@@ -112,6 +112,21 @@ export class CRMContactService extends BaseApi {
         _req: {searchText?:string,type?:number} 
 
     ): Observable<CRMListResultDto1<CRMContactListDto>> {
+        return null as any
+    }
+
+
+    /**
+     * @param url /CRM/Contact/GetAllSalesAndContacts
+     * 获取业务员和联系人列表
+     */
+
+    @GET('GetAllSalesAndContacts')
+    getAllSalesAndContacts(
+        @Payload
+        _req: {customerId?:string,searchText?:string,maxResultCount?:number,skipCount?:number} 
+
+    ): Observable<CRMPagedResultDto1<CRMGetAllSalesAndContactsOutput>> {
         return null as any
     }
 
