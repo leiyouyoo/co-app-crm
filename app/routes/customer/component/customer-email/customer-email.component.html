@@ -1,28 +1,25 @@
 <div class='toolbar'>
-  <button nz-button nzType='primary' [disabled]='form.invalid || receives.length < 1 || (sending | async)' (click)='submit()' [nzLoading]='sending | async'>发送</button>
-  <button nz-button (click)='SelectFile.click()' [disabled]='sending | async'>添加附件</button>
+  <button nz-button nzSize='small' nzType='primary' [disabled]='form.invalid || receives.length < 1 || (sending | async)' (click)='submit()' [nzLoading]='sending | async'>发送</button>
 </div>
 
 <form nz-form class='form'>
   <nz-form-item [formGroup]='form'>
-    <nz-form-label nzSpan='4' nzRequired>发件人</nz-form-label>
+    <nz-form-label nzRequired>发件人</nz-form-label>
     <nz-form-control>
       <input nz-input disabled [value]='(sender | async)?.emailAddress' />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label nzSpan='4' nzRequired>收件人</nz-form-label>
+    <nz-form-label nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select nzShowSearch nzAllowClear nzServerSearch nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
-        <ng-container *ngIf='receivesList | async as items'>
-          <ng-container *ngIf='(receivesSearchLoading | async) === true'>
-            <nz-option nzCustomContent>
-              <nz-spin nzSimple></nz-spin>
-            </nz-option>
-          </ng-container>
-          <nz-option *ngFor='let item of items' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
+      <nz-select nzShowSearch nzAllowClear [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+        <ng-container *ngIf='(receivesSearchLoading | async) === true'>
+          <nz-option nzCustomContent>
+            <nz-spin nzSimple></nz-spin>
+          </nz-option>
         </ng-container>
+        <nz-option *ngFor='let item of receivesList | async' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
       </nz-select>
       <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
@@ -30,12 +27,13 @@
 
   <div class='email-option'>
     <div class='space'></div>
+    <div class='func' (click)="receives = ['momomo2']">miao</div>
     <div class='func' (click)='ccModel.next(!ccModel.getValue())'>{{ (ccModel | async) ? '删除抄送' : '抄送' }}</div>
     <div class='func' (click)='bccModel.next(!bccModel.getValue())'>{{ (bccModel | async) ? '删除密送' : '密送' }}</div>
   </div>
 
   <nz-form-item *ngIf='ccModel | async'>
-    <nz-form-label nzSpan='4'>抄送</nz-form-label>
+    <nz-form-label>抄送</nz-form-label>
     <nz-form-control>
       <nz-select [(ngModel)]='cc' nzMode="tags" [nzTokenSeparators]="[';']" [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="CCMaxTagPlaceHolder" nzPlaceHolder="抄送" [ngModelOptions]="{standalone: true}"></nz-select>
       <ng-template #CCMaxTagPlaceHolder>+{{ cc.length }}</ng-template>
@@ -43,7 +41,7 @@
   </nz-form-item>
 
   <nz-form-item *ngIf='bccModel | async'>
-    <nz-form-label nzSpan='4'>密送</nz-form-label>
+    <nz-form-label>密送</nz-form-label>
     <nz-form-control>
       <nz-select [(ngModel)]='bcc' nzMode="tags" [nzTokenSeparators]="[';']" [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="BCCMaxTagPlaceHolder" nzPlaceHolder="密送" [ngModelOptions]="{standalone: true}"></nz-select>
       <ng-template #BCCMaxTagPlaceHolder>+{{ bcc.length }}</ng-template>
@@ -51,17 +49,23 @@
   </nz-form-item>
 
   <nz-form-item [formGroup]='form'>
-    <nz-form-label nzSpan='4' nzRequired>主题</nz-form-label>
+    <nz-form-label nzRequired>主题</nz-form-label>
     <nz-form-control>
       <input nz-input formControlName='subject' />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item [formGroup]='form'>
-    <nz-form-label nzSpan='4' nzRequired>正文</nz-form-label>
+    <nz-form-label nzRequired>正文</nz-form-label>
     <div class='email-container'>
       <ckeditor formControlName='value' [config]='editorConfig'></ckeditor>
       <div class='tool'>
+        <button nz-button nzSize='small' class='tool-func' (click)='SelectFile.click()'>
+          <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
+        </button>
+        <button nz-button nzSize='small' class='tool-func'>
+          <i nz-icon nzType="eye" nzTheme="outline"></i>
+        </button>
         <button nz-button nzSize='small' class='tool-func' *ngIf='!fullScreenMode' (click)='openFullScreen()'>
           <i nz-icon nzType="arrows-alt" nzTheme="outline"></i>
         </button>
@@ -70,7 +74,7 @@
   </nz-form-item>
 
   <nz-form-item [formGroup]='form'>
-    <nz-form-label nzSpan='4' nzNoColon></nz-form-label>
+    <nz-form-label nzNoColon></nz-form-label>
     <div class='enclosure'>
       <div class='item' *ngFor='let item of fileList | async; index as index'>
         <div class='prefix'></div>
