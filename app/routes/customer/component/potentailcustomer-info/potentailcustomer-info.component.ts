@@ -65,7 +65,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     );
   }
 
-  //获取详情
+    /**
+   * 获取详情
+   */
   getCustomerDetail(id) {
     this.isLoading = true;
     this.crmCustomerService.getDetail({ id: id }).subscribe(
@@ -80,7 +82,9 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     );
   }
 
-  //编辑完之后重新获取详情
+     /**
+   * 编辑完之后重新获取详情
+   */
   getDetail(e) {
     if (e) {
       this.getCustomerDetail(this.customerId);
@@ -352,7 +356,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
    */
   onLinkQuote() {
     //处理时间
-    const year = this.date.getFullYear();
+    const year = this.date.getFullYear()+ '';
     // let requestTime = [];
     // requestTime.push(new Date(this.date.getFullYear + '-01-01'), new Date(this.date.getFullYear + '-12-31'));
     this.$navigate(['/crm/quotes'], {
