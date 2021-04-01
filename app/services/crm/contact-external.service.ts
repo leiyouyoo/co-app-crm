@@ -109,7 +109,7 @@ export class CRMContactExternalService extends BaseApi {
     @GET('GetByCustomerOrPartner')
     getByCustomerOrPartner(
         @Payload
-        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,bindLocationId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {partnerId?:string,customerId?:string,isRegistered?:boolean,bindLocationId?:string,isCurrentUser?:boolean,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMListResultDto1<CRMExternalContactListDto>> {
         return null as any

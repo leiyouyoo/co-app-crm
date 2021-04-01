@@ -11,7 +11,7 @@
 <ng-container *ngIf='members | async as items; else LoadingTpl;'>
   <ng-container *ngIf='(isLoading | async) === false; else LoadingTpl'>
     <div class='members' *ngIf='items.length > 0; else EmptyTpl;'>
-      <div class='member' *ngFor='let item of items' [class.selected]='selected.isSelected(item.allowUserId)' (click)='selected.toggle(item.allowUserId)'>
+      <div class='member' *ngFor='let item of items' [class.selected]='selected.isSelected(item)' (click)='selected.toggle(item)'>
         <img src='https://tva2.sinaimg.cn/crop.0.0.749.749.180/aef54a81jw8f5y5vh5427j20ku0ktgm4.jpg'>
         <p>{{ item.allowUserName }}</p>
       </div>
