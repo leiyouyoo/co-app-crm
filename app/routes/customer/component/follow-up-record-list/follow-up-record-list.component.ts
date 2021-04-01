@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -37,8 +38,12 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     injector: Injector,
     private crmCustomerOperationEventService: CRMCustomerOperationEventService,
     private crmTraceLogService: CRMTraceLogService,
+    private activatedRoute: ActivatedRoute,
   ) {
     super(injector);
+    if (this.activatedRoute.snapshot.params.id) {
+      this.customerId = this.activatedRoute.snapshot.params.id;
+    }
   }
 
   ngOnInit(): void {
@@ -105,7 +110,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   handlePreview = async (item) => {
     this.previewImage = this.getImgUrl(item);
     this.previewVisible = true;
-  }
+  };
 
   /**
    * 获取下一页事件
