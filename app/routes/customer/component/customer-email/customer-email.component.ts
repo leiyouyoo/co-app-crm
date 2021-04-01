@@ -7,6 +7,7 @@ import { STORAGEFileService } from 'apps/crm/app/services/storage';
 import { CKEditor4 } from 'ckeditor4-angular';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject, EMPTY, from, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -55,6 +56,7 @@ export interface InitData{
   bcc: string[];
   subject: string;
   value: string;
+  selectedFile: SelectedFile[];
   fileList: FileInfo[];
 }
 
@@ -79,7 +81,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   cc: string[] = [];
   bcc: string[] = [];
   receives: string[] = [];
-  password: string | undefined = undefined;
   sending = new BehaviorSubject<boolean>(false);
   form = new FormGroup({
     subject: new FormControl('', Validators.required),
@@ -100,6 +101,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     private nzModalService: NzModalService,
     private storageFileService: STORAGEFileService,
     private nzMessageService: NzMessageService,
+    private nzNotificationService: NzNotificationService
   ) {
     this.user = this.http.get<UserDetail>('/SSO/User/GetUserDetail').pipe(
       shareReplay({
@@ -162,6 +164,15 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.initData();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  initData(): void{
     if (this.init){
       this.cc = this.init.cc;
       this.bcc = this.init.bcc;
@@ -169,15 +180,11 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         subject: this.init.subject,
         value: this.init.value
       });
+      this.selectedFile.next(this.init.selectedFile);
       this.fileList.next(this.init.fileList);
       this.ccModel.next(this.init.ccModel);
       this.bccModel.next(this.init.bccModel);
     }
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 
   hasPassword(): boolean{
@@ -191,18 +198,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
 
   searchReceives(event: string): void{
     this.receivesKeyword.next(event);
-  }
-
-  openEmailPasswordInputModal(): void{
-    const modal = this.nzModalService.create<EmailPasswordInputModalComponent, string | undefined | null>({
-      nzTitle: '请输入密码',
-      nzContent: EmailPasswordInputModalComponent,
-      nzFooter: null
-    });
-
-    modal.afterClose.subscribe(v => {
-      this.password = v;
-    });
   }
 
   uploadFile(event: Event): void{
@@ -252,7 +247,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   openFullScreen(): void{
     this.sender.pipe(
       switchMap(sender => {
-        const modal = this.nzModalService.create<CustomerEmailComponent, InitData>({
+        const modal = this.nzModalService.create<CustomerEmailComponent, InitData | undefined | null>({
           nzTitle: '邮件',
           nzWidth: '90vw',
           nzFooter: null,
@@ -268,7 +263,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
               bcc: this.bcc,
               subject: this.form.value.subject,
               value: this.form.value.value,
-              fileList: this.fileList.getValue()
+              fileList: this.fileList.getValue(),
+              selectedFile: this.selectedFile.getValue()
             }
           },
           nzOnCancel: instance => {
@@ -281,7 +277,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
               bcc: instance.bcc,
               subject: instance.form.value.subject,
               value: instance.form.value.value,
-              fileList: instance.fileList.getValue()
+              fileList: instance.fileList.getValue(),
+              selectedFile: instance.selectedFile.getValue()
             });
           }
         });
@@ -289,19 +286,23 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         return modal.afterClose;
       })
     ).subscribe(result => {
-      this.ccModel.next(result.ccModel);
-      this.bccModel.next(result.bccModel);
-      this.cc = result.cc;
-      this.bcc = result.bcc;
-      this.form.patchValue({
-        subject: result.subject,
-        value: result.value
-      });
-      this.fileList.next(result.fileList);
+      console.log(result);
+      if (result){
+        this.ccModel.next(result.ccModel);
+        this.bccModel.next(result.bccModel);
+        this.cc = result.cc;
+        this.bcc = result.bcc;
+        this.form.patchValue({
+          subject: result.subject,
+          value: result.value
+        });
+        this.fileList.next(result.fileList);
+        this.selectedFile.next(result.selectedFile);
+      }
     });
   }
 
-  openEmailPasswordInputModals(title?: string): Observable<string | undefined | null>{
+  openEmailPasswordInputModal(title?: string): Observable<string | undefined | null>{
     return this.nzModalService.create<EmailPasswordInputModalComponent, string | undefined | null>({
       nzTitle: title || '请输入密码',
       nzContent: EmailPasswordInputModalComponent,
@@ -346,7 +347,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
             });
           }else {
             /** 打开输入密码的弹窗 */
-            return this.openEmailPasswordInputModals().pipe(
+            return this.openEmailPasswordInputModal().pipe(
               switchMap(result => {
                 /** 如果填了密码，那就发送请求 */
                 if (result){
@@ -375,7 +376,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
             console.error(err.error.error.code);
             if (err.error?.error?.code === 401){
               /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
-              return this.openEmailPasswordInputModals('密码错误，请重新输入').pipe(
+              return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
                 switchMap(result => {
                   /** 如果填了密码，那就发送请求 */
                   if (result){
@@ -402,16 +403,31 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         })
       ))
     ).subscribe({
-      next: v => {
-        console.log(v);
-      },
       error: err => {
         console.error(err);
         this.sending.next(false);
       },
       complete: () => {
+        this.reset();
         this.sending.next(false);
+        this.nzNotificationService.success('发送成功', '', {
+          nzPlacement: 'topRight'
+        });
       }
     });
+  }
+
+  reset(): void{
+    this.fileList.next([]);
+    this.receivesSearchLoading.next(false);
+    this.sending.next(false);
+    this.ccModel.next(false);
+    this.bccModel.next(false);
+    this.cc = [];
+    this.bcc = [];
+    this.receives = [];
+    this.form.reset();
+    this.selectedFile.next([]);
+    this.fileList.next([]);
   }
 }
