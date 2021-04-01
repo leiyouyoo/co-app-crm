@@ -1,5 +1,5 @@
 <nz-divider style="margin: 0"></nz-divider>
-<section style="height: calc(100% - 17px);background: #fff;padding: 16px;">
+<section style="height: calc(100% - 17px);padding: 16px;background: #fff;">
   <div class="search_area">
     <nz-input-group nzSize="small" [nzSuffix]="suffixIconSearch">
       <input type="text" [(ngModel)]="param.searchKey" (enterKeydown)="searchLog()" nz-input
@@ -72,10 +72,10 @@
     </div>
   </div>
   <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
-           style="overflow: auto;height: calc(100% - 62px)!important;">
-    <div class="event_log" style="overflow: auto; height: calc(100% - 62px);">
-      <crm-schedule-list [hidden]="index != 1&&!getBusinessType" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
-      <nz-empty *ngIf="traceLogList.length==0" nzNotFoundImage="simple"></nz-empty>
+           style="height: calc(100% - 62px) !important;overflow: auto;">
+    <div class="event_log" style=" height: calc(100% - 62px);overflow: auto;">
+      <crm-schedule-list [hidden]="!isShowSchedule" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
+      <nz-empty *ngIf="traceLogList.length==0&&scheduleList.scheduleList?.length==0" nzNotFoundImage="simple"></nz-empty>
       <div class="event_log__content" *ngFor="let item of traceLogList">
         <nz-spin [nzSpinning]="item.loading">
           <ng-container [ngSwitch]='item.businessType'>
@@ -136,12 +136,12 @@
   </p>
   <div *ngIf='item.isShow' class='trace_log__content'>
     <span style='display: flex; align-items: center;'>
-      <i nz-icon [nzIconfont]="'icon-youjian'" *ngIf="item.detail?.traceLogTypeCode == 'Email'"></i>
-      <i nz-icon [nzIconfont]="'icon-weixin1'" *ngIf="item.detail?.traceLogTypeCode == 'WeChat'"></i>
-      <i nz-icon [nzIconfont]="'icon-zhangshangcaifuyemianshoujiban343'" *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
-      <i nz-icon [nzIconfont]="'icon-OA-ohter-6'" *ngIf="item.detail?.traceLogTypeCode == 'Other'"></i>
-      <i nz-icon [nzIconfont]="'icon-cooperation-full2'" *ngIf="item.detail?.traceLogTypeCode == 'Visit'"></i>
-      <i nz-icon [nzIconfont]="'icon-shouji'" *ngIf="item.detail?.traceLogTypeCode == 'Phone'"></i>
+      <i nz-icon [nzIconfont]="'icon-youxiang'" *ngIf="item.detail?.traceLogTypeCode == 'Email'"></i>
+      <i nz-icon [nzIconfont]="'icon-weixin2'" *ngIf="item.detail?.traceLogTypeCode == 'WeChat'"></i>
+      <i nz-icon [nzIconfont]="'icon-qq'" *ngIf="item.detail?.traceLogTypeCode == 'QQ'"></i>
+      <i nz-icon [nzIconfont]="'icon-qitalingyu'" *ngIf="item.detail?.traceLogTypeCode == 'Other'"></i>
+      <i nz-icon [nzIconfont]="'icon-hezuo'" *ngIf="item.detail?.traceLogTypeCode == 'Visit'"></i>
+      <i nz-icon [nzIconfont]="'icon-shouji1'" *ngIf="item.detail?.traceLogTypeCode == 'Phone'"></i>
       {{ item.detail?.followUpRecord | date: 'yyyy-MM-dd HH:mm:ss' }}
     </span>
     <span>{{ item.detail?.content }}</span>

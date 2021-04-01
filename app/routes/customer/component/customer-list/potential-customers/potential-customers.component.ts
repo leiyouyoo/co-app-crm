@@ -428,6 +428,7 @@ export class PotentialCustomersComponent extends CoPageBase {
         customerIds: this.selected.map((e) => e.id),
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -454,6 +455,7 @@ export class PotentialCustomersComponent extends CoPageBase {
         nameObj: data,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -479,6 +481,7 @@ export class PotentialCustomersComponent extends CoPageBase {
         customerInfo: data,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -502,6 +505,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzClosable: false,
       nzWidth: 1024,
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzComponentParams: { customerSelected: this.selected },
       nzFooter: null,
     });
@@ -540,6 +544,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
+      nzMaskClosable:false,
       nzComponentParams: { customerInfo: this.selected[0] },
       nzFooter: null,
     });

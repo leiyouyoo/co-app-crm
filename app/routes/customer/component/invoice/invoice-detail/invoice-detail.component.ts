@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { PUBCurrencyService } from '@co/cds';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMCustomerTitleDto, CRMCustomerTitleService } from 'apps/crm/app/services/crm';
+import { CSPInvoiceService } from 'apps/crm/app/services/csp';
 import { NzMessageService, NzModalRef } from 'ng-zorro-antd';
 
 @Component({
@@ -40,7 +41,7 @@ export class InvoiceDetailComponent implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     private invoiceTitleService: CRMCustomerTitleService,
-    private pUBCurrencyService: PUBCurrencyService,
+    private invoiceService: CSPInvoiceService,
     private message: NzMessageService,
     private modalRef: NzModalRef,
   ) {}
@@ -85,8 +86,8 @@ export class InvoiceDetailComponent implements OnInit {
 
   //获取币别
   getAllCurrency() {
-    this.pUBCurrencyService.getAll({}).subscribe((c) => {
-      this.currencyList = c.items;
+    this.invoiceService.getCurrencyAsync({}).subscribe((c) => {
+      this.currencyList = c;
       !this.validateForm.value.id && this.onAddLine('add');
     });
   }
@@ -157,8 +158,8 @@ export class InvoiceDetailComponent implements OnInit {
     if (this.currencyList.length > 0) {
       addline();
     } else {
-      this.pUBCurrencyService.getAll({}).subscribe((c) => {
-        this.currencyList = c.items;
+      this.invoiceService.getCurrencyAsync({}).subscribe((c) => {
+        this.currencyList = c;
         addline();
       });
     }

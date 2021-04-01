@@ -157,7 +157,7 @@
             <nz-tab [nzTitle]="'Location list' | translate">
               <crm-location-list [customerInfo]="customerInfo"></crm-location-list>
             </nz-tab>
-            <nz-tab [nzTitle]="'Invoice' | translate">
+            <nz-tab [nzTitle]="'InvoiceTitle' | translate">
               <crm-invoice-list [customerInfo]="customerInfo"></crm-invoice-list>
             </nz-tab>
             <nz-tab [nzTitle]="'Partner' | translate">
@@ -208,7 +208,6 @@
             style="overflow: hidden;"
             [ngStyle]="{ flex: recordExpand ? '1' : 'unset', height: recordExpand ? '50%' : 'auto' }"
             [customerId]="customerId"
-            [index]="index"
             #recordList
           ></crm-follow-up-record-list>
         </div>

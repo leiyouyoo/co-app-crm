@@ -1195,5 +1195,6 @@
   "Select member": "选择成员",
   "Initiate chat": "发起聊天",
   "Team members": "团队成员",
-  "Bank account cannot be repeated":"银行账号不能重复"
+  "Bank account cannot be repeated":"银行账号不能重复",
+  "InvoiceTitle":"发票抬头"
 }

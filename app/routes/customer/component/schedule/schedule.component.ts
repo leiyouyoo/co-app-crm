@@ -39,8 +39,9 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
       title: [null, [Validators.required]],
       remindStartTime: [null, [Validators.required]],
       remindEndTime: [null, [Validators.required]],
+      advanceTime:[15],
       remindPeople: [null],
-      beAssigned: [[], [Validators.required]],
+      beAssigned: [[this.$session.user.id]],
       content: [null], //跟进时间
       businessNo: [this.customerId],
     });

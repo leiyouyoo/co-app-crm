@@ -13,7 +13,6 @@ import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.c
 export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @ViewChild(ScheduleListComponent, { static: false }) scheduleList: ScheduleListComponent;
   @Input() customerId;
-  @Input() index;
   traceLogList = [];
   param: any;
   offsetDay = 0;
@@ -25,6 +24,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   visible = false;
   allChecked = true;
   indeterminate = false;
+  isShowSchedule=true;
   checkOptionsOne = [
     { label: '电子邮件', value: 5, checked: true },
     { label: '跟进记录', value: 3, checked: true },
@@ -130,7 +130,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   get getBusinessType() {
-    return this.param.businessTypes.some((e) => e === 4);
+    return  this.checkOptionsOne.find(c=>c.value===4)?.checked;
   }
 
   showAll() {
@@ -192,6 +192,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   apply() {
+    debugger
     this.param.offsetDay = this.offsetDay;
     if (this.checkOptionsOne.every(e => !e.checked)) {
       this.allChecked = true;
@@ -203,6 +204,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
       this.param.businessTypes = this.checkOptionsOne.filter((e) => e.checked).map((e) => e.value);
     }
     this.visible = false;
+    this.isShowSchedule=this.getBusinessType;
     this.searchLog();
   }
 }

@@ -101,6 +101,7 @@ export class CustomerListComponent extends CoPageBase {
       nzContent: LocationDetailComponent,
       nzComponentParams: {},
       nzClassName: 'crm-location-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });

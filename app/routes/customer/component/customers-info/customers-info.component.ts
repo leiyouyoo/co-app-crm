@@ -118,6 +118,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
+      nzMaskClosable:false,
       nzComponentParams: { customerInfo: this.customerInfo },
       nzFooter: null,
     });
@@ -141,6 +142,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         nameObj: this.customerInfo,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -163,6 +165,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         customerIds: [this.customerInfo.id],
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -182,6 +185,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -204,6 +208,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-contact-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -226,6 +231,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-location-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -249,6 +255,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-location-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });

@@ -403,7 +403,7 @@ export class TransactedCustomersComponent extends CoPageBase {
   /**
    *
    *
-   * 申请改名
+   * 转移客户
    */
   transferCustomer() {
     const modal = this.modal.create({
@@ -413,6 +413,7 @@ export class TransactedCustomersComponent extends CoPageBase {
         customerIds: this.selected.map((e) => e.id),
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -439,6 +440,7 @@ export class TransactedCustomersComponent extends CoPageBase {
         nameObj: data.name,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -462,6 +464,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       nzClosable: false,
       nzWidth: 1024,
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzComponentParams: { customerSelected: this.selected },
       nzFooter: null,
     });
@@ -502,6 +505,7 @@ export class TransactedCustomersComponent extends CoPageBase {
         customerInfo: data,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });

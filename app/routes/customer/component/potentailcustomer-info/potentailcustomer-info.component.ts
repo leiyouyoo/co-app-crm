@@ -145,6 +145,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       nzClosable: false,
       nzWidth: 820,
       nzClassName: 'fam-customer-modal',
+      nzMaskClosable:false,
       nzComponentParams: { customerInfo: this.customerInfo },
       nzFooter: null,
     });
@@ -166,6 +167,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         nameObj: this.customerInfo,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -186,6 +188,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         customerIds: [this.customerId],
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -203,6 +206,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         customerId: this.customerId,
       },
       nzClassName: 'crm-customer-modal',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -253,6 +257,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-location-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -276,6 +281,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-contact-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
@@ -298,6 +304,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
         customerId: this.customerInfo.id,
       },
       nzClassName: 'crm-location-detail',
+      nzMaskClosable:false,
       nzStyle: { width: '40%' },
       nzFooter: null,
     });
