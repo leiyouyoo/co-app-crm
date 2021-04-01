@@ -86,7 +86,7 @@
               [style.transform]="!hiddenKey[key] ? 'rotate(90deg)' : 'unset'" nz-icon
               nzType="right"
               nzTheme="outline"></i>{{key}}</span>
-          <span *ngIf="checkMonth(key)">本月</span>
+          <span style="font-size: 14px;" *ngIf="checkMonth(key)">本月</span>
         </h2>
         <div class="event_log__content" [hidden]="hiddenKey[key]"
              *ngFor="let item of groupedLogList[key]">

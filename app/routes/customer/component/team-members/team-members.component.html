@@ -12,7 +12,7 @@
   <ng-container *ngIf='(isLoading | async) === false; else LoadingTpl'>
     <div class='members' *ngIf='items.length > 0; else EmptyTpl;'>
       <div class='member' *ngFor='let item of items' [class.selected]='selected.isSelected(item.allowUserId)' (click)='selected.toggle(item.allowUserId)'>
-        <img src='../../apps/crm/assets/images/co-avatar.png'>
+        <img src='../../apps/crm/assets/images/user.png'>
         <p>{{ item.allowUserName }}</p>
       </div>
     </div>
