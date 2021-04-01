@@ -42,7 +42,7 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
       width: 300,
     },
     {
-      title: this.$L('Location name'),
+      title: this.$L('Country, province'),
       render: 'location',
       width: 100,
     },

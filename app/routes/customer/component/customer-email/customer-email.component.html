@@ -13,15 +13,13 @@
   <nz-form-item>
     <nz-form-label nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select nzShowSearch nzAllowClear nzServerSearch nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
-        <ng-container *ngIf='receivesList | async as items'>
-          <ng-container *ngIf='(receivesSearchLoading | async) === true'>
-            <nz-option nzCustomContent>
-              <nz-spin nzSimple></nz-spin>
-            </nz-option>
-          </ng-container>
-          <nz-option *ngFor='let item of items' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
+      <nz-select nzShowSearch nzAllowClear [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+        <ng-container *ngIf='(receivesSearchLoading | async) === true'>
+          <nz-option nzCustomContent>
+            <nz-spin nzSimple></nz-spin>
+          </nz-option>
         </ng-container>
+        <nz-option *ngFor='let item of receivesList | async' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
       </nz-select>
       <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
@@ -29,6 +27,7 @@
 
   <div class='email-option'>
     <div class='space'></div>
+    <div class='func' (click)="receives = ['momomo2']">miao</div>
     <div class='func' (click)='ccModel.next(!ccModel.getValue())'>{{ (ccModel | async) ? '删除抄送' : '抄送' }}</div>
     <div class='func' (click)='bccModel.next(!bccModel.getValue())'>{{ (bccModel | async) ? '删除密送' : '密送' }}</div>
   </div>
@@ -59,7 +58,7 @@
   <nz-form-item [formGroup]='form'>
     <nz-form-label nzRequired>正文</nz-form-label>
     <div class='email-container'>
-      <ckeditor #Editor formControlName='value' [config]='editorConfig'></ckeditor>
+      <ckeditor formControlName='value' [config]='editorConfig'></ckeditor>
       <div class='tool'>
         <button nz-button nzSize='small' class='tool-func' (click)='SelectFile.click()'>
           <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
