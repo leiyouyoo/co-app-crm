@@ -125,12 +125,12 @@
     <div [ngClass]="{ active_ocean_bg: isShowFreigthOcean && oceanFreight?.length > 0 }">
       <form nzLayout="horizontal" class="freightOcean a-form" nz-form #basicData="ngForm">
         <div class="basic-cost" *ngIf="_quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && _quoteinfo.shipmentType == 0">
-          <nz-table [nzData]="containHavedataList" [nzShowPagination]="false" [nzScroll]="{ x: '1200px' }">
+          <nz-table #containerTable [nzData]="containHavedataList" [nzShowPagination]="false" [nzScroll]="{ x: '1200px' }">
             <thead>
             <tr>
-              <th>{{ 'ContainType' | translate }}</th>
-              <th>{{ 'Quantity' | translate }}</th>
-              <th>{{ '单价' | translate }}(USD)</th>
+              <th><span class="red">*</span>{{ 'ContainType' | translate }}</th>
+              <th><span class="red">*</span>{{ 'Quantity' | translate }}</th>
+              <th><span class="red">*</span>{{ '单价' | translate }}(USD)</th>
               <th>{{ 'total' | translate }}</th>
               <th>{{ 'Operating' | translate }}</th>
             </tr>
@@ -160,7 +160,7 @@
           <button
             nz-button
             nzType="dashed"
-            (click)="addBox()"
+            (click)="addBox(containerTable);"
             style="width: 100%; margin-top: 8px; font-size: 14px; font-weight: 400; color: rgba(0, 0, 0, 0.65);"
           >
             <i nz-icon nzType="plus" nzTheme="outline"></i>
@@ -172,13 +172,13 @@
           <nz-table #editRowTable [nzData]="basiccost" [nzShowPagination]="false" [nzScroll]="{ x: '1200px' }">
             <thead>
               <tr>
-                <th>{{ 'Quantity' | translate}}(CTN)</th>
-                <th>{{ 'Weight' | translate}}(KG)</th>
-                <th>{{ 'Volume' | translate}}(CBM)</th>
-                <th style="width: 100px;">{{ 'Unit Price' | translate }}</th>
-                <th>{{ 'Toll unit' | translate }}</th>
-                <th nzWidth="180px">{{ 'computeFormula' | translate }}</th>
-                <th *ngIf="basiccost[0].computeFormula == 4" nzWidth="180px">{{ 'computeMode' | translate }}</th>
+                <th><span class="red">*</span>{{ 'Quantity' | translate}}(CTN)</th>
+                <th><span class="red">*</span>{{ 'Weight' | translate}}(KG)</th>
+                <th><span class="red">*</span>{{ 'Volume' | translate}}(CBM)</th>
+                <th><span class="red">*</span>{{ 'Toll unit' | translate }}</th>
+                <th nzWidth="180px"><span class="red">*</span>{{ 'computeFormula' | translate }}</th>
+                <th *ngIf="basiccost[0].computeFormula == 4" nzWidth="180px"><span class="red">*</span>{{ 'computeMode' | translate }}</th>
+                <th style="width: 100px;"><span class="red">*</span>{{ 'Unit Price' | translate }}</th>
                 <th>{{ 'Quantity' | translate }}</th>
                 <th>{{ 'Currency' | translate }}</th>
                 <th>{{ 'Total' | translate }}</th>
@@ -194,24 +194,6 @@
                 </td>
                 <td>
                   <nz-input-number [name]="'fvolume' + i" [(ngModel)]="_quoteinfo.volume"></nz-input-number>
-                </td>
-                <td>
-                  <div class="table-input">
-                    <nz-input-number
-                      required
-                      [(ngModel)]="item.unitPrice"
-                      [nzMin]="1"
-                      [nzPrecision]="3"
-                      [nzMax]="999999999999999"
-                      [name]="'unitPrice' + i"
-                      #unitPrice="ngModel"
-                      (ngModelChange)="bulkcargo(item)"
-                    >
-                    </nz-input-number>
-                  </div>
-                  <div class="table-red">
-                    <app-formvalidation requiredName="Unit Price" [value]="unitPrice"> </app-formvalidation>
-                  </div>
                 </td>
                 <td>
                   <div class="table-input">
@@ -274,6 +256,24 @@
                   <div class="table-red">
                     <!-- <app-formvalidation requiredName="computeMode" [value]="computeMode">
                               </app-formvalidation> -->
+                  </div>
+                </td>
+                <td>
+                  <div class="table-input">
+                    <nz-input-number
+                      required
+                      [(ngModel)]="item.unitPrice"
+                      [nzMin]="1"
+                      [nzPrecision]="3"
+                      [nzMax]="999999999999999"
+                      [name]="'unitPrice' + i"
+                      #unitPrice="ngModel"
+                      (ngModelChange)="bulkcargo(item)"
+                    >
+                    </nz-input-number>
+                  </div>
+                  <div class="table-red">
+                    <app-formvalidation requiredName="Unit Price" [value]="unitPrice"> </app-formvalidation>
                   </div>
                 </td>
                 <td [ngClass]="{ notClickn: true }">
