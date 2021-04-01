@@ -1,20 +1,21 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CRMCustomerService } from 'apps/crm/app/services/crm';
-import { ApplyCodeComponent } from '../apply-code/apply-code.component';
-import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
-import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
-import { CspAccountConfigComponent } from '../csp-account-config/csp-account-config.component';
 import { CoPageBase } from '@co/core';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
-import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
-import { ContactListComponent } from '../contact/contact-list/contact-list.component';
-import { LocationListComponent } from '../location/location-list/location-list.component';
-import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
-import { CustomerType } from '../../models/enum';
+import { CRMCustomerService } from 'apps/crm/app/services/crm';
 import { differenceInCalendarDays } from 'date-fns';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { CustomerType } from '../../models/enum';
+import { ApplyCodeComponent } from '../apply-code/apply-code.component';
+import { ContactDetailComponent } from '../contact/contact-detail/contact-detail.component';
+import { ContactListComponent } from '../contact/contact-list/contact-list.component';
+import { CspAccountConfigComponent } from '../csp-account-config/csp-account-config.component';
+import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-record-list.component';
 import { FollowUpRecordComponent } from '../follow-up-record/follow-up-record.component';
+import { LocationDetailComponent } from '../location/location-detail/location-detail.component';
+import { LocationListComponent } from '../location/location-list/location-list.component';
+import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
+import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
+import { CustomerEmailComponent, InitData } from '../customer-email/customer-email.component';
 
 @Component({
   selector: 'crm-customers-info',
@@ -50,22 +51,22 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     this.getBusinessStatistics();
   }
 
-  //获取详情
+  // 获取详情
   getCustomerDetail(id) {
     this.isLoading = true;
-    this.crmCustomerService.getDetail({ id: id }).subscribe(
+    this.crmCustomerService.getDetail({ id }).subscribe(
       (res) => {
         this.isLoading = false;
         this.customerInfo = res;
       },
 
-      (error) => {
+      () => {
         this.isLoading = false;
       },
     );
   }
 
-  //编辑完之后重新获取详情
+  // 编辑完之后重新获取详情
   getDetail(e) {
     if (e) {
       this.getCustomerDetail(this.customerId);
@@ -102,7 +103,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   bulkTurnCustomerSea() {
     this.isLoading = true;
-    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe((r) => {
+    this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe(() => {
       this.$message.success(this.$L('Successful operation'));
       this.$close();
     });
@@ -233,7 +234,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
       this.onRecordSuccess(res);
       modal.destroy();
     });
-    modal.componentInstance.onExpand.subscribe((res) => {
+    modal.componentInstance.onExpand.subscribe(() => {
       modal.destroy();
     });
   }
@@ -264,7 +265,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 作废
    */
   setVoid() {
-    this.crmCustomerService.delete({ id: this.customerInfo.id }).subscribe((res) => {
+    this.crmCustomerService.delete({ id: this.customerInfo.id }).subscribe(() => {
       this.$message.success(this.$L('Void successfully!'));
     });
   }
@@ -273,16 +274,16 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 启用
    */
   recoverDelete() {
-    this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe((res) => {
+    this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe(() => {
       this.$message.success(this.$L('Enable successfully!'));
     });
   }
 
-  //选项卡切换更新table
+  // 选项卡切换更新table
   onSelectChange(e) {
-    if (e.index == 0) {
+    if (e.index === 0) {
       this.contactList.getContacts(this.customerId);
-    } else if (e.index == 1) {
+    } else if (e.index === 1) {
       this.locationList.getLocation(this.customerId);
     }
   }
@@ -298,6 +299,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 发布跟进记录回调
    */
   onRecordSuccess(e) {
+    // tslint:disable-next-line:no-unused-expression
     e && this.recordList.getCustomerOperationEvent();
   }
 
@@ -310,7 +312,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   getBusinessStatistics() {
     const year = this.date.getFullYear();
-    this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year: year }).subscribe((res) => {
+    this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year }).subscribe((res) => {
       this.statisticsInfo = res;
     });
   }
@@ -319,24 +321,25 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 发布日程回调
    */
   onScheduleSuccess(e) {
+    // tslint:disable-next-line:no-unused-expression
     e && this.recordList.scheduleList.getAllScheduleForCrm();
   }
 
   disabledDate = (current: Date): boolean => {
     // Can not select days before today and today
     return differenceInCalendarDays(current, this.today) > 0;
-  };
+  }
 
   /**
    * 跳转询价
    */
   onLinkQuote() {
-    //处理时间
+    // 处理时间
     // let requestTime = [];
     // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
     const year = this.date.getFullYear();
     this.$navigate(['/crm/quotes'], {
-      queryParams: { custometId: this.customerId, year: year, _title: this.$L('Quotes') },
+      queryParams: { custometId: this.customerId, year, _title: this.$L('Quotes') },
     });
   }
 
@@ -344,30 +347,43 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 跳转订单
    */
   onLinkBooking() {
-    //处理时间
-    let requestTime = [];
+    // 处理时间
+    const requestTime = [];
     requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
     this.$navigate([`fcm/crm-booking`], {
       queryParams: {
         customerId: this.customerId,
         customerName: this.customerInfo.localizationName,
-        requestTime: requestTime,
+        requestTime,
       },
     });
   }
 
- /**
+  /**
    * 跳转我的审批
    */
-  onLinkWorkFlow(){
-        // //处理时间
-        // let requestTime = [];
-        // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
-        this.$navigate([`wf/application`], {
-          queryParams: {
-            customerId: this.customerId,
-            requestTime: this.date.getFullYear(),
-          },
-        });
+  onLinkWorkFlow() {
+    // //处理时间
+    // let requestTime = [];
+    // requestTime.push(new Date(this.date.getFullYear() + '-01-01'), new Date(this.date.getFullYear() + '-12-31'));
+    this.$navigate([`wf/application`], {
+      queryParams: {
+        customerId: this.customerId,
+        requestTime: this.date.getFullYear(),
+      },
+    });
+  }
+
+  openEmailModal(): void{
+    this.modal.create<CustomerEmailComponent, InitData | undefined | null>({
+      nzTitle: '邮件',
+      nzWidth: 800,
+      nzFooter: null,
+      nzContent: CustomerEmailComponent,
+      nzComponentParams: {
+        fullScreenMode: true,
+        customerId: this.customerId
+      },
+    });
   }
 }

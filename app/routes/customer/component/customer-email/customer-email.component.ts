@@ -75,7 +75,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   sender: Observable<UserDetail>;
   receivesList: Observable<CRMGetAllSalesAndContactsOutput[]>;
   receivesKeyword = new Subject<string>();
-  receivesSearchLoading = new BehaviorSubject<boolean>(false);
+  receivesSearchLoading = new BehaviorSubject<boolean>(true);
   ccModel = new BehaviorSubject<boolean>(false);
   bccModel = new BehaviorSubject<boolean>(false);
   cc: string[] = [];
@@ -132,7 +132,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           this.receivesSearchLoading.next(true);
           return this.crmContactService.getAllSalesAndContacts({
             customerId: this.customerId,
-            searchText: value ? value : undefined,
+            searchText: value,
             maxResultCount: 100
           }).pipe(map(result => result.items));
         }else {
@@ -249,7 +249,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       switchMap(sender => {
         const modal = this.nzModalService.create<CustomerEmailComponent, InitData | undefined | null>({
           nzTitle: '邮件',
-          nzWidth: '90vw',
+          nzWidth: 800,
           nzFooter: null,
           nzContent: CustomerEmailComponent,
           nzComponentParams: {
@@ -373,7 +373,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         }),
         catchError(err => {
           if (err instanceof HttpErrorResponse){
-            console.error(err.error.error.code);
             if (err.error?.error?.code === 401){
               /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
               return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
@@ -403,8 +402,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         })
       ))
     ).subscribe({
-      error: err => {
-        console.error(err);
+      error: () => {
         this.sending.next(false);
       },
       complete: () => {
