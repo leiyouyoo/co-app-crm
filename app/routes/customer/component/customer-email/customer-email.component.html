@@ -1,28 +1,21 @@
 <div class='toolbar'>
-  <button nz-button nzType='primary' [disabled]='form.invalid || receives.length < 1' (click)='submit()'>发送</button>
+  <button nz-button nzType='primary' [disabled]='form.invalid || receives.length < 1 || (sending | async)' (click)='submit()' [nzLoading]='sending | async'>发送</button>
+  <button nz-button (click)='SelectFile.click()' [disabled]='sending | async'>添加附件</button>
 </div>
 
-<form nz-form>
+<form nz-form class='form'>
   <nz-form-item [formGroup]='form'>
     <nz-form-label nzSpan='4' nzRequired>发件人</nz-form-label>
     <nz-form-control>
-      <input nz-input formControlName='sender' />
+      <input nz-input disabled [value]='(sender | async)?.emailAddress' />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-label nzSpan='4' nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <!--
-      <nz-select nzShowSearch nzAllowClear nzServerSearch nzMode='multiple' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [nzLoading]='receivesSearchLoading | async' (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+      <nz-select nzShowSearch nzAllowClear nzServerSearch nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [nzLoading]='receivesSearchLoading | async' (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
         <nz-option *ngFor='let item of receivesList | async' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
-      </nz-select>
-      -->
-      <nz-select nzAllowClear nzMode='multiple' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
-        <nz-option nzLabel='daslnln' nzValue='21kl32@qq.com'></nz-option>
-        <nz-option nzLabel='dsl' nzValue='123@qq.com'></nz-option>
-        <nz-option nzLabel='d123' nzValue='dsd@qq.com'></nz-option>
-        <nz-option nzLabel='gflk' nzValue='gok32opm@qq.com'></nz-option>
       </nz-select>
       <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
@@ -61,6 +54,38 @@
     <nz-form-label nzSpan='4' nzRequired>正文</nz-form-label>
     <div class='email-container'>
       <ckeditor formControlName='value' [config]='editorConfig'></ckeditor>
+      <div class='tool'>
+        <button nz-button nzSize='small' class='tool-func' *ngIf='!fullScreenMode' (click)='openFullScreen()'>
+          <i nz-icon nzType="arrows-alt" nzTheme="outline"></i>
+        </button>
+      </div>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item [formGroup]='form'>
+    <nz-form-label nzSpan='4' nzNoColon></nz-form-label>
+    <div class='enclosure'>
+      <div class='item' *ngFor='let item of fileList | async; index as index'>
+        <div class='prefix'></div>
+        <div class='text'>{{ item.fileName }}</div>
+        <div class='suffix'>
+          <i nz-icon nzType='close' nzTheme='outline' class='remove-file' (click)='removeFile(index)'></i>
+        </div>
+      </div>
+
+      <div class='item' *ngFor='let item of selectedFile | async'>
+        <div class='prefix'></div>
+        <div class='text'>{{ item.data.name }}</div>
+        <div class='suffix'>
+          <nz-spin nzSimple [nzIndicator]="IndicatorTemplate"></nz-spin>
+        </div>
+      </div>
     </div>
   </nz-form-item>
 </form>
+
+<input #SelectFile type='file' multiple (change)='uploadFile($event)' />
+
+<ng-template #IndicatorTemplate>
+  <i nz-icon nzType="loading"></i>
+</ng-template>
