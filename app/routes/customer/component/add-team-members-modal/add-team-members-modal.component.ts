@@ -48,7 +48,7 @@ export class AddTeamMembersModalComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private crmCustomerAccessAllowService: CRMCustomerAccessAllowService,
-    private nzModalRef: NzModalRef<AddTeamMembersModalComponent, boolean>
+    private nzModalRef: NzModalRef<AddTeamMembersModalComponent, boolean>,
   ) {
     this.userList = this.http.get<User[]>('/SSO/User/GetAllActiveUserBySearch').pipe(
       tap(() => this.customersLoading.next(false)),

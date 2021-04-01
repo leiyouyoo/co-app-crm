@@ -4,11 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { STColumn } from '@co/cbc';
 import { STChange } from '@co/cbc/web/st/st.interfaces';
 import { CoPageBase } from '@co/core';
-// tslint:disable-next-line:import-blacklist
-import { NzMessageService } from 'ng-zorro-antd';
-import { BehaviorSubject, interval, merge, Observable, of, Subject, timer } from 'rxjs';
+import { CRMCustomerListDto, CRMCustomerService, CRMQueryConnectionCustomerDto } from 'apps/crm/app/services/crm';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { BehaviorSubject, merge, Observable, of, Subject, timer } from 'rxjs';
 import { debounce, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { CRMCustomerListDto, CRMCustomerService, CRMQueryConnectionCustomerDto } from '../../../../../services/crm';
 
 interface QueryParam {
   customerId?: string;
@@ -21,6 +20,8 @@ interface QueryParam {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationListComponent extends CoPageBase implements OnInit, OnDestroy {
+  /** 表格iif不支持异步 */
+  private _customerId?: string;
   customers: Observable<CRMQueryConnectionCustomerDto[]>;
   connectionCustomers: Observable<CRMCustomerListDto[]>;
   selectCustomers: string[] = [];
@@ -38,27 +39,27 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
     {
       title: this.$L('CompanyName'),
       render: 'name',
-      width: 100
+      width: 300,
     },
     {
       title: this.$L('Location name'),
       render: 'location',
-      width: 100
+      width: 100,
     },
     {
       title: this.$L('Owner'),
       render: 'people',
-      width: 100
+      width: 100,
     },
     {
       title: this.$L('Phone'),
       render: 'number',
-      width: 100
+      width: 100,
     },
     {
       title: this.$L('First shipment time'),
       render: 'time',
-      width: 100
+      width: 100,
     },
     {
       title: this.$L('Operating'),
@@ -70,12 +71,13 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
           type: 'delay',
           click: record => {
             return this.remove(record).then(() => ({
-              action: 'delete'
+              action: 'delete',
             }));
-          }
-        }
-      ]
-    }
+          },
+          iif: item => item.id !== this._customerId
+        },
+      ],
+    },
   ];
 
   constructor(
@@ -83,34 +85,35 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
     private crmCustomerService: CRMCustomerService,
     private activatedRoute: ActivatedRoute,
     private nzMessageService: NzMessageService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     super(injector);
     this.queryParam = this.activatedRoute.paramMap.pipe(
       map(m => {
         const q: QueryParam = {};
 
-        if (m.has('customer_id')){
+        if (m.has('customer_id')) {
           q.customerId = m.get('customer_id');
+          this._customerId = m.get('customer_id');
         }
 
         return q;
       }),
       shareReplay({
         bufferSize: 1,
-        refCount: true
-      })
+        refCount: true,
+      }),
     );
 
     this.customers = this.keyword.pipe(
       debounce(() => timer(400)),
       switchMap((value: string | undefined | null) => {
-        if (value && value.length >= 3){
+        if (value && value.length >= 3) {
           this.customerLoading.next(true);
           return this.crmCustomerService.queryConnectionCustomer({
-            searchText: value
+            searchText: value,
           });
-        }else {
+        } else {
           return of([]);
         }
       }),
@@ -119,8 +122,8 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
       }),
       shareReplay({
         bufferSize: 1,
-        refCount: true
-      })
+        refCount: true,
+      }),
     );
 
     this.connectionCustomers = this.queryParam.pipe(
@@ -130,9 +133,9 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
           return this.crmCustomerService.getAllConnectionCustomers({
             sourceCustomerId: query.customerId,
             maxResultCount: this.pageSize.getValue(),
-            skipCount: this.pageIndex.getValue() * this.pageSize.getValue()
+            skipCount: this.pageIndex.getValue() * this.pageSize.getValue(),
           });
-        })
+        }),
       )),
       map(result => {
         this.total.next(result.totalCount);
@@ -143,8 +146,8 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
       }),
       shareReplay({
         bufferSize: 1,
-        refCount: true
-      })
+        refCount: true,
+      }),
     );
   }
 
@@ -157,18 +160,18 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
     this.unsubscribe.complete();
   }
 
-  search(value): void{
+  search(value): void {
     this.keyword.next(value);
   }
 
-  add(): void{
+  add(): void {
     this.nzMessageService.loading(this.$L('Processing'));
     this.queryParam.pipe(
       take(1),
       switchMap(query => this.crmCustomerService.relationCustomer({
         mainCustomerId: query.customerId,
-        relationCustomerIds: this.selectCustomers
-      }))
+        relationCustomerIds: this.selectCustomers,
+      })),
     ).subscribe(() => {
       this.selectCustomers = [];
       this.changeDetectorRef.detectChanges();
@@ -178,21 +181,21 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
     });
   }
 
-  remove(item: CRMCustomerListDto): Promise<any>{
+  remove(item: CRMCustomerListDto): Promise<any> {
     this.nzMessageService.loading(this.$L('Processing'));
     return this.queryParam.pipe(
       take(1),
       switchMap(query => this.crmCustomerService.deleteRelationCustomer({
         sourceCustomerId: query.customerId,
-        deleteCustomerId: item.id
+        deleteCustomerId: item.id,
       })),
       tap(() => {
         this.nzMessageService.success(this.$L('Delete success'));
-      })
+      }),
     ).toPromise();
   }
 
-  changeTable(event: STChange): void{
+  changeTable(event: STChange): void {
     switch (event.type) {
       case 'pi':
         this.pageIndex.next(event.pi - 1);
@@ -205,5 +208,11 @@ export class OrganizationListComponent extends CoPageBase implements OnInit, OnD
         // this.reloadConnectionCustomers$.next();
         break;
     }
+  }
+
+  isCurrentCustomer(value: string): Observable<boolean>{
+    return this.queryParam.pipe(
+      map(param => param.customerId === value)
+    );
   }
 }

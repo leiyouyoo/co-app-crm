@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { _HttpClient } from '@co/common';
 import { CRMContactService, CRMEmailService, CRMGetAllSalesAndContactsOutput } from 'apps/crm/app/services/crm';
 import { STORAGEFileService } from 'apps/crm/app/services/storage';
-import { CKEditor4 } from 'ckeditor4-angular';
+import { CKEditor4, CKEditorComponent } from 'ckeditor4-angular';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -71,6 +71,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   @Input() init: InitData | undefined;
   @Input() fullScreenMode = false;
 
+  @ViewChild(CKEditorComponent) _ckEditorComponent: CKEditorComponent | undefined;
+
   user: Observable<UserDetail>;
   sender: Observable<UserDetail>;
   receivesList: Observable<CRMGetAllSalesAndContactsOutput[]>;
@@ -90,7 +92,9 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   selectedFile = new BehaviorSubject<SelectedFile[]>([]);
   fileList = new BehaviorSubject<FileInfo[]>([]);
 
-  readonly editorConfig: CKEditor4.Config = {};
+  readonly editorConfig: CKEditor4.Config = {
+    height: 100
+  };
 
   private unsubscribe = new Subject<void>();
 
