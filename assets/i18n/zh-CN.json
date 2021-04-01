@@ -1197,5 +1197,6 @@
   "Team members": "团队成员",
   "Trade type": "贸易类型",
   "Quote listing": "询价列表",
-  "Create Quote": "创建询价"
+  "Create Quote": "创建询价",
+  "Bank account cannot be repeated":"银行账号不能重复"
 }
