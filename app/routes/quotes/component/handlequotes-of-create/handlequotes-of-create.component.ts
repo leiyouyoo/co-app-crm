@@ -155,7 +155,7 @@ export class HandlequotesOfCreateComponent implements OnInit {
   quotetotal: number;
   isShowQuoteList: boolean = false;
   selIndexByquote: string;
-  listOfFCL = [{}]
+  listOfFCL: any[] = [{}]
   boxTypes = (() => {
     const list = [];
     ['GP', 'FR', 'NOR', 'HT', 'HQ', 'RF', 'RH', 'TK', 'OT']
@@ -1105,8 +1105,9 @@ export class HandlequotesOfCreateComponent implements OnInit {
     return isResult;
   }
 
-  addBox() {
+  addBox(table: any) {
     this.containHavedataList.push({ name: '20GP', value: 1 });
+    table?.nzTableStyleService?.setShowEmpty(false);
   }
 
   removeBox(item, index) {

@@ -120,7 +120,7 @@ export class initiativeCreatequotesComponent extends CoPageBase {
       ownerCustomerId: [null, Validators.required],
       ownerUserId: [null, Validators.required],
       cargoReadyDate: [null, truthyRequired(() => this.validateForm?.value?._ori === 'CY')],
-      deliveryDate: [null, truthyRequired(() => this.validateForm?.value?._dest === 'CY')],
+      deliveryDate: [null, ],
       tradeType: [1, Validators.required],
       freightMethodType: [1, Validators.required],
       containerLoadingType: [ContainerLoadingType.FCL, Validators.required],
@@ -579,7 +579,7 @@ export class initiativeCreatequotesComponent extends CoPageBase {
     //判断海运散货 海运整柜 空运散货得报价添加
     if (value.freightMethodType == 1 && value.shipmentType == 0) {
       //海运整柜
-      this.handlequotesComponent.boxTypes.forEach((c) => {
+      this.handlequotesComponent.containHavedataList.forEach((c) => {
         if (this.basiccost[0][c.name]) {
           //基础费用
           this.quoteReplys.quoteReplyItems.push({
@@ -597,7 +597,7 @@ export class initiativeCreatequotesComponent extends CoPageBase {
         //起始地
         if (c.unitType == unitType.Container) {
           //按箱
-          this.handlequotesComponent.boxTypes.forEach((b) => {
+          this.handlequotesComponent.containHavedataList.forEach((b) => {
             if (c[b.name]) {
               this.quoteReplys.quoteReplyItems.push({
                 currencyId: c.currencyId,
@@ -631,7 +631,7 @@ export class initiativeCreatequotesComponent extends CoPageBase {
         //目的地费用
         if (c.unitType == unitType.Container) {
           //按箱
-          this.handlequotesComponent.boxTypes.forEach((b) => {
+          this.handlequotesComponent.containHavedataList.forEach((b) => {
             if (c[b.name]) {
               this.quoteReplys.quoteReplyItems.push({
                 currencyId: c.currencyId,
@@ -792,7 +792,7 @@ export class initiativeCreatequotesComponent extends CoPageBase {
       });
     }
     //主动报价
-    value.containerType = JSON.stringify(this.handlequotesComponent.boxTypes);
+    value.containerType = JSON.stringify(this.handlequotesComponent.containHavedataList);
     value.quoteReplys = [];
     value.quoteReplys.push(this.quoteReplys);
 
