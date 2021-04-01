@@ -1,357 +1,280 @@
-<div class="content">
-  <div class="choose-title justify-content-start">
-    <!--<div (click)="onGoDetial(1)" [ngClass]="i === 1 ? 'choosed' : 'choose'">
-      {{ 'Inquiry information' | translate }}
-    </div>
-
-    <div (click)="onGoDetial(2)" [ngClass]="i === 2 ? 'choosed' : 'choose'">
-      {{ 'Basic freight' | translate }}
-    </div>
-
-    <div (click)="onGoDetial(3)" [ngClass]="i === 3 ? 'choosed' : 'choose'">{{ 'Origin cost' | translate }}</div>
-    <div (click)="onGoDetial(4)" [ngClass]="i === 4 ? 'choosed' : 'choose'">{{ 'Destination cost' | translate }}</div>
-    <div (click)="onGoDetial(5)" [ngClass]="i === 5 ? 'choosed' : 'choose'">{{ 'Expires' | translate }}</div>-->
-    <button nz-button nzType="primary" [nzLoading]="loading" (click)="ngSubmit()" style="margin-bottom: 10px;">
-      {{ 'Submit' | translate }}
-    </button>
+<div class="main-container">
+  <div class="booking-outer-header">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../../']">{{ 'Quote listing' | translate }}</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        {{ 'Create Quote' | translate }}
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
   </div>
-  <div class="head_quote">
-    <form nz-form #formData="ngForm">
-      <div #freight>
-        <h1 class="freight_quote">{{ 'Inquiry information' | translate }}</h1>
-        <div class="quote-info">
-          <div class="quote-info-Customer">
-            <div class="quote-info-Customer-left">
-              <label class="label" nzRequired> {{ 'Inquiry customer' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  style="width: 90%;"
-                  nzShowSearch
-                  name="ownerCustomerId"
-                  required
-                  [(ngModel)]="quoteinfo.ownerCustomerId"
-                  #ownerCustomerId="ngModel"
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Choose' | translate }}"
-                  (nzOnSearch)="seachCustomer($event)"
-                  [nzDropdownClassName]="historylist === customerlist ? 'empty-class' : 'hide-nz-group'"
-                  (ngModelChange)="selCustomer($event); handlequotesComponent.init()"
-                  nzOptionHeightPx="120"
-                >
-                  <nz-option-group nzLabel="Recently used">
-                    <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of customerlist; let i = index">
-                      <div>
-                        <!-- <div class="company-name" *ngIf="i == 0 && historylist.length > 0">最近使用过的公司</div> -->
-                        <div class="company-name">{{ item.name }}</div>
-                        <div style="display: flex;">
-                          <div style="width: 50%;">{{ item.contacts.length }} {{ 'Contact person' | translate }}</div>
-                          <div style="width: 50%;">
-                            <span class="iconfont icon-dingwei" nz-icon nzIconfont="icon-location"></span>{{ item.locations.length }}
-                            {{ 'Position' | translate }}
-                          </div>
+  <form nz-form class="booking" [formGroup]="validateForm" style="overflow: auto;">
+    <!-- 采购订单 和 模板按钮 -->
+    <div class="form-box d-flex align-items-center" style="padding-top: 12px; position: sticky; top: 0; background: #fff; z-index: 99;">
+      <div class="d-flex align-items-center">
+        <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()" *ngIf="!isTemplate">
+          {{ 'Request Freight Quote' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 基本信息 -->
+    <div class="form-box" [class.hide-not-title]="!showBasic">
+      <div class="title">
+        <i nz-icon nzType="up-square" nzTheme="fill" style="color: #178ffe;" *ngIf="showBasic" (click)="showBasic = !showBasic"></i>
+        <i nz-icon nzType="down-square" nzTheme="fill" style="color: #178ffe;" *ngIf="!showBasic" (click)="showBasic = !showBasic"></i>
+        {{ 'BASIC' | translate }}
+      </div>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <!-- 询价客户 -->
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Inquiry customer' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                style="width: 100%;"
+                nzShowSearch
+                required
+                formControlName="ownerCustomerId"
+                nzAllowClear
+                nzPlaceHolder="{{ 'Choose' | translate }}"
+                [nzDropdownClassName]="historylist === customerlist ? 'empty-class' : 'hide-nz-group'"
+                (ngModelChange)="selCustomer($event); handlequotesComponent.init()"
+                nzOptionHeightPx="120"
+              >
+                <nz-option-group nzLabel="Recently used">
+                  <nz-option nzCustomContent [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of customerlist; let i = index">
+                    <div>
+                      <!-- <div class="company-name" *ngIf="i == 0 && historylist.length > 0">最近使用过的公司</div> -->
+                      <div class="company-name">{{ item.name }}</div>
+                      <div style="display: flex;">
+                        <div style="width: 50%;">{{ item.contacts.length }} {{ 'Contact person' | translate }}</div>
+                        <div style="width: 50%;">
+                          <span class="iconfont icon-dingwei" nz-icon nzIconfont="icon-location"></span>{{ item.locations.length }}
+                          {{ 'Position' | translate }}
                         </div>
                       </div>
-                    </nz-option>
-                  </nz-option-group>
-                </nz-select>
-                <app-formvalidation requiredName="Inquiry customer" [value]="ownerCustomerId"> </app-formvalidation>
-              </div>
-            </div>
-            <div class="quote-info-Customer-right">
-              <label class="label" nzRequired>{{ 'Inquirer' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  style="width: 90%;"
-                  nzShowSearch
-                  name="ownerUserId"
-                  required
-                  [(ngModel)]="quoteinfo.ownerUserId"
-                  #ownerUserId="ngModel"
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Choose' | translate }}"
-                  nzOptionHeightPx="120"
-                >
-                  <nz-option [nzValue]="item.userId" [nzLabel]="item.name" *ngFor="let item of contacts"> </nz-option>
-                </nz-select>
-                <app-formvalidation [requiredName]="'ownerUser' | translate" [value]="ownerUserId"></app-formvalidation>
-              </div>
-            </div>
-          </div>
-          <div class="quote-info-freightMethodType">
-            <div class="quote-info-customer-left">
-              <!-- <label class="label" nzRequired>{{ 'Freight Method' | translate }}<span class="red">*</span></label> -->
-              <div>
-                <label class="label" nzRequired style="height: 25px;"></label>
-                <div class="quote-info-row-right">
-                  <nz-radio-group
-                    name="freightMethodType"
-                    required
-                    [(ngModel)]="quoteinfo.freightMethodType"
-                    #freightMethodType="ngModel"
-                    (ngModelChange)="selfreightMethodType($event)"
-                    nzButtonStyle="solid"
-                    class="transportationModeGroup"
-                  >
-                    <label
-                      class="transparent-Ocean"
-                      nz-radio-button
-                      [nzValue]="1"
-                      [ngClass]="{
-                        'transparent-Ocean-blue': quoteinfo.freightMethodType == freightMethodTypeValue.Ocean
-                      }"
-                    >
-                      <div style="display: flex; align-items: center; justify-content: center;">
-                        <span
-                          class="iconfont icon-Ocean"
-                          nz-icon
-                          nzIconfont="icon-ocean"
-                          [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Ocean }"
-                        ></span>
-                        <!-- <span
-                      [ngClass]="{ word_active: quoteinfo.freightMethodType == freightMethodTypeValue.Ocean }"
-                      style="color: rgba(0, 0, 0, 0.45);"
-                    >
-                      {{ 'ocean' | translate }}
-                    </span> -->
-                      </div>
-                    </label>
-                    <label
-                      class="transparent-Air"
-                      nz-radio-button
-                      [ngClass]="{ 'transparent-Air-blue': quoteinfo.freightMethodType == freightMethodTypeValue.Air }"
-                      [nzValue]="2"
-                    >
-                      <div style="display: flex; align-items: center; justify-content: center;">
-                        <span
-                          class="iconfont icon-airplane"
-                          nz-icon
-                          nzIconfont="icon-airplane"
-                          [ngClass]="{ beijingIcon: quoteinfo.freightMethodType == freightMethodTypeValue.Air }"
-                        ></span>
-                        <!-- <span
-                      [ngClass]="{ word_active: quoteinfo.freightMethodType == freightMethodTypeValue.Air }"
-                      style="color: rgba(0, 0, 0, 0.45);"
-                    >
-                      {{ 'air' | translate }}
-                    </span> -->
-                      </div>
-                    </label>
-                  </nz-radio-group>
-                  <app-formvalidation requiredName="freightMethodType" [value]="freightMethodType"> </app-formvalidation>
-                </div>
-              </div>
-
-              <div class="quote-info-shipmentType" *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean">
-                <label class="label" nzRequired>{{ 'Shipment Type' | translate }}<span class="red">*</span></label>
-                <div class="quote-info-row-right">
-                  <nz-radio-group
-                    name="shipmentType"
-                    class="shipmentTypeGroup nz-radio-group-button-quote"
-                    required
-                    [(ngModel)]="quoteinfo.shipmentType"
-                    (ngModelChange)="handlequotesComponent.init()"
-                    #shipmentType="ngModel"
-                  >
-                    <label nz-radio-button [nzValue]="0" [ngClass]="{ 'shipmentType-Ocean-blue': quoteinfo.shipmentType == 0 }">
-                      {{ 'FCL' | translate }}
-                    </label>
-                    <label nz-radio-button [nzValue]="1" [ngClass]="{ 'shipmentType-Air-blue': quoteinfo.shipmentType == 1 }">
-                      {{ 'LCL' | translate }}
-                    </label>
-                  </nz-radio-group>
-                </div>
-              </div>
-            </div>
-            <div class="quote-info-tradetype">
-              <label class="label" nzRequired>{{ 'Trade Type' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-radio-group
-                  name="tradeType"
-                  required
-                  [(ngModel)]="quoteinfo.tradeType"
-                  #tradeType="ngModel"
-                  class="tradeTypeGroup nz-radio-group-button-quote"
-                  (ngModelChange)="tradeTypeChange($event); handlequotesComponent.init()"
-                >
-                  <label class="tradeTypeInfo" nz-radio-button *ngFor="let item of tradeTypeList" [nzValue]="item.value">{{
-                    item.key
-                  }}</label>
-                </nz-radio-group>
-                <app-formvalidation requiredName="TradeType" [value]="tradeType"></app-formvalidation>
-              </div>
-            </div>
-            <div *ngIf="quoteinfo.tradeType != 1" class="quote-info-channel">
-              <label class="label" nzRequired>{{ 'Channel' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  style="width: 90%;"
-                  name="channel"
-                  required
-                  [(ngModel)]="quoteinfo.channel"
-                  #channel="ngModel"
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Choose' | translate }}"
-                  (ngModelChange)="channelsel($event)"
-                >
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="1" nzLabel="双清+保险"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="2" nzLabel="清关"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="3" nzLabel="报关"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="4" nzLabel="保险"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="5" nzLabel="双清"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="6" nzLabel="清关+保险"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType == 1" [nzValue]="7" nzLabel="报关+保险"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType != 1" [nzValue]="8" nzLabel="双清(包税)"></nz-option>
-                  <nz-option *ngIf="quoteinfo.tradeType != 1" [nzValue]="9" nzLabel="双清(不包税)"></nz-option>
-                </nz-select>
-                <app-formvalidation [requiredName]="'Channel' | translate" [value]="channel"></app-formvalidation>
-              </div>
-            </div>
-          </div>
+                    </div>
+                  </nz-option>
+                </nz-option-group>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
         </div>
-        <h1 style="margin-top: 24px;">{{ 'Shipping terms' | translate }}、{{ 'Route' | translate }}</h1>
-        <div class="quote-address">
-          <div class="quote-address-left">
-            <div class="OriginGroup" *ngIf="quoteinfo.tradeType == 1">
-              <div class="CustomIns">
-                <nz-radio-group
-                  class="originTruck nz-radio-group-button-quote"
-                  name="originIsRequireTruck"
-                  #originIsRequireTruck="ngModel"
-                  [required]="quoteinfo.tradeType == 1"
-                  [(ngModel)]="quoteinfo.originIsRequireTruck"
-                  (ngModelChange)="selFreightType()"
-                >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false">CY</label>
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true">Door</label>
-                </nz-radio-group>
-              </div>
-            </div>
-            <div class="OriginLocation" *ngIf="quoteinfo.originIsRequireTruck && quoteinfo.tradeType != 2">
-              <label class="label" nzRequired>{{ 'Origin Location' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  #originaSel
-                  style="width: 100%;"
-                  [required]="
-                    (quoteinfo.freightType == 3 || quoteinfo.freightType == 4) &&
-                    quoteinfo.tradeType != 2 &&
-                    !quoteinfo.originAddressId &&
-                    !quoteinfo.originAddressName
-                  "
-                  name="originAddressId"
-                  #originAddressId="ngModel"
-                  [(ngModel)]="quoteinfo.originAddressId"
-                  nzShowSearch
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Receiving place' | translate }}"
-                  [nzCustomTemplate]="origincustom"
-                  (appNzOptionExtraChange)="handLocation($event, 'origin'); handlequotesComponent.init()"
-                  (nzOnSearch)="originLocationsearch($event)"
-                  [appSearchByExtraKey]="['name', 'streetAddress', 'city']"
-                >
-                  <nz-option
-                    nzCustomContent
-                    [nzValue]="item.id"
-                    [nzLabel]="item.name"
-                    *ngFor="let item of locations"
-                    [appNzOptionExtra]="item"
-                  >
-                    <div (click)="selLocation($event, item.id, 'originLocation')">
-                      <div>{{ item.name }}</div>
-                      <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city }}<span *ngIf="item.city">,</span
-                        >{{ item.province }}<span *ngIf="item.province">,</span>{{ item.country }}
-                      </div>
-                    </div>
-                  </nz-option>
-                </nz-select>
-                <ng-template #origincustom let-selected>
-                  <div>
-                    {{ selected.template._appExtra.name }}
-                    <span
-                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
-                      >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
-                      >{{ selected.template._appExtra.country }}</span
-                    >
-                  </div>
-                </ng-template>
-                <app-formvalidation requiredName="originAddress" [value]="originAddressId"> </app-formvalidation>
-                <div class="red" *ngIf="!isLocationSame">
-                  {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
-                </div>
-              </div>
-            </div>
-            <div class="OriginLocation" *ngIf="quoteinfo.tradeType == 2 || quoteinfo.tradeType == 3">
-              <label class="label" nzRequired>{{ 'Origin Location' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  #originaSel
-                  style="width: 100%;"
-                  [required]="
-                    (quoteinfo.tradeType == 2 || quoteinfo.tradeType == 3) && !quoteinfo.originAddressId && !quoteinfo.originAddressName
-                  "
-                  name="originAddressId"
-                  #originAddressId="ngModel"
-                  [(ngModel)]="quoteinfo.originAddressId"
-                  nzShowSearch
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Receiving place' | translate }}"
-                  [nzCustomTemplate]="origincustom"
-                  (appNzOptionExtraChange)="handLocation($event, 'origin'); handlequotesComponent.init()"
-                  (nzOnSearch)="originLocationsearch($event)"
-                  [appSearchByExtraKey]="['name', 'streetAddress', 'city']"
-                >
-                  <nz-option
-                    nzCustomContent
-                    [nzValue]="item.id"
-                    [nzLabel]="item.name"
-                    *ngFor="let item of locations"
-                    [appNzOptionExtra]="item"
-                  >
-                    <div (click)="selLocation($event, item.id, 'originLocation')">
-                      <div>{{ item.name }}</div>
-                      <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }}<span *ngIf="item.streetAddress">,</span>{{ item.city }}<span *ngIf="item.city">,</span
-                        >{{ item.province }}<span *ngIf="item.province">,</span>{{ item.country }}
-                      </div>
-                    </div>
-                  </nz-option>
-                </nz-select>
-                <ng-template #origincustom let-selected>
-                  <div>
-                    {{ selected.template._appExtra.name }}
-                    <span
-                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
-                      >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
-                      >{{ selected.template._appExtra.country }}</span
-                    >
-                  </div>
-                </ng-template>
-                <app-formvalidation requiredName="originAddress" [value]="originAddressId"> </app-formvalidation>
-                <div class="red" *ngIf="!isLocationSame">
-                  {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
-                </div>
-              </div>
-            </div>
-            <div class="OriginPort" *ngIf="quoteinfo.tradeType == 1">
-              <label class="label" nzRequired>{{ 'Origin Port' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  style="width: 100%;"
-                  [(ngModel)]="quoteinfo.originPortId"
-                  [required]="quoteinfo.tradeType == 1"
-                  name="originPortId"
-                  #originPortId="ngModel"
-                  nzShowSearch
-                  nzServerSearch
-                  (nzOnSearch)="portOriginsearch($event)"
-                  (ngModelChange)="handlequotesComponent.init(); clearPort($event, 'origin')"
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'POL' | translate }}"
-                  nzOptionHeightPx="104"
-                >
+        <div nz-col [nzSpan]="8">
+          <!-- 询价人 -->
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Inquirer' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                style="width: 100%;"
+                nzShowSearch
+                required
+                formControlName="ownerUserId"
+                nzAllowClear
+                nzPlaceHolder="{{ 'Choose' | translate }}"
+                nzOptionHeightPx="120"
+              >
+                <nz-option [nzValue]="item.userId" [nzLabel]="item.name" *ngFor="let item of contacts"> </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="24">
+        <!-- 贸易类型 -->
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Trade type' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-radio-group
+                [nzButtonStyle]="'solid'"
+                class="nz-radio-group-button"
+                formControlName="tradeType"
+                (ngModelChange)="onTradeTypeChange($event)"
+                style=""
+              >
+                <label nz-radio-button [nzValue]="TradeType.Normal">{{ 'booking.Normal' | translate }}</label>
+                <label nz-radio-button [nzValue]="TradeType.EC">{{ 'booking.EC' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- 运输方式 -->
+        <div *ngIf="validateForm.value.tradeType === TradeType.Normal" nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Freight Method' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [nzButtonStyle]="'solid'" class="nz-radio-group-button" formControlName="freightMethodType">
+                <label nz-radio-button [nzValue]="TransportationMode.Ocean">{{ 'Ocean' | translate }}</label>
+                <label nz-radio-button [nzValue]="TransportationMode.Air">{{ 'Air' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- 渠道 -->
+        <div *ngIf="validateForm.value.tradeType === TradeType.EC" nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Channel' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select nzAllowClear formControlName="channelId" nzShowSearch [nzPlaceHolder]="'Please enter' | translate">
+                <nz-option [nzValue]="i.id" [nzLabel]="i.name" *ngFor="let i of channelList"> </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- 装运类型 -->
+        <div
+          *ngIf="!(validateForm.value.tradeType === TradeType.Normal && validateForm.value.transportationMode === TransportationMode.Air)"
+          nz-col
+          [nzSpan]="8"
+        >
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Shipment Type' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [nzButtonStyle]="'solid'" class="nz-radio-group-button" formControlName="containerLoadingType">
+                <label nz-radio-button [nzValue]="ContainerLoadingType.FCL">{{ 'FCL' | translate }}</label>
+                <label nz-radio-button [nzValue]="ContainerLoadingType.LCL">{{ 'LCL' | translate }}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <!-- 品名 -->
+          <nz-form-item>
+            <nz-form-label nzRequired> {{ 'Commodity' | translate }} </nz-form-label>
+            <nz-form-control>
+              <co-commodity-picker
+                [coValueMember]="'name'"
+                coMaxMultipleCount="10"
+                coMode="tags"
+                style="width: 100%;"
+                formControlName="commodity"
+                [coPlaceHolder]="'Please enter' | translate"
+              >
+              </co-commodity-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <!-- HS CODE -->
+          <nz-form-item>
+            <nz-form-label> {{ 'HS CODE' | translate }} </nz-form-label>
+            <nz-form-control>
+              <input type="text" nz-input formControlName="hsCodes" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'Special goods' | translate }}</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group
+              [nzButtonStyle]="'solid'"
+              class="nz-radio-group-button"
+              nzSize="small"
+              formControlName="hasSpecialGoods"
+              style="width: 110px;"
+            >
+              <label nz-radio-button [nzValue]="false">{{ '无' | translate }}</label>
+              <label nz-radio-button [nzValue]="true">{{ '有' | translate }}</label>
+            </nz-radio-group>
+            <nz-checkbox-group
+              [(ngModel)]="checkOptionsTwo"
+              name="spcCheck"
+              [nzDisabled]="validateForm.value.hasSpecialGoods === false"
+              (ngModelChange)="optionChangeTwo()"
+              [ngModelOptions]="{ standalone: true }"
+              style="margin-left: 24px;"
+            >
+            </nz-checkbox-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="form-box" [class.hide-not-title]="!showSR">
+      <div class="title">
+        <i nz-icon nzType="up-square" nzTheme="fill" style="color: #178ffe;" *ngIf="showSR" (click)="showSR = !showSR"></i>
+        <i nz-icon nzType="down-square" nzTheme="fill" style="color: #178ffe;" *ngIf="!showSR" (click)="showSR = !showSR"></i>
+        {{ '发货 收货' | translate }}
+      </div>
+      <div nz-row>
+        <div nz-col [nzSpan]="9">
+          <nz-form-item [hidden]="validateForm.value.tradeType === TradeType.EC">
+            <nz-form-control>
+              <nz-radio-group
+                [nzButtonStyle]="'solid'"
+                class="nz-radio-group-button"
+                nzSize="small"
+                formControlName="_ori"
+                style="width: 110px;"
+              >
+                <label nz-radio-button [nzValue]="'CY'">CY</label>
+                <label nz-radio-button [nzValue]="'DOOR'">Door</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 提货方式 -->
+          <nz-form-item *ngIf="validateForm.value._ori === 'DOOR'">
+            <nz-form-label nzRequired> {{ 'Pick up method' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="fbaPickUpMethodType" [nzPlaceHolder]="'Choose' | translate">
+                <nz-option [nzValue]="FbaPickUpMethodType.Self" [nzLabel]="'Delivery Goods By Myself' | translate"></nz-option>
+                <nz-option [nzValue]="FbaPickUpMethodType.Cityocean" [nzLabel]="'Pick Up By Cityocean' | translate"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 提货地址 -->
+          <nz-form-item
+            *ngIf="validateForm.value._ori === 'DOOR' && validateForm?.value?.fbaPickUpMethodType === FbaPickUpMethodType.Cityocean"
+          >
+            <nz-form-label nzRequired> {{ 'Pick up address' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="originAddressId" [nzPlaceHolder]="'Choose' | translate">
+                <nz-option *ngFor="let o of sendLocationList" [nzLabel]="o.streetAddress" [nzValue]="o.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 交货日期 -->
+          <nz-form-item *ngIf="validateForm.value._ori === 'DOOR'">
+            <nz-form-label nzRequired> {{ 'booking.Delivery date' | translate }} </nz-form-label>
+            <nz-form-control>
+              <co-datetime-range-picker formControlName="pickUpTimeRange"> </co-datetime-range-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 交货仓库 -->
+          <nz-form-item *ngIf="validateForm.value._ori === 'DOOR'">
+            <nz-form-label [nzRequired]="validateForm?.value?.fbaPickUpMethodType === FbaPickUpMethodType.Self">
+              {{ 'Delivery warehouse' | translate }}
+            </nz-form-label>
+            <nz-form-control>
+              <nz-select nzAllowClear nzShowSearch formControlName="originWarehouseId" [nzPlaceHolder]="'Choose' | translate">
+                <nz-option *ngFor="let item of originWarehouseList" [nzValue]="item.id" [nzLabel]="item.name"> </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 起运港 -->
+          <nz-form-item>
+            <nz-form-label [nzRequired]="validateForm.value._ori === 'CY'"> {{ 'Port of departure' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                class="main-interactive-element-width"
+                nzShowSearch
+                nzServerSearch
+                (nzOnSearch)="portOriginsearch($event)"
+                (ngModelChange)="portChange()"
+                formControlName="originPortId"
+                [nzPlaceHolder]="'Choose' | translate"
+                [nzDropdownClassName]="recentlyUsed?.originPorts === OriginPortList ? 'empty-class' : 'hide-nz-group'"
+                nzOptionHeightPx="86"
+                style="width: 100%;"
+              >
+                <nz-option-group [nzLabel]="'Recently used'">
                   <nz-option
                     nzCustomContent
                     [nzValue]="item.id"
@@ -361,74 +284,81 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'origin')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
-                        <span *ngIf="item.isAir && item.isOcean">
-                          <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
-                          <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
-                        </span>
+                        <i nz-icon [nzIconfont]="'icon-vessel'" *ngIf="item.isOcean == true"></i>
+                        <i nz-icon [nzIconfont]="'icon-airplane'" *ngIf="item.isAir == true"></i>
                       </div>
                       <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
                       <div class="port-region">{{ item.regionName }}</div>
                     </div>
                   </nz-option>
-                </nz-select>
-                <div class="red" *ngIf="!isSamePort">
-                  {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
-                </div>
-                <app-formvalidation requiredName="originPort" [value]="originPortId"></app-formvalidation>
-              </div>
-            </div>
-            <div class="cargoDate">
-              <label class="label" nzRequired>{{ 'Cargo ready date' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-date-picker
-                  style="width: 100%;"
-                  required
-                  [nzDisabledDate]="disabledDate"
-                  [(ngModel)]="quoteinfo.cargoReadyDate"
-                  name="cargoReadyDate"
-                  #cargoReadyDate="ngModel"
-                >
-                </nz-date-picker>
-                <app-formvalidation requiredName="cargoReadyDate" [value]="cargoReadyDate"> </app-formvalidation>
-              </div>
-            </div>
-          </div>
-          <div class="quote-address-right">
-            <div class="OriginGroup" *ngIf="quoteinfo.tradeType == 1">
-              <div class="CustomIns">
-                <nz-radio-group
-                  class="originTruck nz-radio-group-button-quote"
-                  name="destinationIsRequireTruck"
-                  #destinationIsRequireTruck="ngModel"
-                  [required]="quoteinfo.tradeType == 1"
-                  [(ngModel)]="quoteinfo.destinationIsRequireTruck"
-                  (ngModelChange)="selFreightType()"
-                >
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="false">CY</label>
-                  <label class="backColor" nz-radio-button [ngClass]="{ 'truck-blue': false }" [nzValue]="true">Door</label>
-                </nz-radio-group>
-              </div>
-            </div>
+                </nz-option-group>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 货好日期 -->
+          <nz-form-item *ngIf="validateForm.value._ori === 'CY'">
+            <nz-form-label nzRequired> {{ 'Cargo ready date' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="cargoReadyDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 报关服务 -->
+          <nz-form-item *ngIf="validateForm.value._ori === 'CY'">
+            <nz-form-control>
+              <label nz-checkbox formControlName="wantsExportCustomsService">{{ 'Custom declaration' | translate }}</label>
+              <label nz-checkbox formControlName="wantsInsuranceService">{{ 'Insurance' | translate }}</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="4"></div>
 
-            <div class="OriginPort" *ngIf="quoteinfo.tradeType == 1">
-              <label class="label" nzRequired>{{ 'Destination Port' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  style="width: 100%;"
-                  [required]="quoteinfo.tradeType == 1"
-                  [(ngModel)]="quoteinfo.destinationPortId"
-                  nzShowSearch
-                  name="destinationPortId"
-                  #destinationPortId="ngModel"
-                  nzServerSearch
-                  (nzOnSearch)="portDesinationsearch($event)"
-                  (ngModelChange)="handlequotesComponent.init(); clearPort($event, 'destination')"
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'POD' | translate }}"
-                  nzOptionHeightPx="104"
-                >
+        <div nz-col [nzSpan]="9">
+          <nz-form-item [hidden]="validateForm.value.tradeType === TradeType.EC">
+            <nz-form-control>
+              <nz-radio-group
+                [nzButtonStyle]="'solid'"
+                class="nz-radio-group-button"
+                nzSize="small"
+                formControlName="_dest"
+                style="width: 110px;"
+              >
+                <label nz-radio-button [nzValue]="'CY'">CY</label>
+                <label nz-radio-button [nzValue]="'DOOR'">Door</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 目的国 -->
+          <nz-form-item *ngIf="validateForm.value._dest === 'DOOR'">
+            <nz-form-label nzRequired> {{ 'Destination country' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                nzAllowClear
+                nzShowSearch
+                (nzOnSearch)="getCountry($event)"
+                (ngModelChange)="clearAddress($event)"
+                formControlName="countryId"
+              >
+                <nz-option *ngFor="let item of countryList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 目的港 -->
+          <nz-form-item>
+            <nz-form-label [nzRequired]="validateForm.value._dest === 'CY'"> {{ 'Destination port' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                class="main-interactive-element-width"
+                nzShowSearch
+                nzServerSearch
+                (ngModelChange)="portChange()"
+                formControlName="destinationPortId"
+                (nzOnSearch)="portDesinationsearch($event)"
+                [nzPlaceHolder]="'Choose' | translate"
+                nzOptionHeightPx="86"
+                style="width: 100%;"
+                [nzDropdownClassName]="recentlyUsed?.destinationPorts === DesinationPortList ? 'empty-class' : 'hide-nz-group'"
+              >
+                <nz-option-group [nzLabel]="">
                   <nz-option
                     nzCustomContent
                     [nzValue]="item.id"
@@ -438,565 +368,82 @@
                     <div class="port-info" (click)="comparePort($event, item.id, 'destination')">
                       <div class="port-name">
                         <span>{{ item.name }}</span>
-                        <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane" *ngIf="item.isAir && !item.isOcean"></span>
-                        <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean" *ngIf="item.isOcean && !item.isAir"></span>
-                        <span *ngIf="item.isAir && item.isOcean">
-                          <span class="iconfont icon-airplane" nz-icon nzIconfont="icon-airplane"></span>
-                          <span class="iconfont icon-Ocean" nz-icon nzIconfont="icon-ocean"></span>
-                        </span>
+                        <i nz-icon [nzIconfont]="'icon-vessel'" *ngIf="item.isOcean == true"></i>
+                        <i nz-icon [nzIconfont]="'icon-airplane'" *ngIf="item.isAir == true"></i>
                       </div>
-                      <div class="port-code"><span class="port-code-UN">UN:</span> {{ item.code }}</div>
+                      <div class="port-code">
+                        <span>{{ 'customs' | translate }} :</span>
+                        {{ item.code }}
+                      </div>
                       <div class="port-region">{{ item.regionName }}</div>
                     </div>
                   </nz-option>
-                </nz-select>
-                <div class="red" *ngIf="!isSamePort">
-                  {{ 'Please make sure Origin Port and Destination Port are not the same' | translate }}
-                </div>
-                <app-formvalidation requiredName="destinationPort" [value]="destinationPortId"> </app-formvalidation>
-              </div>
-            </div>
-            <div class="OriginLocation" *ngIf="quoteinfo.destinationIsRequireTruck && quoteinfo.tradeType == 1">
-              <label class="label" nzRequired>{{ 'Destination Location' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  #destinationSel
-                  style="width: 100%;"
-                  [(ngModel)]="quoteinfo.destinationAddressId"
-                  nzShowSearch
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Delivery place' | translate }}"
-                  [required]="
-                    (quoteinfo.freightType == 2 || quoteinfo.freightType == 4) &&
-                    quoteinfo.tradeType == 1 &&
-                    !quoteinfo.destinationAddressId &&
-                    !quoteinfo.destinationAddressName
-                  "
-                  name="destinationAddressId"
-                  #destinationAddressId="ngModel"
-                  [appSearchByExtraKey]="['name', 'streetAddress', 'city']"
-                  [nzCustomTemplate]="desicustom"
-                  (appNzOptionExtraChange)="handLocation($event, 'desination'); handlequotesComponent.init()"
-                  (nzOnSearch)="originLocationsearch($event)"
-                >
-                  <nz-option
-                    nzCustomContent
-                    [nzValue]="item.id"
-                    [nzLabel]="item.name"
-                    [appNzOptionExtra]="item"
-                    *ngFor="let item of locations"
-                  >
-                    <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
-                      <div>{{ item.name }}</div>
-                      <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city }}<span *ngIf="item.province">,</span
-                        >{{ item.province }}<span *ngIf="item.country">,</span>{{ item.country }}
-                      </div>
-                    </div>
-                  </nz-option>
-                </nz-select>
-                <ng-template #desicustom let-selected>
-                  <div>
-                    {{ selected.template._appExtra.name }}
-                    <span
-                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
-                      >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
-                      >{{ selected.template._appExtra.country }}</span
-                    >
-                  </div>
-                </ng-template>
-                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId"> </app-formvalidation>
-                <div class="red" *ngIf="!isLocationSame">
-                  {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
-                </div>
-              </div>
-            </div>
-            <div class="OriginLocation" *ngIf="quoteinfo.tradeType == 3">
-              <label class="label" nzRequired>{{ 'FBM Address' | translate }}<span class="red">*</span></label>
-              <div class="quote-info-row-right">
-                <nz-select
-                  #destinationSel
-                  style="width: 100%;"
-                  [(ngModel)]="quoteinfo.destinationAddressId"
-                  nzShowSearch
-                  nzAllowClear
-                  nzPlaceHolder="{{ 'Delivery place' | translate }}"
-                  [required]="
-                    (quoteinfo.freightType == 2 || quoteinfo.freightType == 4) &&
-                    quoteinfo.tradeType == 3 &&
-                    !quoteinfo.destinationAddressId &&
-                    !quoteinfo.destinationAddressName
-                  "
-                  name="destinationAddressId"
-                  #destinationAddressId="ngModel"
-                  [appSearchByExtraKey]="['name', 'streetAddress', 'city']"
-                  [nzCustomTemplate]="desicustom"
-                  (appNzOptionExtraChange)="handLocation($event, 'desination'); handlequotesComponent.init()"
-                  (nzOnSearch)="originLocationsearch($event)"
-                >
-                  <nz-option
-                    nzCustomContent
-                    [nzValue]="item.id"
-                    [nzLabel]="item.name"
-                    [appNzOptionExtra]="item"
-                    *ngFor="let item of locations"
-                  >
-                    <div (click)="selLocation($event, item.id, 'destinationLocation')" class="OriginLocation-edit">
-                      <div>{{ item.name }}</div>
-                      <div style="font-weight: bold;" *ngIf="mapList.length <= 0">
-                        {{ item.streetAddress }} <span *ngIf="item.city">,</span>{{ item.city }}<span *ngIf="item.province">,</span
-                        >{{ item.province }}<span *ngIf="item.country">,</span>{{ item.country }}
-                      </div>
-                    </div>
-                  </nz-option>
-                </nz-select>
-                <ng-template #desicustom let-selected>
-                  <div>
-                    {{ selected.template._appExtra.name }}
-                    <span
-                      >{{ selected.template._appExtra.streetAddress }}<span *ngIf="selected.template._appExtra.streetAddress">,</span
-                      >{{ selected.template._appExtra.city }}<span *ngIf="selected.template._appExtra.city">,</span
-                      >{{ selected.template._appExtra.province }}<span *ngIf="selected.template._appExtra.province">,</span
-                      >{{ selected.template._appExtra.country }}</span
-                    >
-                  </div>
-                </ng-template>
-                <app-formvalidation requiredName="destinationAddress" [value]="destinationAddressId"> </app-formvalidation>
-                <div class="red" *ngIf="!isLocationSame">
-                  {{ 'Please make sure Origin location and Destination location are not the same' | translate }}
-                </div>
-              </div>
-            </div>
-            <div class="OriginLocation" *ngIf="quoteinfo.tradeType == 2">
-              <label class="label" nzRequired>{{ 'FBA Address' | translate }}<span class="red">*</span></label>
-              <nz-select
-                style="width: 100%;"
-                nzShowSearch
-                name="destinationAddressId"
-                #destinationAddressId="ngModel"
-                [(ngModel)]="quoteinfo.destinationAddressId"
-                [appSearchByExtraKey]="['name', 'streetAddress', 'unlocode']"
-                nzAllowClear
-                [required]="quoteinfo.tradeType == 2"
-                [nzPlaceHolder]="'Choose' | translate"
-              >
-                <nz-option
-                  nzCustomContent
-                  [nzValue]="item.id"
-                  [nzLabel]="item.name"
-                  [appNzOptionExtra]="item"
-                  *ngFor="let item of amazonList"
-                >
-                  <div>{{ item.name }}<span>,</span>{{ item.streetAddress }}<span>,</span>{{ item.code }}</div>
-                </nz-option>
+                </nz-option-group>
               </nz-select>
-              <app-formvalidation requiredName="fbaAddress" [value]="destinationAddressId"> </app-formvalidation>
-            </div>
-            <!-- <div class="cargoDate">
-              <label class="label" nzRequired
-                >{{ 'Quantity' | translate }}<span class="red" *ngIf="quoteinfo.shipmentType == 1">*</span></label
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 交货方式 -->
+          <nz-form-item *ngIf="validateForm.value.tradeType === TradeType.EC">
+            <nz-form-label nzRequired> {{ 'Delivery method' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="fbaDeliveryMethodType" (ngModelChange)="methodTypeChange($event)">
+                <nz-option [nzLabel]="'FBA warehouse' | translate" [nzValue]="FbaDeliveryMethodType.FBA"></nz-option>
+                <nz-option [nzLabel]="'Cityocean overseas' | translate" [nzValue]="FbaDeliveryMethodType.Overseas"></nz-option>
+                <nz-option [nzLabel]="'Specified address' | translate" [nzValue]="FbaDeliveryMethodType.Customer"></nz-option>
+                <!--                <nz-option nzLabel="LAZADA" [nzValue]="3"></nz-option>-->
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 交货地址 -->
+          <nz-form-item *ngIf="validateForm.value._dest === 'DOOR'">
+            <nz-form-label> {{ 'Delivery address' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-select
+                *ngIf="validateForm.value.tradeType === TradeType.Normal"
+                [nzShowSearch]="true"
+                formControlName="destinationAddressId"
               >
-              <div class="quote-info-row-right">
-                <nz-input-group nzCompact style="width: 100%;">
-                  <nz-input-number
-                    style="width: 80%;"
-                    [required]="
-                      (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                      (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                    "
-                    [nzPrecision]="3"
-                    [(ngModel)]="quoteinfo.quantity"
-                    name="quantity"
-                    #quantity="ngModel"
-                    [nzStep]="0.001"
-                    [nzMin]="1"
-                    [nzMax]="999999999999999"
-                    [nzPlaceHolder]="'Input Quantity' | translate"
-                  >
-                  </nz-input-number>
-                  <nz-select
-                    style="width: 20%;"
-                    [(ngModel)]="quoteinfo.quantityUnitCode"
-                    name="quantityUnitCode"
-                    #quantityUnitCode="ngModel"
-                  >
-                    <nz-option nzLabel="bale" nzValue="bale"> </nz-option>
-                    <nz-option nzLabel="barrel" nzValue="barrel"> </nz-option>
-                    <nz-option nzLabel="bundle" nzValue="bundle"> </nz-option>
-                    <nz-option nzLabel="crate" nzValue="crate"> </nz-option>
-                    <nz-option nzLabel="drum" nzValue="drum"> </nz-option>
-                    <nz-option nzLabel="package" nzValue="package"> </nz-option>
-                    <nz-option nzLabel="pallet" nzValue="pallet"> </nz-option>
-                    <nz-option nzLabel="roll" nzValue="roll"> </nz-option>
-                    <nz-option nzLabel="ctn" nzValue="ctn"> </nz-option>
-                    <nz-option nzLabel="box" nzValue="box"> </nz-option>
-                    <nz-option nzLabel="bag" nzValue="bag"> </nz-option>
-                  </nz-select>
-                </nz-input-group>
-                <app-formvalidation requiredName="quantity" [value]="quantity"> </app-formvalidation> -->
-            <!-- <nz-input-number
-                  [required]="
-                    (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                    (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                  "
-                  style="width: 40%;"
-                  [nzPrecision]="3"
-                  [(ngModel)]="quoteinfo.quantity"
-                  name="quantity"
-                  #quantity="ngModel"
-                  [nzStep]="0.001"
-                  [nzMin]="1"
-                  [nzMax]="999999999999999"
-                  [nzPlaceHolder]="'Input Quantity' | translate"
-                >
-                </nz-input-number>
-                <nz-select
-                  [(ngModel)]="quoteinfo.quantityUnitCode"
-                  name="quantityUnitCode"
-                  #quantityUnitCode="ngModel"
-                  style="width: 30%;"
-                >
-                  <nz-option nzLabel="bale" nzValue="bale"> </nz-option>
-                  <nz-option nzLabel="barrel" nzValue="barrel"> </nz-option>
-                  <nz-option nzLabel="bundle" nzValue="bundle"> </nz-option>
-                  <nz-option nzLabel="crate" nzValue="crate"> </nz-option>
-                  <nz-option nzLabel="drum" nzValue="drum"> </nz-option>
-                  <nz-option nzLabel="package" nzValue="package"> </nz-option>
-                  <nz-option nzLabel="pallet" nzValue="pallet"> </nz-option>
-                  <nz-option nzLabel="roll" nzValue="roll"> </nz-option>
-                  <nz-option nzLabel="ctn" nzValue="ctn"> </nz-option>
-                  <nz-option nzLabel="box" nzValue="box"> </nz-option>
-                  <nz-option nzLabel="bag" nzValue="bag"> </nz-option>
-                </nz-select> -->
-            <!-- </div>
-            </div> -->
-          </div>
-        </div>
-        <div class="CargoSpecial">
-          <div class="block-container">
-            <div class="ContainerType" *ngIf="quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && quoteinfo.shipmentType == 0">
-              <h2 style="min-width: 120px; height: 35px; line-height: 35px;">
-                {{ 'Container Type' | translate }}<span class="red">*</span>
-              </h2>
-              <div>
-                <div style="display: flex;">
-                  <div class="containerTypeShow">
-                    <div class="container" *ngFor="let item of containList">
-                      <span style="display: flex; align-items: center; justify-content: center; height: 32px; line-height: 32px;">
-                        <a style="height: 30px; color: #1890ff;" (click)="operationCount(item.name, 'add')">+ </a>
-                        <span
-                          style="height: 30px; padding: 0 8px; color: rgba(0, 0, 0, 0.45);"
-                          [ngClass]="{ 'span-active': item.value > 0 }"
-                          >{{ item.value }}</span
-                        >
-                        <a (click)="operationCount(item.name, 'less')" style="height: 30px; color: rgba(0, 0, 0, 0.85);">- </a>
-                        <span class="containerNum" style="height: 30px; padding: 0 8px;"> {{ item.name }}</span>
-                        <span class="iconfont icon-Delete" nz-icon nzIconfont="icon-delete" (click)="deleteContainer(item)"></span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="othercontainer-all">
-                    <span
-                      class="other_containerShow"
-                      nz-popover
-                      nzOverlayClassName="othercontainerShow"
-                      nzPopoverTrigger="click"
-                      [nzPopoverContent]="otherContainerTemplate"
-                    >
-                      {{ 'Other' | translate }}
-                    </span>
-                    <ng-template #otherContainerTemplate>
-                      <div class="otherContainer">
-                        <div class="otherContainer-num">
-                          <ul>
-                            <li (click)="changeNum(20)" [ngClass]="{ 'li-active': otherNum == '20' }">
-                              20
-                            </li>
-                            <li (click)="changeNum(40)" [ngClass]="{ 'li-active': otherNum == '40' }">
-                              40
-                            </li>
-                            <li (click)="changeNum(45)" [ngClass]="{ 'li-active': otherNum == '45' }">
-                              45
-                            </li>
-                            <li (click)="changeNum(53)" [ngClass]="{ 'li-active': otherNum == '53' }">
-                              53
-                            </li>
-                          </ul>
-                        </div>
-                        <div style="border: 1px solid #e4e4e4;"></div>
-                        <div class="otherContainer-child">
-                          <ul>
-                            <li (click)="addContainer(otherNum, 'GP')">
-                              <span>{{ otherNum }}</span
-                              ><span>GP</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'FR')">
-                              <span>{{ otherNum }}</span
-                              ><span>FR</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'NOR')">
-                              <span>{{ otherNum }}</span
-                              ><span>{{ 'NOR' | translate }}</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'HT')">
-                              <span>{{ otherNum }}</span
-                              ><span>HT</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'HQ')">
-                              <span>{{ otherNum }}</span
-                              ><span>HQ</span>
-                            </li>
-                          </ul>
-                          <ul>
-                            <li (click)="addContainer(otherNum, 'RF')">
-                              <span>{{ otherNum }}</span
-                              ><span>RF</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'RH')">
-                              <span>{{ otherNum }}</span
-                              ><span>RH</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'TK')">
-                              <span>{{ otherNum }}</span
-                              ><span>TK</span>
-                            </li>
-                            <li (click)="addContainer(otherNum, 'OT')">
-                              <span>{{ otherNum }}</span
-                              ><span>OT</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </div>
-                </div>
-                <div
-                  class="red"
-                  *ngIf="
-                    quoteinfo.freightMethodType == freightMethodTypeValue.Ocean && quoteinfo.shipmentType == 0 && !isContain && isSubmitted
-                  "
-                >
-                  {{ 'Container type is required for this freight method' | translate }}
-                </div>
-              </div>
-            </div>
-            <div class="Cargo">
-              <div id="Cargo" class="Cargo">
-                <div class="Units">
-                  <div style="display: flex; width: 100%;">
-                    <h2 style="min-width: 120px; height: 35px; line-height: 35px;">
-                      {{ 'Cargo' | translate }}<span *ngIf="quoteinfo.shipmentType == 1" class="red">*</span>
-                    </h2>
-                    <div class="CargoInfo">
-                      <div class="CargoInfo-Quantity">
-                        <div class="CargoInfo-Quantity-title">
-                          <nz-input-number
-                            style="width: 80%;"
-                            [required]="
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                            "
-                            [nzPrecision]="3"
-                            [(ngModel)]="quoteinfo.quantity"
-                            name="quantity"
-                            #quantity="ngModel"
-                            [nzStep]="0.001"
-                            [nzMin]="1"
-                            [nzMax]="999999999999999"
-                            [nzPlaceHolder]="'Input Quantity' | translate"
-                          >
-                          </nz-input-number>
-                          <nz-select
-                            style="width: 50%;"
-                            [(ngModel)]="quoteinfo.quantityUnitCode"
-                            name="quantityUnitCode"
-                            #quantityUnitCode="ngModel"
-                          >
-                            <nz-option nzLabel="bale" nzValue="bale"> </nz-option>
-                            <nz-option nzLabel="barrel" nzValue="barrel"> </nz-option>
-                            <nz-option nzLabel="bundle" nzValue="bundle"> </nz-option>
-                            <nz-option nzLabel="crate" nzValue="crate"> </nz-option>
-                            <nz-option nzLabel="drum" nzValue="drum"> </nz-option>
-                            <nz-option nzLabel="package" nzValue="package"> </nz-option>
-                            <nz-option nzLabel="pallet" nzValue="pallet"> </nz-option>
-                            <nz-option nzLabel="roll" nzValue="roll"> </nz-option>
-                            <nz-option nzLabel="ctn" nzValue="ctn"> </nz-option>
-                            <nz-option nzLabel="box" nzValue="box"> </nz-option>
-                            <nz-option nzLabel="bag" nzValue="bag"> </nz-option>
-                          </nz-select>
-                        </div>
-                        <app-formvalidation requiredName="quantity" [value]="quantity"> </app-formvalidation>
-                      </div>
-                      <!-- <div class="CargoInfo-Quantity">
-                        <label class="label" style="min-width: 120px;">
-                          {{ 'Unit' | translate }}<span class="red" *ngIf="quoteinfo.shipmentType == 1">*</span>
-                        </label>
-                        <div class="selUnit">
-                          <nz-radio-group
-                            [(ngModel)]="quoteinfo.unitConvertType"
-                            class="selUnitGroup nz-radio-group-button-quote"
-                            name="unitConvertType"
-                            #unitConvertType="ngModel"
-                            [nzButtonStyle]="'solid'"
-                            (ngModelChange)="selectUnit($event)"
-                          >
-                            <label
-                              nz-radio-button
-                              class="selUnitGroupInfo"
-                              [ngClass]="{ word_active: quoteinfo.unitConvertType == 0 }"
-                              [nzValue]="0"
-                              >Metric</label
-                            >
-                            <label
-                              nz-radio-button
-                              class="selUnitGroupInfo"
-                              [ngClass]="{ word_active: quoteinfo.unitConvertType == 1 }"
-                              [nzValue]="1"
-                              >Imperial</label
-                            >
-                          </nz-radio-group>
-                        </div>
-                      </div>
-                      <div class="CargoInfo-Weight">
-                        <label class="label" style="min-width: 120px;">
-                          {{ 'Total Weight' | translate }}<span class="red" *ngIf="quoteinfo.shipmentType == 1">*</span>
-                        </label>
-                        <div class="CargoInfo-Weight-title">
-                          <nz-input-group [nzSuffix]="quoteinfo.weightUnitCode == WeightUnitCode.KGS ? 'kg' : 'lb'">
-                            <nz-input-number
-                              [required]="
-                                (quoteinfo.shipmentType == 1 &&
-                                  quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                                (quoteinfo.shipmentType == 1 &&
-                                  quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                              "
-                              style="width: 85%;"
-                              [nzPlaceHolder]="'Input Weight' | translate"
-                              [nzPrecision]="3"
-                              [(ngModel)]="quoteinfo.weight"
-                              name="weight"
-                              #weight="ngModel"
-                              [nzStep]="0.001"
-                              [nzMin]="1"
-                              [nzMax]="999999999999999"
-                              (ngModelChange)="changeWeight($event)"
-                            ></nz-input-number>
-                          </nz-input-group>
-                        </div>
-                        <app-formvalidation requiredName="totalWeight" [value]="weight"> </app-formvalidation>
-                      </div>
-                      <div class="CargoInfo-Volume">
-                        <label class="label" style="min-width: 120px;">
-                          {{ 'Total Volume' | translate }}<span class="red" *ngIf="quoteinfo.shipmentType == 1">*</span>
-                        </label>
-                        <div class="CargoInfo-Volume-title">
-                          <nz-input-group [nzSuffix]="quoteinfo.volumeUnitCode == VolumeUnitCode.CBM ? 'cmb' : 'cbf'">
-                            <nz-input-number
-                              [required]="
-                                (quoteinfo.shipmentType == 1 &&
-                                  quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                                (quoteinfo.shipmentType == 1 &&
-                                  quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                              "
-                              style="width: 85%;"
-                              [nzPlaceHolder]="'Input Volume' | translate"
-                              [nzPrecision]="3"
-                              [(ngModel)]="quoteinfo.volume"
-                              name="volume"
-                              #volume="ngModel"
-                              [nzStep]="0.001"
-                              [nzMin]="1"
-                              [nzMax]="999999999999999"
-                              (ngModelChange)="changeVolume($event)"
-                            ></nz-input-number>
-                          </nz-input-group>
-                        </div>
-                        <app-formvalidation requiredName="totalVolume" [value]="volume"> </app-formvalidation>
-                      </div> -->
-                      <div class="CargoInfo-Weight">
-                        <div class="CargoInfo-Weight-title">
-                          <nz-input-number
-                            [required]="
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                            "
-                            style="width: 45%;"
-                            [nzPlaceHolder]="'Input Weight' | translate"
-                            [nzPrecision]="3"
-                            [(ngModel)]="quoteinfo.weight"
-                            name="weight"
-                            #weight="ngModel"
-                            [nzStep]="0.001"
-                            [nzMin]="1"
-                            [nzMax]="999999999999999"
-                            (ngModelChange)="changeWeight($event)"
-                          ></nz-input-number>
-                          <nz-radio-group
-                            name="weightUnitCode"
-                            #weightUnitCode="ngModel"
-                            class="nz-radio-group-normal"
-                            (ngModelChange)="changeUnitCode($event)"
-                            [(ngModel)]="quoteinfo.weightUnitCode"
-                          >
-                            <label nz-radio-button [nzValue]="WeightUnitCode.KGS">kg</label>
-                            <label nz-radio-button [nzValue]="WeightUnitCode.LBS">lb</label>
-                          </nz-radio-group>
-                        </div>
-                        <app-formvalidation requiredName="totalWeight" [value]="weight"> </app-formvalidation>
-                      </div>
-                      <div class="CargoInfo-Volume">
-                        <div class="CargoInfo-Volume-title">
-                          <nz-input-number
-                            [required]="
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Ocean) ||
-                              (quoteinfo.shipmentType == 1 && quoteinfo.freightMethodType == freightMethodTypeValue.Air)
-                            "
-                            style="width: 45%;"
-                            [nzPlaceHolder]="'Input Volume' | translate"
-                            [nzPrecision]="3"
-                            [(ngModel)]="quoteinfo.volume"
-                            name="volume"
-                            #volume="ngModel"
-                            [nzStep]="0.001"
-                            [nzMin]="1"
-                            [nzMax]="999999999999999"
-                            (ngModelChange)="changeVolume($event)"
-                          ></nz-input-number>
-                          <nz-radio-group
-                            class="nz-radio-group-normal"
-                            name="volumeUnitCode"
-                            #volumeUnitCode="ngModel"
-                            (ngModelChange)="changeUnitCode($event)"
-                            [(ngModel)]="quoteinfo.volumeUnitCode"
-                          >
-                            <label nz-radio-button [nzValue]="VolumeUnitCode.CBM">cbm</label>
-                            <label nz-radio-button [nzValue]="VolumeUnitCode.CFT">cbf</label>
-                          </nz-radio-group>
-                        </div>
-                        <app-formvalidation requiredName="totalVolume" [value]="volume"> </app-formvalidation>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <nz-option *ngFor="let o of getLocationList" [nzLabel]="o.name" [nzValue]="o.id"></nz-option>
+              </nz-select>
+              <nz-select
+                *ngIf="validateForm.value.tradeType === TradeType.EC"
+                (nzOnSearch)="getCustomerLocationAndFBALocations($event)"
+                [nzShowSearch]="true"
+                formControlName="destinationAddressId"
+              >
+                <nz-option *ngFor="let o of addressList" [nzLabel]="o.name" [nzValue]="o.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 交付日期 -->
+          <nz-form-item>
+            <nz-form-label [nzRequired]="validateForm.value._dest === 'CY'"> {{ 'Delivery date' | translate }} </nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="deliveryDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- 清关服务 -->
+          <nz-form-item *ngIf="validateForm.value._dest === 'CY'">
+            <nz-form-control>
+              <label nz-checkbox formControlName="wantsCustomsClearanceService">{{ 'Custom clearance' | translate }}</label>
+            </nz-form-control>
+          </nz-form-item>
         </div>
       </div>
-    </form>
+    </div>
     <div class="quote-fee">
-      <crm-handlequotes
-        [_quoteinfo]="quoteinfo"
+      <crm-handlequotes-of-create
+        *ngIf="validateForm"
+        [_quoteinfo]="processForm()"
         [basiccost]="basiccost"
         [endplace]="endplace"
         [startingplace]="startingplace"
-        [containHavedataList]="containHavedataList"
         (containerHand)="handContainer($event)"
         (endPlaceHand)="endplace = $event"
         (basicdataHand)="basiccost = $event"
         (startPlaceHand)="startingplace = $event"
-      ></crm-handlequotes>
+      ></crm-handlequotes-of-create>
     </div>
-  </div>
+  </form>
+
 </div>

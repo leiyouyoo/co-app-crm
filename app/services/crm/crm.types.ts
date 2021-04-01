@@ -470,6 +470,31 @@
     }
  
     /**
+     * 获取业务员与联系人输出对象
+     */
+    export class CRMGetAllSalesAndContactsOutput {
+        [key:string]: any;
+        
+         
+            /* 姓 */ 
+            surname?: string;
+         
+            /* 名 */ 
+            name?: string;
+         
+            /* 姓名 */ 
+            fullName?: string;
+         
+            /* 电话 */ 
+            phone?: string;
+         
+            /* 电子邮件 */ 
+            email?: string;
+        
+        
+    }
+ 
+    /**
      *  No Remark 
      */
     export class CRMCheckContactEmailInput {
@@ -3554,11 +3579,18 @@
             /* 交易时间 */ 
             dealTime?: string;
          
-            /* 单据类型 0运单，1订单
+            /* 上次交易时间 撤销时这里为必须 */ 
+            lastDealTime?: string;
+         
+            /* 单据类型 0运单，1订单 撤销时交易类型为上次交易类型
 0 = Waybill
-1 = Order
-2 = Revoke */ 
+1 = Order */ 
             dealType?: number;
+         
+            /* 单据操作类型 操作类型为撤销，其他数据为空时，客户转为未成交客户
+0 = Deal
+1 = Revoke */ 
+            operationType?: number;
          
             /* 交易业务员 */ 
             saleUserId?: number;
@@ -4230,7 +4262,13 @@
         
          
             
-            id?: number;
+            customerId?: string;
+         
+            
+            tenantId?: number;
+         
+            
+            tenantName?: string;
          
             
             name?: string;
@@ -4239,7 +4277,13 @@
             surname?: string;
          
             
-            cName?: string;
+            fullName?: string;
+         
+            
+            nameLocalization?: string;
+         
+            
+            surnameLocalization?: string;
          
             
             userName?: string;
@@ -4248,29 +4292,42 @@
             emailAddress?: string;
          
             
+            hasEmailPassword?: boolean;
+         
+            
             phoneNumber?: string;
          
             
             profilePictureId?: string;
          
             
-            organizationUnits?: any[];
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMUserOrganizationInfo {
-        [key:string]: any;
-        
+            isEmailConfirmed?: boolean;
          
             
-            organizationUnitId?: string;
+            roles?: any[];
          
             
-            organizationUnitFullName?: string;
+            isActive?: boolean;
+         
+            
+            isValid?: boolean;
+         
+            
+            status?: string;
+         
+            /* 
+0 = Internal
+1 = External */ 
+            type?: number;
+         
+            
+            creator?: string;
+         
+            
+            creationTime?: string;
+         
+            
+            id?: number;
         
         
     }

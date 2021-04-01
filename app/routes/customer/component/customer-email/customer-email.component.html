@@ -1,52 +1,66 @@
 <div class='toolbar'>
-  <button nz-button nzType='primary'>发送</button>
+  <button nz-button nzType='primary' [disabled]='form.invalid || receives.length < 1' (click)='submit()'>发送</button>
 </div>
 
 <form nz-form>
-  <nz-form-item>
+  <nz-form-item [formGroup]='form'>
     <nz-form-label nzSpan='4' nzRequired>发件人</nz-form-label>
     <nz-form-control>
-      <nz-select>
-        <nz-option *ngFor='let item of sender | async' [nzLabel]='item' [nzValue]='item'></nz-option>
-      </nz-select>
+      <input nz-input formControlName='sender' />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-label nzSpan='4' nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select>
-        <nz-option></nz-option>
+      <!--
+      <nz-select nzShowSearch nzAllowClear nzServerSearch nzMode='multiple' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [nzLoading]='receivesSearchLoading | async' (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+        <nz-option *ngFor='let item of receivesList | async' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
       </nz-select>
+      -->
+      <nz-select nzAllowClear nzMode='multiple' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+        <nz-option nzLabel='daslnln' nzValue='21kl32@qq.com'></nz-option>
+        <nz-option nzLabel='dsl' nzValue='123@qq.com'></nz-option>
+        <nz-option nzLabel='d123' nzValue='dsd@qq.com'></nz-option>
+        <nz-option nzLabel='gflk' nzValue='gok32opm@qq.com'></nz-option>
+      </nz-select>
+      <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <div class='email-option'>
     <div class='space'></div>
-    <div class='func'>抄送</div>
-    <div class='func'>密送</div>
+    <div class='func' (click)='ccModel.next(!ccModel.getValue())'>{{ (ccModel | async) ? '删除抄送' : '抄送' }}</div>
+    <div class='func' (click)='bccModel.next(!bccModel.getValue())'>{{ (bccModel | async) ? '删除密送' : '密送' }}</div>
   </div>
 
-  <nz-form-item>
+  <nz-form-item *ngIf='ccModel | async'>
     <nz-form-label nzSpan='4'>抄送</nz-form-label>
     <nz-form-control>
-      <nz-select>
-        <nz-option></nz-option>
-      </nz-select>
+      <nz-select [(ngModel)]='cc' nzMode="tags" [nzTokenSeparators]="[';']" [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="CCMaxTagPlaceHolder" nzPlaceHolder="抄送" [ngModelOptions]="{standalone: true}"></nz-select>
+      <ng-template #CCMaxTagPlaceHolder>+{{ cc.length }}</ng-template>
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item>
+  <nz-form-item *ngIf='bccModel | async'>
+    <nz-form-label nzSpan='4'>密送</nz-form-label>
+    <nz-form-control>
+      <nz-select [(ngModel)]='bcc' nzMode="tags" [nzTokenSeparators]="[';']" [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="BCCMaxTagPlaceHolder" nzPlaceHolder="密送" [ngModelOptions]="{standalone: true}"></nz-select>
+      <ng-template #BCCMaxTagPlaceHolder>+{{ bcc.length }}</ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item [formGroup]='form'>
     <nz-form-label nzSpan='4' nzRequired>主题</nz-form-label>
     <nz-form-control>
-      <input nz-input />
+      <input nz-input formControlName='subject' />
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label nzSpan='4'>正文</nz-form-label>
+  <nz-form-item [formGroup]='form'>
+    <nz-form-label nzSpan='4' nzRequired>正文</nz-form-label>
     <div class='email-container'>
-      <coeditor [html]='value' (coChange)='updateMail($event)'></coeditor>
+      <ckeditor formControlName='value' [config]='editorConfig'></ckeditor>
     </div>
   </nz-form-item>
 </form>

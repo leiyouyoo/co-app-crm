@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CoEditorModule } from '@co/cbc/basic/editor';
+import { CKEditorModule } from 'ckeditor4-angular';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
@@ -51,6 +52,7 @@ import { TeamMembersComponent } from './component/team-members/team-members.comp
 import { UpdateCustomerNameComponent } from './component/update-customer-name/update-customer-name.component';
 import { AddTeamMembersModalComponent } from './component/add-team-members-modal/add-team-members-modal.component';
 import { CustomerEmailComponent } from './component/customer-email/customer-email.component';
+import { EmailPasswordInputModalComponent } from './component/customer-email/email-password-input-modal/email-password-input-modal.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -99,6 +101,7 @@ const COMPONENTS_NOROUNT = [
     NetworkSharedModule,
     NzEmptyModule,
     CoEditorModule,
+    CKEditorModule,
   ],
   declarations: [
     ...COMPONENTS_NOROUNT,
@@ -118,6 +121,7 @@ const COMPONENTS_NOROUNT = [
     TeamMembersComponent,
     AddTeamMembersModalComponent,
     CustomerEmailComponent,
+    EmailPasswordInputModalComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

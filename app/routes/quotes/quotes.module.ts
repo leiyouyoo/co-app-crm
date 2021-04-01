@@ -11,6 +11,7 @@ import { InquirydetailComponent } from './component/inquirydetail/inquirydetail.
 import { QuotesIndexComponent } from './quotes-index.component';
 import { QuoteCommmonModule } from './quote-commmon.module';
 import { HandlequotesComponent } from './component/handlequotes/handlequotes.component';
+import { HandlequotesOfCreateComponent } from './component/handlequotes-of-create/handlequotes-of-create.component';
 
 const COMPONENTS = [
   InquiryComponent,
@@ -20,6 +21,7 @@ const COMPONENTS = [
   InquirydetailComponent,
   QuotesIndexComponent,
   HandlequotesComponent,
+  HandlequotesOfCreateComponent,
 ];
 
 @NgModule({

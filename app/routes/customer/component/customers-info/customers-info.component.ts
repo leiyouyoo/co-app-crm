@@ -309,7 +309,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    * 获取统计信息
    */
   getBusinessStatistics() {
-    const year = this.date.getFullYear() + '';
+    const year = this.date.getFullYear();
     this.crmCustomerService.getBusinessStatistics({ customerId: this.customerId, year: year }).subscribe((res) => {
       this.statisticsInfo = res;
     });

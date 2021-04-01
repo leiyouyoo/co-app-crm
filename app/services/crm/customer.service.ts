@@ -889,7 +889,7 @@ export class CRMCustomerService extends BaseApi {
     @GET('GetBusinessStatistics')
     getBusinessStatistics(
         @Payload
-        _req: {customerId?:string,year?:string} 
+        _req: {customerId?:string,year?:number} 
 
     ): Observable<any> {
         return null as any

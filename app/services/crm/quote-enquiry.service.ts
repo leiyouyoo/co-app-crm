@@ -124,7 +124,7 @@ export class CRMQuoteEnquiryService extends BaseApi {
     @GET('GetAllForCRMStatistics')
     getAllForCRMStatistics(
         @Payload
-        _req: {customerId?:string,year?:string} 
+        _req: {customerId?:string,year?:number} 
 
     ): Observable<any> {
         return null as any
