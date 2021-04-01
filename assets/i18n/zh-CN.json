@@ -1196,5 +1196,8 @@
   "Initiate chat": "发起聊天",
   "Team members": "团队成员",
   "Bank account cannot be repeated":"银行账号不能重复",
-  "InvoiceTitle":"发票抬头"
+  "InvoiceTitle":"发票抬头",
+  "Trade type": "贸易类型",
+  "Quote listing": "询价列表",
+  "Create Quote": "创建询价"
 }

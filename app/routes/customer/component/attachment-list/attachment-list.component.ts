@@ -43,7 +43,9 @@ export class AttachmentListComponent extends CoPageBase implements OnInit {
           text: this.$L('Download'),
           type: 'none',
           click: (e) => {
+            this.crmAttachmentService.download({ id: e.fileId }).subscribe();
             window.open(this.downLoadUrl + `?FileId=${e.fileId}&Handler=raw`);
+
           },
         },
         // {

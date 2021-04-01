@@ -14,7 +14,7 @@
     <div class="form-box d-flex align-items-center" style="padding-top: 12px; position: sticky; top: 0; background: #fff; z-index: 99;">
       <div class="d-flex align-items-center">
         <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()" *ngIf="!isTemplate">
-          {{ 'Request Freight Quote' | translate }}
+          {{ 'Create Quote' | translate }}
         </button>
       </div>
     </div>
@@ -126,7 +126,7 @@
         </div>
         <!-- 装运类型 -->
         <div
-          *ngIf="!(validateForm.value.tradeType === TradeType.Normal && validateForm.value.transportationMode === TransportationMode.Air)"
+          *ngIf="!(validateForm.value.tradeType === TradeType.Normal && validateForm.value.freightMethodType === TransportationMode.Air)"
           nz-col
           [nzSpan]="8"
         >
@@ -417,7 +417,7 @@
           </nz-form-item>
           <!-- 交付日期 -->
           <nz-form-item>
-            <nz-form-label [nzRequired]="validateForm.value._dest === 'CY'"> {{ 'Delivery date' | translate }} </nz-form-label>
+            <nz-form-label> {{ 'Delivery date' | translate }} </nz-form-label>
             <nz-form-control>
               <nz-date-picker formControlName="deliveryDate"></nz-date-picker>
             </nz-form-control>
