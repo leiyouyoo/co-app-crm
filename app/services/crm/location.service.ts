@@ -34,7 +34,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetAll')
     getAll(
         @Payload
-        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isCurrentUser?:boolean,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMLocationListDto>> {
         return null as any
@@ -214,7 +214,7 @@ export class CRMLocationService extends BaseApi {
     @GET('GetAllForFam')
     getAllForFam(
         @Payload
-        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
+        _req: {customerId?:string,partnerId?:string,bindContactId?:string,isCurrentUser?:boolean,isAll?:boolean,sorting?:string,maxResultCount?:number,skipCount?:number} 
 
     ): Observable<CRMPagedResultDto1<CRMLocationListDto>> {
         return null as any

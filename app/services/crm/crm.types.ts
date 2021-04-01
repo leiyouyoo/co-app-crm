@@ -81,6 +81,19 @@
     }
  
     /**
+     *  No Remark 
+     */
+    export class CRMCoEntityDto {
+        [key:string]: any;
+        
+         
+            
+            id?: string;
+        
+        
+    }
+ 
+    /**
      * 联系人Dto
      */
     export class CRMContactDto {
@@ -661,19 +674,6 @@
          
             
             link?: string;
-        
-        
-    }
- 
-    /**
-     *  No Remark 
-     */
-    export class CRMCoEntityDto {
-        [key:string]: any;
-        
-         
-            
-            id?: string;
         
         
     }
@@ -4998,8 +4998,14 @@
         [key:string]: any;
         
          
+            /* 客户Id */ 
+            customerId: string;
+         
             /* 发件人 */ 
             from: string;
+         
+            /* 发件人用户Id */ 
+            fromUserId: number;
          
             /* 收件人 */ 
             to: any[];

@@ -91,14 +91,24 @@ export class TeamMembersComponent implements OnInit {
 
   chat() {
     const membersList = this.selected.selected;
-    this.globalEventDispatcher.dispatch('chatWithIM', {
-      isCreateGroup: true,
-      name: membersList.map((e) => {
-        return e.allowUserName || 'test';
-      }).join(',').substring(0, 10),
-      memberList: this.selected.selected.map(e => {
-        return { userID: e.allowUserId.toString() };
-      }),
-    });
+    if (membersList.length === 1) {
+      this.globalEventDispatcher.dispatch('chatWithIM', {
+        isC2C: true,
+        personInfo: {
+          name: membersList[0].allowUserName,
+          id: membersList[0].allowUserId,
+        },
+      });
+    } else {
+      this.globalEventDispatcher.dispatch('chatWithIM', {
+        isCreateGroup: true,
+        name: membersList.map((e) => {
+          return e.allowUserName || 'test';
+        }).join(',').substring(0, 10),
+        memberList: this.selected.selected.map(e => {
+          return { userID: e.allowUserId.toString() };
+        }),
+      });
+    }
   }
 }
