@@ -10,14 +10,13 @@ import { freightType } from '../../enum/quoteState';
 import { TranslateService } from '@ngx-translate/core';
 import { CoConfigManager, CoPageBase, debounce } from '@co/core';
 import { GoogleMapService, I18nMessageService } from '@co/common';
-import { FCMBookingOrderService, FCMCustomerBookingEditInput } from '../../../../../../csp/app/services/fcm';
 import { PUBChannelService, PUBPlaceService, PUBRegionService } from '@co/cds';
 import {
   CRMContactExternalService,
   CRMLocationExternalService,
   CRMPartnerExternalService, CRMQuoteEnquiryService,
-} from '../../../../../../csp/app/services/crm';
-import { CSPPurchaseOrderService } from '../../../../../../csp/app/services/csp';
+} from '../../../../services/crm';
+import { CSPPurchaseOrderService } from '../../../../services/csp';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { TradeType, TransportationMode, ContainerLoadingType, FbaDeliveryMethodType, FbaPickUpMethodType } from './enums';
@@ -42,7 +41,6 @@ export class initiativeCreatequotesComponent extends CoPageBase {
 //#region 私有变量
 
   id: string;
-  _booking: FCMCustomerBookingEditInput;
   validateForm: FormGroup;
   templateName = null;
   saveLoading = false;
@@ -107,7 +105,6 @@ export class initiativeCreatequotesComponent extends CoPageBase {
     private customerService: CRMPartnerExternalService,
     private contactExternalService: CRMContactExternalService,
     private pubRegionService: PUBRegionService,
-    private fcmBookingOrderService: FCMBookingOrderService,
     private i18nMessageService: I18nMessageService,
     private cspPurchaseOrderService: CSPPurchaseOrderService,
     private crmQuoteEnquiryService: CRMQuoteEnquiryService,
@@ -882,6 +879,10 @@ export class initiativeCreatequotesComponent extends CoPageBase {
     this.validateForm.controls.ownerUserId.setValue(null);
     this.validateForm.controls.originAddressId.setValue(null);
     this.validateForm.controls.destinationAddressId.setValue(null);
+  }
+
+  handContainer(e) {
+
   }
   //#endregion
 }
