@@ -39,6 +39,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   allChecked = true;
   indeterminate = false;
   isShowSchedule = true;
+  isShow=true;
   checkOptionsOne = [
     { label: '电子邮件', value: 5, checked: true },
     { label: '跟进记录', value: 3, checked: true },
