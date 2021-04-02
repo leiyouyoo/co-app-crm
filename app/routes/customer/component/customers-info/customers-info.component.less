@@ -45,6 +45,11 @@ nz-content {
     nz-tabset {
       height: 100%;
 
+      nz-tabs-nav {
+        margin-bottom: 8px;
+        padding: 0 16px;
+      }
+
       .ant-tabs-content {
         height: calc(100% - 61px);
 
@@ -70,6 +75,7 @@ nz-content {
   border-color: #ffe58f;
   border-radius: 10px;
 }
+
 .customerInfo-unRegistered {
   position: relative;
   display: flex;
@@ -84,6 +90,7 @@ nz-content {
   border-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
+
 .customerinfo-noCertified {
   position: relative;
   display: flex;
@@ -98,6 +105,7 @@ nz-content {
   border-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
+
 .customerinfo-certificing {
   position: relative;
   display: flex;
@@ -118,6 +126,7 @@ nz-content {
   font-weight: 400;
   font-size: 12px;
 }
+
 .edit-customer {
   img {
     position: absolute;
@@ -127,6 +136,7 @@ nz-content {
     height: 25px;
   }
 }
+
 .customerinfo-top_link {
   display: flex;
   justify-content: space-between;
@@ -139,25 +149,33 @@ nz-content {
   }
   .customerinfo-top_linkleft {
     flex: 1;
+
     .customerinfo-top_Tips {
       min-height: 32px;
       color: rgba(0, 0, 0, 0.85);
       font-size: 12px;
     }
+
     .customerinfo-top_linkinfo {
       display: flex;
       align-items: center;
       color: rgba(0, 0, 0, 0.65);
       font-size: 12px;
+
       .icon-dock-building {
         margin-right: 8px;
       }
+
       .icon-zhangdan {
         margin-right: 8px;
       }
+
       div {
         width: 9%;
         cursor: pointer;
+        &:hover {
+          color: #1890ff;
+        }
       }
     }
   }

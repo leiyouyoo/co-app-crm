@@ -141,8 +141,9 @@
                 }})
               </div>
               <div (click)="onLinkWorkFlow()">
-                <span nz-icon [nzIconfont]="'icon-zhangdan'" class="iconfont icon-zhangdan"> </span>{{ '审批' | translate }}({{
-                  statisticsInfo?.Booking
+                <span nz-icon [nzIconfont]="'icon-zhangdan'"
+                      class="iconfont icon-zhangdan"> </span>{{ '审批' | translate }}({{
+                statisticsInfo?.Booking
                 }})
               </div>
             </div>
@@ -211,6 +212,7 @@
             style="overflow: hidden;"
             [ngStyle]="{ flex: recordExpand ? '1' : 'unset', height: recordExpand ? '50%' : 'auto' }"
             [customerId]="customerId"
+            [fromDetail]="true"
             #recordList
           ></crm-follow-up-record-list>
         </div>

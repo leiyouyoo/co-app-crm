@@ -1,4 +1,4 @@
-<section style="height: 100%;overflow: auto;border-bottom: 1px solid #E9E9E9;">
+<section style="height: 100%;overflow: auto;border-bottom: 1px solid #E9E9E9;padding: 0 16px;">
   <div style="margin-bottom: 8px;">
     <button *ngIf="expanded" nz-button nzSize="small" nzType="primary" [nzLoading]="loading"
             (click)="submit()">{{ 'Publish' | translate }}</button>
@@ -26,7 +26,6 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label> {{ 'Time' | translate }}</nz-form-label>
       <nz-form-control nzErrorTip="{{ 'Please select' | translate }}!">
         <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [nzDisabledDate]="disabledAEndDate"
                         formControlName="followUpRecord"></nz-date-picker>

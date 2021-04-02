@@ -1200,6 +1200,7 @@
   "Trade type": "贸易类型",
   "Quote listing": "询价列表",
   "Create Quote": "创建询价",
-  "Order":"订单"
-
+  "Order":"订单",
+  "Select employees": "选择员工",
+  "Current company": "当前公司"
 }

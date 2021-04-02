@@ -21,10 +21,12 @@
     .ant-steps-item-container {
       padding-bottom: 0;
     }
+
     .ant-steps-navigation {
       padding-top: 8px;
       padding-bottom: 8px;
     }
+
     .ant-steps-navigation .ant-steps-item::after {
       margin-top: -6px;
       margin-left: 15px;
@@ -72,23 +74,34 @@
 ::ng-deep {
   nz-tabset {
     height: 100%;
+
+    nz-tabs-nav {
+      margin-bottom: 8px;
+      padding: 0 16px;
+    }
+
     .ant-steps {
       padding-top: 8px;
       padding-bottom: 8px;
     }
+
     .ant-tabs-content {
       height: calc(100% - 61px);
+
       .ant-steps-icon {
         font-size: 14px;
       }
+
       .ant-tabs-tabpane {
         height: 100%;
       }
     }
   }
+
   .ant-spin-nested-loading {
     height: 100% !important;
   }
+
   .ant-spin-container {
     height: 100% !important;
   }
@@ -135,6 +148,7 @@ nz-content {
     color: #1890ff;
   }
 }
+
 .step-bar {
   display: flex;
   justify-content: space-between;
@@ -154,6 +168,7 @@ nz-content {
   border-color: #ffe58f;
   border-radius: 10px;
 }
+
 .customerInfo-unRegistered {
   position: relative;
   display: flex;
@@ -168,6 +183,7 @@ nz-content {
   border-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
+
 .customerinfo-noCertified {
   position: relative;
   display: flex;
@@ -182,6 +198,7 @@ nz-content {
   border-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
+
 .customerinfo-certificing {
   position: relative;
   display: flex;
@@ -196,11 +213,13 @@ nz-content {
   border-color: #cbd5dd;
   border-radius: 10px;
 }
+
 .customer-title {
   margin-left: 25px;
   font-weight: 400;
   font-size: 12px;
 }
+
 .edit-customer {
   img {
     position: absolute;
@@ -210,6 +229,7 @@ nz-content {
     height: 25px;
   }
 }
+
 .customerinfo-top_link {
   display: flex;
   justify-content: space-between;
@@ -217,24 +237,32 @@ nz-content {
   margin-bottom: 16px;
   padding: 8px 16px 0 16px;
   background: #fff;
+
   .customerinfo-top_linkleft {
     flex: 1;
+
     .customerinfo-top_Tips {
       min-height: 32px;
       color: rgba(0, 0, 0, 0.85);
       font-size: 12px;
     }
+
     .customerinfo-top_linkinfo {
       display: flex;
       align-items: center;
       color: rgba(0, 0, 0, 0.65);
       font-size: 12px;
+
       .icon-dock-building {
         margin-right: 8px;
       }
+
       div {
         margin-right: 16px;
         cursor: pointer;
+        &:hover{
+          color: #1890ff;
+        }
       }
     }
   }

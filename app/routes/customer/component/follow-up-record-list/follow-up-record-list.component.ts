@@ -1,10 +1,22 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  LOCALE_ID,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CoConfigManager, CoPageBase } from '@co/core';
 import { of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { groupBy, sort } from 'lodash';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
 import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -14,6 +26,7 @@ import { ActivatedRoute } from '@angular/router';
 export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @ViewChild(ScheduleListComponent, { static: false }) scheduleList: ScheduleListComponent;
   @Input() customerId;
+  @Input() fromDetail = null;
   traceLogList = [];
   param: any;
   offsetDay = 0;
@@ -25,7 +38,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   visible = false;
   allChecked = true;
   indeterminate = false;
-  isShowSchedule=true;
+  isShowSchedule = true;
   checkOptionsOne = [
     { label: '电子邮件', value: 5, checked: true },
     { label: '跟进记录', value: 3, checked: true },
@@ -33,12 +46,17 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     { label: '事件', value: 2, checked: true },
     { label: '团队成员', value: 1, checked: true },
   ];
+  groupedLogList: any;
+  groupedLogKeys = [];
+  hiddenKey = {};
 
   constructor(
     injector: Injector,
     private crmCustomerOperationEventService: CRMCustomerOperationEventService,
     private crmTraceLogService: CRMTraceLogService,
     private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    @Inject(LOCALE_ID) private locale: string,
   ) {
     super(injector);
     if (this.activatedRoute.snapshot.params.id) {
@@ -91,7 +109,12 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
         this.logLoading = false;
         this.refreshLogLoading = false;
         this.param.totalCount = r.totalCount;
+        r.items.map(e => formatDate(e.creationTime, 'yyyy-MM', this.locale)).forEach(e => {
+          this.hiddenKey[e] = false;
+        });
         console.log(this.traceLogList);
+        this.group();
+
       },
       (e) => {
         this.logLoading = false;
@@ -116,7 +139,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
    * 获取下一页事件
    */
   getNextLog() {
-    this.param.skipCount++;
+    this.param.skipCount += this.param.maxResultCount;
     this.logLoading = true;
     this.getCustomerOperationEvent(true);
   }
@@ -135,7 +158,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   get getBusinessType() {
-    return  this.checkOptionsOne.find(c=>c.value===4)?.checked;
+    return this.checkOptionsOne.find(c => c.value === 4)?.checked;
   }
 
   showAll() {
@@ -209,7 +232,23 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
       this.param.businessTypes = this.checkOptionsOne.filter((e) => e.checked).map((e) => e.value);
     }
     this.visible = false;
-    this.isShowSchedule=this.getBusinessType;
+    this.isShowSchedule = this.getBusinessType;
     this.searchLog();
+  }
+
+  group() {
+    this.groupedLogList = groupBy(this.traceLogList, (b) => formatDate(b.creationTime, 'yyyy-MM', this.locale));
+    this.groupedLogKeys = Object.keys(this.groupedLogList).sort(((a, b) => {
+      return new Date(b).getTime() - new Date(a).getTime();
+    }));
+    this.cdr.detectChanges();
+  }
+
+  hideKey(key) {
+    this.hiddenKey[key] = !this.hiddenKey[key];
+  }
+
+  checkMonth(key: string) {
+    return key == formatDate(new Date(), 'yyyy-MM', this.locale);
   }
 }
