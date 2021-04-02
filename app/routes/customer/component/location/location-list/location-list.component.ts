@@ -49,6 +49,7 @@ export class LocationListComponent extends CoPageBase {
     {
       title: 'Location name',
       index: 'name',
+      render:'name',
       width: 100,
     },
     {

@@ -14,6 +14,36 @@
   style="flex: 1;"
 >
   <ng-template st-row="cpc" let-data> {{ data.country }}-{{ data.province }}-{{ data.city }} </ng-template>
+  <ng-template st-row="name" let-data> 
+    <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="contentTemplate">
+      {{ data.name }}
+    </span>
+    <ng-template #contentTemplate>
+      <div class="contact-title" >
+        <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-location-outline'"></span>
+      {{'Registered address'|translate}}
+      </div>
+      <div>
+      <p class="contact-p" >地址(英文) </p>
+      <div style="margin-bottom: 4px;">
+        <div> {{ data.country }}{{ data.province }}{{ data.city }} {{data.streetAddress}} </div>
+      </div>
+      </div>
+      <div>
+        <p class="contact-p" >{{'Remark'|translate}} </p>
+        <div >
+          <div>{{ data.remark ||'---'}}</div>
+        </div>
+        </div>
+        <div>
+          <p class="contact-p" >{{'Port code'|translate}} </p>
+          <div >
+            <div>{{ data.locationAddition?.unlocode ||'---'}} </div>
+          </div>
+          </div>
+          </ng-template>
+  </ng-template>
+
 
   <ng-template st-row="contacts" let-data>
     <div class="detial_msg" style="width: 130px;">

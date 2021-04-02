@@ -23,8 +23,33 @@
   </ng-template>
 
   <ng-template st-row="xm" let-data>
-    {{ data.surname }}
-    {{ data.name }}
+    <span nz-popover [nzPopoverTitle]="null" [nzPopoverContent]="contentTemplate">
+      {{ data.surname }}
+      {{ data.name }}
+    </span>
+    <ng-template #contentTemplate>
+<div class="contact-title" >
+  <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-user-login'"></span>
+联系人
+</div>
+<div>
+<p class="contact-p" ><span style="font-weight: bold;">{{data.localizationName}}/{{data.name}}</span><span style="font-weight: bold;">{{data.position}}</span> </p>
+<div style="margin-bottom: 14px;">
+  <div class="contact-info" ><div style="flex: 1;">手机号码:{{data.phone||'---'}} </div> <div style="flex: 2;">电话号码:{{data.tel||'---'}}</div></div>
+  <div class="contact-info"><div style="flex: 1;">邮箱:{{data.eamil||'---'}} </div> <div style="flex: 2;">传真:{{data.fax||'---'}}</div></div>
+  <div>备注:{{data.remark||'---'}} </div>
+
+</div>
+<div class="contact-title">
+  <span style="color: #1890ff;" nz-icon [nzIconfont]="'icon-user-login'"></span>
+CSP账户信息
+</div>
+<div>
+  <p class="contact-p"><span style="font-weight: bold;">{{data.email||'---'}}</span><span style="font-weight: bold;">{{data.role}}</span> </p>
+</div>
+</div>
+
+    </ng-template>
   </ng-template>
   <ng-template st-row="xml" let-data>
     {{ data.localizationSurname }}
