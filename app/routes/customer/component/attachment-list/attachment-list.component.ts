@@ -6,6 +6,7 @@ import { StorageAttachmentService } from '@co/cds';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMAttachmentService } from '../../../../services/crm';
 import { AttachmentTypeComponent } from './attachment-type/attachment-type.component';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-attachment-list',
@@ -43,7 +44,9 @@ export class AttachmentListComponent extends CoPageBase implements OnInit {
           text: this.$L('Download'),
           type: 'none',
           click: (e) => {
-            this.crmAttachmentService.download({ id: e.fileId }).subscribe();
+            this.crmAttachmentService.download({ id: e.id }).subscribe(() => {
+              this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
+            });
             window.open(this.downLoadUrl + `?FileId=${e.fileId}&Handler=raw`);
 
           },
@@ -98,6 +101,7 @@ export class AttachmentListComponent extends CoPageBase implements OnInit {
     private modalSrv: NzModalService,
     private translateService: TranslateService,
     private crmAttachmentService: CRMAttachmentService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
