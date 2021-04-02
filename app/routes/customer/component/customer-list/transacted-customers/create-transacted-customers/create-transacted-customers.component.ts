@@ -729,8 +729,11 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
    */
   checkCustomerAsync(key, value, id?) {
     this.checkKey = key;
-    if (!value || (this.validateForm.value.code && key == 'tel') || (this.isEdit && (key == 'name' || key == 'nameLocalization' || key == 'shortName' || key == 'shortNameLocalization'))) {
-      this.hide(key);
+    if (
+      !value ||
+      (this.validateForm.value.code && key == 'tel') ||
+      ((this.validateForm.value.code || this.data?.examineState == 1) && (key == 'name' || key == 'nameLocalization'))
+    ) {
       return;
     }
     this.crmCustomerService

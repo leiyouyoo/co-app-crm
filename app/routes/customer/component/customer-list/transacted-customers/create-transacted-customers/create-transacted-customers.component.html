@@ -165,7 +165,7 @@
                 <input
                   id="name"
                   nz-input
-                  [readonly]="validateForm.get('code').value"
+                  [readonly]="validateForm.get('code').value && data?.examineState==1"
                   (blur)="checkRepeatData('name')"
                   formControlName="name"
                   placeholder="{{ 'Please enter full name' | translate }}"
@@ -208,7 +208,7 @@
                 <input
                   id="nameLocalization"
                   nz-input
-                  [readonly]="validateForm.get('code').value"
+                  [readonly]="validateForm.get('code').value && data?.examineState==1"
                   formControlName="nameLocalization"
                   (blur)="checkRepeatData('nameLocalization')"
                   placeholder="{{ 'Please enter' | translate }}"
@@ -243,7 +243,6 @@
             <nz-form-control [nzErrorTip]="AbbreviationErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl2">
                 <input
-                  [readonly]="validateForm.get('code').value"
                   id="shortName"
                   (blur)="checkRepeatData('shortName')"
                   nz-input
@@ -287,7 +286,6 @@
             <nz-form-control [nzErrorTip]="shortNameErrorTpl">
               <nz-input-group [nzSuffix]="inputClearTpl3">
                 <input
-                  [readonly]="validateForm.get('code').value"
                   (blur)="checkRepeatData('shortNameLocalization')"
                   id="shortNameLocalization"
                   nz-input

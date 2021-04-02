@@ -359,7 +359,7 @@
                 nz-input
                 (blur)="checkRepeatData('name')"
                 formControlName="name"
-                [readonly]="validateForm.get('code').value"
+                [readonly]="validateForm.get('code').value && data?.examineState==1"
                 placeholder="{{ 'Please enter full name' | translate }}"
               />
               <ng-template #inputClearTpl
@@ -400,7 +400,7 @@
               <input
                 id="nameLocalization"
                 nz-input
-                [readonly]="validateForm.get('code').value"
+                [readonly]="validateForm.get('code').value && data?.examineState==1"
                 formControlName="nameLocalization"
                 (blur)="checkRepeatData('nameLocalization')"
                 placeholder="{{ 'Please enter' | translate }}"
@@ -436,7 +436,6 @@
             <nz-input-group [nzSuffix]="inputClearTpl2">
               <input
                 id="shortName"
-                [readonly]="validateForm.get('code').value"
                 (blur)="checkRepeatData('shortName')"
                 nz-input
                 formControlName="shortName"
@@ -482,7 +481,6 @@
                 (blur)="checkRepeatData('shortNameLocalization')"
                 id="shortNameLocalization"
                 nz-input
-                [readonly]="validateForm.get('code').value"
                 formControlName="shortNameLocalization"
                 type="text"
                 placeholder="{{ 'Please enter short name' | translate }}"
