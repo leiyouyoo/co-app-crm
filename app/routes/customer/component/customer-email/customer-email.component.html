@@ -13,7 +13,7 @@
   <nz-form-item>
     <nz-form-label nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select nzShowSearch nzAllowClear nzServerSearch nzShowArrow (ngModelChange)='changeReceives()' [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+      <nz-select nzShowSearch nzAllowClear nzServerSearch nzShowArrow (ngModelChange)='changeReceives()' [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='tags' [nzTokenSeparators]="[';']" nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
         <ng-container *ngIf='receivesList | async as items'>
           <ng-container *ngIf='(receivesSearchLoading | async) === true'>
             <nz-option nzCustomContent>
@@ -26,6 +26,21 @@
       <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
   </nz-form-item>
+
+  <!--
+  <nz-form-item>
+    <nz-form-label nzRequired>收件人</nz-form-label>
+    <nz-form-control>
+      <div class='select-container'>
+        <nz-select nzAllowClear nzShowArrow nzBorderless [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='tags' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" [(ngModel)]='receives' [ngModelOptions]="{standalone: true}"></nz-select>
+        <div class='select-fun-btn' (click)='openSelectReceivesModal()'>
+          <i nz-icon nzType="plus" nzTheme="outline"></i>
+        </div>
+      </div>
+      <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  -->
 
   <div class='email-option'>
     <div class='space'></div>

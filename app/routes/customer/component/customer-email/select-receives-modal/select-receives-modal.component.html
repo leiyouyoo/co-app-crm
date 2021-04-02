@@ -1,11 +1,15 @@
 <div class='input'>
-  <nz-select style='width: 100%;' nzServerSearch [nzMaxTagCount]='1' [nzLoading]='searchLoading | async' nzPlaceHolder='请输入关键字' nzMode='tags' (nzOnSearch)='keyword.next($event)'></nz-select>
+  <nz-select #EEE style='width: 100%;' [ngModel]="['Zhejiang']" nzServerSearch [nzMaxTagCount]='1' [nzLoading]='searchLoading | async' nzPlaceHolder='请输入关键字' nzMode='tags' (nzOnSearch)='keyword.next($event)' (nzBlur)='miao(EEE)'>
+    <nz-option [nzLabel]="'Zhejiang'" [nzValue]="'Zhejiang'"></nz-option>
+    <nz-option [nzLabel]="'Jiangsu'" [nzValue]="'Jiangsu'"></nz-option>
+  </nz-select>
 </div>
 <div class='input'>
-  <nz-input-group nzCompact>
-    <nz-select [ngModel]="['miao', 'mmmm']"></nz-select>
-    <input type="text" nz-input [ngModel]="'26888888'" />
-  </nz-input-group>
+  <nz-select [ngModel]="['Zhejiang']" nzMode='tags' nzBorderless>
+    <nz-option [nzLabel]="'Zhejiang'" [nzValue]="'Zhejiang'"></nz-option>
+    <nz-option [nzLabel]="'Jiangsu'" [nzValue]="'Jiangsu'"></nz-option>
+  </nz-select>
+  <input type="text" nz-input [ngModel]="'26888888'" nzBorderless />
 </div>
 <nz-tabset>
   <nz-tab nzTitle="客户">

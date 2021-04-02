@@ -126,4 +126,7 @@ export class SelectReceivesModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  miao(event: any){
+    console.log(event);
+  }
 }

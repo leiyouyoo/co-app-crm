@@ -21,6 +21,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { EmailPasswordInputModalComponent } from './email-password-input-modal/email-password-input-modal.component';
+import { SelectReceivesModalComponent } from './select-receives-modal/select-receives-modal.component';
 
 interface UserDetail {
   customerId: string;
@@ -92,6 +93,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   fileList = new BehaviorSubject<FileInfo[]>([]);
   changeReceives$ = new Subject();
   disableSend: Observable<boolean>;
+  /** 用于在弹窗模式下，关闭弹窗 */
+  closeModal$ = new Subject<void>();
 
   readonly editorConfig: CKEditor4.Config = {
     height: 100
@@ -293,9 +296,13 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           }
         });
 
+        const com = modal.getContentComponent();
+        com.closeModal$.subscribe(() => modal.destroy());
+
         return modal.afterClose;
       })
     ).subscribe(result => {
+      console.log(result);
       if (result) {
         this.ccModel.next(result.ccModel);
         this.bccModel.next(result.bccModel);
@@ -310,6 +317,14 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         this.receives = result.receives;
       }
     });
+  }
+
+  openSelectReceivesModal() {
+    this.nzModalService.create<SelectReceivesModalComponent, CRMGetAllSalesAndContactsOutput[] | undefined | null>({
+      nzTitle: '选择收件人',
+      nzContent: SelectReceivesModalComponent,
+      nzFooter: null
+    }).afterClose.subscribe();
   }
 
   openEmailPasswordInputModal(title?: string): Observable<string | undefined | null> {
@@ -354,32 +369,30 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           attachments: this.fileList.getValue().map(i => i.fileId)
         }).pipe(
           catchError(err => {
-            if (err instanceof HttpErrorResponse) {
-              if (err.error?.error?.code === 401) {
-                /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
-                return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
-                  switchMap(result => {
-                    /** 如果填了密码，那就发送请求 */
-                    if (result) {
-                      return this.crmEmailService.seed({
-                        customerId: this.customerId,
-                        from: sender.emailAddress,
-                        fromUserId: sender.id,
-                        to: this.receives.map(i => i.email),
-                        subject: this.form.value.subject,
-                        body: this.form.value.value,
-                        cc: this.cc,
-                        bcc: this.bcc,
-                        fromPassword: result,
-                        attachments: this.fileList.getValue().map(i => i.fileId)
-                      });
-                    } else {
-                      /** 没有的话那就直接完成这个observable结束操作 */
-                      return EMPTY;
-                    }
-                  })
-                );
-              }
+            if (err instanceof HttpErrorResponse && err.error?.error?.code === 401) {
+              /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
+              return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
+                switchMap(result => {
+                  /** 如果填了密码，那就发送请求 */
+                  if (result) {
+                    return this.crmEmailService.seed({
+                      customerId: this.customerId,
+                      from: sender.emailAddress,
+                      fromUserId: sender.id,
+                      to: this.receives.map(i => i.email),
+                      subject: this.form.value.subject,
+                      body: this.form.value.value,
+                      cc: this.cc,
+                      bcc: this.bcc,
+                      fromPassword: result,
+                      attachments: this.fileList.getValue().map(i => i.fileId)
+                    });
+                  } else {
+                    /** 没有的话那就直接完成这个observable结束操作 */
+                    return EMPTY;
+                  }
+                })
+              );
             }
           })
         );
@@ -391,6 +404,10 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         });
         this.reset();
         this.sending.next(false);
+        if (this.fullScreenMode){
+          this.closeModal$.next();
+          this.closeModal$.complete();
+        }
       },
       error: () => {
         this.sending.next(false);
