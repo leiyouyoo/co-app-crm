@@ -90,6 +90,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   initReceivesList$ = new BehaviorSubject<CRMGetAllSalesAndContactsOutput[]>([]);
   selectedFile = new BehaviorSubject<SelectedFile[]>([]);
   fileList = new BehaviorSubject<FileInfo[]>([]);
+  changeReceives$ = new Subject();
+  disableSend: Observable<boolean>;
 
   readonly editorConfig: CKEditor4.Config = {
     height: 100
@@ -154,6 +156,10 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         refCount: true,
       })
     );
+
+    this.disableSend = merge(this.form.valueChanges, this.changeReceives$, this.sending).pipe(
+      map(() => this.form.invalid || this.receives.length < 1 || this.sending.getValue() === true)
+    );
   }
 
   ngOnInit(): void {
@@ -174,9 +180,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           this.bcc = [];
         }
       });
-
-    this.receivesList.subscribe(v => console.log(v));
-    this.initReceivesList$.subscribe(v => console.log(v));
   }
 
   ngOnDestroy() {
@@ -446,5 +449,9 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
 
   selectCompareWith(o1: CRMGetAllSalesAndContactsOutput | null, o2: CRMGetAllSalesAndContactsOutput | null): boolean {
     return o1 && o2 ? o1.email === o2.email : false;
+  }
+
+  changeReceives(): void{
+    this.changeReceives$.next();
   }
 }
