@@ -1,5 +1,5 @@
 <div class='toolbar'>
-  <button nz-button nzSize='small' nzType='primary' [disabled]='form.invalid || receives.length < 1 || (sending | async)' (click)='submit()' [nzLoading]='sending | async'>发送</button>
+  <button nz-button nzSize='small' nzType='primary' [disabled]='disableSend | async' (click)='submit()' [nzLoading]='sending | async'>发送</button>
 </div>
 
 <div nz-form class='form'>
@@ -13,7 +13,7 @@
   <nz-form-item>
     <nz-form-label nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select nzShowSearch nzAllowClear nzServerSearch nzShowArrow [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+      <nz-select nzShowSearch nzAllowClear nzServerSearch nzShowArrow (ngModelChange)='changeReceives()' [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
         <ng-container *ngIf='receivesList | async as items'>
           <ng-container *ngIf='(receivesSearchLoading | async) === true'>
             <nz-option nzCustomContent>
@@ -64,9 +64,11 @@
         <button nz-button nzSize='small' class='tool-func' (click)='SelectFile.click()'>
           <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
         </button>
+        <!--
         <button nz-button nzSize='small' class='tool-func'>
           <i nz-icon nzType="eye" nzTheme="outline"></i>
         </button>
+        -->
         <button nz-button nzSize='small' class='tool-func' *ngIf='!fullScreenMode' (click)='openFullScreen()'>
           <i nz-icon nzType="arrows-alt" nzTheme="outline"></i>
         </button>

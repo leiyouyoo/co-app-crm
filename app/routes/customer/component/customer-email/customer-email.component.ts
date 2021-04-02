@@ -90,6 +90,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   initReceivesList$ = new BehaviorSubject<CRMGetAllSalesAndContactsOutput[]>([]);
   selectedFile = new BehaviorSubject<SelectedFile[]>([]);
   fileList = new BehaviorSubject<FileInfo[]>([]);
+  changeReceives$ = new Subject();
+  disableSend: Observable<boolean>;
 
   readonly editorConfig: CKEditor4.Config = {
     height: 100
@@ -154,6 +156,10 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         refCount: true,
       })
     );
+
+    this.disableSend = merge(this.form.valueChanges, this.changeReceives$, this.sending).pipe(
+      map(() => this.form.invalid || this.receives.length < 1 || this.sending.getValue() === true)
+    );
   }
 
   ngOnInit(): void {
@@ -174,9 +180,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           this.bcc = [];
         }
       });
-
-    this.receivesList.subscribe(v => console.log(v));
-    this.initReceivesList$.subscribe(v => console.log(v));
   }
 
   ngOnDestroy() {
@@ -199,11 +202,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       this.receives = this.init.receives;
       this.initReceivesList$.next(this.init.receives);
     }
-  }
-
-  hasPassword(): boolean {
-    const data: any = JSON.parse(window.localStorage.getItem('co.session'));
-    return data?.session?.user?.hasEmailPassword === true;
   }
 
   searchReceives(event: string): void {
@@ -341,78 +339,51 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     }
 
     this.sending.next(true);
+
     this.sender.pipe(
-      switchMap(sender => of(this.hasPassword()).pipe(
-        switchMap(password => {
-          /** 如果有密码那就直接发送邮件，不用带密码 */
-          if (password) {
-            return this.crmEmailService.seed({
-              customerId: this.customerId,
-              from: sender.emailAddress,
-              fromUserId: sender.id,
-              to: this.receives.map(i => i.email),
-              subject: this.form.value.subject,
-              body: this.form.value.value,
-              cc: this.cc,
-              bcc: this.bcc,
-              attachments: this.fileList.getValue().map(i => i.fileId)
-            });
-          } else {
-            /** 打开输入密码的弹窗 */
-            return this.openEmailPasswordInputModal().pipe(
-              switchMap(result => {
-                /** 如果填了密码，那就发送请求 */
-                if (result) {
-                  return this.crmEmailService.seed({
-                    customerId: this.customerId,
-                    from: sender.emailAddress,
-                    fromUserId: sender.id,
-                    to: this.receives.map(i => i.email),
-                    subject: this.form.value.subject,
-                    body: this.form.value.value,
-                    cc: this.cc,
-                    bcc: this.bcc,
-                    fromPassword: result,
-                    attachments: this.fileList.getValue().map(i => i.fileId)
-                  });
-                } else {
-                  /** 没有的话那就直接完成这个observable结束操作 */
-                  return EMPTY;
-                }
-              })
-            );
-          }
-        }),
-        catchError(err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.error?.error?.code === 401) {
-              /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
-              return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
-                switchMap(result => {
-                  /** 如果填了密码，那就发送请求 */
-                  if (result) {
-                    return this.crmEmailService.seed({
-                      customerId: this.customerId,
-                      from: sender.emailAddress,
-                      fromUserId: sender.id,
-                      to: this.receives.map(i => i.email),
-                      subject: this.form.value.subject,
-                      body: this.form.value.value,
-                      cc: this.cc,
-                      bcc: this.bcc,
-                      fromPassword: result,
-                      attachments: this.fileList.getValue().map(i => i.fileId)
-                    });
-                  } else {
-                    /** 没有的话那就直接完成这个observable结束操作 */
-                    return EMPTY;
-                  }
-                })
-              );
+      switchMap(sender => {
+        return this.crmEmailService.seed({
+          customerId: this.customerId,
+          from: sender.emailAddress,
+          fromUserId: sender.id,
+          to: this.receives.map(i => i.email),
+          subject: this.form.value.subject,
+          body: this.form.value.value,
+          cc: this.cc,
+          bcc: this.bcc,
+          attachments: this.fileList.getValue().map(i => i.fileId)
+        }).pipe(
+          catchError(err => {
+            if (err instanceof HttpErrorResponse) {
+              if (err.error?.error?.code === 401) {
+                /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
+                return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
+                  switchMap(result => {
+                    /** 如果填了密码，那就发送请求 */
+                    if (result) {
+                      return this.crmEmailService.seed({
+                        customerId: this.customerId,
+                        from: sender.emailAddress,
+                        fromUserId: sender.id,
+                        to: this.receives.map(i => i.email),
+                        subject: this.form.value.subject,
+                        body: this.form.value.value,
+                        cc: this.cc,
+                        bcc: this.bcc,
+                        fromPassword: result,
+                        attachments: this.fileList.getValue().map(i => i.fileId)
+                      });
+                    } else {
+                      /** 没有的话那就直接完成这个observable结束操作 */
+                      return EMPTY;
+                    }
+                  })
+                );
+              }
             }
-          }
-        })
-      ))
+          })
+        );
+      }),
     ).subscribe({
       next: () => {
         this.nzNotificationService.success('发送成功', '', {
@@ -446,5 +417,9 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
 
   selectCompareWith(o1: CRMGetAllSalesAndContactsOutput | null, o2: CRMGetAllSalesAndContactsOutput | null): boolean {
     return o1 && o2 ? o1.email === o2.email : false;
+  }
+
+  changeReceives(): void{
+    this.changeReceives$.next();
   }
 }
