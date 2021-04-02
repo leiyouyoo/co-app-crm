@@ -1,7 +1,7 @@
 <div class='content'>
   <div>
     <nz-form-label>{{ 'Select employees' | translate }}</nz-form-label>
-    <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzMaxTagCount]='1' [nzPlaceHolder]="'Select member' | translate" nzMode='multiple' [(ngModel)]='selected' [nzLoading]='customersLoading | async'>
+    <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzMaxTagCount]='1' [nzPlaceHolder]="'Select member' | translate" nzMode='multiple' [(ngModel)]='selected' [nzLoading]='userLoading | async'>
       <nz-option *ngFor='let item of userList | async' [nzLabel]='item.userName' [nzValue]='item.id'></nz-option>
     </nz-select>
   </div>

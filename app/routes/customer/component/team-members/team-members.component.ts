@@ -77,7 +77,7 @@ export class TeamMembersComponent implements OnInit {
       nzContent: AddTeamMembersModalComponent,
       nzComponentParams: {
         customerId: this.customerId,
-        users: items,
+        exists: items.map(i => i.allowUserId),
       },
       nzWidth: 800,
       nzFooter: null,
