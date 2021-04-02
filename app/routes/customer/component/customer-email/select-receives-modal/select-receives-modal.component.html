@@ -1,0 +1,29 @@
+<div class='input'>
+  <nz-select style='width: 100%;' nzServerSearch [nzMaxTagCount]='1' [nzLoading]='searchLoading | async' nzPlaceHolder='请输入关键字' nzMode='tags' (nzOnSearch)='keyword.next($event)'></nz-select>
+</div>
+<div class='input'>
+  <nz-input-group nzCompact>
+    <nz-select [ngModel]="['miao', 'mmmm']"></nz-select>
+    <input type="text" nz-input [ngModel]="'26888888'" />
+  </nz-input-group>
+</div>
+<nz-tabset>
+  <nz-tab nzTitle="客户">
+    <ng-template nz-tab>
+      <nz-list nzBordered [nzLoading]='contactLoading | async'>
+        <nz-list-item *ngFor="let item of contact | async">
+          {{ item.email }}
+        </nz-list-item>
+      </nz-list>
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="鹏城海">
+    <ng-template nz-tab>
+
+    </ng-template>
+  </nz-tab>
+</nz-tabset>
+
+<ng-template nzModalFooter>
+
+</ng-template>

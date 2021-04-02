@@ -53,6 +53,7 @@ import { UpdateCustomerNameComponent } from './component/update-customer-name/up
 import { AddTeamMembersModalComponent } from './component/add-team-members-modal/add-team-members-modal.component';
 import { CustomerEmailComponent } from './component/customer-email/customer-email.component';
 import { EmailPasswordInputModalComponent } from './component/customer-email/email-password-input-modal/email-password-input-modal.component';
+import { SelectReceivesModalComponent } from './component/customer-email/select-receives-modal/select-receives-modal.component';
 
 const COMPONENTS = [LocationListComponent, CustomerPartnerComponent, PartnerBindCustomerComponent];
 
@@ -122,6 +123,7 @@ const COMPONENTS_NOROUNT = [
     AddTeamMembersModalComponent,
     CustomerEmailComponent,
     EmailPasswordInputModalComponent,
+    SelectReceivesModalComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
