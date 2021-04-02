@@ -180,7 +180,7 @@
 <ng-template #EmailTpl let-item>
   <h5>{{ 'Email' | translate }}</h5>
   <p>
-    <span (click)='item.isShow = !item.isShow' class='event_log__content__title'>
+    <span (click)='getEmailDetails(item)' class='event_log__content__title'>
       <i nz-icon nzType='down' [style.transform]="item.isShow ? 'rotate(180deg)' : 'unset'" nzTheme='outline'></i>
       {{ item.contentLocalizationText }}
     </span>
@@ -190,26 +190,28 @@
     <div class='header'>
       <div class='item'>
         <div class='line label'>发件人:</div>
-        <div class='line value'>jackypeng@cityocean.com [mailto:jackypeng@cityocean.com]</div>
+        <div class='line value'>{{ item?.detail?.from || '--' }}</div>
       </div>
+      <!--
       <div class='item'>
         <div class='line label'>发送时间:</div>
         <div class='line value'>2021-01-09 15:49</div>
       </div>
+      -->
       <div class='item'>
         <div class='line label'>收件人:</div>
-        <div class='line value'>'poppyhu'; lilyyan</div>
+        <div class='line value'>{{ item?.detail?.to || '--' }}</div>
       </div>
       <div class='item'>
         <div class='line label'>抄送:</div>
-        <div class='line value'>lisaluo@cityocean.com</div>
+        <div class='line value'>{{ item?.detail?.cc || '--' }}</div>
       </div>
       <div class='item'>
         <div class='line label'>主题:</div>
-        <div class='line value'>客户代码审核</div>
+        <div class='line value'>{{ item?.detail?.subject || '--' }}</div>
       </div>
     </div>
-    <div class='email-body'>好的，非常感谢。</div>
+    <div class='email-body' [innerHTML]='item?.detail?.body'></div>
     <!--
     <div class='email-func'>
       <button nz-button>回复</button>

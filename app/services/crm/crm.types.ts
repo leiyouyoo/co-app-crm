@@ -362,6 +362,9 @@
             /* 公寓/套房/单元/建筑 */ 
             streetAddress2?: string;
          
+            
+            streetAddressEn?: string;
+         
             /* 地址本地化 */ 
             streetAddressLocalization?: string;
          
@@ -3251,6 +3254,9 @@
             /* 公寓/套房/单元/建筑 */ 
             streetAddress2?: string;
          
+            
+            streetAddressEn?: string;
+         
             /* 地址本地化 */ 
             streetAddressLocalization?: string;
          
@@ -5899,6 +5905,12 @@
          
             /* 街道地址 */ 
             streetAddress?: string;
+         
+            /* 本地化地址 */ 
+            streetAddressEn?: string;
+         
+            /* 本地化地址 */ 
+            streetAddressLocalization?: string;
          
             /* 公寓/套房/单元/建筑 */ 
             streetAddress2?: string;

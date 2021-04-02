@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -10,14 +11,15 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { GlobalEventDispatcher } from '@co/cms';
+import { _HttpClient } from '@co/common';
 import { CoConfigManager, CoPageBase } from '@co/core';
-import { of } from 'rxjs';
 import { groupBy, sort } from 'lodash';
+import { of } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../../services/crm';
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
-import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
-import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -60,6 +62,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     private cdr: ChangeDetectorRef,
     private globalEventDispatcher: GlobalEventDispatcher,
     @Inject(LOCALE_ID) private locale: string,
+    private http: _HttpClient
   ) {
     super(injector);
     if (this.activatedRoute.snapshot.params.id) {
@@ -139,7 +142,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   handlePreview = async (item) => {
     this.previewImage = this.getImgUrl(item);
     this.previewVisible = true;
-  };
+  }
 
   /**
    * 获取下一页事件
@@ -255,6 +258,41 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   }
 
   checkMonth(key: string) {
-    return key == formatDate(new Date(), 'yyyy-MM', this.locale);
+    return key === formatDate(new Date(), 'yyyy-MM', this.locale);
+  }
+
+  getEmailDetails(item) {
+    item.isShow = !item.isShow;
+    if (item.detail) {
+      return;
+    }
+    item.loading = true;
+    this.http.get('/MDC/Message/GetEmailMessage', {id: item.businessId}).subscribe(
+      (r) => {
+        console.log(r);
+        item.loading = false;
+        item.detail = r;
+        this.cdr.detectChanges();
+      },
+      (e) => (item.loading = false),
+    );
+  }
+
+  getEmailDetail(item: any){
+    item.isShow = !item.isShow;
+    item.loading = true;
+    return this.http.get('/MDC/Message/GetEmailMessage', {id: item.businessId}).pipe(
+      tap(() => {
+        item.loading = false;
+      }),
+      // @ts-ignore
+      // catchError(() => {
+      //   item.loading = false;
+      // }),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true
+      })
+    );
   }
 }

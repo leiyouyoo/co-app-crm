@@ -87,6 +87,21 @@ export class CRMCustomerExternalService extends BaseApi {
 
 
     /**
+     * @param url /CRM/CustomerExternal/GetByIds
+     * 根据客户id集合返回客户集合
+     */
+
+    @POST('GetByIds')
+    getByIds(
+        @Payload
+        _req: {} 
+
+    ): Observable<CRMListResultDto1<CRMCustomerDto>> {
+        return null as any
+    }
+
+
+    /**
      * @param url /CRM/CustomerExternal/GetCustomerAndPartner
      * 获取当前客户所有的合作伙伴（包含客户自己的信息）
      */
