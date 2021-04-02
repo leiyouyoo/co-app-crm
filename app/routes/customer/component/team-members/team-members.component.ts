@@ -27,22 +27,22 @@ export class TeamMembersComponent implements OnInit {
     private crmCustomerAccessAllowService: CRMCustomerAccessAllowService,
     private nzModalService: NzModalService,
     private globalEventDispatcher: GlobalEventDispatcher,
-    private nzMessageService: NzMessageService
+    private nzMessageService: NzMessageService,
   ) {
     this.members = merge(
       of(null),
       this.keyword.valueChanges.pipe(
         debounceTime(600),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ),
-      this.reload$
+      this.reload$,
     ).pipe(
       switchMap((value: string | undefined | null) => {
         this.isLoading.next(true);
 
         return this.crmCustomerAccessAllowService.getAll({
           customerId: this.customerId,
-          name: value
+          name: value,
         }).pipe(
           map(result => result.items),
           catchError(() => of([])),
@@ -53,8 +53,8 @@ export class TeamMembersComponent implements OnInit {
       }),
       shareReplay({
         bufferSize: 1,
-        refCount: true
-      })
+        refCount: true,
+      }),
     );
   }
 
@@ -65,7 +65,7 @@ export class TeamMembersComponent implements OnInit {
     this.isLoading.next(true);
     this.crmCustomerAccessAllowService.delete({
       customerId: this.customerId,
-      accessAllowUserIds: this.selected.selected
+      accessAllowUserIds: this.selected.selected,
     }).subscribe(() => {
       this.reload$.next();
     });
@@ -105,6 +105,7 @@ export class TeamMembersComponent implements OnInit {
         personInfo: {
           name: members[0].allowUserName,
           id: members[0].allowUserId,
+          isActive: true,
         },
       });
     } else {
