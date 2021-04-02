@@ -1375,7 +1375,6 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
   }
 
   close(update = false, isClose = false) {
-    debugger
     this.sideDrawer?.destroy();
     this.onSubmitted.emit({ update: update, isClose: isClose });
     if (isClose) {

@@ -9,6 +9,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { TransferTocustomerComponent } from '../../transfer-tocustomer/transfer-tocustomer.component';
 import { ACLService } from '@co/acl';
 import { ApplyChangePhoneComponent } from '../../apply-change-phone/apply-change-phone.component';
+import { GlobalEventDispatcher } from '@co/cms';
 
 const addlabel = (obj) => {
   const result = {};
@@ -64,6 +65,7 @@ export class TransactedCustomersComponent extends CoPageBase {
     private cRMCustomerService: CRMCustomerService,
     private modal: NzModalService,
     private aclService: ACLService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -422,6 +424,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -449,6 +452,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -473,6 +477,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -488,6 +493,7 @@ export class TransactedCustomersComponent extends CoPageBase {
         this.$message.success(this.$L('Successful operation'));
         this.loading = false;
         this.getAll();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       },
       (e) => (this.loading = false),
     );
@@ -514,6 +520,7 @@ export class TransactedCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });

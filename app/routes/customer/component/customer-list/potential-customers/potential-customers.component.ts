@@ -10,6 +10,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplyCodeComponent } from '../../apply-code/apply-code.component';
 import { customerType } from '../../../models/enum';
 import { ApplyChangePhoneComponent } from '../../apply-change-phone/apply-change-phone.component';
+import { GlobalEventDispatcher } from '@co/cms';
 const addlabel = (obj) => {
   const result = {};
   for (const objKey in obj) {
@@ -68,6 +69,7 @@ export class PotentialCustomersComponent extends CoPageBase {
     private modal: NzModalService,
     private cRMCustomerService: CRMCustomerService,
     private aclService: ACLService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -437,6 +439,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -464,6 +467,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -490,6 +494,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -514,6 +519,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -529,6 +535,7 @@ export class PotentialCustomersComponent extends CoPageBase {
         this.$message.success(this.$L('Successful operation'));
         this.loading = false;
         this.getAll();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       },
       (e) => (this.loading = false),
     );
@@ -553,6 +560,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       if (e) {
         setTimeout(() => {
           this.getAll();
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         }, 1000);
       }
     });
@@ -571,6 +579,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       this.$message.success(this.$L('Void successfully!'));
       setTimeout(() => {
         this.getAll();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       }, 1000);
     });
   }
@@ -588,6 +597,7 @@ export class PotentialCustomersComponent extends CoPageBase {
       this.$message.success(this.$L('Enable successfully!'));
       setTimeout(() => {
         this.getAll();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       }, 1000);
     });
   }

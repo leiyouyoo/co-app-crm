@@ -6,6 +6,7 @@ import { CRMPartnerService } from 'apps/crm/app/services/crm';
 import { STColumn } from '@co/cbc';
 import { CoPageBase } from '@co/core';
 import { CreatePotentialCustomerComponent } from '../customer-list/potential-customers/create-potential-customer/create-potential-customer.component';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'customer-partner',
@@ -109,6 +110,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     private modal: NzModalService,
     private message: NzMessageService,
     private translate: TranslateService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -134,9 +136,9 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
     const modal = this.modal.create({
       nzTitle: this.$L('Add Customer'),
       nzContent: CreatePotentialCustomerComponent,
-      nzComponentParams: { },
+      nzComponentParams: {},
       nzClassName: 'crm-location-detail',
-      nzWidth:'60%',
+      nzWidth: '60%',
       nzFooter: null,
     });
     const component = modal.getContentComponent();
@@ -151,7 +153,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       nzContent: PartnerBindCustomerComponent,
       nzComponentParams: { customerId: this.customerId },
       nzClassName: 'crm-location-detail',
-      nzWidth:'60%',
+      nzWidth: '60%',
       nzFooter: null,
     });
     const component = modal.getContentComponent();
@@ -170,6 +172,7 @@ export class CustomerPartnerComponent extends CoPageBase implements OnInit {
       .subscribe((res) => {
         this.loading = false;
         this.getPartnerByPageList(this.filterPartner);
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.message.success(this.translate.instant('Unbound success'), {
           nzDuration: 3000,
         });

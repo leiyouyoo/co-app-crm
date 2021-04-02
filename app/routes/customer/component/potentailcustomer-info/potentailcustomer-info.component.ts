@@ -15,6 +15,7 @@ import { FollowUpRecordListComponent } from '../follow-up-record-list/follow-up-
 import { CustomerType } from '../../models/enum';
 import { differenceInCalendarDays } from 'date-fns';
 import { FollowUpRecordComponent } from '../follow-up-record/follow-up-record.component';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-potentailcustomer-info',
@@ -41,6 +42,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     private modal: NzModalService,
     injector: Injector,
     public activeRoute: ActivatedRoute,
+    public globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -131,6 +133,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     this.isLoading = true;
     this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerId] }).subscribe((r) => {
       this.$message.success(this.$L('Successful operation'));
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.$close();
     });
   }
@@ -151,6 +154,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     });
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((r) => {
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.getCustomerDetail(this.customerId);
     });
   }
@@ -173,6 +177,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     });
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((r) => {
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.getCustomerDetail(this.customerId);
     });
   }
@@ -194,6 +199,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     });
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((r) => {
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.$close();
     });
   }
@@ -212,6 +218,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     });
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((r) => {
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.getCustomerDetail(this.customerId);
     });
   }
@@ -225,6 +232,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       (res) => {
         this.isLoading = false;
         this.getCustomerDetail(this.customerId);
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.$message.success(this.$L('Void successfully!'));
       },
       (e) => (this.isLoading = false),
@@ -240,6 +248,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
       (res) => {
         this.isLoading = false;
         this.getCustomerDetail(this.customerId);
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.$message.success(this.$L('Enable successfully!'));
       },
       (e) => (this.isLoading = false),
@@ -288,6 +297,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res.isSucccess) {
         // this.st.load();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -311,6 +321,7 @@ export class PotentailcustomerInfoComponent extends CoPageBase implements OnInit
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res) {
         // this.st.load();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });

@@ -16,6 +16,7 @@ import { LocationListComponent } from '../location/location-list/location-list.c
 import { TransferTocustomerComponent } from '../transfer-tocustomer/transfer-tocustomer.component';
 import { UpdateCustomerNameComponent } from '../update-customer-name/update-customer-name.component';
 import { CustomerEmailComponent, InitData } from '../customer-email/customer-email.component';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-customers-info',
@@ -42,6 +43,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     private modal: NzModalService,
     injector: Injector,
     public activeRoute: ActivatedRoute,
+    public globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -105,6 +107,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     this.isLoading = true;
     this.crmCustomerService.bulkTurnCustomerSea({ ids: [this.customerInfo.id] }).subscribe(() => {
       this.$message.success(this.$L('Successful operation'));
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
       this.$close();
     });
   }
@@ -126,6 +129,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((res) => {
       if (res) {
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -150,6 +154,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((res) => {
       if (res) {
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -173,6 +178,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((res) => {
       if (res) {
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.$close();
       }
     });
@@ -193,6 +199,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     const component = modal.getContentComponent();
     component.onSubmitted.subscribe((res) => {
       if (res) {
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -216,6 +223,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res.isSucccess) {
         // this.st.load();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -263,6 +271,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
     modal.componentInstance.onSubmitted.subscribe((res) => {
       if (res) {
         // this.st.load();
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.getCustomerDetail(this.customerId);
       }
     });
@@ -274,6 +283,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   setVoid() {
     this.crmCustomerService.delete({ id: this.customerInfo.id }).subscribe(() => {
       this.$message.success(this.$L('Void successfully!'));
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
     });
   }
 
@@ -283,6 +293,7 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
   recoverDelete() {
     this.crmCustomerService.recoverDelete({ id: this.customerInfo.id }).subscribe(() => {
       this.$message.success(this.$L('Enable successfully!'));
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
     });
   }
 
