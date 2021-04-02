@@ -26,6 +26,7 @@ import { formatDate } from '@angular/common';
 export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
   @ViewChild(ScheduleListComponent, { static: false }) scheduleList: ScheduleListComponent;
   @Input() customerId;
+  @Input() fromDetail = null;
   traceLogList = [];
   param: any;
   offsetDay = 0;
