@@ -8,7 +8,7 @@ import {
 // tslint:disable-next-line:import-blacklist
 import { NzModalRef } from 'ng-zorro-antd';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, tap } from 'rxjs/operators';
 
 interface User {
   creationTime: string;
@@ -51,6 +51,7 @@ export class AddTeamMembersModalComponent implements OnInit {
     private nzModalRef: NzModalRef<AddTeamMembersModalComponent, boolean>,
   ) {
     this.userList = this.http.get<User[]>('/SSO/User/GetAllActiveUserBySearch').pipe(
+      map(items => items.filter(i => i.customerId !== this.customerId)),
       tap(() => this.customersLoading.next(false)),
       shareReplay({
         bufferSize: 1,
