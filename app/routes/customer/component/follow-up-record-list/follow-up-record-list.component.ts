@@ -17,6 +17,7 @@ import { CRMCustomerOperationEventService, CRMTraceLogService } from '../../../.
 import { ScheduleListComponent } from '../schedule/schedule-list/schedule-list.component';
 import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-follow-up-record-list',
@@ -47,9 +48,9 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     { label: '事件', value: 2, checked: true },
     { label: '团队成员', value: 1, checked: true },
   ];
-  groupedLogList: any;
-  groupedLogKeys = [];
-  hiddenKey = {};
+  groupedLogList: any; // 根据月份分类的活动事件数据
+  groupedLogKeys = []; // 所有的月份
+  hiddenKey = {}; // 需要折叠的月份
 
   constructor(
     injector: Injector,
@@ -57,6 +58,7 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
     private crmTraceLogService: CRMTraceLogService,
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
+    private globalEventDispatcher: GlobalEventDispatcher,
     @Inject(LOCALE_ID) private locale: string,
   ) {
     super(injector);
@@ -76,6 +78,9 @@ export class FollowUpRecordListComponent extends CoPageBase implements OnInit {
       totalCount: 0,
     };
     this.getCustomerOperationEvent();
+    this.globalEventDispatcher.register('refreshFollowUpRecordList').subscribe((r) => {
+      this.getCustomerOperationEvent();
+    });
   }
 
   /**

@@ -41,6 +41,8 @@ import {
   CRMCustomerService,
 } from '../../../../../../services/crm';
 import { cloneDeep, merge } from 'lodash';
+import { GlobalEventDispatcher } from '@co/cms';
+
 @Component({
   selector: 'crm-create-potential-customer',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,14 +54,15 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     //详情展开全部
     this.showBasicInfo = true;
     //暂存 防止取消的时候更新数据
-    this.storageCustomerInfo=cloneDeep(v);
+    this.storageCustomerInfo = cloneDeep(v);
     this.initForm(v);
   }
 
   get customerInfo() {
     return this.customerInfo;
   }
-  storageCustomerInfo:any;
+
+  storageCustomerInfo: any;
   checkRepeatLoading: boolean;
   checkKey: any; //当前验重的字段
   searchParams = {
@@ -316,6 +319,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     private googleMapService: GoogleMapService,
     private cdr: ChangeDetectorRef,
     private ssoRoleService: SSORoleService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -619,7 +623,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           nameLocalization: [null],
         }),
       ]),
-      fax: [null, [this.mobileValidator()]],
+      fax: [null],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
       customerType: [3, [Validators.required]],
@@ -1315,7 +1319,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
       website: value.website,
       customerContacts: [Object.assign(value.customerContacts[0], { phone: tel.toString(), email: value.email })],
       editionRoleId: value.editionRoleId,
-      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType!=null ? value.customerTaxes : null) : null,
+      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null) : null,
     };
     console.log(entity);
 
@@ -1359,6 +1363,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
             this.msg.success(this.translate.instant('Update success!'));
           }
           this.cusLoading = false;
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
           this.close(true, true);
         },
         (error) => {
@@ -1373,7 +1378,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
     debugger
     this.sideDrawer?.destroy();
     this.onSubmitted.emit({ update: update, isClose: isClose });
-    if(isClose){
+    if (isClose) {
       //如果是取消 将不更新值
       this.setData(this.storageCustomerInfo);
     }

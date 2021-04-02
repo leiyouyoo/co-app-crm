@@ -359,7 +359,7 @@
                 nz-input
                 (blur)="checkRepeatData('name')"
                 formControlName="name"
-                [readonly]="validateForm.get('code').value && data?.examineState==1"
+                [readonly]="validateForm.get('code').value || data?.examineState==1"
                 placeholder="{{ 'Please enter full name' | translate }}"
               />
               <ng-template #inputClearTpl
@@ -400,7 +400,7 @@
               <input
                 id="nameLocalization"
                 nz-input
-                [readonly]="validateForm.get('code').value && data?.examineState==1"
+                [readonly]="validateForm.get('code').value || data?.examineState==1"
                 formControlName="nameLocalization"
                 (blur)="checkRepeatData('nameLocalization')"
                 placeholder="{{ 'Please enter' | translate }}"

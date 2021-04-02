@@ -42,6 +42,7 @@ import { STColumn, STComponent } from '@co/cbc';
 import { SSOUserService } from '@co/cds';
 import { CooperationState, CustomerStatus, CustomerType } from '../../../../models/enum';
 import { cloneDeep, merge } from 'lodash';
+import { GlobalEventDispatcher } from '@co/cms';
 
 @Component({
   selector: 'crm-create-transacted-customers',
@@ -52,13 +53,14 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
   @Input() set customerInfo(v) {
     this.initForm(v);
     //暂存 防止取消的时候更新数据
-    this.storageCustomerInfo=cloneDeep(v);
+    this.storageCustomerInfo = cloneDeep(v);
   }
 
   get customerInfo() {
     return this.customerInfo;
   }
-  storageCustomerInfo:any;
+
+  storageCustomerInfo: any;
   @Input() isEdit = false;
   @Output() readonly onSubmitted = new EventEmitter<boolean>();
   @ViewChild('st', { static: false }) st: STComponent;
@@ -312,6 +314,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
     private googleMapService: GoogleMapService,
     private cdr: ChangeDetectorRef,
     private ssoRoleService: SSORoleService,
+    private globalEventDispatcher: GlobalEventDispatcher,
   ) {
     super(injector);
   }
@@ -573,7 +576,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       address: [null, { validators: [Validators.required] }],
       addressLocalization: [null],
       tel: new FormArray([]),
-      fax: [null, [this.mobileValidator()]],
+      fax: [null],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
       customerType: [3, [Validators.required]],
@@ -1286,7 +1289,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       customerOwner: value.customerOwner,
       customerLevel: value.customerLevel,
       website: value.website,
-      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType!=null ? value.customerTaxes : null) : null,
+      customerTaxes: value.customerTaxes ? (value.customerTaxes[0]?.taxType != null ? value.customerTaxes : null) : null,
       editionRoleId: value.editionRoleId,
     };
     console.log(entity);
@@ -1308,6 +1311,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
         } else {
           this.msg.success(this.translate.instant('Update success!'));
         }
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.cusLoading = false;
         this.close();
       },

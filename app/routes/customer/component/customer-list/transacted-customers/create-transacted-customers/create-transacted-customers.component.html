@@ -165,7 +165,7 @@
                 <input
                   id="name"
                   nz-input
-                  [readonly]="validateForm.get('code').value && data?.examineState==1"
+                  [readonly]="validateForm.get('code').value || data?.examineState==1"
                   (blur)="checkRepeatData('name')"
                   formControlName="name"
                   placeholder="{{ 'Please enter full name' | translate }}"
@@ -208,7 +208,7 @@
                 <input
                   id="nameLocalization"
                   nz-input
-                  [readonly]="validateForm.get('code').value && data?.examineState==1"
+                  [readonly]="validateForm.get('code').value || data?.examineState==1"
                   formControlName="nameLocalization"
                   (blur)="checkRepeatData('nameLocalization')"
                   placeholder="{{ 'Please enter' | translate }}"
