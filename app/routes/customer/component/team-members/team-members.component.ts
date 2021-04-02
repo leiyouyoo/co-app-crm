@@ -1,13 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CRMCustomerAccessAllowOutput, CRMCustomerAccessAllowService } from 'apps/crm/app/services/crm';
-// tslint:disable-next-line:import-blacklist
-import { NzModalService } from 'ng-zorro-antd';
-import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap, catchError } from 'rxjs/operators';
-import { AddTeamMembersModalComponent } from '../add-team-members-modal/add-team-members-modal.component';
 import { GlobalEventDispatcher } from '@co/cms';
+import { CRMCustomerAccessAllowOutput, CRMCustomerAccessAllowService } from 'apps/crm/app/services/crm';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { AddTeamMembersModalComponent } from '../add-team-members-modal/add-team-members-modal.component';
 
 @Component({
   selector: 'crm-team-members',
@@ -17,7 +17,7 @@ import { GlobalEventDispatcher } from '@co/cms';
 })
 export class TeamMembersComponent implements OnInit {
   @Input() customerId: string;
-  selected = new SelectionModel<any>(true);
+  selected = new SelectionModel<number>(true);
   keyword = new FormControl('');
   members: Observable<CRMCustomerAccessAllowOutput[]>;
   reload$ = new Subject<void>();
@@ -27,6 +27,7 @@ export class TeamMembersComponent implements OnInit {
     private crmCustomerAccessAllowService: CRMCustomerAccessAllowService,
     private nzModalService: NzModalService,
     private globalEventDispatcher: GlobalEventDispatcher,
+    private nzMessageService: NzMessageService
   ) {
     this.members = merge(
       of(null),
@@ -60,13 +61,13 @@ export class TeamMembersComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openRemoveModal(): void {
-    this.nzModalService.confirm({
-      nzTitle: '确认删除?',
-      nzOnOk: () => this.crmCustomerAccessAllowService.delete({
-        customerId: this.customerId,
-        accessAllowUserIds: this.selected.selected.map(e => e.allowUserId),
-      }).pipe(tap(() => this.reload$.next())).toPromise(),
+  remove(): void {
+    this.isLoading.next(true);
+    this.crmCustomerAccessAllowService.delete({
+      customerId: this.customerId,
+      accessAllowUserIds: this.selected.selected
+    }).subscribe(() => {
+      this.reload$.next();
     });
   }
 
@@ -89,23 +90,30 @@ export class TeamMembersComponent implements OnInit {
     });
   }
 
-  chat() {
-    const membersList = this.selected.selected;
-    if (membersList.length === 1) {
+  chat(items: CRMCustomerAccessAllowOutput[]) {
+    const members: CRMCustomerAccessAllowOutput[] = [];
+
+    for (const item of items) {
+      if (this.selected.isSelected(item.allowUserId)) {
+        members.push(item);
+      }
+    }
+
+    if (members.length === 1) {
       this.globalEventDispatcher.dispatch('chatWithIM', {
         isC2C: true,
         personInfo: {
-          name: membersList[0].allowUserName,
-          id: membersList[0].allowUserId,
+          name: members[0].allowUserName,
+          id: members[0].allowUserId,
         },
       });
     } else {
       this.globalEventDispatcher.dispatch('chatWithIM', {
         isCreateGroup: true,
-        name: membersList.map((e) => {
+        name: members.map((e) => {
           return e.allowUserName || 'test';
         }).join(',').substring(0, 10),
-        memberList: this.selected.selected.map(e => {
+        memberList: members.map(e => {
           return { userID: e.allowUserId.toString() };
         }),
       });

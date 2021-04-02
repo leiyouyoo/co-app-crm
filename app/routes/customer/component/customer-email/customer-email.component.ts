@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { _HttpClient } from '@co/common';
 import { CRMContactService, CRMEmailService, CRMGetAllSalesAndContactsOutput } from 'apps/crm/app/services/crm';
@@ -8,7 +8,7 @@ import { CKEditor4 } from 'ckeditor4-angular';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { BehaviorSubject, EMPTY, from, merge, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -58,13 +58,14 @@ export interface InitData{
   value: string;
   selectedFile: SelectedFile[];
   fileList: FileInfo[];
+  receives: string[];
 }
 
 @Component({
   selector: 'crm-customer-email',
   templateUrl: './customer-email.component.html',
   styleUrls: ['./customer-email.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CustomerEmailComponent implements OnInit, OnDestroy {
   @Input() customerId: string | undefined;
@@ -90,7 +91,9 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   selectedFile = new BehaviorSubject<SelectedFile[]>([]);
   fileList = new BehaviorSubject<FileInfo[]>([]);
 
-  readonly editorConfig: CKEditor4.Config = {};
+  readonly editorConfig: CKEditor4.Config = {
+    height: 100
+  };
 
   private unsubscribe = new Subject<void>();
 
@@ -101,7 +104,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     private nzModalService: NzModalService,
     private storageFileService: STORAGEFileService,
     private nzMessageService: NzMessageService,
-    private nzNotificationService: NzNotificationService
+    private nzNotificationService: NzNotificationService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.user = this.http.get<UserDetail>('/SSO/User/GetUserDetail').pipe(
       shareReplay({
@@ -148,6 +152,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initData();
+
     this.ccModel
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(value => {
@@ -163,8 +169,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           this.bcc = [];
         }
       });
-
-    this.initData();
   }
 
   ngOnDestroy() {
@@ -174,6 +178,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
 
   initData(): void{
     if (this.init){
+      console.log(this.init);
       this.cc = this.init.cc;
       this.bcc = this.init.bcc;
       this.form.patchValue({
@@ -184,16 +189,16 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       this.fileList.next(this.init.fileList);
       this.ccModel.next(this.init.ccModel);
       this.bccModel.next(this.init.bccModel);
+      console.log(this.receives);
+      this.receives = this.init.receives.map(i => i);
+      console.log(this.receives);
+      this.changeDetectorRef.detectChanges();
     }
   }
 
   hasPassword(): boolean{
     const data: any = JSON.parse(window.localStorage.getItem('co.session'));
     return data?.session?.user?.hasEmailPassword === true;
-  }
-
-  updateMail(event: string): void {
-    console.log(event);
   }
 
   searchReceives(event: string): void{
@@ -264,7 +269,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
               subject: this.form.value.subject,
               value: this.form.value.value,
               fileList: this.fileList.getValue(),
-              selectedFile: this.selectedFile.getValue()
+              selectedFile: this.selectedFile.getValue(),
+              receives: this.receives
             }
           },
           nzOnCancel: instance => {
@@ -278,7 +284,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
               subject: instance.form.value.subject,
               value: instance.form.value.value,
               fileList: instance.fileList.getValue(),
-              selectedFile: instance.selectedFile.getValue()
+              selectedFile: instance.selectedFile.getValue(),
+              receives: instance.receives
             });
           }
         });
@@ -298,6 +305,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         });
         this.fileList.next(result.fileList);
         this.selectedFile.next(result.selectedFile);
+        this.receives = result.receives.map(i => i);
       }
     });
   }
@@ -402,15 +410,17 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         })
       ))
     ).subscribe({
+      next: () => {
+        this.nzNotificationService.success('发送成功', '', {
+          nzPlacement: 'topRight'
+        });
+        this.reset();
+      },
       error: () => {
         this.sending.next(false);
       },
       complete: () => {
-        this.reset();
         this.sending.next(false);
-        this.nzNotificationService.success('发送成功', '', {
-          nzPlacement: 'topRight'
-        });
       }
     });
   }
@@ -427,5 +437,10 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     this.form.reset();
     this.selectedFile.next([]);
     this.fileList.next([]);
+  }
+
+  selectCompareWith(o1: string | null, o2: string | null): boolean{
+    console.log(o1, o2);
+    return o1 && o2 ? o1 === o2 : false;
   }
 }

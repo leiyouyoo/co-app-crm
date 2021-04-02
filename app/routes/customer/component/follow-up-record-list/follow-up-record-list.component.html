@@ -47,6 +47,7 @@
         nzPopoverPlacement="bottomLeft"
         [nzPopoverContent]="contentTemplate"
         nz-icon
+        class="search_area__filter__icon"
         nzType="filter"
         nzTheme="outline"
       ></i>
@@ -74,23 +75,36 @@
   <nz-spin [nzSpinning]="refreshLogLoading" class="event_log"
            style="height: calc(100% - 62px) !important;overflow: auto;">
     <div class="event_log" style=" height: calc(100% - 62px);overflow: auto;">
-      <crm-schedule-list [hidden]="!isShowSchedule" [customerId]="customerId" [searchParam]="param" #scheduleList></crm-schedule-list>
-      <nz-empty *ngIf="traceLogList.length==0&&scheduleList.scheduleList?.length==0" nzNotFoundImage="simple"></nz-empty>
-      <div class="event_log__content" *ngFor="let item of traceLogList">
-        <nz-spin [nzSpinning]="item.loading">
-          <ng-container [ngSwitch]='item.businessType'>
-            <ng-container *ngSwitchCase='5'>
-              <ng-container *ngTemplateOutlet="EmailTpl; context: {$implicit: item}"></ng-container>
+      <crm-schedule-list [hidden]="!isShowSchedule" [customerId]="customerId" [searchParam]="param"
+                         #scheduleList></crm-schedule-list>
+      <nz-empty *ngIf="traceLogList.length==0&&scheduleList.scheduleList?.length==0"
+                nzNotFoundImage="simple"></nz-empty>
+      <ng-container *ngFor="let key of groupedLogKeys">
+        <h2>
+          <span (click)="hideKey(key)" class="month__title">
+            <i
+              [style.transform]="!hiddenKey[key] ? 'rotate(90deg)' : 'unset'" nz-icon
+              nzType="right"
+              nzTheme="outline"></i>{{key}}</span>
+          <span style="font-size: 14px;" *ngIf="checkMonth(key)">本月</span>
+        </h2>
+        <div class="event_log__content" [hidden]="hiddenKey[key]"
+             *ngFor="let item of groupedLogList[key]">
+          <nz-spin [nzSpinning]="item.loading">
+            <ng-container [ngSwitch]='item.businessType'>
+              <ng-container *ngSwitchCase='5'>
+                <ng-container *ngTemplateOutlet="EmailTpl; context: {$implicit: item}"></ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase='3'>
+                <ng-container *ngTemplateOutlet="TrackRecordTpl; context: {$implicit: item}"></ng-container>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <ng-container *ngTemplateOutlet="MessageTpl; context: {$implicit: item}"></ng-container>
+              </ng-container>
             </ng-container>
-            <ng-container *ngSwitchCase='3'>
-              <ng-container *ngTemplateOutlet="TrackRecordTpl; context: {$implicit: item}"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              <ng-container *ngTemplateOutlet="MessageTpl; context: {$implicit: item}"></ng-container>
-            </ng-container>
-          </ng-container>
-        </nz-spin>
-      </div>
+          </nz-spin>
+        </div>
+      </ng-container>
       <button
         (click)="getNextLog()"
         [nzLoading]="logLoading"
@@ -146,8 +160,9 @@
     </span>
     <span>{{ item.detail?.content }}</span>
     <div *ngIf='item?.detail?.traceLogItems?.length'>
-      <div *ngFor='let pic of item?.detail?.traceLogItems' style='float: left; margin: 0 8px 8px 0; padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;'>
-        <img (click)='handlePreview(pic)' [src]='getImgUrl(pic)' alt='' />
+      <div *ngFor='let pic of item?.detail?.traceLogItems'
+           style='float: left; margin: 0 8px 8px 0; padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;'>
+        <img (click)='handlePreview(pic)' [src]='getImgUrl(pic)' alt=''/>
       </div>
     </div>
   </div>
@@ -186,9 +201,11 @@
       </div>
     </div>
     <div class='email-body'>好的，非常感谢。</div>
+    <!--
     <div class='email-func'>
       <button nz-button>回复</button>
       <button nz-button>转发</button>
     </div>
+    -->
   </div>
 </ng-template>

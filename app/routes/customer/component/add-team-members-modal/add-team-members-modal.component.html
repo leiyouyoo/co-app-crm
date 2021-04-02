@@ -1,15 +1,15 @@
 <div class='content'>
   <div>
-    <nz-form-label>{{ 'Select employees' | translate }}:</nz-form-label>
+    <nz-form-label>{{ 'Select employees' | translate }}</nz-form-label>
     <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzMaxTagCount]='1' [nzPlaceHolder]="'Select member' | translate" nzMode='multiple' [(ngModel)]='selected' [nzLoading]='customersLoading | async'>
       <nz-option *ngFor='let item of userList | async' [nzLabel]='item.userName' [nzValue]='item.id'></nz-option>
     </nz-select>
   </div>
 
   <div>
-    <nz-form-label>{{ 'Member role' | translate }}:</nz-form-label>
-    <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzPlaceHolder]="'Member role' | translate" nzDisabled>
-      <nz-option nzLabel='客户所有人'></nz-option>
+    <nz-form-label>{{ 'Member role' | translate }}</nz-form-label>
+    <nz-select style='width: 240px;' nzShowSearch nzAllowClear [nzPlaceHolder]="'Member role' | translate" nzDisabled ngModel='all'>
+      <nz-option [nzLabel]="'Owner' | translate" nzValue='all'></nz-option>
     </nz-select>
   </div>
 </div>

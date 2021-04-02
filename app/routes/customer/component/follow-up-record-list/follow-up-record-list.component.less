@@ -15,6 +15,14 @@
       margin-right: 8px;
     }
 
+    &__icon {
+      cursor: pointer;
+
+      &&:hover {
+        color: #1890ff;
+      }
+    }
+
     &__button {
       text-align: right;
       margin-top: 8px;
@@ -29,6 +37,33 @@
 }
 
 .event_log {
+  h2 {
+    background: #00000010;
+    border: 2px;
+    margin: 0;
+    padding: 0 4px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .month__title {
+      &:hover {
+        color: #1890ff;
+      }
+    }
+
+
+    i {
+      margin-right: 4px;
+
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
+
   &__content {
     border-bottom: 1px solid #E9E9E9;
     padding: 8px 0;
@@ -81,40 +116,40 @@
     }
   }
 
-  .email-content{
+  .email-content {
     display: flex;
     flex-direction: column;
 
-    .header{
+    .header {
       display: flex;
       flex-direction: column;
 
-      .item{
+      .item {
         display: flex;
         align-items: baseline;
 
-        .line{
+        .line {
           line-height: 18px;
         }
 
-        .label{
+        .label {
           margin: 0 5px 0 0;
         }
 
-        .value{
+        .value {
           flex: 1 0 0%;
         }
       }
     }
 
-    .email-body{
+    .email-body {
       margin: 10px 0;
     }
 
     .email-func {
       display: flex;
 
-      .func{
+      .func {
         cursor: pointer;
         margin: 0 10px 0 0;
       }
