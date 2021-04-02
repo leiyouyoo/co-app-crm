@@ -623,7 +623,7 @@ export class CreatePotentialCustomerComponent extends CoPageBase implements OnIn
           nameLocalization: [null],
         }),
       ]),
-      fax: [null, [this.mobileValidator()]],
+      fax: [null],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
       customerType: [3, [Validators.required]],

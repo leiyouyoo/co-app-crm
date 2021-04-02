@@ -576,7 +576,7 @@ export class CreateTransactedCustomersComponent extends CoPageBase implements On
       address: [null, { validators: [Validators.required] }],
       addressLocalization: [null],
       tel: new FormArray([]),
-      fax: [null, [this.mobileValidator()]],
+      fax: [null],
       email: [null, { validators: [Validators.email] }],
       industry: [null],
       customerType: [3, [Validators.required]],
