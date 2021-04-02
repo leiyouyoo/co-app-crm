@@ -59,7 +59,8 @@ export class ScheduleListComponent implements OnInit {
    * 获取下一页事件
    */
   getNextLog() {
-    this.param.skipCount++;
+    // this.param.skipCount++;
+    this.param.skipCount += this.param.maxResultCount;
     this.logLoading = true;
     this.getAllScheduleForCrm(true);
   }

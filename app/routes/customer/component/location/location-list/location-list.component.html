@@ -47,25 +47,32 @@
 
   <ng-template st-row="contacts" let-data>
     <div class="detial_msg" style="width: 130px;">
-      <button nz-button nzSize="small" nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
-        {{ 'Contacts' | translate }}:{{ data.contacts.length }}
-      </button>
-      <ng-template #contentTemplate>
-        <div *ngFor="let item of data.contacts" style="padding: 1em 0;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <span>{{ item.surname }}</span>
-                <span>{{ item.name }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span>{{ item.role }}</span>
-              </div>
-              <div>
-                <button nzType="default" nz-button (click)="deleteContact(item,data)">{{ 'Remove' | translate }}</button>
+      <ng-container *ngIf="data.contacts.length>0; else elseContactTemplate">
+        <button nz-button nzSize="small" nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom">
+          {{ 'Contacts' | translate }}:{{ data.contacts.length }}
+        </button>
+        <ng-template #contentTemplate>
+          <div *ngFor="let item of data.contacts" style="padding: 1em 0;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <span>{{ item.surname }}</span>
+                  <span>{{ item.name }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  <span>{{ item.role }}</span>
+                </div>
+                <div>
+                  <button nzType="default" nz-button (click)="deleteContact(item,data)">{{ 'Remove' | translate }}</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div style="color: #1890ff; text-align: center;" (click)="bingContact('Add', data)">{{ 'Bind more contacts' | translate }}</div>
+          <div style="color: #1890ff; text-align: center;" (click)="bingContact('Add', data)">{{ 'Bind more contacts' | translate }}</div>
+        </ng-template>
+      </ng-container>
+      <ng-template #elseContactTemplate>
+        <button nz-button nzSize="small">
+          {{ 'Contacts' | translate }}:{{ data.contacts.length }}
+        </button>
       </ng-template>
     </div>
   </ng-template>

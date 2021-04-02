@@ -67,6 +67,9 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
   getCityOceanUsers() {
     this.ssoUserService.getCityOceanUsers({}).subscribe((res: any) => {
       this.listOfOption = res.items;
+      if(this.listOfOption.filter(c=>c.id==this.$session.user.id).length<=0){
+        this.listOfOption.push({id:this.$session.user.id,userName:this.$session.user.name})
+      }
     });
   }
 
@@ -102,13 +105,15 @@ export class ScheduleComponent extends CoPageBase implements OnInit {
       (r) => {
         this.loading = false;
         this.$message.success(this.$L('Publish success'));
+        //清空数据
         this.validateForm.reset();
-        this.cancel();
+        this.validateForm.get('advanceTime').setValue(15);
+        this.validateForm.get('businessNo').setValue(this.customerId);
+        this.validateForm.get('beAssigned').setValue([this.$session.user.id]);
         this.onSuccess.emit(true);
       },
       (e) => (this.loading = false),
     );
   }
 
-  cancel() {}
 }

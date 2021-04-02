@@ -340,7 +340,10 @@ export class CustomersInfoComponent extends CoPageBase implements OnInit {
    */
   onScheduleSuccess(e) {
     // tslint:disable-next-line:no-unused-expression
-    e && this.recordList.scheduleList.getAllScheduleForCrm();
+    if(e){
+      this.recordList.scheduleList.param.skipCount=0;
+      this.recordList.scheduleList.getAllScheduleForCrm();
+  }
   }
 
   disabledDate = (current: Date): boolean => {
