@@ -2,7 +2,7 @@
   <button nz-button nzSize='small' nzType='primary' [disabled]='form.invalid || receives.length < 1 || (sending | async)' (click)='submit()' [nzLoading]='sending | async'>发送</button>
 </div>
 
-<form nz-form class='form'>
+<div nz-form class='form'>
   <nz-form-item [formGroup]='form'>
     <nz-form-label nzRequired>发件人</nz-form-label>
     <nz-form-control>
@@ -13,13 +13,15 @@
   <nz-form-item>
     <nz-form-label nzRequired>收件人</nz-form-label>
     <nz-form-control>
-      <nz-select nzShowSearch nzAllowClear [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
-        <ng-container *ngIf='(receivesSearchLoading | async) === true'>
-          <nz-option nzCustomContent>
-            <nz-spin nzSimple></nz-spin>
-          </nz-option>
+      <nz-select nzShowSearch nzAllowClear nzServerSearch nzShowArrow [compareWith]='selectCompareWith' [nzAutoClearSearchValue]='false' nzMode='multiple' nzPlaceHolder='请输入关键字' [nzMaxTagCount]='1' [nzMaxTagPlaceholder]="ReceivesMaxTagPlaceHolder" (nzOnSearch)='searchReceives($event)' [(ngModel)]='receives' [ngModelOptions]="{standalone: true}">
+        <ng-container *ngIf='receivesList | async as items'>
+          <ng-container *ngIf='(receivesSearchLoading | async) === true'>
+            <nz-option nzCustomContent>
+              <nz-spin nzSimple></nz-spin>
+            </nz-option>
+          </ng-container>
+          <nz-option *ngFor='let item of items' [nzLabel]='getReceivesLabel(item)' [nzValue]='item'></nz-option>
         </ng-container>
-        <nz-option *ngFor='let item of receivesList | async' [nzLabel]='getReceivesLabel(item)' [nzValue]='item.email'></nz-option>
       </nz-select>
       <ng-template #ReceivesMaxTagPlaceHolder>+{{ receives.length }}</ng-template>
     </nz-form-control>
@@ -27,7 +29,6 @@
 
   <div class='email-option'>
     <div class='space'></div>
-    <div class='func' (click)="receives = ['momomo2']">miao</div>
     <div class='func' (click)='ccModel.next(!ccModel.getValue())'>{{ (ccModel | async) ? '删除抄送' : '抄送' }}</div>
     <div class='func' (click)='bccModel.next(!bccModel.getValue())'>{{ (bccModel | async) ? '删除密送' : '密送' }}</div>
   </div>
@@ -93,7 +94,7 @@
       </div>
     </div>
   </nz-form-item>
-</form>
+</div>
 
 <input #SelectFile type='file' multiple (change)='uploadFile($event)' />
 

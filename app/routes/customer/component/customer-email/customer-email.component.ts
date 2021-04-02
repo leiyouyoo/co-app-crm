@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { _HttpClient } from '@co/common';
 import { CRMContactService, CRMEmailService, CRMGetAllSalesAndContactsOutput } from 'apps/crm/app/services/crm';
@@ -8,7 +8,7 @@ import { CKEditor4 } from 'ckeditor4-angular';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { BehaviorSubject, EMPTY, from, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, from, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -58,14 +58,14 @@ export interface InitData{
   value: string;
   selectedFile: SelectedFile[];
   fileList: FileInfo[];
-  receives: string[];
+  receives: CRMGetAllSalesAndContactsOutput[];
 }
 
 @Component({
   selector: 'crm-customer-email',
   templateUrl: './customer-email.component.html',
   styleUrls: ['./customer-email.component.less'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerEmailComponent implements OnInit, OnDestroy {
   @Input() customerId: string | undefined;
@@ -76,18 +76,18 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
   sender: Observable<UserDetail>;
   receivesList: Observable<CRMGetAllSalesAndContactsOutput[]>;
   receivesKeyword = new Subject<string>();
-  receivesSearchLoading = new BehaviorSubject<boolean>(true);
+  receivesSearchLoading = new BehaviorSubject<boolean>(false);
   ccModel = new BehaviorSubject<boolean>(false);
   bccModel = new BehaviorSubject<boolean>(false);
   cc: string[] = [];
   bcc: string[] = [];
-  receives: string[] = [];
+  receives: CRMGetAllSalesAndContactsOutput[] = [];
   sending = new BehaviorSubject<boolean>(false);
   form = new FormGroup({
     subject: new FormControl('', Validators.required),
     value: new FormControl('', Validators.required),
   });
-
+  initReceivesList$ = new BehaviorSubject<CRMGetAllSalesAndContactsOutput[]>([]);
   selectedFile = new BehaviorSubject<SelectedFile[]>([]);
   fileList = new BehaviorSubject<FileInfo[]>([]);
 
@@ -105,7 +105,6 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     private storageFileService: STORAGEFileService,
     private nzMessageService: NzMessageService,
     private nzNotificationService: NzNotificationService,
-    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.user = this.http.get<UserDetail>('/SSO/User/GetUserDetail').pipe(
       shareReplay({
@@ -128,22 +127,28 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.receivesList = this.receivesKeyword.pipe(
-      distinctUntilChanged(),
-      debounceTime(600),
-      switchMap((value: string | undefined | null) => {
-        if (value && value.length > 0){
-          this.receivesSearchLoading.next(true);
-          return this.crmContactService.getAllSalesAndContacts({
-            customerId: this.customerId,
-            searchText: value,
-            maxResultCount: 100
-          }).pipe(map(result => result.items));
-        }else {
-          return of([]);
-        }
-      }),
-      tap(() => this.receivesSearchLoading.next(false)),
+    this.receivesList = merge(
+      this.initReceivesList$,
+      this.receivesKeyword.pipe(
+        distinctUntilChanged(),
+        debounceTime(600),
+        switchMap((value: string | undefined | null) => {
+          if (value && value.length > 0) {
+            this.receivesSearchLoading.next(true);
+            return this.crmContactService.getAllSalesAndContacts({
+              customerId: this.customerId,
+              searchText: value,
+              maxResultCount: 100
+            }).pipe(
+              map(result => result.items),
+              tap(() => this.receivesSearchLoading.next(false)),
+            );
+          } else {
+            return of([]);
+          }
+        }),
+      )
+    ).pipe(
       shareReplay({
         bufferSize: 1,
         refCount: true,
@@ -169,6 +174,9 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           this.bcc = [];
         }
       });
+
+    this.receivesList.subscribe(v => console.log(v));
+    this.initReceivesList$.subscribe(v => console.log(v));
   }
 
   ngOnDestroy() {
@@ -176,9 +184,8 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  initData(): void{
-    if (this.init){
-      console.log(this.init);
+  initData(): void {
+    if (this.init) {
       this.cc = this.init.cc;
       this.bcc = this.init.bcc;
       this.form.patchValue({
@@ -189,29 +196,27 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       this.fileList.next(this.init.fileList);
       this.ccModel.next(this.init.ccModel);
       this.bccModel.next(this.init.bccModel);
-      console.log(this.receives);
-      this.receives = this.init.receives.map(i => i);
-      console.log(this.receives);
-      this.changeDetectorRef.detectChanges();
+      this.receives = this.init.receives;
+      this.initReceivesList$.next(this.init.receives);
     }
   }
 
-  hasPassword(): boolean{
+  hasPassword(): boolean {
     const data: any = JSON.parse(window.localStorage.getItem('co.session'));
     return data?.session?.user?.hasEmailPassword === true;
   }
 
-  searchReceives(event: string): void{
+  searchReceives(event: string): void {
     this.receivesKeyword.next(event);
   }
 
-  uploadFile(event: Event): void{
+  uploadFile(event: Event): void {
     const input = (event.target as HTMLInputElement);
     const arr: SelectedFile[] = [];
 
-    for (let index = 0; index < input.files.length; index++){
+    for (let index = 0; index < input.files.length; index++) {
       const file = input.files.item(index);
-      if (file){
+      if (file) {
         arr.push({
           index,
           data: file,
@@ -249,7 +254,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     });
   }
 
-  openFullScreen(): void{
+  openFullScreen(): void {
     this.sender.pipe(
       switchMap(sender => {
         const modal = this.nzModalService.create<CustomerEmailComponent, InitData | undefined | null>({
@@ -293,8 +298,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         return modal.afterClose;
       })
     ).subscribe(result => {
-      console.log(result);
-      if (result){
+      if (result) {
         this.ccModel.next(result.ccModel);
         this.bccModel.next(result.bccModel);
         this.cc = result.cc;
@@ -305,12 +309,12 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
         });
         this.fileList.next(result.fileList);
         this.selectedFile.next(result.selectedFile);
-        this.receives = result.receives.map(i => i);
+        this.receives = result.receives;
       }
     });
   }
 
-  openEmailPasswordInputModal(title?: string): Observable<string | undefined | null>{
+  openEmailPasswordInputModal(title?: string): Observable<string | undefined | null> {
     return this.nzModalService.create<EmailPasswordInputModalComponent, string | undefined | null>({
       nzTitle: title || '请输入密码',
       nzContent: EmailPasswordInputModalComponent,
@@ -318,19 +322,19 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     }).afterClose;
   }
 
-  getReceivesLabel(item: CRMGetAllSalesAndContactsOutput): string{
-    return `${ item.fullName }<${ item.email }>`;
+  getReceivesLabel(item: CRMGetAllSalesAndContactsOutput): string {
+    return `${item.fullName}<${item.email}>`;
   }
 
-  removeFile(index: number): void{
+  removeFile(index: number): void {
     const arr = this.fileList.getValue();
     arr.splice(index, 1);
     this.fileList.next(arr);
   }
 
-  submit(): void{
+  submit(): void {
     /** 检查有没有文件在上传中，等文件上传完成 */
-    if (this.selectedFile.getValue().length > 0){
+    if (this.selectedFile.getValue().length > 0) {
       this.nzMessageService.error('请等待文件上传完成', {
         nzDuration: 1000
       });
@@ -341,29 +345,29 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
       switchMap(sender => of(this.hasPassword()).pipe(
         switchMap(password => {
           /** 如果有密码那就直接发送邮件，不用带密码 */
-          if (password){
+          if (password) {
             return this.crmEmailService.seed({
               customerId: this.customerId,
               from: sender.emailAddress,
               fromUserId: sender.id,
-              to: this.receives,
+              to: this.receives.map(i => i.email),
               subject: this.form.value.subject,
               body: this.form.value.value,
               cc: this.cc,
               bcc: this.bcc,
               attachments: this.fileList.getValue().map(i => i.fileId)
             });
-          }else {
+          } else {
             /** 打开输入密码的弹窗 */
             return this.openEmailPasswordInputModal().pipe(
               switchMap(result => {
                 /** 如果填了密码，那就发送请求 */
-                if (result){
+                if (result) {
                   return this.crmEmailService.seed({
                     customerId: this.customerId,
                     from: sender.emailAddress,
                     fromUserId: sender.id,
-                    to: this.receives,
+                    to: this.receives.map(i => i.email),
                     subject: this.form.value.subject,
                     body: this.form.value.value,
                     cc: this.cc,
@@ -371,7 +375,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
                     fromPassword: result,
                     attachments: this.fileList.getValue().map(i => i.fileId)
                   });
-                }else {
+                } else {
                   /** 没有的话那就直接完成这个observable结束操作 */
                   return EMPTY;
                 }
@@ -380,18 +384,18 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           }
         }),
         catchError(err => {
-          if (err instanceof HttpErrorResponse){
-            if (err.error?.error?.code === 401){
+          if (err instanceof HttpErrorResponse) {
+            if (err.error?.error?.code === 401) {
               /** code = 401 为密码错误，重新打开输入密码modal，重发请求 */
               return this.openEmailPasswordInputModal('密码错误，请重新输入').pipe(
                 switchMap(result => {
                   /** 如果填了密码，那就发送请求 */
-                  if (result){
+                  if (result) {
                     return this.crmEmailService.seed({
                       customerId: this.customerId,
                       from: sender.emailAddress,
                       fromUserId: sender.id,
-                      to: this.receives,
+                      to: this.receives.map(i => i.email),
                       subject: this.form.value.subject,
                       body: this.form.value.value,
                       cc: this.cc,
@@ -399,7 +403,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
                       fromPassword: result,
                       attachments: this.fileList.getValue().map(i => i.fileId)
                     });
-                  }else {
+                  } else {
                     /** 没有的话那就直接完成这个observable结束操作 */
                     return EMPTY;
                   }
@@ -415,6 +419,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
           nzPlacement: 'topRight'
         });
         this.reset();
+        this.sending.next(false);
       },
       error: () => {
         this.sending.next(false);
@@ -425,7 +430,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     });
   }
 
-  reset(): void{
+  reset(): void {
     this.fileList.next([]);
     this.receivesSearchLoading.next(false);
     this.sending.next(false);
@@ -439,8 +444,7 @@ export class CustomerEmailComponent implements OnInit, OnDestroy {
     this.fileList.next([]);
   }
 
-  selectCompareWith(o1: string | null, o2: string | null): boolean{
-    console.log(o1, o2);
-    return o1 && o2 ? o1 === o2 : false;
+  selectCompareWith(o1: CRMGetAllSalesAndContactsOutput | null, o2: CRMGetAllSalesAndContactsOutput | null): boolean {
+    return o1 && o2 ? o1.email === o2.email : false;
   }
 }
