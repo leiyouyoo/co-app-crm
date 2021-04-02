@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { PlatformPositionService, SSORoleService } from '@co/cds';
+import { GlobalEventDispatcher } from '@co/cms';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMCustomerService, CRMLocationService } from 'apps/crm/app/services/crm';
@@ -44,6 +45,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
     private crmContactService: CRMContactService,
     private crmLocationService: CRMLocationService,
     private modal: NzModalService,
+    private globalEventDispatcher: GlobalEventDispatcher,
     injector: Injector,
   ) {
     super(injector);
@@ -210,6 +212,7 @@ export class ContactDetailComponent extends CoPageBase implements OnInit {
             this.onSubmitted.emit({ isSucccess: true, id: res.id });
             this.cancel();
           }
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
           this.isbingContact = false; //false 直接关闭窗口
         },
         (error) => {

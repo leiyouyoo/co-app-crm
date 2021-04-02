@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { PUBCurrencyService } from '@co/cds';
+import { GlobalEventDispatcher } from '@co/cms';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMCustomerTitleDto, CRMCustomerTitleService } from 'apps/crm/app/services/crm';
 import { CSPInvoiceService } from 'apps/crm/app/services/csp';
@@ -44,6 +45,7 @@ export class InvoiceDetailComponent implements OnInit {
     private invoiceService: CSPInvoiceService,
     private message: NzMessageService,
     private modalRef: NzModalRef,
+    private globalEventDispatcher:GlobalEventDispatcher
   ) {}
 
   ngOnInit(): void {
@@ -114,6 +116,7 @@ export class InvoiceDetailComponent implements OnInit {
       (res) => {
         this.onSubmitted.emit(true);
         this.isLoading = false;
+        this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
         this.message.info(this.translate.instant('Save successfully'));
         this.cancel();
       },

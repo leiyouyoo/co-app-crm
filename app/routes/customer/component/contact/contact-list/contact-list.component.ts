@@ -2,6 +2,7 @@ import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { STData } from '@co/cbc';
 import { STComponent } from '@co/cbc';
 import { STColumn } from '@co/cbc';
+import { GlobalEventDispatcher } from '@co/cms';
 import { CoPageBase } from '@co/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
@@ -35,6 +36,7 @@ export class ContactListComponent extends CoPageBase {
     private modal: NzModalService,
     private contactService: CRMContactService,
     private locationService: CRMLocationService,
+    private globalEventDispatcher:GlobalEventDispatcher
   ) {
     super(injector);
   }
@@ -190,6 +192,7 @@ export class ContactListComponent extends CoPageBase {
       this.msg.info(this.$L('Void successfully!'));
       // this.st.load();
       this.getContacts(this.customerInfo.id);
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
     });
   }
 
@@ -206,6 +209,7 @@ export class ContactListComponent extends CoPageBase {
       this.msg.info(this.$L('Enable successfully!'));
       // this.st.load();
       this.getContacts(this.customerInfo.id);
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
     });
   }
 

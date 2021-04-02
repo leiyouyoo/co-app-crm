@@ -9,6 +9,7 @@ import { createPopper, Placement } from '@popperjs/core';
 import { STComponent } from '@co/cbc';
 import { CRMContactService, CRMLocationService } from 'apps/crm/app/services/crm';
 import { ContactDetailComponent } from '../../contact/contact-detail/contact-detail.component';
+import { GlobalEventDispatcher } from '@co/cms';
 @Component({
   selector: 'crm-location-detail',
   templateUrl: './location-detail.component.html',
@@ -51,6 +52,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
     private modalRef: NzModalRef,
     private msg: NzMessageService,
     private modal: NzModalService,
+    private globalEventDispatcher: GlobalEventDispatcher,
     injector: Injector,
   ) {
     super(injector);
@@ -456,6 +458,7 @@ export class LocationDetailComponent extends CoPageBase implements OnInit {
         (res) => {
           this.loading = false;
           this.onSubmitted.emit(true);
+          this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
           this.msg.info(this.$L('Added successfully!'));
           this.isbingLocation = false; //false 直接关闭窗口
           this.cancel();

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { CRMContactService, CRMCustomerTitleService, CRMLocationService } from 'apps/crm/app/services/crm';
 import { InvoiceDetailComponent } from '../invoice-detail/invoice-detail.component';
+import { GlobalEventDispatcher } from '@co/cms';
 @Component({
   selector: 'crm-invoice-list',
   templateUrl: './invoice-list.component.html',
@@ -31,6 +32,7 @@ export class InvoiceListComponent extends CoPageBase {
     private contactService: CRMContactService,
     private locationService: CRMLocationService,
     private crmCustomerTitleService: CRMCustomerTitleService,
+    private globalEventDispatcher:GlobalEventDispatcher
   ) {
     super(injector);
   }
@@ -191,8 +193,8 @@ export class InvoiceListComponent extends CoPageBase {
       } else {
         this.msg.info(this.$L('Void successfully!'));
       }
-      // this.st.load();
       this.getCustomerTitle(this.customerInfo.id);
+      this.globalEventDispatcher.dispatch('refreshFollowUpRecordList');
     });
   }
 
